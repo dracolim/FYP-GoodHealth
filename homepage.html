@@ -10,6 +10,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    <!doctype html>
+    <!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>SingHealth</title>
 </head>
@@ -91,12 +97,62 @@
             </ul>
         </div>
     </nav>
+
     <!-- Orange Divider -->
     <div class='row' style='height: 8px; background-color: #ff6b00;'></div>
 
+    <!-- Canvas -->
+    <div class="shadow-lg rounded-lg overflow-hidden">
+        <div class="py-3 px-5 bg-gray-50">Didactic Performance</div>
+        <canvas class="p-10" id="chartLine"></canvas>
+      </div>
+
+    
 </body>
 
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+
+<!-- Required chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Chart line -->
+<script>
+    // d3.csv("didactic.csv", function(data) {
+    //     console.log(data)
+    // });
+
+    const labels = ["Jan-Jun", "Jul-Dec"];
+    const data = {
+    labels: labels,
+    datasets: [
+        {
+        label: "My First dataset",
+        backgroundColor: "hsl(252, 82.9%, 67.8%)",
+        borderColor: "hsl(252, 82.9%, 67.8%)",
+        data: [60, 75],
+        },
+    ],
+    };
+
+    const configLineChart = {
+    type: "bar",
+    data,
+    options: {
+        scales: {
+            y: {
+                min: 0,
+                max: 100,
+            }
+        }
+    },
+    
+    };
+
+    var chartLine = new Chart(
+    document.getElementById("chartLine"),
+    configLineChart
+    );
+
+</script>
 
 </html>
