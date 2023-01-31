@@ -11,7 +11,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
     <!doctype html>
-    <!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<script src="https://cdn.jsdelivr.net/npm/xlsx@0.14.3/dist/xlsx.full.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datasource@0.1.0"></script>
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -117,9 +120,6 @@
 
 <!-- Chart line -->
 <script>
-    // d3.csv("didactic.csv", function(data) {
-    //     console.log(data)
-    // });
 
     const labels = ["Jan-Jun", "Jul-Dec"];
     const data = {
@@ -152,6 +152,81 @@
     document.getElementById("chartLine"),
     configLineChart
     );
+
+    // var chartColors = {
+    //     red: 'rgb(255, 99, 132)',
+    //     blue: 'rgb(54, 162, 235)'
+    // };
+
+    // var color = Chart.helpers.color;
+    // var config = {
+    //     type: 'bar',
+    //     data: {
+    //         datasets: [{
+    //             type: 'line',
+    //             yAxisID: 'temperature',
+    //             backgroundColor: 'transparent',
+    //             borderColor: chartColors.red,
+    //             pointBackgroundColor: chartColors.red,
+    //             tension: 0,
+    //             fill: false
+    //         }, {
+    //             yAxisID: 'precipitation',
+    //             backgroundColor: color(chartColors.blue).alpha(0.5).rgbString(),
+    //             borderColor: 'transparent'
+    //         }]
+    //     },
+    //     plugins: [ChartDataSource],
+    //     options: {
+    //         title: {
+    //             display: true,
+    //             text: 'Sheet data source (dataset) sample'
+    //         },
+    //         scales: {
+    //             xAxes: [{
+    //                 scaleLabel: {
+    //                     display: true,
+    //                     labelString: 'Month'
+    //                 }
+    //             }],
+    //             yAxes: [{
+    //                 id: 'temperature',
+    //                 gridLines: {
+    //                     drawOnChartArea: false
+    //                 },
+    //                 scaleLabel: {
+    //                     display: true,
+    //                     labelString: 'Temperature (°C)'
+    //                 }
+    //             }, {
+    //                 id: 'precipitation',
+    //                 position: 'right',
+    //                 gridLines: {
+    //                     drawOnChartArea: false
+    //                 },
+    //                 scaleLabel: {
+    //                     display: true,
+    //                     labelString: 'Precipitation (mm)'
+    //                 }
+    //             }]
+    //         },
+    //         plugins: {
+    //             datasource: {
+    //                 type: 'sheet',
+    //                 url: 'test.xlsx',
+    //                 rowMapping: 'dataset',
+    //                 datasetLabels: 'Sheet1!A2:A3',
+    //                 indexLabels: 'Sheet1!B1:H1',
+    //                 data: 'Sheet1!B2:H3'
+    //             }
+    //         }
+    //     }
+    // };
+
+    // window.onload = function() {
+    //     var ctx = document.getElementById('chartLine').getContext('2d');
+    //     window.myChart = new Chart(ctx, config);
+    // };
 
 </script>
 
