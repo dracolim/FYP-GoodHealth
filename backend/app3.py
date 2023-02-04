@@ -423,7 +423,7 @@ def get_awards_fields():
 # ============================
 
 
-#Read Awards field/column name (R)
+#Read duty hour log (R)
 @app.route('/duty_hour_log', methods=['GET'])
 def get_duty_hour_log():
     dutyList = Duty_Hour_Log.query.all()
@@ -433,6 +433,38 @@ def get_duty_hour_log():
                     for pd in dutyList]
         }
     ), 200
+
+
+#Read duty hour log by employee id (R)
+@app.route("/duty_hour_log/<employee_id>", methods=['GET'])
+def get_duty_log_by_employeeid(employee_id):
+    duty_hour_log_List = Duty_Hour_Log.query.filter_by(Employee_id=employee_id).all()
+    print(duty_hour_log_List)
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in duty_hour_log_List]
+        }
+    ), 200
+
+#Read duty hour log by employee id and year(R)
+@app.route("/duty_hour_log/<employee_id>/<year>", methods=['GET'])
+def get_duty_log_by_employeeid_year(employee_id, year):
+    duty_hour_log_List = Duty_Hour_Log.query.filter_by(Employee_id=employee_id).all()
+    duty_hour_log_year_list = []
+    for i in duty_hour_log_List:
+        if year == i.to_dict()["MMYYYY"][-4:]:
+            duty_hour_log_year_list.append(i)
+    # print(duty_hour_log_year_list)
+    # print("next")
+
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in duty_hour_log_year_list]
+        }
+    ), 200
+
 
 # ============================
 # █▀▀ █▄░█ █▀▄

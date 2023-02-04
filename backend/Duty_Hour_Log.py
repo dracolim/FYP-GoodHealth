@@ -9,11 +9,12 @@ class Duty_Hour_Log(db.Model):
     Level = db.Column(db.String(100))
     Submitted = db.Column(db.String(100))
     Submitted_Proportion = db.Column(db.String(100))
-    MMYYYY = db.Column(db.String(100))
+    MMYYYY = db.Column(db.String(100), primary_key=True)
     Logged_for_month = db.Column(db.String(100))
 
     __mapper_args__ = {
-        'polymorphic_identity': 'Involvement'
+        # 'polymorphic_identity': 'Involvement'
+        'polymorphic_identity': 'Duty_Hour_Log'
     }
 
     def to_dict(self):

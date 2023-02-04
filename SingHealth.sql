@@ -19,6 +19,9 @@ SET time_zone = "+00:00";
 
 --
 -- Database: `SingHealth`
+drop database if exists `SingHealth`;
+CREATE DATABASE IF NOT EXISTS `SingHealth` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `SingHealth`;
 --
 
 -- --------------------------------------------------------
@@ -99,11 +102,13 @@ CREATE TABLE `Duty_Hour_Log` (
 
 INSERT INTO `Duty_Hour_Log` (`Employee_ID`, `Level`, `Submitted`, 
 `Submitted_Proportion`, `MMYYYY`, `Logged_for_month`) VALUES
-('MOM12390', '4', '3', '0.5', 'Mar-20', 'Yes'),
-('MOM05233', '4', '4', '0.3', 'Mar-20', 'Yes'),
-('MOM07177', '4', '0', '0', 'Mar-20', 'Yes'),
-('MOM05609', '4', '3', '1', 'Mar-20', 'Yes'),
-('MOM05690', '4', '4', '1', 'Mar-20', 'Yes');
+('MOM12390', '4', '3', '0.5', '032020', 'Yes'),
+('MOM05233', '4', '4', '0.3', '032020', 'Yes'),
+('MOM07177', '4', '0', '0', '032020', 'Yes'),
+('MOM05609', '4', '3', '1', '032020', 'Yes'),
+('MOM05609', '4', '3', '1', '042020', 'Yes'),
+('MOM05609', '4', '3', '1', '052022', 'Yes'),
+('MOM05690', '4', '4', '1', '032020', 'Yes');
 
 
 -- --------------------------------------------------------
@@ -542,7 +547,9 @@ ALTER TABLE `Didactic_Attendance`
 -- Indexes for table `Duty_Hour_Log`
 --
 ALTER TABLE `Duty_Hour_Log`
-  ADD KEY `Employee_ID` (`Employee_ID`);
+  ADD PRIMARY KEY (`MMYYYY`,`Employee_ID`);
+  -- ADD KEY `Employee_ID` (`Employee_ID`);
+
 
 --
 -- Indexes for table `Exam_History`
