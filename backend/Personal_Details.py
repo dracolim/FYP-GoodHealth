@@ -2,8 +2,8 @@ from __main__ import app, db
 from flask import request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
-class PersonalDetails(db.Model):
-    __tablename__ = 'PersonalDetails'
+class Personal_Details(db.Model):
+    __tablename__ = 'Personal_Details'
     Employee_id = db.Column(db.String(100), primary_key=True)
     MCR_No = db.Column(db.String(100))
     Staff_Name = db.Column(db.String(100))
@@ -38,9 +38,10 @@ class PersonalDetails(db.Model):
     Date_of_First_Dose = db.Column(db.DateTime)
     Date_of_Second_Dose = db.Column(db.DateTime)
     Vaccination_Remarks = db.Column(db.String(100))
+    Personal_Details_deleted = db.Column(db.Boolean(), default=False, nullable=False)
 
     __mapper_args__ = {
-        'polymorphic_identity': 'PersonalDetails'
+        'polymorphic_identity': 'Personal_Details'
     }
 
     def to_dict(self):

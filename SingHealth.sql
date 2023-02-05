@@ -42,7 +42,8 @@ CREATE TABLE `Awards` (
   `Name_of_Award` varchar(50) NOT NULL,
   `FY_of_Award_Received` varchar(50) NOT NULL,
   `Date_of_Award_Received` date NOT NULL,
-  `Project_ID` varchar(50) NOT NULL
+  `Project_ID` varchar(50) NOT NULL,
+  `Awards_deleted` boolean DEFAULT false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -61,7 +62,8 @@ CREATE TABLE `Case_Log` (
   `Programme_Name` varchar(50) NOT NULL,
   `Subspecialty` varchar(50) NOT NULL,
   `Type_of_Case_Log` varchar(50) NOT NULL,
-  `Date_of_Log` date NOT NULL
+  `Date_of_Log` date NOT NULL,
+  `Case_Log_deleted` boolean DEFAULT false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -69,11 +71,6 @@ CREATE TABLE `Case_Log` (
 --
 -- Table structure for table `Didactic_Attendance`
 --
-
--- ('MCR Number', 'BillingName', 'Month', 
--- 'Total tracked sessions', 'Number of sessions attended', 
--- 'Percentage of sessions attended', 'Mmm/Yyyy', 'Posting Institution', 
--- 'Posting Department', 'Scheduled Teachings', 'Compliance or not? (>70%)', 'employee_id'),
 
 CREATE TABLE `Didactic_Attendance` (
   `Employee_ID` varchar(50) NOT NULL,
@@ -86,7 +83,8 @@ CREATE TABLE `Didactic_Attendance` (
   `Posting_Institution` varchar(50) NOT NULL,
   `Posting_Department` varchar(50) NOT NULL,
   `Scheduled_Teachings` varchar(50) NOT NULL,
-  `Compliance_or_Not` varchar(50) NOT NULL
+  `Compliance_or_Not` varchar(50) NOT NULL,
+  `Didactic_Attendance_deleted` boolean DEFAULT false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -118,7 +116,8 @@ CREATE TABLE `Duty_Hour_Log` (
   `Submitted` varchar(50) NOT NULL,
   `Submitted_Proportion` varchar(50) NOT NULL,
   `MMYYYY` varchar(50) NOT NULL,
-  `Logged_for_month` varchar(50) NOT NULL
+  `Logged_for_month` varchar(50) NOT NULL,
+  `Duty_Hour_Log_deleted` boolean DEFAULT false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -154,7 +153,8 @@ CREATE TABLE `Education_History` (
   `SR_Residency_Programme` varchar(50) NOT NULL,
   `SR_Residency_Start` date NOT NULL,
   `SR_Residency_End` date NOT NULL,
-  `PG_Year` varchar(50) NOT NULL
+  `PG_Year` varchar(50) NOT NULL,
+  `Education_History_deleted` boolean DEFAULT false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -174,7 +174,8 @@ CREATE TABLE `Evaluations` (
   `Rotation_Period` varchar(50) NOT NULL,
   `Name_of_Evaluation_Form` varchar(50) NOT NULL,
   `Question_Number` varchar(50) NOT NULL,
-  `Score` varchar(50) NOT NULL
+  `Score` varchar(50) NOT NULL,
+  `Evaluations_deleted` boolean DEFAULT false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -192,7 +193,8 @@ CREATE TABLE `Exam_History` (
   `Staff_Name` varchar(50) NOT NULL,
   `Designation` varchar(50) NOT NULL,
   `Department` varchar(50) NOT NULL,
-  `Institution` varchar(50) NOT NULL
+  `Institution` varchar(50) NOT NULL,
+  `Exam_History_deleted` boolean DEFAULT false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -212,7 +214,8 @@ CREATE TABLE `Grants` (
   `Project_Title` varchar(50) NOT NULL,
   `Project_ID` varchar(50) NOT NULL,
   `Grant_End_Date` date NOT NULL,
-  `Grant_Start_Date` date NOT NULL
+  `Grant_Start_Date` date NOT NULL,
+  `Grants_deleted` boolean DEFAULT false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -229,7 +232,8 @@ CREATE TABLE `IHI` (
   `Department` varchar(50) NOT NULL,
   `Institution` varchar(50) NOT NULL,
   `Completion_of_Emodules` varchar(50) NOT NULL,
-  `Date` date NOT NULL
+  `Date` date NOT NULL,
+  `IHI_deleted` boolean DEFAULT false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -249,7 +253,8 @@ CREATE TABLE `Involvement` (
   `Event` varchar(50) NOT NULL,
   `Role` varchar(50) NOT NULL,
   `Start_Date` date NOT NULL,
-  `End_Date` date NOT NULL
+  `End_Date` date NOT NULL,
+  `Involvement_deleted` boolean DEFAULT false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -258,7 +263,7 @@ CREATE TABLE `Involvement` (
 -- Table structure for table `PersonalDetails`
 --
 
-CREATE TABLE `PersonalDetails` (
+CREATE TABLE `Personal_Details` (
   `Employee_ID` varchar(50) NOT NULL,
   `MCR_No` varchar(50) NOT NULL,
   `Staff_Name` varchar(50) NOT NULL,
@@ -288,14 +293,15 @@ CREATE TABLE `PersonalDetails` (
   `Covid_19_Vaccination_Status` varchar(50) NULL,
   `Date_of_First_Dose` date NULL,
   `Date_of_Second_Dose` date NULL,
-  `Vaccination_Remarks` varchar(50) NULL
+  `Vaccination_Remarks` varchar(50) NULL,
+  `Personal_Details_deleted` boolean DEFAULT false
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `PersonalDetails`
 --
 
-INSERT INTO `PersonalDetails` (`Employee_ID`, `MCR_No`, `Staff_Name`, `Designation`, 
+INSERT INTO `Personal_Details` (`Employee_ID`, `MCR_No`, `Staff_Name`, `Designation`, 
 `Programme`, `Year_of_Training`, `Academic_Year`, `Department`, 
 `Institution`, `Academic_Clinical_Programme`, `Employment_Status`, `Nationality`,
 `Date_of_Birth`, `Gender`, `Registration_Type`, `House_Blk_No`,
@@ -592,7 +598,7 @@ ALTER TABLE `Involvement`
 --
 -- Indexes for table `PersonalDetails`
 --
-ALTER TABLE `PersonalDetails`
+ALTER TABLE `Personal_Details`
   ADD PRIMARY KEY (`Employee_ID`);
 
 --
@@ -635,57 +641,57 @@ ALTER TABLE `TrgExtRemHistory`
 -- Constraints for table `Awards`
 --
 ALTER TABLE `Awards`
-  ADD CONSTRAINT `awards_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `PersonalDetails` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `awards_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `Personal_Details` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Exam_History`
 --
 ALTER TABLE `Exam_History`
-  ADD CONSTRAINT `exam_history_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `PersonalDetails` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `exam_history_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `Personal_Details` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Grants`
 --
 ALTER TABLE `Grants`
-  ADD CONSTRAINT `grants_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `PersonalDetails` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `grants_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `Personal_Details` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `grants_ibfk_2` FOREIGN KEY (`Project_ID`) REFERENCES `Projects` (`Project_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Involvement`
 --
 ALTER TABLE `Involvement`
-  ADD CONSTRAINT `involvement_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `PersonalDetails` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `involvement_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `Personal_Details` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Posting_History`
 --
 ALTER TABLE `Posting_History`
-  ADD CONSTRAINT `posting_history_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `PersonalDetails` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `posting_history_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `Personal_Details` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Presentations`
 --
 ALTER TABLE `Presentations`
-  ADD CONSTRAINT `presentations_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `PersonalDetails` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `presentations_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `Personal_Details` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `presentations_ibfk_2` FOREIGN KEY (`Project_ID`) REFERENCES `Projects` (`Project_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Projects`
 --
 ALTER TABLE `Projects`
-  ADD CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `PersonalDetails` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `Personal_Details` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Publications`
 --
 ALTER TABLE `Publications`
-  ADD CONSTRAINT `publications_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `PersonalDetails` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `publications_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `Personal_Details` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `TrgExtRemHistory`
 --
 ALTER TABLE `TrgExtRemHistory`
-  ADD CONSTRAINT `trgextremhistory_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `PersonalDetails` (`Employee_ID`);
+  ADD CONSTRAINT `trgextremhistory_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `Personal_Details` (`Employee_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

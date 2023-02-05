@@ -49,7 +49,7 @@ CORS(app)
 
 from Didactic_Attendance import Didactic_Attendance
 from Duty_Hour_Log import Duty_Hour_Log
-from PersonalDetails import PersonalDetails
+from Personal_Details import Personal_Details
 
 class Awards(db.Model):
     __tablename__ = 'Awards'

@@ -12,8 +12,8 @@ connection = engine.connect()
 
 metadata_obj = db.MetaData()
 
-class PostingHistory(db.Model):
-    __tablename__ = 'PostingHistory'
+class Posting_History(db.Model):
+    __tablename__ = 'Posting_History'
 
     Posting_ID= db.Column(db.String(100), primary_key=True)
     Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_id'))
@@ -23,10 +23,11 @@ class PostingHistory(db.Model):
     Posting_Department = db.Column(db.DateTime)
     Posting_StartDate = db.Column(db.DateTime)
     Posting_EndDate = db.Column(db.String(100))
+    Posting_History_deleted = db.Column(db.Boolean(), default=False, nullable=False)
 
 
     __mapper_args__ = {
-        'polymorphic_identity': 'PostingHistory'
+        'polymorphic_identity': 'Posting_History'
     }
 
     def to_dict(self):
@@ -44,7 +45,7 @@ class PostingHistory(db.Model):
 # Read Existing  (R)
 @app.route("/postinghistory")
 def read_postinghistory():
-    pdList = PostingHistory.query.all()
+    pdList = Posting_History.query.all()
     print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     return jsonify(
         {
