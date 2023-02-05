@@ -175,16 +175,16 @@
 
         <!-- Dropdown menu for PROGRAMME -->
         <div id="dropdownRadio"
-            class="z-10 hidden w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+            class="z-10 hidden w-48 bg-white divide-y divide-gray-100 rounded-lg shadow "
             data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="top"
             style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(522.5px, 3847.5px, 0px);">
-            <ul class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownRadioButton">
+            <ul class="p-3 space-y-1 text-sm text-gray-700 " aria-labelledby="dropdownRadioButton">
                 <li v-for="program in programme_values">
-                    <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                    <div class="flex items-center p-2 rounded hover:bg-gray-100 ">
                         <input id="filter-radio-example-1" type="radio" value="" name="filter-radio"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
                         <label for="filter-radio-example-1"
-                            class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">{{program}}</label>
+                            class="w-full ml-2 text-sm font-medium text-gray-900 rounded ">{{program}}</label>
                     </div>
                 </li>
             </ul>
@@ -195,7 +195,7 @@
 
         <!-- Table start -->
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg mx-8">
-            <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100 border-separate">
+            <table class="w-full text-sm text-left text-blue-100  border-separate">
                 <!-- COLUMN NAMES -->
                 <thead class="text-xs text-white bg-orange-500">
                     <tr>
@@ -227,8 +227,8 @@
                             <span v-else>{{value[field]}}</span>
                         </td>
                         <td class="flex items-center px-6 py-4 space-x-3">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
+                            <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
+                            <a href="#" class="font-medium text-red-600  hover:underline">Remove</a>
                         </td>
                     </tr>
                 </tbody>
@@ -242,7 +242,7 @@
                 <div class="mt-4 flex justify-center">
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor"
+                            <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor"
                                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
                                     d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
@@ -254,7 +254,7 @@
                             placeholder="Employee ID">
                     </div>
                 </div>
-                <ul class="overflow-y-auto h-48 px-8 pt-3 space-y-1 text-sm text-gray-700 dark:text-gray-200 border-none"
+                <ul class="overflow-y-auto h-48 px-8 pt-3 space-y-1 text-sm text-gray-700  border-none"
                     aria-labelledby="dropdownRadioButton">
                     <li v-for="employee_id in employee_id_values">
                         <div class="flex items-center mb-4">
@@ -282,7 +282,7 @@
                 <div class="mt-4 flex justify-center">
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor"
+                            <svg class="w-5 h-5 text-gray-500 " aria-hidden="true" fill="currentColor"
                                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
                                     d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
@@ -295,7 +295,7 @@
                     </div>
                 </div>
 
-                <ul class="overflow-y-auto h-48 px-8 pt-3 space-y-1 text-sm text-gray-700 dark:text-gray-200 border-none"
+                <ul class="overflow-y-auto h-48 px-8 pt-3 space-y-1 text-sm text-gray-700  border-none"
                     aria-labelledby="dropdownRadioButton">
                     <li>
                         <div class="flex items-center mb-4">
@@ -376,7 +376,7 @@
                     </div>
                 </div>
 
-                <ul class="overflow-y-auto h-48 px-8 pt-3 space-y-1 text-sm text-gray-700 dark:text-gray-200 border-none"
+                <ul class="overflow-y-auto h-48 px-8 pt-3 space-y-1 text-sm text-gray-700  border-none"
                     aria-labelledby="dropdownRadioButton">
                     <li>
                         <div class="flex items-center mb-4">
@@ -517,9 +517,9 @@
             Promise.all(apiCalls)
                 .then(responses => {
                     this.personal_details_datas = responses[1].data.data;
-                    this.personal_details_fields.push("Employee_id", "Staff_Name", "Gender",
-                        "Date_of_Birth", "Nationality", "Programme",
-                        "ACLS_Expiry_Date", "BCLS_Expiry_Date")
+                    // this.personal_details_fields.push("Employee_id", "Staff_Name", "Gender",
+                    //     "Date_of_Birth", "Nationality", "Programme",
+                    //     "ACLS_Expiry_Date", "BCLS_Expiry_Date")
                     this.fields_display.push("Employee ID", "Staff Name", "Gender", "Date of Birth",
                         "Nationality", "Programme", "ACLS Expiry Date", "BCLS Expiry Date")
                     for ([key, value] of Object.entries(this.personal_details_datas)) {

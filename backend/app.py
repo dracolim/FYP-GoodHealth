@@ -52,6 +52,61 @@ CORS(app)
 # from Personal_Details import Personal_Details
 
 
+class Personal_Details(db.Model):
+    __tablename__ = 'Personal_Details'
+    Employee_id = db.Column(db.String(100), primary_key=True)
+    MCR_No = db.Column(db.String(100))
+    Staff_Name = db.Column(db.String(100))
+    Designation = db.Column(db.String(100))
+
+    Programme = db.Column(db.String(100))
+    Year_of_Training = db.Column(db.String(100))
+    Academic_Year = db.Column(db.String(100))
+    Department = db.Column(db.String(100))
+
+    Institution = db.Column(db.String(100))
+    Academic_Clinical_Programme = db.Column(db.String(100))
+    Employment_Status = db.Column(db.String(100))
+    Nationality = db.Column(db.String(100))
+    Date_of_Birth = db.Column(db.DateTime)
+
+    Gender = db.Column(db.String(100))
+    Registration_Type = db.Column(db.String(100))
+    House_Blk_No = db.Column(db.String(100))
+    Street = db.Column(db.String(100))
+    Building_Name = db.Column(db.String(100))
+    Unit_No = db.Column(db.String(100))
+    Postal_Code = db.Column(db.String(100))
+    Contact_No_Work = db.Column(db.String(100))
+    Contact_No_Personal = db.Column(db.String(100))
+
+    Email_Official = db.Column(db.String(100))
+    Email_Personal = db.Column(db.String(100))
+    BCLS_Expiry_Date = db.Column(db.DateTime)
+    ACLS_Expiry_Date = db.Column(db.DateTime)
+    Covid_19_Vaccination_Status = db.Column(db.String(100))
+    Date_of_First_Dose = db.Column(db.DateTime)
+    Date_of_Second_Dose = db.Column(db.DateTime)
+    Vaccination_Remarks = db.Column(db.String(100))
+    Personal_Details_deleted = db.Column(db.Boolean(), default=False, nullable=False)
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'Personal_Details'
+    }
+
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        print(f"columns: {columns}")
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
+
+
 class Duty_Hour_Log(db.Model):
     __tablename__ = 'Duty_Hour_Log'
     Employee_id = db.Column(db.String(100), primary_key=True)
@@ -205,40 +260,6 @@ def read_personaldetails():
         }
     ), 200
 
-<<<<<<< HEAD
-# # Read PersonalDetails field/column name (R)
-# @app.route('/personal_details_fields', methods=['GET'])
-# def get_personal_details_fields():
-#     fields = {}
-#     for column in Personal_Details.__table__.columns:
-#         fields[column.name] = str(column.type)
-#     return jsonify(fields)
-
-# # Add personaldetails
-# @app.route('/personal_detail', methods=['POST'])
-# def create_personal_detail():
-#     data = request.get_json()
-#     print(data)
-#     if not all(key in data.keys() for key in ('Employee_id', 'MCR_No', "Staff_Name" , "Designation" , "Programme",
-#                 "Year_of_Training" , "Academic_Year" , "Department" , "Institution" , 
-#                 "Academic_Clinical_Programme" , "Employment_Status" , "Nationality" ,"Date_of_Birth" , "Gender",
-#                 "Registration_Type", "House_Blk_No" , "Street" , "Building_Name" , "Unit_No" , "Postal_Code" ,"Contact_No_Work",
-#                 "Contact_No_Personal", "Email_Official" ,"Email_Personal", "BCLS_Expiry_Date","ACLS_Expiry_Date",
-#                 "Covid_19_Vaccination_Status" , "Date_of_First_Dose" ,"Date_of_Second_Dose" ,"Vaccination_Remark"
-#                 )):
-#         return jsonify({
-#             "message": "Incorrect JSON object provided."
-#         }), 500
-#     personalDetails = Personal_Details(**data)
-#     try:
-#         db.session.add(personalDetails)
-#         db.session.commit()
-#         return jsonify(personalDetails.to_dict()), 201
-#     except Exception:
-#         return jsonify({
-#             "message": "Unable to commit to database."
-#         }), 500
-=======
 # Read PersonalDetails field/column name (R)
 @app.route('/personal_details_fields', methods=['GET'])
 def get_personal_details_fields():
@@ -271,7 +292,6 @@ def create_personal_detail():
         return jsonify({
             "message": "Unable to commit to database."
         }), 500
->>>>>>> 74c6ff9de0badae84b00a6ae7b94fc3e8180fd8e
 
 
 # ============================
