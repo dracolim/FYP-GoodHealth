@@ -262,7 +262,7 @@ def create_personal_detail():
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
-    personalDetails = PersonalDetails(**data)
+    personalDetails = Personal_Details(**data)
     try:
         db.session.add(personalDetails)
         db.session.commit()
