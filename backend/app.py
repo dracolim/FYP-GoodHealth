@@ -197,7 +197,7 @@ class Involvement(db.Model):
 # Read Existing personaldetails (R)
 @app.route("/personaldetails")
 def read_personaldetails():
-    pdList = PersonalDetails.query.all()
+    pdList = Personal_Details.query.all()
     return jsonify(
         {
             "data": [pd.to_dict()
@@ -205,6 +205,7 @@ def read_personaldetails():
         }
     ), 200
 
+<<<<<<< HEAD
 # # Read PersonalDetails field/column name (R)
 # @app.route('/personal_details_fields', methods=['GET'])
 # def get_personal_details_fields():
@@ -237,6 +238,40 @@ def read_personaldetails():
 #         return jsonify({
 #             "message": "Unable to commit to database."
 #         }), 500
+=======
+# Read PersonalDetails field/column name (R)
+@app.route('/personal_details_fields', methods=['GET'])
+def get_personal_details_fields():
+    fields = {}
+    for column in Personal_Details.__table__.columns:
+        fields[column.name] = str(column.type)
+    return jsonify(fields)
+
+# Add personaldetails
+@app.route('/personal_detail', methods=['POST'])
+def create_personal_detail():
+    data = request.get_json()
+    print(data)
+    if not all(key in data.keys() for key in ('Employee_id', 'MCR_No', "Staff_Name" , "Designation" , "Programme",
+                "Year_of_Training" , "Academic_Year" , "Department" , "Institution" , 
+                "Academic_Clinical_Programme" , "Employment_Status" , "Nationality" ,"Date_of_Birth" , "Gender",
+                "Registration_Type", "House_Blk_No" , "Street" , "Building_Name" , "Unit_No" , "Postal_Code" ,"Contact_No_Work",
+                "Contact_No_Personal", "Email_Official" ,"Email_Personal", "BCLS_Expiry_Date","ACLS_Expiry_Date",
+                "Covid_19_Vaccination_Status" , "Date_of_First_Dose" ,"Date_of_Second_Dose" ,"Vaccination_Remark"
+                )):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+    personalDetails = PersonalDetails(**data)
+    try:
+        db.session.add(personalDetails)
+        db.session.commit()
+        return jsonify(personalDetails.to_dict()), 201
+    except Exception:
+        return jsonify({
+            "message": "Unable to commit to database."
+        }), 500
+>>>>>>> 74c6ff9de0badae84b00a6ae7b94fc3e8180fd8e
 
 
 # ============================
