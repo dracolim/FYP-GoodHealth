@@ -597,6 +597,12 @@ ALTER TABLE `Grants`
   ADD KEY `Employee_ID` (`Employee_ID`),
   ADD KEY `Project ID` (`Project_ID`);
 
+INSERT INTO `Grants` (`Name_of_Grant`, `Employee_ID`, `Project_ID`) VALUES
+(NULL, 'm,', NULL, NULL, NULL, NULL, NULL, '2023-02-03 22:37:42', '2023-02-03 22:37:42'),
+(NULL, 'm,', NULL, NULL, NULL, NULL, NULL, '2023-02-03 22:37:42', '2023-02-03 22:37:42'),
+('one111', NULL, NULL, ' ', NULL, ' m', NULL, '2023-02-03 22:39:30', '2023-02-03 22:39:30'),
+('one111', 'n', NULL, ' ', 'n', 'n', NULL, '2023-02-03 22:50:25', '2023-02-03 22:50:25'),
+('one111', 'n', NULL, ' ', 'n', 'n', NULL, '2023-02-03 22:50:25', '2023-02-03 22:50:25');
 --
 -- Indexes for table `Involvement`
 --
