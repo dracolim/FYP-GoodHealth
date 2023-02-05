@@ -149,7 +149,7 @@ class Involvement(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        print(f"columns: {columns}")
+        # print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
