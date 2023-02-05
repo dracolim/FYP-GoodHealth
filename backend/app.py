@@ -133,6 +133,52 @@ class Duty_Hour_Log(db.Model):
             result[column] = getattr(self, column)
         return result
 
+
+
+
+# class Projects(db.Model):
+#     __tablename__ = 'Projects'
+
+#     Project_ID= db.Column(db.String(100), primary_key=True)
+#     Employee_id = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_id'))
+#     Project_Type = db.Column(db.String(100))
+
+#     Project_Title = db.Column(db.String(100))
+#     StartDate = db.Column(db.DateTime)
+#     EndDate = db.Column(db.DateTime)
+#     PMID = db.Column(db.String(100))
+#     Projects_deleted = db.Column(db.Boolean(), default=False, nullable=False)
+
+
+#     __mapper_args__ = {
+#         'polymorphic_identity': 'Projects'
+#     }
+
+#     def to_dict(self):
+#         """
+#         'to_dict' converts the object into a dictionary,
+#         in which the keys correspond to database columns
+#         """
+#         columns = self.__mapper__.column_attrs.keys()
+#         print(f"columns: {columns}")
+#         result = {}
+#         for column in columns:
+#             result[column] = getattr(self, column)
+#         return result
+
+# # Read Existing personaldetails (R)
+# @app.route("/projects")
+# def read_projects():
+#     pdList = Projects.query.all()
+#     # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+#     return jsonify(
+#         {
+#             "data": [pd.to_dict()
+#                     for pd in pdList]
+#         }
+#     ), 200
+
+    
 #Read PersonalDetails field/column name (R)
 @app.route('/', methods=['GET'])
 def display():
