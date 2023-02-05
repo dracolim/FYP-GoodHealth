@@ -1,7 +1,8 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import json
+import pandas as pd
 
 app = Flask(__name__)
 # # Mac user ====================================================================
@@ -38,7 +39,6 @@ if __name__ == '__main__':
     # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
     #                                         'pool_recycle': 280}
 else:
-    print("herrr")
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -149,7 +149,6 @@ class Involvement(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        # print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -180,6 +179,24 @@ def get_personal_details_fields():
     for column in PersonalDetails.__table__.columns:
         fields[column.name] = str(column.type)
     return jsonify(fields)
+
+@app.route('/' , methods = ['GET' , 'POST'])
+def index():
+    return render_template('personal_details.html')
+
+# @app.route('/data' , methods = ['GET' , 'POST'])
+# def data():
+#     # if request.method == "post":
+#     #     file = request.form['excel']
+#     #     data = pd.read_excel(file)
+#     #     print(data)
+#     #     return render_template('data.html' , data=data.to_html())
+#     if request.method == "post":
+#         file = request.form['excel']
+#         df_dict = pd.read_excel(file, sheet_name=None)
+        # return render_template('data.html' , data=df_dict.to_html())
+    
+
 
 # ============================
 # █▀▀ █▄░█ █▀▄

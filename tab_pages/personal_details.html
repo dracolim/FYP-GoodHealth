@@ -16,6 +16,8 @@
     <!-- VUE 3 -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
 
     <style type="text/tailwindcss">
         @layer utilities {
@@ -130,12 +132,46 @@
 
             <div class="relative">
                 <div class="absolute inset-y-0 left-0 right-12 bottom-2 flex items-center pl-3 pointer-events-none">
-                    <iconify-icon icon="mingcute:file-import-line" style="color: white;" width="20" height="20"></iconify-icon>
+                    <iconify-icon icon="mingcute:file-import-line" style="color: white;" width="20" height="20">
+                    </iconify-icon>
                 </div>
-                <button type="button" class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">Import</button>
+                <button data-modal-target="import-modal" data-modal-toggle="import-modal" type="button"
+                    class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">
+                    <label class="ml-2">Import</label>
+                </button>
             </div>
         </div>
 
+        <!-- Import modal -->
+        <div id="import-modal" tabindex="-1" aria-hidden="true"
+            class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
+            <div class="relative w-full h-full max-w-md md:h-auto">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <button type="button"
+                        class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                        data-modal-hide="import-modal">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                    <div class="px-6 py-6 lg:px-8">
+                        <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Upload Excel Sheet</h3>
+                        <form class="space-y-6" method="post">
+                            <input
+                                class="block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
+                                id="large_size" type="file" name="excel" @change="importExcel">
+                            <button type="submit" value="Submit"
+                                class="w-full text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Dropdown menu for PROGRAMME -->
         <div id="dropdownRadio"
@@ -143,53 +179,19 @@
             data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="top"
             style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(522.5px, 3847.5px, 0px);">
             <ul class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownRadioButton">
-                <li>
+                <li v-for="program in programme_values">
                     <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                         <input id="filter-radio-example-1" type="radio" value="" name="filter-radio"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <label for="filter-radio-example-1"
-                            class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last
-                            day</label>
-                    </div>
-                </li>
-                <li>
-                    <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                        <input checked="" id="filter-radio-example-2" type="radio" value="" name="filter-radio"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="filter-radio-example-2"
-                            class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last
-                            7 days</label>
-                    </div>
-                </li>
-                <li>
-                    <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                        <input id="filter-radio-example-3" type="radio" value="" name="filter-radio"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="filter-radio-example-3"
-                            class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last
-                            30 days</label>
-                    </div>
-                </li>
-                <li>
-                    <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                        <input id="filter-radio-example-4" type="radio" value="" name="filter-radio"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="filter-radio-example-4"
-                            class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last
-                            month</label>
-                    </div>
-                </li>
-                <li>
-                    <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                        <input id="filter-radio-example-5" type="radio" value="" name="filter-radio"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="filter-radio-example-5"
-                            class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last
-                            year</label>
+                            class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">{{program}}</label>
                     </div>
                 </li>
             </ul>
         </div>
+        <!-- <select id="projectfilter" name="projectfilter" class="table-filter form-control" data-col="2">
+            <option value=""  v-for = "program in programme_values">{{program}}</option>
+        </select> -->
 
         <!-- Table start -->
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg mx-8">
@@ -198,7 +200,7 @@
                 <thead class="text-xs text-white bg-orange-500">
                     <tr>
                         <th scope="col" class="px-6 py-3" v-for="field in fields_display">
-                            <button id="dropdownRadioButton" data-dropdown-toggle="dropdownEmployee" 
+                            <button id="dropdownRadioButton" data-dropdown-toggle="dropdownEmployee"
                                 class="inline-flex items-center bg-orange-500 text-white focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5"
                                 type="button">
                                 {{field}}
@@ -254,11 +256,12 @@
                 </div>
                 <ul class="overflow-y-auto h-48 px-8 pt-3 space-y-1 text-sm text-gray-700 dark:text-gray-200 border-none"
                     aria-labelledby="dropdownRadioButton">
-                    <li v-for ="employee_id in employee_id_values">
+                    <li v-for="employee_id in employee_id_values">
                         <div class="flex items-center mb-4">
                             <input id="default-checkbox" type="checkbox" value=""
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2 ">
-                            <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 ">{{employee_id}}</label>
+                            <label for="default-checkbox"
+                                class="ml-2 text-sm font-medium text-gray-900 ">{{employee_id}}</label>
                         </div>
                     </li>
                 </ul>
@@ -491,6 +494,7 @@
 </body>
 
 <script>
+    const Excel = window.ExcelJS;
     const vm = new Vue({
         el: '#app',
         data: {
@@ -498,6 +502,8 @@
             fields_display: [],
             personal_details_datas: [],
             employee_id_values: [],
+            programme_values: [],
+            file: "",
         },
         mounted: async function () {
             const API_URL_1 = 'http://localhost:5010/personal_details_fields';
@@ -514,7 +520,8 @@
                     this.personal_details_fields.push("Employee_id", "Staff_Name", "Gender",
                         "Date_of_Birth", "Nationality", "Programme",
                         "ACLS_Expiry_Date", "BCLS_Expiry_Date")
-                    this.fields_display.push("Employee ID" , "Staff Name" , "Gender" , "Date of Birth" , "Nationality" , "Programme" , "ACLS Expiry Date" , "BCLS Expiry Date")
+                    this.fields_display.push("Employee ID", "Staff Name", "Gender", "Date of Birth",
+                        "Nationality", "Programme", "ACLS Expiry Date", "BCLS Expiry Date")
                     for ([key, value] of Object.entries(this.personal_details_datas)) {
                         // key : number of resident
                         // value: for each resident 
@@ -531,20 +538,39 @@
                                 let new_date_string = `${year}-${month}-${day}`;
 
                                 value[each] = new_date_string;
-                            }
-                            else if (each == "Employee_id"){
+                            } else if (each == "Employee_id") {
                                 this.employee_id_values.push(value[each])
+                            } else if (each == "Programme") {
+                                if (!this.programme_values.includes(value[each])) {
+                                    this.programme_values.push(value[each])
+                                }
                             }
                         }
                     }
-
                 })
                 .catch(error => {
                     console.error(error);
                 });
         },
         methods: {
+            importExcel(event) {
+                this.file = event.target.files ? event.target.files[0] : null;
+                const wb = new Excel.Workbook();
+                const reader = new FileReader()
 
+                reader.readAsArrayBuffer(this.file)
+                reader.onload = () => {
+                    const buffer = reader.result;
+                    wb.xlsx.load(buffer).then(workbook => {
+                        console.log(workbook, 'workbook instance')
+                        workbook.eachSheet((sheet, id) => {
+                            sheet.eachRow((row, rowIndex) => {
+                                console.log(row.values, rowIndex)
+                            })
+                        })
+                    })
+                }
+            }
         }
     });
 </script>
