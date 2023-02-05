@@ -475,22 +475,30 @@ CREATE TABLE `Procedure_Log` (
 --
 -- Table structure for table `Projects`
 --
+-- ('Employee ID/ MOHH Employee No', 'Project Type (QI/Patient Safety/Research)',
+--  'Project Title', 'Project ID', 'Start Date', 'End Date', 'Date of QI Certification', 
+--  'PMID (if any)'),
 
 CREATE TABLE `Projects` (
-  `Project_ID` varchar(50) NOT NULL,
   `Employee_ID` varchar(50) NOT NULL,
-  `MCR_No` varchar(50) NOT NULL,
-  `Staff_Name` varchar(50) NOT NULL,
-  `Designation` varchar(50) NOT NULL,
-  `Department` varchar(50) NOT NULL,
-  `Institution` varchar(50) NOT NULL,
   `Project_Type` varchar(50) NOT NULL,
-  `Project_Title` varchar(50) NOT NULL,
-  `Start_Date` date NOT NULL,
-  `End_Date` date NOT NULL,
-  `PMID` varchar(50) NOT NULL,
-  `Date_of_QI_Certification` date NOT NULL
+  `Project_Title` varchar(100) NOT NULL,
+  `Project_ID` varchar(50) NOT NULL,
+  `Start_Date` varchar(50) NOT NULL,
+  `End_Date` varchar(50) NOT NULL,
+  `Date_of_QI_Certification` varchar(50) NULL,
+  `PMID` varchar(50) NULL,
+  `Grants_deleted` boolean DEFAULT false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `Projects` (`Employee_ID`, `Project_Type`, `Project_Title`,`Project_ID`,
+  `Start_Date`, `End_Date`,  `Date_of_QI_Certification`, `PMID`)  VALUES
+('MOM12390', 'Qi', 'Creating an Intranet Site Showing Each Medical Departments Criteria for Inpatient Reviews', ' ', '2019', '2020', '', ''),
+('MOM12390', '', '', '', '', '', '', ''),
+('MOM05233', 'QI', 'Code Blue Documentation ', ' ', '2018', '2019', '', ''),
+('MOM05233', '', '', '', '', '', '', ''),
+('MOM07177', 'QI', 'Reducing the percentage of errors in discharge prescriptions in Ward 73', ' ', '2019', '2020', '', ''),
+('MOM07177', 'QI', 'Improving Compliance of Medical Results Acknowledgement in CGH Gastroenterology Department ', '', '', '', '', '');
 
 -- --------------------------------------------------------
 

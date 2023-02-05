@@ -47,9 +47,41 @@ db = SQLAlchemy(app)
 
 CORS(app)
 
-from Didactic_Attendance import Didactic_Attendance
-from Duty_Hour_Log import Duty_Hour_Log
-from Personal_Details import Personal_Details
+# from Didactic_Attendance import Didactic_Attendance
+# from Duty_Hour_Log import Duty_Hour_Log
+# from Personal_Details import Personal_Details
+
+
+class Duty_Hour_Log(db.Model):
+    __tablename__ = 'Duty_Hour_Log'
+    Employee_id = db.Column(db.String(100), primary_key=True)
+    Level = db.Column(db.String(100))
+    Submitted = db.Column(db.String(100))
+    Submitted_Proportion = db.Column(db.String(100))
+    MMYYYY = db.Column(db.String(100))
+    Logged_for_month = db.Column(db.String(100))
+    Duty_Hour_Log_deleted = db.Column(db.Boolean(), default=False, nullable=False)
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'Posting_History'
+    }
+
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        print(f"columns: {columns}")
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
+
+#Read PersonalDetails field/column name (R)
+@app.route('/', methods=['GET'])
+def display():
+    return render_template('homepage2.html')
 
 class Awards(db.Model):
     __tablename__ = 'Awards'
@@ -173,38 +205,38 @@ def read_personaldetails():
         }
     ), 200
 
-# Read PersonalDetails field/column name (R)
-@app.route('/personal_details_fields', methods=['GET'])
-def get_personal_details_fields():
-    fields = {}
-    for column in PersonalDetails.__table__.columns:
-        fields[column.name] = str(column.type)
-    return jsonify(fields)
+# # Read PersonalDetails field/column name (R)
+# @app.route('/personal_details_fields', methods=['GET'])
+# def get_personal_details_fields():
+#     fields = {}
+#     for column in Personal_Details.__table__.columns:
+#         fields[column.name] = str(column.type)
+#     return jsonify(fields)
 
-# Add personaldetails
-@app.route('/personal_detail', methods=['POST'])
-def create_personal_detail():
-    data = request.get_json()
-    print(data)
-    if not all(key in data.keys() for key in ('Employee_id', 'MCR_No', "Staff_Name" , "Designation" , "Programme",
-                "Year_of_Training" , "Academic_Year" , "Department" , "Institution" , 
-                "Academic_Clinical_Programme" , "Employment_Status" , "Nationality" ,"Date_of_Birth" , "Gender",
-                "Registration_Type", "House_Blk_No" , "Street" , "Building_Name" , "Unit_No" , "Postal_Code" ,"Contact_No_Work",
-                "Contact_No_Personal", "Email_Official" ,"Email_Personal", "BCLS_Expiry_Date","ACLS_Expiry_Date",
-                "Covid_19_Vaccination_Status" , "Date_of_First_Dose" ,"Date_of_Second_Dose" ,"Vaccination_Remark"
-                )):
-        return jsonify({
-            "message": "Incorrect JSON object provided."
-        }), 500
-    personalDetails = PersonalDetails(**data)
-    try:
-        db.session.add(personalDetails)
-        db.session.commit()
-        return jsonify(personalDetails.to_dict()), 201
-    except Exception:
-        return jsonify({
-            "message": "Unable to commit to database."
-        }), 500
+# # Add personaldetails
+# @app.route('/personal_detail', methods=['POST'])
+# def create_personal_detail():
+#     data = request.get_json()
+#     print(data)
+#     if not all(key in data.keys() for key in ('Employee_id', 'MCR_No', "Staff_Name" , "Designation" , "Programme",
+#                 "Year_of_Training" , "Academic_Year" , "Department" , "Institution" , 
+#                 "Academic_Clinical_Programme" , "Employment_Status" , "Nationality" ,"Date_of_Birth" , "Gender",
+#                 "Registration_Type", "House_Blk_No" , "Street" , "Building_Name" , "Unit_No" , "Postal_Code" ,"Contact_No_Work",
+#                 "Contact_No_Personal", "Email_Official" ,"Email_Personal", "BCLS_Expiry_Date","ACLS_Expiry_Date",
+#                 "Covid_19_Vaccination_Status" , "Date_of_First_Dose" ,"Date_of_Second_Dose" ,"Vaccination_Remark"
+#                 )):
+#         return jsonify({
+#             "message": "Incorrect JSON object provided."
+#         }), 500
+#     personalDetails = Personal_Details(**data)
+#     try:
+#         db.session.add(personalDetails)
+#         db.session.commit()
+#         return jsonify(personalDetails.to_dict()), 201
+#     except Exception:
+#         return jsonify({
+#             "message": "Unable to commit to database."
+#         }), 500
 
 
 # ============================
@@ -394,16 +426,16 @@ def get_awards_fields():
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
 
-# Read Awards field/column name (R)
-@app.route('/didactic_attendance', methods=['GET'])
-def get_didactic_attendance():
-    daList = Didactic_Attendance.query.all()
-    return jsonify(
-        {
-            "data": [pd.to_dict()
-                     for pd in daList]
-        }
-    ), 200
+# # Read Awards field/column name (R)
+# @app.route('/didactic_attendance', methods=['GET'])
+# def get_didactic_attendance():
+#     daList = Didactic_Attendance.query.all()
+#     return jsonify(
+#         {
+#             "data": [pd.to_dict()
+#                      for pd in daList]
+#         }
+#     ), 200
 
 
 # ============================
