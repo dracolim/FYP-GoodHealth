@@ -47,9 +47,9 @@ db = SQLAlchemy(app)
 
 CORS(app)
 
-from PersonalDetails import PersonalDetails
-from Duty_Hour_Log import Duty_Hour_Log
 from Didactic_Attendance import Didactic_Attendance
+from Duty_Hour_Log import Duty_Hour_Log
+from PersonalDetails import PersonalDetails
 
 class Awards(db.Model):
     __tablename__ = 'Awards'
@@ -77,6 +77,7 @@ class Awards(db.Model):
         for column in columns:
             result[column] = getattr(self, column)
         return result
+
 
 class ExamHistory(db.Model):
     __tablename__ = 'ExamHistory'
@@ -156,8 +157,8 @@ class Involvement(db.Model):
 
 # https://fsymbols.com/generators/tarty/
 # ============================
-# █▀█ █▀▀ █▀█ █▀ █▀█ █▄░█ ▄▀█ █░░   █▀▄ █▀▀ ▀█▀ ▄▀█ █ █░░ █▀  
-# █▀▀ ██▄ █▀▄ ▄█ █▄█ █░▀█ █▀█ █▄▄   █▄▀ ██▄ ░█░ █▀█ █ █▄▄ ▄█  
+# █▀█ █▀▀ █▀█ █▀ █▀█ █▄░█ ▄▀█ █░░   █▀▄ █▀▀ ▀█▀ ▄▀█ █ █░░ █▀
+# █▀▀ ██▄ █▀▄ ▄█ █▄█ █░▀█ █▀█ █▄▄   █▄▀ ██▄ ░█░ █▀█ █ █▄▄ ▄█
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
@@ -172,7 +173,7 @@ def read_personaldetails():
         }
     ), 200
 
-#Read PersonalDetails field/column name (R)
+# Read PersonalDetails field/column name (R)
 @app.route('/personal_details_fields', methods=['GET'])
 def get_personal_details_fields():
     fields = {}
@@ -180,22 +181,30 @@ def get_personal_details_fields():
         fields[column.name] = str(column.type)
     return jsonify(fields)
 
-@app.route('/' , methods = ['GET' , 'POST'])
-def index():
-    return render_template('personal_details.html')
-
-# @app.route('/data' , methods = ['GET' , 'POST'])
-# def data():
-#     # if request.method == "post":
-#     #     file = request.form['excel']
-#     #     data = pd.read_excel(file)
-#     #     print(data)
-#     #     return render_template('data.html' , data=data.to_html())
-#     if request.method == "post":
-#         file = request.form['excel']
-#         df_dict = pd.read_excel(file, sheet_name=None)
-        # return render_template('data.html' , data=df_dict.to_html())
-    
+# Add personaldetails
+@app.route('/personal_detail', methods=['POST'])
+def create_personal_detail():
+    data = request.get_json()
+    print(data)
+    if not all(key in data.keys() for key in ('Employee_id', 'MCR_No', "Staff_Name" , "Designation" , "Programme",
+                "Year_of_Training" , "Academic_Year" , "Department" , "Institution" , 
+                "Academic_Clinical_Programme" , "Employment_Status" , "Nationality" ,"Date_of_Birth" , "Gender",
+                "Registration_Type", "House_Blk_No" , "Street" , "Building_Name" , "Unit_No" , "Postal_Code" ,"Contact_No_Work",
+                "Contact_No_Personal", "Email_Official" ,"Email_Personal", "BCLS_Expiry_Date","ACLS_Expiry_Date",
+                "Covid_19_Vaccination_Status" , "Date_of_First_Dose" ,"Date_of_Second_Dose" ,"Vaccination_Remark"
+                )):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+    personalDetails = PersonalDetails(**data)
+    try:
+        db.session.add(personalDetails)
+        db.session.commit()
+        return jsonify(personalDetails.to_dict()), 201
+    except Exception:
+        return jsonify({
+            "message": "Unable to commit to database."
+        }), 500
 
 
 # ============================
@@ -216,10 +225,12 @@ def read_involvement():
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in involvementList]
+                     for pd in involvementList]
         }
     ), 200
-#Read Involvement field/column name (R)
+# Read Involvement field/column name (R)
+
+
 @app.route('/involvement_fields', methods=['GET'])
 def get_involvement_fields():
     fields = {}
@@ -239,7 +250,6 @@ def get_involvement_fields():
 # ============================
 
 
-
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
@@ -253,7 +263,6 @@ def get_involvement_fields():
 # ============================
 
 
-
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
@@ -265,7 +274,6 @@ def get_involvement_fields():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
-
 
 
 # ============================
@@ -288,11 +296,11 @@ def read_examhistory():
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in examhistoryList]
+                     for pd in examhistoryList]
         }
     ), 200
 
-#Read ExamHistory field/column name (R)
+# Read ExamHistory field/column name (R)
 @app.route('/exam_history_fields', methods=['GET'])
 def get_exam_history_fields():
     fields = {}
@@ -313,7 +321,6 @@ def get_exam_history_fields():
 # ============================
 
 
-
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
@@ -332,17 +339,18 @@ def read_grants():
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in grantsList]
+                     for pd in grantsList]
         }
     ), 200
 
-#Read Grants field/column name (R)
+# Read Grants field/column name (R)
 @app.route('/grants_fields', methods=['GET'])
 def get_grants_fields():
     fields = {}
     for column in Grants.__table__.columns:
         fields[column.name] = str(column.type)
     return jsonify(fields)
+
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
@@ -355,17 +363,19 @@ def get_grants_fields():
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
 # Read Existing awards (R)
+
+
 @app.route("/awards")
 def read_awards():
     awardsList = Awards.query.all()
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in awardsList]
+                     for pd in awardsList]
         }
     ), 200
 
-#Read Awards field/column name (R)
+# Read Awards field/column name (R)
 @app.route('/awards_fields', methods=['GET'])
 def get_awards_fields():
     fields = {}
@@ -384,14 +394,14 @@ def get_awards_fields():
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
 
-#Read Awards field/column name (R)
+# Read Awards field/column name (R)
 @app.route('/didactic_attendance', methods=['GET'])
 def get_didactic_attendance():
     daList = Didactic_Attendance.query.all()
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in daList]
+                     for pd in daList]
         }
     ), 200
 
@@ -409,7 +419,6 @@ def get_didactic_attendance():
 # ============================
 
 
-
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
@@ -421,7 +430,6 @@ def get_didactic_attendance():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
-
 
 
 # ============================
@@ -437,7 +445,6 @@ def get_didactic_attendance():
 # ============================
 
 
-
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
@@ -451,14 +458,14 @@ def get_didactic_attendance():
 # ============================
 
 
-#Read Awards field/column name (R)
+# Read Awards field/column name (R)
 @app.route('/duty_hour_log', methods=['GET'])
 def get_duty_hour_log():
     dutyList = Duty_Hour_Log.query.all()
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in dutyList]
+                     for pd in dutyList]
         }
     ), 200
 
@@ -475,7 +482,6 @@ def get_duty_hour_log():
 # ============================
 
 
-
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
@@ -487,7 +493,6 @@ def get_duty_hour_log():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
-
 
 
 # ============================
@@ -507,7 +512,6 @@ def get_duty_hour_log():
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
 # ============================
-
 db.create_all()
 
 if __name__ == '__main__':
