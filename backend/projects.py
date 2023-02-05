@@ -66,7 +66,7 @@ def read_personaldetails():
 
 
 
-class Project(db.Model):
+class Projects(db.Model):
     __tablename__ = 'Projects'
 
     Project_ID= db.Column(db.String(100), primary_key=True)
@@ -77,6 +77,7 @@ class Project(db.Model):
     StartDate = db.Column(db.DateTime)
     EndDate = db.Column(db.DateTime)
     PMID = db.Column(db.String(100))
+    Projects_deleted = db.Column(db.Boolean(), default=False, nullable=False)
 
 
     __mapper_args__ = {

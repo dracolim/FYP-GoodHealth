@@ -17,9 +17,10 @@ class Didactic_Attendance(db.Model):
     Posting_Department = db.Column(db.String(100))
     Scheduled_Teachings = db.Column(db.String(100))
     Compliance_or_Not = db.Column(db.String(100))
+    Didactic_Attendance_deleted = db.Column(db.Boolean(), default=False, nullable=False)
 
     __mapper_args__ = {
-        'polymorphic_identity': 'Involvement'
+        'polymorphic_identity': 'Didactic_Attendance'
     }
 
     def to_dict(self):

@@ -4,16 +4,17 @@ from flask import request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 class Duty_Hour_Log(db.Model):
-    __tablename__ = 'Duty_Hour_Log'
+    __tablename__ = 'c'
     Employee_id = db.Column(db.String(100), primary_key=True)
     Level = db.Column(db.String(100))
     Submitted = db.Column(db.String(100))
     Submitted_Proportion = db.Column(db.String(100))
     MMYYYY = db.Column(db.String(100))
     Logged_for_month = db.Column(db.String(100))
+    Duty_Hour_Log_deleted = db.Column(db.Boolean(), default=False, nullable=False)
 
     __mapper_args__ = {
-        'polymorphic_identity': 'Involvement'
+        'polymorphic_identity': 'Posting_History'
     }
 
     def to_dict(self):

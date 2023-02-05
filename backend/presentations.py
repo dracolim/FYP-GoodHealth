@@ -13,6 +13,7 @@ class Presentation(db.Model):
     Conference_Name = db.Column(db.DateTime)
     Country = db.Column(db.DateTime)
     Presentation_Date = db.Column(db.String(100))
+    Presentation_deleted = db.Column(db.Boolean(), default=False, nullable=False)
 
 
     __mapper_args__ = {

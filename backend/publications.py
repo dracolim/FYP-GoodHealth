@@ -13,6 +13,8 @@ class Publications(db.Model):
     
     PMID = db.Column(db.String(100))
     Publication_Date = db.Column(db.DateTime)
+    Projects_deleted = db.Column(db.Boolean(), default=False, nullable=False)
+    
 
 
     __mapper_args__ = {
