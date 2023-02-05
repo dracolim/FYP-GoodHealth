@@ -165,7 +165,7 @@ class Involvement(db.Model):
 # Read Existing personaldetails (R)
 @app.route("/personaldetails")
 def read_personaldetails():
-    pdList = PersonalDetails.query.all()
+    pdList = Personal_Details.query.all()
     return jsonify(
         {
             "data": [pd.to_dict()
@@ -177,7 +177,7 @@ def read_personaldetails():
 @app.route('/personal_details_fields', methods=['GET'])
 def get_personal_details_fields():
     fields = {}
-    for column in PersonalDetails.__table__.columns:
+    for column in Personal_Details.__table__.columns:
         fields[column.name] = str(column.type)
     return jsonify(fields)
 
