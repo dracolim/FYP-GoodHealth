@@ -32,7 +32,7 @@ if __name__ == '__main__':
     # --------------------------------------------------------------------------------
 
     # # Windows user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root' + \
                                             '@localhost:3306/SingHealth'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -49,6 +49,7 @@ CORS(app)
 
 from PersonalDetails import PersonalDetails
 from Duty_Hour_Log import Duty_Hour_Log
+from Didactic_Attendance import didactic_attendance
 
 class Awards(db.Model):
     __tablename__ = 'Awards'
@@ -365,9 +366,27 @@ def get_awards_fields():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+#Read Didactic Attendance (R)
+@app.route('/didactic_attendance', methods=['GET'])
+def get_didactic_attendance():
+    didacticList = didactic_attendance.query.all()
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in didacticList]
+        }
+    ), 200
 
-
-
+#Read Specific Didactic Attendance by Employee ID (R)
+@app.route("/didactic_attendance/<employee_id>", methods=['GET'])
+def get_didactic_attendance_by_employeeid(employee_id):
+    specificDidacticList = didactic_attendance.query.filter_by(Employee_ID=employee_id).all()
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in specificDidacticList]
+        }
+    ), 200
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀

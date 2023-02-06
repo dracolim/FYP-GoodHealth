@@ -71,18 +71,25 @@ CREATE TABLE `Case_Log` (
 
 CREATE TABLE `Didactic_Attendance` (
   `Employee_ID` varchar(50) NOT NULL,
-  `MCR_No` varchar(50) NOT NULL,
-  `Staff_Name` varchar(50) NOT NULL,
-  `Designation` varchar(50) NOT NULL,
-  `Department` varchar(50) NOT NULL,
-  `Institution` varchar(50) NOT NULL,
+  `Billing_Name` varchar(50) NOT NULL,
+  `Month` varchar(50) NOT NULL,
+  `Total_Tracked_Sessions` varchar(50) NOT NULL,
+  `Number_Sessions_Attended` varchar(50) NOT NULL,
+  `Percentage_Sessions_Attended` varchar(50) NOT NULL,
   `MMYYYY` varchar(50) NOT NULL,
   `Posting_Institution` varchar(50) NOT NULL,
   `Posting_Department` varchar(50) NOT NULL,
-  `Attended_Teachings` varchar(50) NOT NULL,
-  `Scheduled_Teachings` varchar(50) NOT NULL,
-  `Compliance_or_Not` varchar(50) NOT NULL
+  `Compliance_or_Not` varchar(50) NOT NULL,
+  `Didactic_Attendance_Deleted` boolean DEFAULT false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `Didactic_Attendance` (`Employee_ID`, `Billing_Name`, `Month`, 
+`Total_Tracked_Sessions`, `Number_Sessions_Attended`, `Percentage_Sessions_Attended`, `MMYYYY`, `Posting_Institution`, `Posting_Department`, `Compliance_or_Not`, `Didactic_Attendance_Deleted`) VALUES
+('MOM12390', 'SGHGasEnt', 'July', '14', '14', '100%', '072023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
+('MOM12390', 'SGHGasEnt', 'August', '14', '10', '71%', '082023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
+('MOM05233', 'CGHGasHep', 'July', '12', '12', '100%', '072023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
+('MOM05233', 'CGHGasHep', 'August', '12', '10', '83%', '082023', 'TestInstitution', 'TestDepartment', 'Yes', 'false');
+
 
 -- --------------------------------------------------------
 
