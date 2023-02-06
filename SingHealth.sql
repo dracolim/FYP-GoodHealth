@@ -21,7 +21,8 @@ SET time_zone = "+00:00";
 -- Database: `SingHealth`
 --
 
--- --------------------------------------------------------
+CREATE DATABASE SingHealth;
+USE SingHealth;
 
 --
 -- Table structure for table `Awards`
