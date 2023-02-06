@@ -574,20 +574,20 @@
                         // value: for each resident 
                         for (each in value) {
                             if (each == "Date_of_Birth" || each == "ACLS_Expiry_Date" || each ==
-                                "BCLS_Expiry_Date" || each == "Date_of_First_Dose" || each == "Date_of_Second_Dose"){
+                                "BCLS_Expiry_Date" || each == "Date_of_First_Dose" || each ==
+                                "Date_of_Second_Dose") {
                                 let date_string = value[each];
-                                if (date_string != ""){
-                                let date = new Date(date_string);
+                                if (date_string != "") {
+                                    let date = new Date(date_string);
 
-                                let year = date.getFullYear();
-                                let month = (date.getMonth() + 1).toString().padStart(2, "0");
-                                let day = date.getDate().toString().padStart(2, "0");
+                                    let year = date.getFullYear();
+                                    let month = (date.getMonth() + 1).toString().padStart(2, "0");
+                                    let day = date.getDate().toString().padStart(2, "0");
 
-                                let new_date_string = `${year}-${month}-${day}`;
+                                    let new_date_string = `${year}-${month}-${day}`;
 
-                                value[each] = new_date_string;
-                                }
-                                else{
+                                    value[each] = new_date_string;
+                                } else {
                                     value[each] = ""
                                 }
                             } else if (each == "Employee_id") {
@@ -596,8 +596,8 @@
                                 if (!this.programme_values.includes(value[each])) {
                                     this.programme_values.push(value[each])
                                 }
-                            } else if (each == "Contact_No_Work" || each == "Contact_No_Personal"){
-                                if (value[each] == "undefined"){
+                            } else if (each == "Contact_No_Work" || each == "Contact_No_Personal") {
+                                if (value[each] == "undefined") {
                                     value[each] = "";
                                 }
                             }
@@ -638,45 +638,79 @@
                                         data.Designation = row.values[4] || '';
                                         data.Programme = row.values[5] || '';
                                         data.Year_of_Training = row.values[6] || '';
-                                        data.Academic_Year = String(row.values[7]) || '';
+                                        data.Academic_Year = String(row.values[
+                                            7]) || '';
                                         data.Department = row.values[8] || '';
                                         data.Institution = row.values[9] || '';
-                                        data.Academic_Clinical_Programme = row.values[10] || '';
-                                        data.Employment_Status = row.values[11] ||'';
+                                        data.Academic_Clinical_Programme = row
+                                            .values[10] || '';
+                                        data.Employment_Status = row.values[11] ||
+                                            '';
                                         data.Nationality = row.values[12] || '';
                                         data.Date_of_Birth = row.values[13] || '';
                                         data.Gender = row.values[14] || '';
-                                        data.Registration_Type = row.values[15] ||'';
+                                        data.Registration_Type = row.values[15] ||
+                                            '';
                                         data.House_Blk_No = row.values[16] || '';
                                         data.Street = row.values[17] || '';
                                         data.Building_Name = row.values[18] || '';
                                         data.Unit_No = row.values[19] || '';
-                                        data.Postal_Code = String(row.values[20]) || '';
-                                        data.Contact_No_Work = String(row.values[21]) || '';
-                                        data.Contact_No_Personal = String(row.values[22]) ||'';
-                                        data.Email_Official = row.values[23].text ||'';
+                                        data.Postal_Code = String(row.values[20]) ||
+                                            '';
+                                        data.Contact_No_Work = String(row.values[
+                                            21]) || '';
+                                        data.Contact_No_Personal = String(row
+                                            .values[22]) || '';
+                                        data.Email_Official = row.values[23].text ||
+                                            '';
                                         data.Email_Personal = row.values[24] || '';
-                                        data.BCLS_Expiry_Date = row.values[25] ||'';
-                                        data.ACLS_Expiry_Date = row.values[26] ||'';
-                                        data.Covid_19_Vaccination_Status = row.values[27] || '';
-                                        data.Date_of_First_Dose = row.values[28] || '';
-                                        data.Date_of_Second_Dose = row.values[29] ||'';
-                                        data.Vaccination_Remarks = row.values[30] ||'';
+                                        data.BCLS_Expiry_Date = row.values[25] ||
+                                        '';
+                                        data.ACLS_Expiry_Date = row.values[26] ||
+                                        '';
+                                        data.Covid_19_Vaccination_Status = row
+                                            .values[27] || '';
+                                        data.Date_of_First_Dose = row.values[28] ||
+                                            '';
+                                        data.Date_of_Second_Dose = row.values[29] ||
+                                            '';
+                                        data.Vaccination_Remarks = row.values[30] ||
+                                            '';
                                         axios.post(url, data)
                                             .then(response => {
                                                 console.log(response.data)
                                             })
-                                            .then(response => {
-                                                console.log(response.data)
-                                            })
                                             .catch(error => {
-                                                this.error = error.response.data.message
+                                                this.error = error.response.data
+                                                    .message
                                             });
                                     }
-                                })
-                            } else {
-                                //console.log('hi')
-                            }
+                                })}
+                            // else if (sheet.name == "Awards") {
+                            //     sheet.eachRow((row, rowIndex) => {
+                            //         if (rowIndex > 1) {
+                            //             console.log(row)
+                            //             var url =
+                            //                 'http://localhost:5010/add_award';
+                            //             var data = {};
+                            //             data.Award_ID = row.values[1] || '';
+                            //             data.Employee_id = row.values[2] || '';
+                            //             data.Award_Category = row.values[3] || '';
+                            //             data.Name_of_Award = row.values[4] || '';
+                            //             data.FY_of_Award_Received = row.values[5] || '';
+                            //             data.Date_of_Award_Received = row.values[6] || '';
+                            //             data.Project_ID_Ref = row.values[7] || '';
+                            //             axios.post(url, data)
+                            //                 .then(response => {
+                            //                     console.log(response.data)
+                            //                 })
+                            //                 .catch(error => {
+                            //                     this.error = error.response.data
+                            //                         .message
+                            //                 });
+                            //         }
+                            //     })
+                            // }
                         })
                     })
                 }

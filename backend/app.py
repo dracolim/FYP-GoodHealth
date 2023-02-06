@@ -501,8 +501,6 @@ def get_grants_fields():
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
 # Read Existing awards (R)
-
-
 @app.route("/awards")
 def read_awards():
     awardsList = Awards.query.all()
@@ -520,6 +518,33 @@ def get_awards_fields():
     for column in Awards.__table__.columns:
         fields[column.name] = str(column.type)
     return jsonify(fields)
+
+# Add awards
+@app.route('/add_award', methods=['POST'])
+def create_award():
+    data = request.get_json()
+    print(data)
+    if not all(key in data.keys() for key in ('Award_ID', 'Employee_id', "Award_Category" , "Name_of_Award" , "FY_of_Award_Received",
+                "Date_of_Award_Received" , "Project_ID_Ref" 
+                )):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+    awards = Awards(**data)
+    try:
+        db.session.add(awards)
+        db.session.commit()
+        return jsonify(awards.to_dict()), 201
+    except Exception as e:
+        print("An error occurred:", e)
+        print("Stack trace:")
+        traceback.print_exc()
+    # except Exception:
+    #     return jsonify({
+    #         "message": "Unable to commit to database."
+    #     }), 500
+
+
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
@@ -596,7 +621,7 @@ def get_awards_fields():
 # ============================
 
 
-# Read Awards field/column name (R)
+# Read duty Hour field/column name (R)
 @app.route('/duty_hour_log', methods=['GET'])
 def get_duty_hour_log():
     dutyList = Duty_Hour_Log.query.all()
