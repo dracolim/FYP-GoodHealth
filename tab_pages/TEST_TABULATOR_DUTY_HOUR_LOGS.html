@@ -237,32 +237,36 @@
         mounted() {
 
             const API_URL_1 = 'http://localhost:5010/duty_hour_log';
-            const apiCalls = [
-                axios.get(API_URL_1),
-            ];
-            Promise.all(apiCalls)
-                .then(responses => {
-                    this.personal_details_datas = responses[0].data.data;
-                    console.log(this.personal_details_datas)
-                    console.log(this.personal_details_datas_duty_test)
-                })
-                .catch(error => {
-                    console.error(error);
+            // const apiCalls = [
+            //     axios.get(API_URL_1),
+            // ];
+            // Promise.all(apiCalls)
+            //     .then(responses => {
+            //         this.personal_details_datas = responses[0].data.data;
+            //         console.log(this.personal_details_datas)
+            //         console.log(this.personal_details_datas_duty_test)
+            //     })
+            //     .catch(error => {
+            //         console.error(error);
+            //     });
+            axios.get(API_URL_1)
+                .then(response => {
+                    var table = new Tabulator("#example-table", {
+                        data: response.data.data,
+                        index: "Employee_id",
+                        columns: [
+                            { title: "Employee_id", field: "Employee_id", sorter: "string", width: 200, editor: true },
+                            { title: "Duty_Hour_Log_deleted", field: "Duty_Hour_Log_deleted", sorter: "boolean", hozAlign: "center", formatter: "tickCross" },
+                            { title: "Level", field: "Level", sorter: "number" },
+                            { title: "Logged_for_month", field: "Logged_for_month", sorter: "string", cellClick: function (e, cell) { console.log("cell click") }, },
+                            { title: "MMYYYY", field: "MMYYYY", width: 200, editor: true },
+                            { title: "Submitted", field: "Submitted", sorter: "number" },
+                            { title: "Submitted_Proportion", field: "Submitted_Proportion", sorter: "number" },
+                        ],
+                    });
                 });
 
-
-            new Tabulator("#example-table", {
-                data: this.personal_details_datas_duty_test,
-                columns: [
-                    { title: "Employee_id", field: "Employee_id", sorter: "string" , width: 200, editor: true},
-                    { title: "Duty_Hour_Log_deleted", field: "Duty_Hour_Log_deleted", sorter: "boolean", hozAlign: "center", formatter: "tickCross" },
-                    { title: "Level", field: "Level", sorter: "number" },
-                    { title: "Logged_for_month", field: "Logged_for_month", sorter: "string", cellClick: function (e, cell) { console.log("cell click") }, },
-                    { title: "MMYYYY", field: "MMYYYY", width: 200, editor: true },
-                    { title: "Submitted", field: "Submitted", sorter: "number" },
-                    { title: "Submitted_Proportion", field: "Submitted_Proportion", sorter: "number" },
-                ],
-            });
+            
         }
     });
 </script>
