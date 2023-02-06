@@ -255,18 +255,18 @@
                         data: response.data.data,
                         index: "Employee_id",
                         columns: [
-                            { title: "Employee_id", field: "Employee_id", sorter: "string", width: 200, editor: true },
-                            { title: "Duty_Hour_Log_deleted", field: "Duty_Hour_Log_deleted", sorter: "boolean", hozAlign: "center", formatter: "tickCross" },
-                            { title: "Level", field: "Level", sorter: "number" },
-                            { title: "Logged_for_month", field: "Logged_for_month", sorter: "string", cellClick: function (e, cell) { console.log("cell click") }, },
-                            { title: "MMYYYY", field: "MMYYYY", width: 200, editor: true },
-                            { title: "Submitted", field: "Submitted", sorter: "number" },
-                            { title: "Submitted_Proportion", field: "Submitted_Proportion", sorter: "number" },
+                            { title: "Employee_id", field: "Employee_id", sorter: "string", headerFilter: "input", headerFilter: "list", headerFilterParams: { valuesLookup: true, clearable: true }, width: 200, editor: true },
+                            { title: "Duty_Hour_Log_deleted", field: "Duty_Hour_Log_deleted", sorter: "boolean", hozAlign: "center", formatter: "tickCross", headerFilter: "tickCross", headerFilterParams: { "tristate": true }, headerFilterEmptyCheck: function (value) { return value === null } },
+                            { title: "Level", field: "Level", sorter: "number", headerFilter: "input" },
+                            { title: "Logged_for_month", field: "Logged_for_month", sorter: "string", cellClick: function (e, cell) { console.log("cell click") }, headerFilter: "list", headerFilterParams: { valuesLookup: true, clearable: true } },
+                            { title: "MMYYYY", field: "MMYYYY", width: 200, editor: true, headerFilter: "input", },
+                            { title: "Submitted", field: "Submitted", sorter: "number", headerFilter: "list", headerFilterParams: { valuesLookup: true, clearable: true } },
+                            { title: "Submitted_Proportion", field: "Submitted_Proportion", sorter: "number", headerFilter: "list", headerFilterParams: { valuesLookup: true, clearable: true } },
                         ],
                     });
                 });
 
-            
+
         }
     });
 </script>
