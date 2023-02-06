@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import json
 import pandas as pd
+import traceback
 
 app = Flask(__name__)
 # # Mac user ====================================================================
@@ -54,40 +55,40 @@ CORS(app)
 
 class Personal_Details(db.Model):
     __tablename__ = 'Personal_Details'
-    Employee_id = db.Column(db.String(100), primary_key=True)
-    MCR_No = db.Column(db.String(100))
-    Staff_Name = db.Column(db.String(100))
-    Designation = db.Column(db.String(100))
+    Employee_id = db.Column(db.String(50), primary_key=True)
+    MCR_No = db.Column(db.String(50))
+    Staff_Name = db.Column(db.String(50))
+    Designation = db.Column(db.String(50))
 
-    Programme = db.Column(db.String(100))
-    Year_of_Training = db.Column(db.String(100))
-    Academic_Year = db.Column(db.Integer)
-    Department = db.Column(db.String(100))
+    Programme = db.Column(db.String(50))
+    Year_of_Training = db.Column(db.String(50))
+    Academic_Year = db.Column(db.String(50))
+    Department = db.Column(db.String(50))
 
-    Institution = db.Column(db.String(100))
-    Academic_Clinical_Programme = db.Column(db.String(100))
-    Employment_Status = db.Column(db.String(100))
-    Nationality = db.Column(db.String(100))
-    Date_of_Birth = db.Column(db.DateTime)
+    Institution = db.Column(db.String(50))
+    Academic_Clinical_Programme = db.Column(db.String(50))
+    Employment_Status = db.Column(db.String(50))
+    Nationality = db.Column(db.String(50))
+    Date_of_Birth = db.Column(db.String(50))
 
-    Gender = db.Column(db.String(100))
-    Registration_Type = db.Column(db.String(100))
-    House_Blk_No = db.Column(db.String(100))
-    Street = db.Column(db.String(100))
-    Building_Name = db.Column(db.String(100))
-    Unit_No = db.Column(db.String(100))
-    Postal_Code = db.Column(db.Integer)
-    Contact_No_Work = db.Column(db.Integer)
-    Contact_No_Personal = db.Column(db.Integer)
+    Gender = db.Column(db.String(50))
+    Registration_Type = db.Column(db.String(50))
+    House_Blk_No = db.Column(db.String(50))
+    Street = db.Column(db.String(50))
+    Building_Name = db.Column(db.String(50))
+    Unit_No = db.Column(db.String(50))
+    Postal_Code = db.Column(db.String(50))
+    Contact_No_Work = db.Column(db.String(50))
+    Contact_No_Personal = db.Column(db.String(50))
 
-    Email_Official = db.Column(db.String(100))
-    Email_Personal = db.Column(db.String(100))
-    BCLS_Expiry_Date = db.Column(db.DateTime)
-    ACLS_Expiry_Date = db.Column(db.DateTime)
-    Covid_19_Vaccination_Status = db.Column(db.String(100))
-    Date_of_First_Dose = db.Column(db.DateTime)
-    Date_of_Second_Dose = db.Column(db.DateTime)
-    Vaccination_Remarks = db.Column(db.String(100))
+    Email_Official = db.Column(db.String(50))
+    Email_Personal = db.Column(db.String(50))
+    BCLS_Expiry_Date = db.Column(db.String(50))
+    ACLS_Expiry_Date = db.Column(db.String(50))
+    Covid_19_Vaccination_Status = db.Column(db.String(50))
+    Date_of_First_Dose = db.Column(db.String(50))
+    Date_of_Second_Dose = db.Column(db.String(50))
+    Vaccination_Remarks = db.Column(db.String(50))
     Personal_Details_deleted = db.Column(db.Boolean(), default=False, nullable=False)
 
     __mapper_args__ = {
@@ -334,10 +335,14 @@ def create_personal_detail():
         db.session.add(personalDetails)
         db.session.commit()
         return jsonify(personalDetails.to_dict()), 201
-    except Exception:
-        return jsonify({
-            "message": "Unable to commit to database."
-        }), 500
+    except Exception as e:
+        print("An error occurred:", e)
+        print("Stack trace:")
+        traceback.print_exc()
+    # except Exception:
+    #     return jsonify({
+    #         "message": "Unable to commit to database."
+    #     }), 500
 
 
 # ============================
@@ -496,8 +501,6 @@ def get_grants_fields():
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
 # Read Existing awards (R)
-
-
 @app.route("/awards")
 def read_awards():
     awardsList = Awards.query.all()
@@ -515,6 +518,33 @@ def get_awards_fields():
     for column in Awards.__table__.columns:
         fields[column.name] = str(column.type)
     return jsonify(fields)
+
+# Add awards
+@app.route('/add_award', methods=['POST'])
+def create_award():
+    data = request.get_json()
+    print(data)
+    if not all(key in data.keys() for key in ('Award_ID', 'Employee_id', "Award_Category" , "Name_of_Award" , "FY_of_Award_Received",
+                "Date_of_Award_Received" , "Project_ID_Ref" 
+                )):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+    awards = Awards(**data)
+    try:
+        db.session.add(awards)
+        db.session.commit()
+        return jsonify(awards.to_dict()), 201
+    except Exception as e:
+        print("An error occurred:", e)
+        print("Stack trace:")
+        traceback.print_exc()
+    # except Exception:
+    #     return jsonify({
+    #         "message": "Unable to commit to database."
+    #     }), 500
+
+
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
@@ -591,7 +621,7 @@ def get_awards_fields():
 # ============================
 
 
-# Read Awards field/column name (R)
+# Read duty Hour field/column name (R)
 @app.route('/duty_hour_log', methods=['GET'])
 def get_duty_hour_log():
     dutyList = Duty_Hour_Log.query.all()
