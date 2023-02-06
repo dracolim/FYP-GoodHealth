@@ -61,7 +61,7 @@ class Personal_Details(db.Model):
 
     Programme = db.Column(db.String(100))
     Year_of_Training = db.Column(db.String(100))
-    Academic_Year = db.Column(db.String(100))
+    Academic_Year = db.Column(db.Integer)
     Department = db.Column(db.String(100))
 
     Institution = db.Column(db.String(100))
@@ -76,9 +76,9 @@ class Personal_Details(db.Model):
     Street = db.Column(db.String(100))
     Building_Name = db.Column(db.String(100))
     Unit_No = db.Column(db.String(100))
-    Postal_Code = db.Column(db.String(100))
-    Contact_No_Work = db.Column(db.String(100))
-    Contact_No_Personal = db.Column(db.String(100))
+    Postal_Code = db.Column(db.Integer)
+    Contact_No_Work = db.Column(db.Integer)
+    Contact_No_Personal = db.Column(db.Integer)
 
     Email_Official = db.Column(db.String(100))
     Email_Personal = db.Column(db.String(100))
@@ -315,7 +315,7 @@ def get_personal_details_fields():
     return jsonify(fields)
 
 # Add personaldetails
-@app.route('/personal_detail', methods=['POST'])
+@app.route('/add_personal_detail', methods=['POST'])
 def create_personal_detail():
     data = request.get_json()
     print(data)
@@ -324,7 +324,7 @@ def create_personal_detail():
                 "Academic_Clinical_Programme" , "Employment_Status" , "Nationality" ,"Date_of_Birth" , "Gender",
                 "Registration_Type", "House_Blk_No" , "Street" , "Building_Name" , "Unit_No" , "Postal_Code" ,"Contact_No_Work",
                 "Contact_No_Personal", "Email_Official" ,"Email_Personal", "BCLS_Expiry_Date","ACLS_Expiry_Date",
-                "Covid_19_Vaccination_Status" , "Date_of_First_Dose" ,"Date_of_Second_Dose" ,"Vaccination_Remark"
+                "Covid_19_Vaccination_Status" , "Date_of_First_Dose" ,"Date_of_Second_Dose" ,"Vaccination_Remarks"
                 )):
         return jsonify({
             "message": "Incorrect JSON object provided."

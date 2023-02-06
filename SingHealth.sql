@@ -270,7 +270,7 @@ CREATE TABLE `Personal_Details` (
   `Designation` varchar(50) NOT NULL,
   `Programme` varchar(50) NOT NULL,
   `Year_of_Training` varchar(50) NOT NULL,
-  `Academic_Year` varchar(50) NOT NULL,
+  `Academic_Year` INT NULL,
   `Department` varchar(50) NOT NULL,
   `Institution` varchar(50) NOT NULL,
   `Academic_Clinical_Programme` varchar(50) NOT NULL,
@@ -283,9 +283,9 @@ CREATE TABLE `Personal_Details` (
   `Street` varchar(50) NOT NULL,
   `Building_Name` varchar(50) NOT NULL,
   `Unit_No` varchar(50) NOT NULL,
-  `Postal_Code` varchar(50) NOT NULL,
-  `Contact_No_Work` varchar(50) NOT NULL,
-  `Contact_No_Personal` varchar(50) NOT NULL,
+  `Postal_Code` INT NULL,
+  `Contact_No_Work` INT NULL,
+  `Contact_No_Personal` INT NULL,
   `Email_Official` varchar(50) NOT NULL,
   `Email_Personal` varchar(50) NOT NULL,
   `BCLS_Expiry_Date` date NULL,
@@ -312,22 +312,22 @@ INSERT INTO `Personal_Details` (`Employee_ID`, `MCR_No`, `Staff_Name`, `Designat
 
 ) VALUES
 ('one111', "1A", 'lim', 'doctor', 
-'cardiology', "2010", "2010", 'cardiology',
+'cardiology', "SR3", 2010, 'cardiology',
 'institution', 'academic clinical programme', 'employementstatus', 'nationality',
 '2008-11-11', 'Female', 'Registration_Type1','House_Blk_No',
 'Street1', 'Building_Name1', 'Unit_No1', 'Postal_Code',
-'Contact_No_Work1', 'Contact_No_Personal1', 'Email_Official1', 'Email_Personal1',
+88284187, '' , 'Email_Official1', 'Email_Personal1',
 '2008-11-11', '2008-11-11', 'Covid_19_Vaccination_Status1', '2008-11-11',
 '2008-11-11', 'Vaccination_Remarks'
 ),
 ('MOM12390', 'M11367A', 'Daniel Tyler', 'Senior Resident', 'Gastroenterology', 
-'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-11-11', 
-'Male', 'Full', '', '11A Tanglin Hill', '', '', '248000', '92343980', '91391470', 
+'SR2', 2022, 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-11-11', 
+'Male', 'Full', '', '11A Tanglin Hill', '', '', '248000', 92343980, 91391470, 
 'daniel.tyler@mohh.com.sg', '', '1919-07-20', '1919-04-29', 'Yes', '21-03-30', '2021-04-20', ''),
 
 ('MOM05690', 'M88791Z', 'Kang Hyun Bin', 
-'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 
-'Singaporean', '1991-12-05', 'Male', 'Full', '', 'Lorong Gambir', '', '', '536000', '', '91515780', 
+'Senior Resident', 'Gastroenterology', 'SR3', 2022, 'Residency', 'MOHH', 'Medicine', 'Active', 
+'Singaporean', '1991-12-05', 'Male', 'Full', '', 'Lorong Gambir', '', '', '536000', '', 91515780, 
 'hyunbin.kang@mohh.com.sg', '', NULL, NULL, 'Yes', '2021-02-09', '2021-03-02', '');
 
 
@@ -598,11 +598,9 @@ ALTER TABLE `Grants`
   ADD KEY `Project ID` (`Project_ID`);
 
 INSERT INTO `Grants` (`Name_of_Grant`, `Employee_ID`, `Project_ID`) VALUES
-(NULL, 'm,', NULL, NULL, NULL, NULL, NULL, '2023-02-03 22:37:42', '2023-02-03 22:37:42'),
-(NULL, 'm,', NULL, NULL, NULL, NULL, NULL, '2023-02-03 22:37:42', '2023-02-03 22:37:42'),
-('one111', NULL, NULL, ' ', NULL, ' m', NULL, '2023-02-03 22:39:30', '2023-02-03 22:39:30'),
-('one111', 'n', NULL, ' ', 'n', 'n', NULL, '2023-02-03 22:50:25', '2023-02-03 22:50:25'),
-('one111', 'n', NULL, ' ', 'n', 'n', NULL, '2023-02-03 22:50:25', '2023-02-03 22:50:25');
+('one111', NULL, NULL, ' ', NULL, ' m', NULL, ' ', ' ','2023-02-03 22:39:30', '2023-02-03 22:39:30'),
+('one111', 'n', NULL, ' ', 'n', 'n', NULL, ' ', ' ','2023-02-03 22:50:25', '2023-02-03 22:50:25'),
+('one111', 'n', NULL, ' ', 'n', 'n', NULL,' ', ' ', '2023-02-03 22:50:25', '2023-02-03 22:50:25');
 --
 -- Indexes for table `Involvement`
 --

@@ -164,7 +164,7 @@
                         <h3 class="mb-4 text-xl font-medium text-gray-900 ">Upload Excel Sheet</h3>
                         <form class="space-y-6" method="post">
                             <input
-                                class="block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+                                class="block w-full text-md text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
                                 id="large_size" type="file" name="excel" @change="importExcel">
                             <button type="submit" value="Submit"
                                 class="w-full text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
@@ -175,8 +175,7 @@
         </div>
 
         <!-- Dropdown menu for PROGRAMME -->
-        <div id="dropdownRadio"
-            class="z-10 hidden w-48 bg-white divide-y divide-gray-100 rounded-lg shadow "
+        <div id="dropdownRadio" class="z-10 hidden w-48 bg-white divide-y divide-gray-100 rounded-lg shadow "
             data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="top"
             style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(522.5px, 3847.5px, 0px);">
             <ul class="p-3 space-y-1 text-sm text-gray-700 " aria-labelledby="dropdownRadioButton">
@@ -190,9 +189,6 @@
                 </li>
             </ul>
         </div>
-        <!-- <select id="projectfilter" name="projectfilter" class="table-filter form-control" data-col="2">
-            <option value=""  v-for = "program in programme_values">{{program}}</option>
-        </select> -->
 
         <!-- Table start -->
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg mx-8">
@@ -200,6 +196,11 @@
                 <!-- COLUMN NAMES -->
                 <thead class="text-xs text-white bg-orange-500">
                     <tr>
+                        <!-- Action col -->
+                        <th scope="col" class="px-6 py-3">
+                            <span
+                                class="inline-flex items-center bg-orange-500 text-white focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5">Action</span>
+                        </th>
                         <th scope="col" class="px-6 py-3" v-for="field in fields_display">
                             <button id="dropdownRadioButton" data-dropdown-toggle="dropdownEmployee"
                                 class="inline-flex items-center bg-orange-500 text-white focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5"
@@ -212,24 +213,19 @@
                                 </svg>
                             </button>
                         </th>
-                        <!-- Action col -->
-                        <th scope="col" class="px-6 py-3">
-                            <span
-                                class="inline-flex items-center bg-orange-500 text-white focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5">Action</span>
-                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- 1 row = 1 reisdent = 1 key -->
                     <tr class="bg-orange-100 border-b border-blue-400" v-for="(value,key) in personal_details_datas">
+                        <td class="flex items-center px-6 py-4 space-x-3">
+                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                            <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
+                        </td>
                         <td class="px-6 py-4 font-medium text-black whitespace-nowrap"
-                            v-for="field in personal_details_fields">
+                            v-for="(value2, field) in personal_details_fields">
                             <a href="#" v-if="field == 'Employee_id'">{{value[field]}}</a>
                             <span v-else>{{value[field]}}</span>
-                        </td>
-                        <td class="flex items-center px-6 py-4 space-x-3">
-                            <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
-                            <a href="#" class="font-medium text-red-600  hover:underline">Remove</a>
                         </td>
                     </tr>
                 </tbody>
@@ -518,11 +514,12 @@
             Promise.all(apiCalls)
                 .then(responses => {
                     this.personal_details_datas = responses[1].data.data;
+                    this.personal_details_fields = responses[0].data;
                     // this.personal_details_fields.push("Employee_id", "Staff_Name", "Gender",
                     //     "Date_of_Birth", "Nationality", "Programme",
                     //     "ACLS_Expiry_Date", "BCLS_Expiry_Date")
-                    this.fields_display.push("Employee ID", "Staff Name", "Gender", "Date of Birth",
-                        "Nationality", "Programme", "ACLS Expiry Date", "BCLS Expiry Date")
+                    // this.fields_display.push("Employee ID", "Staff Name", "Gender", "Date of Birth",
+                    //     "Nationality", "Programme", "ACLS Expiry Date", "BCLS Expiry Date")
                     for ([key, value] of Object.entries(this.personal_details_datas)) {
                         // key : number of resident
                         // value: for each resident 
@@ -548,6 +545,11 @@
                             }
                         }
                     }
+                    for (each in this.personal_details_fields) {
+                        let split = each.split("_");
+                        let joined = split.join(" ");
+                        this.fields_display.push(joined);
+                    }
                 })
                 .catch(error => {
                     console.error(error);
@@ -565,13 +567,13 @@
                     wb.xlsx.load(buffer).then(workbook => {
                         //console.log(workbook, 'workbook instance')
                         workbook.eachSheet((sheet, id) => {
-                            console.log(sheet.name) //sheet name (eg: personal details)
+                            //console.log(sheet.name) //sheet name (eg: personal details)
                             if (sheet.name == "Personal Details") {
                                 sheet.eachRow((row, rowIndex) => {
-                                    if (rowIndex != 1) {
-                                        console.log(row.values)
+                                    if (rowIndex > 1) {
+                                        //console.log(row.values[23].text)
                                         var url =
-                                            'http://localhost:5010/personal_detail'
+                                            'http://localhost:5010/add_personal_detail'
                                         axios.post(url, {
                                                 Employee_id: row.values[1],
                                                 MCR_No: row.values[2],
@@ -600,7 +602,7 @@
                                                 Contact_No_Work: row.values[21],
                                                 Contact_No_Personal: row.values[22],
 
-                                                Email_Official: row.values[23],
+                                                Email_Official: row.values[23].text,
                                                 Email_Personal: row.values[24],
                                                 BCLS_Expiry_Date: row.values[25],
                                                 ACLS_Expiry_Date: row.values[26],
@@ -613,14 +615,12 @@
                                                 console.log(response.data)
                                             })
                                             .catch(error => {
-                                                this.error = error.response.data
-                                                    .message
+                                                this.error = error.response.data.message
                                             });
                                     }
                                 })
-                            }
-                            else{
-                                console.log('hi')
+                            } else {
+                                //console.log('hi')
                             }
                         })
                     })
