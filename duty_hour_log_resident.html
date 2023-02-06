@@ -32,6 +32,7 @@
 
 <body>
 
+    <div id="main-container">
     <!-- header -->
     <div class="bg-stone-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded ">
         <div class="container flex flex-wrap items-center justify-between mx-auto" style="width: 100%; overflow: hidden;">
@@ -119,7 +120,7 @@
 
     <!-- for testing getDutyHourLogList method -->
     <button @click="getDutyHourLogList()">Click here to pull whole database over</button>
-    {{dutyHourLogList}}
+    {{allDutyHourLogList}}
 
     <!-- for testing getEmployeeDutyHourLogList method -->
     <button @click="getEmployeeDutyHourLogList('MOM05609')">Click here to pull only employee id MOM05609</button>
@@ -128,6 +129,9 @@
     <!-- for testing getYearlyEmployeeDutyHourLogList method -->
     <button @click="getYearlyEmployeeDutyHourLogList('MOM05609', '2020')">Click here to pull only employee id MOM05609 for 2020</button>
     {{yearlyEmployeeDutyHourLogList}}
+
+
+    </div>
 </body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
@@ -261,12 +265,12 @@
                 var config = {
                     method: 'get',
                     url: 'http://localhost:5010/duty_hour_log',
-                    headers: {},
+                    // headers: {},
                 };
                 allDutyHourLogList = []
                 await axios(config)
                     .then(function (response) {
-                        console.log(JSON.stringify(response.data.data));
+                        // console.log(JSON.stringify(response.data.data));
                         allDutyHourLogList = response.data.data
                         this.allDutyHourLogList = allDutyHourLogList
                     })
@@ -280,7 +284,7 @@
                 var config = {
                     method: 'get',
                     url: 'http://localhost:5010/duty_hour_log/' + employee_id,
-                    headers: {},
+                    // headers: {},
                 };
                 employeeDutyHourLogList = []
                 await axios(config)
@@ -298,7 +302,7 @@
                 var config = {
                     method: 'get',
                     url: 'http://localhost:5010/duty_hour_log/' + employee_id + '/' +  year
-                    headers: {},
+                    // headers: {},
                 };
                 yearlyEmployeeDutyHourLogList = []
                 await axios(config)
