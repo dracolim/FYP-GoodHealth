@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import json
 import pandas as pd
+import traceback
 
 app = Flask(__name__)
 # # Mac user ====================================================================
@@ -334,10 +335,14 @@ def create_personal_detail():
         db.session.add(personalDetails)
         db.session.commit()
         return jsonify(personalDetails.to_dict()), 201
-    except Exception:
-        return jsonify({
-            "message": "Unable to commit to database."
-        }), 500
+    except Exception as e:
+        print("An error occurred:", e)
+        print("Stack trace:")
+        traceback.print_exc()
+    # except Exception:
+    #     return jsonify({
+    #         "message": "Unable to commit to database."
+    #     }), 500
 
 
 # ============================
