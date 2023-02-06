@@ -16,25 +16,11 @@
 	<script src="https://cdn.jsdelivr.net/npm/xlsx@0.14.3/dist/xlsx.full.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datasource@0.1.0"></script>
 
-    <!-- Vue and Axios -->
+
+    <!-- VUE 3 -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <!-- Bootstrap libraries -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap 5 CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
-    </script>
-
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     
     <!-- Required meta tags -->
@@ -126,12 +112,22 @@
     <div class='row' style='height: 8px; background-color: #ff6b00;'></div>
 
     <!-- Canvas -->
-    <div class="shadow-lg rounded-lg overflow-hidden">
+    <!-- <div class="shadow-lg rounded-lg overflow-hidden">
         <div class="py-3 px-5 bg-gray-50">Didactic Performance</div>
         <canvas class="p-10" id="chartLine"></canvas>
-      </div>
+      </div> -->
 
-    
+    <!-- for testing getDutyHourLogList method -->
+    <button @click="getDutyHourLogList()">Click here to pull whole database over</button>
+    {{dutyHourLogList}}
+
+    <!-- for testing getEmployeeDutyHourLogList method -->
+    <button @click="getEmployeeDutyHourLogList('MOM05609')">Click here to pull only employee id MOM05609</button>
+    {{employeeDutyHourLogList}}
+
+    <!-- for testing getYearlyEmployeeDutyHourLogList method -->
+    <button @click="getYearlyEmployeeDutyHourLogList('MOM05609', '2020')">Click here to pull only employee id MOM05609 for 2020</button>
+    {{yearlyEmployeeDutyHourLogList}}
 </body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
@@ -171,81 +167,153 @@
     // document.getElementById("chartLine"),
     // configLineChart
     // );
+////////
+    // var chartColors = {
+    //     red: 'rgb(255, 99, 132)',
+    //     blue: 'rgb(54, 162, 235)'
+    // };
 
-    var chartColors = {
-        red: 'rgb(255, 99, 132)',
-        blue: 'rgb(54, 162, 235)'
-    };
+    // var color = Chart.helpers.color;
+    // var config = {
+    //     type: 'bar',
+    //     data: {
+    //         datasets: [{
+    //             type: 'line',
+    //             yAxisID: 'temperature',
+    //             backgroundColor: 'transparent',
+    //             borderColor: chartColors.red,
+    //             pointBackgroundColor: chartColors.red,
+    //             tension: 0,
+    //             fill: false
+    //         }, {
+    //             yAxisID: 'precipitation',
+    //             backgroundColor: color(chartColors.blue).alpha(0.5).rgbString(),
+    //             borderColor: 'transparent'
+    //         }]
+    //     },
+    //     plugins: [ChartDataSource],
+    //     options: {
+    //         title: {
+    //             display: true,
+    //             text: 'Sheet data source (dataset) sample'
+    //         },
+    //         scales: {
+    //             xAxes: [{
+    //                 scaleLabel: {
+    //                     display: true,
+    //                     labelString: 'Month'
+    //                 }
+    //             }],
+    //             yAxes: [{
+    //                 id: 'temperature',
+    //                 gridLines: {
+    //                     drawOnChartArea: false
+    //                 },
+    //                 scaleLabel: {
+    //                     display: true,
+    //                     labelString: 'Temperature (°C)'
+    //                 }
+    //             }, {
+    //                 id: 'precipitation',
+    //                 position: 'right',
+    //                 gridLines: {
+    //                     drawOnChartArea: false
+    //                 },
+    //                 scaleLabel: {
+    //                     display: true,
+    //                     labelString: 'Precipitation (mm)'
+    //                 }
+    //             }]
+    //         },
+    //         plugins: {
+    //             datasource: {
+    //                 type: 'sheet',
+    //                 url: 'test.xlsx',
+    //                 rowMapping: 'dataset',
+    //                 datasetLabels: 'Sheet1!A2:A3',
+    //                 indexLabels: 'Sheet1!B1:H1',
+    //                 data: 'Sheet1!B2:H3'
+    //             }
+    //         }
+    //     }
+    // };
 
-    var color = Chart.helpers.color;
-    var config = {
-        type: 'bar',
+    // window.onload = function() {
+    //     var ctx = document.getElementById('chartLine').getContext('2d');
+    //     window.myChart = new Chart(ctx, config);
+    // };
+
+</script>
+
+
+<!-- Vue component -->
+<script>
+
+    const vm = new Vue({
+        el: '#main-container',
         data: {
-            datasets: [{
-                type: 'line',
-                yAxisID: 'temperature',
-                backgroundColor: 'transparent',
-                borderColor: chartColors.red,
-                pointBackgroundColor: chartColors.red,
-                tension: 0,
-                fill: false
-            }, {
-                yAxisID: 'precipitation',
-                backgroundColor: color(chartColors.blue).alpha(0.5).rgbString(),
-                borderColor: 'transparent'
-            }]
+            allDutyHourLogList: [],
+            employeeDutyHourLogList: [],
+            yearlyEmployeeDutyHourLogList: [],
         },
-        plugins: [ChartDataSource],
-        options: {
-            title: {
-                display: true,
-                text: 'Sheet data source (dataset) sample'
+        methods: {
+            getDutyHourLogList: async function getDutyHourLogList() {
+                var config = {
+                    method: 'get',
+                    url: 'http://localhost:5010/duty_hour_log',
+                    headers: {},
+                };
+                allDutyHourLogList = []
+                await axios(config)
+                    .then(function (response) {
+                        console.log(JSON.stringify(response.data.data));
+                        allDutyHourLogList = response.data.data
+                        this.allDutyHourLogList = allDutyHourLogList
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                this.allDutyHourLogList = allDutyHourLogList
             },
-            scales: {
-                xAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Month'
-                    }
-                }],
-                yAxes: [{
-                    id: 'temperature',
-                    gridLines: {
-                        drawOnChartArea: false
-                    },
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Temperature (°C)'
-                    }
-                }, {
-                    id: 'precipitation',
-                    position: 'right',
-                    gridLines: {
-                        drawOnChartArea: false
-                    },
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Precipitation (mm)'
-                    }
-                }]
-            },
-            plugins: {
-                datasource: {
-                    type: 'sheet',
-                    url: 'test.xlsx',
-                    rowMapping: 'dataset',
-                    datasetLabels: 'Sheet1!A2:A3',
-                    indexLabels: 'Sheet1!B1:H1',
-                    data: 'Sheet1!B2:H3'
-                }
-            }
-        }
-    };
 
-    window.onload = function() {
-        var ctx = document.getElementById('chartLine').getContext('2d');
-        window.myChart = new Chart(ctx, config);
-    };
+            getEmployeeDutyHourLogList: async function getEmployeeDutyHourLogList(employee_id) {
+                var config = {
+                    method: 'get',
+                    url: 'http://localhost:5010/duty_hour_log/' + employee_id,
+                    headers: {},
+                };
+                employeeDutyHourLogList = []
+                await axios(config)
+                    .then(function (response) {
+                        employeeDutyHourLogList = response.data.data
+                        this.employeeDutyHourLogList = employeeDutyHourLogList
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                this.employeeDutyHourLogList = employeeDutyHourLogList
+            },
+
+            getYearlyEmployeeDutyHourLogList: async function getYearlyEmployeeDutyHourLogList(employee_id, year) {
+                var config = {
+                    method: 'get',
+                    url: 'http://localhost:5010/duty_hour_log/' + employee_id + '/' +  year
+                    headers: {},
+                };
+                yearlyEmployeeDutyHourLogList = []
+                await axios(config)
+                    .then(function (response) {
+                        yearlyEmployeeDutyHourLogList = response.data.data
+                        this.yearlyEmployeeDutyHourLogList = yearlyEmployeeDutyHourLogList
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                this.yearlyEmployeeDutyHourLogList = yearlyEmployeeDutyHourLogList
+            },
+
+        }
+    });
 
 </script>
 
