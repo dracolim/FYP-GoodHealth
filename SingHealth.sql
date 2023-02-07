@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Feb 06, 2023 at 10:53 AM
+-- Generation Time: Feb 07, 2023 at 08:09 AM
 -- Server version: 5.7.34
 -- PHP Version: 7.4.21
 
@@ -21,8 +21,7 @@ SET time_zone = "+00:00";
 -- Database: `SingHealth`
 --
 
-CREATE DATABASE SingHealth;
-USE SingHealth;
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `Awards`
@@ -35,8 +34,17 @@ CREATE TABLE `Awards` (
   `FY_of_Award_Received` varchar(50) NOT NULL,
   `Date_of_Award_Received` varchar(50) NOT NULL,
   `Project_ID` varchar(50) NOT NULL,
-  `Awards_deleted` tinyint(1) DEFAULT '0'
+  `Awards_deleted` varchar(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Awards`
+--
+
+INSERT INTO `Awards` (`Employee_ID`, `Award_Category`, `Name_of_Award`, `FY_of_Award_Received`, `Date_of_Award_Received`, `Project_ID`, `Awards_deleted`) VALUES
+('one111', '', 'aerbaewrb', '', 'stbsetb', '', '0'),
+('fififi', '', '', '', '', '', '0'),
+('1234o19', '', 'fff', '', '', '', '0');
 
 -- --------------------------------------------------------
 
@@ -46,6 +54,7 @@ CREATE TABLE `Awards` (
 
 CREATE TABLE `Case_Log` (
   `Employee_ID` varchar(50) NOT NULL,
+  `Case_Name` varchar(50) NOT NULL,
   `Subspecialty` varchar(50) NOT NULL,
   `Type_of_Case_Log` varchar(50) NOT NULL,
   `Date_of_Log` varchar(50) NOT NULL,
@@ -57,6 +66,14 @@ CREATE TABLE `Case_Log` (
   `Certified` varchar(50) NOT NULL,
   `Case_Log_deleted` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Case_Log`
+--
+
+INSERT INTO `Case_Log` (`Employee_ID`, `Case_Name`, `Subspecialty`, `Type_of_Case_Log`, `Date_of_Log`, `CPT`, `Total`, `Performed`, `Observed`, `Verified`, `Certified`, `Case_Log_deleted`) VALUES
+('', '', '', '', '', '', '', '', '', '', '', 0),
+('1234o19', '', '', '', '', '', '', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -88,7 +105,9 @@ INSERT INTO `Didactic_Attendance` (`Employee_ID`, `BillingName`, `Month`, `Total
 ('MOM05233', 'SGHGasEnt', 'July', '20', '20', '100%', '', '', '', '', '', 0),
 ('MOM07177', 'SGHGasEnt', 'July', '14', '12', '86%', '', '', '', '', '', 0),
 ('MOM05609', 'CGHGasHep', 'July', '12', '9', '75%', '', '', '', '', '', 0),
-('MOM05690', 'CGHGasHep', 'July', '12', '12', '100%', '', '', '', '', '', 0);
+('MOM05690', 'CGHGasHep', 'July', '12', '12', '100%', '', '', '', '', '', 0),
+('', '', '', '', '', '', '', '', '', '', '', 0),
+('1234o19', '', '', '', '', '', '', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -115,7 +134,9 @@ INSERT INTO `Duty_Hour_Log` (`Employee_ID`, `Level`, `Submitted`, `Submitted_Pro
 ('MOM05233', '4', '4', '0.3', 'Mar-20', 'Yes', 0),
 ('MOM07177', '4', '0', '0', 'Mar-20', 'Yes', 0),
 ('MOM05609', '4', '3', '1', 'Mar-20', 'Yes', 0),
-('MOM05690', '4', '4', '1', 'Mar-20', 'Yes', 0);
+('MOM05690', '4', '4', '1', 'Mar-20', 'Yes', 0),
+('', '', '', '', '', '', 0),
+('1234o19', '', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -139,6 +160,14 @@ CREATE TABLE `Education_History` (
   `Education_History_deleted` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `Education_History`
+--
+
+INSERT INTO `Education_History` (`Employee_ID`, `Year_of_Graduation`, `Date_of_Graduation`, `Basic_Qualification`, `Medical_School`, `Country_of_Graduation`, `IM_Residency_Start_Date`, `IM_Residency_End_Date`, `SR_Residency_Programme`, `SR_Residency_Start_Date`, `SR_Residency_End_Date`, `PG_Year`, `Education_History_deleted`) VALUES
+('', '', '', '', '', '', '', '', '', '', '', '', 0),
+('1234o19', '', '', '', '', '', '', '', '', '', '', '', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -157,6 +186,13 @@ CREATE TABLE `Evaluations` (
   `Answer` varchar(50) NOT NULL,
   `Evaluations_deleted` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Evaluations`
+--
+
+INSERT INTO `Evaluations` (`Employee_ID`, `Year_of_Training`, `Rotation_Period`, `Name_of_Evaluation_Form`, `Question_Number`, `Score`, `Evaluator`, `Service`, `Answer`, `Evaluations_deleted`) VALUES
+('', '', '', '', '', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -350,9 +386,16 @@ CREATE TABLE `Personal_Details` (
 --
 
 INSERT INTO `Personal_Details` (`Employee_ID`, `MCR_No`, `Staff_Name`, `Designation`, `Programme`, `Year_of_Training`, `Academic_Year`, `Department`, `Institution`, `Academic_Clinical_Programme`, `Employment_Status`, `Nationality`, `Date_of_Birth`, `Gender`, `Registration_Type`, `House_Blk_No`, `Street`, `Building_Name`, `Unit_No`, `Postal_Code`, `Contact_No_Work`, `Contact_No_Personal`, `Email_Official`, `Email_Personal`, `BCLS_Expiry_Date`, `ACLS_Expiry_Date`, `Covid_19_Vaccination_Status`, `Date_of_First_Dose`, `Date_of_Second_Dose`, `Vaccination_Remarks`, `Personal_Details_deleted`) VALUES
+('1234o19', '', 'kevjn', '', '', '', '', '', 'dkjn', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
+('crab25', '', '', 'khivycfyrx', '', '', '', '', 'jghfuytezy', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
+('fififi', '', 'hkgcfxtyd', '', '', '', '', 'hgcfxd', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
+('fififififi', '', '', '', '', 'jhgvchfx', '', '', 'bvgx', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
 ('MOM05690', 'M88791Z', 'Kang Hyun Bin', 'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-12-05', 'Male', 'Full', '', 'Lorong Gambir', '', '', '536000', '', '91515780', 'hyunbin.kang@mohh.com.sg', '', NULL, NULL, 'Yes', '2021-02-09', '2021-03-02', '', 0),
 ('MOM12390', 'M11367A', 'Daniel Tyler', 'Senior Resident', 'Gastroenterology', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-11-11', 'Male', 'Full', '', '11A Tanglin Hill', '', '', '248000', '92343980', '91391470', 'daniel.tyler@mohh.com.sg', '', '1919-07-20', '1919-04-29', 'Yes', '2021-03-30', '2021-04-20', '', 0),
-('one111', '1A', 'lim', 'doctor', 'cardiology', '2010', '2010', 'cardiology', 'institution', 'academic clinical programme', 'employementstatus', 'nationality', '2008-11-11', 'Female', 'Registration_Type1', 'House_Blk_No', 'Street1', 'Building_Name1', 'Unit_No1', 'Postal_Code', 'Contact_No_Work1', 'Contact_No_Personal1', 'Email_Official1', 'Email_Personal1', '2008-11-11', '2008-11-11', 'Covid_19_Vaccination_Status1', '2008-11-11', '2008-11-11', 'Vaccination_Remarks', 0);
+('one111', '1A', 'lim', 'doctor', 'cardiology', '2010', '2010', 'cardiology', 'institution', 'academic clinical programme', 'employementstatus', 'nationality', '2008-11-11', 'Female', 'Registration_Type1', 'House_Blk_No', 'Street1', 'Building_Name1', 'Unit_No1', 'Postal_Code', 'Contact_No_Work1', 'Contact_No_Personal1', 'Email_Official1', 'Email_Personal1', '2008-11-11', '2008-11-11', 'Covid_19_Vaccination_Status1', '2008-11-11', '2008-11-11', 'Vaccination_Remarks', 0),
+('two222', '', '', 'sabaw', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
+('two223', '', '', '', 'juuvuu', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
+('two445', '', '', '', '', 'jhgcyfxt', '', '', '', '', '', '', ' nf', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -365,7 +408,8 @@ CREATE TABLE `Posting_History` (
   `Posting_Institution` varchar(50) NOT NULL,
   `Posting_Department` varchar(50) NOT NULL,
   `Posting_StartDate` varchar(50) NOT NULL,
-  `Posting_EndDate` varchar(50) NOT NULL
+  `Posting_EndDate` varchar(50) NOT NULL,
+  `Posting_History_deleted` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -381,7 +425,8 @@ CREATE TABLE `Presentations` (
   `Project_ID` varchar(50) NOT NULL,
   `Conference_Name` varchar(50) NOT NULL,
   `Country` varchar(50) NOT NULL,
-  `Presentation_Date` varchar(50) NOT NULL
+  `Presentation_Date` varchar(50) NOT NULL,
+  `Presentation_deleted` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -418,14 +463,14 @@ CREATE TABLE `Projects` (
   `End_Date` varchar(50) NOT NULL,
   `Date_of_QI_Certification` varchar(50) DEFAULT NULL,
   `PMID` varchar(50) DEFAULT NULL,
-  `Grants_deleted` tinyint(1) DEFAULT '0'
+  `Projects_deleted` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `Projects`
 --
 
-INSERT INTO `Projects` (`Employee_ID`, `Project_Type`, `Project_Title`, `Project_ID`, `Start_Date`, `End_Date`, `Date_of_QI_Certification`, `PMID`, `Grants_deleted`) VALUES
+INSERT INTO `Projects` (`Employee_ID`, `Project_Type`, `Project_Title`, `Project_ID`, `Start_Date`, `End_Date`, `Date_of_QI_Certification`, `PMID`, `Projects_deleted`) VALUES
 ('MOM12390', 'Qi', 'Creating an Intranet Site Showing Each Medical Departments Criteria for Inpatient Reviews', ' ', '2019', '2020', '', '', 0),
 ('MOM12390', '', '', '', '', '', '', '', 0),
 ('MOM05233', 'QI', 'Code Blue Documentation ', ' ', '2018', '2019', '', '', 0),
@@ -444,37 +489,39 @@ CREATE TABLE `Publications` (
   `Publication_Title` varchar(50) NOT NULL,
   `Journal_Title` varchar(50) NOT NULL,
   `PMID` varchar(50) NOT NULL,
-  `Publication_Date` varchar(50) NOT NULL
+  `Publication_Date` varchar(50) NOT NULL,
+  `Publication_deleted` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `Publications`
 --
 
-INSERT INTO `Publications` (`Employee_ID`, `Publication_Title`, `Journal_Title`, `PMID`, `Publication_Date`) VALUES
-('one111', 'juice', 'juice box', '123', '2023-01-03');
+INSERT INTO `Publications` (`Employee_ID`, `Publication_Title`, `Journal_Title`, `PMID`, `Publication_Date`, `Publication_deleted`) VALUES
+('one111', 'juice', 'juice box', '123', '2023-01-03', 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `TrgExtRemHistory`
+-- Table structure for table `TrgExtRem_History`
 --
 
-CREATE TABLE `TrgExtRemHistory` (
+CREATE TABLE `TrgExtRem_History` (
   `Employee_ID` varchar(100) DEFAULT ' ',
   `LOAPIP` varchar(100) DEFAULT NULL,
   `StartDate` varchar(50) DEFAULT NULL,
-  `EndDate` varchar(50) DEFAULT NULL
+  `EndDate` varchar(50) DEFAULT NULL,
+  `TrgExtRem_History_deleted` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `TrgExtRemHistory`
+-- Dumping data for table `TrgExtRem_History`
 --
 
-INSERT INTO `TrgExtRemHistory` (`Employee_ID`, `LOAPIP`, `StartDate`, `EndDate`) VALUES
-('one111', NULL, '2023-02-03 22:39:30', '2023-02-03 22:39:30'),
-('one111', NULL, '2023-02-03 22:50:25', '2023-02-03 22:50:25'),
-('one111', NULL, '2023-02-03 22:50:25', '2023-02-03 22:50:25');
+INSERT INTO `TrgExtRem_History` (`Employee_ID`, `LOAPIP`, `StartDate`, `EndDate`, `TrgExtRem_History_deleted`) VALUES
+('one111', NULL, '2023-02-03 22:39:30', '2023-02-03 22:39:30', 0),
+('one111', NULL, '2023-02-03 22:50:25', '2023-02-03 22:50:25', 0),
+('one111', NULL, '2023-02-03 22:50:25', '2023-02-03 22:50:25', 0);
 
 --
 -- Indexes for dumped tables
@@ -580,9 +627,9 @@ ALTER TABLE `Publications`
   ADD KEY `Employee_ID` (`Employee_ID`);
 
 --
--- Indexes for table `TrgExtRemHistory`
+-- Indexes for table `TrgExtRem_History`
 --
-ALTER TABLE `TrgExtRemHistory`
+ALTER TABLE `TrgExtRem_History`
   ADD KEY `Employee_ID` (`Employee_ID`);
 
 --
