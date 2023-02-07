@@ -912,7 +912,6 @@ def get_duty_hour_log():
         }
     ), 200
 
-<<<<<<< Updated upstream
 # Add duty hour 
 @app.route('/add_duty_hour', methods=['POST'])
 def create_duty_hour():
@@ -934,7 +933,6 @@ def create_duty_hour():
         print("Stack trace:")
         traceback.print_exc()
 
-=======
 from sqlalchemy import create_engine
 from sqlalchemy import inspect
 engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
@@ -955,7 +953,6 @@ def get_all_tables():
         }
     ), 200
     print(insp.get_table_names(),'OSJVGNWOEVNWOECNVWEOICMWEOI')
->>>>>>> Stashed changes
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
