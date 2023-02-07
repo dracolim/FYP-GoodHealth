@@ -21,6 +21,11 @@ SET time_zone = "+00:00";
 -- Database: `SingHealth`
 --
 
+drop database if exists SingHealth;
+CREATE DATABASE IF NOT EXISTS SingHealth DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE SingHealth;
+
+
 -- --------------------------------------------------------
 
 --
@@ -28,13 +33,15 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `Awards` (
+  `id` INT AUTO_INCREMENT NOT NULL,
   `Employee_ID` varchar(50) NOT NULL,
   `Award_Category` varchar(50) NOT NULL,
   `Name_of_Award` varchar(50) NOT NULL,
   `FY_of_Award_Received` varchar(50) NOT NULL,
   `Date_of_Award_Received` varchar(50) NOT NULL,
   `Project_ID` varchar(50) NOT NULL,
-  `Awards_deleted` varchar(1) DEFAULT '0'
+  `Awards_deleted` varchar(1) DEFAULT '0',
+  primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -53,6 +60,7 @@ INSERT INTO `Awards` (`Employee_ID`, `Award_Category`, `Name_of_Award`, `FY_of_A
 --
 
 CREATE TABLE `Case_Log` (
+  `id` INT AUTO_INCREMENT NOT NULL,
   `Employee_ID` varchar(50) NOT NULL,
   `Case_Name` varchar(50) NOT NULL,
   `Subspecialty` varchar(50) NOT NULL,
@@ -64,7 +72,8 @@ CREATE TABLE `Case_Log` (
   `Observed` varchar(50) NOT NULL,
   `Verified` varchar(50) NOT NULL,
   `Certified` varchar(50) NOT NULL,
-  `Case_Log_deleted` tinyint(1) DEFAULT '0'
+  `Case_Log_deleted` tinyint(1) DEFAULT '0',
+  primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -82,6 +91,7 @@ INSERT INTO `Case_Log` (`Employee_ID`, `Case_Name`, `Subspecialty`, `Type_of_Cas
 --
 
 CREATE TABLE `Didactic_Attendance` (
+  `id` INT AUTO_INCREMENT NOT NULL,
   `Employee_ID` varchar(50) NOT NULL,
   `BillingName` varchar(50) NOT NULL,
   `Month` varchar(50) NOT NULL,
@@ -93,7 +103,8 @@ CREATE TABLE `Didactic_Attendance` (
   `Posting_Department` varchar(50) NOT NULL,
   `Scheduled_Teachings` varchar(50) NOT NULL,
   `Compliance_or_Not` varchar(50) NOT NULL,
-  `Didactic_Attendance_deleted` tinyint(1) DEFAULT '0'
+  `Didactic_Attendance_deleted` tinyint(1) DEFAULT '0',
+  primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -116,13 +127,15 @@ INSERT INTO `Didactic_Attendance` (`Employee_ID`, `BillingName`, `Month`, `Total
 --
 
 CREATE TABLE `Duty_Hour_Log` (
+  `id` INT AUTO_INCREMENT NOT NULL,
   `Employee_ID` varchar(50) NOT NULL,
   `Level` varchar(50) NOT NULL,
   `Submitted` varchar(50) NOT NULL,
   `Submitted_Proportion` varchar(50) NOT NULL,
   `MMYYYY` varchar(50) NOT NULL,
   `Logged_for_month` varchar(50) NOT NULL,
-  `Duty_Hour_Log_deleted` tinyint(1) DEFAULT '0'
+  `Duty_Hour_Log_deleted` tinyint(1) DEFAULT '0',
+  primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -145,6 +158,7 @@ INSERT INTO `Duty_Hour_Log` (`Employee_ID`, `Level`, `Submitted`, `Submitted_Pro
 --
 
 CREATE TABLE `Education_History` (
+  `id` INT AUTO_INCREMENT NOT NULL,
   `Employee_ID` varchar(50) NOT NULL,
   `Year_of_Graduation` varchar(50) NOT NULL,
   `Date_of_Graduation` varchar(50) NOT NULL,
@@ -157,7 +171,8 @@ CREATE TABLE `Education_History` (
   `SR_Residency_Start_Date` varchar(50) NOT NULL,
   `SR_Residency_End_Date` varchar(50) NOT NULL,
   `PG_Year` varchar(50) NOT NULL,
-  `Education_History_deleted` tinyint(1) DEFAULT '0'
+  `Education_History_deleted` tinyint(1) DEFAULT '0',
+  primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -175,6 +190,7 @@ INSERT INTO `Education_History` (`Employee_ID`, `Year_of_Graduation`, `Date_of_G
 --
 
 CREATE TABLE `Evaluations` (
+  `id` INT AUTO_INCREMENT NOT NULL,
   `Employee_ID` varchar(50) NOT NULL,
   `Year_of_Training` varchar(50) NOT NULL,
   `Rotation_Period` varchar(50) NOT NULL,
@@ -184,7 +200,8 @@ CREATE TABLE `Evaluations` (
   `Evaluator` varchar(50) NOT NULL,
   `Service` varchar(50) NOT NULL,
   `Answer` varchar(50) NOT NULL,
-  `Evaluations_deleted` tinyint(1) DEFAULT '0'
+  `Evaluations_deleted` tinyint(1) DEFAULT '0',
+  primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -201,11 +218,13 @@ INSERT INTO `Evaluations` (`Employee_ID`, `Year_of_Training`, `Rotation_Period`,
 --
 
 CREATE TABLE `Exam_History` (
+  `id` INT AUTO_INCREMENT NOT NULL,
   `Employee_ID` varchar(50) NOT NULL,
   `Name_of_Exam` varchar(50) NOT NULL,
   `Date_of_Attempt` varchar(50) NOT NULL,
   `Exam_Status` varchar(50) NOT NULL,
-  `Exam_History_deleted` tinyint(1) DEFAULT '0'
+  `Exam_History_deleted` tinyint(1) DEFAULT '0',
+  primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -215,13 +234,15 @@ CREATE TABLE `Exam_History` (
 --
 
 CREATE TABLE `Grants` (
+  `id` INT AUTO_INCREMENT NOT NULL,
   `Employee_ID` varchar(50) NOT NULL,
   `Name_of_Grant` varchar(50) NOT NULL,
   `Project_Title` varchar(50) NOT NULL,
   `Project_ID` varchar(50) NOT NULL,
   `Grant_End_Date` varchar(50) NOT NULL,
   `Grant_Start_Date` varchar(50) NOT NULL,
-  `Grants_deleted` tinyint(1) DEFAULT '0'
+  `Grants_deleted` tinyint(1) DEFAULT '0',
+  primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -239,10 +260,12 @@ INSERT INTO `Grants` (`Employee_ID`, `Name_of_Grant`, `Project_Title`, `Project_
 --
 
 CREATE TABLE `IHI` (
+  `id` INT AUTO_INCREMENT NOT NULL,
   `Employee_ID` varchar(50) NOT NULL,
   `Completion_of_Emodules` varchar(50) NOT NULL,
   `Date` varchar(50) NOT NULL,
-  `IHI_deleted` tinyint(1) DEFAULT '0'
+  `IHI_deleted` tinyint(1) DEFAULT '0',
+  primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -252,13 +275,15 @@ CREATE TABLE `IHI` (
 --
 
 CREATE TABLE `Involvement` (
+  `id` INT AUTO_INCREMENT NOT NULL,
   `Involvement_Type` varchar(50) NOT NULL,
   `Employee_ID` varchar(50) NOT NULL,
   `Event` varchar(50) NOT NULL,
   `Role` varchar(50) NOT NULL,
   `Start_Date` varchar(50) NOT NULL,
   `End_Date` varchar(50) NOT NULL,
-  `Involvement_deleted` tinyint(1) DEFAULT '0'
+  `Involvement_deleted` tinyint(1) DEFAULT '0',
+  primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -404,12 +429,14 @@ INSERT INTO `Personal_Details` (`Employee_ID`, `MCR_No`, `Staff_Name`, `Designat
 --
 
 CREATE TABLE `Posting_History` (
+  `id` INT AUTO_INCREMENT NOT NULL,
   `Employee_ID` varchar(50) NOT NULL,
   `Posting_Institution` varchar(50) NOT NULL,
   `Posting_Department` varchar(50) NOT NULL,
   `Posting_StartDate` varchar(50) NOT NULL,
   `Posting_EndDate` varchar(50) NOT NULL,
-  `Posting_History_deleted` int(11) NOT NULL DEFAULT '0'
+  `Posting_History_deleted` int(11) NOT NULL DEFAULT '0',
+  primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -419,14 +446,16 @@ CREATE TABLE `Posting_History` (
 --
 
 CREATE TABLE `Presentations` (
+  `id` INT AUTO_INCREMENT NOT NULL,
   `Employee_ID` varchar(50) NOT NULL,
-  `Title` varchar(50) NOT NULL,
+    `Title` varchar(50) NOT NULL,
   `Type` varchar(50) NOT NULL,
   `Project_ID` varchar(50) NOT NULL,
   `Conference_Name` varchar(50) NOT NULL,
   `Country` varchar(50) NOT NULL,
   `Presentation_Date` varchar(50) NOT NULL,
-  `Presentation_deleted` int(11) NOT NULL DEFAULT '0'
+  `Presentation_deleted` int(11) NOT NULL DEFAULT '0',
+  primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -436,6 +465,7 @@ CREATE TABLE `Presentations` (
 --
 
 CREATE TABLE `Procedure_Log` (
+  `id` INT AUTO_INCREMENT NOT NULL,
   `Employee_ID` varchar(50) NOT NULL,
   `Procedure_Name` varchar(50) NOT NULL,
   `Date_of_Completion` varchar(50) NOT NULL,
@@ -445,7 +475,8 @@ CREATE TABLE `Procedure_Log` (
   `Observed` varchar(50) NOT NULL,
   `Verified` varchar(50) NOT NULL,
   `Certified` varchar(50) NOT NULL,
-  `Procedure_Log_deleted` int(11) NOT NULL
+  `Procedure_Log_deleted` int(11) NOT NULL,
+  primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -455,6 +486,7 @@ CREATE TABLE `Procedure_Log` (
 --
 
 CREATE TABLE `Projects` (
+  `id` INT AUTO_INCREMENT NOT NULL,
   `Employee_ID` varchar(50) NOT NULL,
   `Project_Type` varchar(50) NOT NULL,
   `Project_Title` varchar(100) NOT NULL,
@@ -463,7 +495,8 @@ CREATE TABLE `Projects` (
   `End_Date` varchar(50) NOT NULL,
   `Date_of_QI_Certification` varchar(50) DEFAULT NULL,
   `PMID` varchar(50) DEFAULT NULL,
-  `Projects_deleted` tinyint(1) DEFAULT '0'
+  `Projects_deleted` tinyint(1) DEFAULT '0',
+  primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -485,12 +518,14 @@ INSERT INTO `Projects` (`Employee_ID`, `Project_Type`, `Project_Title`, `Project
 --
 
 CREATE TABLE `Publications` (
+  `id` INT AUTO_INCREMENT NOT NULL,
   `Employee_ID` varchar(50) NOT NULL,
   `Publication_Title` varchar(50) NOT NULL,
   `Journal_Title` varchar(50) NOT NULL,
   `PMID` varchar(50) NOT NULL,
   `Publication_Date` varchar(50) NOT NULL,
-  `Publication_deleted` int(11) NOT NULL DEFAULT '0'
+  `Publication_deleted` int(11) NOT NULL DEFAULT '0',
+    primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -507,11 +542,13 @@ INSERT INTO `Publications` (`Employee_ID`, `Publication_Title`, `Journal_Title`,
 --
 
 CREATE TABLE `TrgExtRem_History` (
+  `id` INT AUTO_INCREMENT NOT NULL,
   `Employee_ID` varchar(100) DEFAULT ' ',
   `LOAPIP` varchar(100) DEFAULT NULL,
   `StartDate` varchar(50) DEFAULT NULL,
   `EndDate` varchar(50) DEFAULT NULL,
-  `TrgExtRem_History_deleted` int(11) NOT NULL DEFAULT '0'
+  `TrgExtRem_History_deleted` int(11) NOT NULL DEFAULT '0',
+  primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -573,7 +610,7 @@ ALTER TABLE `Exam_History`
 -- Indexes for table `Grants`
 --
 ALTER TABLE `Grants`
-  ADD PRIMARY KEY (`Name_of_Grant`),
+  -- ADD PRIMARY KEY (`Name_of_Grant`),
   ADD KEY `Employee_ID` (`Employee_ID`),
   ADD KEY `Project ID` (`Project_ID`);
 
