@@ -24,6 +24,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Testing Mon Method -->
+    <script src="https://cdn.jsdelivr.net/npm/babel-regenerator-runtime@6.5.0/runtime.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/babel-polyfill/dist/polyfill.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.0.10/dist/vuetify.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    <script src="https://unpkg.com/vue-chartjs@3.4.0/dist/vue-chartjs.js"></script>
+
     <title>SingHealth</title>
 </head>
 
@@ -109,117 +118,164 @@
         <!-- Orange Divider -->
         <div class='row' style='height: 8px; background-color: #ff6b00;'></div>
 
-        <div class="shadow-lg rounded-lg overflow-hidden">
-            <div class="py-3 px-5 bg-gray-50">Didactic Performance</div>
-            <canvas class="p-10" id="chartLine"></canvas>
-        </div>
+        <!-- Graph Goes Here -->
+        <div id="app">
+            <v-row dense>
+              <v-col cols="sm">
+                <v-card class="pa-2" outlined tile raised>
+                  <my-bar-chart v-if="loaded" :bar-data="ChartConfig" :chart-options="options"></my-bar-chart>
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-row no-gutters>
+              <v-col cols="sm">
+                <v-card class="pa-2" outlined tile raised>
+                  One of three columns
+                </v-card>
+              </v-col>
+            </v-row>
+          </div>
 
     </div>
 
-</body>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
 
 
-<!--- JAVASCRIPT -->
-<script>
+    <!--- JAVASCRIPT -->
+    <script>
 
-    const vm = new Vue({
-        el: '#main-container',
-        data: {
-            didacticList: [],
-            specificDidacticList: [],
-        },
-        mounted: async function () {
-            var config = {
-                method: 'get',
-                url: 'http://localhost:5010/didactic_attendance',
-                headers: {}
-            };
-            didacticList2 = []
-            await axios(config)
-                .then(function (response) {
-                    didacticList = response.data.data
-                    didacticList2 = didacticList
-                })
-                .catch(function (error) {
-                    console.log(error);
-                    this.error = error;
-                })
-            this.didacticList = didacticList2
-        },
-        methods: {
-            getDidacticList: async function getDidacticList() {
-                var config = {
-                    method: 'get',
-                    url: 'http://localhost:5010/didactic_attendance',
-                    headers: {}
-                };
-                didacticList = []
-                await axios(config)
-                    .then(function (response) {
-                        didacticList = response.data.data
-                        this.didacticList = didacticList
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-                this.didacticList = didacticList
+        Vue.component('my-bar-chart', {
+            extends: VueChartJs.Bar,
+            props: ['barData', 'chartOptions'],
+            mounted() {
+            this.renderChart(this.barData, this.chartOptions);
             },
-
-            getSpecificDidacticList: async function getSpecificDidacticList(employee_id) {
-                var config = {
-                    method: 'get',
-                    url: 'http://localhost:5010/didactic_attendance/' + employee_id,
-                    headers: {}
-                };
-                didacticList = []
-                await axios(config)
-                    .then(function (response) {
-                        specificDidacticList = response.data.data
-                        this.specificDidacticList = specificDidacticList
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-                this.specificDidacticList = specificDidacticList
+            /*watch: {
+            barData () {
+                console.log('bar data changed')
+                this.renderChart(this.barData, this.chartOptions);
             },
-
-        }
-    });
-
-    const labels = ["Jan-Jun", "Jul-Dec"];
-    const data = {
-    labels: labels,
-    datasets: [
-        {
-        label: "My First dataset",
-        backgroundColor: "hsl(252, 82.9%, 67.8%)",
-        borderColor: "hsl(252, 82.9%, 67.8%)",
-        data: [60, 75],
-        },
-    ],
-    };
-
-    const configLineChart = {
-    type: "bar",
-    data,
-    options: {
-        scales: {
-            y: {
-                min: 0,
-                max: 100,
+            chartOptions () {
+                this.renderChart(this.barData, this.chartOptions);
             }
+            }*/
+        }, {
+            responsive: true,
+            maintainAspectRatio: false
+        })
+
+        new Vue({
+            el: "#app",
+            vuetify: new Vuetify(),
+            data() {
+            return {
+                loaded: false,
+                ChartConfig: {
+                labels: ["Jan-Jun", "Jul-Dec"],
+                datasets: [
+                    {
+                    data: [],
+                    backgroundColor: '#3498db',
+                    borderColor: 'rgba(136,136,136,0.5)',
+                    label: "Testing"
+                    }
+                ]
+                },
+                options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                title: {
+                    display: true,
+                    text: 'Chart.js Line Chart'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                    display: true,
+                    categoryPercentage: 0.5,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Month'
+                    }
+                    }],
+                    yAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Value'
+                    }
+                    }]
+                }
+                },
+                iceCream: [],
+                drawer: false
+            }
+            },
+            mounted: function () {
+                this.loaded = false
+                this.getDidacticAttendanceData();
+                },
+            methods: {
+                getDidacticAttendanceData: async function () {
+
+                    this.status = "getting data...";
+
+                    await axios.get("http://localhost:5010/didactic_attendance").then((response) => {
+                    console.log("This is responseData")
+                    console.log(response.data)
+                    this.getChartData(response.data);
+                    this.loaded = true
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                },
+                getChartData: function (chartData) {
+                    console.log("This is chartData")
+                    console.log(chartData);
+                    console.log(chartData.data[0]['Month']);
+
+                    counterCompliantJanJune = 0;
+                    counterCompliantJulDec = 0;
+
+                    percentCompliantJanJune = 0;
+                    percentCompliantJulDec = 0;
+
+                    for (var i = 0; i < chartData.data.length; i++) {
+                        if ('JanuaryFebruaryMarchAprilMayJune'.includes(chartData.data[i]['Month'])) {
+                            console.log("WORKS")
+                            if (chartData.data[i]['Compliance_or_Not'] == 'Yes') {
+                                counterCompliantJanJune = counterCompliantJanJune + 1;
+                            }
+
+                            chartData.data.length//total num of ppl
+
+                        }
+                        else {
+                            if (chartData.data[i]['Compliance_or_Not'] == 'Yes') {
+                                counterCompliantJulDec = counterCompliantJulDec + 1;
+                            }
+                        }
+                    }
+
+                    percentCompliantJanJune = counterCompliantJanJune/chartData.data.length
+                    percentCompliantJulDec = counterCompliantJulDec/chartData.data.length
+
+                    this.ChartConfig.datasets[0].data.push(percentCompliantJanJune)
+                    this.ChartConfig.datasets[0].data.push(percentCompliantJulDec)
+
+                }
         }
-    },
-    
-    };
-
-    var chartLine = new Chart(
-    document.getElementById("chartLine"),
-    configLineChart
-    );
-
-</script>
+        });
+        
+    </script>
+</body>
 
 </html>
