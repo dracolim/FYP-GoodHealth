@@ -127,14 +127,7 @@
                 </v-card>
               </v-col>
             </v-row>
-            <v-row no-gutters>
-              <v-col cols="sm">
-                <v-card class="pa-2" outlined tile raised>
-                  One of three columns
-                </v-card>
-              </v-col>
-            </v-row>
-          </div>
+        </div>
 
     </div>
 
@@ -150,15 +143,6 @@
             mounted() {
             this.renderChart(this.barData, this.chartOptions);
             },
-            /*watch: {
-            barData () {
-                console.log('bar data changed')
-                this.renderChart(this.barData, this.chartOptions);
-            },
-            chartOptions () {
-                this.renderChart(this.barData, this.chartOptions);
-            }
-            }*/
         }, {
             responsive: true,
             maintainAspectRatio: false
@@ -177,7 +161,7 @@
                     data: [],
                     backgroundColor: '#3498db',
                     borderColor: 'rgba(136,136,136,0.5)',
-                    label: "Testing"
+                    label: "Compliant"
                     }
                 ]
                 },
@@ -186,7 +170,7 @@
                 maintainAspectRatio: false,
                 title: {
                     display: true,
-                    text: 'Chart.js Line Chart'
+                    text: 'Didactic Attendance (Overview)'
                 },
                 tooltips: {
                     mode: 'index',
@@ -206,10 +190,15 @@
                     }
                     }],
                     yAxes: [{
+                    ticks : {
+                    max : 1,    
+                    min : 0
+                    },
                     display: true,
                     scaleLabel: {
                         display: true,
-                        labelString: 'Value'
+                        labelString: 'Percentage'
+                        
                     }
                     }]
                 }
@@ -242,37 +231,37 @@
                     console.log(chartData);
                     console.log(chartData.data[0]['Month']);
 
-                    counterCompliantJanJune = 0;
-                    counterCompliantJulDec = 0;
+                    counterCompliantJanJune = 0
+                    counterCompliantJulDec = 
+                    percentCompliantJanJune = 0
+                    percentCompliantJulDec = 0
 
-                    percentCompliantJanJune = 0;
-                    percentCompliantJulDec = 0;
+                    numOfJanJuneEntries = 0
+                    numofJulDecEntries = 0
 
                     for (var i = 0; i < chartData.data.length; i++) {
                         if ('JanuaryFebruaryMarchAprilMayJune'.includes(chartData.data[i]['Month'])) {
-                            console.log("WORKS")
+                            numOfJanJuneEntries++
                             if (chartData.data[i]['Compliance_or_Not'] == 'Yes') {
                                 counterCompliantJanJune = counterCompliantJanJune + 1;
                             }
-
-                            chartData.data.length//total num of ppl
-
                         }
                         else {
+                            numofJulDecEntries++
                             if (chartData.data[i]['Compliance_or_Not'] == 'Yes') {
                                 counterCompliantJulDec = counterCompliantJulDec + 1;
                             }
                         }
                     }
 
-                    percentCompliantJanJune = counterCompliantJanJune/chartData.data.length
-                    percentCompliantJulDec = counterCompliantJulDec/chartData.data.length
+                    percentCompliantJanJune = counterCompliantJanJune/numOfJanJuneEntries
+                    percentCompliantJulDec = counterCompliantJulDec/numofJulDecEntries
 
                     this.ChartConfig.datasets[0].data.push(percentCompliantJanJune)
                     this.ChartConfig.datasets[0].data.push(percentCompliantJulDec)
 
                 }
-        }
+            }
         });
         
     </script>

@@ -87,6 +87,8 @@ INSERT INTO `Didactic_Attendance` (`Employee_ID`, `Billing_Name`, `Month`,
 `Total_Tracked_Sessions`, `Number_Sessions_Attended`, `Percentage_Sessions_Attended`, `MMYYYY`, `Posting_Institution`, `Posting_Department`, `Compliance_or_Not`, `Didactic_Attendance_Deleted`) VALUES
 ('MOM12390', 'SGHGasEnt', 'July', '14', '14', '100%', '072023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
 ('MOM12390', 'SGHGasEnt', 'August', '14', '10', '71%', '082023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
+('MOM12390', 'SGHGasEnt', 'January', '14', '14', '100%', '012023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
+('MOM12390', 'SGHGasEnt', 'February', '14', '10', '60%', '022023', 'TestInstitution', 'TestDepartment', 'No', 'false'),
 ('MOM05233', 'CGHGasHep', 'July', '12', '12', '100%', '072023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
 ('MOM05233', 'CGHGasHep', 'August', '12', '10', '83%', '082023', 'TestInstitution', 'TestDepartment', 'Yes', 'false');
 
