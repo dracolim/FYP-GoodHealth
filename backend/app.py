@@ -539,10 +539,6 @@ def create_award():
         print("An error occurred:", e)
         print("Stack trace:")
         traceback.print_exc()
-    # except Exception:
-    #     return jsonify({
-    #         "message": "Unable to commit to database."
-    #     }), 500
 
 
 # ============================
@@ -631,6 +627,27 @@ def get_duty_hour_log():
                      for pd in dutyList]
         }
     ), 200
+
+# Add duty hour 
+@app.route('/add_duty_hour', methods=['POST'])
+def create_duty_hour():
+    data = request.get_json()
+    print(data)
+    if not all(key in data.keys() for key in ('Employee_id', 'Level' , 'Submitted' , 'Submitted_Proportion'  , 'MMYYYY' , 
+    'Logged_for_month' 
+                )):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+    duty_hour_log = Duty_Hour_Log(**data)
+    try:
+        db.session.add(duty_hour_log)
+        db.session.commit()
+        return jsonify(duty_hour_log.to_dict()), 201
+    except Exception as e:
+        print("An error occurred:", e)
+        print("Stack trace:")
+        traceback.print_exc()
 
 # ============================
 # █▀▀ █▄░█ █▀▄
