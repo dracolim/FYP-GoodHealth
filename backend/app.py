@@ -108,7 +108,7 @@ class Personal_Details(db.Model):
 
 class Presentation(db.Model):
     __tablename__ = 'Presentations'
-
+    id = db.Column(db.Integer, primary_key=True)
     Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
     Title = db.Column(db.String(100))
     Conference_Name = db.Column(db.String(100))
@@ -137,7 +137,7 @@ class Presentation(db.Model):
 
 class Posting_History(db.Model):
     __tablename__ = 'Posting_History'
-
+    id = db.Column(db.Integer, primary_key=True)
     Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
 
     Posting_Institution = db.Column(db.String(100))
@@ -165,6 +165,7 @@ class Posting_History(db.Model):
 
 class Duty_Hour_Log(db.Model):
     __tablename__ = 'Duty_Hour_Log'
+    id = db.Column(db.Integer, primary_key=True)
     Employee_id = db.Column(db.String(100), primary_key=True)
     Level = db.Column(db.String(100))
     Submitted = db.Column(db.String(100))
@@ -192,6 +193,7 @@ class Duty_Hour_Log(db.Model):
 
 class Case_Log(db.Model):
     __tablename__ = 'Case_Log'
+    id = db.Column(db.Integer, primary_key=True)
     Employee_ID = db.Column(db.String(100), primary_key=True)
     Case_Name = db.Column(db.String(100))
     Subspecialty = db.Column(db.String(100))
@@ -224,6 +226,7 @@ class Case_Log(db.Model):
 
 class Procedure_Log(db.Model):
     __tablename__ = 'Procedure_Log'
+    id = db.Column(db.Integer, primary_key=True)
     Employee_ID = db.Column(db.String(100), primary_key=True)
     Procedure_Name = db.Column(db.String(100))
     Date_of_Completion = db.Column(db.String(100))
@@ -253,6 +256,7 @@ class Procedure_Log(db.Model):
 
 class Exam_History(db.Model):
     __tablename__ = 'Exam_History'
+    id = db.Column(db.Integer, primary_key=True)
     Employee_ID = db.Column(db.String(100), primary_key=True)
     Name_of_Exam = db.Column(db.String(100))
     Date_of_Attempt = db.Column(db.String(100))
@@ -277,7 +281,7 @@ class Exam_History(db.Model):
 
 class Publications(db.Model):
     __tablename__ = 'Publications'
-
+    id = db.Column(db.Integer, primary_key=True)
     Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
     
     Publication_Title = db.Column(db.String(100))
@@ -307,6 +311,7 @@ class Publications(db.Model):
 
 class Evaluations(db.Model):
     __tablename__ = 'Evaluations'
+    id = db.Column(db.Integer, primary_key=True)
     Employee_ID = db.Column(db.String(100), primary_key=True)
     Year_of_Training = db.Column(db.String(100))
     Rotation_Period = db.Column(db.String(100))
@@ -334,9 +339,9 @@ class Evaluations(db.Model):
             result[column] = getattr(self, column)
         return result
 
-class TrgExtRemHistory(db.Model):
-    __tablename__ = 'TrgExtRemHistory'
-
+class TrgExtRem_History(db.Model):
+    __tablename__ = 'TrgExtRem_History'
+    id = db.Column(db.Integer, primary_key=True)
     Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
     LOAPIP = db.Column(db.String(100))
 
@@ -346,7 +351,7 @@ class TrgExtRemHistory(db.Model):
 
 
     __mapper_args__ = {
-        'polymorphic_identity': 'Projects'
+        'polymorphic_identity': 'TrgExtRem_History'
     }
 
     def to_dict(self):
@@ -363,7 +368,7 @@ class TrgExtRemHistory(db.Model):
 
 class Projects(db.Model):
     __tablename__ = 'Projects'
-
+    id = db.Column(db.Integer, primary_key=True)
     Project_ID= db.Column(db.String(100), primary_key=True)
     Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
     Project_Type = db.Column(db.String(100))
@@ -912,29 +917,6 @@ def get_duty_hour_log():
         }
     ), 200
 
-<<<<<<< Updated upstream
-# Add duty hour 
-@app.route('/add_duty_hour', methods=['POST'])
-def create_duty_hour():
-    data = request.get_json()
-    print(data)
-    if not all(key in data.keys() for key in ('Employee_id', 'Level' , 'Submitted' , 'Submitted_Proportion'  , 'MMYYYY' , 
-    'Logged_for_month' 
-                )):
-        return jsonify({
-            "message": "Incorrect JSON object provided."
-        }), 500
-    duty_hour_log = Duty_Hour_Log(**data)
-    try:
-        db.session.add(duty_hour_log)
-        db.session.commit()
-        return jsonify(duty_hour_log.to_dict()), 201
-    except Exception as e:
-        print("An error occurred:", e)
-        print("Stack trace:")
-        traceback.print_exc()
-
-=======
 from sqlalchemy import create_engine
 from sqlalchemy import inspect
 engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
@@ -955,7 +937,6 @@ def get_all_tables():
         }
     ), 200
     print(insp.get_table_names(),'OSJVGNWOEVNWOECNVWEOICMWEOI')
->>>>>>> Stashed changes
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
