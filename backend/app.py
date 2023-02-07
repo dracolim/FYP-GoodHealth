@@ -23,7 +23,6 @@ app = Flask(__name__)
 # db = SQLAlchemy(app)
 
 # CORS(app)
-
 app = Flask(__name__)
 app.app_context().push()
 
@@ -55,7 +54,7 @@ CORS(app)
 
 class Personal_Details(db.Model):
     __tablename__ = 'Personal_Details'
-    Employee_id = db.Column(db.String(50), primary_key=True)
+    Employee_ID = db.Column(db.String(50), primary_key=True)
     MCR_No = db.Column(db.String(50))
     Staff_Name = db.Column(db.String(50))
     Designation = db.Column(db.String(50))
@@ -107,16 +106,46 @@ class Personal_Details(db.Model):
             result[column] = getattr(self, column)
         return result
 
+class Presentation(db.Model):
+    __tablename__ = 'Presentations'
 
-class Duty_Hour_Log(db.Model):
-    __tablename__ = 'Duty_Hour_Log'
-    Employee_id = db.Column(db.String(100), primary_key=True)
-    Level = db.Column(db.String(100))
-    Submitted = db.Column(db.String(100))
-    Submitted_Proportion = db.Column(db.String(100))
-    MMYYYY = db.Column(db.String(100))
-    Logged_for_month = db.Column(db.String(100))
-    Duty_Hour_Log_deleted = db.Column(db.Boolean(), default=False, nullable=False)
+    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
+    Title = db.Column(db.String(100))
+    Conference_Name = db.Column(db.String(100))
+    Type = db.Column(db.String(100))
+    Project_ID = db.Column(db.String(100))
+    Country = db.Column(db.DateTime)
+    Presentation_Date = db.Column(db.String(100))
+    Presentation_deleted = db.Column(db.Boolean(), default=False, nullable=False)
+
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'Presentations'
+    }
+
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        print(f"columns: {columns}")
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
+
+class Posting_History(db.Model):
+    __tablename__ = 'Posting_History'
+
+    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
+
+    Posting_Institution = db.Column(db.String(100))
+    Posting_Department = db.Column(db.DateTime)
+    Posting_StartDate = db.Column(db.DateTime)
+    Posting_EndDate = db.Column(db.String(100))
+    Posting_History_deleted = db.Column(db.Boolean(), default=False, nullable=False)
+
 
     __mapper_args__ = {
         'polymorphic_identity': 'Posting_History'
@@ -134,50 +163,246 @@ class Duty_Hour_Log(db.Model):
             result[column] = getattr(self, column)
         return result
 
+class Duty_Hour_Log(db.Model):
+    __tablename__ = 'Duty_Hour_Log'
+    Employee_id = db.Column(db.String(100), primary_key=True)
+    Level = db.Column(db.String(100))
+    Submitted = db.Column(db.String(100))
+    Submitted_Proportion = db.Column(db.String(100))
+    MMYYYY = db.Column(db.String(100))
+    Logged_for_month = db.Column(db.String(100))
+    Duty_Hour_Log_deleted = db.Column(db.Boolean(), default=False, nullable=False)
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'Duty_Hour_Log'
+    }
+
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        print(f"columns: {columns}")
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
 
 
+class Case_Log(db.Model):
+    __tablename__ = 'Case_Log'
+    Employee_ID = db.Column(db.String(100), primary_key=True)
+    Case_Name = db.Column(db.String(100))
+    Subspecialty = db.Column(db.String(100))
+    Type_of_Case_Log = db.Column(db.String(100))
+    Date_of_Log = db.Column(db.String(100))
+    CPT = db.Column(db.String(100))
+    Total = db.Column(db.String(100))
+    Performed = db.Column(db.String(100))
+    Observed = db.Column(db.String(100))
+    Verified = db.Column(db.String(100))
+    Certified = db.Column(db.String(100))
+    Case_Log_deleted= db.Column(db.Boolean(), default=False, nullable=False)
+ 
 
-# class Projects(db.Model):
-#     __tablename__ = 'Projects'
+    __mapper_args__ = {
+        'polymorphic_identity': 'Case_Log'
+    }
 
-#     Project_ID= db.Column(db.String(100), primary_key=True)
-#     Employee_id = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_id'))
-#     Project_Type = db.Column(db.String(100))
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        print(f"columns: {columns}")
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
 
-#     Project_Title = db.Column(db.String(100))
-#     StartDate = db.Column(db.DateTime)
-#     EndDate = db.Column(db.DateTime)
-#     PMID = db.Column(db.String(100))
-#     Projects_deleted = db.Column(db.Boolean(), default=False, nullable=False)
+class Procedure_Log(db.Model):
+    __tablename__ = 'Procedure_Log'
+    Employee_ID = db.Column(db.String(100), primary_key=True)
+    Procedure_Name = db.Column(db.String(100))
+    Date_of_Completion = db.Column(db.String(100))
+    CPT = db.Column(db.String(100))
+    Total = db.Column(db.String(100))
+    Performed = db.Column(db.String(100))
+    Observed = db.Column(db.String(100))
+    Verified = db.Column(db.String(100))
+    Certified = db.Column(db.String(100))
+    Procedure_Log_deleted = db.Column(db.Boolean(), default=False, nullable=False)
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'Procedure_Log'
+    }
+
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        print(f"columns: {columns}")
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
+
+class Exam_History(db.Model):
+    __tablename__ = 'Exam_History'
+    Employee_ID = db.Column(db.String(100), primary_key=True)
+    Name_of_Exam = db.Column(db.String(100))
+    Date_of_Attempt = db.Column(db.String(100))
+    Exam_Status = db.Column(db.String(100))
+    Exam_History_Deleted = db.Column(db.Boolean(), default=False, nullable=False)
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'Exam_History'
+    }
+
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        print(f"columns: {columns}")
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
+
+class Publications(db.Model):
+    __tablename__ = 'Publications'
+
+    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
+    
+    Publication_Title = db.Column(db.String(100))
+    Journal_Title = db.Column(db.String(100))
+    
+    PMID = db.Column(db.String(100))
+    Publication_Date = db.Column(db.DateTime)
+    Publication_deleted = db.Column(db.Boolean(), default=False, nullable=False)
+    
 
 
-#     __mapper_args__ = {
-#         'polymorphic_identity': 'Projects'
-#     }
+    __mapper_args__ = {
+        'polymorphic_identity': 'Publications'
+    }
 
-#     def to_dict(self):
-#         """
-#         'to_dict' converts the object into a dictionary,
-#         in which the keys correspond to database columns
-#         """
-#         columns = self.__mapper__.column_attrs.keys()
-#         print(f"columns: {columns}")
-#         result = {}
-#         for column in columns:
-#             result[column] = getattr(self, column)
-#         return result
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        print(f"columns: {columns}")
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
 
-# # Read Existing personaldetails (R)
-# @app.route("/projects")
-# def read_projects():
-#     pdList = Projects.query.all()
-#     # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
-#     return jsonify(
-#         {
-#             "data": [pd.to_dict()
-#                     for pd in pdList]
-#         }
-#     ), 200
+class Evaluations(db.Model):
+    __tablename__ = 'Evaluations'
+    Employee_ID = db.Column(db.String(100), primary_key=True)
+    Year_of_Training = db.Column(db.String(100))
+    Rotation_Period = db.Column(db.String(100))
+    Name_of_Evaluation_Form = db.Column(db.String(100))
+    Question_Number = db.Column(db.String(100))
+    Score = db.Column(db.String(100))
+    Evaluator = db.Column(db.String(100))
+    Service = db.Column(db.String(100))
+    Answer = db.Column(db.String(100))
+    Evaluations_deleted= db.Column(db.Boolean(), default=False, nullable=False)
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'Evaluations'
+    }
+
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        print(f"columns: {columns}")
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
+
+class TrgExtRemHistory(db.Model):
+    __tablename__ = 'TrgExtRemHistory'
+
+    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
+    LOAPIP = db.Column(db.String(100))
+
+    StartDate = db.Column(db.DateTime)
+    EndDate = db.Column(db.DateTime)
+    TrgExtRemHistory_deleted = db.Column(db.Boolean(), default=False, nullable=False)
+
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'Projects'
+    }
+
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        print(f"columns: {columns}")
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
+
+class Projects(db.Model):
+    __tablename__ = 'Projects'
+
+    Project_ID= db.Column(db.String(100), primary_key=True)
+    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
+    Project_Type = db.Column(db.String(100))
+
+    Project_Title = db.Column(db.String(100))
+    StartDate = db.Column(db.DateTime)
+    EndDate = db.Column(db.DateTime)
+    PMID = db.Column(db.String(100))
+    Date_of_QI_Certification= db.Column(db.String(100))
+    Projects_deleted = db.Column(db.Boolean(), default=False, nullable=False)
+
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'Projects'
+    }
+
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        print(f"columns: {columns}")
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
+
+# Read Existing personaldetails (R)
+@app.route("/projects")
+def read_projects():
+    pdList = Projects.query.all()
+    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in pdList]
+        }
+    ), 200
 
     
 #Read PersonalDetails field/column name (R)
@@ -187,14 +412,14 @@ def display():
 
 class Awards(db.Model):
     __tablename__ = 'Awards'
-    Award_ID = db.Column(db.String(100))
-    Employee_id = db.Column(db.String(100), primary_key=True)
+    Employee_ID = db.Column(db.String(100), primary_key=True)
     Award_Category = db.Column(db.String(100))
     Name_of_Award = db.Column(db.String(100))
 
     FY_of_Award_Received = db.Column(db.String(100))
     Date_of_Award_Received = db.Column(db.DateTime)
-    Project_ID_Ref = db.Column(db.String(100))
+    Project_ID = db.Column(db.String(100))
+    Awards_deleted = db.Column(db.Boolean(), default=False, nullable=False)
 
     __mapper_args__ = {
         'polymorphic_identity': 'Awards'
@@ -215,11 +440,11 @@ class Awards(db.Model):
 
 class ExamHistory(db.Model):
     __tablename__ = 'ExamHistory'
-    Exam_ID = db.Column(db.String(100))
-    Employee_id = db.Column(db.String(100), primary_key=True)
+    Employee_ID = db.Column(db.String(100), primary_key=True)
     Name_of_Exam = db.Column(db.String(100))
-    Date_of_Attempts = db.Column(db.String(100))
+    Date_of_Attempt = db.Column(db.String(100))
     Exam_Status = db.Column(db.String(100))
+    Exam_History_deleted= db.Column(db.Boolean(), default=False, nullable=False)
 
     __mapper_args__ = {
         'polymorphic_identity': 'ExamHistory'
@@ -240,12 +465,13 @@ class ExamHistory(db.Model):
 
 class Grants(db.Model):
     __tablename__ = 'Grants'
-    Grant_ID = db.Column(db.String(100))
-    Employee_id = db.Column(db.String(100), primary_key=True)
+    Employee_ID = db.Column(db.String(100), primary_key=True)
     Name_of_Grant = db.Column(db.String(100))
     Project_Title = db.Column(db.String(100))
     Project_ID = db.Column(db.String(100))
     Grant_End_Date = db.Column(db.DateTime)
+    Grant_Start_Date = db.Column(db.DateTime)
+    Grants_deleted = db.Column(db.Boolean(), default=False, nullable=False)
 
     __mapper_args__ = {
         'polymorphic_identity': 'Grants'
@@ -263,16 +489,39 @@ class Grants(db.Model):
             result[column] = getattr(self, column)
         return result
 
+class IHI(db.Model):
+    __tablename__ = 'IHI'
+    Employee_ID = db.Column(db.String(100), primary_key=True)
+    Completion_of_Emodules = db.Column(db.String(100))
+    Date = db.Column(db.String(100))
+    IHI_deleted= db.Column(db.Boolean(), default=False, nullable=False)
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'IHI'
+    }
+
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        print(f"columns: {columns}")
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
+
 
 class Involvement(db.Model):
     __tablename__ = 'Involvement'
-    Involvement_No = db.Column(db.Integer)
     Involvement_Type = db.Column(db.String(100))
-    Employee_id = db.Column(db.String(100), primary_key=True)
+    Employee_ID = db.Column(db.String(100), primary_key=True)
     Event = db.Column(db.String(100))
     Role = db.Column(db.String(100))
     Start_Date = db.Column(db.DateTime)
     End_Date = db.Column(db.DateTime)
+    Involvement_deleted= db.Column(db.Boolean(), default=False, nullable=False)
 
     __mapper_args__ = {
         'polymorphic_identity': 'Involvement'
@@ -445,6 +694,41 @@ def get_exam_history_fields():
     for column in ExamHistory.__table__.columns:
         fields[column.name] = str(column.type)
     return jsonify(fields)
+
+# Read Existing caselog (R)
+@app.route("/case_log")
+def read_case_log():
+    res = Case_Log.query.all()
+    print (res,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    return jsonify(
+        {
+            "data": [r.to_dict()
+                    for r in res]
+        }
+    ), 200
+
+# Read Existing procedure log (R)
+@app.route("/procedure_log")
+def read_procedure_log():
+    res = Procedure_Log.query.all()
+    return jsonify(
+        {
+            "data": [r.to_dict()
+                     for r in res]
+        }
+    ), 200
+
+# Read Existing evaluations (R)
+@app.route("/evaluation")
+def read_evaluation():
+    res = Evaluations.query.all()
+    return jsonify(
+        {
+            "data": [r.to_dict()
+                     for r in res]
+        }
+    ), 200
+
 
 # ============================
 # █▀▀ █▄░█ █▀▄
@@ -628,6 +912,7 @@ def get_duty_hour_log():
         }
     ), 200
 
+<<<<<<< Updated upstream
 # Add duty hour 
 @app.route('/add_duty_hour', methods=['POST'])
 def create_duty_hour():
@@ -649,6 +934,28 @@ def create_duty_hour():
         print("Stack trace:")
         traceback.print_exc()
 
+=======
+from sqlalchemy import create_engine
+from sqlalchemy import inspect
+engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+insp = inspect(engine)
+connection = engine.connect()
+print(insp.get_table_names())
+@app.route('/get_all_tables', methods=['GET'])
+def get_all_tables():
+    res = {}
+    for table_name in insp.get_table_names():
+        res[table_name]=[]
+        for column in insp.get_columns(table_name):
+            res[table_name].append(column['name'])
+    
+    return jsonify(
+        {
+            "data":res
+        }
+    ), 200
+    print(insp.get_table_names(),'OSJVGNWOEVNWOECNVWEOICMWEOI')
+>>>>>>> Stashed changes
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
@@ -692,6 +999,38 @@ def create_duty_hour():
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
 # ============================
+from sqlalchemy import insert,text
+# Read Awards field/column name (R)
+@app.route('/create_resident', methods=['POST'])
+def create_resident():
+    data = request.get_json()
+    personal_details_query=f'INSERT INTO Personal_Details VALUES ('
+    for column in data['Personal_Details']:
+        value_to_insert=data['Personal_Details'][column]
+        personal_details_query+="'" + value_to_insert+"',"
+    personal_details_query=personal_details_query[:-3]
+    personal_details_query+="'0'"
+    personal_details_query+=')'
+    connection.execute(personal_details_query)
+
+    #remove personal details from data
+    del data['Personal_Details']
+    print(data,'data now is what')
+
+
+    for table in data:
+        query = f'INSERT INTO {table} VALUES ('
+        query_string_values=''
+        for col in data[table]:
+            value_to_insert=data[table][col]
+            query_string_values+="'" + value_to_insert+"',"
+        query_string_values=query_string_values[:-3]
+        query_string_values+="'0'"
+        query_string_values+=')'
+        query+= query_string_values
+        connection.execute(query)
+
+        
 db.create_all()
 
 if __name__ == '__main__':
