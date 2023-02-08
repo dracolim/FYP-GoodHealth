@@ -5,9 +5,9 @@ import json
 from app import app, db, Personal_Details
 
 class TestApp(flask_testing.TestCase):
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
-    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
-    app.config['TESTING'] = True
+    # app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
+    # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
+    # app.config['TESTING'] = True
 
     def create_app(self):
         return app
