@@ -63,7 +63,6 @@ CREATE TABLE `Personal_Details` (
   `Date_of_First_Dose` varchar(50) DEFAULT NULL,
   `Date_of_Second_Dose` varchar(50) DEFAULT NULL,
   `Vaccination_Remarks` varchar(50) DEFAULT NULL,
-  `Personal_Details_deleted` tinyint(1) DEFAULT '0',
   primary key (MCR_No)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -71,9 +70,9 @@ CREATE TABLE `Personal_Details` (
 -- Dumping data for table `Personal_Details`
 --
 
-INSERT INTO `Personal_Details` (`Employee_ID`, `MCR_No`, `Staff_Name`, `Designation`, `Programme`, `Year_of_Training`, `Academic_Year`, `Department`, `Institution`, `Academic_Clinical_Programme`, `Employment_Status`, `Nationality`, `Date_of_Birth`, `Gender`, `Registration_Type`, `House_Blk_No`, `Street`, `Building_Name`, `Unit_No`, `Postal_Code`, `Contact_No_Work`, `Contact_No_Personal`, `Email_Official`, `Email_Personal`, `BCLS_Expiry_Date`, `ACLS_Expiry_Date`, `Covid_19_Vaccination_Status`, `Date_of_First_Dose`, `Date_of_Second_Dose`, `Vaccination_Remarks`, `Personal_Details_deleted`) VALUES
-('1234o19', '1234o19', 'kevjn', '', '', '', '', '', 'dkjn', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
-('1234o18', '1234o18', 'kevjn', '', '', '', '', '', 'dkjn', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0);
+INSERT INTO `Personal_Details` (`Employee_ID`, `MCR_No`, `Staff_Name`, `Designation`, `Programme`, `Year_of_Training`, `Academic_Year`, `Department`, `Institution`, `Academic_Clinical_Programme`, `Employment_Status`, `Nationality`, `Date_of_Birth`, `Gender`, `Registration_Type`, `House_Blk_No`, `Street`, `Building_Name`, `Unit_No`, `Postal_Code`, `Contact_No_Work`, `Contact_No_Personal`, `Email_Official`, `Email_Personal`, `BCLS_Expiry_Date`, `ACLS_Expiry_Date`, `Covid_19_Vaccination_Status`, `Date_of_First_Dose`, `Date_of_Second_Dose`, `Vaccination_Remarks`) VALUES
+('1234o19', '1234o19', 'kevjn', '', '', '', '', '', 'dkjn', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+('1234o18', '1234o18', 'kevjn', '', '', '', '', '', 'dkjn', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
 -- ('crab25', '', '', 'khivycfyrx', '', '', '', '', 'jghfuytezy', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
 -- ('fififi', '', 'hkgcfxtyd', '', '', '', '', 'hgcfxd', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
 -- ('fififififi', '', '', '', '', 'jhgvchfx', '', '', 'bvgx', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
@@ -98,7 +97,6 @@ CREATE TABLE `Awards` (
   `FY_of_Award_Received` varchar(50) NOT NULL,
   `Date_of_Award_Received` varchar(50) NOT NULL,
   `Project_ID` varchar(50) NOT NULL,
-  `Awards_deleted` varchar(1) DEFAULT '0',
   primary key (id),
   CONSTRAINT FK_PersonOrder1 FOREIGN KEY (MCR_No)
   REFERENCES Personal_Details(MCR_No)
@@ -108,9 +106,9 @@ CREATE TABLE `Awards` (
 -- Dumping data for table `Awards`
 --
 
-INSERT INTO `Awards` (`MCR_No`, `Award_Category`, `Name_of_Award`, `FY_of_Award_Received`, `Date_of_Award_Received`, `Project_ID`, `Awards_deleted`) VALUES
-('1234o18', '', 'aerbaewrb', '', 'stbsetb', '', '0'),
-('1234o19', '', 'fff', '', '', '', '0');
+INSERT INTO `Awards` (`MCR_No`, `Award_Category`, `Name_of_Award`, `FY_of_Award_Received`, `Date_of_Award_Received`, `Project_ID`) VALUES
+('1234o18', '', 'aerbaewrb', '', 'stbsetb', ''),
+('1234o19', '', 'fff', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -131,7 +129,6 @@ CREATE TABLE `Case_Log` (
   `Observed` varchar(50) NOT NULL,
   `Verified` varchar(50) NOT NULL,
   `Certified` varchar(50) NOT NULL,
-  `Case_Log_deleted` tinyint(1) DEFAULT '0',
   primary key (id),
   CONSTRAINT FK_PersonOrder2 FOREIGN KEY (MCR_No)
   REFERENCES Personal_Details(MCR_No)
@@ -141,9 +138,9 @@ CREATE TABLE `Case_Log` (
 -- Dumping data for table `Case_Log`
 --
 
-INSERT INTO `Case_Log` (`MCR_No`, `Case_Name`, `Subspecialty`, `Type_of_Case_Log`, `Date_of_Log`, `CPT`, `Total`, `Performed`, `Observed`, `Verified`, `Certified`, `Case_Log_deleted`) VALUES
-('1234o18', 'Case_Name2', '', '', '', '', '', '', '', '', '', 0),
-('1234o19', 'Case_Name1', '', '', '', '', '', '', '', '', '', 0);
+INSERT INTO `Case_Log` (`MCR_No`, `Case_Name`, `Subspecialty`, `Type_of_Case_Log`, `Date_of_Log`, `CPT`, `Total`, `Performed`, `Observed`, `Verified`, `Certified`) VALUES
+('1234o18', 'Case_Name2', '', '', '', '', '', '', '', '', ''),
+('1234o19', 'Case_Name1', '', '', '', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -164,7 +161,6 @@ CREATE TABLE `Didactic_Attendance` (
   `Posting_Department` varchar(50) NOT NULL,
   `Scheduled_Teachings` varchar(50) NOT NULL,
   `Compliance_or_Not` varchar(50) NOT NULL,
-  `Didactic_Attendance_deleted` tinyint(1) DEFAULT '0',
   primary key (id),
   CONSTRAINT FK_PersonOrder3 FOREIGN KEY (MCR_No)
   REFERENCES Personal_Details(MCR_No)
@@ -174,14 +170,14 @@ CREATE TABLE `Didactic_Attendance` (
 -- Dumping data for table `Didactic_Attendance`
 --
 
-INSERT INTO `Didactic_Attendance` (`MCR_No`, `BillingName`, `Month`, `Total_tracked_sessions`, `Number_of_sessions_attended`, `Percentage_of_sessions_attended`, `MmYyyy`, `Posting_Institution`, `Posting_Department`, `Scheduled_Teachings`, `Compliance_or_Not`, `Didactic_Attendance_deleted`) VALUES
-('1234o18', 'SGHGasEnt', 'July', '14', '14', '100%', '', '', '', '', '', 0),
-('1234o18', 'SGHGasEnt', 'July', '20', '20', '100%', '', '', '', '', '', 0),
-('1234o18', 'SGHGasEnt', 'July', '14', '12', '86%', '', '', '', '', '', 0),
-('1234o19', 'CGHGasHep', 'July', '12', '9', '75%', '', '', '', '', '', 0),
-('1234o19', 'CGHGasHep', 'July', '12', '12', '100%', '', '', '', '', '', 0),
-('1234o19', '', '', '', '', '', '', '', '', '', '', 0),
-('1234o19', '', '', '', '', '', '', '', '', '', '', 0);
+INSERT INTO `Didactic_Attendance` (`MCR_No`, `BillingName`, `Month`, `Total_tracked_sessions`, `Number_of_sessions_attended`, `Percentage_of_sessions_attended`, `MmYyyy`, `Posting_Institution`, `Posting_Department`, `Scheduled_Teachings`, `Compliance_or_Not`) VALUES
+('1234o18', 'SGHGasEnt', 'July', '14', '14', '100%', '', '', '', '', ''),
+('1234o18', 'SGHGasEnt', 'July', '20', '20', '100%', '', '', '', '', ''),
+('1234o18', 'SGHGasEnt', 'July', '14', '12', '86%', '', '', '', '', ''),
+('1234o19', 'CGHGasHep', 'July', '12', '9', '75%', '', '', '', '', ''),
+('1234o19', 'CGHGasHep', 'July', '12', '12', '100%', '', '', '', '', ''),
+('1234o19', '', '', '', '', '', '', '', '', '', ''),
+('1234o19', '', '', '', '', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -197,7 +193,6 @@ CREATE TABLE `Duty_Hour_Log` (
   `Submitted_Proportion` varchar(50) NOT NULL,
   `MMYYYY` varchar(50) NOT NULL,
   `Logged_for_month` varchar(50) NOT NULL,
-  `Duty_Hour_Log_deleted` tinyint(1) DEFAULT '0',
   primary key (id),
   CONSTRAINT FK_PersonOrder4 FOREIGN KEY (MCR_No)
   REFERENCES Personal_Details(MCR_No)
@@ -207,14 +202,14 @@ CREATE TABLE `Duty_Hour_Log` (
 -- Dumping data for table `Duty_Hour_Log`
 --
 
-INSERT INTO `Duty_Hour_Log` (`MCR_No`, `Level`, `Submitted`, `Submitted_Proportion`, `MMYYYY`, `Logged_for_month`, `Duty_Hour_Log_deleted`) VALUES
-('1234o18', '4', '3', '0.5', 'Mar-20', 'Yes', 0),
-('1234o18', '4', '4', '0.3', 'Mar-20', 'Yes', 0),
-('1234o18', '4', '0', '0', 'Mar-20', 'Yes', 0),
-('1234o19', '4', '3', '1', 'Mar-20', 'Yes', 0),
-('1234o19', '4', '4', '1', 'Mar-20', 'Yes', 0),
-('1234o19', '', '', '', '', '', 0),
-('1234o19', '', '', '', '', '', 0);
+INSERT INTO `Duty_Hour_Log` (`MCR_No`, `Level`, `Submitted`, `Submitted_Proportion`, `MMYYYY`, `Logged_for_month`) VALUES
+('1234o18', '4', '3', '0.5', 'Mar-20', 'Yes'),
+('1234o18', '4', '4', '0.3', 'Mar-20', 'Yes'),
+('1234o18', '4', '0', '0', 'Mar-20', 'Yes'),
+('1234o19', '4', '3', '1', 'Mar-20', 'Yes'),
+('1234o19', '4', '4', '1', 'Mar-20', 'Yes'),
+('1234o19', '', '', '', '', ''),
+('1234o19', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -236,7 +231,6 @@ CREATE TABLE `Education_History` (
   `SR_Residency_Start_Date` varchar(50) NOT NULL,
   `SR_Residency_End_Date` varchar(50) NOT NULL,
   `PG_Year` varchar(50) NOT NULL,
-  `Education_History_deleted` tinyint(1) DEFAULT '0',
   primary key (id),
   CONSTRAINT FK_PersonOrder5 FOREIGN KEY (MCR_No)
   REFERENCES Personal_Details(MCR_No)
@@ -246,9 +240,9 @@ CREATE TABLE `Education_History` (
 -- Dumping data for table `Education_History`
 --
 
-INSERT INTO `Education_History` (`MCR_No`, `Year_of_Graduation`, `Date_of_Graduation`, `Basic_Qualification`, `Medical_School`, `Country_of_Graduation`, `IM_Residency_Start_Date`, `IM_Residency_End_Date`, `SR_Residency_Programme`, `SR_Residency_Start_Date`, `SR_Residency_End_Date`, `PG_Year`, `Education_History_deleted`) VALUES
-('1234o18', '', '', '', '', '', '', '', '', '', '', '', 0),
-('1234o19', '', '', '', '', '', '', '', '', '', '', '', 0);
+INSERT INTO `Education_History` (`MCR_No`, `Year_of_Graduation`, `Date_of_Graduation`, `Basic_Qualification`, `Medical_School`, `Country_of_Graduation`, `IM_Residency_Start_Date`, `IM_Residency_End_Date`, `SR_Residency_Programme`, `SR_Residency_Start_Date`, `SR_Residency_End_Date`, `PG_Year`) VALUES
+('1234o18', '', '', '', '', '', '', '', '', '', '', ''),
+('1234o19', '', '', '', '', '', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -267,7 +261,6 @@ CREATE TABLE `Evaluations` (
   `Evaluator` varchar(50) NOT NULL,
   `Service` varchar(50) NOT NULL,
   `Answer` varchar(50) NOT NULL,
-  `Evaluations_deleted` tinyint(1) DEFAULT '0',
   primary key (id),
   CONSTRAINT FK_PersonOrder6 FOREIGN KEY (MCR_No)
   REFERENCES Personal_Details(MCR_No)
@@ -277,8 +270,8 @@ CREATE TABLE `Evaluations` (
 -- Dumping data for table `Evaluations`
 --
 
-INSERT INTO `Evaluations` (`MCR_No`, `Year_of_Training`, `Rotation_Period`, `Name_of_Evaluation_Form`, `Question_Number`, `Score`, `Evaluator`, `Service`, `Answer`, `Evaluations_deleted`) VALUES
-('1234o19', '', '', '', '', '', '', '', '', 0);
+INSERT INTO `Evaluations` (`MCR_No`, `Year_of_Training`, `Rotation_Period`, `Name_of_Evaluation_Form`, `Question_Number`, `Score`, `Evaluator`, `Service`, `Answer`) VALUES
+('1234o19', '', '', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -292,17 +285,16 @@ CREATE TABLE `Exam_History` (
   `Name_of_Exam` varchar(50) NOT NULL,
   `Date_of_Attempt` varchar(50) NOT NULL,
   `Exam_Status` varchar(50) NOT NULL,
-  `Exam_History_deleted` tinyint(1) DEFAULT '0',
   primary key (id),
   CONSTRAINT FK_PersonOrder7 FOREIGN KEY (MCR_No)
   REFERENCES Personal_Details(MCR_No)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-INSERT INTO `Exam_History` (`MCR_No`,`Name_of_Exam`,`Date_of_Attempt`,`Exam_Status`,`Exam_History_deleted`) VALUES
-('1234o18','Name_of_Exam111','Date_of_Attempt111','Exam_Status111', 0),
-('1234o19','Name_of_Exam222','Date_of_Attempt111','Exam_Status111', 0),
-('1234o19','Name_of_Exam333','Date_of_Attempt111','Exam_Status111', 0);
+INSERT INTO `Exam_History` (`MCR_No`,`Name_of_Exam`,`Date_of_Attempt`,`Exam_Status`) VALUES
+('1234o18','Name_of_Exam111','Date_of_Attempt111','Exam_Status111'),
+('1234o19','Name_of_Exam222','Date_of_Attempt111','Exam_Status111'),
+('1234o19','Name_of_Exam333','Date_of_Attempt111','Exam_Status111');
 
 
 -- --------------------------------------------------------
@@ -319,7 +311,6 @@ CREATE TABLE `Grants` (
   `Project_ID` varchar(50) NOT NULL,
   `Grant_End_Date` varchar(50) NOT NULL,
   `Grant_Start_Date` varchar(50) NOT NULL,
-  `Grants_deleted` tinyint(1) DEFAULT '0',
   primary key (id),
   CONSTRAINT FK_PersonOrder8 FOREIGN KEY (MCR_No)
   REFERENCES Personal_Details(MCR_No)
@@ -329,9 +320,9 @@ CREATE TABLE `Grants` (
 -- Dumping data for table `Grants`
 --
 
-INSERT INTO `Grants` (`MCR_NO`, `Name_of_Grant`, `Project_Title`, `Project_ID`, `Grant_End_Date`, `Grant_Start_Date`, `Grants_deleted`) VALUES
-('1234o18', 'grant1', 'project1', '1234', '1/1/2022', '1/2/2022', 0),
-('1234o19', 'grant2', 'project12', '5667', '4/5/2022', '4/6/2022', 0);
+INSERT INTO `Grants` (`MCR_NO`, `Name_of_Grant`, `Project_Title`, `Project_ID`, `Grant_End_Date`, `Grant_Start_Date`) VALUES
+('1234o18', 'grant1', 'project1', '1234', '1/1/2022', '1/2/2022'),
+('1234o19', 'grant2', 'project12', '5667', '4/5/2022', '4/6/2022');
 
 -- --------------------------------------------------------
 
@@ -344,15 +335,14 @@ CREATE TABLE `IHI` (
   `MCR_No` varchar(50) NOT NULL,
   `Completion_of_Emodules` varchar(50) NOT NULL,
   `Date` varchar(50) NOT NULL,
-  `IHI_deleted` tinyint(1) DEFAULT '0',
   primary key (id),
   CONSTRAINT FK_PersonOrder9 FOREIGN KEY (MCR_No)
   REFERENCES Personal_Details(MCR_No)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `IHI` (`MCR_No`,`Completion_of_Emodules`,`Date`,`IHI_deleted`) VALUES
-('1234o18','Completion_of_Emodules111', '1/2/2022', 0),
-('1234o19','Completion_of_Emodules222', '1/2/2022',0);
+INSERT INTO `IHI` (`MCR_No`,`Completion_of_Emodules`,`Date`) VALUES
+('1234o18','Completion_of_Emodules111', '1/2/2022'),
+('1234o19','Completion_of_Emodules222', '1/2/2022');
 
 -- --------------------------------------------------------
 
@@ -368,17 +358,16 @@ CREATE TABLE `Involvement` (
   `Role` varchar(50) NOT NULL,
   `Start_Date` varchar(50) NOT NULL,
   `End_Date` varchar(50) NOT NULL,
-  `Involvement_deleted` tinyint(1) DEFAULT '0',
   primary key (id),
   CONSTRAINT FK_PersonOrder10 FOREIGN KEY (MCR_No)
   REFERENCES Personal_Details(MCR_No)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `Involvement` (`Involvement_Type`,`MCR_No`,`Event`,`Role`,`Start_Date`,`End_Date`,`Involvement_deleted`)
+INSERT INTO `Involvement` (`Involvement_Type`,`MCR_No`,`Event`,`Role`,`Start_Date`,`End_Date`)
 VALUES
-('Involvement_Type111','1234o18','Event111','Role111','Start_Date111','End_Date111', 0),
-('Involvement_Type222','1234o19','Event111','Role111','Start_Date111','End_Date111', 0),
-('Involvement_Type333','1234o19','Event111','Role111','Start_Date111','End_Date111', 0);
+('Involvement_Type111','1234o18','Event111','Role111','Start_Date111','End_Date111'),
+('Involvement_Type222','1234o19','Event111','Role111','Start_Date111','End_Date111'),
+('Involvement_Type333','1234o19','Event111','Role111','Start_Date111','End_Date111');
 
 -- --------------------------------------------------------
 
@@ -474,15 +463,14 @@ CREATE TABLE `Posting_History` (
   `Posting_Department` varchar(50) NOT NULL,
   `Posting_StartDate` varchar(50) NOT NULL,
   `Posting_EndDate` varchar(50) NOT NULL,
-  `Posting_History_deleted` int(11) NOT NULL DEFAULT '0',
   primary key (id),
   CONSTRAINT FK_PersonOrder11 FOREIGN KEY (MCR_No)
   REFERENCES Personal_Details(MCR_No)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `Posting_History` (`MCR_No`,`Posting_Institution`,`Posting_Department`,`Posting_StartDate`,`Posting_EndDate`,`Posting_History_deleted`) VALUES
-('1234o18','Posting_Institution111','Posting_Department111','Posting_StartDate111','Posting_EndDate111', 0),
-('1234o19','Posting_Institution222','Posting_Department111','Posting_StartDate111','Posting_EndDate111', 0);
+INSERT INTO `Posting_History` (`MCR_No`,`Posting_Institution`,`Posting_Department`,`Posting_StartDate`,`Posting_EndDate`) VALUES
+('1234o18','Posting_Institution111','Posting_Department111','Posting_StartDate111','Posting_EndDate111'),
+('1234o19','Posting_Institution222','Posting_Department111','Posting_StartDate111','Posting_EndDate111');
 
 -- --------------------------------------------------------
 
@@ -499,18 +487,17 @@ CREATE TABLE `Presentations` (
   `Conference_Name` varchar(50) NOT NULL,
   `Country` varchar(50) NOT NULL,
   `Presentation_Date` varchar(50) NOT NULL,
-  `Presentation_deleted` int(11) NOT NULL DEFAULT '0',
   primary key (id),
   CONSTRAINT FK_PersonOrder12 FOREIGN KEY (MCR_No)
   REFERENCES Personal_Details(MCR_No)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-INSERT INTO `Presentations` (`MCR_No`,`Title`,`Type`,`Project_ID`,`Conference_Name`,`Country`,`Presentation_Date`,`Presentation_deleted`) VALUES
-('1234o19','Title111','Type111','Project_ID111','Conference_Name111','Country111','Presentation_Date111', 0),
-('1234o19','Title111','Type111','Project_ID222','Conference_Name111','Country111','Presentation_Date111', 0),
-('1234o19','Title111','Type111','Project_ID333','Conference_Name111','Country111','Presentation_Date111', 0),
-('1234o18','Title111','Type111','Project_ID444','Conference_Name111','Country111','Presentation_Date111', 0);
+INSERT INTO `Presentations` (`MCR_No`,`Title`,`Type`,`Project_ID`,`Conference_Name`,`Country`,`Presentation_Date`) VALUES
+('1234o19','Title111','Type111','Project_ID111','Conference_Name111','Country111','Presentation_Date111'),
+('1234o19','Title111','Type111','Project_ID222','Conference_Name111','Country111','Presentation_Date111'),
+('1234o19','Title111','Type111','Project_ID333','Conference_Name111','Country111','Presentation_Date111'),
+('1234o18','Title111','Type111','Project_ID444','Conference_Name111','Country111','Presentation_Date111');
 
 
 -- --------------------------------------------------------
@@ -530,17 +517,16 @@ CREATE TABLE `Procedure_Log` (
   `Observed` varchar(50) NOT NULL,
   `Verified` varchar(50) NOT NULL,
   `Certified` varchar(50) NOT NULL,
-  `Procedure_Log_deleted` int(11) NOT NULL,
   primary key (id),
   CONSTRAINT FK_PersonOrder13 FOREIGN KEY (MCR_No)
   REFERENCES Personal_Details(MCR_No)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `Procedure_Log` (`MCR_No`,`Procedure_Name`,`Date_of_Completion`,`CPT`,`Total`,`Performed`,`Observed`,`Verified`,`Certified`,`Procedure_Log_deleted`)
+INSERT INTO `Procedure_Log` (`MCR_No`,`Procedure_Name`,`Date_of_Completion`,`CPT`,`Total`,`Performed`,`Observed`,`Verified`,`Certified`)
 VALUES
-('1234o18','Procedure_Name111','Date_of_Completion111','CPT111','Total111','Performed111','Observed111','Verified111','Certified111', 0),
-('1234o19','Procedure_Name222','Date_of_Completion111','CPT111','Total111','Performed111','Observed111','Verified111','Certified111', 0),
-('1234o19','Procedure_Name333','Date_of_Completion111','CPT111','Total111','Performed111','Observed111','Verified111','Certified111',0);
+('1234o18','Procedure_Name111','Date_of_Completion111','CPT111','Total111','Performed111','Observed111','Verified111','Certified111'),
+('1234o19','Procedure_Name222','Date_of_Completion111','CPT111','Total111','Performed111','Observed111','Verified111','Certified111'),
+('1234o19','Procedure_Name333','Date_of_Completion111','CPT111','Total111','Performed111','Observed111','Verified111','Certified111');
 
 
 
@@ -560,7 +546,6 @@ CREATE TABLE `Projects` (
   `End_Date` varchar(50) NOT NULL,
   `Date_of_QI_Certification` varchar(50) DEFAULT NULL,
   `PMID` varchar(50) DEFAULT NULL,
-  `Projects_deleted` tinyint(1) DEFAULT '0',
   primary key (id),
   CONSTRAINT FK_PersonOrder14 FOREIGN KEY (MCR_No)
   REFERENCES Personal_Details(MCR_No)
@@ -570,13 +555,13 @@ CREATE TABLE `Projects` (
 -- Dumping data for table `Projects`
 --
 
-INSERT INTO `Projects` (`MCR_No`, `Project_Type`, `Project_Title`, `Project_ID`, `Start_Date`, `End_Date`, `Date_of_QI_Certification`, `PMID`, `Projects_deleted`) VALUES
-('1234o18', 'Qi', 'Creating an Intranet Site Showing Each Medical Departments Criteria for Inpatient Reviews', ' ', '2019', '2020', '', '', 0),
-('1234o18', '', '', '', '', '', '', '', 0),
-('1234o18', 'QI', 'Code Blue Documentation ', ' ', '2018', '2019', '', '', 0),
-('1234o19', '', '', '', '', '', '', '', 0),
-('1234o19', 'QI', 'Reducing the percentage of errors in discharge prescriptions in Ward 73', ' ', '2019', '2020', '', '', 0),
-('1234o19', 'QI', 'Improving Compliance of Medical Results Acknowledgement in CGH Gastroenterology Department ', '', '', '', '', '', 0);
+INSERT INTO `Projects` (`MCR_No`, `Project_Type`, `Project_Title`, `Project_ID`, `Start_Date`, `End_Date`, `Date_of_QI_Certification`, `PMID`) VALUES
+('1234o18', 'Qi', 'Creating an Intranet Site Showing Each Medical Departments Criteria for Inpatient Reviews', ' ', '2019', '2020', '', ''),
+('1234o18', '', '', '', '', '', '', ''),
+('1234o18', 'QI', 'Code Blue Documentation ', ' ', '2018', '2019', '', ''),
+('1234o19', '', '', '', '', '', '', ''),
+('1234o19', 'QI', 'Reducing the percentage of errors in discharge prescriptions in Ward 73', ' ', '2019', '2020', '', ''),
+('1234o19', 'QI', 'Improving Compliance of Medical Results Acknowledgement in CGH Gastroenterology Department ', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -591,7 +576,6 @@ CREATE TABLE `Publications` (
   `Journal_Title` varchar(50) NOT NULL,
   `PMID` varchar(50) NOT NULL,
   `Publication_Date` varchar(50) NOT NULL,
-  `Publication_deleted` int(11) NOT NULL DEFAULT '0',
   primary key (id),
   CONSTRAINT FK_PersonOrder15 FOREIGN KEY (MCR_No)
   REFERENCES Personal_Details(MCR_No)
@@ -601,8 +585,8 @@ CREATE TABLE `Publications` (
 -- Dumping data for table `Publications`
 --
 
-INSERT INTO `Publications` (`MCR_No`, `Publication_Title`, `Journal_Title`, `PMID`, `Publication_Date`, `Publication_deleted`) VALUES
-('1234o18', 'juice', 'juice box', '123', '2023-01-03', 0);
+INSERT INTO `Publications` (`MCR_No`, `Publication_Title`, `Journal_Title`, `PMID`, `Publication_Date`) VALUES
+('1234o18', 'juice', 'juice box', '123', '2023-01-03');
 
 -- --------------------------------------------------------
 
@@ -616,7 +600,6 @@ CREATE TABLE `TrgExtRem_History` (
   `LOAPIP` varchar(100) DEFAULT NULL,
   `StartDate` varchar(50) DEFAULT NULL,
   `EndDate` varchar(50) DEFAULT NULL,
-  `TrgExtRem_History_deleted` int(11) NOT NULL DEFAULT '0',
   primary key (id),
   CONSTRAINT FK_PersonOrder16 FOREIGN KEY (MCR_No)
   REFERENCES Personal_Details(MCR_No)
@@ -626,10 +609,10 @@ CREATE TABLE `TrgExtRem_History` (
 -- Dumping data for table `TrgExtRem_History`
 --
 
-INSERT INTO `TrgExtRem_History` (`MCR_No`, `LOAPIP`, `StartDate`, `EndDate`, `TrgExtRem_History_deleted`) VALUES
-('1234o18', NULL, '2023-02-03 22:39:30', '2023-02-03 22:39:30', 0),
-('1234o19', NULL, '2023-02-03 22:50:25', '2023-02-03 22:50:25', 0),
-('1234o19', NULL, '2023-02-03 22:50:25', '2023-02-03 22:50:25', 0);
+INSERT INTO `TrgExtRem_History` (`MCR_No`, `LOAPIP`, `StartDate`, `EndDate`) VALUES
+('1234o18', NULL, '2023-02-03 22:39:30', '2023-02-03 22:39:30'),
+('1234o19', NULL, '2023-02-03 22:50:25', '2023-02-03 22:50:25'),
+('1234o19', NULL, '2023-02-03 22:50:25', '2023-02-03 22:50:25');
 
 -- --
 -- -- Indexes for dumped tables

@@ -94,7 +94,6 @@ class Personal_Details(db.Model):
     Date_of_First_Dose = db.Column(db.String(50))
     Date_of_Second_Dose = db.Column(db.String(50))
     Vaccination_Remarks = db.Column(db.String(50))
-    Personal_Details_deleted = db.Column(db.Boolean(), default=False, nullable=False)
 
     presentations = db.relationship('Presentations', backref='Personal_Details')
     posting_histories = db.relationship('Posting_History', backref='Personal_Details')
@@ -138,8 +137,6 @@ class Presentations(db.Model):
     Project_ID = db.Column(db.String(100))
     Country = db.Column(db.DateTime)
     Presentation_Date = db.Column(db.String(100))
-    Presentation_deleted = db.Column(db.Boolean(), default=False, nullable=False)
-
 
     __mapper_args__ = {
         'polymorphic_identity': 'Presentations'
@@ -166,8 +163,6 @@ class Posting_History(db.Model):
     Posting_Department = db.Column(db.DateTime)
     Posting_StartDate = db.Column(db.DateTime)
     Posting_EndDate = db.Column(db.String(100))
-    Posting_History_deleted = db.Column(db.Boolean(), default=False, nullable=False)
-
 
     __mapper_args__ = {
         'polymorphic_identity': 'Posting_History'
@@ -195,7 +190,6 @@ class Duty_Hour_Log(db.Model):
     Submitted_Proportion = db.Column(db.String(100))
     MMYYYY = db.Column(db.String(100))
     Logged_for_month = db.Column(db.String(100))
-    Duty_Hour_Log_deleted = db.Column(db.Boolean(), default=False, nullable=False)
 
     __mapper_args__ = {
         'polymorphic_identity': 'Duty_Hour_Log'
@@ -227,9 +221,7 @@ class Case_Log(db.Model):
     Observed = db.Column(db.String(100))
     Verified = db.Column(db.String(100))
     Certified = db.Column(db.String(100))
-    Case_Log_deleted= db.Column(db.Boolean(), default=False, nullable=False)
  
-
     __mapper_args__ = {
         'polymorphic_identity': 'Case_Log'
     }
@@ -259,7 +251,6 @@ class Procedure_Log(db.Model):
     Observed = db.Column(db.String(100))
     Verified = db.Column(db.String(100))
     Certified = db.Column(db.String(100))
-    Procedure_Log_deleted = db.Column(db.Boolean(), default=False, nullable=False)
 
     __mapper_args__ = {
         'polymorphic_identity': 'Procedure_Log'
@@ -284,7 +275,6 @@ class Exam_History(db.Model):
     Name_of_Exam = db.Column(db.String(100))
     Date_of_Attempt = db.Column(db.String(100))
     Exam_Status = db.Column(db.String(100))
-    Exam_History_deleted = db.Column(db.Boolean(), default=False, nullable=False)
 
     __mapper_args__ = {
         'polymorphic_identity': 'Exam_History'
@@ -313,10 +303,7 @@ class Publications(db.Model):
     
     PMID = db.Column(db.String(100))
     Publication_Date = db.Column(db.DateTime)
-    Publication_deleted = db.Column(db.Boolean(), default=False, nullable=False)
     
-
-
     __mapper_args__ = {
         'polymorphic_identity': 'Publications'
     }
@@ -346,7 +333,6 @@ class Evaluations(db.Model):
     Evaluator = db.Column(db.String(100))
     Service = db.Column(db.String(100))
     Answer = db.Column(db.String(100))
-    Evaluations_deleted= db.Column(db.Boolean(), default=False, nullable=False)
 
     __mapper_args__ = {
         'polymorphic_identity': 'Evaluations'
@@ -373,8 +359,6 @@ class TrgExtRem_History(db.Model):
 
     StartDate = db.Column(db.DateTime)
     EndDate = db.Column(db.DateTime)
-    TrgExtRem_History_deleted = db.Column(db.Boolean(), default=False, nullable=False)
-
 
     __mapper_args__ = {
         'polymorphic_identity': 'TrgExtRem_History'
@@ -404,8 +388,6 @@ class Projects(db.Model):
     End_Date = db.Column(db.DateTime)
     Date_of_QI_Certification= db.Column(db.String(100))
     PMID = db.Column(db.String(100))
-    Projects_deleted = db.Column(db.Boolean(), default=False, nullable=False)
-
 
     __mapper_args__ = {
         'polymorphic_identity': 'Projects'
@@ -434,7 +416,6 @@ class Awards(db.Model):
     FY_of_Award_Received = db.Column(db.String(100))
     Date_of_Award_Received = db.Column(db.DateTime)
     Project_ID = db.Column(db.String(100))
-    Awards_deleted = db.Column(db.Boolean(), default=False, nullable=False)
 
     __mapper_args__ = {
         'polymorphic_identity': 'Awards'
@@ -462,7 +443,6 @@ class Grants(db.Model):
     Project_ID = db.Column(db.String(100))
     Grant_End_Date = db.Column(db.DateTime)
     Grant_Start_Date = db.Column(db.DateTime)
-    Grants_deleted = db.Column(db.Boolean(), default=False, nullable=False)
 
     __mapper_args__ = {
         'polymorphic_identity': 'Grants'
@@ -487,7 +467,6 @@ class IHI(db.Model):
     MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Completion_of_Emodules = db.Column(db.String(100))
     Date = db.Column(db.String(100))
-    IHI_deleted= db.Column(db.Boolean(), default=False, nullable=False)
 
     __mapper_args__ = {
         'polymorphic_identity': 'IHI'
@@ -515,7 +494,6 @@ class Involvement(db.Model):
     Role = db.Column(db.String(100))
     Start_Date = db.Column(db.DateTime)
     End_Date = db.Column(db.DateTime)
-    Involvement_deleted= db.Column(db.Boolean(), default=False, nullable=False)
 
     __mapper_args__ = {
         'polymorphic_identity': 'Involvement'
@@ -661,7 +639,6 @@ def read_involvement_by_person(id):
 @app.route("/postinghistory")
 def read_postinghistory():
     pdList = Posting_History.query.all()
-    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     return jsonify(
         {
             "data": [pd.to_dict()
@@ -673,7 +650,6 @@ def read_postinghistory():
 @app.route("/postinghistory/<id>")
 def read_postinghistory_by_person(id):
     person = Personal_Details.query.get_or_404(id)
-    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     presentation_of_person = person.posting_histories
     return jsonify(
         {
@@ -734,7 +710,6 @@ def get_exam_history_fields():
 @app.route("/examhistory/<id>")
 def read_proceSSdurelog_by_person(id):
     person = Personal_Details.query.get_or_404(id)
-    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     examhistory_of_person = person.exam_histories
     return jsonify(
         {
@@ -924,7 +899,6 @@ def read_publications():
 @app.route("/publications/<id>")
 def read_publications_by_person(id):
     person = Personal_Details.query.get_or_404(id)
-    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     publications_of_person = person.publications
     return jsonify(
         {
@@ -950,7 +924,6 @@ def read_publications_by_person(id):
 @app.route("/projects")
 def read_projects():
     pdList = Projects.query.all()
-    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     return jsonify(
         {
             "data": [pd.to_dict()
@@ -962,7 +935,6 @@ def read_projects():
 @app.route("/projects/<id>")
 def read_projects_by_person(id):
     person = Personal_Details.query.get_or_404(id)
-    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     projects_of_person = person.projects
     return jsonify(
         {
@@ -989,7 +961,6 @@ def read_projects_by_person(id):
 @app.route("/ihi")
 def read_ihi():
     pdList = IHI.query.all()
-    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     return jsonify(
         {
             "data": [pd.to_dict()
@@ -1039,7 +1010,6 @@ def get_duty_hour_log():
 @app.route("/dutyhour/<id>")
 def read_dutyhourlogs_by_person(id):
     person = Personal_Details.query.get_or_404(id)
-    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     dutyhourlogs_of_person = person.duty_hour_logs
     return jsonify(
         {
@@ -1095,7 +1065,6 @@ def read_procedure_log():
 @app.route("/procedurelog/<id>")
 def read_procedurelog_by_person(id):
     person = Personal_Details.query.get_or_404(id)
-    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     caselogs_of_person = person.procedure_logs
     return jsonify(
         {
@@ -1121,7 +1090,6 @@ def read_procedurelog_by_person(id):
 @app.route("/case_log")
 def read_case_log():
     res = Case_Log.query.all()
-    print (res,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     return jsonify(
         {
             "data": [r.to_dict()
@@ -1133,7 +1101,6 @@ def read_case_log():
 @app.route("/caselogs/<id>")
 def read_caselogs_by_person(id):
     person = Personal_Details.query.get_or_404(id)
-    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     caselogs_of_person = person.case_logs
     return jsonify(
         {
@@ -1159,7 +1126,6 @@ def read_caselogs_by_person(id):
 @app.route("/evaluations/<id>")
 def read_evaluations_by_person(id):
     person = Personal_Details.query.get_or_404(id)
-    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     evaluations_of_person = person.evaluations
     return jsonify(
         {
@@ -1191,7 +1157,6 @@ def read_evaluation():
 @app.route("/trgextremhistory")
 def read_trgextrem_history():
     pdList = TrgExtRem_History.query.all()
-    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     return jsonify(
         {
             "data": [pd.to_dict()
@@ -1203,7 +1168,6 @@ def read_trgextrem_history():
 @app.route("/trgextremhistory/<id>")
 def read_trgextrem_history_by_person(id):
     person = Personal_Details.query.get_or_404(id)
-    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     trgextremhistory_of_person = person.trgExtRem_Histories
     return jsonify(
         {
@@ -1223,7 +1187,6 @@ def read_trgextrem_history_by_person(id):
 @app.route("/presentations")
 def read_presentations():
     pdList = Presentations.query.all()
-    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     return jsonify(
         {
             "data": [pd.to_dict()
@@ -1235,7 +1198,6 @@ def read_presentations():
 @app.route("/presentations/<id>")
 def read_presentations_by_person(id):
     person = Personal_Details.query.get_or_404(id)
-    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     presentation_of_person = person.presentations
     return jsonify(
         {
@@ -1280,4 +1242,4 @@ def create_resident():
 db.create_all()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5010, debug=True)
+    app.run(host='0.0.0.0', port=5011, debug=True)
