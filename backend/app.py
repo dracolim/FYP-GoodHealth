@@ -51,6 +51,12 @@ CORS(app)
 # from Duty_Hour_Log import Duty_Hour_Log
 # from Personal_Details import Personal_Details
 
+    
+#Read PersonalDetails field/column name (R)
+@app.route('/', methods=['GET'])
+def display():
+    return render_template('homepage2.html')
+
 
 class Personal_Details(db.Model):
     __tablename__ = 'Personal_Details'
@@ -90,6 +96,22 @@ class Personal_Details(db.Model):
     Vaccination_Remarks = db.Column(db.String(50))
     Personal_Details_deleted = db.Column(db.Boolean(), default=False, nullable=False)
 
+    presentations = db.relationship('Presentations', backref='Personal_Details')
+    posting_histories = db.relationship('Posting_History', backref='Personal_Details')
+    duty_hour_logs = db.relationship('Duty_Hour_Log', backref='Personal_Details')
+    case_logs = db.relationship('Case_Log', backref='Personal_Details')
+    procedure_logs = db.relationship('Procedure_Log', backref='Personal_Details')
+    exam_histories = db.relationship('Exam_History', backref='Personal_Details')
+    publications = db.relationship('Publications', backref='Personal_Details')
+    evaluations = db.relationship('Evaluations', backref='Personal_Details')
+    trgExtRem_Histories = db.relationship('TrgExtRem_History', backref='Personal_Details')
+    projects = db.relationship('Projects', backref='Personal_Details')
+    awards = db.relationship('Awards', backref='Personal_Details')
+    grants = db.relationship('Grants', backref='Personal_Details')
+    ihis = db.relationship('IHI', backref='Personal_Details')
+    involvements = db.relationship('Involvement', backref='Personal_Details')
+
+
     __mapper_args__ = {
         'polymorphic_identity': 'Personal_Details'
     }
@@ -108,8 +130,8 @@ class Personal_Details(db.Model):
 
 class Presentations(db.Model):
     __tablename__ = 'Presentations'
-    Presentation_ID=db.Column(db.String(100), primary_key=True)
-    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
+    id=db.Column(db.String(100), primary_key=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Title = db.Column(db.String(100))
     Conference_Name = db.Column(db.String(100))
     Type = db.Column(db.String(100))
@@ -135,23 +157,11 @@ class Presentations(db.Model):
             result[column] = getattr(self, column)
         return result
 
-# Read Existing  (R)
-@app.route("/presentations")
-def read_presentations():
-    pdList = Presentations.query.all()
-    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
-    return jsonify(
-        {
-            "data": [pd.to_dict()
-                    for pd in pdList]
-        }
-    ), 200
 
 class Posting_History(db.Model):
     __tablename__ = 'Posting_History'
     id = db.Column(db.Integer, primary_key=True)
-    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
-    Posting_History_ID=db.Column(db.String(100), primary_key=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Posting_Institution = db.Column(db.String(100))
     Posting_Department = db.Column(db.DateTime)
     Posting_StartDate = db.Column(db.DateTime)
@@ -175,22 +185,11 @@ class Posting_History(db.Model):
             result[column] = getattr(self, column)
         return result
 
-# Read Existing  (R)
-@app.route("/postinghistory")
-def read_postinghistory():
-    pdList = Posting_History.query.all()
-    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
-    return jsonify(
-        {
-            "data": [pd.to_dict()
-                    for pd in pdList]
-        }
-    ), 200
 
 class Duty_Hour_Log(db.Model):
     __tablename__ = 'Duty_Hour_Log'
-    Duty_Hour_Log_ID=db.Column(db.String(100), primary_key=True)
-    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
+    id=db.Column(db.String(100), primary_key=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Level = db.Column(db.String(100))
     Submitted = db.Column(db.String(100))
     Submitted_Proportion = db.Column(db.String(100))
@@ -214,11 +213,10 @@ class Duty_Hour_Log(db.Model):
             result[column] = getattr(self, column)
         return result
 
-
 class Case_Log(db.Model):
     __tablename__ = 'Case_Log'
-    Case_Log_ID=db.Column(db.String(100), primary_key=True)
-    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
+    id=db.Column(db.String(100), primary_key=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Case_Name = db.Column(db.String(100))
     Subspecialty = db.Column(db.String(100))
     Type_of_Case_Log = db.Column(db.String(100))
@@ -248,10 +246,11 @@ class Case_Log(db.Model):
             result[column] = getattr(self, column)
         return result
 
+
 class Procedure_Log(db.Model):
     __tablename__ = 'Procedure_Log'
-    Procedure_Log_ID=db.Column(db.String(100), primary_key=True)
-    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
+    id=db.Column(db.String(100), primary_key=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Procedure_Name = db.Column(db.String(100))
     Date_of_Completion = db.Column(db.String(100))
     CPT = db.Column(db.String(100))
@@ -280,8 +279,8 @@ class Procedure_Log(db.Model):
 
 class Exam_History(db.Model):
     __tablename__ = 'Exam_History'
-    Exam_History_ID=db.Column(db.String(100), primary_key=True)
-    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
+    id=db.Column(db.String(100), primary_key=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Name_of_Exam = db.Column(db.String(100))
     Date_of_Attempt = db.Column(db.String(100))
     Exam_Status = db.Column(db.String(100))
@@ -303,10 +302,11 @@ class Exam_History(db.Model):
             result[column] = getattr(self, column)
         return result
 
+
 class Publications(db.Model):
     __tablename__ = 'Publications'
-    Publication_ID=db.Column(db.String(100), primary_key=True)
-    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
+    id=db.Column(db.String(100), primary_key=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     
     Publication_Title = db.Column(db.String(100))
     Journal_Title = db.Column(db.String(100))
@@ -333,23 +333,11 @@ class Publications(db.Model):
             result[column] = getattr(self, column)
         return result
 
-# Read Existing  (R)
-@app.route("/publications")
-def read_publications():
-    pdList = Publications.query.all()
-    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
-    return jsonify(
-        {
-            "data": [pd.to_dict()
-                    for pd in pdList]
-        }
-    ), 200
-
 
 class Evaluations(db.Model):
     __tablename__ = 'Evaluations'
-    Evaluation_ID=db.Column(db.String(100), primary_key=True)
-    Employee_ID =db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
+    id=db.Column(db.String(100), primary_key=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Year_of_Training = db.Column(db.String(100))
     Rotation_Period = db.Column(db.String(100))
     Name_of_Evaluation_Form = db.Column(db.String(100))
@@ -376,15 +364,16 @@ class Evaluations(db.Model):
             result[column] = getattr(self, column)
         return result
 
+
 class TrgExtRem_History(db.Model):
     __tablename__ = 'TrgExtRem_History'
-    TrgExtRem_History_ID=db.Column(db.String(100), primary_key=True)
-    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
+    id=db.Column(db.String(100), primary_key=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     LOAPIP = db.Column(db.String(100))
 
     StartDate = db.Column(db.DateTime)
     EndDate = db.Column(db.DateTime)
-    TrgExtRemHistory_deleted = db.Column(db.Boolean(), default=False, nullable=False)
+    TrgExtRem_History_deleted = db.Column(db.Boolean(), default=False, nullable=False)
 
 
     __mapper_args__ = {
@@ -403,30 +392,18 @@ class TrgExtRem_History(db.Model):
             result[column] = getattr(self, column)
         return result
 
-# Read Existing  (R)
-@app.route("/trgextremhistory")
-def read_trgextrem_history():
-    pdList = TrgExtRem_History.query.all()
-    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
-    return jsonify(
-        {
-            "data": [pd.to_dict()
-                    for pd in pdList]
-        }
-    ), 200
 
 class Projects(db.Model):
     __tablename__ = 'Projects'
-    
-    Project_ID= db.Column(db.String(100), primary_key=True)
-    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
+    id=db.Column(db.String(100), primary_key=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Project_Type = db.Column(db.String(100))
-
     Project_Title = db.Column(db.String(100))
-    StartDate = db.Column(db.DateTime)
-    EndDate = db.Column(db.DateTime)
-    PMID = db.Column(db.String(100))
+    Project_ID=db.Column(db.String(100))
+    Start_Date = db.Column(db.DateTime)
+    End_Date = db.Column(db.DateTime)
     Date_of_QI_Certification= db.Column(db.String(100))
+    PMID = db.Column(db.String(100))
     Projects_deleted = db.Column(db.Boolean(), default=False, nullable=False)
 
 
@@ -446,28 +423,11 @@ class Projects(db.Model):
             result[column] = getattr(self, column)
         return result
 
-# Read Existing personaldetails (R)
-@app.route("/projects")
-def read_projects():
-    pdList = Projects.query.all()
-    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
-    return jsonify(
-        {
-            "data": [pd.to_dict()
-                    for pd in pdList]
-        }
-    ), 200
-
-    
-#Read PersonalDetails field/column name (R)
-@app.route('/', methods=['GET'])
-def display():
-    return render_template('homepage2.html')
 
 class Awards(db.Model):
     __tablename__ = 'Awards'
-    Award_ID=db.Column(db.String(100), primary_key=True)
-    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
+    id=db.Column(db.String(100), primary_key=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Award_Category = db.Column(db.String(100))
     Name_of_Award = db.Column(db.String(100))
 
@@ -493,12 +453,10 @@ class Awards(db.Model):
         return result
 
 
-
-
 class Grants(db.Model):
     __tablename__ = 'Grants'
-    Grant_ID=db.Column(db.String(100), primary_key=True)
-    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
+    id=db.Column(db.String(100), primary_key=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Name_of_Grant = db.Column(db.String(100))
     Project_Title = db.Column(db.String(100))
     Project_ID = db.Column(db.String(100))
@@ -522,10 +480,11 @@ class Grants(db.Model):
             result[column] = getattr(self, column)
         return result
 
+
 class IHI(db.Model):
     __tablename__ = 'IHI'
-    IHI_ID=db.Column(db.String(100), primary_key=True)
-    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
+    id=db.Column(db.String(100), primary_key=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Completion_of_Emodules = db.Column(db.String(100))
     Date = db.Column(db.String(100))
     IHI_deleted= db.Column(db.Boolean(), default=False, nullable=False)
@@ -546,23 +505,12 @@ class IHI(db.Model):
             result[column] = getattr(self, column)
         return result
 
-# Read Existing  (R)
-@app.route("/ihi")
-def read_ihi():
-    pdList = IHI.query.all()
-    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
-    return jsonify(
-        {
-            "data": [pd.to_dict()
-                    for pd in pdList]
-        }
-    ), 200
 
 class Involvement(db.Model):
     __tablename__ = 'Involvement'
-    Involvement_ID=db.Column(db.String(100), primary_key=True)
+    id=db.Column(db.String(100), primary_key=True)
     Involvement_Type = db.Column(db.String(100))
-    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
+    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Event = db.Column(db.String(100))
     Role = db.Column(db.String(100))
     Start_Date = db.Column(db.DateTime)
@@ -591,6 +539,7 @@ class Involvement(db.Model):
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+# AKA Personal_Details table routes:
 # Read Existing personaldetails (R)
 @app.route("/personaldetails")
 def read_personaldetails():
@@ -651,6 +600,7 @@ def create_personal_detail():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+# AKA Involvement table routes:
 # Read Existing involvement (R)
 @app.route("/involvement")
 def read_involvement():
@@ -663,13 +613,24 @@ def read_involvement():
     ), 200
 # Read Involvement field/column name (R)
 
-
 @app.route('/involvement_fields', methods=['GET'])
 def get_involvement_fields():
     fields = {}
     for column in Involvement.__table__.columns:
         fields[column.name] = str(column.type)
     return jsonify(fields)
+
+# Read Existing by Person (R)
+@app.route("/involvement/<id>")
+def read_involvement_by_person(id):
+    person = Personal_Details.query.get_or_404(id)
+    involvements_of_person = person.involvements
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in involvements_of_person]
+        }
+    ), 200
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
@@ -681,6 +642,7 @@ def get_involvement_fields():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+# AKA Education_History table routes:
 
 
 # ============================
@@ -694,6 +656,31 @@ def get_involvement_fields():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+# AKA Posting_History table routes:
+# Read Existing  (R)
+@app.route("/postinghistory")
+def read_postinghistory():
+    pdList = Posting_History.query.all()
+    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in pdList]
+        }
+    ), 200
+
+# Read Existing by Person (R)
+@app.route("/postinghistory/<id>")
+def read_postinghistory_by_person(id):
+    person = Personal_Details.query.get_or_404(id)
+    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    presentation_of_person = person.posting_histories
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in presentation_of_person]
+        }
+    ), 200
 
 
 # ============================
@@ -707,6 +694,7 @@ def get_involvement_fields():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+# AKA history_exam table routes:
 
 
 # ============================
@@ -721,6 +709,7 @@ def get_involvement_fields():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+# AKA exam_history table routes:
 
 # Read Existing ExamHistory (R)
 @app.route("/examhistory")
@@ -741,37 +730,16 @@ def get_exam_history_fields():
         fields[column.name] = str(column.type)
     return jsonify(fields)
 
-# Read Existing caselog (R)
-@app.route("/case_log")
-def read_case_log():
-    res = Case_Log.query.all()
-    print (res,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+# Read Existing by Person (R)
+@app.route("/examhistory/<id>")
+def read_proceSSdurelog_by_person(id):
+    person = Personal_Details.query.get_or_404(id)
+    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    examhistory_of_person = person.exam_histories
     return jsonify(
         {
-            "data": [r.to_dict()
-                    for r in res]
-        }
-    ), 200
-
-# Read Existing procedure log (R)
-@app.route("/procedure_log")
-def read_procedure_log():
-    res = Procedure_Log.query.all()
-    return jsonify(
-        {
-            "data": [r.to_dict()
-                     for r in res]
-        }
-    ), 200
-
-# Read Existing evaluations (R)
-@app.route("/evaluation")
-def read_evaluation():
-    res = Evaluations.query.all()
-    return jsonify(
-        {
-            "data": [r.to_dict()
-                     for r in res]
+            "data": [pd.to_dict()
+                    for pd in examhistory_of_person]
         }
     ), 200
 
@@ -787,6 +755,7 @@ def read_evaluation():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+# AKA  table routes:
 
 
 # ============================
@@ -800,6 +769,7 @@ def read_evaluation():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+# AKA grants table routes:
 # Read Existing grants (R)
 @app.route("/grants")
 def read_grants():
@@ -819,6 +789,18 @@ def get_grants_fields():
         fields[column.name] = str(column.type)
     return jsonify(fields)
 
+# Read Existing by Person (R)
+@app.route("/grants/<id>")
+def read_grants_by_person(id):
+    person = Personal_Details.query.get_or_404(id)
+    grants_of_person = person.grants
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in grants_of_person]
+        }
+    ), 200
+
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
@@ -830,6 +812,7 @@ def get_grants_fields():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+# AKA awards table routes:
 # Read Existing awards (R)
 @app.route("/awards")
 def read_awards():
@@ -848,6 +831,18 @@ def get_awards_fields():
     for column in Awards.__table__.columns:
         fields[column.name] = str(column.type)
     return jsonify(fields)
+
+# Read Existing by Person (R)
+@app.route("/awards/<id>")
+def read_awards_by_person(id):
+    person = Personal_Details.query.get_or_404(id)
+    awards_of_person = person.awards
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in awards_of_person]
+        }
+    ), 200
 
 # Add awards
 @app.route('/add_award', methods=['POST'])
@@ -886,6 +881,7 @@ def create_award():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+# AKA didactic_attendance table routes:
 
 # # Read Awards field/column name (R)
 # @app.route('/didactic_attendance', methods=['GET'])
@@ -910,6 +906,32 @@ def create_award():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+# AKA publications table routes:
+
+# Read Existing  (R)
+@app.route("/publications")
+def read_publications():
+    pdList = Publications.query.all()
+    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in pdList]
+        }
+    ), 200
+
+# Read Existing by Person (R)
+@app.route("/publications/<id>")
+def read_publications_by_person(id):
+    person = Personal_Details.query.get_or_404(id)
+    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    publications_of_person = person.publications
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in publications_of_person]
+        }
+    ), 200
 
 
 # ============================
@@ -923,6 +945,31 @@ def create_award():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+# AKA projects table routes:
+# Read Existing personaldetails (R)
+@app.route("/projects")
+def read_projects():
+    pdList = Projects.query.all()
+    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in pdList]
+        }
+    ), 200
+
+# Read Existing by Person (R)
+@app.route("/projects/<id>")
+def read_projects_by_person(id):
+    person = Personal_Details.query.get_or_404(id)
+    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    projects_of_person = person.projects
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in projects_of_person]
+        }
+    ), 200
 
 
 # ============================
@@ -936,6 +983,32 @@ def create_award():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+# AKA IHI table routes:
+
+# Read Existing  (R)
+@app.route("/ihi")
+def read_ihi():
+    pdList = IHI.query.all()
+    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in pdList]
+        }
+    ), 200
+
+# Read Existing by Person (R)
+@app.route("/ihi/<id>")
+def read_ihi_by_person(id):
+    person = Personal_Details.query.get_or_404(id)
+    ihis_of_person = person.ihis
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in ihis_of_person]
+        }
+    ), 200
+
 
 
 # ============================
@@ -949,7 +1022,7 @@ def create_award():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
-
+# AKA Duty_Hour_Log table routes:
 
 # Read duty Hour field/column name (R)
 @app.route('/duty_hour_log', methods=['GET'])
@@ -959,6 +1032,19 @@ def get_duty_hour_log():
         {
             "data": [pd.to_dict()
                      for pd in dutyList]
+        }
+    ), 200
+
+# Read Existing by Person (R)
+@app.route("/dutyhour/<id>")
+def read_dutyhourlogs_by_person(id):
+    person = Personal_Details.query.get_or_404(id)
+    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    dutyhourlogs_of_person = person.duty_hour_logs
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in dutyhourlogs_of_person]
         }
     ), 200
 
@@ -993,6 +1079,30 @@ def get_all_tables():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+# AKA Procedure_Log table routes:
+# Read Existing procedure log (R)
+@app.route("/procedure_log")
+def read_procedure_log():
+    res = Procedure_Log.query.all()
+    return jsonify(
+        {
+            "data": [r.to_dict()
+                     for r in res]
+        }
+    ), 200
+
+# Read Existing by Person (R)
+@app.route("/procedurelog/<id>")
+def read_procedurelog_by_person(id):
+    person = Personal_Details.query.get_or_404(id)
+    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    caselogs_of_person = person.procedure_logs
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in caselogs_of_person]
+        }
+    ), 200
 
 
 # ============================
@@ -1006,7 +1116,31 @@ def get_all_tables():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+# AKA Case_log table routes:
+# Read Existing caselog (R)
+@app.route("/case_log")
+def read_case_log():
+    res = Case_Log.query.all()
+    print (res,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    return jsonify(
+        {
+            "data": [r.to_dict()
+                    for r in res]
+        }
+    ), 200
 
+# Read Existing by Person (R)
+@app.route("/caselogs/<id>")
+def read_caselogs_by_person(id):
+    person = Personal_Details.query.get_or_404(id)
+    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    caselogs_of_person = person.case_logs
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in caselogs_of_person]
+        }
+    ), 200
 
 # ============================
 # █▀▀ █▄░█ █▀▄
@@ -1019,12 +1153,98 @@ def get_all_tables():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+# AKA Evaluation table routes:
+
+# Read Existing by Person (R)
+@app.route("/evaluations/<id>")
+def read_evaluations_by_person(id):
+    person = Personal_Details.query.get_or_404(id)
+    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    evaluations_of_person = person.evaluations
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in evaluations_of_person]
+        }
+    ), 200
+
+# Read Existing evaluations (R)
+@app.route("/evaluation")
+def read_evaluation():
+    res = Evaluations.query.all()
+    return jsonify(
+        {
+            "data": [r.to_dict()
+                     for r in res]
+        }
+    ), 200
 
 
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
 # ============================
+
+# AKA TrgExtRem_History table routes:
+
+# Read Existing  (R)
+@app.route("/trgextremhistory")
+def read_trgextrem_history():
+    pdList = TrgExtRem_History.query.all()
+    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in pdList]
+        }
+    ), 200
+
+# Read Existing by Person (R)
+@app.route("/trgextremhistory/<id>")
+def read_trgextrem_history_by_person(id):
+    person = Personal_Details.query.get_or_404(id)
+    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    trgextremhistory_of_person = person.trgExtRem_Histories
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in trgextremhistory_of_person]
+        }
+    ), 200
+
+# ============================
+# █▀▀ █▄░█ █▀▄
+# ██▄ █░▀█ █▄▀
+# ============================
+
+# AKA Presentations table routes:
+
+# Read Existing  (R)
+@app.route("/presentations")
+def read_presentations():
+    pdList = Presentations.query.all()
+    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in pdList]
+        }
+    ), 200
+
+# Read Existing by Person (R)
+@app.route("/presentations/<id>")
+def read_presentations_by_person(id):
+    person = Personal_Details.query.get_or_404(id)
+    # print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    presentation_of_person = person.presentations
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in presentation_of_person]
+        }
+    ), 200
+
+
 from sqlalchemy import insert,text
 # Read Awards field/column name (R)
 @app.route('/create_resident', methods=['POST'])
