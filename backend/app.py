@@ -50,11 +50,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 CORS(app)
-
-# from Didactic_Attendance import Didactic_Attendance
-# from Duty_Hour_Log import Duty_Hour_Log
-# from Personal_Details import Personal_Details
-
     
 #Read PersonalDetails field/column name (R)
 @app.route('/', methods=['GET'])
@@ -546,7 +541,7 @@ def get_personal_details_fields():
 def create_personal_detail():
     data = request.get_json()
     print(data)
-    if not all(key in data.keys() for key in ('Employee_id', 'MCR_No', "Staff_Name" , "Designation" , "Programme",
+    if not all(key in data.keys() for key in ('Employee_ID', 'MCR_No', "Staff_Name" , "Designation" , "Programme",
                 "Year_of_Training" , "Academic_Year" , "Department" , "Institution" , 
                 "Academic_Clinical_Programme" , "Employment_Status" , "Nationality" ,"Date_of_Birth" , "Gender",
                 "Registration_Type", "House_Blk_No" , "Street" , "Building_Name" , "Unit_No" , "Postal_Code" ,"Contact_No_Work",
@@ -1021,6 +1016,28 @@ def read_dutyhourlogs_by_person(id):
                     for pd in dutyhourlogs_of_person]
         }
     ), 200
+
+# Add duty hour 
+@app.route('/add_duty_hour', methods=['POST'])
+def create_duty_hour():
+    data = request.get_json()
+    print('hello')
+    print(data)
+    if not all(key in data.keys() for key in ('MCR_No', 'Level' , 'Submitted' , 'Submitted_Proportion'  , 'MMYYYY' , 
+    'Logged_for_month' 
+                )):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+    duty_hour_log = Duty_Hour_Log(**data)
+    try:
+        db.session.add(duty_hour_log)
+        db.session.commit()
+        return jsonify(duty_hour_log.to_dict()), 201
+    except Exception as e:
+        print("An error occurred:", e)
+        print("Stack trace:")
+        traceback.print_exc()
 
 # from sqlalchemy import create_engine
 # from sqlalchemy import inspect
