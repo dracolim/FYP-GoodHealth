@@ -3,21 +3,22 @@ import flask_testing
 import pytest
 import json
 from app import app, db, Personal_Details, Presentations
+from integration_test_PersonalDetails import TestApp
 
-class TestApp(flask_testing.TestCase):
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
-    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
-    app.config['TESTING'] = True
+# class TestApp(flask_testing.TestCase):
+#     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
+#     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
+#     app.config['TESTING'] = True
 
-    def create_app(self):
-        return app
+#     def create_app(self):
+#         return app
 
-    def setUp(self):
-        db.create_all()
+#     def setUp(self):
+#         db.create_all()
 
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
+#     def tearDown(self):
+#         db.session.remove()
+#         db.drop_all()
 
 
 # Read Personal_Details:
