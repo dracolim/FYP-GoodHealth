@@ -917,6 +917,7 @@ def get_duty_hour_log():
         }
     ), 200
 
+    
 from sqlalchemy import create_engine
 from sqlalchemy import inspect
 engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
