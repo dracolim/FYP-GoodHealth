@@ -42,6 +42,8 @@ if __name__ == '__main__':
 else:
     print("running not on main")
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
+    app.config['TESTING'] = True
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
