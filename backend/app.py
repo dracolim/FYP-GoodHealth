@@ -129,13 +129,13 @@ class Personal_Details(db.Model):
 
 class Presentations(db.Model):
     __tablename__ = 'Presentations'
-    id=db.Column(db.String(100), primary_key=True)
+    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Title = db.Column(db.String(100))
     Conference_Name = db.Column(db.String(100))
     Type = db.Column(db.String(100))
     Project_ID = db.Column(db.String(100))
-    Country = db.Column(db.DateTime)
+    Country = db.Column(db.String(100))
     Presentation_Date = db.Column(db.String(100))
 
     __mapper_args__ = {
@@ -157,7 +157,7 @@ class Presentations(db.Model):
 
 class Posting_History(db.Model):
     __tablename__ = 'Posting_History'
-    id = db.Column(db.Integer, primary_key=True)
+    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Posting_Institution = db.Column(db.String(100))
     Posting_Department = db.Column(db.DateTime)
@@ -183,7 +183,7 @@ class Posting_History(db.Model):
 
 class Duty_Hour_Log(db.Model):
     __tablename__ = 'Duty_Hour_Log'
-    id=db.Column(db.String(100), primary_key=True)
+    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Level = db.Column(db.String(100))
     Submitted = db.Column(db.String(100))
@@ -209,7 +209,7 @@ class Duty_Hour_Log(db.Model):
 
 class Case_Log(db.Model):
     __tablename__ = 'Case_Log'
-    id=db.Column(db.String(100), primary_key=True)
+    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Case_Name = db.Column(db.String(100))
     Subspecialty = db.Column(db.String(100))
@@ -241,7 +241,7 @@ class Case_Log(db.Model):
 
 class Procedure_Log(db.Model):
     __tablename__ = 'Procedure_Log'
-    id=db.Column(db.String(100), primary_key=True)
+    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Procedure_Name = db.Column(db.String(100))
     Date_of_Completion = db.Column(db.String(100))
@@ -270,7 +270,7 @@ class Procedure_Log(db.Model):
 
 class Exam_History(db.Model):
     __tablename__ = 'Exam_History'
-    id=db.Column(db.String(100), primary_key=True)
+    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Name_of_Exam = db.Column(db.String(100))
     Date_of_Attempt = db.Column(db.String(100))
@@ -295,7 +295,7 @@ class Exam_History(db.Model):
 
 class Publications(db.Model):
     __tablename__ = 'Publications'
-    id=db.Column(db.String(100), primary_key=True)
+    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     
     Publication_Title = db.Column(db.String(100))
@@ -323,7 +323,7 @@ class Publications(db.Model):
 
 class Evaluations(db.Model):
     __tablename__ = 'Evaluations'
-    id=db.Column(db.String(100), primary_key=True)
+    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Year_of_Training = db.Column(db.String(100))
     Rotation_Period = db.Column(db.String(100))
@@ -353,7 +353,7 @@ class Evaluations(db.Model):
 
 class TrgExtRem_History(db.Model):
     __tablename__ = 'TrgExtRem_History'
-    id=db.Column(db.String(100), primary_key=True)
+    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     LOAPIP = db.Column(db.String(100))
 
@@ -379,7 +379,7 @@ class TrgExtRem_History(db.Model):
 
 class Projects(db.Model):
     __tablename__ = 'Projects'
-    id=db.Column(db.String(100), primary_key=True)
+    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Project_Type = db.Column(db.String(100))
     Project_Title = db.Column(db.String(100))
@@ -408,7 +408,7 @@ class Projects(db.Model):
 
 class Awards(db.Model):
     __tablename__ = 'Awards'
-    id=db.Column(db.String(100), primary_key=True)
+    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Award_Category = db.Column(db.String(100))
     Name_of_Award = db.Column(db.String(100))
@@ -436,7 +436,7 @@ class Awards(db.Model):
 
 class Grants(db.Model):
     __tablename__ = 'Grants'
-    id=db.Column(db.String(100), primary_key=True)
+    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Name_of_Grant = db.Column(db.String(100))
     Project_Title = db.Column(db.String(100))
@@ -463,7 +463,7 @@ class Grants(db.Model):
 
 class IHI(db.Model):
     __tablename__ = 'IHI'
-    id=db.Column(db.String(100), primary_key=True)
+    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Completion_of_Emodules = db.Column(db.String(100))
     Date = db.Column(db.String(100))
@@ -487,7 +487,7 @@ class IHI(db.Model):
 
 class Involvement(db.Model):
     __tablename__ = 'Involvement'
-    id=db.Column(db.String(100), primary_key=True)
+    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     Involvement_Type = db.Column(db.String(100))
     MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Event = db.Column(db.String(100))
@@ -1242,4 +1242,4 @@ def create_resident():
 db.create_all()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5010, debug=True)
+    app.run(host='0.0.0.0', port=5011, debug=True)

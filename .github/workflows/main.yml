@@ -56,4 +56,4 @@ jobs:
           #TODO: Add the command to run all the unittest here.
           # pytest -o log_cli=true integration_tests.py unit_tests.py
           # pytest -o log_cli=true backend/integration_tests.py backend/unit_tests.py
-          pytest -o log_cli=true backend/unit_test.py
+          pytest -o log_cli=true backend/unit_test.py backend/integration_test*.py

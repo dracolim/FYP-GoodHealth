@@ -15,22 +15,21 @@ class TestDutyHourLogRole(unittest.TestCase):
         # from Duty_Hour_Log import Duty_Hour_Log
         from app import Duty_Hour_Log
         jr1 = Duty_Hour_Log(
-            Duty_Hour_Log_deleted = False,
-            Employee_id = "MOM12390",
+            MCR_No = "1234o19",
             Level = "4",
             Logged_for_month = "Yes",
             MMYYYY = "Mar-20",
             Submitted = "3",
-            Submitted_Proportion = "0.5"
+            Submitted_Proportion = "1"
             )
         self.assertEqual(jr1.to_dict(), {
-            "Duty_Hour_Log_deleted": False,
-            "Employee_id": "MOM12390",
             "Level": "4",
             "Logged_for_month": "Yes",
+            "MCR_No": "1234o19",
             "MMYYYY": "Mar-20",
             "Submitted": "3",
-            "Submitted_Proportion": "0.5"
+            "Submitted_Proportion": "1",
+            "id": None
         }
         )
         # assert("onde", "one")
