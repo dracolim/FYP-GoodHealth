@@ -106,9 +106,9 @@ class Personal_Details(db.Model):
             result[column] = getattr(self, column)
         return result
 
-class Presentation(db.Model):
+class Presentations(db.Model):
     __tablename__ = 'Presentations'
-    id = db.Column(db.Integer, primary_key=True)
+    Presentation_ID=db.Column(db.String(100), primary_key=True)
     Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
     Title = db.Column(db.String(100))
     Conference_Name = db.Column(db.String(100))
@@ -135,11 +135,23 @@ class Presentation(db.Model):
             result[column] = getattr(self, column)
         return result
 
+# Read Existing  (R)
+@app.route("/presentations")
+def read_presentations():
+    pdList = Presentations.query.all()
+    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in pdList]
+        }
+    ), 200
+
 class Posting_History(db.Model):
     __tablename__ = 'Posting_History'
     id = db.Column(db.Integer, primary_key=True)
     Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
-
+    Posting_History_ID=db.Column(db.String(100), primary_key=True)
     Posting_Institution = db.Column(db.String(100))
     Posting_Department = db.Column(db.DateTime)
     Posting_StartDate = db.Column(db.DateTime)
@@ -163,10 +175,22 @@ class Posting_History(db.Model):
             result[column] = getattr(self, column)
         return result
 
+# Read Existing  (R)
+@app.route("/postinghistory")
+def read_postinghistory():
+    pdList = Posting_History.query.all()
+    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in pdList]
+        }
+    ), 200
+
 class Duty_Hour_Log(db.Model):
     __tablename__ = 'Duty_Hour_Log'
-    id = db.Column(db.Integer, primary_key=True)
-    Employee_id = db.Column(db.String(100), primary_key=True)
+    Duty_Hour_Log_ID=db.Column(db.String(100), primary_key=True)
+    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
     Level = db.Column(db.String(100))
     Submitted = db.Column(db.String(100))
     Submitted_Proportion = db.Column(db.String(100))
@@ -193,8 +217,8 @@ class Duty_Hour_Log(db.Model):
 
 class Case_Log(db.Model):
     __tablename__ = 'Case_Log'
-    id = db.Column(db.Integer, primary_key=True)
-    Employee_ID = db.Column(db.String(100), primary_key=True)
+    Case_Log_ID=db.Column(db.String(100), primary_key=True)
+    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
     Case_Name = db.Column(db.String(100))
     Subspecialty = db.Column(db.String(100))
     Type_of_Case_Log = db.Column(db.String(100))
@@ -226,8 +250,8 @@ class Case_Log(db.Model):
 
 class Procedure_Log(db.Model):
     __tablename__ = 'Procedure_Log'
-    id = db.Column(db.Integer, primary_key=True)
-    Employee_ID = db.Column(db.String(100), primary_key=True)
+    Procedure_Log_ID=db.Column(db.String(100), primary_key=True)
+    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
     Procedure_Name = db.Column(db.String(100))
     Date_of_Completion = db.Column(db.String(100))
     CPT = db.Column(db.String(100))
@@ -256,12 +280,12 @@ class Procedure_Log(db.Model):
 
 class Exam_History(db.Model):
     __tablename__ = 'Exam_History'
-    id = db.Column(db.Integer, primary_key=True)
-    Employee_ID = db.Column(db.String(100), primary_key=True)
+    Exam_History_ID=db.Column(db.String(100), primary_key=True)
+    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
     Name_of_Exam = db.Column(db.String(100))
     Date_of_Attempt = db.Column(db.String(100))
     Exam_Status = db.Column(db.String(100))
-    Exam_History_Deleted = db.Column(db.Boolean(), default=False, nullable=False)
+    Exam_History_deleted = db.Column(db.Boolean(), default=False, nullable=False)
 
     __mapper_args__ = {
         'polymorphic_identity': 'Exam_History'
@@ -281,7 +305,7 @@ class Exam_History(db.Model):
 
 class Publications(db.Model):
     __tablename__ = 'Publications'
-    id = db.Column(db.Integer, primary_key=True)
+    Publication_ID=db.Column(db.String(100), primary_key=True)
     Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
     
     Publication_Title = db.Column(db.String(100))
@@ -309,10 +333,23 @@ class Publications(db.Model):
             result[column] = getattr(self, column)
         return result
 
+# Read Existing  (R)
+@app.route("/publications")
+def read_publications():
+    pdList = Publications.query.all()
+    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in pdList]
+        }
+    ), 200
+
+
 class Evaluations(db.Model):
     __tablename__ = 'Evaluations'
-    id = db.Column(db.Integer, primary_key=True)
-    Employee_ID = db.Column(db.String(100), primary_key=True)
+    Evaluation_ID=db.Column(db.String(100), primary_key=True)
+    Employee_ID =db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
     Year_of_Training = db.Column(db.String(100))
     Rotation_Period = db.Column(db.String(100))
     Name_of_Evaluation_Form = db.Column(db.String(100))
@@ -341,7 +378,7 @@ class Evaluations(db.Model):
 
 class TrgExtRem_History(db.Model):
     __tablename__ = 'TrgExtRem_History'
-    id = db.Column(db.Integer, primary_key=True)
+    TrgExtRem_History_ID=db.Column(db.String(100), primary_key=True)
     Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
     LOAPIP = db.Column(db.String(100))
 
@@ -366,9 +403,21 @@ class TrgExtRem_History(db.Model):
             result[column] = getattr(self, column)
         return result
 
+# Read Existing  (R)
+@app.route("/trgextremhistory")
+def read_trgextrem_history():
+    pdList = TrgExtRem_History.query.all()
+    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in pdList]
+        }
+    ), 200
+
 class Projects(db.Model):
     __tablename__ = 'Projects'
-    id = db.Column(db.Integer, primary_key=True)
+    
     Project_ID= db.Column(db.String(100), primary_key=True)
     Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
     Project_Type = db.Column(db.String(100))
@@ -417,7 +466,8 @@ def display():
 
 class Awards(db.Model):
     __tablename__ = 'Awards'
-    Employee_ID = db.Column(db.String(100), primary_key=True)
+    Award_ID=db.Column(db.String(100), primary_key=True)
+    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
     Award_Category = db.Column(db.String(100))
     Name_of_Award = db.Column(db.String(100))
 
@@ -443,34 +493,12 @@ class Awards(db.Model):
         return result
 
 
-class ExamHistory(db.Model):
-    __tablename__ = 'ExamHistory'
-    Employee_ID = db.Column(db.String(100), primary_key=True)
-    Name_of_Exam = db.Column(db.String(100))
-    Date_of_Attempt = db.Column(db.String(100))
-    Exam_Status = db.Column(db.String(100))
-    Exam_History_deleted= db.Column(db.Boolean(), default=False, nullable=False)
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'ExamHistory'
-    }
-
-    def to_dict(self):
-        """
-        'to_dict' converts the object into a dictionary,
-        in which the keys correspond to database columns
-        """
-        columns = self.__mapper__.column_attrs.keys()
-        print(f"columns: {columns}")
-        result = {}
-        for column in columns:
-            result[column] = getattr(self, column)
-        return result
 
 
 class Grants(db.Model):
     __tablename__ = 'Grants'
-    Employee_ID = db.Column(db.String(100), primary_key=True)
+    Grant_ID=db.Column(db.String(100), primary_key=True)
+    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
     Name_of_Grant = db.Column(db.String(100))
     Project_Title = db.Column(db.String(100))
     Project_ID = db.Column(db.String(100))
@@ -496,7 +524,8 @@ class Grants(db.Model):
 
 class IHI(db.Model):
     __tablename__ = 'IHI'
-    Employee_ID = db.Column(db.String(100), primary_key=True)
+    IHI_ID=db.Column(db.String(100), primary_key=True)
+    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
     Completion_of_Emodules = db.Column(db.String(100))
     Date = db.Column(db.String(100))
     IHI_deleted= db.Column(db.Boolean(), default=False, nullable=False)
@@ -517,11 +546,23 @@ class IHI(db.Model):
             result[column] = getattr(self, column)
         return result
 
+# Read Existing  (R)
+@app.route("/ihi")
+def read_ihi():
+    pdList = IHI.query.all()
+    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in pdList]
+        }
+    ), 200
 
 class Involvement(db.Model):
     __tablename__ = 'Involvement'
+    Involvement_ID=db.Column(db.String(100), primary_key=True)
     Involvement_Type = db.Column(db.String(100))
-    Employee_ID = db.Column(db.String(100), primary_key=True)
+    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_ID'))
     Event = db.Column(db.String(100))
     Role = db.Column(db.String(100))
     Start_Date = db.Column(db.DateTime)
@@ -684,7 +725,7 @@ def get_involvement_fields():
 # Read Existing ExamHistory (R)
 @app.route("/examhistory")
 def read_examhistory():
-    examhistoryList = ExamHistory.query.all()
+    examhistoryList = Exam_History.query.all()
     return jsonify(
         {
             "data": [pd.to_dict()
@@ -696,7 +737,7 @@ def read_examhistory():
 @app.route('/exam_history_fields', methods=['GET'])
 def get_exam_history_fields():
     fields = {}
-    for column in ExamHistory.__table__.columns:
+    for column in Exam_History.__table__.columns:
         fields[column.name] = str(column.type)
     return jsonify(fields)
 
@@ -828,6 +869,10 @@ def create_award():
         print("An error occurred:", e)
         print("Stack trace:")
         traceback.print_exc()
+    # except Exception:
+    #     return jsonify({
+    #         "message": "Unable to commit to database."
+    #     }), 500
 
 
 # ============================
@@ -917,7 +962,6 @@ def get_duty_hour_log():
         }
     ), 200
 
-    
 from sqlalchemy import create_engine
 from sqlalchemy import inspect
 engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
