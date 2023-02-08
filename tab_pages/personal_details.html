@@ -19,6 +19,9 @@
     <!-- ExcelJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    <!-- Tabulator  -->
+    <link href="https://unpkg.com/tabulator-tables@5.4.3/dist/css/tabulator.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.4.3/dist/js/tabulator.min.js"></script>
 
     <style type="text/tailwindcss">
         @layer utilities {
@@ -78,7 +81,8 @@
                     </li>
                     <li>
                         <a href="../tab_pages/personal_details.html"
-                        class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Personal Details</a>
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Personal
+                            Details</a>
                     </li>
                     <li>
                         <button data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500"
@@ -122,8 +126,8 @@
                     </li>
                     <li>
                         <a href="../tab_pages/duty_hour_log.html"
-                        class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0 dark:text-white"
-                        aria-current="page">Duty Hour Log</a>
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0 dark:text-white"
+                            aria-current="page">Duty Hour Log</a>
                     </li>
                     <li>
                         <a href="../tab_pages/procedure_log.html"
@@ -164,7 +168,7 @@
                 </li>
             </ul>
         </div>
-        
+
 
         <!-- filter rows -->
         <div class="flex items-center justify-between pb-4 mt-6 mx-8">
@@ -591,7 +595,7 @@
                             } else if (each == "Employee_id") {
                                 this.employee_id_values.push(value[each])
                             } else if (each == "Programme") {
-                                if (!this.programme_values.includes(value[each])) {
+                                if (!this.programme_values.includes(value[each]) && value[each] != "") {
                                     this.programme_values.push(value[each])
                                 }
                             } else if (each == "Contact_No_Work" || each == "Contact_No_Personal") {
@@ -663,9 +667,9 @@
                                             '';
                                         data.Email_Personal = row.values[24] || '';
                                         data.BCLS_Expiry_Date = row.values[25] ||
-                                        '';
+                                            '';
                                         data.ACLS_Expiry_Date = row.values[26] ||
-                                        '';
+                                            '';
                                         data.Covid_19_Vaccination_Status = row
                                             .values[27] || '';
                                         data.Date_of_First_Dose = row.values[28] ||
@@ -683,7 +687,8 @@
                                                     .message
                                             });
                                     }
-                                })}
+                                })
+                            }
                             // else if (sheet.name == "Awards") {
                             //     sheet.eachRow((row, rowIndex) => {
                             //         if (rowIndex > 1) {
