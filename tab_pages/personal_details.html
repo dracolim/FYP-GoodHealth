@@ -81,7 +81,8 @@
                     </li>
                     <li>
                         <a href="../tab_pages/personal_details.html"
-                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Personal
+                        class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0 dark:text-white"
+                        aria-current="page">Personal
                             Details</a>
                     </li>
                     <li>
@@ -126,8 +127,8 @@
                     </li>
                     <li>
                         <a href="../tab_pages/duty_hour_log.html"
-                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0 dark:text-white"
-                            aria-current="page">Duty Hour Log</a>
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Duty
+                            Hour Log</a>
                     </li>
                     <li>
                         <a href="../tab_pages/procedure_log.html"
@@ -269,308 +270,308 @@
             axios.get(API_URL_2)
                 .then(response => {
                     var table = new Tabulator("#example-table", {
-                        layout:"fitDataTable",
+                        layout: "fitDataTable",
                         data: response.data.data,
                         index: "Employee_ID",
                         columns: [{
-                                title: "Employee ID",
-                                field: "Employee_ID",
-                                sorter: "string",
-                                headerFilter: "input",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                editor: true,
+                            title: "Employee ID",
+                            field: "Employee_ID",
+                            sorter: "string",
+                            headerFilter: "input",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
+                            editor: true,
 
+                        },
+                        {
+                            title: "MCR No",
+                            field: "MCR_No",
+                            sorter: "string",
+                            headerFilter: "input",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
                             },
-                            {
-                                title: "MCR No",
-                                field: "MCR_No",
-                                sorter: "string",
-                                headerFilter: "input",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                editor: true,
+                            editor: true,
 
-                            },
+                        },
 
-                            {
-                                title: "Staff Name",
-                                field: "Staff_Name",
-                                sorter: "string",
-                                headerFilter: "input",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                editor: true,
+                        {
+                            title: "Staff Name",
+                            field: "Staff_Name",
+                            sorter: "string",
+                            headerFilter: "input",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
                             },
-                            {
-                                title: "Designation",
-                                field: "Designation",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Programme",
-                                field: "Programme",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Year of Training",
-                                field: "Year_of_Training",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Academic Year",
-                                field: "Academic_Year",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Department",
-                                field: "Department",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Institution",
-                                field:  "Institution",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Academic Clinical Programme",
-                                field:  "Academic_Clinical_Programme",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Employment Status",
-                                field:  "Employment_Status",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Nationality",
-                                field:   "Nationality",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Date of Birth",
-                                field:   "Date_of_Birth",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Registration Type",
-                                field:   "Registration_Type",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "House Blk No",
-                                field:   "House_Blk_No",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Street",
-                                field:   "Street",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Building Name",
-                                field:   "Building_Name",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Unit No",
-                                field:   "Unit_No",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Postal Code",
-                                field:   "Postal_Code",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Contact No Work",
-                                field:   "Contact_No_Work",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Contact No Personal",
-                                field:   "Contact_No_Personal",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Email Official",
-                                field:   "Email_Official",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Email Personal",
-                                field:   "Email_Personal",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "BCLS Expiry Date",
-                                field:   "BCLS_Expiry_Date",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "ACLS Expiry Date",
-                                field:   "ACLS_Expiry_Date",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Covid_19 Vaccination Status",
-                                field:   "Covid_19_Vaccination_Status",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Date of First Dose",
-                                field:   "Date_of_First_Dose",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Date of Second Dose",
-                                field:   "Date_of_Second_Dose",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Vaccination Remarks",
-                                field:   "Vaccination_Remarks",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
+                            editor: true,
+                        },
+                        {
+                            title: "Designation",
+                            field: "Designation",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Programme",
+                            field: "Programme",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Year of Training",
+                            field: "Year_of_Training",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Academic Year",
+                            field: "Academic_Year",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Department",
+                            field: "Department",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Institution",
+                            field: "Institution",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Academic Clinical Programme",
+                            field: "Academic_Clinical_Programme",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Employment Status",
+                            field: "Employment_Status",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Nationality",
+                            field: "Nationality",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Date of Birth",
+                            field: "Date_of_Birth",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Registration Type",
+                            field: "Registration_Type",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "House Blk No",
+                            field: "House_Blk_No",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Street",
+                            field: "Street",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Building Name",
+                            field: "Building_Name",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Unit No",
+                            field: "Unit_No",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Postal Code",
+                            field: "Postal_Code",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Contact No Work",
+                            field: "Contact_No_Work",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Contact No Personal",
+                            field: "Contact_No_Personal",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Email Official",
+                            field: "Email_Official",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Email Personal",
+                            field: "Email_Personal",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "BCLS Expiry Date",
+                            field: "BCLS_Expiry_Date",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "ACLS Expiry Date",
+                            field: "ACLS_Expiry_Date",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Covid_19 Vaccination Status",
+                            field: "Covid_19_Vaccination_Status",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Date of First Dose",
+                            field: "Date_of_First_Dose",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Date of Second Dose",
+                            field: "Date_of_Second_Dose",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Vaccination Remarks",
+                            field: "Vaccination_Remarks",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
                         ],
                     });
                 })
