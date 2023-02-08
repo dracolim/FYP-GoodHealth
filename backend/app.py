@@ -1022,26 +1022,26 @@ def read_dutyhourlogs_by_person(id):
         }
     ), 200
 
-from sqlalchemy import create_engine
-from sqlalchemy import inspect
-engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
-insp = inspect(engine)
-connection = engine.connect()
-print(insp.get_table_names())
-@app.route('/get_all_tables', methods=['GET'])
-def get_all_tables():
-    res = {}
-    for table_name in insp.get_table_names():
-        res[table_name]=[]
-        for column in insp.get_columns(table_name):
-            res[table_name].append(column['name'])
+# from sqlalchemy import create_engine
+# from sqlalchemy import inspect
+# engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+# insp = inspect(engine)
+# connection = engine.connect()
+# print(insp.get_table_names())
+# @app.route('/get_all_tables', methods=['GET'])
+# def get_all_tables():
+#     res = {}
+#     for table_name in insp.get_table_names():
+#         res[table_name]=[]
+#         for column in insp.get_columns(table_name):
+#             res[table_name].append(column['name'])
     
-    return jsonify(
-        {
-            "data":res
-        }
-    ), 200
-    print(insp.get_table_names(),'OSJVGNWOEVNWOECNVWEOICMWEOI')
+#     return jsonify(
+#         {
+#             "data":res
+#         }
+#     ), 200
+#     print(insp.get_table_names(),'OSJVGNWOEVNWOECNVWEOICMWEOI')
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
