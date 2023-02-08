@@ -27,6 +27,7 @@ app = Flask(__name__)
 app.app_context().push()
 
 if __name__ == '__main__':
+    print("running on main")
     # Mac user -------------------------------------------------------------------
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
                                             '@localhost:3306/SingHealth'
@@ -39,6 +40,7 @@ if __name__ == '__main__':
     # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
     #                                         'pool_recycle': 280}
 else:
+    print("running not on main")
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
