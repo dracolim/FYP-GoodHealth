@@ -1039,6 +1039,22 @@ def create_duty_hour():
         print("Stack trace:")
         traceback.print_exc()
 
+@app.route('/duty_hour_log/<int:id>', methods=['PUT'])
+def update_duty_hour_log(id):
+    user = Duty_Hour_Log.query.get(id)
+    if not user:
+        return 'Duty Hour Log not found', 404
+
+    data = request.get_json()
+    user.MCR_No = data['MCR_No']
+    user.Level = data['Level']
+    user.Submitted = data['Submitted']
+    user.Submitted_Proportion = data['Submitted_Proportion']
+    user.MMYYYY = data['MMYYYY']
+    user.Logged_for_month = data['Logged_for_month']
+
+    db.session.commit()
+    return 'Duty Hour Log updated', 200
 # from sqlalchemy import create_engine
 # from sqlalchemy import inspect
 # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')

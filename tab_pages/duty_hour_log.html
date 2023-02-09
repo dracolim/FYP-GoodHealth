@@ -240,87 +240,109 @@
             axios.get(API_URL_1)
                 .then(response => {
                     var table = new Tabulator("#example-table", {
-                        layout:"fitColumns",
+                        layout: "fitColumns",
                         data: response.data.data,
                         index: "MCR_No",
                         columns: [{
-                                title: "MCR_No",
-                                field: "MCR_No",
-                                sorter: "string",
-                                headerFilter: "input",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                width: 200,
-                                editor: true,
+                            title: "MCR_No",
+                            field: "MCR_No",
+                            sorter: "string",
+                            headerFilter: "input",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
+                            width: 200,
 
-                            },
 
-                            {
-                                title: "Level",
-                                field: "Level",
-                                sorter: "number",
-                                headerFilter: "input"
+                        },
+
+                        {
+                            title: "Level",
+                            field: "Level",
+                            sorter: "number",
+                            headerFilter: "input",
+                            editor: "number",
+                        },
+                        {
+                            title: "Submitted",
+                            field: "Submitted",
+                            sorter: "number",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Submitted_Proportion",
+                            field: "Submitted_Proportion",
+                            sorter: "number",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "MMYYYY",
+                            field: "MMYYYY",
+                            width: 200,
+                            editor: true,
+                            headerFilter: "input",
+                        },
+                        {
+                            title: "Logged_for_month",
+                            field: "Logged_for_month",
+                            sorter: "string",
+                            cellClick: function (e, cell) {
+                                console.log("cell click")
                             },
-                            {
-                                title: "Submitted",
-                                field: "Submitted",
-                                sorter: "number",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            }
+                        },
+                        {
+                            title: "Duty_Hour_Log_deleted",
+                            field: "Duty_Hour_Log_deleted",
+                            sorter: "boolean",
+                            hozAlign: "center",
+                            formatter: "tickCross",
+                            headerFilter: "tickCross",
+                            headerFilterParams: {
+                                "tristate": true
                             },
-                            {
-                                title: "Submitted_Proportion",
-                                field: "Submitted_Proportion",
-                                sorter: "number",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "MMYYYY",
-                                field: "MMYYYY",
-                                width: 200,
-                                editor: true,
-                                headerFilter: "input",
-                            },
-                            {
-                                title: "Logged_for_month",
-                                field: "Logged_for_month",
-                                sorter: "string",
-                                cellClick: function (e, cell) {
-                                    console.log("cell click")
-                                },
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Duty_Hour_Log_deleted",
-                                field: "Duty_Hour_Log_deleted",
-                                sorter: "boolean",
-                                hozAlign: "center",
-                                formatter: "tickCross",
-                                headerFilter: "tickCross",
-                                headerFilterParams: {
-                                    "tristate": true
-                                },
-                                headerFilterEmptyCheck: function (value) {
-                                    return value === null
-                                }
-                            },
+                            headerFilterEmptyCheck: function (value) {
+                                return value === null
+                            }
+                        },
                         ],
                     });
+                    // update data in the database after a cell is edited
+                    table.on("cellEdited", function (row) {
+                        // connect to database and execute update statement
+                        let thisrow = row.getData()
+                        // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
+                        axios.put("http://localhost:5010/duty_hour_log/" + thisrow.id, {
+                            "Level": thisrow.Level,
+                            "Logged_for_month": thisrow.Logged_for_month,
+                            "MCR_No": thisrow.MCR_No,
+                            "MMYYYY": thisrow.MMYYYY,
+                            "Submitted": thisrow.Submitted,
+                            "Submitted_Proportion": thisrow.Submitted_Proportion
+                        })
+                            .then(response => {
+                                console.log('Duty Hour Log ID {' + row.getData().id + '} updated.')
+                            })
+                            .catch(error => {
+                                console.log(error)
+                            })
+                    });
                 });
+
         },
         methods: {
             importExcel(event) {
