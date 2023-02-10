@@ -126,7 +126,7 @@
                 <v-row dense>
                   <v-col cols="sm">
                     <v-card class="pa-2" outlined tile raised>
-                      <my-bar-chart v-if="loaded" :bar-data="ChartConfig" :chart-options="options"></my-bar-chart>
+                      <my-donut-chart v-if="loaded" :donut-data="ChartConfig" :chart-options="options"></my-donut-chart>
                     </v-card>
                   </v-col>
                 </v-row>
@@ -142,11 +142,11 @@
     <!--- JAVASCRIPT -->
     <script>
 
-        Vue.component('my-bar-chart', {
-            extends: VueChartJs.Bar,
-            props: ['barData', 'chartOptions'],
+        Vue.component('my-donut-chart', {
+            extends: VueChartJs.Doughnut,
+            props: ['donutData', 'chartOptions'],
             mounted() {
-            this.renderChart(this.barData, this.chartOptions);
+            this.renderChart(this.donutData, this.chartOptions);
             },
         }, {
             responsive: true,
@@ -160,11 +160,11 @@
             return {
                 loaded: false,
                 ChartConfig: {
-                labels: ["Jan-Jun", "Jul-Dec"],
+                labels: ["Completed", "Not Completed"],
                 datasets: [
                     {
                     data: [],
-                    backgroundColor: '#ff6b00',
+                    backgroundColor: ['#ff6b00','#ffedd5'],
                     borderColor: 'rgba(136,136,136,0.5)',
                     label: "Compliant"
                     }
@@ -175,7 +175,7 @@
                 maintainAspectRatio: false,
                 title: {
                     display: true,
-                    text: 'Didactic Attendance (Overview)'
+                    text: 'Projects (Overview)'
                 },
                 tooltips: {
                     mode: 'index',
@@ -186,40 +186,20 @@
                     intersect: true
                 },
                 scales: {
-                    xAxes: [{
-                    display: true,
-                    categoryPercentage: 0.5,
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Month'
-                    }
-                    }],
-                    yAxes: [{
-                    ticks : {
-                    max : 1,    
-                    min : 0
-                    },
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Percentage'
-                        
-                    }
-                    }]
                 }
                 },
             }
             },
             mounted: function () {
                 this.loaded = false
-                this.getDidacticAttendanceData();
+                this.getProjectsData();
                 },
             methods: {
-                getDidacticAttendanceData: async function () {
+                getProjectsData: async function () {
 
                     this.status = "getting data...";
 
-                    await axios.get("http://localhost:5010/didactic_attendance").then((response) => {
+                    await axios.get("http://localhost:5010/projects").then((response) => {
                     console.log("This is responseData")
                     console.log(response.data)
                     this.getChartData(response.data);
@@ -232,36 +212,28 @@
                 getChartData: function (chartData) {
                     console.log("This is chartData")
                     console.log(chartData);
-                    console.log(chartData.data[0]['Month']);
+                    console.log(chartData.data[0]['End_Date']);
 
-                    counterCompliantJanJune = 0
-                    counterCompliantJulDec = 
-                    percentCompliantJanJune = 0
-                    percentCompliantJulDec = 0
-
-                    numOfJanJuneEntries = 0
-                    numofJulDecEntries = 0
+                    counterCompletionQI = 0
+                    numOfEntries = 0
+                    percentageCompleted = 0
+                    percentageNotCompleted = 0
 
                     for (var i = 0; i < chartData.data.length; i++) {
-                        if ('JanuaryFebruaryMarchAprilMayJune'.includes(chartData.data[i]['Month'])) {
-                            numOfJanJuneEntries++
-                            if (chartData.data[i]['Compliance_or_Not'] == 'Yes') {
-                                counterCompliantJanJune = counterCompliantJanJune + 1;
-                            }
-                        }
-                        else {
-                            numofJulDecEntries++
-                            if (chartData.data[i]['Compliance_or_Not'] == 'Yes') {
-                                counterCompliantJulDec = counterCompliantJulDec + 1;
-                            }
+                        numOfEntries++
+                        if (chartData.data[i]['End_Date'] != 'Ongoing') {
+                            counterCompletionQI++
                         }
                     }
 
-                    percentCompliantJanJune = counterCompliantJanJune/numOfJanJuneEntries
-                    percentCompliantJulDec = counterCompliantJulDec/numofJulDecEntries
+                    console.log(counterCompletionQI)
+                    console.log(numOfEntries)
 
-                    this.ChartConfig.datasets[0].data.push(percentCompliantJanJune)
-                    this.ChartConfig.datasets[0].data.push(percentCompliantJulDec)
+                    percentageCompleted = counterCompletionQI/numOfEntries
+                    percentageNotCompleted = 1 - percentageCompleted
+
+                    this.ChartConfig.datasets[0].data.push(percentageCompleted)
+                    this.ChartConfig.datasets[0].data.push(percentageNotCompleted)
 
                 }
             }

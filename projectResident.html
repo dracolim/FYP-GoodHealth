@@ -123,10 +123,21 @@
         <div class="container mx-auto pt-4" >
 
             <div id="app">
+
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+                    MCR No:
+                </label>
+
+                <input v-model="mcr_no" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input MCR No Here">
+
+                <button @click="getSpecificProjectData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+                    Get Resident's Info
+                </button> 
+
                 <v-row dense>
                   <v-col cols="sm">
                     <v-card class="pa-2" outlined tile raised>
-                      <my-bar-chart v-if="loaded" :bar-data="ChartConfig" :chart-options="options"></my-bar-chart>
+                      <my-donut-chart v-if="loaded" :donut-data="ChartConfig" :chart-options="options"></my-donut-chart>
                     </v-card>
                   </v-col>
                 </v-row>
@@ -142,11 +153,11 @@
     <!--- JAVASCRIPT -->
     <script>
 
-        Vue.component('my-bar-chart', {
-            extends: VueChartJs.Bar,
-            props: ['barData', 'chartOptions'],
+        Vue.component('my-donut-chart', {
+            extends: VueChartJs.Doughnut,
+            props: ['donutData', 'chartOptions'],
             mounted() {
-            this.renderChart(this.barData, this.chartOptions);
+            this.renderChart(this.donutData, this.chartOptions);
             },
         }, {
             responsive: true,
@@ -160,11 +171,11 @@
             return {
                 loaded: false,
                 ChartConfig: {
-                labels: ["Jan-Jun", "Jul-Dec"],
+                labels: ["% of Completion"],
                 datasets: [
                     {
                     data: [],
-                    backgroundColor: '#ff6b00',
+                    backgroundColor: ['#ff6b00','#ffedd5'],
                     borderColor: 'rgba(136,136,136,0.5)',
                     label: "Compliant"
                     }
@@ -175,7 +186,7 @@
                 maintainAspectRatio: false,
                 title: {
                     display: true,
-                    text: 'Didactic Attendance (Overview)'
+                    text: 'Project (Resident)'
                 },
                 tooltips: {
                     mode: 'index',
@@ -186,42 +197,23 @@
                     intersect: true
                 },
                 scales: {
-                    xAxes: [{
-                    display: true,
-                    categoryPercentage: 0.5,
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Month'
-                    }
-                    }],
-                    yAxes: [{
-                    ticks : {
-                    max : 1,    
-                    min : 0
-                    },
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Percentage'
-                        
-                    }
-                    }]
                 }
                 },
             }
             },
             mounted: function () {
                 this.loaded = false
-                this.getDidacticAttendanceData();
+                this.getSpecificProjectData();
                 },
             methods: {
-                getDidacticAttendanceData: async function () {
+                getSpecificProjectData: async function () {
 
                     this.status = "getting data...";
 
-                    await axios.get("http://localhost:5010/didactic_attendance").then((response) => {
-                    console.log("This is responseData")
-                    console.log(response.data)
+                    specificURL = "http://localhost:5010/projects/" + this.mcr_no
+                    await axios.get(specificURL).then((response) => {
+                    // console.log("This is responseData")
+                    // console.log(response.data)
                     this.getChartData(response.data);
                     this.loaded = true
                     })
@@ -232,37 +224,28 @@
                 getChartData: function (chartData) {
                     console.log("This is chartData")
                     console.log(chartData);
-                    console.log(chartData.data[0]['Month']);
+                    console.log(chartData.data[0]['End_Date']);
 
-                    counterCompliantJanJune = 0
-                    counterCompliantJulDec = 
-                    percentCompliantJanJune = 0
-                    percentCompliantJulDec = 0
+                    didResidentComplete = null;
+                    percentageCompletion = 0
 
-                    numOfJanJuneEntries = 0
-                    numofJulDecEntries = 0
-
-                    for (var i = 0; i < chartData.data.length; i++) {
-                        if ('JanuaryFebruaryMarchAprilMayJune'.includes(chartData.data[i]['Month'])) {
-                            numOfJanJuneEntries++
-                            if (chartData.data[i]['Compliance_or_Not'] == 'Yes') {
-                                counterCompliantJanJune = counterCompliantJanJune + 1;
-                            }
-                        }
-                        else {
-                            numofJulDecEntries++
-                            if (chartData.data[i]['Compliance_or_Not'] == 'Yes') {
-                                counterCompliantJulDec = counterCompliantJulDec + 1;
-                            }
-                        }
+                    if (chartData.data[0]['End_Date'] == "Ongoing") {
+                        didResidentComplete = "No";
+                    }
+                    else {
+                        didResidentComplete = "Yes";
                     }
 
-                    percentCompliantJanJune = counterCompliantJanJune/numOfJanJuneEntries
-                    percentCompliantJulDec = counterCompliantJulDec/numofJulDecEntries
-
-                    this.ChartConfig.datasets[0].data.push(percentCompliantJanJune)
-                    this.ChartConfig.datasets[0].data.push(percentCompliantJulDec)
-
+                    if (didResidentComplete == 'Yes') {
+                        percentageCompletion = 1
+                    }
+                    else {
+                        percentageCompletion = 0
+                    }
+                
+                    this.ChartConfig.datasets[0].data.push(percentageCompletion)
+                    percentageCompletion = 0
+                    this.loaded = false
                 }
             }
         });

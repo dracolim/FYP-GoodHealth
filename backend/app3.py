@@ -50,6 +50,9 @@ CORS(app)
 from PersonalDetails import PersonalDetails
 from Duty_Hour_Log import Duty_Hour_Log
 from Didactic_Attendance import didactic_attendance
+from IHI import ihi
+from Projects import Project
+
 
 class Awards(db.Model):
     __tablename__ = 'Awards'
@@ -379,7 +382,7 @@ def get_didactic_attendance():
 
 #Read Specific Didactic Attendance by MCR No (R)
 @app.route("/didactic_attendance/<mcr_no>", methods=['GET'])
-def get_didactic_attendance_by_employeeid(mcr_no):
+def get_didactic_attendance_by_mcrno(mcr_no):
     specificDidacticList = didactic_attendance.query.filter_by(MCR_No = mcr_no).all()
     return jsonify(
         {
@@ -412,9 +415,27 @@ def get_didactic_attendance_by_employeeid(mcr_no):
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+#Read Projects (R)
+@app.route('/projects', methods=['GET'])
+def get_projects():
+    projectList = Project.query.all()
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in projectList]
+        }
+    ), 200
 
-
-
+#Read Specific Project Information by MCR No (R)
+@app.route("/projects/<mcr_no>", methods=['GET'])
+def get_project_by_mcrno(mcr_no):
+    specificProjectList = Project.query.filter_by(MCR_No = mcr_no).all()
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in specificProjectList]
+        }
+    ), 200
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
@@ -426,9 +447,27 @@ def get_didactic_attendance_by_employeeid(mcr_no):
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+#Read IHI (R)
+@app.route('/ihi', methods=['GET'])
+def get_ihi():
+    ihiList = ihi.query.all()
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in ihiList]
+        }
+    ), 200
 
-
-
+#Read Specific IHI by MCR No (R)
+@app.route("/ihi/<mcr_no>", methods=['GET'])
+def get_ihi_by_mcrno(mcr_no):
+    specificIhiList = ihi.query.filter_by(MCR_No = mcr_no).all()
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in specificIhiList]
+        }
+    ), 200
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀

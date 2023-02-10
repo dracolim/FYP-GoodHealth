@@ -125,10 +125,10 @@
             <div id="app">
 
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
-                    Employee ID:
+                    MCR No:
                 </label>
 
-                <input v-model="employee_id" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input ID Here">
+                <input v-model="mcr_no" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input MCR No Here">
 
                 <button @click="getSpecificDidacticAttendanceData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
                     Get Resident's Info
@@ -169,14 +169,14 @@
             vuetify: new Vuetify(),
             data() {
             return {
-                employee_id: "",
+                mcr_no: "",
                 loaded: false,
                 ChartConfig: {
                 labels: ["Jan-Jun", "Jul-Dec"],
                 datasets: [
                     {
                     data: [],
-                    backgroundColor: '#db7221',
+                    backgroundColor: '#ff6b00',
                     borderColor: 'rgba(136,136,136,0.5)',
                     label: "Average Compliance"
                     }
@@ -219,8 +219,6 @@
                     }]
                 }
                 },
-                iceCream: [],
-                drawer: false
             }
             },
             mounted: function () {
@@ -229,28 +227,36 @@
                 },
             methods: {
                 getSpecificDidacticAttendanceData: async function () {
-
+                    
                     this.status = "getting data...";
 
-                    specificURL = "http://localhost:5010/didactic_attendance/" + this.employee_id
+                    specificURL = "http://localhost:5010/didactic_attendance/" + this.mcr_no
                     await axios.get(specificURL).then((response) => {
+                    console.log("This is mcrno")
+                    console.log(this.mcr_no)
+
                     console.log("This is responseData")
                     console.log(response.data)
                     this.getChartData(response.data);
+                    this.loaded = false
                     this.loaded = true
+
+                    
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
                 },
                 getChartData: function (chartData) {
-                    console.log("This is chartData")
-                    console.log(chartData);
-                    console.log(chartData.data[0]['Month']);
+                    // console.log("This is chartData")
+                    // console.log(chartData);
+                    // console.log(chartData.data[0]['Month']);
+
+                    this.ChartConfig.datasets[0].data = []
 
                     counterCompliantJanJune = 0
                     counterCompliantJulDec = 0
-                    percentCompliantJanJune = 
+                    percentCompliantJanJune = 0
                     percentCompliantJulDec = 0
 
                     totalPercentAttendedJanJune = 0
@@ -270,16 +276,17 @@
                         }
                     }
 
-                    console.log(totalPercentAttendedJanJune)
-                    console.log(totalPercentAttendedJulDec)
+                    // console.log(totalPercentAttendedJanJune)
+                    // console.log(totalPercentAttendedJulDec)
 
-                    console.log("num of entries")
-                    console.log(numOfJanJuneEntries)
-                    console.log(numofJulDecEntries)
+                    // console.log("num of entries")
+                    // console.log(numOfJanJuneEntries)
+                    // console.log(numofJulDecEntries)
 
                     percentCompliantJanJune = (totalPercentAttendedJanJune/numOfJanJuneEntries)/100
                     percentCompliantJulDec = (totalPercentAttendedJulDec/numofJulDecEntries)/100
 
+                    console.log("checking percentage")
                     console.log(percentCompliantJanJune)
                     console.log(percentCompliantJulDec)
 
