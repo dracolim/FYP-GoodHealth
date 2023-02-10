@@ -70,7 +70,7 @@ CREATE TABLE `Case_Log` (
 --
 
 CREATE TABLE `Didactic_Attendance` (
-  `Employee_ID` varchar(50) NOT NULL,
+  `MCR_No` varchar(50) NOT NULL,
   `Billing_Name` varchar(50) NOT NULL,
   `Month` varchar(50) NOT NULL,
   `Total_Tracked_Sessions` varchar(50) NOT NULL,
@@ -83,14 +83,14 @@ CREATE TABLE `Didactic_Attendance` (
   `Didactic_Attendance_Deleted` boolean DEFAULT false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `Didactic_Attendance` (`Employee_ID`, `Billing_Name`, `Month`, 
+INSERT INTO `Didactic_Attendance` (`MCR_No`, `Billing_Name`, `Month`, 
 `Total_Tracked_Sessions`, `Number_Sessions_Attended`, `Percentage_Sessions_Attended`, `MMYYYY`, `Posting_Institution`, `Posting_Department`, `Compliance_or_Not`, `Didactic_Attendance_Deleted`) VALUES
-('MOM12390', 'SGHGasEnt', 'July', '14', '14', '100%', '072023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
-('MOM12390', 'SGHGasEnt', 'August', '14', '10', '71%', '082023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
-('MOM12390', 'SGHGasEnt', 'January', '14', '14', '100%', '012023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
-('MOM12390', 'SGHGasEnt', 'February', '14', '10', '60%', '022023', 'TestInstitution', 'TestDepartment', 'No', 'false'),
-('MOM05233', 'CGHGasHep', 'July', '12', '12', '100%', '072023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
-('MOM05233', 'CGHGasHep', 'August', '12', '10', '83%', '082023', 'TestInstitution', 'TestDepartment', 'Yes', 'false');
+('M11367A', 'SGHGasEnt', 'July', '14', '14', '100%', '072023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
+('M11367A', 'SGHGasEnt', 'August', '14', '10', '71%', '082023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
+('M11367A', 'SGHGasEnt', 'January', '14', '14', '100%', '012023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
+('M11367A', 'SGHGasEnt', 'February', '14', '10', '60%', '022023', 'TestInstitution', 'TestDepartment', 'No', 'false'),
+('M16782H', 'CGHGasHep', 'July', '12', '12', '100%', '072023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
+('M16782H', 'CGHGasHep', 'August', '12', '10', '83%', '082023', 'TestInstitution', 'TestDepartment', 'Yes', 'false');
 
 
 -- --------------------------------------------------------
@@ -550,7 +550,7 @@ ALTER TABLE `Case_Log`
 -- Indexes for table `Didactic_Attendance`
 --
 ALTER TABLE `Didactic_Attendance`
-  ADD KEY `Employee_ID` (`Employee_ID`);
+  ADD KEY `MCR_No` (`MCR_No`);
 
 --
 -- Indexes for table `Duty_Hour_Log`

@@ -377,10 +377,10 @@ def get_didactic_attendance():
         }
     ), 200
 
-#Read Specific Didactic Attendance by Employee ID (R)
-@app.route("/didactic_attendance/<employee_id>", methods=['GET'])
-def get_didactic_attendance_by_employeeid(employee_id):
-    specificDidacticList = didactic_attendance.query.filter_by(Employee_ID=employee_id).all()
+#Read Specific Didactic Attendance by MCR No (R)
+@app.route("/didactic_attendance/<mcr_no>", methods=['GET'])
+def get_didactic_attendance_by_employeeid(mcr_no):
+    specificDidacticList = didactic_attendance.query.filter_by(MCR_No = mcr_no).all()
     return jsonify(
         {
             "data": [pd.to_dict()

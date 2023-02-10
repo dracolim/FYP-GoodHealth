@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 class didactic_attendance(db.Model):
     __tablename__ = 'didactic_attendance'
 
-    Employee_ID = db.Column(db.String(100), primary_key=True)
+    MCR_No = db.Column(db.String(100), primary_key=True)
     Billing_Name = db.Column(db.String(100))
     Month = db.Column(db.String(100))
     Total_Tracked_Sessions = db.Column(db.String(100))
