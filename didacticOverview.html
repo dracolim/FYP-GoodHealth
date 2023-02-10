@@ -39,6 +39,7 @@
 <body>
 
     <div id="main-container">
+        
         <!-- header -->
         <div class="bg-stone-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded ">
             <div class="container flex flex-wrap items-center justify-between mx-auto" style="width: 100%; overflow: hidden;">
@@ -119,14 +120,18 @@
         <div class='row' style='height: 8px; background-color: #ff6b00;'></div>
 
         <!-- Graph Goes Here -->
-        <div id="app">
-            <v-row dense>
-              <v-col cols="sm">
-                <v-card class="pa-2" outlined tile raised>
-                  <my-bar-chart v-if="loaded" :bar-data="ChartConfig" :chart-options="options"></my-bar-chart>
-                </v-card>
-              </v-col>
-            </v-row>
+        <div class="container mx-auto pt-4" >
+
+            <div id="app">
+                <v-row dense>
+                  <v-col cols="sm">
+                    <v-card class="pa-2" outlined tile raised>
+                      <my-bar-chart v-if="loaded" :bar-data="ChartConfig" :chart-options="options"></my-bar-chart>
+                    </v-card>
+                  </v-col>
+                </v-row>
+            </div>
+
         </div>
 
     </div>
@@ -159,7 +164,7 @@
                 datasets: [
                     {
                     data: [],
-                    backgroundColor: '#3498db',
+                    backgroundColor: '#db7221',
                     borderColor: 'rgba(136,136,136,0.5)',
                     label: "Compliant"
                     }

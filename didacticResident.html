@@ -39,6 +39,7 @@
 <body>
 
     <div id="main-container">
+
         <!-- header -->
         <div class="bg-stone-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded ">
             <div class="container flex flex-wrap items-center justify-between mx-auto" style="width: 100%; overflow: hidden;">
@@ -119,23 +120,29 @@
         <div class='row' style='height: 8px; background-color: #ff6b00;'></div>
 
         <!-- Graph Goes Here -->
+        <div class="container mx-auto pt-4" >
 
+            <div id="app">
 
-        <div id="app">
-            <p>Employee ID: {{ employee_id }}</p>
-            <input v-model="employee_id" placeholder="edit me" />
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+                    Employee ID:
+                </label>
 
-            <template>
-                <button @click="getSpecificDidacticAttendanceData()">Get Resident's Info</button>    
-            </template>
+                <input v-model="employee_id" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input ID Here">
 
-            <v-row dense>
-              <v-col cols="sm">
-                <v-card class="pa-2" outlined tile raised>
-                  <my-bar-chart v-if="loaded" :bar-data="ChartConfig" :chart-options="options"></my-bar-chart>
-                </v-card>
-              </v-col>
-            </v-row>
+                <button @click="getSpecificDidacticAttendanceData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+                    Get Resident's Info
+                </button> 
+
+                <v-row dense>
+                  <v-col cols="sm">
+                    <v-card class="pa-2" outlined tile raised>
+                      <my-bar-chart v-if="loaded" :bar-data="ChartConfig" :chart-options="options"></my-bar-chart>
+                    </v-card>
+                  </v-col>
+                </v-row>
+            </div>
+
         </div>
 
     </div>
@@ -169,7 +176,7 @@
                 datasets: [
                     {
                     data: [],
-                    backgroundColor: '#3498db',
+                    backgroundColor: '#db7221',
                     borderColor: 'rgba(136,136,136,0.5)',
                     label: "Average Compliance"
                     }
