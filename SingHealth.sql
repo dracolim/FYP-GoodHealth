@@ -42,10 +42,14 @@ CREATE TABLE `Didactic_Attendance` (
 
 INSERT INTO `Didactic_Attendance` (`MCR_No`, `Billing_Name`, `Month`, 
 `Total_Tracked_Sessions`, `Number_Sessions_Attended`, `Percentage_Sessions_Attended`, `MMYYYY`, `Posting_Institution`, `Posting_Department`, `Compliance_or_Not`, `Didactic_Attendance_Deleted`) VALUES
+('M11367A', 'SGHGasEnt', 'July', '14', '8', '57%', '072022', 'TestInstitution', 'TestDepartment', 'No', 'false'),
+('M11367A', 'SGHGasEnt', 'August', '14', '9', '64%', '082022', 'TestInstitution', 'TestDepartment', 'No', 'false'),
+('M11367A', 'SGHGasEnt', 'January', '14', '14', '100%', '012022', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
+('M11367A', 'SGHGasEnt', 'February', '14', '9', '64%', '022022', 'TestInstitution', 'TestDepartment', 'No', 'false'),
 ('M11367A', 'SGHGasEnt', 'July', '14', '14', '100%', '072023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
 ('M11367A', 'SGHGasEnt', 'August', '14', '10', '71%', '082023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
 ('M11367A', 'SGHGasEnt', 'January', '14', '14', '100%', '012023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
-('M11367A', 'SGHGasEnt', 'February', '14', '10', '60%', '022023', 'TestInstitution', 'TestDepartment', 'No', 'false'),
+('M11367A', 'SGHGasEnt', 'February', '14', '9', '64%', '022023', 'TestInstitution', 'TestDepartment', 'No', 'false'),
 ('M16782H', 'CGHGasHep', 'July', '12', '12', '100%', '072023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
 ('M16782H', 'CGHGasHep', 'August', '12', '10', '83%', '082023', 'TestInstitution', 'TestDepartment', 'Yes', 'false');
 

@@ -127,10 +127,16 @@
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                     MCR No:
                 </label>
-
                 <input v-model="mcr_no" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input MCR No Here">
+                <button @click="activateSecondStep()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+                    Next
+                </button> 
 
-                <button @click="getSpecificDidacticAttendanceData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+                <label v-if="second_step" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 pt-3" for="grid-first-name">
+                    Year:
+                </label>
+                <input v-if="second_step" v-model="year" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Year Here">
+                <button v-if="second_step" @click="getSpecificDidacticAttendanceData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
                     Get Resident's Info
                 </button> 
 
@@ -169,6 +175,8 @@
             vuetify: new Vuetify(),
             data() {
             return {
+                year: null,
+                second_step: false,
                 mcr_no: "",
                 loaded: false,
                 ChartConfig: {
@@ -232,16 +240,12 @@
 
                     specificURL = "http://localhost:5010/didactic_attendance/" + this.mcr_no
                     await axios.get(specificURL).then((response) => {
-                    console.log("This is mcrno")
-                    console.log(this.mcr_no)
 
-                    console.log("This is responseData")
-                    console.log(response.data)
+                    // console.log("This is responseData")
+                    // console.log(response.data)
                     this.getChartData(response.data);
                     this.loaded = false
                     this.loaded = true
-
-                    
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -250,7 +254,6 @@
                 getChartData: function (chartData) {
                     // console.log("This is chartData")
                     // console.log(chartData);
-                    // console.log(chartData.data[0]['Month']);
 
                     this.ChartConfig.datasets[0].data = []
 
@@ -266,33 +269,25 @@
                     numofJulDecEntries = 0
 
                     for (var i = 0; i < chartData.data.length; i++) {
-                        if ('JanuaryFebruaryMarchAprilMayJune'.includes(chartData.data[i]['Month'])) {
+                        if (('JanuaryFebruaryMarchAprilMayJune'.includes(chartData.data[i]['Month'])) && ((chartData.data[i]['MMYYYY'].substr(-4)) == this.year)) {
                             numOfJanJuneEntries++
                             totalPercentAttendedJanJune =  totalPercentAttendedJanJune + parseInt(chartData.data[i]['Percentage_Sessions_Attended'].slice(0, -1))
                         }
-                        else {
+                        else if (('JulyAugustSeptemberOctoberNovemberDecember'.includes(chartData.data[i]['Month'])) && ((chartData.data[i]['MMYYYY'].substr(-4)) == this.year)) {
                             numofJulDecEntries++
                             totalPercentAttendedJulDec =  totalPercentAttendedJulDec + parseInt(chartData.data[i]['Percentage_Sessions_Attended'].slice(0, -1))
                         }
                     }
 
-                    // console.log(totalPercentAttendedJanJune)
-                    // console.log(totalPercentAttendedJulDec)
-
-                    // console.log("num of entries")
-                    // console.log(numOfJanJuneEntries)
-                    // console.log(numofJulDecEntries)
-
                     percentCompliantJanJune = (totalPercentAttendedJanJune/numOfJanJuneEntries)/100
                     percentCompliantJulDec = (totalPercentAttendedJulDec/numofJulDecEntries)/100
 
-                    console.log("checking percentage")
-                    console.log(percentCompliantJanJune)
-                    console.log(percentCompliantJulDec)
-
                     this.ChartConfig.datasets[0].data.push(percentCompliantJanJune)
                     this.ChartConfig.datasets[0].data.push(percentCompliantJulDec)
-
+                    
+                },
+                activateSecondStep: function () {
+                    this.second_step = true;
                 }
             }
         });
