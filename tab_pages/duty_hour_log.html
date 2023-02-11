@@ -13,17 +13,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- ICONIFY -->
     <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
-    <!-- VUE 3 -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
-    <!-- Tabulator  -->
+    <!-- LOCAL VUE 2.7.14 -->
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <!-- LOCAL Tabulator  --> 
     <link href="../node_modules/tabulator-tables/dist/css/tabulator_modern.css" rel="stylesheet">
     <script type="text/javascript" src="../node_modules/tabulator-tables/dist/js/tabulator.js"></script>
     <!-- ExcelJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    <!-- LOCAL Axios -->
+    <script src="../node_modules/axios/dist/axios.js"></script>
 
     <style type="text/tailwindcss">
         @layer utilities {
@@ -201,9 +200,6 @@
 
         <!-- TABLE START -->
         <div class="relative overflow-x-auto shadow-lg sm:rounded-lg mx-8 ">
-            <v-btn type="button"
-                class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-1 text-center mr-2 mb-2"
-                @click="removeRow(1)">Remove test click</v-btn>
             <table id="example-table"></table>
         </div>
 
@@ -411,9 +407,7 @@
     });
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 
 
 
