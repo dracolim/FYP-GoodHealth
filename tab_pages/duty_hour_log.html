@@ -201,6 +201,9 @@
 
         <!-- TABLE START -->
         <div class="relative overflow-x-auto shadow-lg sm:rounded-lg mx-8 ">
+            <v-btn type="button"
+                class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-1 text-center mr-2 mb-2"
+                @click="removeRow(1)">Remove test click</v-btn>
             <table id="example-table"></table>
         </div>
 
@@ -231,14 +234,21 @@
     new Vue({
         el: "#app",
         data: {
+            local_host_url: "http://localhost:5011/",
             personal_details_fields: [],
             personal_details_datas: [],
             file: "",
+            data_on_watch_to_delete: "NA",
+        },
+        computed: {
         },
         mounted() {
-            const API_URL_1 = 'http://localhost:5010/duty_hour_log';
-            axios.get(API_URL_1)
+            axios.get(this.local_host_url + 'duty_hour_log')
                 .then(response => {
+                    var printRemoveButton = function (cell, formatterParams, onRendered) { //plain text value
+                        return "<v-btn type='button' class='text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-1 text-center mr-2 mb-2'>Remove</v-btn>";
+                    };
+                    const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
                         layout: "fitColumns",
                         data: response.data.data,
@@ -319,6 +329,19 @@
                                 return value === null
                             }
                         },
+                        {
+                            title: "Action",
+                            formatter: printRemoveButton, hozAlign: "center", cellClick: function (e, cell) {
+                                axios.delete(local_host_url + 'duty_hour_log/' + cell.getRow().getData().id)
+                                    .then(function (response) {
+                                        console.log(response.data);
+                                        cell.getRow().delete();
+                                    })
+                                    .catch(function (error) {
+                                        console.log(error);
+                                    });
+                            },
+                        },
                         ],
                     });
                     // update data in the database after a cell is edited
@@ -326,7 +349,7 @@
                         // connect to database and execute update statement
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
-                        axios.put("http://localhost:5010/duty_hour_log/" + thisrow.id, {
+                        axios.put(local_host_url + "duty_hour_log/" + thisrow.id, {
                             "Level": thisrow.Level,
                             "Logged_for_month": thisrow.Logged_for_month,
                             "MCR_No": thisrow.MCR_No,
@@ -361,7 +384,7 @@
                                 if (rowIndex > 1) {
                                     console.log(row.values[2])
                                     var url =
-                                        'http://localhost:5010/add_duty_hour';
+                                        this.local_host_url + 'add_duty_hour';
                                     var data = {};
                                     data.MCR_No = row.values[1] || '';
                                     data.Level = row.values[2] || '';
@@ -383,6 +406,7 @@
                     })
                 }
             },
+
         }
     });
 </script>

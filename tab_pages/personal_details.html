@@ -264,8 +264,7 @@
             file: "",
         },
         mounted: async function () {
-            // const API_URL_1 = 'http://localhost:5010/personal_details_fields';
-            const API_URL_2 = 'http://localhost:5010/personaldetails';
+            const API_URL_2 = 'http://localhost:5011/personaldetails';
 
             axios.get(API_URL_2)
                 .then(response => {
@@ -596,7 +595,7 @@
                                 sheet.eachRow((row, rowIndex) => {
                                     if (rowIndex > 1) {
                                         var url =
-                                            'http://localhost:5010/add_personal_detail';
+                                            'http://localhost:5011/add_personal_detail';
                                         var data = {};
                                         data.Employee_ID = row.values[1] || '';
                                         data.MCR_No = row.values[2] || '';

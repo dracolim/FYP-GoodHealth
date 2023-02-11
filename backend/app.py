@@ -1088,6 +1088,16 @@ def update_duty_hour_log(id):
 
     db.session.commit()
     return 'Duty Hour Log updated', 200
+
+@app.route('/duty_hour_log/<int:id>', methods=['DELETE'])
+def delete_duty_hour_log(id):
+    row = Duty_Hour_Log.query.get(id)
+    if not row:
+        return 'Duty Hour Log not found', 404
+    
+    db.session.delete(row)
+    db.session.commit()
+    return 'Duty Hour Log deleted', 200
 # from sqlalchemy import create_engine
 # from sqlalchemy import inspect
 # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
