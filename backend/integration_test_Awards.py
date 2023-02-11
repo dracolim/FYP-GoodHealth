@@ -2,7 +2,7 @@ import unittest
 import flask_testing
 import pytest
 import json
-from app import app, db, Personal_Details, Presentations
+from app import app, db, Personal_Details, Presentations, Awards
 from integration_test_PersonalDetails import TestApp
 
 # class TestApp(flask_testing.TestCase):
@@ -165,37 +165,35 @@ class TestReadPresentation(TestApp):
         }
     ]})
 
-    def test_read_all_presentations(self):
+    def test_create_awards(self):
 
         all_presentations_data = [
         {
-            "Conference_Name": "Conference_Name111",
-            "Country": "Country111",
+            "Award_Category": "",
+            "Date_of_Award_Received": "",
+            "FY_of_Award_Received": "",
             "MCR_No": "1234o19",
-            "Presentation_Date": "Presentation_Date111",
-            "Project_ID": "Project_ID111",
-            "Title": "Title111",
-            "Type": "Type111"
+            "Name_of_Award": "fff",
+            "Project_ID": "",
         }
     ]
         for data in all_presentations_data:
-            presentation = Presentations(**data)
+            presentation = Awards(**data)
             db.session.add(presentation)
             db.session.commit()
 
-        response = self.client.get("/presentations")
+        response = self.client.get("/awards")
         self.assertEqual(response.status_code, 200)
         print(f"created presentation response.json: {response.json}")
         self.assertEqual(response.json,{
         "data": [
         {
-            "Conference_Name": "Conference_Name111",
-            "Country": "Country111",
+            "Award_Category": "",
+            "Date_of_Award_Received": "",
+            "FY_of_Award_Received": "",
             "MCR_No": "1234o19",
-            "Presentation_Date": "Presentation_Date111",
-            "Project_ID": "Project_ID111",
-            "Title": "Title111",
-            "Type": "Type111",
+            "Name_of_Award": "fff",
+            "Project_ID": "",
             "id": 1
         }
     ]})
@@ -276,62 +274,39 @@ class TestReadPresentation(TestApp):
 
         all_presentations_data = [
         {
-            "Conference_Name": "Conference_Name111",
-            "Country": "Country111",
+            "Award_Category": "",
+            "Date_of_Award_Received": "",
+            "FY_of_Award_Received": "",
             "MCR_No": "1234o19",
-            "Presentation_Date": "Presentation_Date111",
-            "Project_ID": "Project_ID111",
-            "Title": "Title111",
-            "Type": "Type111"
+            "Name_of_Award": "fff",
+            "Project_ID": ""
         }
     ]
         for data in all_presentations_data:
-            presentation = Presentations(**data)
+            presentation = Awards(**data)
             db.session.add(presentation)
             db.session.commit()
 
-        response = self.client.get("/presentations/1234o19")
+        response = self.client.get("/awards/1234o19")
         self.assertEqual(response.status_code, 200)
         print(f"response.json: {response.json}")
         self.assertEqual(response.json,
         {
     "data": [
         {
-            "Conference_Name": "Conference_Name111",
-            "Country": "Country111",
+            "Award_Category": "",
+            "Date_of_Award_Received": "",
+            "FY_of_Award_Received": "",
             "MCR_No": "1234o19",
-            "Presentation_Date": "Presentation_Date111",
-            "Project_ID": "Project_ID111",
-            "Title": "Title111",
-            "Type": "Type111",
+            "Name_of_Award": "fff",
+            "Project_ID": "",
             "id": 1
         }
         ]
     })
 
-    def test_cannot_read_presentation_if_mcr_not_present(self):
-        # 1234o17 does not exist as mcr:
-        response = self.client.get("/presentations/1234o17")
-        self.assertEqual(response.status_code, 404)
-
-
-    def test_cannot_create_presentation_if_mcr_not_present(self):
-        # 1234o17 does not exist as mcr:
-
-        all_presentations_data = [
-        {
-            "Conference_Name": "Conference_Name111",
-            "Country": "Country111",
-            "MCR_No": "1234o19",
-            "Presentation_Date": "Presentation_Date111",
-            "Project_ID": "Project_ID111",
-            "Title": "Title111",
-            "Type": "Type111"
-        }
-    ]
-
-        response = self.client.post("/presentation", data=all_presentations_data[0])
-        self.assertEqual(response.status_code, 404)
+    # def test_cannot_create_presentation_if_mcr_not_present(self):
+    #     assert(True, True)
 
 
     

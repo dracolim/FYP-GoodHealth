@@ -383,8 +383,8 @@ class Projects(db.Model):
     Project_Type = db.Column(db.String(100))
     Project_Title = db.Column(db.String(100))
     Project_ID=db.Column(db.String(100))
-    Start_Date = db.Column(db.DateTime)
-    End_Date = db.Column(db.DateTime)
+    Start_Date = db.Column(db.String(100))
+    End_Date = db.Column(db.String(100))
     Date_of_QI_Certification= db.Column(db.String(100))
     PMID = db.Column(db.String(100))
 
@@ -413,7 +413,7 @@ class Awards(db.Model):
     Name_of_Award = db.Column(db.String(100))
 
     FY_of_Award_Received = db.Column(db.String(100))
-    Date_of_Award_Received = db.Column(db.DateTime)
+    Date_of_Award_Received = db.Column(db.String(100))
     Project_ID = db.Column(db.String(100))
 
     __mapper_args__ = {
@@ -564,6 +564,38 @@ def create_personal_detail():
     #     return jsonify({
     #         "message": "Unable to commit to database."
     #     }), 500
+
+def getList(items):
+    list_ = []
+    for i in items:
+        list_.append(i.to_dict())
+    return list_
+
+@app.route("/profile/<id>")
+def read_personaldetailssd(id):
+    person = Personal_Details.query.get_or_404(id)
+
+    return jsonify(
+        {
+            "data": {
+                "presentations": getList(person.presentations),
+                "posting_histories": getList(person.posting_histories),
+                "duty_hour_logs": getList(person.duty_hour_logs),
+                "case_logs": getList(person.case_logs),
+                "procedure_logs": getList(person.procedure_logs),
+                "exam_histories": getList(person.exam_histories),
+                "publications": getList(person.publications),
+                "evaluations": getList(person.evaluations),
+                "trgExtRem_Histories": getList(person.trgExtRem_Histories),
+                "projects": getList(person.projects),
+                "awards": getList(person.awards),
+                "grants": getList(person.grants),
+                "ihis": getList(person.ihis),
+                "involvements": getList(person.involvements),
+            }
+        }
+    ), 200
+
 
 
 # ============================
@@ -823,7 +855,7 @@ def read_awards_by_person(id):
 def create_award():
     data = request.get_json()
     print(data)
-    if not all(key in data.keys() for key in ('Award_ID', 'Employee_id', "Award_Category" , "Name_of_Award" , "FY_of_Award_Received",
+    if not all(key in data.keys() for key in ('MCR_No', 'Award_ID', 'Employee_id', "Award_Category" , "Name_of_Award" , "FY_of_Award_Received",
                 "Date_of_Award_Received" , "Project_ID_Ref" 
                 )):
         return jsonify({
@@ -1243,6 +1275,42 @@ def read_presentations_by_person(id):
         }
     ), 200
 
+# Add duty hour 
+@app.route('/add_presentation', methods=['POST'])
+def create_presentation():
+    data = request.get_json()
+    # cannot add if person not present in database:
+    if "MCR_No" in data.keys():
+        person = Personal_Details.query.get_or_404(data["MCR_No"])
+    else:
+        return jsonify(
+        {
+            "Error Msg": "MCR_No not present in database"
+        }
+    ), 404
+    print('hello')
+    print(data)
+    # MCR_No, Title, Conference_Name, Type, Project_ID, Country, Presentation_Date
+    if not all(key in data.keys() for key in ('MCR_No', 'Title' , 'Conference_Name' , 'Type'  , 
+    'Project_ID' , 'Country', 'Presentation_Date')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+
+    print("before presentation")
+    presentation = Presentations(**data)
+    print("correct presentation")
+    try:
+        db.session.add(presentation)
+        print("committing")
+        db.session.commit()
+        print("committed")
+        return jsonify(presentation.to_dict()), 201
+    except Exception as e:
+        print("An error occurred:", e)
+        print("Stack trace:")
+        traceback.print_exc()
+
 
 from sqlalchemy import insert,text
 # Read Awards field/column name (R)
@@ -1279,4 +1347,4 @@ def create_resident():
 db.create_all()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5010, debug=True)
+    app.run(host='0.0.0.0', port=5011, debug=True)
