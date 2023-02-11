@@ -578,6 +578,7 @@ def read_personaldetailssd(id):
     return jsonify(
         {
             "data": {
+                "personaldetails":person.to_dict(),
                 "presentations": getList(person.presentations),
                 "posting_histories": getList(person.posting_histories),
                 "duty_hour_logs": getList(person.duty_hour_logs),
