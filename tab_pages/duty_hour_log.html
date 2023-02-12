@@ -249,12 +249,10 @@
                 .then(response => {
                     let result = response.data.data;
                     for (each of result){
-                        console.log(each);
                         if (!(each["Staff_Name"] in this.MCR_name)){
                             this.MCR_name[each["Staff_Name"]] = each["MCR_No"];
                         }
                     }
-                    console.log(this.MCR_name)
                 })
                 
                 .catch(error => {
