@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scholarly Activity - Resident</title>
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/@mdi/font@3.x/css/materialdesignicons.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Material+Icons" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/vuetify@2.0.10/dist/vuetify.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
+    
+    <script src="https://cdn.jsdelivr.net/npm/babel-regenerator-runtime@6.5.0/runtime.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/babel-polyfill/dist/polyfill.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.0.10/dist/vuetify.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    <script src="https://unpkg.com/vue-chartjs@3.4.0/dist/vue-chartjs.js"></script>
+</head>
+<body>
+    <div class="container mx-auto pt-4">
+        <!-- <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+            MCR_No:
+        </label>
+        <input v-model="mcr_no" 
+            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
+            id="grid-first-name" type="text" placeholder="Input MCR No. Here">
+        <br>
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+            Year:
+        </label>
+        <input v-model="year" 
+            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
+            id="grid-first-name" type="text" placeholder="Input Year Here">
+        <br>
+        <button @click="getDutyHourLogData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+            Get Resident's Info
+        </button>
+        <br>
+        <button @click="reset()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded ">
+            Reset
+        </button> -->
+
+        <div id="app">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+                MCR_No:
+            </label>
+            <input v-model="mcr_no" 
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
+                id="grid-first-name" type="text" placeholder="Input MCR No. Here">
+            <br>
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+                Year:
+            </label>
+            <input v-model="year" 
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
+                id="grid-first-name" type="text" placeholder="Input Year Here">
+            <br>
+            <button @click="getPublicationsData(); getPresentationsData(); getChartData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+                Get Resident's Info
+            </button>
+            <br>
+            <button @click="reset()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded ">
+                Reset
+            </button>
+            <v-row dense>
+                <v-col cols="sm">
+                    <v-card class="pa-2" outlined tile raised>
+                        <my-donut-chart v-if="loaded1 && loaded2" :donut-data="ChartConfig" :chart-options="options"></my-donut-chart>
+                    </v-card>
+                </v-col>
+            </v-row>
+        </div>
+
+    </div>
+
+<script>
+    Vue.component('my-donut-chart', {
+            extends: VueChartJs.Doughnut,
+            props: ['donutData', 'chartOptions'],
+            mounted() {
+            this.renderChart(this.donutData, this.chartOptions);
+            },
+        }, {
+            responsive: true,
+            maintainAspectRatio: false
+        })
+
+    new Vue({
+        el: "#app",
+        vuetify: new Vuetify(),
+        data() {
+        return {
+            year: null,
+            mcr_no: null,
+            loaded1: false,
+            loaded2: false,
+            combinedData: [],
+            ChartConfig: {
+            labels: ["Completed", "Not Completed"],
+            datasets: [
+                {
+                data: [],
+                backgroundColor: ['#ff6b00','#ffedd5'],
+                borderColor: 'rgba(136,136,136,0.5)',
+                label: "Compliant"
+                }
+            ]
+            },
+            options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'Scholarly Activity (Resident)'
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            scales: {
+            }
+            },
+        }
+        },
+        mounted: function () {
+            this.loaded1 = false
+            this.loaded2 = false
+            this.getPublicationsData();
+            this.getPresentationsData();
+            this.getChartData();
+            },
+        methods: {
+            reset: function (){
+            this.ChartConfig.datasets[0].data.length = 0
+            this.combinedData.length = 0
+            this.loaded1 = false
+            this.loaded2 = false
+            },
+            getPublicationsData: async function () {
+
+                this.status = "getting data...";
+
+                await axios.get("http://localhost:5010/publication/" + this.mcr_no + "/" + this.year).then((response) => {
+                console.log("This is responseData")
+                console.log(response.data)
+                // this.getChartData(response.data);
+                this.combinedData.push(response.data);
+                this.loaded1 = true
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
+            getPresentationsData: async function () {
+                this.status = "getting data...";
+
+                await axios.get("http://localhost:5010/presentation/" + this.mcr_no + "/" + this.year).then((response) => {
+                console.log("This is responseData")
+                console.log(response.data)
+                // this.getChartData(response.data);
+                this.combinedData.push(response.data);
+                this.loaded2 = true
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            getChartData: async function (combinedData) {
+                console.log("This is combinedData")
+                console.log(this.combinedData);
+                // console.log(chartData.data[0]['End_Date']);
+
+                // counterCompletionQI = 0
+                // numOfEntries = 0
+                // percentageCompleted = 0
+                // percentageNotCompleted = 0
+
+                // for (var i = 0; i < chartData.data.length; i++) {
+                //     numOfEntries++
+                //     if (chartData.data[i]['End_Date'] != 'Ongoing') {
+                //         counterCompletionQI++
+                //     }
+                // }
+
+                // console.log(counterCompletionQI)
+                // console.log(numOfEntries)
+
+                // percentageCompleted = counterCompletionQI/numOfEntries
+                // percentageNotCompleted = 1 - percentageCompleted
+
+                // this.ChartConfig.datasets[0].data.push(percentageCompleted)
+                // this.ChartConfig.datasets[0].data.push(percentageNotCompleted)
+
+            }
+        }
+    });
+</script>
+</body>
+</html>
