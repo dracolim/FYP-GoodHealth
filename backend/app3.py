@@ -49,6 +49,8 @@ CORS(app)
 
 from PersonalDetails import PersonalDetails
 from Duty_Hour_Log import Duty_Hour_Log
+from Publications import Publications
+from Presentation import Presentation
 
 class Awards(db.Model):
     __tablename__ = 'Awards'
@@ -379,6 +381,73 @@ def get_awards_fields():
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+# FOR PRESENTATIONS AND PUBLICATION AS BOTH NEEDED TO DISPLAY SCHOLARLY ACTIVITY CHART
+
+# PUBLICATION
+# Read PUBLICATION by year
+@app.route("/publication/<year>", methods=['GET'])
+def get_publication_by_year(year):
+    publication_List = Publications.query.all()
+    publication_year_list = []
+    for i in publication_List:
+        if year == i.to_dict()["Publication_Date"][:4]:
+            publication_year_list.append(i)
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in publication_year_list]
+        }
+    ), 200
+
+#Read PUBLICATION by MCR No. and year(R)
+@app.route("/publication/<mcr>/<year>", methods=['GET'])
+def get_publication_mcr_year(mcr, year):
+    publication_List = Publications.query.filter_by(MCR_No=mcr).all()
+    publication_year_list = []
+    for i in publication_List:
+        if year == i.to_dict()["Publication_Date"][:4]:
+            publication_year_list.append(i)
+
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in publication_year_list]
+        }
+    ), 200
+
+# PRESENTATION 
+# Read PRESENTATION by year
+@app.route("/presentation/<year>", methods=['GET'])
+def get_presentation_by_year(year):
+    presentation_List = Presentation.query.all()
+    presentation_year_list = []
+    for i in presentation_List:
+        if year == i.to_dict()["Presentation_Date"][:4]:
+            presentation_year_list.append(i)
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in presentation_year_list]
+        }
+    ), 200
+
+#Read PRESENTATION by MCR No. and year(R)
+@app.route("/presentation/<mcr>/<year>", methods=['GET'])
+def get_presentation_mcr_year(mcr, year):
+    presentation_List = Presentation.query.filter_by(MCR_No=mcr).all()
+    presentation_year_list = []
+    for i in presentation_List:
+        if year == i.to_dict()["Presentation_Date"][:4]:
+            presentation_year_list.append(i)
+
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in presentation_year_list]
+        }
+    ), 200
+
+
 
 
 
@@ -434,11 +503,25 @@ def get_duty_hour_log():
         }
     ), 200
 
+#Read duty hour log by year(R)
+@app.route("/duty_hour_log/<year>", methods=['GET'])
+def get_duty_log_by_year(year):
+    duty_hour_log_List = Duty_Hour_Log.query.all()
+    duty_hour_log_year_list = []
+    for i in duty_hour_log_List:
+        if year == i.to_dict()["MMYYYY"][-4:]:
+            duty_hour_log_year_list.append(i)
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in duty_hour_log_year_list]
+        }
+    ), 200
 
-#Read duty hour log by employee id (R)
-@app.route("/duty_hour_log/<employee_id>", methods=['GET'])
-def get_duty_log_by_employeeid(employee_id):
-    duty_hour_log_List = Duty_Hour_Log.query.filter_by(Employee_id=employee_id).all()
+#Read duty hour log by MCR No. (R)
+@app.route("/duty_hour_log/<mcr>", methods=['GET'])
+def get_duty_log_by_employeeid(mcr):
+    duty_hour_log_List = Duty_Hour_Log.query.filter_by(MCR_No=mcr).all()
     print(duty_hour_log_List)
     return jsonify(
         {
@@ -447,10 +530,10 @@ def get_duty_log_by_employeeid(employee_id):
         }
     ), 200
 
-#Read duty hour log by employee id and year(R)
-@app.route("/duty_hour_log/<employee_id>/<year>", methods=['GET'])
-def get_duty_log_by_employeeid_year(employee_id, year):
-    duty_hour_log_List = Duty_Hour_Log.query.filter_by(Employee_id=employee_id).all()
+#Read duty hour log by MCR No. and year(R)
+@app.route("/duty_hour_log/<mcr>/<year>", methods=['GET'])
+def get_duty_log_by_employeeid_year(mcr, year):
+    duty_hour_log_List = Duty_Hour_Log.query.filter_by(MCR_No=mcr).all()
     duty_hour_log_year_list = []
     for i in duty_hour_log_List:
         if year == i.to_dict()["MMYYYY"][-4:]:

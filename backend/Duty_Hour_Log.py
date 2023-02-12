@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 class Duty_Hour_Log(db.Model):
     __tablename__ = 'Duty_Hour_Log'
-    Employee_id = db.Column(db.String(100), primary_key=True)
+    MCR_No = db.Column(db.String(100), primary_key=True)
     Level = db.Column(db.String(100))
     Submitted = db.Column(db.String(100))
     Submitted_Proportion = db.Column(db.String(100))

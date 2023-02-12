@@ -5,8 +5,8 @@ from __main__ import app,db
 class Presentation(db.Model):
     __tablename__ = 'Presentations'
 
-    Presentation_ID= db.Column(db.String(100), primary_key=True)
-    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_id'))
+    id= db.Column(db.String(100), primary_key=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.MCR_No'))
     Title = db.Column(db.String(100))
     Conference_Name = db.Column(db.String(100))
     Type = db.Column(db.String(100))

@@ -5,8 +5,8 @@ from __main__ import app,db
 class Publications(db.Model):
     __tablename__ = 'Publications'
 
-    Publication_ID= db.Column(db.String(100), primary_key=True)
-    Employee_ID = db.Column(db.String(100),  db.ForeignKey('PersonalDetails.Employee_id'))
+    id= db.Column(db.String(100), primary_key=True)
+    MCR_No= db.Column(db.String(100),  db.ForeignKey('PersonalDetails.MCR_No'))
     
     Publication_Title = db.Column(db.String(100))
     Journal_Title = db.Column(db.String(100))
