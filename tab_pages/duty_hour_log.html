@@ -209,7 +209,7 @@
         </div>
 
         <!-- TABLE START -->
-        <div class="relative overflow-x-auto shadow-lg sm:rounded-lg mx-8 ">
+        <div class="relative overflow-x-auto shadow-lg sm:rounded-lg mx-8 mb-10">
             <table id="example-table"></table>
         </div>
 
@@ -289,7 +289,7 @@
                                     valuesLookup: true,
                                     clearable: true
                                 },
-                                width: 200,
+                                width: 100,
                             },
 
                             {
@@ -327,9 +327,10 @@
                                 headerFilter: "input",
                             },
                             {
-                                title: "Logged for month",
+                                title: "Logged for Month",
                                 field: "Logged_for_month",
                                 sorter: "string",
+                                width: 150,
                                 cellClick: function (e, cell) {
                                     console.log("cell click")
                                 },
@@ -346,6 +347,7 @@
                                 hozAlign: "center",
                                 formatter: "tickCross",
                                 headerFilter: "tickCross",
+                                width: 150,
                                 headerFilterParams: {
                                     "tristate": true
                                 },
