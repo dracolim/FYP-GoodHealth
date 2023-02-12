@@ -20,8 +20,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
     <!-- Tabulator  -->
-    <link href="https://unpkg.com/tabulator-tables@5.4.3/dist/css/tabulator.min.css" rel="stylesheet">
-    <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.4.3/dist/js/tabulator.min.js"></script>
+    <!-- LOCAL Tabulator  -->
+    <link href="../node_modules/tabulator-tables/dist/css/tabulator_semanticui.css" rel="stylesheet">
+    <script type="text/javascript" src="../node_modules/tabulator-tables/dist/js/tabulator.js"></script>
+   
 
     <style type="text/tailwindcss">
         @layer utilities {
@@ -29,6 +31,28 @@
         content-visibility: auto;
         }
     }
+    </style>
+    <style>
+        #example-table {
+            font-size: 13.5px;
+            text-align: center;
+        }
+
+        .tabulator-col-title {
+            text-align: center;
+        }
+        .tabulator-cell {
+            border-left: 1px solid #e6e6e6;
+            border-right: 1px solid #d6d6d6;
+        }
+
+        .tabulator-cell:first-child {
+            border-left: none;
+        }
+
+        .tabulator-cell:last-child {
+            border-right: none;
+        }
     </style>
 
     <title>SingHealth</title>

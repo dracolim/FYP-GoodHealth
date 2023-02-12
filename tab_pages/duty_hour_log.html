@@ -15,8 +15,8 @@
     <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
     <!-- LOCAL VUE 2.7.14 -->
     <script src="../node_modules/vue/dist/vue.js"></script>
-    <!-- LOCAL Tabulator  --> 
-    <link href="../node_modules/tabulator-tables/dist/css/tabulator_modern.css" rel="stylesheet">
+    <!-- LOCAL Tabulator  -->
+    <link href="../node_modules/tabulator-tables/dist/css/tabulator_semanticui.css" rel="stylesheet">
     <script type="text/javascript" src="../node_modules/tabulator-tables/dist/js/tabulator.js"></script>
     <!-- ExcelJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script>
@@ -31,7 +31,29 @@
         }
     }
     </style>
+    <style>
+        #example-table {
+            font-size: 13.5px;
+            text-align: center;
+        }
 
+        .tabulator-col-title {
+            text-align: center;
+        }
+
+        .tabulator-cell {
+            border-left: 1px solid #e6e6e6;
+            border-right: 1px solid #d6d6d6;
+        }
+
+        .tabulator-cell:first-child {
+            border-left: none;
+        }
+
+        .tabulator-cell:last-child {
+            border-right: none;
+        }
+    </style>
 
 
 
@@ -200,7 +222,7 @@
         </div>
 
         <!-- TABLE START -->
-        <div class="relative overflow-x-auto shadow-lg sm:rounded-lg mx-8 ">
+        <div class="relative overflow-x-auto shadow-lg sm:rounded-lg mx-8 mb-10">
             <table id="example-table"></table>
         </div>
 
@@ -241,27 +263,29 @@
             mmYYYY: "",
         },
         computed: {
-            
+
 
         },
         mounted() {
             axios.get(this.local_host_url + "/personaldetails")
                 .then(response => {
                     let result = response.data.data;
-                    for (each of result){
-                        if (!(each["Staff_Name"] in this.MCR_name)){
+                    for (each of result) {
+                        if (!(each["Staff_Name"] in this.MCR_name)) {
                             this.MCR_name[each["Staff_Name"]] = each["MCR_No"];
                         }
                     }
                 })
-                
+
                 .catch(error => {
-                                console.log(error)
-                            });
+                    console.log(error)
+                });
             axios.get(this.local_host_url + 'duty_hour_log')
                 .then(response => {
-                    var printRemoveButton = function (cell, formatterParams, onRendered) { //plain text value
-                        return "<v-btn type='button' class='text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-1 text-center mr-2 mb-2'>Remove</v-btn>";
+                    var printRemoveButton = function (cell, formatterParams,
+                        onRendered) { //plain text value
+                        //return "<v-btn type='button' class='text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-xs rounded-full text-xs px-5 py-1 text-center mx-3 mb-2'>Remove</v-btn>";
+                        return "<a class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Remove</a>"
                     };
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
@@ -269,92 +293,97 @@
                         data: response.data.data,
                         index: "MCR_No",
                         columns: [{
-                            title: "MCR_No",
-                            field: "MCR_No",
-                            sorter: "string",
-                            headerFilter: "input",
-                            headerFilter: "list",
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
+                                title: "MCR No",
+                                field: "MCR_No",
+                                sorter: "string",
+                                headerFilter: "input",
+                                headerFilter: "list",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
+                                width: 100,
                             },
-                            width: 200,
-                        },
 
-                        {
-                            title: "Level",
-                            field: "Level",
-                            sorter: "number",
-                            headerFilter: "input",
-                            editor: "number",
-                        },
-                        {
-                            title: "Submitted",
-                            field: "Submitted",
-                            sorter: "number",
-                            headerFilter: "list",
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
-                            }
-                        },
-                        {
-                            title: "Submitted_Proportion",
-                            field: "Submitted_Proportion",
-                            sorter: "number",
-                            headerFilter: "list",
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
-                            }
-                        },
-                        {
-                            title: "MMYYYY",
-                            field: "MMYYYY",
-                            width: 200,
-                            editor: true,
-                            headerFilter: "input",
-                        },
-                        {
-                            title: "Logged_for_month",
-                            field: "Logged_for_month",
-                            sorter: "string",
-                            cellClick: function (e, cell) {
-                                console.log("cell click")
+                            {
+                                title: "Level",
+                                field: "Level",
+                                sorter: "number",
+                                headerFilter: "input",
+                                editor: "number",
                             },
-                            headerFilter: "list",
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
-                            }
-                        },
-                        {
-                            title: "Duty_Hour_Log_deleted",
-                            field: "Duty_Hour_Log_deleted",
-                            sorter: "boolean",
-                            hozAlign: "center",
-                            formatter: "tickCross",
-                            headerFilter: "tickCross",
-                            headerFilterParams: {
-                                "tristate": true
+                            {
+                                title: "Submitted",
+                                field: "Submitted",
+                                sorter: "number",
+                                headerFilter: "list",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                }
                             },
-                            headerFilterEmptyCheck: function (value) {
-                                return value === null
-                            }
-                        },
-                        {
-                            title: "Action",
-                            formatter: printRemoveButton, hozAlign: "center", cellClick: function (e, cell) {
-                                axios.delete(local_host_url + 'duty_hour_log/' + cell.getRow().getData().id)
-                                    .then(function (response) {
-                                        console.log(response.data);
-                                        cell.getRow().delete();
-                                    })
-                                    .catch(function (error) {
-                                        console.log(error);
-                                    });
+                            {
+                                title: "Submitted Proportion",
+                                field: "Submitted_Proportion",
+                                sorter: "number",
+                                headerFilter: "list",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                }
                             },
-                        },
+                            {
+                                title: "MMYYYY",
+                                field: "MMYYYY",
+                                width: 200,
+                                editor: true,
+                                headerFilter: "input",
+                            },
+                            {
+                                title: "Logged for Month",
+                                field: "Logged_for_month",
+                                sorter: "string",
+                                width: 150,
+                                cellClick: function (e, cell) {
+                                    console.log("cell click")
+                                },
+                                headerFilter: "list",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                }
+                            },
+                            {
+                                title: "Duty Hour Log Deleted",
+                                field: "Duty_Hour_Log_deleted",
+                                sorter: "boolean",
+                                hozAlign: "center",
+                                formatter: "tickCross",
+                                headerFilter: "tickCross",
+                                width: 150,
+                                headerFilterParams: {
+                                    "tristate": true
+                                },
+                                headerFilterEmptyCheck: function (value) {
+                                    return value === null
+                                }
+                            },
+                            {
+                                title: "Action",
+                                formatter: printRemoveButton,
+                                hozAlign: "center",
+                                cellClick: function (e, cell) {
+                                    axios.delete(local_host_url + 'duty_hour_log/' + cell
+                                            .getRow().getData().id)
+                                        .then(function (response) {
+                                            console.log(response.data);
+                                            cell.getRow().delete();
+                                        })
+                                        .catch(function (error) {
+                                            console.log(error);
+                                        });
+                                },
+                            },
                         ],
                     });
                     // update data in the database after a cell is edited
@@ -363,15 +392,16 @@
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
                         axios.put(local_host_url + "duty_hour_log/" + thisrow.id, {
-                            "Level": thisrow.Level,
-                            "Logged_for_month": thisrow.Logged_for_month,
-                            "MCR_No": thisrow.MCR_No,
-                            "MMYYYY": thisrow.MMYYYY,
-                            "Submitted": thisrow.Submitted,
-                            "Submitted_Proportion": thisrow.Submitted_Proportion
-                        })
+                                "Level": thisrow.Level,
+                                "Logged_for_month": thisrow.Logged_for_month,
+                                "MCR_No": thisrow.MCR_No,
+                                "MMYYYY": thisrow.MMYYYY,
+                                "Submitted": thisrow.Submitted,
+                                "Submitted_Proportion": thisrow.Submitted_Proportion
+                            })
                             .then(response => {
-                                console.log('Duty Hour Log ID {' + row.getData().id + '} updated.')
+                                console.log('Duty Hour Log ID {' + row.getData().id +
+                                    '} updated.')
                             })
                             .catch(error => {
                                 console.log(error)
@@ -397,18 +427,18 @@
                                 var url = this.local_host_url + 'add_duty_hour';
                                 var data = {};
                                 var loggded_for_months = "";
-                                if (rowIndex == 3){
-                                    this.mmYYYY = row.values[1].slice(21,28) || "";
-                                }
-                                else if (rowIndex >= 8) {
+                                if (rowIndex == 3) {
+                                    this.mmYYYY = row.values[1].slice(21, 28) || "";
+                                } else if (rowIndex >= 8) {
                                     // console.log(row.values[2])
-                                    for (each in this.MCR_name){
-                                        if (row.values[1].trim() == each){
+                                    for (each in this.MCR_name) {
+                                        if (row.values[1].trim() == each) {
                                             data.MCR_No = this.MCR_name[each] || "";
                                         }
                                     }
-                                    if (data.MCR_No == ""){
-                                        this.error_message = "There is no such resident in the database";
+                                    if (data.MCR_No == "") {
+                                        this.error_message =
+                                            "There is no such resident in the database";
                                     }
                                     data.Level = row.values[2] || '';
                                     data.Submitted = row.values[3] || '';
