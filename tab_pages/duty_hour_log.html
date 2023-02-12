@@ -40,6 +40,19 @@
         .tabulator-col-title {
             text-align: center;
         }
+
+        .tabulator-cell {
+            border-left: 1px solid #e6e6e6;
+            border-right: 1px solid #d6d6d6;
+        }
+
+        .tabulator-cell:first-child {
+            border-left: none;
+        }
+
+        .tabulator-cell:last-child {
+            border-right: none;
+        }
     </style>
 
 
@@ -270,7 +283,7 @@
             axios.get(this.local_host_url + 'duty_hour_log')
                 .then(response => {
                     var printRemoveButton = function (cell, formatterParams,
-                    onRendered) { //plain text value
+                        onRendered) { //plain text value
                         //return "<v-btn type='button' class='text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-xs rounded-full text-xs px-5 py-1 text-center mx-3 mb-2'>Remove</v-btn>";
                         return "<a class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Remove</a>"
                     };
