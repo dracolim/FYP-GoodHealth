@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import *
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import json
@@ -29,16 +29,16 @@ app.app_context().push()
 if __name__ == '__main__':
     print("running on main")
     # Mac user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-                                            '@localhost:3306/SingHealth'
+  #  app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+  #                                          '@localhost:3306/SingHealth'
     # --------------------------------------------------------------------------------
 
     # # Windows user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-    #                                         '@localhost:3306/SingHealth'
-    # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
-    #                                         'pool_recycle': 280}
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
+                                            '@localhost:3306/singhealth'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
+                                            'pool_recycle': 280}
 else:
     print("running not on main")
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
@@ -120,7 +120,7 @@ class Personal_Details(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        print(f"columns: {columns}")
+       # print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -426,7 +426,7 @@ class Awards(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        print(f"columns: {columns}")
+        print(f"columns: {columns} columns are found")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -1031,6 +1031,7 @@ def read_ihi_by_person(id):
 @app.route('/duty_hour_log', methods=['GET'])
 def get_duty_hour_log():
     dutyList = Duty_Hour_Log.query.all()
+    print(dutyList,'dutylist')
     return jsonify(
         {
             "data": [pd.to_dict()
@@ -1097,26 +1098,26 @@ def delete_duty_hour_log(id):
     db.session.delete(row)
     db.session.commit()
     return 'Duty Hour Log deleted', 200
-# from sqlalchemy import create_engine
-# from sqlalchemy import inspect
-# engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
-# insp = inspect(engine)
-# connection = engine.connect()
-# print(insp.get_table_names())
-# @app.route('/get_all_tables', methods=['GET'])
-# def get_all_tables():
-#     res = {}
-#     for table_name in insp.get_table_names():
-#         res[table_name]=[]
-#         for column in insp.get_columns(table_name):
-#             res[table_name].append(column['name'])
+from sqlalchemy import create_engine
+from sqlalchemy import inspect
+engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+insp = inspect(engine)
+connection = engine.connect()
+print(insp.get_table_names())
+@app.route('/get_all_tables', methods=['GET'])
+def get_all_tables():
+    res = {}
+    for table_name in insp.get_table_names():
+        res[table_name]=[]
+        for column in insp.get_columns(table_name):
+            res[table_name].append(column['name'])
     
-#     return jsonify(
-#         {
-#             "data":res
-#         }
-#     ), 200
-#     print(insp.get_table_names(),'OSJVGNWOEVNWOECNVWEOICMWEOI')
+    return jsonify(
+        {
+            "data":res
+        }
+    ), 200
+    print(insp.get_table_names(),'OSJVGNWOEVNWOECNVWEOICMWEOI')
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
@@ -1320,9 +1321,32 @@ def create_presentation():
         print("An error occurred:", e)
         print("Stack trace:")
         traceback.print_exc()
-
-
+        
+        
+        
 from sqlalchemy import insert,text
+@app.route('/edit_field_value', methods=['POST'])
+def edit_field_value():
+    data = request.get_json()
+    print(data,'edit field DATA')
+    table=data['Table']
+    field = data['Field']
+    value=data['Value']
+    row=data['Row']
+    
+    update_query=f'UPDATE {table} SET {field} = \'{value}\' WHERE MCR_No = \'{row}\''
+    print(update_query,'UPDATE QUERY')
+    try:
+        connection.execute(update_query)
+        return jsonify(data.to_dict()), 201
+    except Exception as e:
+        print("An error occurred:", e)
+        traceback.print_exc()
+        return jsonify(
+            {
+                "Error Msg": "error occured"
+            }
+        ), 404
 # Read Awards field/column name (R)
 @app.route('/create_resident', methods=['POST'])
 def create_resident():
