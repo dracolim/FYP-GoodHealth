@@ -194,6 +194,7 @@
                                 class="w-full text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
                         </form>
                     </div>
+                    {{error_message}}
                 </div>
             </div>
         </div>
@@ -235,10 +236,29 @@
             personal_details_datas: [],
             file: "",
             data_on_watch_to_delete: "NA",
+            MCR_name: {},
+            error_message: "",
         },
         computed: {
+            
+
         },
         mounted() {
+            axios.get(this.local_host_url + "/personaldetails")
+                .then(response => {
+                    let result = response.data.data;
+                    for (each of result){
+                        console.log(each);
+                        if (!(each["Staff_Name"] in this.MCR_name)){
+                            this.MCR_name[each["Staff_Name"]] = each["MCR_No"];
+                        }
+                    }
+                    console.log(this.MCR_name)
+                })
+                
+                .catch(error => {
+                                console.log(error)
+                            });
             axios.get(this.local_host_url + 'duty_hour_log')
                 .then(response => {
                     var printRemoveButton = function (cell, formatterParams, onRendered) { //plain text value
@@ -260,8 +280,6 @@
                                 clearable: true
                             },
                             width: 200,
-
-
                         },
 
                         {
@@ -377,17 +395,32 @@
                         workbook.eachSheet((sheet, id) => {
                             //console.log(sheet.name) //sheet name (eg: personal details)
                             sheet.eachRow((row, rowIndex) => {
-                                if (rowIndex > 1) {
-                                    console.log(row.values[2])
-                                    var url =
-                                        this.local_host_url + 'add_duty_hour';
-                                    var data = {};
-                                    data.MCR_No = row.values[1] || '';
+                                var url = this.local_host_url + 'add_duty_hour';
+                                var data = {};
+                                var mmYYYY = "";
+                                var loggded_for_months = "";
+                                if (rowIndex == 3){
+                                    mmYYYY = row.values[1].slice(21,28) || "";
+                                }
+                                else if (rowIndex == 4){
+                                    loggded_for_months = row.values[1].slice(7,9) || "";
+                                }
+                                else if (rowIndex >= 8) {
+                                    // console.log(row.values[2])
+                                    for (each in this.MCR_name){
+                                        if (row.values[1] == each){
+                                            data.MCR_No = this.MCR_name[each] || "";
+                                        }
+                                    }
+                                    if (data.MCR_No == ""){
+                                        this.error_message = "There is no such resident in the database";
+                                    }
                                     data.Level = row.values[2] || '';
                                     data.Submitted = row.values[3] || '';
                                     data.Submitted_Proportion = row.values[4] || '';
-                                    data.MMYYYY = row.values[5] || '';
-                                    data.Logged_for_month = row.values[6] || '';
+                                    data.MMYYYY = mmYYYY;
+                                    data.Logged_for_month = loggded_for_months
+                                    console.log(data.MMYYYY)
                                     axios.post(url, data)
                                         .then(response => {
                                             console.log(response.data)
@@ -407,7 +440,9 @@
     });
 </script>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 
 
