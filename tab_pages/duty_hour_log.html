@@ -238,6 +238,7 @@
             data_on_watch_to_delete: "NA",
             MCR_name: {},
             error_message: "",
+            mmYYYY: "",
         },
         computed: {
             
@@ -397,18 +398,14 @@
                             sheet.eachRow((row, rowIndex) => {
                                 var url = this.local_host_url + 'add_duty_hour';
                                 var data = {};
-                                var mmYYYY = "";
                                 var loggded_for_months = "";
                                 if (rowIndex == 3){
-                                    mmYYYY = row.values[1].slice(21,28) || "";
-                                }
-                                else if (rowIndex == 4){
-                                    loggded_for_months = row.values[1].slice(7,9) || "";
+                                    this.mmYYYY = row.values[1].slice(21,28) || "";
                                 }
                                 else if (rowIndex >= 8) {
                                     // console.log(row.values[2])
                                     for (each in this.MCR_name){
-                                        if (row.values[1] == each){
+                                        if (row.values[1].trim() == each){
                                             data.MCR_No = this.MCR_name[each] || "";
                                         }
                                     }
@@ -418,12 +415,12 @@
                                     data.Level = row.values[2] || '';
                                     data.Submitted = row.values[3] || '';
                                     data.Submitted_Proportion = row.values[4] || '';
-                                    data.MMYYYY = mmYYYY;
-                                    data.Logged_for_month = loggded_for_months
-                                    console.log(data.MMYYYY)
+                                    data.MMYYYY = this.mmYYYY;
+                                    data.Logged_for_month = "Yes"
                                     axios.post(url, data)
                                         .then(response => {
                                             console.log(response.data)
+                                            this.mmYYYY = "";
                                         })
                                         .catch(error => {
                                             this.error = error.response.data
