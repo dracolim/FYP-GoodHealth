@@ -51,8 +51,8 @@ from PersonalDetails import PersonalDetails
 from Duty_Hour_Log import Duty_Hour_Log
 from Didactic_Attendance import didactic_attendance
 from IHI import ihi
-from Projects import Project
-
+from projects import Project
+from Procedure_Log import procedure_log
 
 class Awards(db.Model):
     __tablename__ = 'Awards'
