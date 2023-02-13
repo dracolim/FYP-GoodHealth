@@ -791,11 +791,8 @@ def view():
         data = dict(history_education.iloc[i])
         presentation3 = Education_History(**data)
         try:
-            if Education_History.query.filter_by(MCR_No=data["MCR_No"]).first() != None:
-                Education_History.query.filter_by(MCR_No=data["MCR_No"]).update(data)
-            else:
-                db.session.add(presentation3)
-                db.session.commit()
+            db.session.add(presentation3)
+            db.session.commit()
 
         except Exception as e:
             print("An error occurred:", e)
@@ -803,9 +800,386 @@ def view():
             traceback.print_exc()
 
     #history-posting
+    history_posting = pd.read_excel(
+        file, sheet_name="History - Posting", dtype=str)
+    history_posting.columns = [ 'MCR_No', 'Posting_Institution' , 'Posting_Department' , 'Posting_StartDate' , 'Posting_EndDate']
+
+    if history_posting['MCR_No'].isnull().sum() > 0:
+        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+        history_posting.to_excel(
+            writer, sheet_name='history_posting_error')
+        workbook = writer.book
+        worksheet = writer.sheets['history_posting_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = history_posting[history_posting[[
+        "MCR_No"]].isnull().any(axis=1)]
+
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+        writer.save()
+        abort(404, description="Invalid excel submitted")
+
+    history_posting= history_posting.fillna('')
+    for i in range(len(history_posting)):
+        data = dict(history_posting.iloc[i])
+        presentation4 = Posting_History(**data)
+        try:
+            db.session.add(presentation4)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()
+
+    #history-exam
+    history_exam = pd.read_excel(
+        file, sheet_name="History - Exam", dtype=str)
+    history_exam.columns = [ 'MCR_No', 'Name_of_Exam' , 'Date_of_Attempt' , 'Exam_Status']
+
+    if history_exam['MCR_No'].isnull().sum() > 0:
+        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+        history_exam.to_excel(
+            writer, sheet_name='history_exam_error')
+        workbook = writer.book
+        worksheet = writer.sheets['history_exam_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = history_exam[history_exam[[
+        "MCR_No"]].isnull().any(axis=1)]
+
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+        writer.save()
+        abort(404, description="Invalid excel submitted")
+
+    history_exam= history_exam.fillna('')
+    for i in range(len(history_exam)):
+        data = dict(history_exam.iloc[i])
+        presentation5 = Exam_History(**data)
+        try:
+            db.session.add(presentation5)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()
+
+    #histroy-trg
+    history_trg = pd.read_excel(
+        file, sheet_name="History - Trg Ext.&Remediation", dtype=str)
+    history_trg.columns = [ 'MCR_No', 'LOAPIP' , 'StartDate' , 'EndDate']
+
+    if history_trg['MCR_No'].isnull().sum() > 0:
+        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+        history_trg.to_excel(
+            writer, sheet_name='history_trg_error')
+        workbook = writer.book
+        worksheet = writer.sheets['history_trg_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = history_trg[history_trg[[
+        "MCR_No"]].isnull().any(axis=1)]
+
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+        writer.save()
+        abort(404, description="Invalid excel submitted")
+
+    history_trg= history_trg.fillna('')
+    for i in range(len(history_trg)):
+        data = dict(history_trg.iloc[i])
+        presentation6 = TrgExtRem_History(**data)
+        try:
+            db.session.add(presentation6)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()
+    #grants
+    grants = pd.read_excel(
+        file, sheet_name="Grants", dtype=str)
+    grants.columns = [ 'MCR_No', 'Name_of_Grant' , 'Project_Title' , 'Project_ID' , 'Grant_End_Date' , 'Grant_Start_Date']
+
+    if grants['MCR_No'].isnull().sum() > 0:
+        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+        grants.to_excel(
+            writer, sheet_name='grants_error')
+        workbook = writer.book
+        worksheet = writer.sheets['grants_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = grants[grants[[
+        "MCR_No"]].isnull().any(axis=1)]
+
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+        writer.save()
+        abort(404, description="Invalid excel submitted")
+
+    grants= grants.fillna('')
+    for i in range(len(grants)):
+        data = dict(grants.iloc[i])
+        presentation7 = Grants(**data)
+        try:
+            db.session.add(presentation7)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()
+
+    #Awards
+    awards = pd.read_excel(
+        file, sheet_name="Awards", dtype=str)
+    awards.columns = [ 'MCR_No', 'Award_Category' , 'Name_of_Award' , 'FY_of_Award_Received' , 'Date_of_Award_Received' , 'Project_ID']
+
+    if awards['MCR_No'].isnull().sum() > 0:
+        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+        awards.to_excel(
+            writer, sheet_name='awards_error')
+        workbook = writer.book
+        worksheet = writer.sheets['awards_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = awards[awards[[
+        "MCR_No"]].isnull().any(axis=1)]
+
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+        writer.save()
+        abort(404, description="Invalid excel submitted")
+
+    awards= awards.fillna('')
+    for i in range(len(awards)):
+        data = dict(awards.iloc[i])
+        presentation8 = Awards(**data)
+        try:
+            db.session.add(presentation8)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()       
+
+    #didatic attendance 
+    didatic_attendance = pd.read_excel(
+        file, sheet_name="Didactic Attendance", dtype=str)
+    didatic_attendance.columns = [ 'MCR_No', 'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended' , 'Percentage_of_sessions_attended' , 'MmYyyy' , 'Compliance_or_Not' ]
+    if didatic_attendance['MCR_No'].isnull().sum() > 0:
+        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+        didatic_attendance.to_excel(
+            writer, sheet_name='didatic_attendance_error')
+        workbook = writer.book
+        worksheet = writer.sheets['didatic_attendance_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = awards[awards[[
+        "MCR_No"]].isnull().any(axis=1)]
+
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+        writer.save()
+        abort(404, description="Invalid excel submitted")
+
+    didatic_attendance= didatic_attendance.fillna('')
+    for i in range(len(awards)):
+        data = dict(awards.iloc[i])
+        presentation9 = Didactic_Attendance(**data)
+        try:
+            db.session.add(presentation9)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()   
+
+    #publications
+    publlications = pd.read_excel(
+        file, sheet_name="Publications", dtype=str)
+    publlications.columns = [ 'MCR_No', 'Publication_Title' , 'Journal_Title' , 'PMID' , 'Publication_Date' ]
+    if publlications['MCR_No'].isnull().sum() > 0:
+        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+        publlications.to_excel(
+            writer, sheet_name='publlications_error')
+        workbook = writer.book
+        worksheet = writer.sheets['publlications_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = publlications[publlications[[
+        "MCR_No"]].isnull().any(axis=1)]
+
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+        writer.save()
+        abort(404, description="Invalid excel submitted")
+
+    publlications= publlications.fillna('')
+    for i in range(len(publlications)):
+        data = dict(publlications.iloc[i])
+        presentation10 = Publications(**data)
+        try:
+            db.session.add(presentation10)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()   
+
+    #presentations
+    presentations = pd.read_excel(
+        file, sheet_name="Presentations", dtype=str)
+    presentations.columns = [ 'MCR_No', 'Title' , 'Type' , 'Project_ID' , 'Conference_Name' , 'Country' , 'Presentation_Date' ]
+    if presentations['MCR_No'].isnull().sum() > 0:
+        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+        presentations.to_excel(
+            writer, sheet_name='presentations_error')
+        workbook = writer.book
+        worksheet = writer.sheets['presentations_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = presentations[presentations[[
+        "MCR_No"]].isnull().any(axis=1)]
+
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+        writer.save()
+        abort(404, description="Invalid excel submitted")
+
+    presentations= presentations.fillna('')
+    for i in range(len(presentations)):
+        data = dict(presentations.iloc[i])
+        presentation11 = Presentations(**data)
+        try:
+            db.session.add(presentation11)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()   
+
+    #project
+    project = pd.read_excel(
+        file, sheet_name="Projects", dtype=str)
+    project.columns = [ 'MCR_No', 'Project_Type' ,'Project_Title' ,'Project_ID' ,'Start_Date' , 'End_Date' , 'Date_of_QI_Certification' , 'PMID' ]
+    if project['MCR_No'].isnull().sum() > 0:
+        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+        project.to_excel(
+            writer, sheet_name='project_error')
+        workbook = writer.book
+        worksheet = writer.sheets['project_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = project[project[[
+        "MCR_No"]].isnull().any(axis=1)]
+
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+        writer.save()
+        abort(404, description="Invalid excel submitted")
+
+    project= project.fillna('')
+    for i in range(len(project)):
+        data = dict(project.iloc[i])
+        presentation12 = Projects(**data)
+        try:
+            db.session.add(presentation12)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()   
+    
+    #IHI
+    ihi = pd.read_excel(
+        file, sheet_name="IHI", dtype=str)
+    ihi.columns = [ 'MCR_No', 'Completion_of_Emodules' , 'Date' ]
+    if ihi['MCR_No'].isnull().sum() > 0:
+        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+        ihi.to_excel(
+            writer, sheet_name='ihi_error')
+        workbook = writer.book
+        worksheet = writer.sheets['ihi_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = ihi[ihi[[
+        "MCR_No"]].isnull().any(axis=1)]
+
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+        writer.save()
+        abort(404, description="Invalid excel submitted")
+
+    ihi= ihi.fillna('')
+    for i in range(len(ihi)):
+        data = dict(ihi.iloc[i])
+        presentation13 = IHI(**data)
+        try:
+            db.session.add(presentation13)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()   
+    
+
+    return history_posting.to_html()
 
 
-    return history_education.to_html()
+
+
+
 
 
 def getList(items):
