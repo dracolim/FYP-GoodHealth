@@ -178,7 +178,6 @@
             vuetify: new Vuetify(),
             data() {
             return {
-                mcr_no: "",
                 year: null,
                 loaded: false,
                 ChartConfig: {
@@ -247,10 +246,7 @@
                     this.status = "getting data...";
 
                     // add proper route here
-
-                    specificURL = "http://localhost:5010/profile/" + this.mcr_no
-                    console.log(specificURL)
-                    await axios.get(specificURL).then((response) => {
+                    await axios.get("http://localhost:5010/").then((response) => {
                     console.log("This is responseData")
                     console.log(response.data)
                     this.getChartData(response.data);

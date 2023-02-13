@@ -158,37 +158,37 @@ class Involvement(db.Model):
             result[column] = getattr(self, column)
         return result
 
-def getList(items):
-    list_ = []
-    for i in items:
-        list_.append(i.to_dict())
-    return list_
+# def getList(items):
+#     list_ = []
+#     for i in items:
+#         list_.append(i.to_dict())
+#     return list_
 
-@app.route("/profile/<id>")
-def read_personaldetailssd(id):
-    person = Personal_Details.query.get_or_404(id)
+# @app.route("/profile/<id>")
+# def read_personaldetailssd(id):
+#     person = Personal_Details.query.get_or_404(id)
 
-    return jsonify(
-        {
-            "data": {
-                "personaldetails":person.to_dict(),
-                "presentations": getList(person.presentations),
-                "posting_histories": getList(person.posting_histories),
-                "duty_hour_logs": getList(person.duty_hour_logs),
-                "case_logs": getList(person.case_logs),
-                "procedure_logs": getList(person.procedure_logs),
-                "exam_histories": getList(person.exam_histories),
-                "publications": getList(person.publications),
-                "evaluations": getList(person.evaluations),
-                "trgExtRem_Histories": getList(person.trgExtRem_Histories),
-                "projects": getList(person.projects),
-                "awards": getList(person.awards),
-                "grants": getList(person.grants),
-                "ihis": getList(person.ihis),
-                "involvements": getList(person.involvements),
-            }
-        }
-    ), 200
+#     return jsonify(
+#         {
+#             "data": {
+#                 "personaldetails":person.to_dict(),
+#                 "presentations": getList(person.presentations),
+#                 "posting_histories": getList(person.posting_histories),
+#                 "duty_hour_logs": getList(person.duty_hour_logs),
+#                 "case_logs": getList(person.case_logs),
+#                 "procedure_logs": getList(person.procedure_logs),
+#                 "exam_histories": getList(person.exam_histories),
+#                 "publications": getList(person.publications),
+#                 "evaluations": getList(person.evaluations),
+#                 "trgExtRem_Histories": getList(person.trgExtRem_Histories),
+#                 "projects": getList(person.projects),
+#                 "awards": getList(person.awards),
+#                 "grants": getList(person.grants),
+#                 "ihis": getList(person.ihis),
+#                 "involvements": getList(person.involvements),
+#             }
+#         }
+#     ), 200
 
 # https://fsymbols.com/generators/tarty/
 # ============================
