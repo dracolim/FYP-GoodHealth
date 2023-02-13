@@ -20,14 +20,18 @@ if __name__ == '__main__':
     # Mac user -------------------------------------------------------------------
   #  app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
   #                                          '@localhost:3306/SingHealth'
+    # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+
     # --------------------------------------------------------------------------------
 
     # # Windows user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-    #                                         '@localhost:3306/SingHealth'
-    # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
-    #                                         'pool_recycle': 280}
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+                                            '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
+                                            'pool_recycle': 280}
 else:
     print("running not on main")
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
@@ -1984,7 +1988,6 @@ def create_presentation():
         print("Stack trace:")
         traceback.print_exc()
         
-engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 connection = engine.connect()
         
 @app.route('/edit_field_value', methods=['POST'])
