@@ -116,7 +116,7 @@ class Personal_Details(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        print(f"columns: {columns}")
+        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -145,7 +145,7 @@ class Presentations(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        print(f"columns: {columns}")
+        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -172,7 +172,7 @@ class Posting_History(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        print(f"columns: {columns}")
+        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -200,7 +200,7 @@ class Duty_Hour_Log(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        print(f"columns: {columns}")
+        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -233,7 +233,7 @@ class Case_Log(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        print(f"columns: {columns}")
+        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -264,7 +264,7 @@ class Procedure_Log(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        print(f"columns: {columns}")
+        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -290,7 +290,7 @@ class Exam_History(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        print(f"columns: {columns}")
+        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -319,7 +319,7 @@ class Publications(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        print(f"columns: {columns}")
+        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -350,7 +350,7 @@ class Evaluations(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        print(f"columns: {columns}")
+        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -377,7 +377,7 @@ class TrgExtRem_History(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        print(f"columns: {columns}")
+        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -407,7 +407,7 @@ class Projects(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        print(f"columns: {columns}")
+        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -436,7 +436,7 @@ class Awards(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        print(f"columns: {columns}")
+        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -464,7 +464,7 @@ class Grants(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        print(f"columns: {columns}")
+        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -489,7 +489,7 @@ class IHI(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        print(f"columns: {columns}")
+        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -634,9 +634,10 @@ def create_resident():
         connection.execute(query)
 
 
-@app.route('/import', methods=['POST'])
+@app.route('/', methods=['POST'])
 def view():
     file = request.files['file']
+    print('KJDFSAKDFHAKSJDFHLASJKDHFLAKSJDHFLAKJSHDFLAJSHDLFJASHDFLJASHDLFKJAHSDLFKJHASLDKJFHALSDJKFHA')
     file.save(file.filename)
 
     # personal details
@@ -664,10 +665,10 @@ def view():
         for row in nullrows.index:
             ran = "A" + str(row+2) + ":BA" + str(row+2)
             worksheet.conditional_format(ran,
-                                         {'type':     'cell',
-                                          'criteria': 'not equal to',
-                                          'value': '"o1"',
-                                          'format':   format1})
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
         writer.save()
         abort(404, description="Invalid excel submitted")
 
