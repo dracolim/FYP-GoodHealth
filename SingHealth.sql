@@ -111,7 +111,7 @@ INSERT INTO `Projects` (`MCR_No`, `Project_ID`, `Project_Type`, `Project_Title`,
 -- Table structure for table `Procedure_Log`
 --
 
-CREATE TABLE `Projects` (
+CREATE TABLE `Procedure_Log` (
   `MCR_No` varchar(50) NOT NULL,
   `Procedure_Name` varchar(50) NOT NULL,
   `Date_of_Completion` varchar(50) NOT NULL,
@@ -123,13 +123,61 @@ CREATE TABLE `Projects` (
   `Certified` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `Projects` (`MCR_No`, `Procedure_Name`, `Date_of_Completion`, `CPT`, `Total`, `Performed`, `Observed`, `Verified`, `Certified`) VALUES
+INSERT INTO `Procedure_Log` (`MCR_No`, `Procedure_Name`, `Date_of_Completion`, `CPT`, `Total`, `Performed`, `Observed`, `Verified`, `Certified`) VALUES
 ('M11367A', '', '', '', '', '', '', '', ''),
 ('M16782H', '', '', '', '', '', '', '', ''),
 ('M65889A', '', '', '', '', '', '', '', ''),
 ('M54354E', '', '', '', '', '', '', '', ''),
 ('M88791Z', '', '', '', '', '', '', '', ''),
 ('M83162D', '', '', '', '', '', '', '', '');
+----------------------------------------------------------
+
+--
+-- Table structure for table `Personal_Details`
+--
+
+CREATE TABLE `Personal_Details` (
+  `Employee_ID` varchar(50) NOT NULL,
+  `MCR_No` varchar(50) NOT NULL,
+  `Staff_Name` varchar(50) NOT NULL,
+  `Designation` varchar(50) NOT NULL,
+  `Programme` varchar(50) NOT NULL,
+  `Year_of_Training` varchar(50) NOT NULL,
+  `Academic_Year` varchar(50) NOT NULL,
+  `Department` varchar(50) NOT NULL,
+  `Institution` varchar(50) NOT NULL,
+  `Academic_Clinical_Programme` varchar(50) NOT NULL,
+  `Employment_Status` varchar(50) NOT NULL,
+  `Nationality` varchar(50) NOT NULL,
+  `Date_of_Birth` varchar(50) NOT NULL,
+  `Gender` varchar(50) NOT NULL,
+  `Registration_Type` varchar(50) NOT NULL,
+  `House_Blk_No` varchar(50) NOT NULL,
+  `Street` varchar(50) NOT NULL,
+  `Building_Name` varchar(50) NOT NULL,
+  `Unit_No` varchar(50) NOT NULL,
+  `Postal_Code` varchar(50) NOT NULL,
+  `Contact_No_Work` varchar(50) NOT NULL,
+  `Contact_No_Personal` varchar(50) NOT NULL,
+  `Email_Official` varchar(50) NOT NULL,
+  `Email_Personal` varchar(50) NOT NULL,
+  `BCLS_Expiry_Date` varchar(50) DEFAULT NULL,
+  `ACLS_Expiry_Date` varchar(50) DEFAULT NULL,
+  `Covid_19_Vaccination_Status` varchar(50) DEFAULT NULL,
+  `Date_of_First_Dose` varchar(50) DEFAULT NULL,
+  `Date_of_Second_Dose` varchar(50) DEFAULT NULL,
+  `Vaccination_Remarks` varchar(50) DEFAULT NULL,
+  primary key (MCR_No)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `Personal_Details` (`Employee_ID`, `MCR_No`, `Staff_Name`, `Designation`, `Programme`, `Year_of_Training`, `Academic_Year`, `Department`, `Institution`, `Academic_Clinical_Programme`, `Employment_Status`, `Nationality`, `Date_of_Birth`, `Gender`, `Registration_Type`, `House_Blk_No`, `Street`, `Building_Name`, `Unit_No`, `Postal_Code`, `Contact_No_Work`, `Contact_No_Personal`, `Email_Official`, `Email_Personal`, `BCLS_Expiry_Date`, `ACLS_Expiry_Date`, `Covid_19_Vaccination_Status`, `Date_of_First_Dose`, `Date_of_Second_Dose`, `Vaccination_Remarks`) VALUES
+
+('1', 'M11367A', '', '', 'Gastroenterology', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+('2', 'M16782H', '', '', 'Renal Medicine', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+('3', 'M65889A', '', '', 'Internal Medicine', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+('4', 'M54354E', '', '', 'Gastroenterology', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+('5', 'M88791Z', '', '', 'Renal Medicine', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+('6', 'M83162D', '', '', 'Internal Medicine', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
 ----------------------------------------------------------
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
