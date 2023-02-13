@@ -1640,6 +1640,258 @@ def create_presentation():
         traceback.print_exc()
 
 
+
+# Generate CV word
+@app.route("/worddoc/<id>")
+def pdf_to_doc(id):
+    generate_cv(id)
+    from pdf2docx import parse
+
+    pdf_file = './cv/cv.pdf'
+    docx_file = './cv/cv.docx'
+
+    # convert pdf to docx
+    parse(pdf_file, docx_file)
+    return "done"
+
+def getProjectRows(projects):
+    rows = []
+    for i in projects:
+        status = "Ongoing"
+        if i.Date_of_QI_Certification != "":
+            status = i.Date_of_QI_Certification 
+
+        i_row = """<tr id="regtable">
+                <td id="regtable">
+                    <p>""" + i.Project_Title + """</p>
+                </td>
+                <td id="regtable" style="text-align:center">
+                    <p>""" + i.Start_Date + """</p>
+                </td>
+                <td id="regtable" style="text-align:center">
+                    <p>""" + i.End_Date + """</p>
+                </td>
+                <td id="regtable" style="text-align:center">
+                    <p>""" + status + """</p>
+                </td>
+            </tr>"""
+        rows.append(i_row)
+    return " ".join(rows)
+
+def getAwardsRows(awards):
+    rows = []
+    for i in awards:
+        i_row = """<tr id="regtable">
+                <td id="regtable">
+                    <p>""" + i.Name_of_Award + """</p>
+                </td>
+                <td>
+                    <p style="text-align: center;">""" \
+                        + i.Date_of_Award_Received + \
+                """</p>
+                </td>
+            </tr>"""
+        rows.append(i_row)
+
+    return " ".join(rows)
+
+
+# Generate CV pdf:
+@app.route("/personaldetails_cv_generate/<id>")
+def generate_cv(id):
+    person = Personal_Details.query.get_or_404(id)
+    presentations = person.presentations
+    posting_histories = person.posting_histories
+    duty_hour_logs = person.duty_hour_logs
+    case_logs = person.case_logs
+    procedure_logs = person.procedure_logs
+    exam_histories = person.exam_histories
+    publications = person.publications
+    evaluations = person.evaluations
+    trgExtRem_Histories = person.trgExtRem_Histories
+    projects = person.projects
+    awards = person.awards
+    grants = person.grants
+    ihis = person.ihis
+    involvements = person.involvements
+    mcrno = person.MCR_No
+    name = person.Staff_Name
+    awardsRows = getAwardsRows(awards)
+    projectRows = getProjectRows(projects)
+    page = """<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+            <style>
+        #regtable {border: 1px solid;}
+        </style>
+    </head>
+    
+    <body style="justify-content: center;">
+
+    <div id="main" style="width:850px">
+    <p style="text-align: center;"><strong><span style="font-size: 24px;"><u><b>SingHealth Internal Medicine Residency Programme&nbsp;</b></u></span></strong></p>
+    <p style="text-align: center;"><strong><span style="font-size: 24px;"><u><b>Professional Development Portfolio</b></u></span></strong></p>
+    <div align="left" >
+
+</div>
+<hr>
+<p><br></p>
+<div align="left" >
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <p><span style="font-size: 24px;">Name&nbsp;</span></p>
+                </td>
+                <td>
+                    <p><span style="font-size: 24px;">:&nbsp;""" + name + """&nbsp;</span></p>
+                </td>
+                <td rowspan="2"><span style="font-size: 24px;"><br></span></td>
+            </tr>
+            <tr>
+                <td>
+                    <p><span style="font-size: 24px;">MCR Number</span></p>
+                </td>
+                <td>
+                    <p><span style="font-size: 24px;">: """ + mcrno + """</span></p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">EMPLOYMENT HISTORY</span></p>
+<p><br></p>
+<p style="text-align: center;width:100%;"><span style="font-size: 20px;"><u><strong>Core Postings</strong></u></span></p>
+<div align="left" >
+    <table style="width: 100%;" >
+        <tbody>
+            <tr>
+                <td style="width: 75%;">
+                    <p><strong><u>Posting</u></strong></p>
+                    
+                </td>
+            
+                <td style="width: 25%;">
+                    <p><strong><u>Period</u></strong></p><br>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 75%;">
+                    <p><strong>Singapore General Hospital</strong></p>
+                    <p><em>Resident, Dept of Neurology</em></p><br>
+                </td>
+                
+                <td style="width: 25%;">
+                    <p>Jul 2018 &ndash; Sep 2018</p>
+                </td>
+            </tr>
+            
+
+
+        </tbody>
+    </table>
+
+
+
+    <!-- AWARD SECTION: -->
+
+    <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">AWARDS &amp; RECOGNITION&nbsp;</span></p>
+<p><br></p>
+<p>Examples: RISE Award, best HO/MO during a particular posting, best oral speaker</p>
+<p><br></p>
+<div align="left">
+    <table style="margin-right: calc(6%); width: 94%; border-color: black; width: 100%;border-collapse: collapse;">
+        <tbody id="regtable">
+            <tr id="regtable">
+                <td style="background-color: rgb(209, 213, 216);" id="regtable">
+                    <p style="text-align: center;">Name of Award</p>
+                </td>
+                <td style="background-color: rgb(209, 213, 216);" id="regtable">
+                    <p style="text-align: center;">Date Received</p>
+                </td>
+            </tr>
+            <tr id="regtable">
+                <td id="regtable">
+                    <p>RISE Awards &ndash; Outstanding Performance at 2013 ITE</p>
+                </td>
+                <td>
+                    <p style="text-align: center;">25 Sep 2013</p>
+                </td>
+            </tr>
+            """ + awardsRows + """
+            
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Projects SECTION: -->
+
+<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">RESEARCH PROJECTS</span></p>
+
+<p><br></p>
+<p>Examples: RISE Award, best HO/MO during a particular posting, best oral speaker</p>
+<p><br></p>
+<div align="left">
+    <table style="margin-right: calc(6%); width: 94%; border-color: black; width: 100%;border-collapse: collapse;">
+        <tbody id="regtable">
+            <tr id="regtable">
+                <td style="background-color: rgb(209, 213, 216); width:50%" id="regtable">
+                    <p style="text-align: center;">Details of Research</p>
+                </td>
+                <td style="background-color: rgb(209, 213, 216);" id="regtable">
+                    <p style="text-align: center;">Start Date</p>
+                </td>
+                <td style="background-color: rgb(209, 213, 216);" id="regtable">
+                    <p style="text-align: center;">End Date</p>
+                </td>
+                <td style="background-color: rgb(209, 213, 216);" id="regtable">
+                    <p style="text-align: center;">Status (Completed/On-going)</p>
+                </td>
+            </tr>
+            <tr id="regtable">
+                <td id="regtable">
+                    <p>Pemphigus and Pemphigoid comparison</p>
+                </td>
+                <td id="regtable" style="text-align:center">
+                    <p>1 Jan 2015</p>
+                </td>
+                <td id="regtable" style="text-align:center">
+                    <p>31 Apr 2016</p>
+                </td>
+                <td id="regtable" style="text-align:center">
+                    <p>Completed</p>
+                </td>
+            </tr>
+            """+ projectRows + """
+            
+        </tbody>
+    </table>
+</div>
+
+</div>
+
+</div>
+</body>
+    </html>"""
+
+    html_file_name = "./cv/cv.html"
+    Func = open(html_file_name,"w")
+    Func.write(page)
+    Func.close()
+    import pdfkit
+    from pathlib import Path
+    input = Path(html_file_name)
+    print(input)
+    pdfkit.from_file(html_file_name, 
+    './cv/cv.pdf')
+
+    return "done"
+
 db.create_all()
 
 if __name__ == '__main__':
