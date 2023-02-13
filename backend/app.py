@@ -1083,7 +1083,6 @@ def read_dutyhourlogs_by_person(id):
 @app.route('/add_duty_hour', methods=['POST'])
 def create_duty_hour():
     data = request.get_json()
-    print('hello')
     print(data)
     if not all(key in data.keys() for key in ('MCR_No', 'Level' , 'Submitted' , 'Submitted_Proportion'  , 'MMYYYY' , 
     'Logged_for_month' 
