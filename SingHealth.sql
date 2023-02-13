@@ -88,20 +88,6 @@ INSERT INTO `Personal_Details` (`Employee_ID`, `MCR_No`, `Staff_Name`, `Designat
 ('MOM04393', 'M83162D', 'Cindee Tan', 'Senior Resident', 'Renal Medicine', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Malaysian', '1988-02-29 00:00:00', 'Female', 'Conditional (L3)', '', 'Block 37D,Kreta Ayer Road', '', '#20-02', '803000', '', '96610520', 'cindee.tan@mohh.com.sg', '', '', '2021-11-14 00:00:00', 'Yes', '2021-03-11 00:00:00', '', ''),
 ('MOM05690', 'M88791Z', 'Kang Hyun Bin', 'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-12-05 00:00:00', 'Male', 'Full', '', 'Lorong Gambir', '', '', '536000', '', '91515780', 'hyunbin.kang@mohh.com.sg', '', '', '', 'Yes', '2021-02-09 00:00:00', '2021-03-02 00:00:00', '');
 
-
--- INSERT INTO `Personal_Details` (`Employee_ID`, `MCR_No`, `Staff_Name`, `Designation`, `Programme`, `Year_of_Training`, `Academic_Year`, `Department`, `Institution`, `Academic_Clinical_Programme`, `Employment_Status`, `Nationality`, `Date_of_Birth`, `Gender`, `Registration_Type`, `House_Blk_No`, `Street`, `Building_Name`, `Unit_No`, `Postal_Code`, `Contact_No_Work`, `Contact_No_Personal`, `Email_Official`, `Email_Personal`, `BCLS_Expiry_Date`, `ACLS_Expiry_Date`, `Covid_19_Vaccination_Status`, `Date_of_First_Dose`, `Date_of_Second_Dose`, `Vaccination_Remarks`) VALUES
--- ('1234o19', '1234o19', 'Tyler, Daniel', '', '', '', '', '', 'dkjn', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
--- ('1234o18', '1234o18', 'Li, Betty', '', '', '', '', '', 'dkjn', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
--- -- ('crab25', '', '', 'khivycfyrx', '', '', '', '', 'jghfuytezy', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
--- -- ('fififi', '', 'hkgcfxtyd', '', '', '', '', 'hgcfxd', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
--- -- ('fififififi', '', '', '', '', 'jhgvchfx', '', '', 'bvgx', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
--- -- ('MOM05690', 'M88791Z', 'Kang Hyun Bin', 'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-12-05', 'Male', 'Full', '', 'Lorong Gambir', '', '', '536000', '', '91515780', 'hyunbin.kang@mohh.com.sg', '', NULL, NULL, 'Yes', '2021-02-09', '2021-03-02', '', 0),
--- -- ('MOM12390', 'M11367A', 'Daniel Tyler', 'Senior Resident', 'Gastroenterology', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-11-11', 'Male', 'Full', '', '11A Tanglin Hill', '', '', '248000', '92343980', '91391470', 'daniel.tyler@mohh.com.sg', '', '1919-07-20', '1919-04-29', 'Yes', '2021-03-30', '2021-04-20', '', 0),
--- -- ('one111', '1A', 'lim', 'doctor', 'cardiology', '2010', '2010', 'cardiology', 'institution', 'academic clinical programme', 'employementstatus', 'nationality', '2008-11-11', 'Female', 'Registration_Type1', 'House_Blk_No', 'Street1', 'Building_Name1', 'Unit_No1', 'Postal_Code', 'Contact_No_Work1', 'Contact_No_Personal1', 'Email_Official1', 'Email_Personal1', '2008-11-11', '2008-11-11', 'Covid_19_Vaccination_Status1', '2008-11-11', '2008-11-11', 'Vaccination_Remarks', 0),
--- -- ('two222', '', '', 'sabaw', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
--- -- ('two223', '', '', '', 'juuvuu', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
--- -- ('two445', '', '', '', '', 'jhgcyfxt', '', '', '', '', '', '', ' nf', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0);
-
 -- --------------------------------------------------------
 
 --

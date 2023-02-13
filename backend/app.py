@@ -6,19 +6,6 @@ import pandas as pd
 import traceback
 
 app = Flask(__name__)
-# # Mac user ====================================================================
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
-#                                         '@localhost:3306/SingHealth'
-# # =============================================================================
-
-
-# # Windows user -------------------------------------------------------------------
-# # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-# #                                         '@localhost:3306/SingHealth'
-# # --------------------------------------------------------------------------------
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
-#                                         'pool_recycle': 280}
 
 # db = SQLAlchemy(app)
 
@@ -29,16 +16,16 @@ app.app_context().push()
 if __name__ == '__main__':
     print("running on main")
     # Mac user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-    #                                         '@localhost:3306/SingHealth'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+                                            '@localhost:3306/SingHealth'
     # --------------------------------------------------------------------------------
 
-    # # Windows user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root' + \
-                                            '@localhost:3306/SingHealth'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
-                                            'pool_recycle': 280}
+    # # # Windows user -------------------------------------------------------------------
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root' + \
+    #                                         '@localhost:3306/SingHealth'
+    # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
+    #                                         'pool_recycle': 280}
 else:
     print("running not on main")
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
@@ -59,8 +46,8 @@ def display():
 
 class Personal_Details(db.Model):
     __tablename__ = 'Personal_Details'
-    Employee_ID = db.Column(db.String(50), primary_key=True)
-    MCR_No = db.Column(db.String(50))
+    Employee_ID = db.Column(db.String(50))
+    MCR_No = db.Column(db.String(50), primary_key=True)
     Staff_Name = db.Column(db.String(50))
     Designation = db.Column(db.String(50))
 
@@ -1160,13 +1147,36 @@ def delete_duty_hour_log(id):
 # Read Existing procedure log (R)
 @app.route("/procedure_log")
 def read_procedure_log():
-    res = Procedure_Log.query.all()
+    logs = Procedure_Log.query.all()
     return jsonify(
         {
-            "data": [r.to_dict()
-                     for r in res]
+            "data": [pd.to_dict()
+                    for pd in logs]
         }
     ), 200
+
+# Read Existing procedure logs with personal details (R)
+@app.route("/procedure_logs")
+def read_procedure_logs():
+    userList = Procedure_Log.query\
+    .join(Personal_Details, Procedure_Log.MCR_No==Personal_Details.MCR_No)\
+        .add_columns(Personal_Details.Programme)\
+            .paginate(1, 50, True)
+
+    combinedProcedureLogs = []
+
+    for i in userList.iter_pages():
+        print("i-->", userList.items)
+
+        for item in userList.items:
+            procedurelog = item[0].to_dict()
+            procedurelog["Programme"] = item[1]
+            combinedProcedureLogs.append(procedurelog)
+
+    return jsonify(
+        {
+            "data": combinedProcedureLogs
+            }), 200
 
 # Read Existing by Person (R)
 @app.route("/procedurelog/<id>")
