@@ -29,16 +29,16 @@ app.app_context().push()
 if __name__ == '__main__':
     print("running on main")
     # Mac user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-                                            '@localhost:3306/SingHealth'
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+    #                                         '@localhost:3306/SingHealth'
     # --------------------------------------------------------------------------------
 
     # # Windows user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-    #                                         '@localhost:3306/SingHealth'
-    # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
-    #                                         'pool_recycle': 280}
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root' + \
+                                            '@localhost:3306/SingHealth'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
+                                            'pool_recycle': 280}
 else:
     print("running not on main")
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
@@ -378,7 +378,7 @@ class TrgExtRem_History(db.Model):
 
 class Projects(db.Model):
     __tablename__ = 'Projects'
-    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Project_Type = db.Column(db.String(100))
     Project_Title = db.Column(db.String(100))
@@ -462,7 +462,7 @@ class Grants(db.Model):
 
 class IHI(db.Model):
     __tablename__ = 'IHI'
-    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Completion_of_Emodules = db.Column(db.String(100))
     Date = db.Column(db.String(100))
@@ -511,14 +511,13 @@ class Involvement(db.Model):
 
 class Didactic_Attendance(db.Model):
     __tablename__ = 'Didactic_Attendance'
-    id = db.Column(db.String(100), primary_key=True)
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100))
     Month = db.Column(db.String(100))
     Total_tracked_sessions = db.Column(db.String(100))
     Number_of_sessions_attended = db.Column(db.String(100))
     Percentage_of_sessions_attended = db.Column(db.String(100))
     MmYyyy = db.Column(db.String(100))
-    Scheduled_Teachings = db.Column(db.String(100))
     Compliance_or_Not = db.Column(db.String(100))
 
     __mapper_args__ = {

@@ -156,7 +156,6 @@ CREATE TABLE `Didactic_Attendance` (
   `Number_of_sessions_attended` varchar(50) NOT NULL,
   `Percentage_of_sessions_attended` varchar(50) NOT NULL,
   `MmYyyy` varchar(50) NOT NULL,
-  `Scheduled_Teachings` varchar(50) NOT NULL,
   `Compliance_or_Not` varchar(50) NOT NULL,
   primary key (id),
   CONSTRAINT FK_PersonOrder3 FOREIGN KEY (MCR_No)
@@ -167,14 +166,17 @@ CREATE TABLE `Didactic_Attendance` (
 -- Dumping data for table `Didactic_Attendance`
 --
 
-INSERT INTO `Didactic_Attendance` (`MCR_No`, `BillingName`, `Month`, `Total_tracked_sessions`, `Number_of_sessions_attended`, `Percentage_of_sessions_attended`, `MmYyyy`, `Posting_Institution`, `Posting_Department`, `Scheduled_Teachings`, `Compliance_or_Not`) VALUES
-('1234o18', 'SGHGasEnt', 'July', '14', '14', '100%', '', '', '', '', ''),
-('1234o18', 'SGHGasEnt', 'July', '20', '20', '100%', '', '', '', '', ''),
-('1234o18', 'SGHGasEnt', 'July', '14', '12', '86%', '', '', '', '', ''),
-('1234o19', 'CGHGasHep', 'July', '12', '9', '75%', '', '', '', '', ''),
-('1234o19', 'CGHGasHep', 'July', '12', '12', '100%', '', '', '', '', ''),
-('1234o19', '', '', '', '', '', '', '', '', '', ''),
-('1234o19', '', '', '', '', '', '', '', '', '', '');
+INSERT INTO `Didactic_Attendance` (`MCR_No`, `Month`, `Total_tracked_sessions`, `Number_of_sessions_attended`, `Percentage_of_sessions_attended`, `MmYyyy`, `Compliance_or_Not`) VALUES
+('M11367A', 'July', '14', '8', '57%', '07/2022', 'No'),
+('M11367A', 'August', '14', '9', '64%', '08/2022', 'No'),
+('M11367A', 'January', '14', '14', '100%', '01/2022', 'Yes'),
+('M11367A', 'February', '14', '9', '64%', '02/2022', 'No'),
+('M11367A', 'July', '14', '14', '100%', '07/2023', 'Yes'),
+('M11367A', 'August', '14', '10', '71%', '08/2023', 'Yes'),
+('M11367A', 'January', '14', '14', '100%', '01/2023', 'Yes'),
+('M11367A', 'February', '14', '9', '64%', '02/2023', 'No'),
+('M16782H', 'July', '12', '12', '100%', '07/2023', 'Yes'),
+('M16782H', 'August', '12', '10', '83%', '08/2023', 'Yes');
 
 -- --------------------------------------------------------
 
@@ -338,8 +340,16 @@ CREATE TABLE `IHI` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `IHI` (`MCR_No`,`Completion_of_Emodules`,`Date`) VALUES
-('1234o18','Completion_of_Emodules111', '1/2/2022'),
-('1234o19','Completion_of_Emodules222', '1/2/2022');
+('M11367A', 'Yes', '07/07/2023'),
+('M16782H', 'No', '-'),
+('M54354E', 'Yes', '07/08/2023'),
+('M88791Z', 'Yes', '07/09/2023'),
+('M56829J', 'Yes', '07/10/2023'),
+('M83162D', 'No', '-'),
+('M33571G', 'No', '-'),
+('M35718D', 'No', '-'),
+('M35589A', 'Yes', '07/11/2023'),
+('M65659J', 'Yes', '07/12/2023');
 
 -- --------------------------------------------------------
 
@@ -553,12 +563,12 @@ CREATE TABLE `Projects` (
 --
 
 INSERT INTO `Projects` (`MCR_No`, `Project_Type`, `Project_Title`, `Project_ID`, `Start_Date`, `End_Date`, `Date_of_QI_Certification`, `PMID`) VALUES
-('1234o18', 'Qi', 'Creating an Intranet Site Showing Each Medical Departments Criteria for Inpatient Reviews', ' ', '2019', '2020', '', ''),
-('1234o18', '', '', '', '', '', '', ''),
-('1234o18', 'QI', 'Code Blue Documentation ', ' ', '2018', '2019', '', ''),
-('1234o19', '', '', '', '', '', '', ''),
-('1234o19', 'QI', 'Reducing the percentage of errors in discharge prescriptions in Ward 73', ' ', '2019', '2020', '', ''),
-('1234o19', 'QI', 'Improving Compliance of Medical Results Acknowledgement in CGH Gastroenterology Department ', '', '', '', '', '');
+('M11367A', 'QI', 'Testing Title 1', '1', '02/02/2022', '02/02/2023', '02/02/2023', '1'),
+('M16782H', 'QI', 'Testing Title 2', '2', '02/02/2022', '02/02/2023', '02/02/2023', '2'),
+('M65889A', 'QI', 'Testing Title 3', '3', '02/02/2022', '02/02/2023', '02/02/2023', '3'),
+('M54354E', 'QI', 'Testing Title 4', '4', '02/02/2022', 'Ongoing', '-', '4'),
+('M88791Z', 'QI', 'Testing Title 5', '5', '02/02/2022', 'Ongoing', '-', '5'),
+('M83162D', 'QI', 'Testing Title 6', '6', '02/02/2022', 'Ongoing', '-', '6');
 
 -- --------------------------------------------------------
 
