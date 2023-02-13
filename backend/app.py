@@ -18,12 +18,12 @@ app.app_context().push()
 if __name__ == '__main__':
     print("running on main")
     # Mac user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-                                            '@localhost:3306/SingHealth'
+  #  app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+  #                                          '@localhost:3306/SingHealth'
     # --------------------------------------------------------------------------------
 
-    # # # Windows user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root' + \
+    # # Windows user -------------------------------------------------------------------
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
     #                                         '@localhost:3306/SingHealth'
     # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -1676,6 +1676,7 @@ def read_ihi_by_person(id):
 @app.route('/duty_hour_log', methods=['GET'])
 def get_duty_hour_log():
     dutyList = Duty_Hour_Log.query.all()
+    print(dutyList,'dutylist')
     return jsonify(
         {
             "data": [pd.to_dict()
@@ -2014,8 +2015,44 @@ def create_presentation():
         print("An error occurred:", e)
         print("Stack trace:")
         traceback.print_exc()
-
-
+        
+        
+        
+from sqlalchemy import insert,text
+@app.route('/edit_field_value', methods=['POST'])
+def edit_field_value():
+    data = request.get_json()
+    print(data,'edit field DATA')
+    table=data['Table']
+    field = data['Field']
+    value=data['Value']
+    row=data['Row']
+    
+    update_query=f'UPDATE {table} SET {field} = \'{value}\' WHERE MCR_No = \'{row}\''
+    print(update_query,'UPDATE QUERY')
+    try:
+        connection.execute(update_query)
+        return jsonify(data.to_dict()), 201
+    except Exception as e:
+        print("An error occurred:", e)
+        traceback.print_exc()
+        return jsonify(
+            {
+                "Error Msg": "error occured"
+            }
+        ), 404
+# Read Awards field/column name (R)
+@app.route('/create_resident', methods=['POST'])
+def create_resident():
+    data = request.get_json()
+    personal_details_query=f'INSERT INTO Personal_Details VALUES ('
+    for column in data['Personal_Details']:
+        value_to_insert=data['Personal_Details'][column]
+        personal_details_query+="'" + value_to_insert+"',"
+    personal_details_query=personal_details_query[:-3]
+    personal_details_query+="'0'"
+    personal_details_query+=')'
+    connection.execute(personal_details_query)
 
 # Generate CV word
 @app.route("/worddoc/<id>")
