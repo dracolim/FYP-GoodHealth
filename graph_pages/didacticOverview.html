@@ -225,9 +225,10 @@
 
                     this.status = "getting data...";
 
-                    await axios.get("http://localhost:5010/didactic_attendance").then((response) => {
-                    console.log("This is responseData")
-                    console.log(response.data)
+                    await axios.get("http://localhost:5011/didactic_attendance").then((response) => {
+                    // console.log("This is responseData")
+                    // console.log(response.data)
+                
                     this.getChartData(response);
                     this.loaded = false
                     this.loaded = true
@@ -237,9 +238,8 @@
                     });
                 },
                 getChartData: function (chartData) {
-                    console.log("This is chartData")
-                    console.log(chartData);
-                    console.log(chartData.data.data[0]['Compliance_or_Not'])
+                    // console.log("This is chartData")
+                    // console.log(chartData);
 
                     counterCompliantJanJune = 0
                     counterCompliantJulDec = 
@@ -278,17 +278,16 @@
                         percentCompliantJulDec = counterCompliantJulDec/numofJulDecEntries 
                     }
 
-                    console.log("counter compliant")
-                    console.log(counterCompliantJanJune)
-                    console.log(counterCompliantJulDec)
+                    // console.log("counter compliant")
+                    // console.log(counterCompliantJanJune)
+                    // console.log(counterCompliantJulDec)
 
-                    console.log("num entries")
-                    console.log(numOfJanJuneEntries)
-                    console.log(numofJulDecEntries)
+                    // console.log("num entries")
+                    // console.log(numOfJanJuneEntries)
+                    // console.log(numofJulDecEntries)
 
-                    console.log(percentCompliantJanJune)
-                    console.log(percentCompliantJulDec)
-
+                    // console.log(percentCompliantJanJune)
+                    // console.log(percentCompliantJulDec)
 
                     this.ChartConfig.datasets[0].data.push(percentCompliantJanJune)
                     this.ChartConfig.datasets[0].data.push(percentCompliantJulDec)

@@ -105,6 +105,7 @@ class Personal_Details(db.Model):
     grants = db.relationship('Grants', backref='Personal_Details')
     ihis = db.relationship('IHI', backref='Personal_Details')
     involvements = db.relationship('Involvement', backref='Personal_Details')
+    didactic_attendance = db.relationship('Didactic_Attendance', backref='Personal_Details')
 
     __mapper_args__ = {
         'polymorphic_identity': 'Personal_Details'
@@ -558,7 +559,7 @@ class Involvement(db.Model):
 class Didactic_Attendance(db.Model):
     __tablename__ = 'Didactic_Attendance'
     id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    MCR_No = db.Column(db.String(100))
+    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
     Month = db.Column(db.String(100))
     Total_tracked_sessions = db.Column(db.String(100))
     Number_of_sessions_attended = db.Column(db.String(100))
@@ -1211,6 +1212,7 @@ def read_personaldetailssd(id):
                 "grants": getList(person.grants),
                 "ihis": getList(person.ihis),
                 "involvements": getList(person.involvements),
+                "didactic_attendance": getList(person.didactic_attendance),
             }
         }
     ), 200

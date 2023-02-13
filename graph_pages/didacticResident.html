@@ -234,11 +234,11 @@
                     
                     this.status = "getting data...";
 
-                    specificURL = "http://localhost:5010/profile/" + this.mcr_no
+                    specificURL = "http://localhost:5011/profile/" + this.mcr_no
                     await axios.get(specificURL).then((response) => {
+                    // console.log("This is responseData")
+                    // console.log(response.data)
 
-                    console.log("This is responseData")
-                    console.log(response.data)
                     this.getChartData(response.data);
                     this.loaded = false
                     this.loaded = true
@@ -264,22 +264,34 @@
                     numOfJanJuneEntries = 0
                     numofJulDecEntries = 0
 
-                    for (var i = 0; i < chartData.data.length; i++) {
-                        if (('JanuaryFebruaryMarchAprilMayJune'.includes(chartData.data.data[i]['Month'])) && ((chartData.data.data[i]['MmYyyy'].substr(-4)) == this.year)) {
+                    for (var i = 0; i < chartData.data.didactic_attendance.length; i++) {
+                        if (('JanuaryFebruaryMarchAprilMayJune'.includes(chartData.data.didactic_attendance[i]['Month'])) && ((chartData.data.didactic_attendance[i]['MmYyyy'].substr(-4)) == this.year)) {
                             numOfJanJuneEntries++
-                            totalPercentAttendedJanJune =  totalPercentAttendedJanJune + parseInt(chartData.data.data[i]['Percentage_of_sessions_attended'].slice(0, -1))
+                            totalPercentAttendedJanJune =  totalPercentAttendedJanJune + parseFloat(chartData.data.didactic_attendance[i]['Percentage_of_sessions_attended'])
                         }
-                        else if (('JulyAugustSeptemberOctoberNovemberDecember'.includes(chartData.data.data[i]['Month'])) && ((chartData.data.data[i]['MmYyyy'].substr(-4)) == this.year)) {
+                        else if (('JulyAugustSeptemberOctoberNovemberDecember'.includes(chartData.data.didactic_attendance[i]['Month'])) && ((chartData.data.didactic_attendance[i]['MmYyyy'].substr(-4)) == this.year)) {
                             numofJulDecEntries++
-                            totalPercentAttendedJulDec =  totalPercentAttendedJulDec + parseInt(chartData.data.data[i]['Percentage_of_sessions_attended'].slice(0, -1))
+                            totalPercentAttendedJulDec =  totalPercentAttendedJulDec + parseFloat(chartData.data.didactic_attendance[i]['Percentage_of_sessions_attended'])
                         }
                     }
 
-                    percentCompliantJanJune = (totalPercentAttendedJanJune/numOfJanJuneEntries)/100
-                    percentCompliantJulDec = (totalPercentAttendedJulDec/numofJulDecEntries)/100
+                    // console.log("checking total percent attended jan june")
+                    // console.log(totalPercentAttendedJanJune)
 
-                    this.ChartConfig.datasets[0].data.push(percentCompliantJanJune)
-                    this.ChartConfig.datasets[0].data.push(percentCompliantJulDec)
+                    // console.log("checking total percent attended jul dec")
+                    // console.log(totalPercentAttendedJulDec)
+
+                    // console.log("checking num jan june entries")
+                    // console.log(numOfJanJuneEntries)
+
+                    // console.log("checking num jul dec entries")
+                    // console.log(numofJulDecEntries)
+
+                    percentCompliantJanJune = (totalPercentAttendedJanJune/numOfJanJuneEntries)
+                    percentCompliantJulDec = (totalPercentAttendedJulDec/numofJulDecEntries)
+
+                    this.ChartConfig.datasets[0].data.push(percentCompliantJanJune.toFixed(3))
+                    this.ChartConfig.datasets[0].data.push(percentCompliantJulDec.toFixed(3))
                     
                 },
                 activateSecondStep: function () {
