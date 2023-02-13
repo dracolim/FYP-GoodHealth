@@ -1,4 +1,4 @@
-from sqlalchemy import insert, text
+from sqlalchemy import insert, text, create_engine,inspect
 from flask import abort
 from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
@@ -636,35 +636,6 @@ def create_personal_detail():
         print("An error occurred:", e)
         print("Stack trace:")
         traceback.print_exc()
-
-# Create resident
-@app.route('/create_resident', methods=['POST'])
-def create_resident():
-    data = request.get_json()
-    personal_details_query = f'INSERT INTO Personal_Details VALUES ('
-    for column in data['Personal_Details']:
-        value_to_insert = data['Personal_Details'][column]
-        personal_details_query += "'" + value_to_insert+"',"
-    personal_details_query = personal_details_query[:-3]
-    personal_details_query += "'0'"
-    personal_details_query += ')'
-    connection.execute(personal_details_query)
-
-    # remove personal details from data
-    del data['Personal_Details']
-    print(data, 'data now is what')
-
-    for table in data:
-        query = f'INSERT INTO {table} VALUES ('
-        query_string_values = ''
-        for col in data[table]:
-            value_to_insert = data[table][col]
-            query_string_values += "'" + value_to_insert+"',"
-        query_string_values = query_string_values[:-3]
-        query_string_values += "'0'"
-        query_string_values += ')'
-        query += query_string_values
-        connection.execute(query)
 
 
 @app.route('/import', methods=['POST'])
@@ -1749,11 +1720,8 @@ def delete_duty_hour_log(id):
     db.session.delete(row)
     db.session.commit()
     return 'Duty Hour Log deleted', 200
-# from sqlalchemy import create_engine
-# from sqlalchemy import inspect
-# engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+
 # insp = inspect(engine)
-# connection = engine.connect()
 # print(insp.get_table_names())
 # @app.route('/get_all_tables', methods=['GET'])
 # def get_all_tables():
@@ -2016,9 +1984,9 @@ def create_presentation():
         print("Stack trace:")
         traceback.print_exc()
         
+engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+connection = engine.connect()
         
-        
-from sqlalchemy import insert,text
 @app.route('/edit_field_value', methods=['POST'])
 def edit_field_value():
     data = request.get_json()
