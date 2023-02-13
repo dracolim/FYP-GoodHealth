@@ -509,6 +509,35 @@ class Involvement(db.Model):
             result[column] = getattr(self, column)
         return result
 
+class Didactic_Attendance(db.Model):
+    __tablename__ = 'Didactic_Attendance'
+    id = db.Column(db.String(100), primary_key=True)
+    MCR_No = db.Column(db.String(100))
+    Month = db.Column(db.String(100))
+    Total_tracked_sessions = db.Column(db.String(100))
+    Number_of_sessions_attended = db.Column(db.String(100))
+    Percentage_of_sessions_attended = db.Column(db.String(100))
+    MmYyyy = db.Column(db.String(100))
+    Scheduled_Teachings = db.Column(db.String(100))
+    Compliance_or_Not = db.Column(db.String(100))
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'Didactic_Attendance'
+    }
+
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        print(f"columns: {columns}")
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
+
+
 # https://fsymbols.com/generators/tarty/
 # ============================
 # █▀█ █▀▀ █▀█ █▀ █▀█ █▄░█ ▄▀█ █░░   █▀▄ █▀▀ ▀█▀ ▄▀█ █ █░░ █▀
@@ -890,16 +919,16 @@ def create_award():
 # ============================
 # AKA didactic_attendance table routes:
 
-# # Read Awards field/column name (R)
-# @app.route('/didactic_attendance', methods=['GET'])
-# def get_didactic_attendance():
-#     daList = Didactic_Attendance.query.all()
-#     return jsonify(
-#         {
-#             "data": [pd.to_dict()
-#                      for pd in daList]
-#         }
-#     ), 200
+# Read Awards field/column name (R)
+@app.route('/didactic_attendance', methods=['GET'])
+def get_didactic_attendance():
+    daList = Didactic_Attendance.query.all()
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                     for pd in daList]
+        }
+    ), 200
 
 
 # ============================
@@ -1358,4 +1387,4 @@ def create_resident():
 db.create_all()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5011, debug=True)
+    app.run(host='0.0.0.0', port=5010, debug=True)
