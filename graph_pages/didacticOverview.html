@@ -249,13 +249,13 @@
                     numofJulDecEntries = 0
 
                     for (var i = 0; i < chartData.data.length; i++) {
-                        if (('JanuaryFebruaryMarchAprilMayJune'.includes(chartData.data[i]['Month'])) && ((chartData.data[i]['MMYYYY'].substr(-4)) == this.year)) {
+                        if (('JanuaryFebruaryMarchAprilMayJune'.includes(chartData.data[i]['Month'])) && ((chartData.data[i]['MmYyyy'].substr(-4)) == this.year)) {
                             numOfJanJuneEntries++
                             if (chartData.data[i]['Compliance_or_Not'] == 'Yes') {
                                 counterCompliantJanJune = counterCompliantJanJune + 1;
                             }
                         }
-                        else if (('JulyAugustSeptemberOctoberNovemberDecember'.includes(chartData.data[i]['Month'])) && ((chartData.data[i]['MMYYYY'].substr(-4)) == this.year)) {
+                        else if (('JulyAugustSeptemberOctoberNovemberDecember'.includes(chartData.data[i]['Month'])) && ((chartData.data[i]['MmYyyy'].substr(-4)) == this.year)) {
                             numofJulDecEntries++
                             if (chartData.data[i]['Compliance_or_Not'] == 'Yes') {
                                 counterCompliantJulDec = counterCompliantJulDec + 1;
