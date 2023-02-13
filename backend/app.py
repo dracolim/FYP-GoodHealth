@@ -1,3 +1,5 @@
+from sqlalchemy import insert, text
+from flask import abort
 from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -37,8 +39,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 CORS(app)
-    
-#Read PersonalDetails field/column name (R)
+
+# Read PersonalDetails field/column name (R)
+
+
 @app.route('/', methods=['GET'])
 def display():
     return render_template('homepage2.html')
@@ -81,21 +85,26 @@ class Personal_Details(db.Model):
     Date_of_Second_Dose = db.Column(db.String(50))
     Vaccination_Remarks = db.Column(db.String(50))
 
-    presentations = db.relationship('Presentations', backref='Personal_Details')
-    posting_histories = db.relationship('Posting_History', backref='Personal_Details')
-    duty_hour_logs = db.relationship('Duty_Hour_Log', backref='Personal_Details')
+    presentations = db.relationship(
+        'Presentations', backref='Personal_Details')
+    posting_histories = db.relationship(
+        'Posting_History', backref='Personal_Details')
+    duty_hour_logs = db.relationship(
+        'Duty_Hour_Log', backref='Personal_Details')
     case_logs = db.relationship('Case_Log', backref='Personal_Details')
-    procedure_logs = db.relationship('Procedure_Log', backref='Personal_Details')
-    exam_histories = db.relationship('Exam_History', backref='Personal_Details')
+    procedure_logs = db.relationship(
+        'Procedure_Log', backref='Personal_Details')
+    exam_histories = db.relationship(
+        'Exam_History', backref='Personal_Details')
     publications = db.relationship('Publications', backref='Personal_Details')
     evaluations = db.relationship('Evaluations', backref='Personal_Details')
-    trgExtRem_Histories = db.relationship('TrgExtRem_History', backref='Personal_Details')
+    trgExtRem_Histories = db.relationship(
+        'TrgExtRem_History', backref='Personal_Details')
     projects = db.relationship('Projects', backref='Personal_Details')
     awards = db.relationship('Awards', backref='Personal_Details')
     grants = db.relationship('Grants', backref='Personal_Details')
     ihis = db.relationship('IHI', backref='Personal_Details')
     involvements = db.relationship('Involvement', backref='Personal_Details')
-
 
     __mapper_args__ = {
         'polymorphic_identity': 'Personal_Details'
@@ -113,10 +122,12 @@ class Personal_Details(db.Model):
             result[column] = getattr(self, column)
         return result
 
+
 class Presentations(db.Model):
     __tablename__ = 'Presentations'
-    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey(
+        'Personal_Details.MCR_No'))
     Title = db.Column(db.String(100))
     Conference_Name = db.Column(db.String(100))
     Type = db.Column(db.String(100))
@@ -143,8 +154,9 @@ class Presentations(db.Model):
 
 class Posting_History(db.Model):
     __tablename__ = 'Posting_History'
-    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey(
+        'Personal_Details.MCR_No'))
     Posting_Institution = db.Column(db.String(100))
     Posting_Department = db.Column(db.DateTime)
     Posting_StartDate = db.Column(db.DateTime)
@@ -169,8 +181,9 @@ class Posting_History(db.Model):
 
 class Duty_Hour_Log(db.Model):
     __tablename__ = 'Duty_Hour_Log'
-    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey(
+        'Personal_Details.MCR_No'))
     Level = db.Column(db.String(100))
     Submitted = db.Column(db.String(100))
     Submitted_Proportion = db.Column(db.String(100))
@@ -193,10 +206,12 @@ class Duty_Hour_Log(db.Model):
             result[column] = getattr(self, column)
         return result
 
+
 class Case_Log(db.Model):
     __tablename__ = 'Case_Log'
-    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey(
+        'Personal_Details.MCR_No'))
     Case_Name = db.Column(db.String(100))
     Subspecialty = db.Column(db.String(100))
     Type_of_Case_Log = db.Column(db.String(100))
@@ -207,7 +222,7 @@ class Case_Log(db.Model):
     Observed = db.Column(db.String(100))
     Verified = db.Column(db.String(100))
     Certified = db.Column(db.String(100))
- 
+
     __mapper_args__ = {
         'polymorphic_identity': 'Case_Log'
     }
@@ -227,8 +242,9 @@ class Case_Log(db.Model):
 
 class Procedure_Log(db.Model):
     __tablename__ = 'Procedure_Log'
-    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey(
+        'Personal_Details.MCR_No'))
     Procedure_Name = db.Column(db.String(100))
     Date_of_Completion = db.Column(db.String(100))
     CPT = db.Column(db.String(100))
@@ -254,10 +270,12 @@ class Procedure_Log(db.Model):
             result[column] = getattr(self, column)
         return result
 
+
 class Exam_History(db.Model):
     __tablename__ = 'Exam_History'
-    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey(
+        'Personal_Details.MCR_No'))
     Name_of_Exam = db.Column(db.String(100))
     Date_of_Attempt = db.Column(db.String(100))
     Exam_Status = db.Column(db.String(100))
@@ -281,15 +299,16 @@ class Exam_History(db.Model):
 
 class Publications(db.Model):
     __tablename__ = 'Publications'
-    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
-    
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey(
+        'Personal_Details.MCR_No'))
+
     Publication_Title = db.Column(db.String(100))
     Journal_Title = db.Column(db.String(100))
-    
+
     PMID = db.Column(db.String(100))
     Publication_Date = db.Column(db.DateTime)
-    
+
     __mapper_args__ = {
         'polymorphic_identity': 'Publications'
     }
@@ -309,8 +328,9 @@ class Publications(db.Model):
 
 class Evaluations(db.Model):
     __tablename__ = 'Evaluations'
-    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey(
+        'Personal_Details.MCR_No'))
     Year_of_Training = db.Column(db.String(100))
     Rotation_Period = db.Column(db.String(100))
     Name_of_Evaluation_Form = db.Column(db.String(100))
@@ -339,8 +359,9 @@ class Evaluations(db.Model):
 
 class TrgExtRem_History(db.Model):
     __tablename__ = 'TrgExtRem_History'
-    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey(
+        'Personal_Details.MCR_No'))
     LOAPIP = db.Column(db.String(100))
 
     StartDate = db.Column(db.DateTime)
@@ -366,13 +387,14 @@ class TrgExtRem_History(db.Model):
 class Projects(db.Model):
     __tablename__ = 'Projects'
     id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
+    MCR_No = db.Column(db.String(100),  db.ForeignKey(
+        'Personal_Details.MCR_No'))
     Project_Type = db.Column(db.String(100))
     Project_Title = db.Column(db.String(100))
-    Project_ID=db.Column(db.String(100))
+    Project_ID = db.Column(db.String(100))
     Start_Date = db.Column(db.String(100))
     End_Date = db.Column(db.String(100))
-    Date_of_QI_Certification= db.Column(db.String(100))
+    Date_of_QI_Certification = db.Column(db.String(100))
     PMID = db.Column(db.String(100))
 
     __mapper_args__ = {
@@ -394,8 +416,9 @@ class Projects(db.Model):
 
 class Awards(db.Model):
     __tablename__ = 'Awards'
-    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey(
+        'Personal_Details.MCR_No'))
     Award_Category = db.Column(db.String(100))
     Name_of_Award = db.Column(db.String(100))
 
@@ -422,8 +445,9 @@ class Awards(db.Model):
 
 class Grants(db.Model):
     __tablename__ = 'Grants'
-    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey(
+        'Personal_Details.MCR_No'))
     Name_of_Grant = db.Column(db.String(100))
     Project_Title = db.Column(db.String(100))
     Project_ID = db.Column(db.String(100))
@@ -450,7 +474,8 @@ class Grants(db.Model):
 class IHI(db.Model):
     __tablename__ = 'IHI'
     id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
+    MCR_No = db.Column(db.String(100),  db.ForeignKey(
+        'Personal_Details.MCR_No'))
     Completion_of_Emodules = db.Column(db.String(100))
     Date = db.Column(db.String(100))
 
@@ -473,9 +498,10 @@ class IHI(db.Model):
 
 class Involvement(db.Model):
     __tablename__ = 'Involvement'
-    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     Involvement_Type = db.Column(db.String(100))
-    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
+    MCR_No = db.Column(db.String(100),  db.ForeignKey(
+        'Personal_Details.MCR_No'))
     Event = db.Column(db.String(100))
     Role = db.Column(db.String(100))
     Start_Date = db.Column(db.DateTime)
@@ -495,6 +521,7 @@ class Involvement(db.Model):
         for column in columns:
             result[column] = getattr(self, column)
         return result
+
 
 class Didactic_Attendance(db.Model):
     __tablename__ = 'Didactic_Attendance'
@@ -517,7 +544,7 @@ class Didactic_Attendance(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        print(f"columns: {columns}")
+        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -539,11 +566,13 @@ def read_personaldetails():
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in pdList]
+                     for pd in pdList]
         }
     ), 200
 
 # Read PersonalDetails field/column name (R)
+
+
 @app.route('/personal_details_fields', methods=['GET'])
 def get_personal_details_fields():
     fields = {}
@@ -555,14 +584,13 @@ def get_personal_details_fields():
 @app.route('/add_personal_detail', methods=['POST'])
 def create_personal_detail():
     data = request.get_json()
-    print(data)
-    if not all(key in data.keys() for key in ('Employee_ID', 'MCR_No', "Staff_Name" , "Designation" , "Programme",
-                "Year_of_Training" , "Academic_Year" , "Department" , "Institution" , 
-                "Academic_Clinical_Programme" , "Employment_Status" , "Nationality" ,"Date_of_Birth" , "Gender",
-                "Registration_Type", "House_Blk_No" , "Street" , "Building_Name" , "Unit_No" , "Postal_Code" ,"Contact_No_Work",
-                "Contact_No_Personal", "Email_Official" ,"Email_Personal", "BCLS_Expiry_Date","ACLS_Expiry_Date",
-                "Covid_19_Vaccination_Status" , "Date_of_First_Dose" ,"Date_of_Second_Dose" ,"Vaccination_Remarks"
-                )):
+    if not all(key in data.keys() for key in ('Employee_ID', 'MCR_No', "Staff_Name", "Designation", "Programme",
+                                              "Year_of_Training", "Academic_Year", "Department", "Institution",
+                                              "Academic_Clinical_Programme", "Employment_Status", "Nationality", "Date_of_Birth", "Gender",
+                                              "Registration_Type", "House_Blk_No", "Street", "Building_Name", "Unit_No", "Postal_Code", "Contact_No_Work",
+                                              "Contact_No_Personal", "Email_Official", "Email_Personal", "BCLS_Expiry_Date", "ACLS_Expiry_Date",
+                                              "Covid_19_Vaccination_Status", "Date_of_First_Dose", "Date_of_Second_Dose", "Vaccination_Remarks"
+                                              )):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
@@ -575,16 +603,143 @@ def create_personal_detail():
         print("An error occurred:", e)
         print("Stack trace:")
         traceback.print_exc()
-    # except Exception:
-    #     return jsonify({
-    #         "message": "Unable to commit to database."
-    #     }), 500
+
+# Create resident
+@app.route('/create_resident', methods=['POST'])
+def create_resident():
+    data = request.get_json()
+    personal_details_query = f'INSERT INTO Personal_Details VALUES ('
+    for column in data['Personal_Details']:
+        value_to_insert = data['Personal_Details'][column]
+        personal_details_query += "'" + value_to_insert+"',"
+    personal_details_query = personal_details_query[:-3]
+    personal_details_query += "'0'"
+    personal_details_query += ')'
+    connection.execute(personal_details_query)
+
+    # remove personal details from data
+    del data['Personal_Details']
+    print(data, 'data now is what')
+
+    for table in data:
+        query = f'INSERT INTO {table} VALUES ('
+        query_string_values = ''
+        for col in data[table]:
+            value_to_insert = data[table][col]
+            query_string_values += "'" + value_to_insert+"',"
+        query_string_values = query_string_values[:-3]
+        query_string_values += "'0'"
+        query_string_values += ')'
+        query += query_string_values
+        connection.execute(query)
+
+
+@app.route('/import', methods=['POST'])
+def view():
+    file = request.files['file']
+    file.save(file.filename)
+
+    # personal details
+    personalDetails = pd.read_excel(
+        file, sheet_name="Personal Details", dtype=str)
+    personalDetails.columns = ['Employee_ID', 'MCR_No', 'Staff_Name', 'Designation',
+                            'Programme', 'Year_of_Training', 'Academic_Year', 'Department',
+                            'Institution', 'Academic_Clinical_Programme', 'Employment_Status',
+                            'Nationality', 'Date_of_Birth', 'Gender', 'Registration_Type',
+                            'House_Blk_No', 'Street', 'Building_Name', 'Unit_No', 'Postal_Code',
+                            'Contact_No_Work', 'Contact_No_Personal', 'Email_Official',
+                            'Email_Personal', 'BCLS_Expiry_Date', 'ACLS_Expiry_Date',
+                            'Covid_19_Vaccination_Status', 'Date_of_First_Dose',
+                            'Date_of_Second_Dose', 'Vaccination_Remarks']
+
+    if personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0:
+        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+        personalDetails.to_excel(writer, sheet_name='Personal_Details_error')
+        workbook = writer.book
+        worksheet = writer.sheets['Personal_Details_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = personalDetails[personalDetails[[
+            "MCR_No"]].isnull().any(axis=1)]
+
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                         {'type':     'cell',
+                                          'criteria': 'not equal to',
+                                          'value': '"o1"',
+                                          'format':   format1})
+        writer.save()
+        abort(404, description="Invalid excel submitted")
+
+    personalDetails = personalDetails.fillna('')
+    for i in range(len(personalDetails)):
+        data = dict(personalDetails.iloc[i])
+        presentation = Personal_Details(**data)
+        try:
+            if Personal_Details.query.filter_by(MCR_No=data["MCR_No"]).first() != None:
+                Personal_Details.query.filter_by(
+                    MCR_No=data["MCR_No"]).update(data)
+            else:
+                db.session.add(presentation)
+                db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()
+
+    # Involvement
+    involvement = pd.read_excel(
+        file, sheet_name="Involvement", dtype=str)
+    involvement.columns = ['Involvement_Type', 'MCR_No',
+                        'Event', ' Role', 'Start_Date', 'End_Date']
+
+    if involvement['MCR_No'].isnull().sum() > 0:
+        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+        involvement.to_excel(
+            writer, sheet_name='involvement_error')
+        workbook = writer.book
+        worksheet = writer.sheets['involvement_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = involvement[involvement[[
+        "MCR_No"]].isnull().any(axis=1)]
+
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+        writer.save()
+        abort(404, description="Invalid excel submitted")
+
+    involvement = involvement.fillna('')
+    for i in range(len(involvement)):
+        data = dict(involvement.iloc[i])
+        presentation = Involvement(**data)
+        try:
+            if Involvement.query.filter_by(MCR_No=data["MCR_No"]).first() != None:
+                Involvement.query.filter_by(
+                    MCR_No=data["MCR_No"]).update(data)
+            else:
+                db.session.add(presentation)
+                db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()
+
+    return involvement.to_html()
+
 
 def getList(items):
     list_ = []
     for i in items:
         list_.append(i.to_dict())
     return list_
+
 
 @app.route("/profile/<id>")
 def read_personaldetailssd(id):
@@ -593,7 +748,7 @@ def read_personaldetailssd(id):
     return jsonify(
         {
             "data": {
-                "personaldetails":person.to_dict(),
+                "personaldetails": person.to_dict(),
                 "presentations": getList(person.presentations),
                 "posting_histories": getList(person.posting_histories),
                 "duty_hour_logs": getList(person.duty_hour_logs),
@@ -611,7 +766,6 @@ def read_personaldetailssd(id):
             }
         }
     ), 200
-
 
 
 # ============================
@@ -638,6 +792,7 @@ def read_involvement():
     ), 200
 # Read Involvement field/column name (R)
 
+
 @app.route('/involvement_fields', methods=['GET'])
 def get_involvement_fields():
     fields = {}
@@ -646,6 +801,8 @@ def get_involvement_fields():
     return jsonify(fields)
 
 # Read Existing by Person (R)
+
+
 @app.route("/involvement/<id>")
 def read_involvement_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -653,7 +810,7 @@ def read_involvement_by_person(id):
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in involvements_of_person]
+                     for pd in involvements_of_person]
         }
     ), 200
 # ============================
@@ -689,11 +846,13 @@ def read_postinghistory():
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in pdList]
+                     for pd in pdList]
         }
     ), 200
 
 # Read Existing by Person (R)
+
+
 @app.route("/postinghistory/<id>")
 def read_postinghistory_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -701,7 +860,7 @@ def read_postinghistory_by_person(id):
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in presentation_of_person]
+                     for pd in presentation_of_person]
         }
     ), 200
 
@@ -746,6 +905,8 @@ def read_examhistory():
     ), 200
 
 # Read ExamHistory field/column name (R)
+
+
 @app.route('/exam_history_fields', methods=['GET'])
 def get_exam_history_fields():
     fields = {}
@@ -754,6 +915,8 @@ def get_exam_history_fields():
     return jsonify(fields)
 
 # Read Existing by Person (R)
+
+
 @app.route("/examhistory/<id>")
 def read_proceSSdurelog_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -761,7 +924,7 @@ def read_proceSSdurelog_by_person(id):
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in examhistory_of_person]
+                     for pd in examhistory_of_person]
         }
     ), 200
 
@@ -804,6 +967,8 @@ def read_grants():
     ), 200
 
 # Read Grants field/column name (R)
+
+
 @app.route('/grants_fields', methods=['GET'])
 def get_grants_fields():
     fields = {}
@@ -812,6 +977,8 @@ def get_grants_fields():
     return jsonify(fields)
 
 # Read Existing by Person (R)
+
+
 @app.route("/grants/<id>")
 def read_grants_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -819,7 +986,7 @@ def read_grants_by_person(id):
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in grants_of_person]
+                     for pd in grants_of_person]
         }
     ), 200
 
@@ -836,6 +1003,8 @@ def read_grants_by_person(id):
 # ============================
 # AKA awards table routes:
 # Read Existing awards (R)
+
+
 @app.route("/awards")
 def read_awards():
     awardsList = Awards.query.all()
@@ -847,6 +1016,8 @@ def read_awards():
     ), 200
 
 # Read Awards field/column name (R)
+
+
 @app.route('/awards_fields', methods=['GET'])
 def get_awards_fields():
     fields = {}
@@ -855,6 +1026,8 @@ def get_awards_fields():
     return jsonify(fields)
 
 # Read Existing by Person (R)
+
+
 @app.route("/awards/<id>")
 def read_awards_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -862,18 +1035,20 @@ def read_awards_by_person(id):
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in awards_of_person]
+                     for pd in awards_of_person]
         }
     ), 200
 
 # Add awards
+
+
 @app.route('/add_award', methods=['POST'])
 def create_award():
     data = request.get_json()
     print(data)
-    if not all(key in data.keys() for key in ('MCR_No', 'Award_ID', 'Employee_id', "Award_Category" , "Name_of_Award" , "FY_of_Award_Received",
-                "Date_of_Award_Received" , "Project_ID_Ref" 
-                )):
+    if not all(key in data.keys() for key in ('MCR_No', 'Award_ID', 'Employee_id', "Award_Category", "Name_of_Award", "FY_of_Award_Received",
+                                            "Date_of_Award_Received", "Project_ID_Ref"
+                                            )):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
@@ -934,15 +1109,17 @@ def get_didactic_attendance():
 @app.route("/publications")
 def read_publications():
     pdList = Publications.query.all()
-    print (pdList,'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
+    print(pdList, 'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in pdList]
+                     for pd in pdList]
         }
     ), 200
 
 # Read Existing by Person (R)
+
+
 @app.route("/publications/<id>")
 def read_publications_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -950,7 +1127,7 @@ def read_publications_by_person(id):
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in publications_of_person]
+                     for pd in publications_of_person]
         }
     ), 200
 
@@ -974,11 +1151,13 @@ def read_projects():
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in pdList]
+                     for pd in pdList]
         }
     ), 200
 
 # Read Existing by Person (R)
+
+
 @app.route("/projects/<id>")
 def read_projects_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -986,7 +1165,7 @@ def read_projects_by_person(id):
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in projects_of_person]
+                     for pd in projects_of_person]
         }
     ), 200
 
@@ -1011,11 +1190,13 @@ def read_ihi():
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in pdList]
+                     for pd in pdList]
         }
     ), 200
 
 # Read Existing by Person (R)
+
+
 @app.route("/ihi/<id>")
 def read_ihi_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -1023,10 +1204,9 @@ def read_ihi_by_person(id):
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in ihis_of_person]
+                     for pd in ihis_of_person]
         }
     ), 200
-
 
 
 # ============================
@@ -1054,6 +1234,8 @@ def get_duty_hour_log():
     ), 200
 
 # Read Existing by Person (R)
+
+
 @app.route("/dutyhour/<id>")
 def read_dutyhourlogs_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -1061,18 +1243,20 @@ def read_dutyhourlogs_by_person(id):
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in dutyhourlogs_of_person]
+                     for pd in dutyhourlogs_of_person]
         }
     ), 200
 
-# Add duty hour 
+# Add duty hour
+
+
 @app.route('/add_duty_hour', methods=['POST'])
 def create_duty_hour():
     data = request.get_json()
     print(data)
-    if not all(key in data.keys() for key in ('MCR_No', 'Level' , 'Submitted' , 'Submitted_Proportion'  , 'MMYYYY' , 
-    'Logged_for_month' 
-                )):
+    if not all(key in data.keys() for key in ('MCR_No', 'Level', 'Submitted', 'Submitted_Proportion', 'MMYYYY',
+                                              'Logged_for_month'
+                                              )):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
@@ -1085,6 +1269,7 @@ def create_duty_hour():
         print("An error occurred:", e)
         print("Stack trace:")
         traceback.print_exc()
+
 
 @app.route('/duty_hour_log/<int:id>', methods=['PUT'])
 def update_duty_hour_log(id):
@@ -1103,12 +1288,13 @@ def update_duty_hour_log(id):
     db.session.commit()
     return 'Duty Hour Log updated', 200
 
+
 @app.route('/duty_hour_log/<int:id>', methods=['DELETE'])
 def delete_duty_hour_log(id):
     row = Duty_Hour_Log.query.get(id)
     if not row:
         return 'Duty Hour Log not found', 404
-    
+
     db.session.delete(row)
     db.session.commit()
     return 'Duty Hour Log deleted', 200
@@ -1125,7 +1311,7 @@ def delete_duty_hour_log(id):
 #         res[table_name]=[]
 #         for column in insp.get_columns(table_name):
 #             res[table_name].append(column['name'])
-    
+
 #     return jsonify(
 #         {
 #             "data":res
@@ -1145,23 +1331,27 @@ def delete_duty_hour_log(id):
 # ============================
 # AKA Procedure_Log table routes:
 # Read Existing procedure log (R)
+
+
 @app.route("/procedure_log")
 def read_procedure_log():
     logs = Procedure_Log.query.all()
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in logs]
+                     for pd in logs]
         }
     ), 200
 
 # Read Existing procedure logs with personal details (R)
+
+
 @app.route("/procedure_logs")
 def read_procedure_logs():
     userList = Procedure_Log.query\
-    .join(Personal_Details, Procedure_Log.MCR_No==Personal_Details.MCR_No)\
+        .join(Personal_Details, Procedure_Log.MCR_No == Personal_Details.MCR_No)\
         .add_columns(Personal_Details.Programme)\
-            .paginate(1, 50, True)
+        .paginate(1, 50, True)
 
     combinedProcedureLogs = []
 
@@ -1176,9 +1366,11 @@ def read_procedure_logs():
     return jsonify(
         {
             "data": combinedProcedureLogs
-            }), 200
+        }), 200
 
 # Read Existing by Person (R)
+
+
 @app.route("/procedurelog/<id>")
 def read_procedurelog_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -1186,7 +1378,7 @@ def read_procedurelog_by_person(id):
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in caselogs_of_person]
+                     for pd in caselogs_of_person]
         }
     ), 200
 
@@ -1210,11 +1402,13 @@ def read_case_log():
     return jsonify(
         {
             "data": [r.to_dict()
-                    for r in res]
+                     for r in res]
         }
     ), 200
 
 # Read Existing by Person (R)
+
+
 @app.route("/caselogs/<id>")
 def read_caselogs_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -1222,7 +1416,7 @@ def read_caselogs_by_person(id):
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in caselogs_of_person]
+                     for pd in caselogs_of_person]
         }
     ), 200
 
@@ -1240,6 +1434,8 @@ def read_caselogs_by_person(id):
 # AKA Evaluation table routes:
 
 # Read Existing by Person (R)
+
+
 @app.route("/evaluations/<id>")
 def read_evaluations_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -1247,11 +1443,13 @@ def read_evaluations_by_person(id):
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in evaluations_of_person]
+                     for pd in evaluations_of_person]
         }
     ), 200
 
 # Read Existing evaluations (R)
+
+
 @app.route("/evaluation")
 def read_evaluation():
     res = Evaluations.query.all()
@@ -1277,11 +1475,13 @@ def read_trgextrem_history():
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in pdList]
+                     for pd in pdList]
         }
     ), 200
 
 # Read Existing by Person (R)
+
+
 @app.route("/trgextremhistory/<id>")
 def read_trgextrem_history_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -1289,7 +1489,7 @@ def read_trgextrem_history_by_person(id):
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in trgextremhistory_of_person]
+                     for pd in trgextremhistory_of_person]
         }
     ), 200
 
@@ -1301,17 +1501,21 @@ def read_trgextrem_history_by_person(id):
 # AKA Presentations table routes:
 
 # Read Existing  (R)
+
+
 @app.route("/presentations")
 def read_presentations():
     pdList = Presentations.query.all()
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in pdList]
+                     for pd in pdList]
         }
     ), 200
 
 # Read Existing by Person (R)
+
+
 @app.route("/presentations/<id>")
 def read_presentations_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -1319,11 +1523,13 @@ def read_presentations_by_person(id):
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in presentation_of_person]
+                     for pd in presentation_of_person]
         }
     ), 200
 
-# Add duty hour 
+# Add duty hour
+
+
 @app.route('/add_presentation', methods=['POST'])
 def create_presentation():
     data = request.get_json()
@@ -1332,15 +1538,15 @@ def create_presentation():
         person = Personal_Details.query.get_or_404(data["MCR_No"])
     else:
         return jsonify(
-        {
-            "Error Msg": "MCR_No not present in database"
-        }
-    ), 404
+            {
+                "Error Msg": "MCR_No not present in database"
+            }
+        ), 404
     print('hello')
     print(data)
     # MCR_No, Title, Conference_Name, Type, Project_ID, Country, Presentation_Date
-    if not all(key in data.keys() for key in ('MCR_No', 'Title' , 'Conference_Name' , 'Type'  , 
-    'Project_ID' , 'Country', 'Presentation_Date')):
+    if not all(key in data.keys() for key in ('MCR_No', 'Title', 'Conference_Name', 'Type',
+                                              'Project_ID', 'Country', 'Presentation_Date')):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
@@ -1360,96 +1566,7 @@ def create_presentation():
         traceback.print_exc()
 
 
-from sqlalchemy import insert,text
-# Read Awards field/column name (R)
-@app.route('/create_resident', methods=['POST'])
-def create_resident():
-    data = request.get_json()
-    personal_details_query=f'INSERT INTO Personal_Details VALUES ('
-    for column in data['Personal_Details']:
-        value_to_insert=data['Personal_Details'][column]
-        personal_details_query+="'" + value_to_insert+"',"
-    personal_details_query=personal_details_query[:-3]
-    personal_details_query+="'0'"
-    personal_details_query+=')'
-    connection.execute(personal_details_query)
-
-    #remove personal details from data
-    del data['Personal_Details']
-    print(data,'data now is what')
-
-
-    for table in data:
-        query = f'INSERT INTO {table} VALUES ('
-        query_string_values=''
-        for col in data[table]:
-            value_to_insert=data[table][col]
-            query_string_values+="'" + value_to_insert+"',"
-        query_string_values=query_string_values[:-3]
-        query_string_values+="'0'"
-        query_string_values+=')'
-        query+= query_string_values
-        connection.execute(query)
-
-
-import pandas as pd
-from flask import abort
-@app.route('/import', methods=['POST'])
-def view():
- 
-    file = request.files['file']
-    file.save(file.filename)
-    personalDetails = pd.read_excel(file, sheet_name="Personal Details", dtype=str)
-    personalDetails.columns = ['Employee_ID', 'MCR_No', 'Staff_Name', 'Designation',
-       'Programme', 'Year_of_Training', 'Academic_Year', 'Department',
-       'Institution', 'Academic_Clinical_Programme', 'Employment_Status',
-       'Nationality', 'Date_of_Birth', 'Gender', 'Registration_Type',
-       'House_Blk_No', 'Street', 'Building_Name', 'Unit_No', 'Postal_Code',
-       'Contact_No_Work', 'Contact_No_Personal', 'Email_Official',
-       'Email_Personal', 'BCLS_Expiry_Date', 'ACLS_Expiry_Date',
-       'Covid_19_Vaccination_Status', 'Date_of_First_Dose',
-       'Date_of_Second_Dose', 'Vaccination_Remarks']
-
-    
-
-    if personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
-        personalDetails.to_excel(writer, sheet_name='Personal_Details_error')
-        workbook  = writer.book
-        worksheet = writer.sheets['Personal_Details_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = personalDetails[personalDetails[["MCR_No"]].isnull().any(axis=1)]
-
-        for row in nullrows.index:
-            ran = "A"+ str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
-                                    {'type':     'cell',
-                                    'criteria': 'not equal to',
-                                    'value': '"o1"',
-                                    'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
-    personalDetails = personalDetails.fillna('')
-    for i in range(len(personalDetails)):
-        data = dict(personalDetails.iloc[i])
-        presentation = Personal_Details(**data)
-        try:
-            if Personal_Details.query.filter_by(MCR_No=data["MCR_No"]).first() != None:
-                Personal_Details.query.filter_by(MCR_No=data["MCR_No"]).update(data)
-            else:
-                db.session.add(presentation)
-                db.session.commit()
-
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()
-
-    return personalDetails.to_html()
-
-        
 db.create_all()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5010, debug=True)
+    app.run(host='0.0.0.0', port=5011, debug=True)
