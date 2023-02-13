@@ -383,6 +383,38 @@ class TrgExtRem_History(db.Model):
             result[column] = getattr(self, column)
         return result
 
+class Education_History(db.Model):
+    __tablename__= "Education_History"
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey(
+        'Personal_Details.MCR_No'))
+    Year_of_Graduation = db.Column(db.String(50))
+    Date_of_Graduation = db.Column(db.String(50))
+    Basic_Qualification =  db.Column(db.String(50))
+    Medical_School = db.Column(db.String(50))
+    Country_of_Graduation = db.Column(db.String(50))
+    IM_Residency_Start_Date= db.Column(db.String(50))
+    IM_Residency_End_Date= db.Column(db.String(50))
+    SR_Residency_Programme= db.Column(db.String(50))
+    SR_Residency_Start_Date= db.Column(db.String(50))
+    SR_Residency_End_Date= db.Column(db.String(50))
+    PG_Year =db.Column(db.String(50))
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'Education_History'
+    }
+
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        #print(f"columns: {columns}")
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
 
 class Projects(db.Model):
     __tablename__ = 'Projects'
@@ -502,7 +534,7 @@ class Involvement(db.Model):
     Involvement_Type = db.Column(db.String(100))
     MCR_No = db.Column(db.String(100),  db.ForeignKey(
         'Personal_Details.MCR_No'))
-    Event = db.Column(db.String(100))
+    Event = db.Column(db.String(400))
     Role = db.Column(db.String(100))
     Start_Date = db.Column(db.DateTime)
     End_Date = db.Column(db.DateTime)
@@ -634,7 +666,7 @@ def create_resident():
         connection.execute(query)
 
 
-@app.route('/', methods=['POST'])
+@app.route('/import', methods=['POST'])
 def view():
     file = request.files['file']
     print('KJDFSAKDFHAKSJDFHLASJKDHFLAKSJDHFLAKJSHDFLAJSHDLFJASHDFLJASHDLFKJAHSDLFKJHASLDKJFHALSDJKFHA')
@@ -693,7 +725,7 @@ def view():
     involvement = pd.read_excel(
         file, sheet_name="Involvement", dtype=str)
     involvement.columns = ['Involvement_Type', 'MCR_No',
-                        'Event', ' Role', 'Start_Date', 'End_Date']
+                        'Event', 'Role', 'Start_Date', 'End_Date']
 
     if involvement['MCR_No'].isnull().sum() > 0:
         writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
@@ -718,13 +750,51 @@ def view():
     involvement = involvement.fillna('')
     for i in range(len(involvement)):
         data = dict(involvement.iloc[i])
-        presentation = Involvement(**data)
+        presentation2 = Involvement(**data)
         try:
-            if Involvement.query.filter_by(MCR_No=data["MCR_No"]).first() != None:
-                Involvement.query.filter_by(
-                    MCR_No=data["MCR_No"]).update(data)
+            db.session.add(presentation2)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()
+    
+    #history-education
+    history_education = pd.read_excel(
+        file, sheet_name="History - Education", dtype=str)
+    history_education.columns = ['MCR_No' , 'Year_of_Graduation' , 'Date_of_Graduation' , 'Basic_Qualification' , 'Medical_School' , 'Country_of_Graduation' , 'IM_Residency_Start_Date' , 
+    'IM_Residency_End_Date', 'SR_Residency_Programme', 'SR_Residency_Start_Date', 'SR_Residency_End_Date','PG_Year']
+
+    if history_education['MCR_No'].isnull().sum() > 0:
+        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+        history_education.to_excel(
+            writer, sheet_name='history_education_error')
+        workbook = writer.book
+        worksheet = writer.sheets['history_education_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = history_education[history_education[[
+        "MCR_No"]].isnull().any(axis=1)]
+
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+        writer.save()
+        abort(404, description="Invalid excel submitted")
+
+    history_education = history_education.fillna('')
+    for i in range(len(history_education)):
+        data = dict(history_education.iloc[i])
+        presentation3 = Education_History(**data)
+        try:
+            if Education_History.query.filter_by(MCR_No=data["MCR_No"]).first() != None:
+                Education_History.query.filter_by(MCR_No=data["MCR_No"]).update(data)
             else:
-                db.session.add(presentation)
+                db.session.add(presentation3)
                 db.session.commit()
 
         except Exception as e:
@@ -732,7 +802,10 @@ def view():
             print("Stack trace:")
             traceback.print_exc()
 
-    return involvement.to_html()
+    #history-posting
+
+
+    return history_education.to_html()
 
 
 def getList(items):

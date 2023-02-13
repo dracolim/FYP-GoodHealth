@@ -237,7 +237,6 @@ INSERT INTO `Duty_Hour_Log` (`MCR_No`, `Level`, `Submitted`, `Submitted_Proporti
 --
 -- Table structure for table `Education_History`
 --
-
 CREATE TABLE `Education_History` (
   `id` INT AUTO_INCREMENT NOT NULL,
   `MCR_No` varchar(50) NOT NULL,
@@ -381,10 +380,10 @@ INSERT INTO `IHI` (`MCR_No`,`Completion_of_Emodules`,`Date`) VALUES
 
 CREATE TABLE `Involvement` (
   `id` INT AUTO_INCREMENT NOT NULL,
-  `Involvement_Type` varchar(50) NOT NULL,
-  `MCR_No` varchar(50) NOT NULL,
-  `Event` varchar(50) NOT NULL,
-  `Role` varchar(50) NOT NULL,
+  `Involvement_Type` varchar(100) NOT NULL,
+  `MCR_No` varchar(100) NOT NULL,
+  `Event` varchar(400) NOT NULL,
+  `Role` varchar(100) NOT NULL,
   `Start_Date` varchar(50) NOT NULL,
   `End_Date` varchar(50) NOT NULL,
   primary key (id),
