@@ -125,14 +125,23 @@
             <div id="app">
 
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
-                    Add Name Here
+                    MCR No:
                 </label>
+                <input v-model="mcr_no" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input MCR No Here">
+                <button @click="getProcedureLogData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+                    Test
+                </button> 
+
+
+                <!-- <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+                    Add Name Here
+                </label> -->
                 <!-- add v-model here:
                 add @click to proper link: -->
-                <input v-model="" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Year Here">
+                <!-- <input v-model="" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Year Here">
                 <button @click="" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
                     Add Name Here
-                </button> 
+                </button>  -->
 
                 <v-row dense>
                   <v-col cols="sm">
@@ -169,6 +178,7 @@
             vuetify: new Vuetify(),
             data() {
             return {
+                mcr_no: "",
                 year: null,
                 loaded: false,
                 ChartConfig: {
@@ -237,9 +247,12 @@
                     this.status = "getting data...";
 
                     // add proper route here
-                    await axios.get("http://localhost:5010/").then((response) => {
-                    // console.log("This is responseData")
-                    // console.log(response.data)
+
+                    specificURL = "http://localhost:5010/profile/" + this.mcr_no
+                    console.log(specificURL)
+                    await axios.get(specificURL).then((response) => {
+                    console.log("This is responseData")
+                    console.log(response.data)
                     this.getChartData(response.data);
                     this.loaded = false
                     this.loaded = true

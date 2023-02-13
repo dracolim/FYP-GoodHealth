@@ -22,7 +22,6 @@ SET time_zone = "+00:00";
 drop database if exists `SingHealth`;
 CREATE DATABASE IF NOT EXISTS `SingHealth` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `SingHealth`;
-
 --
 -- Table structure for table `Didactic_Attendance`
 --
@@ -53,7 +52,6 @@ INSERT INTO `Didactic_Attendance` (`MCR_No`, `Billing_Name`, `Month`,
 ('M11367A', 'SGHGasEnt', 'February', '14', '9', '64%', '022023', 'TestInstitution', 'TestDepartment', 'No', 'false'),
 ('M16782H', 'CGHGasHep', 'July', '12', '12', '100%', '072023', 'TestInstitution', 'TestDepartment', 'Yes', 'false'),
 ('M16782H', 'CGHGasHep', 'August', '12', '10', '83%', '082023', 'TestInstitution', 'TestDepartment', 'Yes', 'false');
-----------------------------------------------------------
 
 --
 -- Table structure for table `IHI`
@@ -81,12 +79,10 @@ INSERT INTO `IHI` (`MCR_No`, `Staff_Name`, `Designation`,
 ('M35718D', 'Cat Tian', 'TestDesignation', 'TestDepartment', 'TestInstitution', 'No', '-'),
 ('M35589A', 'Keyboard Tian', 'TestDesignation', 'TestDepartment', 'TestInstitution', 'Yes', '07112023'),
 ('M65659J', 'Fat Tian', 'TestDesignation', 'TestDepartment', 'TestInstitution', 'Yes', '07122023');
-----------------------------------------------------------
+-- --------------------------------------------------------
 
---
 -- Table structure for table `Projects`
 --
-
 CREATE TABLE `Projects` (
   `MCR_No` varchar(50) NOT NULL,
   `Project_ID` varchar(50) NOT NULL,
@@ -105,12 +101,11 @@ INSERT INTO `Projects` (`MCR_No`, `Project_ID`, `Project_Type`, `Project_Title`,
 ('M54354E', '0004', 'QI', 'Testing Title 4', '02022022', 'Ongoing', '-', '4'),
 ('M88791Z', '0005', 'QI', 'Testing Title 5', '02022022', 'Ongoing', '-', '5'),
 ('M83162D', '0006', 'QI', 'Testing Title 6', '02022022', 'Ongoing', '-', '6');
-----------------------------------------------------------
 
---
+-- --------------------------------------------------------
+
 -- Table structure for table `Procedure_Log`
 --
-
 CREATE TABLE `Procedure_Log` (
   `MCR_No` varchar(50) NOT NULL,
   `Procedure_Name` varchar(50) NOT NULL,
@@ -130,12 +125,11 @@ INSERT INTO `Procedure_Log` (`MCR_No`, `Procedure_Name`, `Date_of_Completion`, `
 ('M54354E', '', '', '', '', '', '', '', ''),
 ('M88791Z', '', '', '', '', '', '', '', ''),
 ('M83162D', '', '', '', '', '', '', '', '');
-----------------------------------------------------------
 
---
+-- --------------------------------------------------------
+
 -- Table structure for table `Personal_Details`
 --
-
 CREATE TABLE `Personal_Details` (
   `Employee_ID` varchar(50) NOT NULL,
   `MCR_No` varchar(50) NOT NULL,
@@ -161,24 +155,24 @@ CREATE TABLE `Personal_Details` (
   `Contact_No_Personal` varchar(50) NOT NULL,
   `Email_Official` varchar(50) NOT NULL,
   `Email_Personal` varchar(50) NOT NULL,
-  `BCLS_Expiry_Date` varchar(50) DEFAULT NULL,
-  `ACLS_Expiry_Date` varchar(50) DEFAULT NULL,
-  `Covid_19_Vaccination_Status` varchar(50) DEFAULT NULL,
-  `Date_of_First_Dose` varchar(50) DEFAULT NULL,
-  `Date_of_Second_Dose` varchar(50) DEFAULT NULL,
-  `Vaccination_Remarks` varchar(50) DEFAULT NULL,
-  primary key (MCR_No)
+  `BCLS_Expiry_Date` varchar(50) NOT NULL,
+  `ACLS_Expiry_Date` varchar(50) NOT NULL,
+  `Covid_19_Vaccination_Status` varchar(50) NOT NULL,
+  `Date_of_First_Dose` varchar(50) NOT NULL,
+  `Date_of_Second_Dose` varchar(50) NOT NULL,
+  `Vaccination_Remarks` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `Personal_Details` (`Employee_ID`, `MCR_No`, `Staff_Name`, `Designation`, `Programme`, `Year_of_Training`, `Academic_Year`, `Department`, `Institution`, `Academic_Clinical_Programme`, `Employment_Status`, `Nationality`, `Date_of_Birth`, `Gender`, `Registration_Type`, `House_Blk_No`, `Street`, `Building_Name`, `Unit_No`, `Postal_Code`, `Contact_No_Work`, `Contact_No_Personal`, `Email_Official`, `Email_Personal`, `BCLS_Expiry_Date`, `ACLS_Expiry_Date`, `Covid_19_Vaccination_Status`, `Date_of_First_Dose`, `Date_of_Second_Dose`, `Vaccination_Remarks`) VALUES
 
-('1', 'M11367A', '', '', 'Gastroenterology', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-('2', 'M16782H', '', '', 'Renal Medicine', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-('3', 'M65889A', '', '', 'Internal Medicine', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-('4', 'M54354E', '', '', 'Gastroenterology', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-('5', 'M88791Z', '', '', 'Renal Medicine', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-('6', 'M83162D', '', '', 'Internal Medicine', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
-----------------------------------------------------------
+('1', 'M11367A', '', '', 'Gastroenterology', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+('2', 'M16782H', '', '', 'Renal Medicine', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+('3', 'M65889A', '', '', 'Internal Medicine', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+('4', 'M54354E', '', '', 'Gastroenterology', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+('5', 'M88791Z', '', '', 'Renal Medicine', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+('6', 'M83162D', '', '', 'Internal Medicine', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+
+-- --------------------------------------------------------
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

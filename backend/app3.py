@@ -158,6 +158,12 @@ class Involvement(db.Model):
             result[column] = getattr(self, column)
         return result
 
+def getList(items):
+    list_ = []
+    for i in items:
+        list_.append(i.to_dict())
+    return list_
+
 @app.route("/profile/<id>")
 def read_personaldetailssd(id):
     person = Personal_Details.query.get_or_404(id)
