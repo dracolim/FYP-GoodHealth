@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Links -->
-    <link href="../links/flowbite.min.css" rel="stylesheet" />
-    <link href="../links/tailwindcss.4" rel="stylesheet" />
-    <link href="../links/iconify-icon.min.js" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 	<script src="https://cdn.jsdelivr.net/npm/xlsx@0.14.3/dist/xlsx.full.min.js"></script>
@@ -218,7 +218,7 @@
             },
             mounted: function () {
                 this.loaded = false
-                this.getDidacticAttendanceData();
+                // this.getDidacticAttendanceData();
                 },
             methods: {
                 getDidacticAttendanceData: async function () {
@@ -237,8 +237,9 @@
                     });
                 },
                 getChartData: function (chartData) {
-                    // console.log("This is chartData")
-                    // console.log(chartData);
+                    console.log("This is chartData")
+                    console.log(chartData);
+                    console.log(chartData.data.data[0]['Compliance_or_Not'])
 
                     counterCompliantJanJune = 0
                     counterCompliantJulDec = 
@@ -248,23 +249,46 @@
                     numOfJanJuneEntries = 0
                     numofJulDecEntries = 0
 
-                    for (var i = 0; i < chartData.data.length; i++) {
-                        if (('JanuaryFebruaryMarchAprilMayJune'.includes(chartData.data[i]['Month'])) && ((chartData.data[i]['MmYyyy'].substr(-4)) == this.year)) {
+                    for (var i = 0; i < chartData.data.data.length; i++) {
+                        if (('JanuaryFebruaryMarchAprilMayJune'.includes(chartData.data.data[i]['Month'])) && ((chartData.data.data[i]['MmYyyy'].substr(-4)) == this.year)) {
                             numOfJanJuneEntries++
-                            if (chartData.data[i]['Compliance_or_Not'] == 'Yes') {
+                            if (chartData.data.data[i]['Compliance_or_Not'] == 'Yes') {
                                 counterCompliantJanJune = counterCompliantJanJune + 1;
                             }
                         }
-                        else if (('JulyAugustSeptemberOctoberNovemberDecember'.includes(chartData.data[i]['Month'])) && ((chartData.data[i]['MmYyyy'].substr(-4)) == this.year)) {
+                        else if (('JulyAugustSeptemberOctoberNovemberDecember'.includes(chartData.data.data[i]['Month'])) && ((chartData.data.data[i]['MmYyyy'].substr(-4)) == this.year)) {
                             numofJulDecEntries++
-                            if (chartData.data[i]['Compliance_or_Not'] == 'Yes') {
+                            if (chartData.data.data[i]['Compliance_or_Not'] == 'Yes') {
                                 counterCompliantJulDec = counterCompliantJulDec + 1;
                             }
                         }
                     }
 
-                    percentCompliantJanJune = counterCompliantJanJune/numOfJanJuneEntries
-                    percentCompliantJulDec = counterCompliantJulDec/numofJulDecEntries
+                    if (counterCompliantJanJune == 0) {
+                        percentCompliantJanJune = 0
+                    }
+                    else {
+                        percentCompliantJanJune = counterCompliantJanJune/numOfJanJuneEntries 
+                    }
+                    
+                    if (counterCompliantJulDec == 0) {
+                        percentCompliantJulDec = 0
+                    }
+                    else {
+                        percentCompliantJulDec = counterCompliantJulDec/numofJulDecEntries 
+                    }
+
+                    console.log("counter compliant")
+                    console.log(counterCompliantJanJune)
+                    console.log(counterCompliantJulDec)
+
+                    console.log("num entries")
+                    console.log(numOfJanJuneEntries)
+                    console.log(numofJulDecEntries)
+
+                    console.log(percentCompliantJanJune)
+                    console.log(percentCompliantJulDec)
+
 
                     this.ChartConfig.datasets[0].data.push(percentCompliantJanJune)
                     this.ChartConfig.datasets[0].data.push(percentCompliantJulDec)
