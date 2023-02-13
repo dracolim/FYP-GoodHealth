@@ -511,14 +511,13 @@ class Involvement(db.Model):
 
 class Didactic_Attendance(db.Model):
     __tablename__ = 'Didactic_Attendance'
-    id = db.Column(db.String(100), primary_key=True)
+    id=db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100))
     Month = db.Column(db.String(100))
     Total_tracked_sessions = db.Column(db.String(100))
     Number_of_sessions_attended = db.Column(db.String(100))
     Percentage_of_sessions_attended = db.Column(db.String(100))
     MmYyyy = db.Column(db.String(100))
-    Scheduled_Teachings = db.Column(db.String(100))
     Compliance_or_Not = db.Column(db.String(100))
 
     __mapper_args__ = {
@@ -1400,6 +1399,8 @@ def view():
        'Email_Personal', 'BCLS_Expiry_Date', 'ACLS_Expiry_Date',
        'Covid_19_Vaccination_Status', 'Date_of_First_Dose',
        'Date_of_Second_Dose', 'Vaccination_Remarks']
+
+    
 
     if personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0:
         writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
