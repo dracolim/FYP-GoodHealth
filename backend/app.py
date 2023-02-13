@@ -1385,7 +1385,7 @@ def create_resident():
 
 import pandas as pd
 from flask import abort
-@app.route('/view', methods=['POST'])
+@app.route('/import', methods=['POST'])
 def view():
  
     file = request.files['file']
