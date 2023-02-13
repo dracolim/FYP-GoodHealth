@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Links -->
-    <link href="../links/flowbite.min.css" rel="stylesheet" />
-    <link href="../links/tailwindcss.4" rel="stylesheet" />
-    <link href="../links/iconify-icon.min.js" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
     
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 	<script src="https://cdn.jsdelivr.net/npm/xlsx@0.14.3/dist/xlsx.full.min.js"></script>
@@ -209,10 +209,11 @@
 
                     this.status = "getting data...";
 
-                    specificURL = "http://localhost:5010/projects/" + this.mcr_no
+                    specificURL = "http://localhost:5011/profile/" + this.mcr_no
                     await axios.get(specificURL).then((response) => {
                     // console.log("This is responseData")
                     // console.log(response.data)
+
                     this.getChartData(response.data);
                     this.loaded = true
                     })
@@ -221,14 +222,13 @@
                     });
                 },
                 getChartData: function (chartData) {
-                    console.log("This is chartData")
-                    console.log(chartData);
-                    console.log(chartData.data[0]['End_Date']);
+                    // console.log("This is chartData")
+                    // console.log(chartData)
 
                     didResidentComplete = null;
                     percentageCompletion = 0
 
-                    if (chartData.data[0]['End_Date'] == "Ongoing") {
+                    if (chartData.data.projects[0]['End_Date'] == "Ongoing") {
                         didResidentComplete = "No";
                     }
                     else {
@@ -245,6 +245,7 @@
                     this.ChartConfig.datasets[0].data.push(percentageCompletion)
                     percentageCompletion = 0
                     this.loaded = false
+                    
                 }
             }
         });

@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Links -->
-    <link href="../links/flowbite.min.css" rel="stylesheet" />
-    <link href="../links/tailwindcss.4" rel="stylesheet" />
-    <link href="../links/iconify-icon.min.js" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 	<script src="https://cdn.jsdelivr.net/npm/xlsx@0.14.3/dist/xlsx.full.min.js"></script>
@@ -234,11 +234,11 @@
                     
                     this.status = "getting data...";
 
-                    specificURL = "http://localhost:5010/didactic_attendance/" + this.mcr_no
+                    specificURL = "http://localhost:5011/profile/" + this.mcr_no
                     await axios.get(specificURL).then((response) => {
-
                     // console.log("This is responseData")
                     // console.log(response.data)
+
                     this.getChartData(response.data);
                     this.loaded = false
                     this.loaded = true
@@ -264,22 +264,34 @@
                     numOfJanJuneEntries = 0
                     numofJulDecEntries = 0
 
-                    for (var i = 0; i < chartData.data.length; i++) {
-                        if (('JanuaryFebruaryMarchAprilMayJune'.includes(chartData.data[i]['Month'])) && ((chartData.data[i]['MMYYYY'].substr(-4)) == this.year)) {
+                    for (var i = 0; i < chartData.data.didactic_attendance.length; i++) {
+                        if (('JanuaryFebruaryMarchAprilMayJune'.includes(chartData.data.didactic_attendance[i]['Month'])) && ((chartData.data.didactic_attendance[i]['MmYyyy'].substr(-4)) == this.year)) {
                             numOfJanJuneEntries++
-                            totalPercentAttendedJanJune =  totalPercentAttendedJanJune + parseInt(chartData.data[i]['Percentage_Sessions_Attended'].slice(0, -1))
+                            totalPercentAttendedJanJune =  totalPercentAttendedJanJune + parseFloat(chartData.data.didactic_attendance[i]['Percentage_of_sessions_attended'])
                         }
-                        else if (('JulyAugustSeptemberOctoberNovemberDecember'.includes(chartData.data[i]['Month'])) && ((chartData.data[i]['MMYYYY'].substr(-4)) == this.year)) {
+                        else if (('JulyAugustSeptemberOctoberNovemberDecember'.includes(chartData.data.didactic_attendance[i]['Month'])) && ((chartData.data.didactic_attendance[i]['MmYyyy'].substr(-4)) == this.year)) {
                             numofJulDecEntries++
-                            totalPercentAttendedJulDec =  totalPercentAttendedJulDec + parseInt(chartData.data[i]['Percentage_Sessions_Attended'].slice(0, -1))
+                            totalPercentAttendedJulDec =  totalPercentAttendedJulDec + parseFloat(chartData.data.didactic_attendance[i]['Percentage_of_sessions_attended'])
                         }
                     }
 
-                    percentCompliantJanJune = (totalPercentAttendedJanJune/numOfJanJuneEntries)/100
-                    percentCompliantJulDec = (totalPercentAttendedJulDec/numofJulDecEntries)/100
+                    // console.log("checking total percent attended jan june")
+                    // console.log(totalPercentAttendedJanJune)
 
-                    this.ChartConfig.datasets[0].data.push(percentCompliantJanJune)
-                    this.ChartConfig.datasets[0].data.push(percentCompliantJulDec)
+                    // console.log("checking total percent attended jul dec")
+                    // console.log(totalPercentAttendedJulDec)
+
+                    // console.log("checking num jan june entries")
+                    // console.log(numOfJanJuneEntries)
+
+                    // console.log("checking num jul dec entries")
+                    // console.log(numofJulDecEntries)
+
+                    percentCompliantJanJune = (totalPercentAttendedJanJune/numOfJanJuneEntries)
+                    percentCompliantJulDec = (totalPercentAttendedJulDec/numofJulDecEntries)
+
+                    this.ChartConfig.datasets[0].data.push(percentCompliantJanJune.toFixed(3))
+                    this.ChartConfig.datasets[0].data.push(percentCompliantJulDec.toFixed(3))
                     
                 },
                 activateSecondStep: function () {

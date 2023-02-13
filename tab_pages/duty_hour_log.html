@@ -55,8 +55,6 @@
         }
     </style>
 
-
-
     <title>SingHealth</title>
 </head>
 
@@ -211,7 +209,7 @@
                         <form class="space-y-6" method="post">
                             <input
                                 class="block w-full text-md text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                                id="large_size" type="file" name="excel" @change="importExcel">
+                                type="file" name="excel" @change="importExcel">
                             <button type="submit" value="Submit"
                                 class="w-full text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
                         </form>
@@ -228,8 +226,8 @@
 
         <!-- History menu -->
         <div id="dropdownDelay"
-            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDelayButton">
+            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
+            <ul class="py-2 text-sm text-gray-500" aria-labelledby="dropdownDelayButton">
                 <li>
                     <a href="./history_education.html" class="block px-4 py-2 hover:bg-gray-100 ">Education</a>
                 </li>
@@ -335,7 +333,6 @@
                             {
                                 title: "MMYYYY",
                                 field: "MMYYYY",
-                                width: 200,
                                 editor: true,
                                 headerFilter: "input",
                             },
@@ -343,7 +340,6 @@
                                 title: "Logged for Month",
                                 field: "Logged_for_month",
                                 sorter: "string",
-                                width: 150,
                                 cellClick: function (e, cell) {
                                     console.log("cell click")
                                 },
@@ -360,7 +356,6 @@
                                 hozAlign: "center",
                                 formatter: "tickCross",
                                 headerFilter: "tickCross",
-                                width: 150,
                                 headerFilterParams: {
                                     "tristate": true
                                 },

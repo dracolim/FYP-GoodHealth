@@ -70,18 +70,23 @@ CREATE TABLE `Personal_Details` (
 -- Dumping data for table `Personal_Details`
 --
 
+
 INSERT INTO `Personal_Details` (`Employee_ID`, `MCR_No`, `Staff_Name`, `Designation`, `Programme`, `Year_of_Training`, `Academic_Year`, `Department`, `Institution`, `Academic_Clinical_Programme`, `Employment_Status`, `Nationality`, `Date_of_Birth`, `Gender`, `Registration_Type`, `House_Blk_No`, `Street`, `Building_Name`, `Unit_No`, `Postal_Code`, `Contact_No_Work`, `Contact_No_Personal`, `Email_Official`, `Email_Personal`, `BCLS_Expiry_Date`, `ACLS_Expiry_Date`, `Covid_19_Vaccination_Status`, `Date_of_First_Dose`, `Date_of_Second_Dose`, `Vaccination_Remarks`) VALUES
 ('1234o19', '1234o19', 'Tyler, Daniel', '', '', '', '', '', 'dkjn', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-('1234o18', '1234o18', 'Li, Betty', '', '', '', '', '', 'dkjn', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
--- ('crab25', '', '', 'khivycfyrx', '', '', '', '', 'jghfuytezy', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
--- ('fififi', '', 'hkgcfxtyd', '', '', '', '', 'hgcfxd', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
--- ('fififififi', '', '', '', '', 'jhgvchfx', '', '', 'bvgx', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
--- ('MOM05690', 'M88791Z', 'Kang Hyun Bin', 'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-12-05', 'Male', 'Full', '', 'Lorong Gambir', '', '', '536000', '', '91515780', 'hyunbin.kang@mohh.com.sg', '', NULL, NULL, 'Yes', '2021-02-09', '2021-03-02', '', 0),
--- ('MOM12390', 'M11367A', 'Daniel Tyler', 'Senior Resident', 'Gastroenterology', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-11-11', 'Male', 'Full', '', '11A Tanglin Hill', '', '', '248000', '92343980', '91391470', 'daniel.tyler@mohh.com.sg', '', '1919-07-20', '1919-04-29', 'Yes', '2021-03-30', '2021-04-20', '', 0),
--- ('one111', '1A', 'lim', 'doctor', 'cardiology', '2010', '2010', 'cardiology', 'institution', 'academic clinical programme', 'employementstatus', 'nationality', '2008-11-11', 'Female', 'Registration_Type1', 'House_Blk_No', 'Street1', 'Building_Name1', 'Unit_No1', 'Postal_Code', 'Contact_No_Work1', 'Contact_No_Personal1', 'Email_Official1', 'Email_Personal1', '2008-11-11', '2008-11-11', 'Covid_19_Vaccination_Status1', '2008-11-11', '2008-11-11', 'Vaccination_Remarks', 0),
--- ('two222', '', '', 'sabaw', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
--- ('two223', '', '', '', 'juuvuu', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
--- ('two445', '', '', '', '', 'jhgcyfxt', '', '', '', '', '', '', ' nf', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0);
+('1234o18', '1234o18', 'Li, Betty', '', '', '', '', '', 'dkjn', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+('MOM12390', 'M11367A', 'Daniel Tyler', 'Senior Resident', 'Gastroenterology', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-11-11 00:00:00', 'Male', 'Full', '', '11A Tanglin Hill', '', '', '248000', '92343980', '91391470', 'daniel.tyler@mohh.com.sg', '', '2019-07-20 00:00:00', '2019-08-29 00:00:00', 'Yes', '2021-03-30 00:00:00', '2021-04-20 00:00:00', ''),
+('MOM05233', 'M16782H', 'Betty Li', 'Senior Resident', 'Gastroenterology', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singapore PR', '1987-09-02 00:00:00', 'Female', 'Full', '', '44B Jalan Anggerek', '', '', '369000', '', '81838980', 'betty.li@mohh.com.sg', '', '2019-03-23 00:00:00', '2019-04-11 00:00:00', 'Yes', '2021-03-31 00:00:00', '2021-04-21 00:00:00', ''),
+('MOM05601', 'M33571G', 'Koh Zheng Tang', 'Senior Resident', 'Renal Medicine', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-08-21 00:00:00', 'Male', 'Full', '', '111 Duchess Road', '', '', '269000', '88692800', '98290530', 'zhengtang.koh@mohh.com.sg', '', '', '2021-07-25 00:00:00', 'Yes', '2021-01-14 00:00:00', '2021-02-04 00:00:00', ''),
+('MOM06313', 'M35589A', 'Koh Xiaojia Lynette', 'Senior Resident', 'Respiratory Medicine', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1992-07-23 00:00:00', 'Female', 'Full', '', '700 Tampines Street 71 ', '', '#16-60 ', '520000', '97980650', '', 'lynette.koh@mohh.com.sg', '', '2022-08-31 00:00:00', '2022-10-15 00:00:00', 'Yes', '2021-01-15 00:00:00', '2021-02-10 00:00:00', ''),
+('MOM06600', 'M35718D', 'Malcolm Tang', 'Senior Resident', 'Renal Medicine', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Myanmar', '1983-04-25 00:00:00', 'Male', 'Conditional (L3)', '', 'Blk 264D, Compass Vale Bow', '', '#07-30', '544000', '', '96303450', 'malcolm.tang@mohh.com.sg', '', '', '2021-09-01 00:00:00', 'Yes', '2021-02-03 00:00:00', '2021-03-01 00:00:00', ''),
+('MOM05928', 'M45528I', 'Brendan Lee Potter', 'Senior Resident', 'Respiratory Medicine', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-04-20 00:00:00', 'Male', 'Full', '', '72 Chu Yen Street ', '', '', '669000', '88098560', '', 'bryan.lee.potter@mohh.com.sg', '', '2021-10-08 00:00:00', '2021-11-18 00:00:00', 'Yes', '2021-01-21 00:00:00', '2021-02-16 00:00:00', ''),
+('MOM05609', 'M54354E', 'Rahul Rajaratnam', 'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-08-28 00:00:00', 'Male', 'Full', '', 'Block 111 Woodlands Ave 1', '', '#06-441', '730000', '90259920', '66181540', 'rahul.rajaratnam@mohh.com.sg', '', '2016-10-27 00:00:00', '2016-10-29 00:00:00', 'Yes', '2021-03-17 00:00:00', '2021-04-07 00:00:00', ''),
+('MOM05579', 'M56829J', 'Ivanka Lee Xiao Wei', 'Senior Resident', 'Renal Medicine', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-02-20 00:00:00', 'Female', 'Full', '', 'BLK 939 Jurong West St 73', '', '#09-429', '640000', '97424710', '67917320', 'ivanka.lee@mohh.com.sg', '', '', '2021-11-18 00:00:00', 'Yes', '2021-02-03 00:00:00', '2021-02-25 00:00:00', ''),
+('MOM05459', 'M65659J', 'Chen Youyi', 'Senior Resident', 'Respiratory Medicine', 'SR1', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-12-12 00:00:00', 'Female', 'Full', '', '900 Joo Chiat Terrace ', '', '#05-08 ', '427000', '97688160', '', 'youyi.chen@mohh.com.sg', '', '2021-04-22 00:00:00', '2021-06-09 00:00:00', 'No', '', '', ''),
+('MOM07177', 'M65889A', 'Sally Pei', 'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1993-02-13 00:00:00', 'Female', 'Full', '', '83 Hazel Park Terrace', '', '#11-04  ', '678000', '', '91148250', 'sally.pei@mohh.com.sg', '', '2020-09-10 00:00:00', '2018-10-25 00:00:00', 'Yes', '2021-01-27 00:00:00', '2021-02-17 00:00:00', ''),
+('MOM05705', 'M66630D', 'Toh Jiahao Thomas', 'Senior Resident', 'Respiratory Medicine', 'SR1', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-02-01 00:00:00', 'Male', 'Full', '', '19A Ford Avenue ', '', '#01-07 ', '268000', '88692870', ' 96269350', 'thomas.toh@mohh.com.sg', '', '2021-08-25 00:00:00', '2021-09-02 00:00:00', 'Yes', '', '2021-02-17 00:00:00', ''),
+('MOM04393', 'M83162D', 'Cindee Tan', 'Senior Resident', 'Renal Medicine', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Malaysian', '1988-02-29 00:00:00', 'Female', 'Conditional (L3)', '', 'Block 37D,Kreta Ayer Road', '', '#20-02', '803000', '', '96610520', 'cindee.tan@mohh.com.sg', '', '', '2021-11-14 00:00:00', 'Yes', '2021-03-11 00:00:00', '', ''),
+('MOM05690', 'M88791Z', 'Kang Hyun Bin', 'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-12-05 00:00:00', 'Male', 'Full', '', 'Lorong Gambir', '', '', '536000', '', '91515780', 'hyunbin.kang@mohh.com.sg', '', '', '', 'Yes', '2021-02-09 00:00:00', '2021-03-02 00:00:00', '');
 
 -- --------------------------------------------------------
 
@@ -151,15 +156,11 @@ INSERT INTO `Case_Log` (`MCR_No`, `Case_Name`, `Subspecialty`, `Type_of_Case_Log
 CREATE TABLE `Didactic_Attendance` (
   `id` INT AUTO_INCREMENT NOT NULL,
   `MCR_No` varchar(50) NOT NULL,
-  `BillingName` varchar(50) NOT NULL,
   `Month` varchar(50) NOT NULL,
   `Total_tracked_sessions` varchar(50) NOT NULL,
   `Number_of_sessions_attended` varchar(50) NOT NULL,
   `Percentage_of_sessions_attended` varchar(50) NOT NULL,
   `MmYyyy` varchar(50) NOT NULL,
-  `Posting_Institution` varchar(50) NOT NULL,
-  `Posting_Department` varchar(50) NOT NULL,
-  `Scheduled_Teachings` varchar(50) NOT NULL,
   `Compliance_or_Not` varchar(50) NOT NULL,
   primary key (id),
   CONSTRAINT FK_PersonOrder3 FOREIGN KEY (MCR_No)
@@ -170,14 +171,34 @@ CREATE TABLE `Didactic_Attendance` (
 -- Dumping data for table `Didactic_Attendance`
 --
 
-INSERT INTO `Didactic_Attendance` (`MCR_No`, `BillingName`, `Month`, `Total_tracked_sessions`, `Number_of_sessions_attended`, `Percentage_of_sessions_attended`, `MmYyyy`, `Posting_Institution`, `Posting_Department`, `Scheduled_Teachings`, `Compliance_or_Not`) VALUES
-('1234o18', 'SGHGasEnt', 'July', '14', '14', '100%', '', '', '', '', ''),
-('1234o18', 'SGHGasEnt', 'July', '20', '20', '100%', '', '', '', '', ''),
-('1234o18', 'SGHGasEnt', 'July', '14', '12', '86%', '', '', '', '', ''),
-('1234o19', 'CGHGasHep', 'July', '12', '9', '75%', '', '', '', '', ''),
-('1234o19', 'CGHGasHep', 'July', '12', '12', '100%', '', '', '', '', ''),
-('1234o19', '', '', '', '', '', '', '', '', '', ''),
-('1234o19', '', '', '', '', '', '', '', '', '', '');
+
+INSERT INTO `Didactic_Attendance` ( `MCR_No`, `Month`, `Total_tracked_sessions`, `Number_of_sessions_attended`, `Percentage_of_sessions_attended`, `MmYyyy`, `Compliance_or_Not`) VALUES
+('M11367A', 'July', '14', '14', '1', '07/2022', 'Yes'),
+('M16782H', 'July', '20', '20', '1', '07/2022', 'Yes'),
+('M65889A', 'July', '14', '12', '0.8571428571428571', '07/2022', 'Yes'),
+('M54354E', 'July', '12', '9', '0.75', '07/2023', 'Yes'),
+('M88791Z', 'July', '12', '12', '1', '07/2023', 'Yes'),
+('M11367A', 'August', '14', '10', '0.7142857142857143', '08/2022', 'Yes'),
+('M16782H', 'August', '20', '20', '1', '08/2022', 'Yes'),
+('M65889A', 'August', '14', '14', '1', '08/2022', 'Yes'),
+('M54354E', 'August', '12', '10', '0.8333333333333334', '08/2023', 'Yes'),
+('M88791Z', 'August', '12', '10', '0.8333333333333334', '08/2023', 'Yes'),
+('M11367A', 'October', '12', '8', '0.6666666666666666', '10/2022', 'No'),
+('M16782H', 'October', '19', '19', '1', '10/2022', 'Yes'),
+('M65889A', 'October', '12', '12', '1', '10/2022', 'Yes'),
+('M54354E', 'October', '14', '11', '0.7857142857142857', '10/2023', 'Yes'),
+('M88791Z', 'October', '14', '12', '0.8571428571428571', '10/2023', 'Yes'),
+('M11367A', 'November', '12', '11', '0.9166666666666666', '11/2022', 'Yes'),
+('M16782H', 'November', '20', '20', '1', '11/2022', 'Yes'),
+('M65889A', 'November', '12', '11', '0.9166666666666666', '11/2022', 'Yes'),
+('M54354E', 'November', '14', '11', '0.7857142857142857', '11/2023', 'Yes'),
+('M88791Z', 'November', '12', '10', '0.8333333333333334', '11/2023', 'Yes'),
+('M11367A', 'December', '12', '10', '0.8333333333333334', '12/2022', 'Yes'),
+('M16782H', 'December', '13', '13', '1', '12/2022', 'Yes'),
+('M65889A', 'December', '12', '11', '0.9166666666666666', '12/2022', 'Yes'),
+('M54354E', 'December', '14', '13', '0.9285714285714286', '12/2023', 'Yes'),
+('M88791Z', 'December', '12', '10', '0.8333333333333334', '12/2023', 'Yes');
+
 
 -- --------------------------------------------------------
 
@@ -216,7 +237,6 @@ INSERT INTO `Duty_Hour_Log` (`MCR_No`, `Level`, `Submitted`, `Submitted_Proporti
 --
 -- Table structure for table `Education_History`
 --
-
 CREATE TABLE `Education_History` (
   `id` INT AUTO_INCREMENT NOT NULL,
   `MCR_No` varchar(50) NOT NULL,
@@ -341,8 +361,16 @@ CREATE TABLE `IHI` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `IHI` (`MCR_No`,`Completion_of_Emodules`,`Date`) VALUES
-('1234o18','Completion_of_Emodules111', '1/2/2022'),
-('1234o19','Completion_of_Emodules222', '1/2/2022');
+('M11367A', 'Yes', '07/07/2023'),
+('M16782H', 'No', '-'),
+('M54354E', 'Yes', '07/08/2023'),
+('M88791Z', 'Yes', '07/09/2023'),
+('M56829J', 'Yes', '07/10/2023'),
+('M83162D', 'No', '-'),
+('M33571G', 'No', '-'),
+('M35718D', 'No', '-'),
+('M35589A', 'Yes', '07/11/2023'),
+('M65659J', 'Yes', '07/12/2023');
 
 -- --------------------------------------------------------
 
@@ -352,10 +380,10 @@ INSERT INTO `IHI` (`MCR_No`,`Completion_of_Emodules`,`Date`) VALUES
 
 CREATE TABLE `Involvement` (
   `id` INT AUTO_INCREMENT NOT NULL,
-  `Involvement_Type` varchar(50) NOT NULL,
-  `MCR_No` varchar(50) NOT NULL,
-  `Event` varchar(50) NOT NULL,
-  `Role` varchar(50) NOT NULL,
+  `Involvement_Type` varchar(100) NOT NULL,
+  `MCR_No` varchar(100) NOT NULL,
+  `Event` varchar(400) NOT NULL,
+  `Role` varchar(100) NOT NULL,
   `Start_Date` varchar(50) NOT NULL,
   `End_Date` varchar(50) NOT NULL,
   primary key (id),
@@ -556,12 +584,12 @@ CREATE TABLE `Projects` (
 --
 
 INSERT INTO `Projects` (`MCR_No`, `Project_Type`, `Project_Title`, `Project_ID`, `Start_Date`, `End_Date`, `Date_of_QI_Certification`, `PMID`) VALUES
-('1234o18', 'Qi', 'Creating an Intranet Site Showing Each Medical Departments Criteria for Inpatient Reviews', ' ', '2019', '2020', '', ''),
-('1234o18', '', '', '', '', '', '', ''),
-('1234o18', 'QI', 'Code Blue Documentation ', ' ', '2018', '2019', '', ''),
-('1234o19', '', '', '', '', '', '', ''),
-('1234o19', 'QI', 'Reducing the percentage of errors in discharge prescriptions in Ward 73', ' ', '2019', '2020', '', ''),
-('1234o19', 'QI', 'Improving Compliance of Medical Results Acknowledgement in CGH Gastroenterology Department ', '', '', '', '', '');
+('M11367A', 'QI', 'Testing Title 1', '1', '02/02/2022', '02/02/2023', '02/02/2023', '1'),
+('M16782H', 'QI', 'Testing Title 2', '2', '02/02/2022', '02/02/2023', '02/02/2023', '2'),
+('M65889A', 'QI', 'Testing Title 3', '3', '02/02/2022', '02/02/2023', '02/02/2023', '3'),
+('M54354E', 'QI', 'Testing Title 4', '4', '02/02/2022', 'Ongoing', '-', '4'),
+('M88791Z', 'QI', 'Testing Title 5', '5', '02/02/2022', 'Ongoing', '-', '5'),
+('M83162D', 'QI', 'Testing Title 6', '6', '02/02/2022', 'Ongoing', '-', '6');
 
 -- --------------------------------------------------------
 
