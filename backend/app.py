@@ -18,16 +18,16 @@ app.app_context().push()
 if __name__ == '__main__':
     print("running on main")
     # Mac user -------------------------------------------------------------------
-  #  app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-  #                                          '@localhost:3306/SingHealth'
-    # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+                                           '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
     # --------------------------------------------------------------------------------
 
     # # Windows user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-                                            '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+    #                                         '@localhost:3306/SingHealth'
+    # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -889,6 +889,7 @@ def view():
             print("An error occurred:", e)
             print("Stack trace:")
             traceback.print_exc()
+
     #grants
     grants = pd.read_excel(
         file, sheet_name="Grants", dtype=str)
@@ -966,9 +967,10 @@ def view():
             traceback.print_exc()       
 
     #didatic attendance 
+    #posting instituition , posting department
     didatic_attendance = pd.read_excel(
         file, sheet_name="Didactic Attendance", dtype=str)
-    didatic_attendance.columns = [ 'MCR_No', 'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended' , 'Percentage_of_sessions_attended' , 'MmYyyy' , 'Compliance_or_Not' ]
+    didatic_attendance.columns = [ 'MCR_No', 'Billing_Name' ,'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended'  , 'MmYyyy' , 'Scheduled_teachings', 'Compliance_or_Not' ]
     if didatic_attendance['MCR_No'].isnull().sum() > 0:
         writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
         didatic_attendance.to_excel(
