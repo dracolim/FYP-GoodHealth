@@ -221,8 +221,8 @@
 
         <!-- TABLE START -->
         <div class="relative overflow-x-auto shadow-lg sm:rounded-lg mx-8 mb-10">
-            <div class="table-controls">
-                <button id="alert-show">Show Alert</button>
+            <div class="relative bg-white rounded-lg shadow ">
+                {{table_error_message}}
             </div>
             <table id="example-table"></table>
         </div>
@@ -261,6 +261,7 @@
             MCR_name: {},
             error_message: "",
             mmYYYY: "",
+            table_error_message: "",
         },
         computed: {
 
@@ -281,7 +282,7 @@
                     console.log(error)
                 });
 
-            axios.get(this.local_host_url + 'duty_hour_lo')
+            axios.get(this.local_host_url + 'duty_hour_log')
                 .then(response => {
                     var printRemoveButton = function (cell, formatterParams,
                         onRendered) { //plain text value
@@ -441,6 +442,7 @@
                     });
                 })
                 .catch(error => {
+                    this.table_error_message = error.message
                     console.error(error);
                 });
 
