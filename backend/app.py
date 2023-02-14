@@ -969,41 +969,41 @@ def view():
 
     #didatic attendance 
     #posting instituition , posting department
-    didatic_attendance = pd.read_excel(
-        file, sheet_name="Didactic Attendance", dtype=str)
-    didatic_attendance.columns = [ 'MCR_No', 'Billing_Name' ,'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended'  , 'MmYyyy' , 'Scheduled_teachings', 'Compliance_or_Not' ]
-    if didatic_attendance['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
-        didatic_attendance.to_excel(
-            writer, sheet_name='didatic_attendance_error')
-        workbook = writer.book
-        worksheet = writer.sheets['didatic_attendance_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = awards[awards[[
-        "MCR_No"]].isnull().any(axis=1)]
+    # didatic_attendance = pd.read_excel(
+    #     file, sheet_name="Didactic Attendance", dtype=str)
+    # didatic_attendance.columns = [ 'MCR_No', 'Billing_Name' ,'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended'  , 'MmYyyy' , 'Scheduled_teachings', 'Compliance_or_Not' ]
+    # if didatic_attendance['MCR_No'].isnull().sum() > 0:
+    #     writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+    #     didatic_attendance.to_excel(
+    #         writer, sheet_name='didatic_attendance_error')
+    #     workbook = writer.book
+    #     worksheet = writer.sheets['didatic_attendance_error']
+    #     format1 = workbook.add_format({'bg_color': '#FF8080'})
+    #     nullrows = awards[awards[[
+    #     "MCR_No"]].isnull().any(axis=1)]
 
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
+    #     for row in nullrows.index:
+    #         ran = "A" + str(row+2) + ":BA" + str(row+2)
+    #         worksheet.conditional_format(ran,
+    #                                         {'type':     'cell',
+    #                                         'criteria': 'not equal to',
+    #                                         'value': '"o1"',
+    #                                         'format':   format1})
+    #     writer.save()
+    #     abort(404, description="Invalid excel submitted")
 
-    didatic_attendance= didatic_attendance.fillna('')
-    for i in range(len(awards)):
-        data = dict(awards.iloc[i])
-        presentation9 = Didactic_Attendance(**data)
-        try:
-            db.session.add(presentation9)
-            db.session.commit()
+    # didatic_attendance= didatic_attendance.fillna('')
+    # for i in range(len(awards)):
+    #     data = dict(awards.iloc[i])
+    #     presentation9 = Didactic_Attendance(**data)
+    #     try:
+    #         db.session.add(presentation9)
+    #         db.session.commit()
 
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()   
+    #     except Exception as e:
+    #         print("An error occurred:", e)
+    #         print("Stack trace:")
+    #         traceback.print_exc()   
 
     #publications
     publlications = pd.read_excel(
