@@ -1,11 +1,12 @@
 from sqlalchemy import insert, text, create_engine,inspect
 from flask import abort
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import json
 import pandas as pd
 import traceback
+import werkzeug.exceptions as ex
 
 app = Flask(__name__)
 
@@ -662,7 +663,7 @@ def view():
                             'Covid_19_Vaccination_Status', 'Date_of_First_Dose',
                             'Date_of_Second_Dose', 'Vaccination_Remarks']
     if personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or (personalDetails.duplicated().any()):
-        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/personal_details_error.xlsx", engine='xlsxwriter')
+        writer = pd.ExcelWriter("personal_details_error.xlsx", engine='xlsxwriter')
         workbook = writer.book
         format1 = workbook.add_format({'bg_color': '#FF8080'})
         personalDetails.to_excel(writer, sheet_name='Personal_Details_error')
@@ -696,7 +697,8 @@ def view():
                                         'value': '"o1"',
                                         'format':   format1})
         writer.save()
-        abort(404, description="Invalid excel submitted")
+        send_file("personal_details_error.xlsx" , as_attachment = True)
+        abort(404, description='Invalid Excel submitted')
 
     personalDetails = personalDetails.fillna('')
     for i in range(len(personalDetails)):
@@ -1258,20 +1260,7 @@ def view():
             traceback.print_exc()   
     return history_posting.to_html()
 
-def download_file(filename):
-    file_path = "/Applications/MAMP/htdocs/FYP-GoodHealth/error"
-    file_handle = open(file_path, 'r')
 
-    # This *replaces* the `remove_file` + @after_this_request code above
-    def stream_and_remove_file():
-        yield from file_handle
-        file_handle.close()
-        os.remove(file_path)
-
-    return current_app.response_class(
-        stream_and_remove_file(),
-        headers={'Content-Disposition': 'attachment', 'filename': filename}
-    )
 
 def getList(items):
     list_ = []
