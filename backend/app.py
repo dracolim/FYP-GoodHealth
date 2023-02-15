@@ -662,10 +662,28 @@ def view():
                             'Email_Personal', 'BCLS_Expiry_Date', 'ACLS_Expiry_Date',
                             'Covid_19_Vaccination_Status', 'Date_of_First_Dose',
                             'Date_of_Second_Dose', 'Vaccination_Remarks']
-    if personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or (personalDetails.duplicated().any()):
-        writer = pd.ExcelWriter("personal_details_error.xlsx", engine='xlsxwriter')
+    # Involvement
+    involvement = pd.read_excel(
+        file, sheet_name="Involvement", dtype=str)
+    involvement.columns = ['Involvement_Type', 'MCR_No',
+                        'Event', 'Role', 'Start_Date', 'End_Date']
+    
+    #history-education
+    history_education = pd.read_excel(
+        file, sheet_name="History - Education", dtype=str)
+    history_education.columns = ['MCR_No' , 'Year_of_Graduation' , 'Date_of_Graduation' , 'Basic_Qualification' , 'Medical_School' , 'Country_of_Graduation' , 'IM_Residency_Start_Date' , 
+    'IM_Residency_End_Date', 'SR_Residency_Programme', 'SR_Residency_Start_Date', 'SR_Residency_End_Date','PG_Year']
+
+    #history-posting
+    history_posting = pd.read_excel(
+        file, sheet_name="History - Posting", dtype=str)
+    history_posting.columns = [ 'MCR_No', 'Posting_Institution' , 'Posting_Department' , 'Posting_StartDate' , 'Posting_EndDate']
+
+    if personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or (personalDetails.duplicated().any()) or involvement['MCR_No'].isnull().sum() > 0 or (involvement.duplicated().any()) or history_education['MCR_No'].isnull().sum() > 0 or (history_education.duplicated().any()) or history_posting['MCR_No'].isnull().sum() > 0 or history_posting.duplicated().any():
+        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
         workbook = writer.book
         format1 = workbook.add_format({'bg_color': '#FF8080'})
+        ## personal_DETAILS
         personalDetails.to_excel(writer, sheet_name='Personal_Details_error')
         worksheet = writer.sheets['Personal_Details_error']
         nullrows_mcr_no = personalDetails[personalDetails[[
@@ -696,34 +714,7 @@ def view():
                                         'criteria': 'not equal to',
                                         'value': '"o1"',
                                         'format':   format1})
-        writer.save()
-        abort(404, description='Invalid Excel submitted')
-
-    personalDetails = personalDetails.fillna('')
-    for i in range(len(personalDetails)):
-        data = dict(personalDetails.iloc[i])
-        presentation = Personal_Details(**data)
-        try:
-            if Personal_Details.query.filter_by(MCR_No=data["MCR_No"]).first() != None:
-                Personal_Details.query.filter_by(
-                    MCR_No=data["MCR_No"]).update(data)
-            else:
-                db.session.add(presentation)
-                db.session.commit()
-
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()
-
-    # Involvement
-    involvement = pd.read_excel(
-        file, sheet_name="Involvement", dtype=str)
-    involvement.columns = ['Involvement_Type', 'MCR_No',
-                        'Event', 'Role', 'Start_Date', 'End_Date']
-
-    if involvement['MCR_No'].isnull().sum() > 0 or (involvement.duplicated().any()):
-        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/involvement_error.xlsx", engine='xlsxwriter')
+        ## involvement
         involvement.to_excel(writer, sheet_name='involvement_error')
         workbook = writer.book
         worksheet = writer.sheets['involvement_error']
@@ -747,29 +738,7 @@ def view():
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
-    involvement = involvement.fillna('')
-    for i in range(len(involvement)):
-        data = dict(involvement.iloc[i])
-        presentation2 = Involvement(**data)
-        try:
-            db.session.add(presentation2)
-            db.session.commit()
-
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()
-    
-    #history-education
-    history_education = pd.read_excel(
-        file, sheet_name="History - Education", dtype=str)
-    history_education.columns = ['MCR_No' , 'Year_of_Graduation' , 'Date_of_Graduation' , 'Basic_Qualification' , 'Medical_School' , 'Country_of_Graduation' , 'IM_Residency_Start_Date' , 
-    'IM_Residency_End_Date', 'SR_Residency_Programme', 'SR_Residency_Start_Date', 'SR_Residency_End_Date','PG_Year']
-    if history_education['MCR_No'].isnull().sum() > 0 or (history_education.duplicated().any()):
-        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/history_education_error.xlsx", engine='xlsxwriter')
+        ## history_education
         history_education.to_excel(
             writer, sheet_name='history_education_error')
         workbook = writer.book
@@ -794,29 +763,8 @@ def view():
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
-    history_education = history_education.fillna('')
-    for i in range(len(history_education)):
-        data = dict(history_education.iloc[i])
-        presentation3 = Education_History(**data)
-        try:
-            db.session.add(presentation3)
-            db.session.commit()
-
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()
-
-    #history-posting
-    history_posting = pd.read_excel(
-        file, sheet_name="History - Posting", dtype=str)
-    history_posting.columns = [ 'MCR_No', 'Posting_Institution' , 'Posting_Department' , 'Posting_StartDate' , 'Posting_EndDate']
-
-    if history_posting['MCR_No'].isnull().sum() > 0 or history_posting.duplicated().any():
-        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/history_posting_error.xlsx", engine='xlsxwriter')
+            
+        ## history_posting 
         history_posting.to_excel(
             writer, sheet_name='history_posting_error')
         workbook = writer.book
@@ -841,7 +789,50 @@ def view():
                                             'value': '"o1"',
                                             'format':   format1})
         writer.save()
-        abort(404, description="Invalid excel submitted")
+        abort(404, description='Invalid Excel submitted')
+
+    personalDetails = personalDetails.fillna('')
+    for i in range(len(personalDetails)):
+        data = dict(personalDetails.iloc[i])
+        presentation = Personal_Details(**data)
+        try:
+            if Personal_Details.query.filter_by(MCR_No=data["MCR_No"]).first() != None:
+                Personal_Details.query.filter_by(
+                    MCR_No=data["MCR_No"]).update(data)
+            else:
+                db.session.add(presentation)
+                db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()
+
+    involvement = involvement.fillna('')
+    for i in range(len(involvement)):
+        data = dict(involvement.iloc[i])
+        presentation2 = Involvement(**data)
+        try:
+            db.session.add(presentation2)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()
+
+    history_education = history_education.fillna('')
+    for i in range(len(history_education)):
+        data = dict(history_education.iloc[i])
+        presentation3 = Education_History(**data)
+        try:
+            db.session.add(presentation3)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()
 
     history_posting= history_posting.fillna('')
     for i in range(len(history_posting)):
