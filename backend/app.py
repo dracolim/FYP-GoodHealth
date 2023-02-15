@@ -647,7 +647,6 @@ def create_personal_detail():
 @app.route('/import', methods=['POST'])
 def view():
     file = request.files['file']
-    print('KJDFSAKDFHAKSJDFHLASJKDHFLAKSJDHFLAKJSHDFLAJSHDLFJASHDFLJASHDLFKJAHSDLFKJHASLDKJFHALSDJKFHA')
     file.save(file.filename)
 
     # personal details
@@ -662,17 +661,34 @@ def view():
                             'Email_Personal', 'BCLS_Expiry_Date', 'ACLS_Expiry_Date',
                             'Covid_19_Vaccination_Status', 'Date_of_First_Dose',
                             'Date_of_Second_Dose', 'Vaccination_Remarks']
-
-    if personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
-        personalDetails.to_excel(writer, sheet_name='Personal_Details_error')
+    if personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or (personalDetails.duplicated().any()):
+        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/personal_details_error.xlsx", engine='xlsxwriter')
         workbook = writer.book
-        worksheet = writer.sheets['Personal_Details_error']
         format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = personalDetails[personalDetails[[
+        personalDetails.to_excel(writer, sheet_name='Personal_Details_error')
+        worksheet = writer.sheets['Personal_Details_error']
+        nullrows_mcr_no = personalDetails[personalDetails[[
             "MCR_No"]].isnull().any(axis=1)]
-
-        for row in nullrows.index:
+        nullrows_ID = personalDetails[personalDetails[[
+            "Employee_ID"]].isnull().any(axis=1)]
+        duplicate_row_bool = personalDetails.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
+        
+        for row in nullrows_mcr_no.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
+        for row in nullrows_ID.index:
             ran = "A" + str(row+2) + ":BA" + str(row+2)
             worksheet.conditional_format(ran,
                                         {'type':     'cell',
@@ -705,15 +721,23 @@ def view():
     involvement.columns = ['Involvement_Type', 'MCR_No',
                         'Event', 'Role', 'Start_Date', 'End_Date']
 
-    if involvement['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
-        involvement.to_excel(
-            writer, sheet_name='involvement_error')
+    if involvement['MCR_No'].isnull().sum() > 0 or (involvement.duplicated().any()):
+        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/involvement_error.xlsx", engine='xlsxwriter')
+        involvement.to_excel(writer, sheet_name='involvement_error')
         workbook = writer.book
         worksheet = writer.sheets['involvement_error']
         format1 = workbook.add_format({'bg_color': '#FF8080'})
         nullrows = involvement[involvement[[
         "MCR_No"]].isnull().any(axis=1)]
+        duplicate_row_bool = involvement.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
 
         for row in nullrows.index:
             ran = "A" + str(row+2) + ":BA" + str(row+2)
@@ -743,9 +767,8 @@ def view():
         file, sheet_name="History - Education", dtype=str)
     history_education.columns = ['MCR_No' , 'Year_of_Graduation' , 'Date_of_Graduation' , 'Basic_Qualification' , 'Medical_School' , 'Country_of_Graduation' , 'IM_Residency_Start_Date' , 
     'IM_Residency_End_Date', 'SR_Residency_Programme', 'SR_Residency_Start_Date', 'SR_Residency_End_Date','PG_Year']
-
-    if history_education['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+    if history_education['MCR_No'].isnull().sum() > 0 or (history_education.duplicated().any()):
+        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/history_education_error.xlsx", engine='xlsxwriter')
         history_education.to_excel(
             writer, sheet_name='history_education_error')
         workbook = writer.book
@@ -753,6 +776,15 @@ def view():
         format1 = workbook.add_format({'bg_color': '#FF8080'})
         nullrows = history_education[history_education[[
         "MCR_No"]].isnull().any(axis=1)]
+        duplicate_row_bool = history_education.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
 
         for row in nullrows.index:
             ran = "A" + str(row+2) + ":BA" + str(row+2)
@@ -782,8 +814,8 @@ def view():
         file, sheet_name="History - Posting", dtype=str)
     history_posting.columns = [ 'MCR_No', 'Posting_Institution' , 'Posting_Department' , 'Posting_StartDate' , 'Posting_EndDate']
 
-    if history_posting['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+    if history_posting['MCR_No'].isnull().sum() > 0 or history_posting.duplicated().any():
+        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/history_posting_error.xlsx", engine='xlsxwriter')
         history_posting.to_excel(
             writer, sheet_name='history_posting_error')
         workbook = writer.book
@@ -791,7 +823,15 @@ def view():
         format1 = workbook.add_format({'bg_color': '#FF8080'})
         nullrows = history_posting[history_posting[[
         "MCR_No"]].isnull().any(axis=1)]
-
+        duplicate_row_bool = history_posting.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
         for row in nullrows.index:
             ran = "A" + str(row+2) + ":BA" + str(row+2)
             worksheet.conditional_format(ran,
@@ -820,8 +860,8 @@ def view():
         file, sheet_name="History - Exam", dtype=str)
     history_exam.columns = [ 'MCR_No', 'Name_of_Exam' , 'Date_of_Attempt' , 'Exam_Status']
 
-    if history_exam['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+    if history_exam['MCR_No'].isnull().sum() > 0 or history_exam.duplicated().any():
+        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/hisotry_exam_error.xlsx", engine='xlsxwriter')
         history_exam.to_excel(
             writer, sheet_name='history_exam_error')
         workbook = writer.book
@@ -829,7 +869,15 @@ def view():
         format1 = workbook.add_format({'bg_color': '#FF8080'})
         nullrows = history_exam[history_exam[[
         "MCR_No"]].isnull().any(axis=1)]
-
+        duplicate_row_bool = history_exam.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
         for row in nullrows.index:
             ran = "A" + str(row+2) + ":BA" + str(row+2)
             worksheet.conditional_format(ran,
@@ -858,8 +906,8 @@ def view():
         file, sheet_name="History - Trg Ext.&Remediation", dtype=str)
     history_trg.columns = [ 'MCR_No', 'LOAPIP' , 'StartDate' , 'EndDate']
 
-    if history_trg['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+    if history_trg['MCR_No'].isnull().sum() > 0 or history_trg.duplicated().any():
+        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/history_trg_error.xlsx", engine='xlsxwriter')
         history_trg.to_excel(
             writer, sheet_name='history_trg_error')
         workbook = writer.book
@@ -867,7 +915,15 @@ def view():
         format1 = workbook.add_format({'bg_color': '#FF8080'})
         nullrows = history_trg[history_trg[[
         "MCR_No"]].isnull().any(axis=1)]
-
+        duplicate_row_bool = history_trg.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
         for row in nullrows.index:
             ran = "A" + str(row+2) + ":BA" + str(row+2)
             worksheet.conditional_format(ran,
@@ -896,8 +952,8 @@ def view():
         file, sheet_name="Grants", dtype=str)
     grants.columns = [ 'MCR_No', 'Name_of_Grant' , 'Project_Title' , 'Project_ID' , 'Grant_End_Date' , 'Grant_Start_Date']
 
-    if grants['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+    if grants['MCR_No'].isnull().sum() > 0 or grants.duplicated().any():
+        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/grants_error.xlsx", engine='xlsxwriter')
         grants.to_excel(
             writer, sheet_name='grants_error')
         workbook = writer.book
@@ -905,7 +961,15 @@ def view():
         format1 = workbook.add_format({'bg_color': '#FF8080'})
         nullrows = grants[grants[[
         "MCR_No"]].isnull().any(axis=1)]
-
+        duplicate_row_bool = grants.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
         for row in nullrows.index:
             ran = "A" + str(row+2) + ":BA" + str(row+2)
             worksheet.conditional_format(ran,
@@ -934,8 +998,8 @@ def view():
         file, sheet_name="Awards", dtype=str)
     awards.columns = [ 'MCR_No', 'Award_Category' , 'Name_of_Award' , 'FY_of_Award_Received' , 'Date_of_Award_Received' , 'Project_ID']
 
-    if awards['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+    if awards['MCR_No'].isnull().sum() > 0 or awards.duplicated().any():
+        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/awards_error.xlsx", engine='xlsxwriter')
         awards.to_excel(
             writer, sheet_name='awards_error')
         workbook = writer.book
@@ -943,7 +1007,15 @@ def view():
         format1 = workbook.add_format({'bg_color': '#FF8080'})
         nullrows = awards[awards[[
         "MCR_No"]].isnull().any(axis=1)]
-
+        duplicate_row_bool = awards.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
         for row in nullrows.index:
             ran = "A" + str(row+2) + ":BA" + str(row+2)
             worksheet.conditional_format(ran,
@@ -971,7 +1043,7 @@ def view():
     #posting instituition , posting department
     # didatic_attendance = pd.read_excel(
     #     file, sheet_name="Didactic Attendance", dtype=str)
-    # didatic_attendance.columns = [ 'MCR_No', 'Billing_Name' ,'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended'  , 'MmYyyy' , 'Scheduled_teachings', 'Compliance_or_Not' ]
+    # didatic_attendance.columns = [ 'MCR_No','Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended'  , 'Percentage_of_sessions_attended', 'MmYyyy' , 'Compliance_or_Not' ]
     # if didatic_attendance['MCR_No'].isnull().sum() > 0:
     #     writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
     #     didatic_attendance.to_excel(
@@ -993,8 +1065,8 @@ def view():
     #     abort(404, description="Invalid excel submitted")
 
     # didatic_attendance= didatic_attendance.fillna('')
-    # for i in range(len(awards)):
-    #     data = dict(awards.iloc[i])
+    # for i in range(len(didatic_attendance)):
+    #     data = dict(didatic_attendance.iloc[i])
     #     presentation9 = Didactic_Attendance(**data)
     #     try:
     #         db.session.add(presentation9)
@@ -1009,8 +1081,8 @@ def view():
     publlications = pd.read_excel(
         file, sheet_name="Publications", dtype=str)
     publlications.columns = [ 'MCR_No', 'Publication_Title' , 'Journal_Title' , 'PMID' , 'Publication_Date' ]
-    if publlications['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+    if publlications['MCR_No'].isnull().sum() > 0 or publlications.duplicated().any():
+        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/publications_error.xlsx", engine='xlsxwriter')
         publlications.to_excel(
             writer, sheet_name='publlications_error')
         workbook = writer.book
@@ -1018,7 +1090,15 @@ def view():
         format1 = workbook.add_format({'bg_color': '#FF8080'})
         nullrows = publlications[publlications[[
         "MCR_No"]].isnull().any(axis=1)]
-
+        duplicate_row_bool = publlications.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
         for row in nullrows.index:
             ran = "A" + str(row+2) + ":BA" + str(row+2)
             worksheet.conditional_format(ran,
@@ -1046,8 +1126,8 @@ def view():
     presentations = pd.read_excel(
         file, sheet_name="Presentations", dtype=str)
     presentations.columns = [ 'MCR_No', 'Title' , 'Type' , 'Project_ID' , 'Conference_Name' , 'Country' , 'Presentation_Date' ]
-    if presentations['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+    if presentations['MCR_No'].isnull().sum() > 0 or presentations.duplicated().any():
+        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/presentations_error.xlsx", engine='xlsxwriter')
         presentations.to_excel(
             writer, sheet_name='presentations_error')
         workbook = writer.book
@@ -1055,7 +1135,15 @@ def view():
         format1 = workbook.add_format({'bg_color': '#FF8080'})
         nullrows = presentations[presentations[[
         "MCR_No"]].isnull().any(axis=1)]
-
+        duplicate_row_bool = presentations.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
         for row in nullrows.index:
             ran = "A" + str(row+2) + ":BA" + str(row+2)
             worksheet.conditional_format(ran,
@@ -1083,8 +1171,8 @@ def view():
     project = pd.read_excel(
         file, sheet_name="Projects", dtype=str)
     project.columns = [ 'MCR_No', 'Project_Type' ,'Project_Title' ,'Project_ID' ,'Start_Date' , 'End_Date' , 'Date_of_QI_Certification' , 'PMID' ]
-    if project['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+    if project['MCR_No'].isnull().sum() > 0 or project.duplicated().any():
+        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/projects_error.xlsx", engine='xlsxwriter')
         project.to_excel(
             writer, sheet_name='project_error')
         workbook = writer.book
@@ -1092,7 +1180,15 @@ def view():
         format1 = workbook.add_format({'bg_color': '#FF8080'})
         nullrows = project[project[[
         "MCR_No"]].isnull().any(axis=1)]
-
+        duplicate_row_bool = project.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
         for row in nullrows.index:
             ran = "A" + str(row+2) + ":BA" + str(row+2)
             worksheet.conditional_format(ran,
@@ -1120,8 +1216,8 @@ def view():
     ihi = pd.read_excel(
         file, sheet_name="IHI", dtype=str)
     ihi.columns = [ 'MCR_No', 'Completion_of_Emodules' , 'Date' ]
-    if ihi['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+    if ihi['MCR_No'].isnull().sum() > 0 or ihi.duplicated().any():
+        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/IHI_error.xlsx", engine='xlsxwriter')
         ihi.to_excel(
             writer, sheet_name='ihi_error')
         workbook = writer.book
@@ -1129,7 +1225,15 @@ def view():
         format1 = workbook.add_format({'bg_color': '#FF8080'})
         nullrows = ihi[ihi[[
         "MCR_No"]].isnull().any(axis=1)]
-
+        duplicate_row_bool = ihi.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
         for row in nullrows.index:
             ran = "A" + str(row+2) + ":BA" + str(row+2)
             worksheet.conditional_format(ran,
@@ -1152,15 +1256,22 @@ def view():
             print("An error occurred:", e)
             print("Stack trace:")
             traceback.print_exc()   
-    
-
     return history_posting.to_html()
 
+def download_file(filename):
+    file_path = "/Applications/MAMP/htdocs/FYP-GoodHealth/error"
+    file_handle = open(file_path, 'r')
 
+    # This *replaces* the `remove_file` + @after_this_request code above
+    def stream_and_remove_file():
+        yield from file_handle
+        file_handle.close()
+        os.remove(file_path)
 
-
-
-
+    return current_app.response_class(
+        stream_and_remove_file(),
+        headers={'Content-Disposition': 'attachment', 'filename': filename}
+    )
 
 def getList(items):
     list_ = []
