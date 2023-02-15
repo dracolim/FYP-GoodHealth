@@ -697,7 +697,6 @@ def view():
                                         'value': '"o1"',
                                         'format':   format1})
         writer.save()
-        send_file("personal_details_error.xlsx" , as_attachment = True)
         abort(404, description='Invalid Excel submitted')
 
     personalDetails = personalDetails.fillna('')
