@@ -851,7 +851,7 @@ def view():
     history_exam.columns = [ 'MCR_No', 'Name_of_Exam' , 'Date_of_Attempt' , 'Exam_Status']
 
     if history_exam['MCR_No'].isnull().sum() > 0 or history_exam.duplicated().any():
-        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/hisotry_exam_error.xlsx", engine='xlsxwriter')
+        writer = pd.ExcelWriter("./hisotry_exam_error.xlsx", engine='xlsxwriter')
         history_exam.to_excel(
             writer, sheet_name='history_exam_error')
         workbook = writer.book
@@ -1858,24 +1858,20 @@ def read_procedure_log():
         }
     ), 200
 
-# Read Existing procedure logs with personal details (R)
-
-
+# Read Existing procedure logs with personal details Programme and Year_of_Training (R)
 @app.route("/procedure_logs")
 def read_procedure_logs():
     userList = Procedure_Log.query\
         .join(Personal_Details, Procedure_Log.MCR_No == Personal_Details.MCR_No)\
-        .add_columns(Personal_Details.Programme)\
+        .add_columns(Personal_Details.Programme, Personal_Details.Year_of_Training)\
         .paginate(1, 50, True)
 
     combinedProcedureLogs = []
-
     for i in userList.iter_pages():
-        print("i-->", userList.items)
-
         for item in userList.items:
             procedurelog = item[0].to_dict()
             procedurelog["Programme"] = item[1]
+            procedurelog["Year_of_Training"] = item[2]
             combinedProcedureLogs.append(procedurelog)
 
     return jsonify(
@@ -1884,8 +1880,6 @@ def read_procedure_logs():
         }), 200
 
 # Read Existing by Person (R)
-
-
 @app.route("/procedurelog/<id>")
 def read_procedurelog_by_person(id):
     person = Personal_Details.query.get_or_404(id)
