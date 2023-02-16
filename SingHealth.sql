@@ -314,7 +314,8 @@ CREATE TABLE `Exam_History` (
 INSERT INTO `Exam_History` (`MCR_No`,`Name_of_Exam`,`Date_of_Attempt`,`Exam_Status`) VALUES
 ('1234o18','Name_of_Exam111','Date_of_Attempt111','Exam_Status111'),
 ('1234o19','Name_of_Exam222','Date_of_Attempt111','Exam_Status111'),
-('1234o19','Name_of_Exam333','Date_of_Attempt111','Exam_Status111');
+('1234o19','Name_of_Exam333','Date_of_Attempt111','Exam_Status111'),
+('M11367A', 'MRCP Part 1', '01/01/2016', 'Pass');
 
 
 -- --------------------------------------------------------
@@ -501,8 +502,9 @@ CREATE TABLE `Posting_History` (
 
 INSERT INTO `Posting_History` (`MCR_No`,`Posting_Institution`,`Posting_Department`,`Posting_StartDate`,`Posting_EndDate`) VALUES
 ('1234o18','Posting_Institution111','Posting_Department111','Posting_StartDate111','Posting_EndDate111'),
-('1234o19','Posting_Institution222','Posting_Department111','Posting_StartDate111','Posting_EndDate111');
-
+('1234o19','Posting_Institution222','Posting_Department111','Posting_StartDate111','Posting_EndDate111'),
+('M11367A', 'Changi General Hospital', 'Respiratory Medicine\n', 'Oct 2018', 'Dec 2018'),
+('M11367A', 'Changi General Hospital', 'Cardiology', 'Jan 2019', 'Mar 2019');
 -- --------------------------------------------------------
 
 --
@@ -557,7 +559,8 @@ INSERT INTO `Procedure_Log` (`MCR_No`,`Procedure_Name`,`Date_of_Completion`,`CPT
 VALUES
 ('1234o18','Procedure_Name111','Date_of_Completion111','CPT111','Total111','Performed111','Observed111','Verified111','Certified111'),
 ('1234o19','Procedure_Name222','Date_of_Completion111','CPT111','Total111','Performed111','Observed111','Verified111','Certified111'),
-('1234o19','Procedure_Name333','Date_of_Completion111','CPT111','Total111','Performed111','Observed111','Verified111','Certified111');
+('1234o19','Procedure_Name333','Date_of_Completion111','CPT111','Total111','Performed111','Observed111','Verified111','Certified111'),
+('M11367A', 'Arterial line placement ', 'Date_of_Completion111', 'CPT111', '6', 'Performed111', '', 'Verified111', 'Certified111');
 
 
 

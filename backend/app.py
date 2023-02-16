@@ -109,6 +109,7 @@ class Personal_Details(db.Model):
     ihis = db.relationship('IHI', backref='Personal_Details')
     involvements = db.relationship('Involvement', backref='Personal_Details')
     didactic_attendance = db.relationship('Didactic_Attendance', backref='Personal_Details')
+    education_history = db.relationship('Education_History', backref='Personal_Details')
 
     __mapper_args__ = {
         'polymorphic_identity': 'Personal_Details'
@@ -1982,7 +1983,6 @@ def read_trgextrem_history_by_person(id):
 # ============================
 
 # AKA Presentations table routes:
-
 # Read Existing  (R)
 
 
@@ -2076,6 +2076,9 @@ def create_resident():
     personal_details_query+=')'
     connection.execute(personal_details_query)
 
+# ============================
+# CV TEMPLATE SECTION
+# ============================
 # Generate CV word
 @app.route("/worddoc/<id>")
 def pdf_to_doc(id):
@@ -2089,102 +2092,9 @@ def pdf_to_doc(id):
     parse(pdf_file, docx_file)
     return "done"
 
-def getProjectRows(projects):
-    rows = []
-    for i in projects:
-        status = "Ongoing"
-        if i.Date_of_QI_Certification != "":
-            status = i.Date_of_QI_Certification 
-
-        i_row = """<tr id="regtable">
-                <td id="regtable">
-                    <p>""" + i.Project_Title + """</p>
-                </td>
-                <td id="regtable" style="text-align:center">
-                    <p>""" + i.Start_Date + """</p>
-                </td>
-                <td id="regtable" style="text-align:center">
-                    <p>""" + i.End_Date + """</p>
-                </td>
-                <td id="regtable" style="text-align:center">
-                    <p>""" + status + """</p>
-                </td>
-            </tr>"""
-        rows.append(i_row)
-    return " ".join(rows)
-
-def getAwardsRows(awards):
-    rows = []
-    for i in awards:
-        i_row = """<tr id="regtable">
-                <td id="regtable">
-                    <p>""" + i.Name_of_Award + """</p>
-                </td>
-                <td>
-                    <p style="text-align: center;">""" \
-                        + i.Date_of_Award_Received + \
-                """</p>
-                </td>
-            </tr>"""
-        rows.append(i_row)
-
-    return " ".join(rows)
-
-def getEducationalInvolvement(involvements):
-    rows = []
-    for i in involvements:
-        if i.Involvement_Type == "Teaching":
-            in_row = """
-                        <tr id="regtable">
-                <td id="regtable">
-                    <p style="text-align: center;">""" + i.Role + """</p>
-                </td>
-                <td id="regtable">
-                    <p>""" + i.Event + """</p>
-                </td>
-                <td id="regtable">
-                    <p style="text-align: center;">""" + i.End_Date + """</p>
-                </td>
-            </tr>"""
-            rows.append(in_row)
-    return " ".join(rows)
-
-def getCommunityInvolvement(involvements):
-    rows = []
-    for i in involvements:
-        if i.Involvement_Type == "Community":
-            in_row = """"<tr id="regtable">
-                <td id="regtable">
-                    <p">""" + i.Event + """</p>
-                </td>
-                <td id="regtable">
-                    <p style="text-align: center;">""" + i.End_Date + """</p>
-                </td>
-            </tr>
-            """
-            rows.append(in_row)
-    return " ".join(rows)
-
-def getLeadershipInvolvment(involvements):
-    rows = []
-    for i in involvements:
-        if i.Involvement_Type == "Leadership":
-            in_row = """"<tr id="regtable">
-                <td id="regtable">
-                    <p>""" + i.Role + """</p>
-                </td>
-                <td id="regtable">
-                    <p>""" + i.Event + """</p>
-                </td>
-                <td id="regtable">
-                    <p style="text-align: center;">""" + i.Start_Date \
-                        + " - " + i.End_Date + """</p>
-                </td>
-            </tr>
-            """
-            rows.append(in_row)
-    return " ".join(rows)
-
+from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
+    getCommunityInvolvement, getLeadershipInvolvment, getProcedureLogs, getPostingRows,\
+    getEducationRows, getPage
 
 # Generate CV pdf:
 @app.route("/personaldetails_cv_generate/<id>")
@@ -2206,287 +2116,19 @@ def generate_cv(id):
     involvements = person.involvements
     mcrno = person.MCR_No
     name = person.Staff_Name
+    education_histories = person.education_history
+
     awardsRows = getAwardsRows(awards)
     projectRows = getProjectRows(projects)
     educationalInvolvements = getEducationalInvolvement(involvements)
     communityInvolvements = getCommunityInvolvement(involvements)
     leadershipInvolvements =  getLeadershipInvolvment(involvements)
-    page = """<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-            <style>
-        #regtable {border: 1px solid;}
-        </style>
-    </head>
+    procedureLogsRows = getProcedureLogs(procedure_logs)
+    postingRows = getPostingRows(posting_histories)
+    educationRows = getEducationRows(exam_histories)
     
-    <body style="justify-content: center;">
-
-    <div id="main" style="width:850px">
-    <p style="text-align: center;"><strong><span style="font-size: 24px;"><u><b>SingHealth Internal Medicine Residency Programme&nbsp;</b></u></span></strong></p>
-    <p style="text-align: center;"><strong><span style="font-size: 24px;"><u><b>Professional Development Portfolio</b></u></span></strong></p>
-    <div align="left" >
-
-</div>
-<hr>
-<p><br></p>
-<div align="left" >
-    <table>
-        <tbody>
-            <tr>
-                <td>
-                    <p><span style="font-size: 24px;">Name&nbsp;</span></p>
-                </td>
-                <td>
-                    <p><span style="font-size: 24px;">:&nbsp;""" + name + """&nbsp;</span></p>
-                </td>
-                <td rowspan="2"><span style="font-size: 24px;"><br></span></td>
-            </tr>
-            <tr>
-                <td>
-                    <p><span style="font-size: 24px;">MCR Number</span></p>
-                </td>
-                <td>
-                    <p><span style="font-size: 24px;">: """ + mcrno + """</span></p>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">EMPLOYMENT HISTORY</span></p>
-<p><br></p>
-<p style="text-align: center;width:100%;"><span style="font-size: 20px;"><u><strong>Core Postings</strong></u></span></p>
-<div align="left" >
-    <table style="width: 100%;" >
-        <tbody>
-            <tr>
-                <td style="width: 75%;">
-                    <p><strong><u>Posting</u></strong></p>
-                    
-                </td>
-            
-                <td style="width: 25%;">
-                    <p><strong><u>Period</u></strong></p><br>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 75%;">
-                    <p><strong>Singapore General Hospital</strong></p>
-                    <p><em>Resident, Dept of Neurology</em></p><br>
-                </td>
-                
-                <td style="width: 25%;">
-                    <p>Jul 2018 &ndash; Sep 2018</p>
-                </td>
-            </tr>
-            
-
-
-        </tbody>
-    </table>
-
-        <!-- Leadership Involvement SECTION: -->
-
-    <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">LEADERSHIP INVOLVEMENT</span></p>
-<p><br></p>
-<p>Examples: RISE Award, best HO/MO during a particular posting, best oral speaker</p>
-<p><br></p>
-<div align="left">
-    <table style="margin-right: calc(6%); width: 94%; border-color: black; width: 100%;border-collapse: collapse;">
-        <tbody id="regtable">
-            <tr id="regtable">
-                <td style="background-color: rgb(209, 213, 216);" id="regtable">
-                    <p style="text-align: center;">Role</p>
-                </td>
-                <td style="background-color: rgb(209, 213, 216);" id="regtable">
-                    <p style="text-align: center;">Communittee / Event</p>
-                </td>
-                <td style="background-color: rgb(209, 213, 216);" id="regtable">
-                    <p style="text-align: center;">Period</p>
-                </td>
-            </tr>
-            <tr id="regtable">
-                <td id="regtable">
-                    <p>Chief Resident</p>
-                </td>
-                <td id="regtable">
-                    <p>SingHealth Internal Medicine Residency Program</p>
-                </td>
-                <td id="regtable">
-                    <p style="text-align: center;">12 Jul 2014 - 12 Jun 2015</p>
-                </td>
-            </tr>
-            """ + leadershipInvolvements + """
-
-
-        </tbody>
-    </table>
-</div>
-
-
-    <!-- Community Involvement SECTION: -->
-
-    <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">COMMUNITY INVOLVEMENT</span></p>
-<p><br></p>
-<p>Examples: RISE Award, best HO/MO during a particular posting, best oral speaker</p>
-<p><br></p>
-<div align="left">
-    <table style="margin-right: calc(6%); width: 94%; border-color: black; width: 100%;border-collapse: collapse;">
-        <tbody id="regtable">
-            <tr id="regtable">
-                <td style="background-color: rgb(209, 213, 216);" id="regtable">
-                    <p style="text-align: center;">Activity / Event</p>
-                </td>
-                <td style="background-color: rgb(209, 213, 216);" id="regtable">
-                    <p style="text-align: center;">Date</p>
-                </td>
-            </tr>
-            <tr id="regtable">
-                <td id="regtable">
-                    <p>Project HOPE</p>
-                </td>
-                <td id="regtable">
-                    <p style="text-align: center;">21 Feb 2015</p>
-                </td>
-            </tr>
-            """ + communityInvolvements + """
-
-
-        </tbody>
-    </table>
-</div>
-
-
-
-
-    <!-- Educational Involvement SECTION: -->
-
-    <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">EDUCATIONAL INVOLVEMENT</span></p>
-<p><br></p>
-<p>Examples: RISE Award, best HO/MO during a particular posting, best oral speaker</p>
-<p><br></p>
-<div align="left">
-    <table style="margin-right: calc(6%); width: 94%; border-color: black; width: 100%;border-collapse: collapse;">
-        <tbody id="regtable">
-            <tr id="regtable">
-                <td style="background-color: rgb(209, 213, 216);" id="regtable">
-                    <p style="text-align: center;">Role</p>
-                </td>
-                <td style="background-color: rgb(209, 213, 216);" id="regtable">
-                    <p style="text-align: center;">Activity / Event</p>
-                </td>
-                <td style="background-color: rgb(209, 213, 216);" id="regtable">
-                    <p style="text-align: center;">Date</p>
-                </td>
-            </tr>
-            <tr id="regtable">
-                <td id="regtable">
-                    <p style="text-align: center;">Tutor</p>
-                </td>
-                <td id="regtable">
-                    <p>Student Internship Programme Boot Camp</p>
-                </td>
-                <td id="regtable">
-                    <p style="text-align: center;">12 Jun 2014</p>
-                </td>
-            </tr>
-            """ + educationalInvolvements + """
-
-
-
-            
-            
-        </tbody>
-    </table>
-</div>
-
-
-
-
-    <!-- AWARD SECTION: -->
-
-    <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">AWARDS &amp; RECOGNITION&nbsp;</span></p>
-<p><br></p>
-<p>Examples: RISE Award, best HO/MO during a particular posting, best oral speaker</p>
-<p><br></p>
-<div align="left">
-    <table style="margin-right: calc(6%); width: 94%; border-color: black; width: 100%;border-collapse: collapse;">
-        <tbody id="regtable">
-            <tr id="regtable">
-                <td style="background-color: rgb(209, 213, 216);" id="regtable">
-                    <p style="text-align: center;">Name of Award</p>
-                </td>
-                <td style="background-color: rgb(209, 213, 216);" id="regtable">
-                    <p style="text-align: center;">Date Received</p>
-                </td>
-            </tr>
-            <tr id="regtable">
-                <td id="regtable">
-                    <p>RISE Awards &ndash; Outstanding Performance at 2013 ITE</p>
-                </td>
-                <td>
-                    <p style="text-align: center;">25 Sep 2013</p>
-                </td>
-            </tr>
-            """ + awardsRows + """
-            
-        </tbody>
-    </table>
-</div>
-
-
-<!-- Projects SECTION: -->
-
-<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">RESEARCH PROJECTS</span></p>
-
-<p><br></p>
-<p>Examples: RISE Award, best HO/MO during a particular posting, best oral speaker</p>
-<p><br></p>
-<div align="left">
-    <table style="margin-right: calc(6%); width: 94%; border-color: black; width: 100%;border-collapse: collapse;">
-        <tbody id="regtable">
-            <tr id="regtable">
-                <td style="background-color: rgb(209, 213, 216); width:50%" id="regtable">
-                    <p style="text-align: center;">Details of Research</p>
-                </td>
-                <td style="background-color: rgb(209, 213, 216);" id="regtable">
-                    <p style="text-align: center;">Start Date</p>
-                </td>
-                <td style="background-color: rgb(209, 213, 216);" id="regtable">
-                    <p style="text-align: center;">End Date</p>
-                </td>
-                <td style="background-color: rgb(209, 213, 216);" id="regtable">
-                    <p style="text-align: center;">Status (Completed/On-going)</p>
-                </td>
-            </tr>
-            <tr id="regtable">
-                <td id="regtable">
-                    <p>Pemphigus and Pemphigoid comparison</p>
-                </td>
-                <td id="regtable" style="text-align:center">
-                    <p>1 Jan 2015</p>
-                </td>
-                <td id="regtable" style="text-align:center">
-                    <p>31 Apr 2016</p>
-                </td>
-                <td id="regtable" style="text-align:center">
-                    <p>Completed</p>
-                </td>
-            </tr>
-            """+ projectRows + """
-            
-        </tbody>
-    </table>
-</div>
-
-</div>
-
-</div>
-</body>
-    </html>"""
+    page = getPage(name, mcrno, awardsRows, projectRows, educationalInvolvements, communityInvolvements,
+        leadershipInvolvements, procedureLogsRows, postingRows, educationRows)
 
     html_file_name = "./cv/cv.html"
     Func = open(html_file_name,"w")
@@ -2497,8 +2139,8 @@ def generate_cv(id):
     input = Path(html_file_name)
     pdfkit.from_file(html_file_name, 
     './cv/cv.pdf')
-
     return "done"
+
 
 db.create_all()
 
