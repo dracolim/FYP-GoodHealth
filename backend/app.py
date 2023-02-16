@@ -17,7 +17,6 @@ app = Flask(__name__)
 app.app_context().push()
 
 if __name__ == '__main__':
-    print("running on main")
     # Mac user -------------------------------------------------------------------
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
                                            '@localhost:3306/SingHealth'
@@ -34,7 +33,6 @@ if __name__ == '__main__':
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
                                             'pool_recycle': 280}
 else:
-    print("running not on main")
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
     app.config['TESTING'] = True
@@ -122,7 +120,6 @@ class Personal_Details(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -151,7 +148,6 @@ class Presentations(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -178,7 +174,6 @@ class Posting_History(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -206,7 +201,6 @@ class Duty_Hour_Log(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -239,7 +233,6 @@ class Case_Log(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -270,7 +263,6 @@ class Procedure_Log(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -296,7 +288,6 @@ class Exam_History(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -325,7 +316,6 @@ class Publications(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -356,7 +346,6 @@ class Evaluations(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -383,7 +372,6 @@ class TrgExtRem_History(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -416,7 +404,6 @@ class Education_History(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -445,7 +432,6 @@ class Projects(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -474,7 +460,6 @@ class Awards(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -502,7 +487,6 @@ class Grants(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -527,7 +511,6 @@ class IHI(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -582,7 +565,6 @@ class Didactic_Attendance(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -1621,7 +1603,6 @@ def get_didactic_attendance():
 @app.route("/publications")
 def read_publications():
     pdList = Publications.query.all()
-    print(pdList, 'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     return jsonify(
         {
             "data": [pd.to_dict()
@@ -1738,7 +1719,6 @@ def read_ihi_by_person(id):
 @app.route('/duty_hour_log', methods=['GET'])
 def get_duty_hour_log():
     dutyList = Duty_Hour_Log.query.all()
-    print(dutyList,'dutylist')
     return jsonify(
         {
             "data": [pd.to_dict()
@@ -1766,7 +1746,6 @@ def read_dutyhourlogs_by_person(id):
 @app.route('/add_duty_hour', methods=['POST'])
 def create_duty_hour():
     data = request.get_json()
-    print(data)
     if not all(key in data.keys() for key in ('MCR_No', 'Level', 'Submitted', 'Submitted_Proportion', 'MMYYYY',
                                               'Logged_for_month'
                                               )):
@@ -2046,23 +2025,16 @@ def create_presentation():
                 "Error Msg": "MCR_No not present in database"
             }
         ), 404
-    print('hello')
-    print(data)
-    # MCR_No, Title, Conference_Name, Type, Project_ID, Country, Presentation_Date
     if not all(key in data.keys() for key in ('MCR_No', 'Title', 'Conference_Name', 'Type',
                                               'Project_ID', 'Country', 'Presentation_Date')):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
 
-    print("before presentation")
     presentation = Presentations(**data)
-    print("correct presentation")
     try:
         db.session.add(presentation)
-        print("committing")
         db.session.commit()
-        print("committed")
         return jsonify(presentation.to_dict()), 201
     except Exception as e:
         print("An error occurred:", e)
@@ -2074,14 +2046,12 @@ connection = engine.connect()
 @app.route('/edit_field_value', methods=['POST'])
 def edit_field_value():
     data = request.get_json()
-    print(data,'edit field DATA')
     table=data['Table']
     field = data['Field']
     value=data['Value']
     row=data['Row']
     
     update_query=f'UPDATE {table} SET {field} = \'{value}\' WHERE MCR_No = \'{row}\''
-    print(update_query,'UPDATE QUERY')
     try:
         connection.execute(update_query)
         return jsonify(data.to_dict()), 201
@@ -2160,6 +2130,61 @@ def getAwardsRows(awards):
 
     return " ".join(rows)
 
+def getEducationalInvolvement(involvements):
+    rows = []
+    for i in involvements:
+        if i.Involvement_Type == "Teaching":
+            in_row = """
+                        <tr id="regtable">
+                <td id="regtable">
+                    <p style="text-align: center;">""" + i.Role + """</p>
+                </td>
+                <td id="regtable">
+                    <p>""" + i.Event + """</p>
+                </td>
+                <td id="regtable">
+                    <p style="text-align: center;">""" + i.End_Date + """</p>
+                </td>
+            </tr>"""
+            rows.append(in_row)
+    return " ".join(rows)
+
+def getCommunityInvolvement(involvements):
+    rows = []
+    for i in involvements:
+        if i.Involvement_Type == "Community":
+            in_row = """"<tr id="regtable">
+                <td id="regtable">
+                    <p">""" + i.Event + """</p>
+                </td>
+                <td id="regtable">
+                    <p style="text-align: center;">""" + i.End_Date + """</p>
+                </td>
+            </tr>
+            """
+            rows.append(in_row)
+    return " ".join(rows)
+
+def getLeadershipInvolvment(involvements):
+    rows = []
+    for i in involvements:
+        if i.Involvement_Type == "Leadership":
+            in_row = """"<tr id="regtable">
+                <td id="regtable">
+                    <p>""" + i.Role + """</p>
+                </td>
+                <td id="regtable">
+                    <p>""" + i.Event + """</p>
+                </td>
+                <td id="regtable">
+                    <p style="text-align: center;">""" + i.Start_Date \
+                        + " - " + i.End_Date + """</p>
+                </td>
+            </tr>
+            """
+            rows.append(in_row)
+    return " ".join(rows)
+
 
 # Generate CV pdf:
 @app.route("/personaldetails_cv_generate/<id>")
@@ -2183,6 +2208,9 @@ def generate_cv(id):
     name = person.Staff_Name
     awardsRows = getAwardsRows(awards)
     projectRows = getProjectRows(projects)
+    educationalInvolvements = getEducationalInvolvement(involvements)
+    communityInvolvements = getCommunityInvolvement(involvements)
+    leadershipInvolvements =  getLeadershipInvolvment(involvements)
     page = """<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -2259,6 +2287,122 @@ def generate_cv(id):
 
         </tbody>
     </table>
+
+        <!-- Leadership Involvement SECTION: -->
+
+    <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">LEADERSHIP INVOLVEMENT</span></p>
+<p><br></p>
+<p>Examples: RISE Award, best HO/MO during a particular posting, best oral speaker</p>
+<p><br></p>
+<div align="left">
+    <table style="margin-right: calc(6%); width: 94%; border-color: black; width: 100%;border-collapse: collapse;">
+        <tbody id="regtable">
+            <tr id="regtable">
+                <td style="background-color: rgb(209, 213, 216);" id="regtable">
+                    <p style="text-align: center;">Role</p>
+                </td>
+                <td style="background-color: rgb(209, 213, 216);" id="regtable">
+                    <p style="text-align: center;">Communittee / Event</p>
+                </td>
+                <td style="background-color: rgb(209, 213, 216);" id="regtable">
+                    <p style="text-align: center;">Period</p>
+                </td>
+            </tr>
+            <tr id="regtable">
+                <td id="regtable">
+                    <p>Chief Resident</p>
+                </td>
+                <td id="regtable">
+                    <p>SingHealth Internal Medicine Residency Program</p>
+                </td>
+                <td id="regtable">
+                    <p style="text-align: center;">12 Jul 2014 - 12 Jun 2015</p>
+                </td>
+            </tr>
+            """ + leadershipInvolvements + """
+
+
+        </tbody>
+    </table>
+</div>
+
+
+    <!-- Community Involvement SECTION: -->
+
+    <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">COMMUNITY INVOLVEMENT</span></p>
+<p><br></p>
+<p>Examples: RISE Award, best HO/MO during a particular posting, best oral speaker</p>
+<p><br></p>
+<div align="left">
+    <table style="margin-right: calc(6%); width: 94%; border-color: black; width: 100%;border-collapse: collapse;">
+        <tbody id="regtable">
+            <tr id="regtable">
+                <td style="background-color: rgb(209, 213, 216);" id="regtable">
+                    <p style="text-align: center;">Activity / Event</p>
+                </td>
+                <td style="background-color: rgb(209, 213, 216);" id="regtable">
+                    <p style="text-align: center;">Date</p>
+                </td>
+            </tr>
+            <tr id="regtable">
+                <td id="regtable">
+                    <p>Project HOPE</p>
+                </td>
+                <td id="regtable">
+                    <p style="text-align: center;">21 Feb 2015</p>
+                </td>
+            </tr>
+            """ + communityInvolvements + """
+
+
+        </tbody>
+    </table>
+</div>
+
+
+
+
+    <!-- Educational Involvement SECTION: -->
+
+    <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">EDUCATIONAL INVOLVEMENT</span></p>
+<p><br></p>
+<p>Examples: RISE Award, best HO/MO during a particular posting, best oral speaker</p>
+<p><br></p>
+<div align="left">
+    <table style="margin-right: calc(6%); width: 94%; border-color: black; width: 100%;border-collapse: collapse;">
+        <tbody id="regtable">
+            <tr id="regtable">
+                <td style="background-color: rgb(209, 213, 216);" id="regtable">
+                    <p style="text-align: center;">Role</p>
+                </td>
+                <td style="background-color: rgb(209, 213, 216);" id="regtable">
+                    <p style="text-align: center;">Activity / Event</p>
+                </td>
+                <td style="background-color: rgb(209, 213, 216);" id="regtable">
+                    <p style="text-align: center;">Date</p>
+                </td>
+            </tr>
+            <tr id="regtable">
+                <td id="regtable">
+                    <p style="text-align: center;">Tutor</p>
+                </td>
+                <td id="regtable">
+                    <p>Student Internship Programme Boot Camp</p>
+                </td>
+                <td id="regtable">
+                    <p style="text-align: center;">12 Jun 2014</p>
+                </td>
+            </tr>
+            """ + educationalInvolvements + """
+
+
+
+            
+            
+        </tbody>
+    </table>
+</div>
+
 
 
 
@@ -2351,7 +2495,6 @@ def generate_cv(id):
     import pdfkit
     from pathlib import Path
     input = Path(html_file_name)
-    print(input)
     pdfkit.from_file(html_file_name, 
     './cv/cv.pdf')
 

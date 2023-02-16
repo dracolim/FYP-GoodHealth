@@ -395,7 +395,10 @@ INSERT INTO `Involvement` (`Involvement_Type`,`MCR_No`,`Event`,`Role`,`Start_Dat
 VALUES
 ('Involvement_Type111','1234o18','Event111','Role111','Start_Date111','End_Date111'),
 ('Involvement_Type222','1234o19','Event111','Role111','Start_Date111','End_Date111'),
-('Involvement_Type333','1234o19','Event111','Role111','Start_Date111','End_Date111');
+('Involvement_Type333','1234o19','Event111','Role111','Start_Date111','End_Date111'),
+('Leadership', 'M11367A', 'SingHealth Internal Medicine Residency Program', 'Head', '2020', '2021'),
+('Community', 'M11367A', 'Community Event', 'Leader', '', '2020'),
+('Teaching', 'M11367A', 'Summer school', 'teacher', '', '2020');
 
 -- --------------------------------------------------------
 
