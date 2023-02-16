@@ -677,7 +677,52 @@ def view():
         file, sheet_name="History - Posting", dtype=str)
     history_posting.columns = [ 'MCR_No', 'Posting_Institution' , 'Posting_Department' , 'Posting_StartDate' , 'Posting_EndDate']
 
-    if personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or (personalDetails.duplicated().any()) or involvement['MCR_No'].isnull().sum() > 0 or (involvement.duplicated().any()) or history_education['MCR_No'].isnull().sum() > 0 or (history_education.duplicated().any()) or history_posting['MCR_No'].isnull().sum() > 0 or history_posting.duplicated().any():
+    #history-exam
+    history_exam = pd.read_excel(
+        file, sheet_name="History - Exam", dtype=str)
+    history_exam.columns = [ 'MCR_No', 'Name_of_Exam' , 'Date_of_Attempt' , 'Exam_Status']
+
+    #histroy-trg
+    history_trg = pd.read_excel(
+        file, sheet_name="History - Trg Ext.&Remediation", dtype=str)
+    history_trg.columns = [ 'MCR_No', 'LOAPIP' , 'StartDate' , 'EndDate']
+
+    #grants
+    grants = pd.read_excel(
+        file, sheet_name="Grants", dtype=str)
+    grants.columns = [ 'MCR_No', 'Name_of_Grant' , 'Project_Title' , 'Project_ID' , 'Grant_End_Date' , 'Grant_Start_Date']
+
+    #awards
+    awards = pd.read_excel(
+        file, sheet_name="Awards", dtype=str)
+    awards.columns = [ 'MCR_No', 'Award_Category' , 'Name_of_Award' , 'FY_of_Award_Received' , 'Date_of_Award_Received' , 'Project_ID']
+
+    #publications
+    publlications = pd.read_excel(
+        file, sheet_name="Publications", dtype=str)
+    publlications.columns = [ 'MCR_No', 'Publication_Title' , 'Journal_Title' , 'PMID' , 'Publication_Date' ]
+
+    #presentations
+    presentations = pd.read_excel(
+        file, sheet_name="Presentations", dtype=str)
+    presentations.columns = [ 'MCR_No', 'Title' , 'Type' , 'Project_ID' , 'Conference_Name' , 'Country' , 'Presentation_Date' ]
+
+    #project
+    project = pd.read_excel(
+        file, sheet_name="Projects", dtype=str)
+    project.columns = [ 'MCR_No', 'Project_Type' ,'Project_Title' ,'Project_ID' ,'Start_Date' , 'End_Date' , 'Date_of_QI_Certification' , 'PMID' ]
+
+    #IHI
+    ihi = pd.read_excel(
+        file, sheet_name="IHI", dtype=str)
+    ihi.columns = [ 'MCR_No', 'Completion_of_Emodules' , 'Date' ]
+
+    #didatic attendance
+    didatic_attendance = pd.read_excel(
+        file, sheet_name="Didactic Attendance", dtype=str)
+    didatic_attendance.columns = [ 'MCR_No', 'Billing Name', 'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended'  , 'Percentage_of_sessions_attended', 'MmYyyy' , 'Posting Institution', 'Posting Department',	'Scheduled Teachings', 'Compliance_or_Not' , "Percentage_of_sessions_attended"]
+
+    if didatic_attendance['MCR_No'].isnull().sum() > 0 or ihi['MCR_No'].isnull().sum() > 0 or ihi.duplicated().any() or project['MCR_No'].isnull().sum() > 0 or project.duplicated().any() or presentations['MCR_No'].isnull().sum() > 0 or presentations.duplicated().any() or publlications['MCR_No'].isnull().sum() > 0 or publlications.duplicated().any() or awards['MCR_No'].isnull().sum() > 0 or awards.duplicated().any() or grants['MCR_No'].isnull().sum() > 0 or grants.duplicated().any() or personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or (personalDetails.duplicated().any()) or involvement['MCR_No'].isnull().sum() > 0 or (involvement.duplicated().any()) or history_education['MCR_No'].isnull().sum() > 0 or (history_education.duplicated().any()) or history_posting['MCR_No'].isnull().sum() > 0 or history_posting.duplicated().any() or history_exam['MCR_No'].isnull().sum() > 0 or history_exam.duplicated().any() or history_trg['MCR_No'].isnull().sum() > 0 or history_trg.duplicated().any():
         writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
         workbook = writer.book
         format1 = workbook.add_format({'bg_color': '#FF8080'})
@@ -786,72 +831,8 @@ def view():
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
-        writer.save()
-        abort(404, description='Invalid Excel submitted')
-
-    personalDetails = personalDetails.fillna('')
-    for i in range(len(personalDetails)):
-        data = dict(personalDetails.iloc[i])
-        presentation = Personal_Details(**data)
-        try:
-            if Personal_Details.query.filter_by(MCR_No=data["MCR_No"]).first() != None:
-                Personal_Details.query.filter_by(
-                    MCR_No=data["MCR_No"]).update(data)
-            else:
-                db.session.add(presentation)
-                db.session.commit()
-
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()
-
-    involvement = involvement.fillna('')
-    for i in range(len(involvement)):
-        data = dict(involvement.iloc[i])
-        presentation2 = Involvement(**data)
-        try:
-            db.session.add(presentation2)
-            db.session.commit()
-
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()
-
-    history_education = history_education.fillna('')
-    for i in range(len(history_education)):
-        data = dict(history_education.iloc[i])
-        presentation3 = Education_History(**data)
-        try:
-            db.session.add(presentation3)
-            db.session.commit()
-
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()
-
-    history_posting= history_posting.fillna('')
-    for i in range(len(history_posting)):
-        data = dict(history_posting.iloc[i])
-        presentation4 = Posting_History(**data)
-        try:
-            db.session.add(presentation4)
-            db.session.commit()
-
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()
-
-    #history-exam
-    history_exam = pd.read_excel(
-        file, sheet_name="History - Exam", dtype=str)
-    history_exam.columns = [ 'MCR_No', 'Name_of_Exam' , 'Date_of_Attempt' , 'Exam_Status']
-
-    if history_exam['MCR_No'].isnull().sum() > 0 or history_exam.duplicated().any():
-        writer = pd.ExcelWriter("./hisotry_exam_error.xlsx", engine='xlsxwriter')
+            
+        ## history exam
         history_exam.to_excel(
             writer, sheet_name='history_exam_error')
         workbook = writer.book
@@ -875,29 +856,8 @@ def view():
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
-    history_exam= history_exam.fillna('')
-    for i in range(len(history_exam)):
-        data = dict(history_exam.iloc[i])
-        presentation5 = Exam_History(**data)
-        try:
-            db.session.add(presentation5)
-            db.session.commit()
-
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()
-
-    #histroy-trg
-    history_trg = pd.read_excel(
-        file, sheet_name="History - Trg Ext.&Remediation", dtype=str)
-    history_trg.columns = [ 'MCR_No', 'LOAPIP' , 'StartDate' , 'EndDate']
-
-    if history_trg['MCR_No'].isnull().sum() > 0 or history_trg.duplicated().any():
-        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/history_trg_error.xlsx", engine='xlsxwriter')
+        
+        ## history trg
         history_trg.to_excel(
             writer, sheet_name='history_trg_error')
         workbook = writer.book
@@ -921,29 +881,8 @@ def view():
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
-    history_trg= history_trg.fillna('')
-    for i in range(len(history_trg)):
-        data = dict(history_trg.iloc[i])
-        presentation6 = TrgExtRem_History(**data)
-        try:
-            db.session.add(presentation6)
-            db.session.commit()
-
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()
-
-    #grants
-    grants = pd.read_excel(
-        file, sheet_name="Grants", dtype=str)
-    grants.columns = [ 'MCR_No', 'Name_of_Grant' , 'Project_Title' , 'Project_ID' , 'Grant_End_Date' , 'Grant_Start_Date']
-
-    if grants['MCR_No'].isnull().sum() > 0 or grants.duplicated().any():
-        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/grants_error.xlsx", engine='xlsxwriter')
+        
+        ## grants
         grants.to_excel(
             writer, sheet_name='grants_error')
         workbook = writer.book
@@ -967,29 +906,8 @@ def view():
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
-    grants= grants.fillna('')
-    for i in range(len(grants)):
-        data = dict(grants.iloc[i])
-        presentation7 = Grants(**data)
-        try:
-            db.session.add(presentation7)
-            db.session.commit()
-
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()
-
-    #Awards
-    awards = pd.read_excel(
-        file, sheet_name="Awards", dtype=str)
-    awards.columns = [ 'MCR_No', 'Award_Category' , 'Name_of_Award' , 'FY_of_Award_Received' , 'Date_of_Award_Received' , 'Project_ID']
-
-    if awards['MCR_No'].isnull().sum() > 0 or awards.duplicated().any():
-        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/awards_error.xlsx", engine='xlsxwriter')
+            
+        ## awards
         awards.to_excel(
             writer, sheet_name='awards_error')
         workbook = writer.book
@@ -1013,66 +931,8 @@ def view():
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
-    awards= awards.fillna('')
-    for i in range(len(awards)):
-        data = dict(awards.iloc[i])
-        presentation8 = Awards(**data)
-        try:
-            db.session.add(presentation8)
-            db.session.commit()
-
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()       
-
-    #didatic attendance 
-    #posting instituition , posting department
-    # didatic_attendance = pd.read_excel(
-    #     file, sheet_name="Didactic Attendance", dtype=str)
-    # didatic_attendance.columns = [ 'MCR_No','Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended'  , 'Percentage_of_sessions_attended', 'MmYyyy' , 'Compliance_or_Not' ]
-    # if didatic_attendance['MCR_No'].isnull().sum() > 0:
-    #     writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
-    #     didatic_attendance.to_excel(
-    #         writer, sheet_name='didatic_attendance_error')
-    #     workbook = writer.book
-    #     worksheet = writer.sheets['didatic_attendance_error']
-    #     format1 = workbook.add_format({'bg_color': '#FF8080'})
-    #     nullrows = awards[awards[[
-    #     "MCR_No"]].isnull().any(axis=1)]
-
-    #     for row in nullrows.index:
-    #         ran = "A" + str(row+2) + ":BA" + str(row+2)
-    #         worksheet.conditional_format(ran,
-    #                                         {'type':     'cell',
-    #                                         'criteria': 'not equal to',
-    #                                         'value': '"o1"',
-    #                                         'format':   format1})
-    #     writer.save()
-    #     abort(404, description="Invalid excel submitted")
-
-    # didatic_attendance= didatic_attendance.fillna('')
-    # for i in range(len(didatic_attendance)):
-    #     data = dict(didatic_attendance.iloc[i])
-    #     presentation9 = Didactic_Attendance(**data)
-    #     try:
-    #         db.session.add(presentation9)
-    #         db.session.commit()
-
-    #     except Exception as e:
-    #         print("An error occurred:", e)
-    #         print("Stack trace:")
-    #         traceback.print_exc()   
-
-    #publications
-    publlications = pd.read_excel(
-        file, sheet_name="Publications", dtype=str)
-    publlications.columns = [ 'MCR_No', 'Publication_Title' , 'Journal_Title' , 'PMID' , 'Publication_Date' ]
-    if publlications['MCR_No'].isnull().sum() > 0 or publlications.duplicated().any():
-        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/publications_error.xlsx", engine='xlsxwriter')
+        
+        ## publications
         publlications.to_excel(
             writer, sheet_name='publlications_error')
         workbook = writer.book
@@ -1096,28 +956,8 @@ def view():
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
-    publlications= publlications.fillna('')
-    for i in range(len(publlications)):
-        data = dict(publlications.iloc[i])
-        presentation10 = Publications(**data)
-        try:
-            db.session.add(presentation10)
-            db.session.commit()
-
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()   
-
-    #presentations
-    presentations = pd.read_excel(
-        file, sheet_name="Presentations", dtype=str)
-    presentations.columns = [ 'MCR_No', 'Title' , 'Type' , 'Project_ID' , 'Conference_Name' , 'Country' , 'Presentation_Date' ]
-    if presentations['MCR_No'].isnull().sum() > 0 or presentations.duplicated().any():
-        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/presentations_error.xlsx", engine='xlsxwriter')
+        
+        ## presentations
         presentations.to_excel(
             writer, sheet_name='presentations_error')
         workbook = writer.book
@@ -1141,28 +981,8 @@ def view():
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
-    presentations= presentations.fillna('')
-    for i in range(len(presentations)):
-        data = dict(presentations.iloc[i])
-        presentation11 = Presentations(**data)
-        try:
-            db.session.add(presentation11)
-            db.session.commit()
-
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()   
-
-    #project
-    project = pd.read_excel(
-        file, sheet_name="Projects", dtype=str)
-    project.columns = [ 'MCR_No', 'Project_Type' ,'Project_Title' ,'Project_ID' ,'Start_Date' , 'End_Date' , 'Date_of_QI_Certification' , 'PMID' ]
-    if project['MCR_No'].isnull().sum() > 0 or project.duplicated().any():
-        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/projects_error.xlsx", engine='xlsxwriter')
+            
+        ## project
         project.to_excel(
             writer, sheet_name='project_error')
         workbook = writer.book
@@ -1186,28 +1006,8 @@ def view():
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
-    project= project.fillna('')
-    for i in range(len(project)):
-        data = dict(project.iloc[i])
-        presentation12 = Projects(**data)
-        try:
-            db.session.add(presentation12)
-            db.session.commit()
-
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()   
-    
-    #IHI
-    ihi = pd.read_excel(
-        file, sheet_name="IHI", dtype=str)
-    ihi.columns = [ 'MCR_No', 'Completion_of_Emodules' , 'Date' ]
-    if ihi['MCR_No'].isnull().sum() > 0 or ihi.duplicated().any():
-        writer = pd.ExcelWriter("/Applications/MAMP/htdocs/FYP-GoodHealth/error/IHI_error.xlsx", engine='xlsxwriter')
+        
+        ## ihi
         ihi.to_excel(
             writer, sheet_name='ihi_error')
         workbook = writer.book
@@ -1231,9 +1031,187 @@ def view():
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
+            
+        ## didactic attendance 
+        didatic_attendance.to_excel(
+            writer, sheet_name='didatic_attendance_error')
+        workbook = writer.book
+        worksheet = writer.sheets['didatic_attendance_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = awards[awards[[
+        "MCR_No"]].isnull().any(axis=1)]
 
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+            
+        writer.save()
+        abort(404, description='Invalid Excel submitted')
+
+
+    ### personal details
+    personalDetails = personalDetails.fillna('')
+    for i in range(len(personalDetails)):
+        data = dict(personalDetails.iloc[i])
+        presentation = Personal_Details(**data)
+        try:
+            if Personal_Details.query.filter_by(MCR_No=data["MCR_No"]).first() != None:
+                Personal_Details.query.filter_by(
+                    MCR_No=data["MCR_No"]).update(data)
+            else:
+                db.session.add(presentation)
+                db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()
+
+    ### involvement
+    involvement = involvement.fillna('')
+    for i in range(len(involvement)):
+        data = dict(involvement.iloc[i])
+        presentation2 = Involvement(**data)
+        try:
+            db.session.add(presentation2)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()
+
+    ### history_education
+    history_education = history_education.fillna('')
+    for i in range(len(history_education)):
+        data = dict(history_education.iloc[i])
+        presentation3 = Education_History(**data)
+        try:
+            db.session.add(presentation3)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()
+
+    ### history_posting
+    history_posting= history_posting.fillna('')
+    for i in range(len(history_posting)):
+        data = dict(history_posting.iloc[i])
+        presentation4 = Posting_History(**data)
+        try:
+            db.session.add(presentation4)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()
+
+    ### history-exam
+    history_exam= history_exam.fillna('')
+    for i in range(len(history_exam)):
+        data = dict(history_exam.iloc[i])
+        presentation5 = Exam_History(**data)
+        try:
+            db.session.add(presentation5)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()
+
+    ### history trg
+    history_trg= history_trg.fillna('')
+    for i in range(len(history_trg)):
+        data = dict(history_trg.iloc[i])
+        presentation6 = TrgExtRem_History(**data)
+        try:
+            db.session.add(presentation6)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()
+
+    ### grants
+    grants= grants.fillna('')
+    for i in range(len(grants)):
+        data = dict(grants.iloc[i])
+        presentation7 = Grants(**data)
+        try:
+            db.session.add(presentation7)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()
+
+    ### Awards
+    awards= awards.fillna('')
+    for i in range(len(awards)):
+        data = dict(awards.iloc[i])
+        presentation8 = Awards(**data)
+        try:
+            db.session.add(presentation8)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()     
+
+    ### publications
+    publlications= publlications.fillna('')
+    for i in range(len(publlications)):
+        data = dict(publlications.iloc[i])
+        presentation10 = Publications(**data)
+        try:
+            db.session.add(presentation10)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()  
+
+    ### presentations
+    presentations= presentations.fillna('')
+    for i in range(len(presentations)):
+        data = dict(presentations.iloc[i])
+        presentation11 = Presentations(**data)
+        try:
+            db.session.add(presentation11)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()     
+
+    ###project
+    project= project.fillna('')
+    for i in range(len(project)):
+        data = dict(project.iloc[i])
+        presentation12 = Projects(**data)
+        try:
+            db.session.add(presentation12)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()    
+    
+    ### ihi
     ihi= ihi.fillna('')
     for i in range(len(ihi)):
         data = dict(ihi.iloc[i])
@@ -1246,6 +1224,23 @@ def view():
             print("An error occurred:", e)
             print("Stack trace:")
             traceback.print_exc()   
+
+    ### didatic attendance 
+    didatic_attendance= didatic_attendance.fillna('')
+    for i in range(len(didatic_attendance)):
+        data = dict(didatic_attendance.iloc[i])
+        presentation9 = Didactic_Attendance(**data)
+        try:
+            db.session.add(presentation9)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()   
+
+    
+
     return history_posting.to_html()
 
 
