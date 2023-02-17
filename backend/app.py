@@ -1,12 +1,13 @@
 from sqlalchemy import insert, text, create_engine,inspect
 from flask import abort
-from flask import Flask, request, jsonify, render_template, send_file
+from flask import Flask, request, jsonify, render_template, send_file, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import json
 import pandas as pd
 import traceback
 import werkzeug.exceptions as ex
+from sqlalchemy.sql import exists
 
 app = Flask(__name__)
 
@@ -132,9 +133,9 @@ class Presentations(db.Model):
     id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey(
         'Personal_Details.MCR_No'))
-    Title = db.Column(db.String(100))
+    Title = db.Column(db.String(300))
     Conference_Name = db.Column(db.String(100))
-    Type = db.Column(db.String(100))
+    Type = db.Column(db.String(200))
     Project_ID = db.Column(db.String(100))
     Country = db.Column(db.String(100))
     Presentation_Date = db.Column(db.String(100))
@@ -300,8 +301,8 @@ class Publications(db.Model):
     MCR_No = db.Column(db.String(100),  db.ForeignKey(
         'Personal_Details.MCR_No'))
 
-    Publication_Title = db.Column(db.String(100))
-    Journal_Title = db.Column(db.String(100))
+    Publication_Title = db.Column(db.String(200))
+    Journal_Title = db.Column(db.String(200))
 
     PMID = db.Column(db.String(100))
     Publication_Date = db.Column(db.DateTime)
@@ -415,7 +416,7 @@ class Projects(db.Model):
     MCR_No = db.Column(db.String(100),  db.ForeignKey(
         'Personal_Details.MCR_No'))
     Project_Type = db.Column(db.String(100))
-    Project_Title = db.Column(db.String(100))
+    Project_Title = db.Column(db.String(300))
     Project_ID = db.Column(db.String(100))
     Start_Date = db.Column(db.String(100))
     End_Date = db.Column(db.String(100))
@@ -443,12 +444,12 @@ class Awards(db.Model):
     id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey(
         'Personal_Details.MCR_No'))
-    Award_Category = db.Column(db.String(100))
+    Award_Category = db.Column(db.String(150))
     Name_of_Award = db.Column(db.String(100))
 
     FY_of_Award_Received = db.Column(db.String(100))
     Date_of_Award_Received = db.Column(db.String(100))
-    Project_ID = db.Column(db.String(100))
+    Project_ID = db.Column(db.String(150))
 
     __mapper_args__ = {
         'polymorphic_identity': 'Awards'
@@ -629,7 +630,6 @@ def create_personal_detail():
 def view():
     file = request.files['file']
     file.save(file.filename)
-
     # personal details
     personalDetails = pd.read_excel(
         file, sheet_name="Personal Details", dtype=str)
@@ -702,334 +702,356 @@ def view():
     #didatic attendance
     didatic_attendance = pd.read_excel(
         file, sheet_name="Didactic Attendance", dtype=str)
-    didatic_attendance.columns = [ 'MCR_No', 'Billing Name', 'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended'  , 'Percentage_of_sessions_attended', 'MmYyyy' , 'Posting Institution', 'Posting Department',	'Scheduled Teachings', 'Compliance_or_Not' , "Percentage_of_sessions_attended"]
+    didatic_attendance.columns = [ 'MCR_No', 'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended'  , 'MmYyyy' , 'Compliance_or_Not' , "Percentage_of_sessions_attended"]
 
-    if didatic_attendance['MCR_No'].isnull().sum() > 0 or ihi['MCR_No'].isnull().sum() > 0 or ihi.duplicated().any() or project['MCR_No'].isnull().sum() > 0 or project.duplicated().any() or presentations['MCR_No'].isnull().sum() > 0 or presentations.duplicated().any() or publlications['MCR_No'].isnull().sum() > 0 or publlications.duplicated().any() or awards['MCR_No'].isnull().sum() > 0 or awards.duplicated().any() or grants['MCR_No'].isnull().sum() > 0 or grants.duplicated().any() or personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or (personalDetails.duplicated().any()) or involvement['MCR_No'].isnull().sum() > 0 or (involvement.duplicated().any()) or history_education['MCR_No'].isnull().sum() > 0 or (history_education.duplicated().any()) or history_posting['MCR_No'].isnull().sum() > 0 or history_posting.duplicated().any() or history_exam['MCR_No'].isnull().sum() > 0 or history_exam.duplicated().any() or history_trg['MCR_No'].isnull().sum() > 0 or history_trg.duplicated().any():
+    if didatic_attendance.duplicated().any() or didatic_attendance['MCR_No'].isnull().sum() > 0 or ihi['MCR_No'].isnull().sum() > 0 or ihi.duplicated().any() or project['MCR_No'].isnull().sum() > 0 or project.duplicated().any() or presentations['MCR_No'].isnull().sum() > 0 or presentations.duplicated().any() or publlications['MCR_No'].isnull().sum() > 0 or publlications.duplicated().any() or awards['MCR_No'].isnull().sum() > 0 or awards.duplicated().any() or grants['MCR_No'].isnull().sum() > 0 or grants.duplicated().any() or personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or personalDetails.duplicated().any() or involvement['MCR_No'].isnull().sum() > 0 or (involvement.duplicated().any()) or history_education['MCR_No'].isnull().sum() > 0 or (history_education.duplicated().any()) or history_posting['MCR_No'].isnull().sum() > 0 or history_posting.duplicated().any() or history_exam['MCR_No'].isnull().sum() > 0 or history_exam.duplicated().any() or history_trg['MCR_No'].isnull().sum() > 0 or history_trg.duplicated().any():
         writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
         workbook = writer.book
         format1 = workbook.add_format({'bg_color': '#FF8080'})
+
         ## personal_DETAILS
-        personalDetails.to_excel(writer, sheet_name='Personal_Details_error')
-        worksheet = writer.sheets['Personal_Details_error']
-        nullrows_mcr_no = personalDetails[personalDetails[[
-            "MCR_No"]].isnull().any(axis=1)]
-        nullrows_ID = personalDetails[personalDetails[[
-            "Employee_ID"]].isnull().any(axis=1)]
-        duplicate_row_bool = personalDetails.duplicated()
-        for i in range(len(duplicate_row_bool)):
-            if (duplicate_row_bool[i] == True):
-                ran = "A" + str(i+2) + ":BA" + str(i+2)
+        if personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or personalDetails.duplicated().any():
+            personalDetails.to_excel(writer, sheet_name='Personal_Details_error')
+            worksheet = writer.sheets['Personal_Details_error']
+            nullrows_mcr_no = personalDetails[personalDetails[[
+                "MCR_No"]].isnull().any(axis=1)]
+            nullrows_ID = personalDetails[personalDetails[[
+                "Employee_ID"]].isnull().any(axis=1)]
+            duplicate_row_bool = personalDetails.duplicated()
+            for i in range(len(duplicate_row_bool)):
+                if (duplicate_row_bool[i] == True):
+                    ran = "A" + str(i+2) + ":BA" + str(i+2)
+                    worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+            
+            for row in nullrows_mcr_no.index:
+                ran = "A" + str(row+2) + ":BA" + str(row+2)
                 worksheet.conditional_format(ran,
-                                        {'type':     'cell',
-                                        'criteria': 'not equal to',
-                                        'value': '"o1"',
-                                        'format':   format1})
-        
-        for row in nullrows_mcr_no.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
-                                        {'type':     'cell',
-                                        'criteria': 'not equal to',
-                                        'value': '"o1"',
-                                        'format':   format1})
-        for row in nullrows_ID.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
-                                        {'type':     'cell',
-                                        'criteria': 'not equal to',
-                                        'value': '"o1"',
-                                        'format':   format1})
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+            for row in nullrows_ID.index:
+                ran = "A" + str(row+2) + ":BA" + str(row+2)
+                worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
         ## involvement
-        involvement.to_excel(writer, sheet_name='involvement_error')
-        workbook = writer.book
-        worksheet = writer.sheets['involvement_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = involvement[involvement[[
-        "MCR_No"]].isnull().any(axis=1)]
-        duplicate_row_bool = involvement.duplicated()
-        for i in range(len(duplicate_row_bool)):
-            if (duplicate_row_bool[i] == True):
-                ran = "A" + str(i+2) + ":BA" + str(i+2)
-                worksheet.conditional_format(ran,
-                                        {'type':     'cell',
-                                        'criteria': 'not equal to',
-                                        'value': '"o1"',
-                                        'format':   format1})
-
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
+        if involvement['MCR_No'].isnull().sum() > 0 or involvement.duplicated().any():
+            involvement.to_excel(writer, sheet_name='involvement_error')
+            workbook = writer.book
+            worksheet = writer.sheets['involvement_error']
+            format1 = workbook.add_format({'bg_color': '#FF8080'})
+            nullrows = involvement[involvement[[
+            "MCR_No"]].isnull().any(axis=1)]
+            duplicate_row_bool = involvement.duplicated()
+            for i in range(len(duplicate_row_bool)):
+                if (duplicate_row_bool[i] == True):
+                    ran = "A" + str(i+2) + ":BA" + str(i+2)
+                    worksheet.conditional_format(ran,
                                             {'type':     'cell',
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
+
+            for row in nullrows.index:
+                ran = "A" + str(row+2) + ":BA" + str(row+2)
+                worksheet.conditional_format(ran,
+                                                {'type':     'cell',
+                                                'criteria': 'not equal to',
+                                                'value': '"o1"',
+                                                'format':   format1})
         ## history_education
-        history_education.to_excel(
-            writer, sheet_name='history_education_error')
-        workbook = writer.book
-        worksheet = writer.sheets['history_education_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = history_education[history_education[[
-        "MCR_No"]].isnull().any(axis=1)]
-        duplicate_row_bool = history_education.duplicated()
-        for i in range(len(duplicate_row_bool)):
-            if (duplicate_row_bool[i] == True):
-                ran = "A" + str(i+2) + ":BA" + str(i+2)
-                worksheet.conditional_format(ran,
-                                        {'type':     'cell',
-                                        'criteria': 'not equal to',
-                                        'value': '"o1"',
-                                        'format':   format1})
-
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
+        if history_education['MCR_No'].isnull().sum() > 0 or history_education.duplicated().any():
+            history_education.to_excel(
+                writer, sheet_name='history_education_error')
+            workbook = writer.book
+            worksheet = writer.sheets['history_education_error']
+            format1 = workbook.add_format({'bg_color': '#FF8080'})
+            nullrows = history_education[history_education[[
+            "MCR_No"]].isnull().any(axis=1)]
+            duplicate_row_bool = history_education.duplicated()
+            for i in range(len(duplicate_row_bool)):
+                if (duplicate_row_bool[i] == True):
+                    ran = "A" + str(i+2) + ":BA" + str(i+2)
+                    worksheet.conditional_format(ran,
                                             {'type':     'cell',
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
+
+            for row in nullrows.index:
+                ran = "A" + str(row+2) + ":BA" + str(row+2)
+                worksheet.conditional_format(ran,
+                                                {'type':     'cell',
+                                                'criteria': 'not equal to',
+                                                'value': '"o1"',
+                                                'format':   format1})
             
         ## history_posting 
-        history_posting.to_excel(
-            writer, sheet_name='history_posting_error')
-        workbook = writer.book
-        worksheet = writer.sheets['history_posting_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = history_posting[history_posting[[
-        "MCR_No"]].isnull().any(axis=1)]
-        duplicate_row_bool = history_posting.duplicated()
-        for i in range(len(duplicate_row_bool)):
-            if (duplicate_row_bool[i] == True):
-                ran = "A" + str(i+2) + ":BA" + str(i+2)
-                worksheet.conditional_format(ran,
-                                        {'type':     'cell',
-                                        'criteria': 'not equal to',
-                                        'value': '"o1"',
-                                        'format':   format1})
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
+        if history_posting['MCR_No'].isnull().sum() > 0 or history_posting.duplicated().any():
+            history_posting.to_excel(
+                writer, sheet_name='history_posting_error')
+            workbook = writer.book
+            worksheet = writer.sheets['history_posting_error']
+            format1 = workbook.add_format({'bg_color': '#FF8080'})
+            nullrows = history_posting[history_posting[[
+            "MCR_No"]].isnull().any(axis=1)]
+            duplicate_row_bool = history_posting.duplicated()
+            for i in range(len(duplicate_row_bool)):
+                if (duplicate_row_bool[i] == True):
+                    ran = "A" + str(i+2) + ":BA" + str(i+2)
+                    worksheet.conditional_format(ran,
                                             {'type':     'cell',
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
+            for row in nullrows.index:
+                ran = "A" + str(row+2) + ":BA" + str(row+2)
+                worksheet.conditional_format(ran,
+                                                {'type':     'cell',
+                                                'criteria': 'not equal to',
+                                                'value': '"o1"',
+                                                'format':   format1})
             
         ## history exam
-        history_exam.to_excel(
-            writer, sheet_name='history_exam_error')
-        workbook = writer.book
-        worksheet = writer.sheets['history_exam_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = history_exam[history_exam[[
-        "MCR_No"]].isnull().any(axis=1)]
-        duplicate_row_bool = history_exam.duplicated()
-        for i in range(len(duplicate_row_bool)):
-            if (duplicate_row_bool[i] == True):
-                ran = "A" + str(i+2) + ":BA" + str(i+2)
-                worksheet.conditional_format(ran,
-                                        {'type':     'cell',
-                                        'criteria': 'not equal to',
-                                        'value': '"o1"',
-                                        'format':   format1})
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
+        if history_exam['MCR_No'].isnull().sum() > 0 or history_exam.duplicated().any():
+            history_exam.to_excel(
+                writer, sheet_name='history_exam_error')
+            workbook = writer.book
+            worksheet = writer.sheets['history_exam_error']
+            format1 = workbook.add_format({'bg_color': '#FF8080'})
+            nullrows = history_exam[history_exam[[
+            "MCR_No"]].isnull().any(axis=1)]
+            duplicate_row_bool = history_exam.duplicated()
+            for i in range(len(duplicate_row_bool)):
+                if (duplicate_row_bool[i] == True):
+                    ran = "A" + str(i+2) + ":BA" + str(i+2)
+                    worksheet.conditional_format(ran,
                                             {'type':     'cell',
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
+            for row in nullrows.index:
+                ran = "A" + str(row+2) + ":BA" + str(row+2)
+                worksheet.conditional_format(ran,
+                                                {'type':     'cell',
+                                                'criteria': 'not equal to',
+                                                'value': '"o1"',
+                                                'format':   format1})
         
         ## history trg
-        history_trg.to_excel(
-            writer, sheet_name='history_trg_error')
-        workbook = writer.book
-        worksheet = writer.sheets['history_trg_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = history_trg[history_trg[[
-        "MCR_No"]].isnull().any(axis=1)]
-        duplicate_row_bool = history_trg.duplicated()
-        for i in range(len(duplicate_row_bool)):
-            if (duplicate_row_bool[i] == True):
-                ran = "A" + str(i+2) + ":BA" + str(i+2)
-                worksheet.conditional_format(ran,
-                                        {'type':     'cell',
-                                        'criteria': 'not equal to',
-                                        'value': '"o1"',
-                                        'format':   format1})
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
+        if history_trg['MCR_No'].isnull().sum() > 0 or history_trg.duplicated().any():
+            history_trg.to_excel(
+                writer, sheet_name='history_trg_error')
+            workbook = writer.book
+            worksheet = writer.sheets['history_trg_error']
+            format1 = workbook.add_format({'bg_color': '#FF8080'})
+            nullrows = history_trg[history_trg[[
+            "MCR_No"]].isnull().any(axis=1)]
+            duplicate_row_bool = history_trg.duplicated()
+            for i in range(len(duplicate_row_bool)):
+                if (duplicate_row_bool[i] == True):
+                    ran = "A" + str(i+2) + ":BA" + str(i+2)
+                    worksheet.conditional_format(ran,
                                             {'type':     'cell',
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
+            for row in nullrows.index:
+                ran = "A" + str(row+2) + ":BA" + str(row+2)
+                worksheet.conditional_format(ran,
+                                                {'type':     'cell',
+                                                'criteria': 'not equal to',
+                                                'value': '"o1"',
+                                                'format':   format1})
         
         ## grants
-        grants.to_excel(
-            writer, sheet_name='grants_error')
-        workbook = writer.book
-        worksheet = writer.sheets['grants_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = grants[grants[[
-        "MCR_No"]].isnull().any(axis=1)]
-        duplicate_row_bool = grants.duplicated()
-        for i in range(len(duplicate_row_bool)):
-            if (duplicate_row_bool[i] == True):
-                ran = "A" + str(i+2) + ":BA" + str(i+2)
-                worksheet.conditional_format(ran,
-                                        {'type':     'cell',
-                                        'criteria': 'not equal to',
-                                        'value': '"o1"',
-                                        'format':   format1})
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
+        if grants['MCR_No'].isnull().sum() > 0 or grants.duplicated().any():
+            grants.to_excel(
+                writer, sheet_name='grants_error')
+            workbook = writer.book
+            worksheet = writer.sheets['grants_error']
+            format1 = workbook.add_format({'bg_color': '#FF8080'})
+            nullrows = grants[grants[[
+            "MCR_No"]].isnull().any(axis=1)]
+            duplicate_row_bool = grants.duplicated()
+            for i in range(len(duplicate_row_bool)):
+                if (duplicate_row_bool[i] == True):
+                    ran = "A" + str(i+2) + ":BA" + str(i+2)
+                    worksheet.conditional_format(ran,
                                             {'type':     'cell',
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
+            for row in nullrows.index:
+                ran = "A" + str(row+2) + ":BA" + str(row+2)
+                worksheet.conditional_format(ran,
+                                                {'type':     'cell',
+                                                'criteria': 'not equal to',
+                                                'value': '"o1"',
+                                                'format':   format1})
             
         ## awards
-        awards.to_excel(
-            writer, sheet_name='awards_error')
-        workbook = writer.book
-        worksheet = writer.sheets['awards_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = awards[awards[[
-        "MCR_No"]].isnull().any(axis=1)]
-        duplicate_row_bool = awards.duplicated()
-        for i in range(len(duplicate_row_bool)):
-            if (duplicate_row_bool[i] == True):
-                ran = "A" + str(i+2) + ":BA" + str(i+2)
-                worksheet.conditional_format(ran,
-                                        {'type':     'cell',
-                                        'criteria': 'not equal to',
-                                        'value': '"o1"',
-                                        'format':   format1})
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
+        if awards['MCR_No'].isnull().sum() > 0 or awards.duplicated().any():
+            awards.to_excel(
+                writer, sheet_name='awards_error')
+            workbook = writer.book
+            worksheet = writer.sheets['awards_error']
+            format1 = workbook.add_format({'bg_color': '#FF8080'})
+            nullrows = awards[awards[[
+            "MCR_No"]].isnull().any(axis=1)]
+            duplicate_row_bool = awards.duplicated()
+            for i in range(len(duplicate_row_bool)):
+                if (duplicate_row_bool[i] == True):
+                    ran = "A" + str(i+2) + ":BA" + str(i+2)
+                    worksheet.conditional_format(ran,
                                             {'type':     'cell',
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
+            for row in nullrows.index:
+                ran = "A" + str(row+2) + ":BA" + str(row+2)
+                worksheet.conditional_format(ran,
+                                                {'type':     'cell',
+                                                'criteria': 'not equal to',
+                                                'value': '"o1"',
+                                                'format':   format1})
         
         ## publications
-        publlications.to_excel(
-            writer, sheet_name='publlications_error')
-        workbook = writer.book
-        worksheet = writer.sheets['publlications_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = publlications[publlications[[
-        "MCR_No"]].isnull().any(axis=1)]
-        duplicate_row_bool = publlications.duplicated()
-        for i in range(len(duplicate_row_bool)):
-            if (duplicate_row_bool[i] == True):
-                ran = "A" + str(i+2) + ":BA" + str(i+2)
-                worksheet.conditional_format(ran,
-                                        {'type':     'cell',
-                                        'criteria': 'not equal to',
-                                        'value': '"o1"',
-                                        'format':   format1})
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
+        if publlications['MCR_No'].isnull().sum() > 0 or publlications.duplicated().any():
+            publlications.to_excel(
+                writer, sheet_name='publlications_error')
+            workbook = writer.book
+            worksheet = writer.sheets['publlications_error']
+            format1 = workbook.add_format({'bg_color': '#FF8080'})
+            nullrows = publlications[publlications[[
+            "MCR_No"]].isnull().any(axis=1)]
+            duplicate_row_bool = publlications.duplicated()
+            for i in range(len(duplicate_row_bool)):
+                if (duplicate_row_bool[i] == True):
+                    ran = "A" + str(i+2) + ":BA" + str(i+2)
+                    worksheet.conditional_format(ran,
                                             {'type':     'cell',
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
+            for row in nullrows.index:
+                ran = "A" + str(row+2) + ":BA" + str(row+2)
+                worksheet.conditional_format(ran,
+                                                {'type':     'cell',
+                                                'criteria': 'not equal to',
+                                                'value': '"o1"',
+                                                'format':   format1})
         
         ## presentations
-        presentations.to_excel(
-            writer, sheet_name='presentations_error')
-        workbook = writer.book
-        worksheet = writer.sheets['presentations_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = presentations[presentations[[
-        "MCR_No"]].isnull().any(axis=1)]
-        duplicate_row_bool = presentations.duplicated()
-        for i in range(len(duplicate_row_bool)):
-            if (duplicate_row_bool[i] == True):
-                ran = "A" + str(i+2) + ":BA" + str(i+2)
-                worksheet.conditional_format(ran,
-                                        {'type':     'cell',
-                                        'criteria': 'not equal to',
-                                        'value': '"o1"',
-                                        'format':   format1})
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
+        if presentations['MCR_No'].isnull().sum() > 0 or presentations.duplicated().any():
+            presentations.to_excel(
+                writer, sheet_name='presentations_error')
+            workbook = writer.book
+            worksheet = writer.sheets['presentations_error']
+            format1 = workbook.add_format({'bg_color': '#FF8080'})
+            nullrows = presentations[presentations[[
+            "MCR_No"]].isnull().any(axis=1)]
+            duplicate_row_bool = presentations.duplicated()
+            for i in range(len(duplicate_row_bool)):
+                if (duplicate_row_bool[i] == True):
+                    ran = "A" + str(i+2) + ":BA" + str(i+2)
+                    worksheet.conditional_format(ran,
                                             {'type':     'cell',
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
+            for row in nullrows.index:
+                ran = "A" + str(row+2) + ":BA" + str(row+2)
+                worksheet.conditional_format(ran,
+                                                {'type':     'cell',
+                                                'criteria': 'not equal to',
+                                                'value': '"o1"',
+                                                'format':   format1})
             
         ## project
-        project.to_excel(
-            writer, sheet_name='project_error')
-        workbook = writer.book
-        worksheet = writer.sheets['project_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = project[project[[
-        "MCR_No"]].isnull().any(axis=1)]
-        duplicate_row_bool = project.duplicated()
-        for i in range(len(duplicate_row_bool)):
-            if (duplicate_row_bool[i] == True):
-                ran = "A" + str(i+2) + ":BA" + str(i+2)
-                worksheet.conditional_format(ran,
-                                        {'type':     'cell',
-                                        'criteria': 'not equal to',
-                                        'value': '"o1"',
-                                        'format':   format1})
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
+        if project['MCR_No'].isnull().sum() > 0 or project.duplicated().any():
+            project.to_excel(
+                writer, sheet_name='project_error')
+            workbook = writer.book
+            worksheet = writer.sheets['project_error']
+            format1 = workbook.add_format({'bg_color': '#FF8080'})
+            nullrows = project[project[[
+            "MCR_No"]].isnull().any(axis=1)]
+            duplicate_row_bool = project.duplicated()
+            for i in range(len(duplicate_row_bool)):
+                if (duplicate_row_bool[i] == True):
+                    ran = "A" + str(i+2) + ":BA" + str(i+2)
+                    worksheet.conditional_format(ran,
                                             {'type':     'cell',
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
+            for row in nullrows.index:
+                ran = "A" + str(row+2) + ":BA" + str(row+2)
+                worksheet.conditional_format(ran,
+                                                {'type':     'cell',
+                                                'criteria': 'not equal to',
+                                                'value': '"o1"',
+                                                'format':   format1})
         
         ## ihi
-        ihi.to_excel(
-            writer, sheet_name='ihi_error')
-        workbook = writer.book
-        worksheet = writer.sheets['ihi_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = ihi[ihi[[
-        "MCR_No"]].isnull().any(axis=1)]
-        duplicate_row_bool = ihi.duplicated()
-        for i in range(len(duplicate_row_bool)):
-            if (duplicate_row_bool[i] == True):
-                ran = "A" + str(i+2) + ":BA" + str(i+2)
-                worksheet.conditional_format(ran,
-                                        {'type':     'cell',
-                                        'criteria': 'not equal to',
-                                        'value': '"o1"',
-                                        'format':   format1})
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
+        if ihi.duplicated().any() or ihi['MCR_No'].isnull().sum() > 0:
+            ihi.to_excel(
+                writer, sheet_name='ihi_error')
+            workbook = writer.book
+            worksheet = writer.sheets['ihi_error']
+            format1 = workbook.add_format({'bg_color': '#FF8080'})
+            nullrows = ihi[ihi[[
+            "MCR_No"]].isnull().any(axis=1)]
+            duplicate_row_bool = ihi.duplicated()
+            for i in range(len(duplicate_row_bool)):
+                if (duplicate_row_bool[i] == True):
+                    ran = "A" + str(i+2) + ":BA" + str(i+2)
+                    worksheet.conditional_format(ran,
                                             {'type':     'cell',
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
+            for row in nullrows.index:
+                ran = "A" + str(row+2) + ":BA" + str(row+2)
+                worksheet.conditional_format(ran,
+                                                {'type':     'cell',
+                                                'criteria': 'not equal to',
+                                                'value': '"o1"',
+                                                'format':   format1})
             
         ## didactic attendance 
-        didatic_attendance.to_excel(
-            writer, sheet_name='didatic_attendance_error')
-        workbook = writer.book
-        worksheet = writer.sheets['didatic_attendance_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = awards[awards[[
-        "MCR_No"]].isnull().any(axis=1)]
-
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
+        if didatic_attendance.duplicated().any() or didatic_attendance['MCR_No'].isnull().sum() > 0:
+            didatic_attendance.to_excel(
+                writer, sheet_name='didatic_attendance_error')
+            workbook = writer.book
+            worksheet = writer.sheets['didatic_attendance_error']
+            format1 = workbook.add_format({'bg_color': '#FF8080'})
+            nullrows = awards[awards[[
+            "MCR_No"]].isnull().any(axis=1)]
+            duplicate_row_bool = didatic_attendance.duplicated()
+            for i in range(len(duplicate_row_bool)):
+                if (duplicate_row_bool[i] == True):
+                    ran = "A" + str(i+2) + ":BA" + str(i+2)
+                    worksheet.conditional_format(ran,
                                             {'type':     'cell',
                                             'criteria': 'not equal to',
                                             'value': '"o1"',
                                             'format':   format1})
+            for row in nullrows.index:
+                ran = "A" + str(row+2) + ":BA" + str(row+2)
+                worksheet.conditional_format(ran,
+                                                {'type':     'cell',
+                                                'criteria': 'not equal to',
+                                                'value': '"o1"',
+                                                'format':   format1})
             
         writer.save()
         abort(404, description='Invalid Excel submitted')
@@ -1059,8 +1081,10 @@ def view():
         data = dict(involvement.iloc[i])
         presentation2 = Involvement(**data)
         try:
-            db.session.add(presentation2)
-            db.session.commit()
+            exist = db.session.query(exists().where(Involvement.MCR_No == data['MCR_No'] , Involvement.Event == data['Event'],Involvement.Start_Date == data['Start_Date'])).scalar()
+            if exist == False:
+                db.session.add(presentation2)
+                db.session.commit()
 
         except Exception as e:
             print("An error occurred:", e)
@@ -1073,8 +1097,10 @@ def view():
         data = dict(history_education.iloc[i])
         presentation3 = Education_History(**data)
         try:
-            db.session.add(presentation3)
-            db.session.commit()
+            exist = db.session.query(exists().where(Education_History.MCR_No == data['MCR_No'] , Education_History.Medical_School == data['Medical_School'],Education_History.Year_of_Graduation == data['Year_of_Graduation'])).scalar()
+            if exist == False:
+                db.session.add(presentation3)
+                db.session.commit()
 
         except Exception as e:
             print("An error occurred:", e)
@@ -1087,8 +1113,10 @@ def view():
         data = dict(history_posting.iloc[i])
         presentation4 = Posting_History(**data)
         try:
-            db.session.add(presentation4)
-            db.session.commit()
+            exist = db.session.query(exists().where(Posting_History.MCR_No == data['MCR_No'] , Posting_History.Posting_Department == data['Posting_Department'],Posting_History.Posting_StartDate == data['Posting_StartDate'])).scalar()
+            if exist == False:
+                db.session.add(presentation4)
+                db.session.commit()
 
         except Exception as e:
             print("An error occurred:", e)
@@ -1101,8 +1129,10 @@ def view():
         data = dict(history_exam.iloc[i])
         presentation5 = Exam_History(**data)
         try:
-            db.session.add(presentation5)
-            db.session.commit()
+            exist = db.session.query(exists().where(Exam_History.MCR_No == data['MCR_No'] , Exam_History.Name_of_Exam == data['Name_of_Exam'],Exam_History.Date_of_Attempt == data['Date_of_Attempt'])).scalar()
+            if exist == False:
+                db.session.add(presentation5)
+                db.session.commit()
 
         except Exception as e:
             print("An error occurred:", e)
@@ -1115,8 +1145,10 @@ def view():
         data = dict(history_trg.iloc[i])
         presentation6 = TrgExtRem_History(**data)
         try:
-            db.session.add(presentation6)
-            db.session.commit()
+            exist = db.session.query(exists().where(TrgExtRem_History.MCR_No == data['MCR_No'] , TrgExtRem_History.StartDate == data['StartDate'],TrgExtRem_History.EndDate == data['EndDate'] ,TrgExtRem_History.LOAPIP == data['LOAPIP'] )).scalar()
+            if exist == False:
+                db.session.add(presentation6)
+                db.session.commit()
 
         except Exception as e:
             print("An error occurred:", e)
@@ -1129,8 +1161,10 @@ def view():
         data = dict(grants.iloc[i])
         presentation7 = Grants(**data)
         try:
-            db.session.add(presentation7)
-            db.session.commit()
+            exist = db.session.query(exists().where(Grants.MCR_No == data['MCR_No'] , Grants.Name_of_Grant == data['Name_of_Grant'],Grants.Grant_Start_Date == data['Grant_Start_Date'] ,Grants.Project_Title == data['Project_Title'] )).scalar()
+            if exist == False:
+                db.session.add(presentation7)
+                db.session.commit()
 
         except Exception as e:
             print("An error occurred:", e)
@@ -1143,8 +1177,10 @@ def view():
         data = dict(awards.iloc[i])
         presentation8 = Awards(**data)
         try:
-            db.session.add(presentation8)
-            db.session.commit()
+            exist = db.session.query(exists().where(Awards.MCR_No == data['MCR_No'] , Awards.Date_of_Award_Received == data['Date_of_Award_Received'])).scalar()
+            if exist == False:
+                db.session.add(presentation8)
+                db.session.commit()
 
         except Exception as e:
             print("An error occurred:", e)
@@ -1157,8 +1193,10 @@ def view():
         data = dict(publlications.iloc[i])
         presentation10 = Publications(**data)
         try:
-            db.session.add(presentation10)
-            db.session.commit()
+            exist = db.session.query(exists().where(Publications.MCR_No == data['MCR_No'] , Publications.Publication_Title == data['Publication_Title'])).scalar()
+            if exist == False:
+                db.session.add(presentation10)
+                db.session.commit()
 
         except Exception as e:
             print("An error occurred:", e)
@@ -1171,8 +1209,10 @@ def view():
         data = dict(presentations.iloc[i])
         presentation11 = Presentations(**data)
         try:
-            db.session.add(presentation11)
-            db.session.commit()
+            exist = db.session.query(exists().where(Presentations.MCR_No == data['MCR_No'] , Presentations.Title == data['Title'], Presentations.Conference_Name == data['Conference_Name'] ,Presentations.Presentation_Date == data['Presentation_Date'])).scalar()
+            if exist == False:
+                db.session.add(presentation11)
+                db.session.commit()
 
         except Exception as e:
             print("An error occurred:", e)
@@ -1185,8 +1225,10 @@ def view():
         data = dict(project.iloc[i])
         presentation12 = Projects(**data)
         try:
-            db.session.add(presentation12)
-            db.session.commit()
+            exist = db.session.query(exists().where(Projects.MCR_No == data['MCR_No'] , Projects.Project_Title == data['Project_Title'], Projects.Start_Date == data['Start_Date'] ,Projects.End_Date == data['End_Date'])).scalar()
+            if exist == False:
+                db.session.add(presentation12)
+                db.session.commit()
 
         except Exception as e:
             print("An error occurred:", e)
@@ -1199,8 +1241,10 @@ def view():
         data = dict(ihi.iloc[i])
         presentation13 = IHI(**data)
         try:
-            db.session.add(presentation13)
-            db.session.commit()
+            exist = db.session.query(exists().where(IHI.MCR_No == data['MCR_No'] ,IHI.Completion_of_Emodules== data['Completion_of_Emodules'], IHI.Date == data['Date'])).scalar()
+            if exist == False:
+                db.session.add(presentation13)
+                db.session.commit()
 
         except Exception as e:
             print("An error occurred:", e)
@@ -1213,18 +1257,17 @@ def view():
         data = dict(didatic_attendance.iloc[i])
         presentation9 = Didactic_Attendance(**data)
         try:
-            db.session.add(presentation9)
-            db.session.commit()
+            exist = db.session.query(exists().where(Didactic_Attendance.MCR_No == data['MCR_No'] ,Didactic_Attendance.MmYyyy == data['MmYyyy'], Didactic_Attendance.Percentage_of_sessions_attended == data['Percentage_of_sessions_attended'] , Didactic_Attendance.Number_of_sessions_attended == data['Number_of_sessions_attended'])).scalar()
+            if exist == False:
+                db.session.add(presentation9)
+                db.session.commit()
 
         except Exception as e:
             print("An error occurred:", e)
             print("Stack trace:")
             traceback.print_exc()   
 
-    
-
-    return history_posting.to_html()
-
+    return redirect("http://localhost/FYP-GoodHealth/tab_pages/personal_details.html", code=302)
 
 
 def getList(items):
@@ -1747,8 +1790,8 @@ def read_dutyhourlogs_by_person(id):
 def create_duty_hour():
     data = request.get_json()
     if not all(key in data.keys() for key in ('MCR_No', 'Level', 'Submitted', 'Submitted_Proportion', 'MMYYYY',
-                                              'Logged_for_month'
-                                              )):
+                                            'Logged_for_month'
+                                            )):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
@@ -1762,6 +1805,59 @@ def create_duty_hour():
         print("Stack trace:")
         traceback.print_exc()
 
+@app.route('/import_duty_hour', methods=['POST'])
+def view2():
+    file = request.files['file']
+    file.save(file.filename)
+    #duty_hour_log
+    duty_hour_log = pd.read_excel(
+        file, dtype=str)
+    duty_hour_log.columns = [ 'MCR_No', 'Level' , 'Submitted' , 'Submitted_Proportion' , 'MMYYYY' , 'Logged_for_month']
+
+    if duty_hour_log['MCR_No'].isnull().sum() > 0 or duty_hour_log.duplicated().any():
+        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+        workbook = writer.book
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+
+        duty_hour_log.to_excel(writer, sheet_name='involvement_error')
+        workbook = writer.book
+        worksheet = writer.sheets['involvement_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = duty_hour_log[duty_hour_log[[
+        "MCR_No"]].isnull().any(axis=1)]
+        duplicate_row_bool = duty_hour_log.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                                {'type':     'cell',
+                                                'criteria': 'not equal to',
+                                                'value': '"o1"',
+                                                'format':   format1})
+
+    duty_hour_log= duty_hour_log.fillna('')
+    for i in range(len(duty_hour_log)):
+        data = dict(duty_hour_log.iloc[i])
+        presentation = Duty_Hour_Log(**data)
+        try:
+            exist = db.session.query(exists().where(Duty_Hour_Log.MCR_No == data['MCR_No'] , Duty_Hour_Log.Submitted_Proportion == data['Submitted_Proportion'],  Duty_Hour_Log.MMYYYY == data['MMYYYY'],Duty_Hour_Log.Logged_for_month == data['Logged_for_month'])).scalar()
+            if exist == False:
+                db.session.add(presentation)
+                db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()
+    return redirect("http://localhost/FYP-GoodHealth/tab_pages/duty_hour_log.html", code=302)
 
 @app.route('/duty_hour_log/<int:id>', methods=['PUT'])
 def update_duty_hour_log(id):
