@@ -26,3 +26,68 @@ def create_resident():
         query += query_string_values
         connection.execute(query)
 
+
+
+
+
+
+    table.on("cellEdited", function (cell) {
+        //cell - cell component
+        var value = cell.getValue()
+        var field = cell.getColumn().getDefinition()['field']
+        console.log(cell.getRow().getData()['MCR_No'], 'row')
+        var row = cell.getRow().getData()['MCR_No']
+        var data1 = {
+            "Table": "Personal_Details",
+            "Field": field,
+            "Value": value,
+            "Row": row
+        }
+
+        axios({
+                url: "http://localhost:5000/edit_field_value",
+                data: data1,
+                method: 'post'
+            })
+            .then(response => {
+                console.log(response)
+            })
+            .catch(error => {
+                console.log(error);
+            });
+
+@app.route('/edit_field_value', methods=['POST'])
+def edit_field_value():
+    data = request.get_json()
+    print(data,'edit field DATA')
+    table=data['Table']
+    field = data['Field']
+    value=data['Value']
+    row=data['Row']
+    
+    update_query=f'UPDATE {table} SET {field} = \'{value}\' WHERE MCR_No = \'{row}\''
+    print(update_query,'UPDATE QUERY')
+    try:
+        connection.execute(update_query)
+        return jsonify(data.to_dict()), 201
+    except Exception as e:
+        print("An error occurred:", e)
+        traceback.print_exc()
+        return jsonify(
+            {
+                "Error Msg": "error occured"
+            }
+        ), 404
+
+# Read Awards field/column name (R)
+@app.route('/create_resident', methods=['POST'])
+def create_resident():
+    data = request.get_json()
+    personal_details_query=f'INSERT INTO Personal_Details VALUES ('
+    for column in data['Personal_Details']:
+        value_to_insert=data['Personal_Details'][column]
+        personal_details_query+="'" + value_to_insert+"',"
+    personal_details_query=personal_details_query[:-3]
+    personal_details_query+="'0'"
+    personal_details_query+=')'
+    connection.execute(personal_details_query)
