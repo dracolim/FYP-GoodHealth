@@ -2164,6 +2164,35 @@ def create_presentation():
         
 connection = engine.connect()
 
+@app.route('/presentation/<int:id>', methods=['PUT'])
+def update_presentation(id):
+    user = Presentations.query.get(id)
+    if not user:
+        return 'Presentation not found', 404
+
+    data = request.get_json()
+    user.MCR_No = data['MCR_No']
+    user.Conference_Name = data['Conference_Name']
+    user.Country = data['Country']
+    user.Presentation_Date = data['Presentation_Date']
+    user.Project_ID = data['Project_ID']
+    user.Title = data['Title']
+    user.Type = data['Type']
+    user.id = data['id']
+
+    db.session.commit()
+    return 'Presentation updated', 200
+
+@app.route('/presentation/<int:id>', methods=['DELETE'])
+def delete_presentation(id):
+    row = Presentations.query.get(id)
+    if not row:
+        return 'presentation not found', 404
+
+    db.session.delete(row)
+    db.session.commit()
+    return 'presentation deleted', 200
+
 #OBSELETED
 # @app.route('/edit_field_value', methods=['POST'])
 # def edit_field_value():
