@@ -110,7 +110,6 @@ CREATE TABLE `Procedure_Log` (
   `MCR_No` varchar(50) NOT NULL,
   `Procedure_Name` varchar(50) NOT NULL,
   `Date_of_Completion` varchar(50) NOT NULL,
-  `CPT` varchar(50) NOT NULL,
   `Total` varchar(50) NOT NULL,
   `Performed` varchar(50) NOT NULL,
   `Observed` varchar(50) NOT NULL,
@@ -118,13 +117,29 @@ CREATE TABLE `Procedure_Log` (
   `Certified` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `Procedure_Log` (`MCR_No`, `Procedure_Name`, `Date_of_Completion`, `CPT`, `Total`, `Performed`, `Observed`, `Verified`, `Certified`) VALUES
-('M11367A', '', '', '', '', '', '', '', ''),
-('M16782H', '', '', '', '', '', '', '', ''),
-('M65889A', '', '', '', '', '', '', '', ''),
-('M54354E', '', '', '', '', '', '', '', ''),
-('M88791Z', '', '', '', '', '', '', '', ''),
-('M83162D', '', '', '', '', '', '', '', '');
+INSERT INTO `Procedure_Log` (`MCR_No`, `Procedure_Name`, `Date_of_Completion`, `Total`, `Performed`, `Observed`, `Verified`, `Certified`) VALUES
+('M11367A', 'Gastroscopy (OGD)', '01/01/2022', '-', '150', '-', '-', '-'),
+('M11367A', 'Gastroscopy (OGD) with biopsy', '01/01/2022', '-', '150', '-', '-', '-'),
+('M11367A', 'Gastroscopy (OGD) with non-variceal hemostasis; not actively bleeding', '01/01/2022', '-', '5', '-', '-', '-'),
+('M11367A', 'Gastroscopy (OGD) with non-variceal hemostasis; actively bleeding', '01/01/2022', '-', '5', '-', '-', '-'),
+('M11367A', 'Colonoscopy with non-variceal hemostasis; not actively bleeding', '01/01/2022', '-', '5', '-', '-', '-'),
+('M11367A', 'Colonoscopy with non-variceal hemostasis; actively bleeding', '01/01/2022', '-', '5', '-', '-', '-'),
+('M11367A', 'Colonoscopy', '01/01/2022', '-', '90', '-', '-', '-'),
+('M11367A', 'Colonoscopy with biopsy', '01/01/2022', '-', '90', '-', '-', '-'),
+('M11367A', 'Colonoscopy with polypectomy', '01/01/2022', '-', '20', '-', '-', '-'),
+('M11367A', 'Abdominal paracentesis', '01/01/2022', '-', '10', '-', '-', '-'),
+('M11367A', 'Capsule endoscopy', '01/01/2022', '-', '10', '-', '-', '-'),
+('M11367A', 'Percutaneous Endoscopic Gastrostomy (PEG)', '01/01/2022', '-', '5', '-', '-', '-'),
+('M11367A', 'Gastroscopy with variceal hemostasis; active bleeding', '01/01/2022', '-', '5', '-', '-', '-'),
+('M11367A', 'Gastroscopy with variceal hemostasis; not actively bleeding', '01/01/2022', '-', '10', '-', '-', '-'),
+('M11367A', 'Gastroscopy with variceal ligation; elective eradication', '01/01/2022', '-', '5', '-', '-', '-'),
+('M11367A', 'Liver biopsy', '01/01/2022', '-', '5', '-', '-', '-'),
+('M11367A', 'Esophageal dilatation', '01/01/2022', '-', '5', '-', '-', '-'),
+('M11367A', 'Luminal Stenting', '01/01/2022', '-', '5', '-', '-', '-'),
+('M11367A', 'Endoscopic mucosal resection (EMR) / Endoscopic submucosal dissection (ESD)', '01/01/2022', '-', '5', '-', '-', '-'),
+('M11367A', 'Endoscopic Retrograde and Cholangiocpancreatography (ERCP)', '01/01/2022', '-', '5', '-', '-', '-'),
+('M11367A', 'Endoscopic ultrasound', '01/01/2022', '-', '5', '-', '-', '-'),
+('M11367A', 'Esophageal motility / pH studies', '01/01/2022', '-', '5', '-', '-', '-');
 
 -- --------------------------------------------------------
 

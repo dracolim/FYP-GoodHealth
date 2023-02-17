@@ -1,4 +1,3 @@
-
 from __main__ import app,db
 from flask import request, jsonify
 from flask_sqlalchemy import SQLAlchemy
@@ -40,21 +39,9 @@ class Personal_Details(db.Model):
     Date_of_Second_Dose = db.Column(db.String(50))
     Vaccination_Remarks = db.Column(db.String(50))
 
-    presentations = db.relationship('Presentations', backref='Personal_Details')
-    posting_histories = db.relationship('Posting_History', backref='Personal_Details')
-    duty_hour_logs = db.relationship('Duty_Hour_Log', backref='Personal_Details')
-    case_logs = db.relationship('Case_Log', backref='Personal_Details')
-    procedure_logs = db.relationship('Procedure_Log', backref='Personal_Details')
-    exam_histories = db.relationship('Exam_History', backref='Personal_Details')
-    publications = db.relationship('Publications', backref='Personal_Details')
-    evaluations = db.relationship('Evaluations', backref='Personal_Details')
-    trgExtRem_Histories = db.relationship('TrgExtRem_History', backref='Personal_Details')
-    projects = db.relationship('Projects', backref='Personal_Details')
-    awards = db.relationship('Awards', backref='Personal_Details')
-    grants = db.relationship('Grants', backref='Personal_Details')
-    ihis = db.relationship('IHI', backref='Personal_Details')
-    involvements = db.relationship('Involvement', backref='Personal_Details')
-
+    procedure_logs = db.relationship('procedure_log', backref='Personal_Details')
+    projects = db.relationship('Project', backref='Personal_Details')
+    ihis = db.relationship('ihi', backref='Personal_Details')
 
     __mapper_args__ = {
         'polymorphic_identity': 'Personal_Details'

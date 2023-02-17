@@ -200,7 +200,7 @@ class Involvement(db.Model):
 # Read Existing personaldetails (R)
 @app.route("/personaldetails")
 def read_personaldetails():
-    pdList = PersonalDetails.query.all()
+    pdList = Personal_Details.query.all()
     return jsonify(
         {
             "data": [pd.to_dict()
@@ -212,7 +212,7 @@ def read_personaldetails():
 @app.route('/personal_details_fields', methods=['GET'])
 def get_personal_details_fields():
     fields = {}
-    for column in PersonalDetails.__table__.columns:
+    for column in Personal_Details.__table__.columns:
         fields[column.name] = str(column.type)
     return jsonify(fields)
 
@@ -567,7 +567,25 @@ def get_duty_log_by_employeeid_year(employee_id, year):
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
+@app.route("/procedure_logs")
+def read_procedure_logs():
+    userList = procedure_log.query\
+        .join(Personal_Details, procedure_log.MCR_No == Personal_Details.MCR_No)\
+        .add_columns(Personal_Details.Programme, Personal_Details.Year_of_Training)\
+        .paginate(1, 50, True)
 
+    combinedProcedureLogs = []
+    for i in userList.iter_pages():
+        for item in userList.items:
+            procedurelog = item[0].to_dict()
+            procedurelog["Programme"] = item[1]
+            procedurelog["Year_of_Training"] = item[2]
+            combinedProcedureLogs.append(procedurelog)
+
+    return jsonify(
+        {
+            "data": combinedProcedureLogs
+        }), 200
 
 
 # ============================

@@ -124,16 +124,6 @@
 
             <div id="app">
 
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
-                    Add Name Here
-                </label>
-                <!-- add v-model here:
-                add @click to proper link: -->
-                <input v-model="" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Year Here">
-                <button @click="" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
-                    Add Name Here
-                </button> 
-
                 <v-row dense>
                   <v-col cols="sm">
                     <v-card class="pa-2" outlined tile raised>
@@ -141,6 +131,7 @@
                     </v-card>
                   </v-col>
                 </v-row>
+
             </div>
 
         </div>
@@ -229,7 +220,7 @@
             },
             mounted: function () {
                 this.loaded = false
-                // this.getProcedureLogData();
+                this.getProcedureLogData();
                 },
             methods: {
                 getProcedureLogData: async function () {
@@ -237,9 +228,9 @@
                     this.status = "getting data...";
 
                     // add proper route here
-                    await axios.get("http://localhost:5010/").then((response) => {
-                    // console.log("This is responseData")
-                    // console.log(response.data)
+                    await axios.get("http://localhost:5010/procedure_logs").then((response) => {
+                    console.log("This is responseData")
+                    console.log(response.data)
                     this.getChartData(response.data);
                     this.loaded = false
                     this.loaded = true
