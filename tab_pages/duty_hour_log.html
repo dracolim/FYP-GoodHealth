@@ -207,11 +207,11 @@
                     <div class="px-6 py-6 lg:px-8">
                         <h3 class="mb-4 text-xl font-medium text-gray-900 ">Upload Excel Sheet</h3>
                         <form class="space-y-6" method="post" enctype="multipart/form-data"
-                        action="http://localhost:5011/import_duty_hour">
+                            action="http://localhost:5011/import_duty_hour">
                             <!-- input form -->
-                            <input @change = "validateFile" id = "UploadFile"
+                            <input @change="validateFile" id="UploadFile"
                                 class="block w-full text-md text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                                type="file" name="file" >
+                                type="file" name="file">
                             <!-- error -->
                             <div v-if="error_message != ''"
                                 class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
@@ -228,7 +228,7 @@
                                     {{error_message}}
                                 </div>
                             </div>
-                            <button type="submit" value="Submit" @click = "isDisabled()" id = 'submit'
+                            <button type="submit" value="Submit" @click="isDisabled()" id='submit'
                                 class="w-full text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
                         </form>
                     </div>
@@ -237,11 +237,11 @@
         </div>
 
         <!-- TABLE START -->
-        <div class="overflow-x-auto shadow-lg sm:rounded-lg mx-8 mb-10">
-            <div class="relative bg-white rounded-lg shadow ">
+        <div class="overflow-x-auto sm:rounded-lg mx-8 mb-10">
+            <div v-if="table_error_message!=''" class="relative bg-white rounded-lg shadow ">
                 {{table_error_message}}
             </div>
-            <table id="example-table"></table>
+            <table v-if="table_error_message==''" id="example-table"></table>
         </div>
 
         <!-- History menu -->
@@ -274,11 +274,11 @@
             personal_details_fields: [],
             personal_details_datas: [],
             file: "",
-            data_on_watch_to_delete: "NA",
             MCR_name: {},
             error_message: "",
             mmYYYY: "",
             table_error_message: "",
+
         },
         computed: {
 
@@ -316,7 +316,7 @@
                             field: "MCR_No",
                             sorter: "string",
                             headerHozAlign: "center",
-                            headerFilter: "autocomplete",
+                            headerFilter: true,
                             headerFilterPlaceholder: "Enter Value",
                             headerFilterParams: {
                                 valuesLookup: true,
@@ -349,6 +349,7 @@
                             editor: "number",
                             editorParams: {
                                 min: 0,
+                                autocomplete: true,
                             },
                             headerFilter: "list",
                             headerFilterParams: {
@@ -378,10 +379,10 @@
                         {
                             title: "MMYYYY",
                             field: "MMYYYY",
-                            headerFilter: "autocomplete",
+                            headerFilter: true,
                             headerFilterParams: {
                                 valuesLookup: true,
-                                clearable: true
+                                clearable: true,
                             },
                             editor: "input",
                             editorParams: {
@@ -402,7 +403,7 @@
                             headerFilter: "list",
                             headerFilterParams: {
                                 valuesLookup: true,
-                                clearable: true
+                                clearable: true,
                             },
                             editor: "list",
                             editorParams: {
@@ -466,7 +467,7 @@
         },
         methods: {
             importExcel(event) {
-                this.validateFile(); 
+                this.validateFile();
 
                 this.file = event.target.files ? event.target.files[0] : null;
                 const wb = new Excel.Workbook();
@@ -488,8 +489,8 @@
                                 } else if (rowIndex >= 8) {
                                     // console.log(row.values[2])
                                     for (each in this.MCR_name) {
-                                        let name_list = row.values[1].trim().split(',') 
-                                        var new_name =  name_list.reverse().join(" ").trim()
+                                        let name_list = row.values[1].trim().split(',')
+                                        var new_name = name_list.reverse().join(" ").trim()
                                         if (new_name == each) {
                                             data.MCR_No = this.MCR_name[each] || "";
                                         }
@@ -534,7 +535,7 @@
                     document.getElementById('submit').disabled = true;
                     return true
                 }
-                else{
+                else {
                     this.error_message = ""
                     return false
                 }
@@ -543,11 +544,5 @@
         }
     });
 </script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-
 
 </html>

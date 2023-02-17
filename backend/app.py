@@ -19,16 +19,16 @@ app.app_context().push()
 
 if __name__ == '__main__':
     # Mac user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-    #                                        '@localhost:3306/SingHealth'
-    # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+                                           '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
     # --------------------------------------------------------------------------------
 
     # # Windows user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
-                                            '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
+    #                                         '@localhost:3306/SingHealth'
+    # engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -1654,8 +1654,6 @@ def read_publications():
     ), 200
 
 # Read Existing by Person (R)
-
-
 @app.route("/publications/<id>")
 def read_publications_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -1667,6 +1665,34 @@ def read_publications_by_person(id):
         }
     ), 200
 
+# Update publications
+@app.route('/publication/<int:id>', methods=['PUT'])
+def update_publication(id):
+    user = Publications.query.get(id)
+    if not user:
+        return 'Publication not found', 404
+
+    data = request.get_json()
+    user.MCR_No = data['MCR_No']
+    user.Journal_Title = data['Journal_Title']
+    user.PMID = data['PMID']
+    user.Publication_Date = data['Publication_Date']
+    user.Publication_Title = data['Publication_Title']
+    user.id = data['id']
+
+    db.session.commit()
+    return 'Publication Log updated', 200
+
+# Delete publications
+@app.route('/publication/<int:id>', methods=['DELETE'])
+def delete_publication(id):
+    row = Publications.query.get(id)
+    if not row:
+        return 'Publications not found', 404
+
+    db.session.delete(row)
+    db.session.commit()
+    return 'Publications deleted', 200
 
 # ============================
 # █▀▀ █▄░█ █▀▄
@@ -2137,27 +2163,29 @@ def create_presentation():
         traceback.print_exc()
         
 connection = engine.connect()
-        
-@app.route('/edit_field_value', methods=['POST'])
-def edit_field_value():
-    data = request.get_json()
-    table=data['Table']
-    field = data['Field']
-    value=data['Value']
-    row=data['Row']
+
+#OBSELETED
+# @app.route('/edit_field_value', methods=['POST'])
+# def edit_field_value():
+#     data = request.get_json()
+#     table=data['Table']
+#     field = data['Field']
+#     value=data['Value']
+#     row=data['Row']
     
-    update_query=f'UPDATE {table} SET {field} = \'{value}\' WHERE MCR_No = \'{row}\''
-    try:
-        connection.execute(update_query)
-        return jsonify(data.to_dict()), 201
-    except Exception as e:
-        print("An error occurred:", e)
-        traceback.print_exc()
-        return jsonify(
-            {
-                "Error Msg": "error occured"
-            }
-        ), 404
+#     update_query=f'UPDATE {table} SET {field} = \'{value}\' WHERE MCR_No = \'{row}\''
+#     try:
+#         connection.execute(update_query)
+#         return jsonify(data.to_dict()), 201
+#     except Exception as e:
+#         print("An error occurred:", e)
+#         traceback.print_exc()
+#         return jsonify(
+#             {
+#                 "Error Msg": "error occured"
+#             }
+#         ), 404
+
 # Read Awards field/column name (R)
 @app.route('/create_resident', methods=['POST'])
 def create_resident():
