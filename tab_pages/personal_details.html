@@ -231,11 +231,12 @@
                     <div class="px-6 py-6 lg:px-8">
                         <h3 class="mb-4 text-xl font-medium text-gray-900 ">Upload Excel Sheet</h3>
                         <form class="space-y-6" method="post" enctype="multipart/form-data"
-                            action="http://localhost/FYP-GoodHealth/tab_pages/personal_details.html">
+                            action="http://localhost:5011/import">
                             <!-- input file -->
                             <input @change = "validateFile"
                                 class="block w-full text-md text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
                                 id="UploadFile" type="file" name="file">
+                            <!-- error-->
                             <div v-if="error_message != ''"
                                 class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                                 role="alert">

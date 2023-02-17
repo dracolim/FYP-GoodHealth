@@ -1,6 +1,6 @@
 from sqlalchemy import insert, text, create_engine,inspect
 from flask import abort
-from flask import Flask, request, jsonify, render_template, send_file
+from flask import Flask, request, jsonify, render_template, send_file, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import json
@@ -631,7 +631,6 @@ def create_personal_detail():
 def view():
     file = request.files['file']
     file.save(file.filename)
-
     # personal details
     personalDetails = pd.read_excel(
         file, sheet_name="Personal Details", dtype=str)
@@ -1269,8 +1268,7 @@ def view():
             print("Stack trace:")
             traceback.print_exc()   
 
-    return history_posting.to_html()
-
+    return redirect("http://localhost/FYP-GoodHealth/tab_pages/personal_details.html", code=302)
 
 
 def getList(items):
@@ -1793,8 +1791,8 @@ def read_dutyhourlogs_by_person(id):
 def create_duty_hour():
     data = request.get_json()
     if not all(key in data.keys() for key in ('MCR_No', 'Level', 'Submitted', 'Submitted_Proportion', 'MMYYYY',
-                                              'Logged_for_month'
-                                              )):
+                                            'Logged_for_month'
+                                            )):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
@@ -1808,6 +1806,59 @@ def create_duty_hour():
         print("Stack trace:")
         traceback.print_exc()
 
+@app.route('/import_duty_hour', methods=['POST'])
+def view2():
+    file = request.files['file']
+    file.save(file.filename)
+    #duty_hour_log
+    duty_hour_log = pd.read_excel(
+        file, dtype=str)
+    duty_hour_log.columns = [ 'MCR_No', 'Level' , 'Submitted' , 'Submitted_Proportion' , 'MMYYYY' , 'Logged_for_month']
+
+    if duty_hour_log['MCR_No'].isnull().sum() > 0 or duty_hour_log.duplicated().any():
+        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+        workbook = writer.book
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+
+        duty_hour_log.to_excel(writer, sheet_name='involvement_error')
+        workbook = writer.book
+        worksheet = writer.sheets['involvement_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = duty_hour_log[duty_hour_log[[
+        "MCR_No"]].isnull().any(axis=1)]
+        duplicate_row_bool = duty_hour_log.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                                {'type':     'cell',
+                                                'criteria': 'not equal to',
+                                                'value': '"o1"',
+                                                'format':   format1})
+
+    duty_hour_log= duty_hour_log.fillna('')
+    for i in range(len(duty_hour_log)):
+        data = dict(duty_hour_log.iloc[i])
+        presentation = Duty_Hour_Log(**data)
+        try:
+            exist = db.session.query(exists().where(Duty_Hour_Log.MCR_No == data['MCR_No'] , Duty_Hour_Log.Submitted_Proportion == data['Submitted_Proportion'],  Duty_Hour_Log.MMYYYY == data['MMYYYY'],Duty_Hour_Log.Logged_for_month == data['Logged_for_month'])).scalar()
+            if exist == False:
+                db.session.add(presentation)
+                db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()
+    return redirect("http://localhost/FYP-GoodHealth/tab_pages/duty_hour_log.html", code=302)
 
 @app.route('/duty_hour_log/<int:id>', methods=['PUT'])
 def update_duty_hour_log(id):
