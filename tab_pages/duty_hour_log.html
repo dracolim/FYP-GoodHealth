@@ -105,7 +105,7 @@
                     </li>
                     <li>
                         <a href="../tab_pages/personal_details.html"
-                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                            class="lg:text-sm md:text-xs ml-5 mr-3 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
                             Personal Details</a>
                     </li>
                     <li>
@@ -221,12 +221,14 @@
 
         <!-- TABLE START -->
         <div class="relative overflow-x-auto shadow-lg sm:rounded-lg mx-8 mb-10">
+            <div class="relative bg-white rounded-lg shadow ">
+                {{table_error_message}}
+            </div>
             <table id="example-table"></table>
         </div>
 
         <!-- History menu -->
-        <div id="dropdownDelay"
-            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
+        <div id="dropdownDelay" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
             <ul class="py-2 text-sm text-gray-500" aria-labelledby="dropdownDelayButton">
                 <li>
                     <a href="./history_education.html" class="block px-4 py-2 hover:bg-gray-100 ">Education</a>
@@ -259,6 +261,7 @@
             MCR_name: {},
             error_message: "",
             mmYYYY: "",
+            table_error_message: "",
         },
         computed: {
 
@@ -278,6 +281,7 @@
                 .catch(error => {
                     console.log(error)
                 });
+
             axios.get(this.local_host_url + 'duty_hour_log')
                 .then(response => {
                     var printRemoveButton = function (cell, formatterParams,
@@ -291,94 +295,128 @@
                         data: response.data.data,
                         index: "MCR_No",
                         columns: [{
-                                title: "MCR No",
-                                field: "MCR_No",
-                                sorter: "string",
-                                headerFilter: "input",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                width: 100,
-                            },
+                            title: "MCR No",
+                            field: "MCR_No",
+                            sorter: "string",
+                            headerHozAlign: "center",
+                            headerFilter: "autocomplete",
+                            headerFilterPlaceholder: "Enter Value",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
 
-                            {
-                                title: "Level",
-                                field: "Level",
-                                sorter: "number",
-                                headerFilter: "input",
-                                editor: "number",
                             },
-                            {
-                                title: "Submitted",
-                                field: "Submitted",
-                                sorter: "number",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
+                            minWidth: 200,
+                        },
+
+                        {
+                            title: "Level",
+                            field: "Level",
+                            sorter: "number",
+                            editor: "number",
+                            editorParams: {
+                                min: 0,
+                            },
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
+                            headerFilterPlaceholder: "Select",
+                            minWidth: 150,
+                        },
+                        {
+                            title: "Submitted",
+                            field: "Submitted",
+                            sorter: "number",
+                            editor: "number",
+                            editorParams: {
+                                min: 0,
+                            },
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
+                            headerFilterPlaceholder: "Select",
+                            minWidth: 150,
+
+                        },
+                        {
+                            title: "Submitted Proportion",
+                            field: "Submitted_Proportion",
+                            sorter: "number",
+                            editor: "number",
+                            editorParams: {
+                                min: 0,
+                            },
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
+                            headerFilterPlaceholder: "Select",
+                            minWidth: 220,
+                        },
+                        {
+                            title: "MMYYYY",
+                            field: "MMYYYY",
+                            headerFilter: "autocomplete",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                mask: "AAA-99",
+                                maskAutoFill: true,
+                            },
+                            headerFilterPlaceholder: "Enter Value",
+                            minWidth: 150,
+
+                        },
+                        {
+                            title: "Logged for Month",
+                            field: "Logged_for_month",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
+                            editor: "list",
+                            editorParams: {
+                                values:
+                                {
+                                    "Yes": "Yes",
+                                    "No": "No",
+                                    "Unknown": "Unknown",
                                 }
                             },
-                            {
-                                title: "Submitted Proportion",
-                                field: "Submitted_Proportion",
-                                sorter: "number",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
+                            headerFilterPlaceholder: "Select",
+                            minWidth: 200,
+
+                        },
+                        {
+                            title: "Action",
+                            formatter: printRemoveButton,
+                            hozAlign: "center",
+                            cellClick: function (e, cell) {
+                                axios.delete(local_host_url + 'duty_hour_log/' + cell
+                                    .getRow().getData().id)
+                                    .then(function (response) {
+                                        console.log(response.data);
+                                        cell.getRow().delete();
+                                    })
+                                    .catch(function (error) {
+                                        console.log(error);
+                                    });
                             },
-                            {
-                                title: "MMYYYY",
-                                field: "MMYYYY",
-                                editor: true,
-                                headerFilter: "input",
-                            },
-                            {
-                                title: "Logged for Month",
-                                field: "Logged_for_month",
-                                sorter: "string",
-                                cellClick: function (e, cell) {
-                                    console.log("cell click")
-                                },
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                }
-                            },
-                            {
-                                title: "Duty Hour Log Deleted",
-                                field: "Duty_Hour_Log_deleted",
-                                sorter: "boolean",
-                                hozAlign: "center",
-                                formatter: "tickCross",
-                                headerFilter: "tickCross",
-                                headerFilterParams: {
-                                    "tristate": true
-                                },
-                                headerFilterEmptyCheck: function (value) {
-                                    return value === null
-                                }
-                            },
-                            {
-                                title: "Action",
-                                formatter: printRemoveButton,
-                                hozAlign: "center",
-                                cellClick: function (e, cell) {
-                                    axios.delete(local_host_url + 'duty_hour_log/' + cell
-                                            .getRow().getData().id)
-                                        .then(function (response) {
-                                            console.log(response.data);
-                                            cell.getRow().delete();
-                                        })
-                                        .catch(function (error) {
-                                            console.log(error);
-                                        });
-                                },
-                            },
+                            minWidth: 150,
+                        },
                         ],
                     });
                     // update data in the database after a cell is edited
@@ -387,13 +425,13 @@
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
                         axios.put(local_host_url + "duty_hour_log/" + thisrow.id, {
-                                "Level": thisrow.Level,
-                                "Logged_for_month": thisrow.Logged_for_month,
-                                "MCR_No": thisrow.MCR_No,
-                                "MMYYYY": thisrow.MMYYYY,
-                                "Submitted": thisrow.Submitted,
-                                "Submitted_Proportion": thisrow.Submitted_Proportion
-                            })
+                            "Level": thisrow.Level,
+                            "Logged_for_month": thisrow.Logged_for_month,
+                            "MCR_No": thisrow.MCR_No,
+                            "MMYYYY": thisrow.MMYYYY,
+                            "Submitted": thisrow.Submitted,
+                            "Submitted_Proportion": thisrow.Submitted_Proportion
+                        })
                             .then(response => {
                                 console.log('Duty Hour Log ID {' + row.getData().id +
                                     '} updated.')
@@ -402,6 +440,10 @@
                                 console.log(error)
                             })
                     });
+                })
+                .catch(error => {
+                    this.table_error_message = error.message
+                    console.error(error);
                 });
 
         },

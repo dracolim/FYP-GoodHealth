@@ -1,11 +1,12 @@
 from sqlalchemy import insert, text, create_engine,inspect
 from flask import abort
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import json
 import pandas as pd
 import traceback
+import werkzeug.exceptions as ex
 
 app = Flask(__name__)
 
@@ -16,24 +17,22 @@ app = Flask(__name__)
 app.app_context().push()
 
 if __name__ == '__main__':
-    print("running on main")
     # Mac user -------------------------------------------------------------------
-  #  app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-  #                                          '@localhost:3306/SingHealth'
-    # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+                                           '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
     # --------------------------------------------------------------------------------
 
     # # Windows user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-                                            '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+    #                                         '@localhost:3306/SingHealth'
+    # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
                                             'pool_recycle': 280}
 else:
-    print("running not on main")
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
     app.config['TESTING'] = True
@@ -110,6 +109,7 @@ class Personal_Details(db.Model):
     ihis = db.relationship('IHI', backref='Personal_Details')
     involvements = db.relationship('Involvement', backref='Personal_Details')
     didactic_attendance = db.relationship('Didactic_Attendance', backref='Personal_Details')
+    education_history = db.relationship('Education_History', backref='Personal_Details')
 
     __mapper_args__ = {
         'polymorphic_identity': 'Personal_Details'
@@ -121,7 +121,6 @@ class Personal_Details(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -150,7 +149,6 @@ class Presentations(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -177,7 +175,6 @@ class Posting_History(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -205,7 +202,6 @@ class Duty_Hour_Log(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -238,7 +234,6 @@ class Case_Log(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -269,7 +264,6 @@ class Procedure_Log(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -295,7 +289,6 @@ class Exam_History(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -324,7 +317,6 @@ class Publications(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -355,7 +347,6 @@ class Evaluations(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -382,7 +373,6 @@ class TrgExtRem_History(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -415,7 +405,6 @@ class Education_History(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -444,7 +433,6 @@ class Projects(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -473,7 +461,6 @@ class Awards(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -501,7 +488,6 @@ class Grants(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -526,7 +512,6 @@ class IHI(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -564,12 +549,11 @@ class Didactic_Attendance(db.Model):
     __tablename__ = 'Didactic_Attendance'
     id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
-    Billing_Name=db.Column(db.String(100))
     Month = db.Column(db.String(100))
     Total_tracked_sessions = db.Column(db.String(100))
     Number_of_sessions_attended = db.Column(db.String(100))
     MmYyyy = db.Column(db.String(100))
-    Scheduled_teachings= db.Column(db.String(100))
+    Percentage_of_sessions_attended= db.Column(db.String(100))
     Compliance_or_Not = db.Column(db.String(100))
 
     __mapper_args__ = {
@@ -582,7 +566,6 @@ class Didactic_Attendance(db.Model):
         in which the keys correspond to database columns
         """
         columns = self.__mapper__.column_attrs.keys()
-        #print(f"columns: {columns}")
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
@@ -646,7 +629,6 @@ def create_personal_detail():
 @app.route('/import', methods=['POST'])
 def view():
     file = request.files['file']
-    print('KJDFSAKDFHAKSJDFHLASJKDHFLAKSJDHFLAKJSHDFLAJSHDLFJASHDFLJASHDLFKJAHSDLFKJHASLDKJFHALSDJKFHA')
     file.save(file.filename)
 
     # personal details
@@ -661,26 +643,400 @@ def view():
                             'Email_Personal', 'BCLS_Expiry_Date', 'ACLS_Expiry_Date',
                             'Covid_19_Vaccination_Status', 'Date_of_First_Dose',
                             'Date_of_Second_Dose', 'Vaccination_Remarks']
+    # Involvement
+    involvement = pd.read_excel(
+        file, sheet_name="Involvement", dtype=str)
+    involvement.columns = ['Involvement_Type', 'MCR_No',
+                        'Event', 'Role', 'Start_Date', 'End_Date']
+    
+    #history-education
+    history_education = pd.read_excel(
+        file, sheet_name="History - Education", dtype=str)
+    history_education.columns = ['MCR_No' , 'Year_of_Graduation' , 'Date_of_Graduation' , 'Basic_Qualification' , 'Medical_School' , 'Country_of_Graduation' , 'IM_Residency_Start_Date' , 
+    'IM_Residency_End_Date', 'SR_Residency_Programme', 'SR_Residency_Start_Date', 'SR_Residency_End_Date','PG_Year']
 
-    if personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0:
+    #history-posting
+    history_posting = pd.read_excel(
+        file, sheet_name="History - Posting", dtype=str)
+    history_posting.columns = [ 'MCR_No', 'Posting_Institution' , 'Posting_Department' , 'Posting_StartDate' , 'Posting_EndDate']
+
+    #history-exam
+    history_exam = pd.read_excel(
+        file, sheet_name="History - Exam", dtype=str)
+    history_exam.columns = [ 'MCR_No', 'Name_of_Exam' , 'Date_of_Attempt' , 'Exam_Status']
+
+    #histroy-trg
+    history_trg = pd.read_excel(
+        file, sheet_name="History - Trg Ext.&Remediation", dtype=str)
+    history_trg.columns = [ 'MCR_No', 'LOAPIP' , 'StartDate' , 'EndDate']
+
+    #grants
+    grants = pd.read_excel(
+        file, sheet_name="Grants", dtype=str)
+    grants.columns = [ 'MCR_No', 'Name_of_Grant' , 'Project_Title' , 'Project_ID' , 'Grant_End_Date' , 'Grant_Start_Date']
+
+    #awards
+    awards = pd.read_excel(
+        file, sheet_name="Awards", dtype=str)
+    awards.columns = [ 'MCR_No', 'Award_Category' , 'Name_of_Award' , 'FY_of_Award_Received' , 'Date_of_Award_Received' , 'Project_ID']
+
+    #publications
+    publlications = pd.read_excel(
+        file, sheet_name="Publications", dtype=str)
+    publlications.columns = [ 'MCR_No', 'Publication_Title' , 'Journal_Title' , 'PMID' , 'Publication_Date' ]
+
+    #presentations
+    presentations = pd.read_excel(
+        file, sheet_name="Presentations", dtype=str)
+    presentations.columns = [ 'MCR_No', 'Title' , 'Type' , 'Project_ID' , 'Conference_Name' , 'Country' , 'Presentation_Date' ]
+
+    #project
+    project = pd.read_excel(
+        file, sheet_name="Projects", dtype=str)
+    project.columns = [ 'MCR_No', 'Project_Type' ,'Project_Title' ,'Project_ID' ,'Start_Date' , 'End_Date' , 'Date_of_QI_Certification' , 'PMID' ]
+
+    #IHI
+    ihi = pd.read_excel(
+        file, sheet_name="IHI", dtype=str)
+    ihi.columns = [ 'MCR_No', 'Completion_of_Emodules' , 'Date' ]
+
+    #didatic attendance
+    didatic_attendance = pd.read_excel(
+        file, sheet_name="Didactic Attendance", dtype=str)
+    didatic_attendance.columns = [ 'MCR_No', 'Billing Name', 'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended'  , 'Percentage_of_sessions_attended', 'MmYyyy' , 'Posting Institution', 'Posting Department',	'Scheduled Teachings', 'Compliance_or_Not' , "Percentage_of_sessions_attended"]
+
+    if didatic_attendance['MCR_No'].isnull().sum() > 0 or ihi['MCR_No'].isnull().sum() > 0 or ihi.duplicated().any() or project['MCR_No'].isnull().sum() > 0 or project.duplicated().any() or presentations['MCR_No'].isnull().sum() > 0 or presentations.duplicated().any() or publlications['MCR_No'].isnull().sum() > 0 or publlications.duplicated().any() or awards['MCR_No'].isnull().sum() > 0 or awards.duplicated().any() or grants['MCR_No'].isnull().sum() > 0 or grants.duplicated().any() or personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or (personalDetails.duplicated().any()) or involvement['MCR_No'].isnull().sum() > 0 or (involvement.duplicated().any()) or history_education['MCR_No'].isnull().sum() > 0 or (history_education.duplicated().any()) or history_posting['MCR_No'].isnull().sum() > 0 or history_posting.duplicated().any() or history_exam['MCR_No'].isnull().sum() > 0 or history_exam.duplicated().any() or history_trg['MCR_No'].isnull().sum() > 0 or history_trg.duplicated().any():
         writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
-        personalDetails.to_excel(writer, sheet_name='Personal_Details_error')
         workbook = writer.book
-        worksheet = writer.sheets['Personal_Details_error']
         format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = personalDetails[personalDetails[[
+        ## personal_DETAILS
+        personalDetails.to_excel(writer, sheet_name='Personal_Details_error')
+        worksheet = writer.sheets['Personal_Details_error']
+        nullrows_mcr_no = personalDetails[personalDetails[[
             "MCR_No"]].isnull().any(axis=1)]
-
-        for row in nullrows.index:
+        nullrows_ID = personalDetails[personalDetails[[
+            "Employee_ID"]].isnull().any(axis=1)]
+        duplicate_row_bool = personalDetails.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
+        
+        for row in nullrows_mcr_no.index:
             ran = "A" + str(row+2) + ":BA" + str(row+2)
             worksheet.conditional_format(ran,
                                         {'type':     'cell',
                                         'criteria': 'not equal to',
                                         'value': '"o1"',
                                         'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
+        for row in nullrows_ID.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
+        ## involvement
+        involvement.to_excel(writer, sheet_name='involvement_error')
+        workbook = writer.book
+        worksheet = writer.sheets['involvement_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = involvement[involvement[[
+        "MCR_No"]].isnull().any(axis=1)]
+        duplicate_row_bool = involvement.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
 
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+        ## history_education
+        history_education.to_excel(
+            writer, sheet_name='history_education_error')
+        workbook = writer.book
+        worksheet = writer.sheets['history_education_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = history_education[history_education[[
+        "MCR_No"]].isnull().any(axis=1)]
+        duplicate_row_bool = history_education.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
+
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+            
+        ## history_posting 
+        history_posting.to_excel(
+            writer, sheet_name='history_posting_error')
+        workbook = writer.book
+        worksheet = writer.sheets['history_posting_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = history_posting[history_posting[[
+        "MCR_No"]].isnull().any(axis=1)]
+        duplicate_row_bool = history_posting.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+            
+        ## history exam
+        history_exam.to_excel(
+            writer, sheet_name='history_exam_error')
+        workbook = writer.book
+        worksheet = writer.sheets['history_exam_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = history_exam[history_exam[[
+        "MCR_No"]].isnull().any(axis=1)]
+        duplicate_row_bool = history_exam.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+        
+        ## history trg
+        history_trg.to_excel(
+            writer, sheet_name='history_trg_error')
+        workbook = writer.book
+        worksheet = writer.sheets['history_trg_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = history_trg[history_trg[[
+        "MCR_No"]].isnull().any(axis=1)]
+        duplicate_row_bool = history_trg.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+        
+        ## grants
+        grants.to_excel(
+            writer, sheet_name='grants_error')
+        workbook = writer.book
+        worksheet = writer.sheets['grants_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = grants[grants[[
+        "MCR_No"]].isnull().any(axis=1)]
+        duplicate_row_bool = grants.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+            
+        ## awards
+        awards.to_excel(
+            writer, sheet_name='awards_error')
+        workbook = writer.book
+        worksheet = writer.sheets['awards_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = awards[awards[[
+        "MCR_No"]].isnull().any(axis=1)]
+        duplicate_row_bool = awards.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+        
+        ## publications
+        publlications.to_excel(
+            writer, sheet_name='publlications_error')
+        workbook = writer.book
+        worksheet = writer.sheets['publlications_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = publlications[publlications[[
+        "MCR_No"]].isnull().any(axis=1)]
+        duplicate_row_bool = publlications.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+        
+        ## presentations
+        presentations.to_excel(
+            writer, sheet_name='presentations_error')
+        workbook = writer.book
+        worksheet = writer.sheets['presentations_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = presentations[presentations[[
+        "MCR_No"]].isnull().any(axis=1)]
+        duplicate_row_bool = presentations.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+            
+        ## project
+        project.to_excel(
+            writer, sheet_name='project_error')
+        workbook = writer.book
+        worksheet = writer.sheets['project_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = project[project[[
+        "MCR_No"]].isnull().any(axis=1)]
+        duplicate_row_bool = project.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+        
+        ## ihi
+        ihi.to_excel(
+            writer, sheet_name='ihi_error')
+        workbook = writer.book
+        worksheet = writer.sheets['ihi_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = ihi[ihi[[
+        "MCR_No"]].isnull().any(axis=1)]
+        duplicate_row_bool = ihi.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+            
+        ## didactic attendance 
+        didatic_attendance.to_excel(
+            writer, sheet_name='didatic_attendance_error')
+        workbook = writer.book
+        worksheet = writer.sheets['didatic_attendance_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = awards[awards[[
+        "MCR_No"]].isnull().any(axis=1)]
+
+        for row in nullrows.index:
+            ran = "A" + str(row+2) + ":BA" + str(row+2)
+            worksheet.conditional_format(ran,
+                                            {'type':     'cell',
+                                            'criteria': 'not equal to',
+                                            'value': '"o1"',
+                                            'format':   format1})
+            
+        writer.save()
+        abort(404, description='Invalid Excel submitted')
+
+
+    ### personal details
     personalDetails = personalDetails.fillna('')
     for i in range(len(personalDetails)):
         data = dict(personalDetails.iloc[i])
@@ -698,32 +1054,7 @@ def view():
             print("Stack trace:")
             traceback.print_exc()
 
-    # Involvement
-    involvement = pd.read_excel(
-        file, sheet_name="Involvement", dtype=str)
-    involvement.columns = ['Involvement_Type', 'MCR_No',
-                        'Event', 'Role', 'Start_Date', 'End_Date']
-
-    if involvement['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
-        involvement.to_excel(
-            writer, sheet_name='involvement_error')
-        workbook = writer.book
-        worksheet = writer.sheets['involvement_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = involvement[involvement[[
-        "MCR_No"]].isnull().any(axis=1)]
-
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
+    ### involvement
     involvement = involvement.fillna('')
     for i in range(len(involvement)):
         data = dict(involvement.iloc[i])
@@ -736,33 +1067,8 @@ def view():
             print("An error occurred:", e)
             print("Stack trace:")
             traceback.print_exc()
-    
-    #history-education
-    history_education = pd.read_excel(
-        file, sheet_name="History - Education", dtype=str)
-    history_education.columns = ['MCR_No' , 'Year_of_Graduation' , 'Date_of_Graduation' , 'Basic_Qualification' , 'Medical_School' , 'Country_of_Graduation' , 'IM_Residency_Start_Date' , 
-    'IM_Residency_End_Date', 'SR_Residency_Programme', 'SR_Residency_Start_Date', 'SR_Residency_End_Date','PG_Year']
 
-    if history_education['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
-        history_education.to_excel(
-            writer, sheet_name='history_education_error')
-        workbook = writer.book
-        worksheet = writer.sheets['history_education_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = history_education[history_education[[
-        "MCR_No"]].isnull().any(axis=1)]
-
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
+    ### history_education
     history_education = history_education.fillna('')
     for i in range(len(history_education)):
         data = dict(history_education.iloc[i])
@@ -776,31 +1082,7 @@ def view():
             print("Stack trace:")
             traceback.print_exc()
 
-    #history-posting
-    history_posting = pd.read_excel(
-        file, sheet_name="History - Posting", dtype=str)
-    history_posting.columns = [ 'MCR_No', 'Posting_Institution' , 'Posting_Department' , 'Posting_StartDate' , 'Posting_EndDate']
-
-    if history_posting['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
-        history_posting.to_excel(
-            writer, sheet_name='history_posting_error')
-        workbook = writer.book
-        worksheet = writer.sheets['history_posting_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = history_posting[history_posting[[
-        "MCR_No"]].isnull().any(axis=1)]
-
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
+    ### history_posting
     history_posting= history_posting.fillna('')
     for i in range(len(history_posting)):
         data = dict(history_posting.iloc[i])
@@ -814,31 +1096,7 @@ def view():
             print("Stack trace:")
             traceback.print_exc()
 
-    #history-exam
-    history_exam = pd.read_excel(
-        file, sheet_name="History - Exam", dtype=str)
-    history_exam.columns = [ 'MCR_No', 'Name_of_Exam' , 'Date_of_Attempt' , 'Exam_Status']
-
-    if history_exam['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
-        history_exam.to_excel(
-            writer, sheet_name='history_exam_error')
-        workbook = writer.book
-        worksheet = writer.sheets['history_exam_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = history_exam[history_exam[[
-        "MCR_No"]].isnull().any(axis=1)]
-
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
+    ### history-exam
     history_exam= history_exam.fillna('')
     for i in range(len(history_exam)):
         data = dict(history_exam.iloc[i])
@@ -852,31 +1110,7 @@ def view():
             print("Stack trace:")
             traceback.print_exc()
 
-    #histroy-trg
-    history_trg = pd.read_excel(
-        file, sheet_name="History - Trg Ext.&Remediation", dtype=str)
-    history_trg.columns = [ 'MCR_No', 'LOAPIP' , 'StartDate' , 'EndDate']
-
-    if history_trg['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
-        history_trg.to_excel(
-            writer, sheet_name='history_trg_error')
-        workbook = writer.book
-        worksheet = writer.sheets['history_trg_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = history_trg[history_trg[[
-        "MCR_No"]].isnull().any(axis=1)]
-
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
+    ### history trg
     history_trg= history_trg.fillna('')
     for i in range(len(history_trg)):
         data = dict(history_trg.iloc[i])
@@ -889,31 +1123,8 @@ def view():
             print("An error occurred:", e)
             print("Stack trace:")
             traceback.print_exc()
-    #grants
-    grants = pd.read_excel(
-        file, sheet_name="Grants", dtype=str)
-    grants.columns = [ 'MCR_No', 'Name_of_Grant' , 'Project_Title' , 'Project_ID' , 'Grant_End_Date' , 'Grant_Start_Date']
 
-    if grants['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
-        grants.to_excel(
-            writer, sheet_name='grants_error')
-        workbook = writer.book
-        worksheet = writer.sheets['grants_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = grants[grants[[
-        "MCR_No"]].isnull().any(axis=1)]
-
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
+    ### grants
     grants= grants.fillna('')
     for i in range(len(grants)):
         data = dict(grants.iloc[i])
@@ -927,31 +1138,7 @@ def view():
             print("Stack trace:")
             traceback.print_exc()
 
-    #Awards
-    awards = pd.read_excel(
-        file, sheet_name="Awards", dtype=str)
-    awards.columns = [ 'MCR_No', 'Award_Category' , 'Name_of_Award' , 'FY_of_Award_Received' , 'Date_of_Award_Received' , 'Project_ID']
-
-    if awards['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
-        awards.to_excel(
-            writer, sheet_name='awards_error')
-        workbook = writer.book
-        worksheet = writer.sheets['awards_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = awards[awards[[
-        "MCR_No"]].isnull().any(axis=1)]
-
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
+    ### Awards
     awards= awards.fillna('')
     for i in range(len(awards)):
         data = dict(awards.iloc[i])
@@ -963,69 +1150,9 @@ def view():
         except Exception as e:
             print("An error occurred:", e)
             print("Stack trace:")
-            traceback.print_exc()       
+            traceback.print_exc()     
 
-    #didatic attendance 
-    didatic_attendance = pd.read_excel(
-        file, sheet_name="Didactic Attendance", dtype=str)
-    didatic_attendance.columns = [ 'MCR_No', 'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended' , 'Percentage_of_sessions_attended' , 'MmYyyy' , 'Compliance_or_Not' ]
-    if didatic_attendance['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
-        didatic_attendance.to_excel(
-            writer, sheet_name='didatic_attendance_error')
-        workbook = writer.book
-        worksheet = writer.sheets['didatic_attendance_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = awards[awards[[
-        "MCR_No"]].isnull().any(axis=1)]
-
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
-    didatic_attendance= didatic_attendance.fillna('')
-    for i in range(len(awards)):
-        data = dict(awards.iloc[i])
-        presentation9 = Didactic_Attendance(**data)
-        try:
-            db.session.add(presentation9)
-            db.session.commit()
-
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()   
-
-    #publications
-    publlications = pd.read_excel(
-        file, sheet_name="Publications", dtype=str)
-    publlications.columns = [ 'MCR_No', 'Publication_Title' , 'Journal_Title' , 'PMID' , 'Publication_Date' ]
-    if publlications['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
-        publlications.to_excel(
-            writer, sheet_name='publlications_error')
-        workbook = writer.book
-        worksheet = writer.sheets['publlications_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = publlications[publlications[[
-        "MCR_No"]].isnull().any(axis=1)]
-
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
+    ### publications
     publlications= publlications.fillna('')
     for i in range(len(publlications)):
         data = dict(publlications.iloc[i])
@@ -1037,32 +1164,9 @@ def view():
         except Exception as e:
             print("An error occurred:", e)
             print("Stack trace:")
-            traceback.print_exc()   
+            traceback.print_exc()  
 
-    #presentations
-    presentations = pd.read_excel(
-        file, sheet_name="Presentations", dtype=str)
-    presentations.columns = [ 'MCR_No', 'Title' , 'Type' , 'Project_ID' , 'Conference_Name' , 'Country' , 'Presentation_Date' ]
-    if presentations['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
-        presentations.to_excel(
-            writer, sheet_name='presentations_error')
-        workbook = writer.book
-        worksheet = writer.sheets['presentations_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = presentations[presentations[[
-        "MCR_No"]].isnull().any(axis=1)]
-
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
+    ### presentations
     presentations= presentations.fillna('')
     for i in range(len(presentations)):
         data = dict(presentations.iloc[i])
@@ -1074,32 +1178,9 @@ def view():
         except Exception as e:
             print("An error occurred:", e)
             print("Stack trace:")
-            traceback.print_exc()   
+            traceback.print_exc()     
 
-    #project
-    project = pd.read_excel(
-        file, sheet_name="Projects", dtype=str)
-    project.columns = [ 'MCR_No', 'Project_Type' ,'Project_Title' ,'Project_ID' ,'Start_Date' , 'End_Date' , 'Date_of_QI_Certification' , 'PMID' ]
-    if project['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
-        project.to_excel(
-            writer, sheet_name='project_error')
-        workbook = writer.book
-        worksheet = writer.sheets['project_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = project[project[[
-        "MCR_No"]].isnull().any(axis=1)]
-
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
+    ###project
     project= project.fillna('')
     for i in range(len(project)):
         data = dict(project.iloc[i])
@@ -1111,32 +1192,9 @@ def view():
         except Exception as e:
             print("An error occurred:", e)
             print("Stack trace:")
-            traceback.print_exc()   
+            traceback.print_exc()    
     
-    #IHI
-    ihi = pd.read_excel(
-        file, sheet_name="IHI", dtype=str)
-    ihi.columns = [ 'MCR_No', 'Completion_of_Emodules' , 'Date' ]
-    if ihi['MCR_No'].isnull().sum() > 0:
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
-        ihi.to_excel(
-            writer, sheet_name='ihi_error')
-        workbook = writer.book
-        worksheet = writer.sheets['ihi_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = ihi[ihi[[
-        "MCR_No"]].isnull().any(axis=1)]
-
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-        writer.save()
-        abort(404, description="Invalid excel submitted")
-
+    ### ihi
     ihi= ihi.fillna('')
     for i in range(len(ihi)):
         data = dict(ihi.iloc[i])
@@ -1149,13 +1207,24 @@ def view():
             print("An error occurred:", e)
             print("Stack trace:")
             traceback.print_exc()   
+
+    ### didatic attendance 
+    didatic_attendance= didatic_attendance.fillna('')
+    for i in range(len(didatic_attendance)):
+        data = dict(didatic_attendance.iloc[i])
+        presentation9 = Didactic_Attendance(**data)
+        try:
+            db.session.add(presentation9)
+            db.session.commit()
+
+        except Exception as e:
+            print("An error occurred:", e)
+            print("Stack trace:")
+            traceback.print_exc()   
+
     
 
     return history_posting.to_html()
-
-
-
-
 
 
 
@@ -1535,7 +1604,6 @@ def get_didactic_attendance():
 @app.route("/publications")
 def read_publications():
     pdList = Publications.query.all()
-    print(pdList, 'oierjngosenrboaeir!!!!!!!!!!!!!!!!!!!!!!OSJNWOJN')
     return jsonify(
         {
             "data": [pd.to_dict()
@@ -1652,7 +1720,6 @@ def read_ihi_by_person(id):
 @app.route('/duty_hour_log', methods=['GET'])
 def get_duty_hour_log():
     dutyList = Duty_Hour_Log.query.all()
-    print(dutyList,'dutylist')
     return jsonify(
         {
             "data": [pd.to_dict()
@@ -1680,7 +1747,6 @@ def read_dutyhourlogs_by_person(id):
 @app.route('/add_duty_hour', methods=['POST'])
 def create_duty_hour():
     data = request.get_json()
-    print(data)
     if not all(key in data.keys() for key in ('MCR_No', 'Level', 'Submitted', 'Submitted_Proportion', 'MMYYYY',
                                               'Logged_for_month'
                                               )):
@@ -1767,24 +1833,20 @@ def read_procedure_log():
         }
     ), 200
 
-# Read Existing procedure logs with personal details (R)
-
-
+# Read Existing procedure logs with personal details Programme and Year_of_Training (R)
 @app.route("/procedure_logs")
 def read_procedure_logs():
     userList = Procedure_Log.query\
         .join(Personal_Details, Procedure_Log.MCR_No == Personal_Details.MCR_No)\
-        .add_columns(Personal_Details.Programme)\
+        .add_columns(Personal_Details.Programme, Personal_Details.Year_of_Training)\
         .paginate(1, 50, True)
 
     combinedProcedureLogs = []
-
     for i in userList.iter_pages():
-        print("i-->", userList.items)
-
         for item in userList.items:
             procedurelog = item[0].to_dict()
             procedurelog["Programme"] = item[1]
+            procedurelog["Year_of_Training"] = item[2]
             combinedProcedureLogs.append(procedurelog)
 
     return jsonify(
@@ -1793,8 +1855,6 @@ def read_procedure_logs():
         }), 200
 
 # Read Existing by Person (R)
-
-
 @app.route("/procedurelog/<id>")
 def read_procedurelog_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -1923,7 +1983,6 @@ def read_trgextrem_history_by_person(id):
 # ============================
 
 # AKA Presentations table routes:
-
 # Read Existing  (R)
 
 
@@ -1966,23 +2025,16 @@ def create_presentation():
                 "Error Msg": "MCR_No not present in database"
             }
         ), 404
-    print('hello')
-    print(data)
-    # MCR_No, Title, Conference_Name, Type, Project_ID, Country, Presentation_Date
     if not all(key in data.keys() for key in ('MCR_No', 'Title', 'Conference_Name', 'Type',
                                               'Project_ID', 'Country', 'Presentation_Date')):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
 
-    print("before presentation")
     presentation = Presentations(**data)
-    print("correct presentation")
     try:
         db.session.add(presentation)
-        print("committing")
         db.session.commit()
-        print("committed")
         return jsonify(presentation.to_dict()), 201
     except Exception as e:
         print("An error occurred:", e)
@@ -1994,14 +2046,12 @@ connection = engine.connect()
 @app.route('/edit_field_value', methods=['POST'])
 def edit_field_value():
     data = request.get_json()
-    print(data,'edit field DATA')
     table=data['Table']
     field = data['Field']
     value=data['Value']
     row=data['Row']
     
     update_query=f'UPDATE {table} SET {field} = \'{value}\' WHERE MCR_No = \'{row}\''
-    print(update_query,'UPDATE QUERY')
     try:
         connection.execute(update_query)
         return jsonify(data.to_dict()), 201
@@ -2026,6 +2076,9 @@ def create_resident():
     personal_details_query+=')'
     connection.execute(personal_details_query)
 
+# ============================
+# CV TEMPLATE SECTION
+# ============================
 # Generate CV word
 @app.route("/worddoc/<id>")
 def pdf_to_doc(id):
@@ -2039,47 +2092,9 @@ def pdf_to_doc(id):
     parse(pdf_file, docx_file)
     return "done"
 
-def getProjectRows(projects):
-    rows = []
-    for i in projects:
-        status = "Ongoing"
-        if i.Date_of_QI_Certification != "":
-            status = i.Date_of_QI_Certification 
-
-        i_row = """<tr id="regtable">
-                <td id="regtable">
-                    <p>""" + i.Project_Title + """</p>
-                </td>
-                <td id="regtable" style="text-align:center">
-                    <p>""" + i.Start_Date + """</p>
-                </td>
-                <td id="regtable" style="text-align:center">
-                    <p>""" + i.End_Date + """</p>
-                </td>
-                <td id="regtable" style="text-align:center">
-                    <p>""" + status + """</p>
-                </td>
-            </tr>"""
-        rows.append(i_row)
-    return " ".join(rows)
-
-def getAwardsRows(awards):
-    rows = []
-    for i in awards:
-        i_row = """<tr id="regtable">
-                <td id="regtable">
-                    <p>""" + i.Name_of_Award + """</p>
-                </td>
-                <td>
-                    <p style="text-align: center;">""" \
-                        + i.Date_of_Award_Received + \
-                """</p>
-                </td>
-            </tr>"""
-        rows.append(i_row)
-
-    return " ".join(rows)
-
+from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
+    getCommunityInvolvement, getLeadershipInvolvment, getProcedureLogs, getPostingRows,\
+    getEducationRows, getPage
 
 # Generate CV pdf:
 @app.route("/personaldetails_cv_generate/<id>")
@@ -2101,168 +2116,19 @@ def generate_cv(id):
     involvements = person.involvements
     mcrno = person.MCR_No
     name = person.Staff_Name
+    education_histories = person.education_history
+
     awardsRows = getAwardsRows(awards)
     projectRows = getProjectRows(projects)
-    page = """<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-            <style>
-        #regtable {border: 1px solid;}
-        </style>
-    </head>
+    educationalInvolvements = getEducationalInvolvement(involvements)
+    communityInvolvements = getCommunityInvolvement(involvements)
+    leadershipInvolvements =  getLeadershipInvolvment(involvements)
+    procedureLogsRows = getProcedureLogs(procedure_logs)
+    postingRows = getPostingRows(posting_histories)
+    educationRows = getEducationRows(exam_histories)
     
-    <body style="justify-content: center;">
-
-    <div id="main" style="width:850px">
-    <p style="text-align: center;"><strong><span style="font-size: 24px;"><u><b>SingHealth Internal Medicine Residency Programme&nbsp;</b></u></span></strong></p>
-    <p style="text-align: center;"><strong><span style="font-size: 24px;"><u><b>Professional Development Portfolio</b></u></span></strong></p>
-    <div align="left" >
-
-</div>
-<hr>
-<p><br></p>
-<div align="left" >
-    <table>
-        <tbody>
-            <tr>
-                <td>
-                    <p><span style="font-size: 24px;">Name&nbsp;</span></p>
-                </td>
-                <td>
-                    <p><span style="font-size: 24px;">:&nbsp;""" + name + """&nbsp;</span></p>
-                </td>
-                <td rowspan="2"><span style="font-size: 24px;"><br></span></td>
-            </tr>
-            <tr>
-                <td>
-                    <p><span style="font-size: 24px;">MCR Number</span></p>
-                </td>
-                <td>
-                    <p><span style="font-size: 24px;">: """ + mcrno + """</span></p>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">EMPLOYMENT HISTORY</span></p>
-<p><br></p>
-<p style="text-align: center;width:100%;"><span style="font-size: 20px;"><u><strong>Core Postings</strong></u></span></p>
-<div align="left" >
-    <table style="width: 100%;" >
-        <tbody>
-            <tr>
-                <td style="width: 75%;">
-                    <p><strong><u>Posting</u></strong></p>
-                    
-                </td>
-            
-                <td style="width: 25%;">
-                    <p><strong><u>Period</u></strong></p><br>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 75%;">
-                    <p><strong>Singapore General Hospital</strong></p>
-                    <p><em>Resident, Dept of Neurology</em></p><br>
-                </td>
-                
-                <td style="width: 25%;">
-                    <p>Jul 2018 &ndash; Sep 2018</p>
-                </td>
-            </tr>
-            
-
-
-        </tbody>
-    </table>
-
-
-
-    <!-- AWARD SECTION: -->
-
-    <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">AWARDS &amp; RECOGNITION&nbsp;</span></p>
-<p><br></p>
-<p>Examples: RISE Award, best HO/MO during a particular posting, best oral speaker</p>
-<p><br></p>
-<div align="left">
-    <table style="margin-right: calc(6%); width: 94%; border-color: black; width: 100%;border-collapse: collapse;">
-        <tbody id="regtable">
-            <tr id="regtable">
-                <td style="background-color: rgb(209, 213, 216);" id="regtable">
-                    <p style="text-align: center;">Name of Award</p>
-                </td>
-                <td style="background-color: rgb(209, 213, 216);" id="regtable">
-                    <p style="text-align: center;">Date Received</p>
-                </td>
-            </tr>
-            <tr id="regtable">
-                <td id="regtable">
-                    <p>RISE Awards &ndash; Outstanding Performance at 2013 ITE</p>
-                </td>
-                <td>
-                    <p style="text-align: center;">25 Sep 2013</p>
-                </td>
-            </tr>
-            """ + awardsRows + """
-            
-        </tbody>
-    </table>
-</div>
-
-
-<!-- Projects SECTION: -->
-
-<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">RESEARCH PROJECTS</span></p>
-
-<p><br></p>
-<p>Examples: RISE Award, best HO/MO during a particular posting, best oral speaker</p>
-<p><br></p>
-<div align="left">
-    <table style="margin-right: calc(6%); width: 94%; border-color: black; width: 100%;border-collapse: collapse;">
-        <tbody id="regtable">
-            <tr id="regtable">
-                <td style="background-color: rgb(209, 213, 216); width:50%" id="regtable">
-                    <p style="text-align: center;">Details of Research</p>
-                </td>
-                <td style="background-color: rgb(209, 213, 216);" id="regtable">
-                    <p style="text-align: center;">Start Date</p>
-                </td>
-                <td style="background-color: rgb(209, 213, 216);" id="regtable">
-                    <p style="text-align: center;">End Date</p>
-                </td>
-                <td style="background-color: rgb(209, 213, 216);" id="regtable">
-                    <p style="text-align: center;">Status (Completed/On-going)</p>
-                </td>
-            </tr>
-            <tr id="regtable">
-                <td id="regtable">
-                    <p>Pemphigus and Pemphigoid comparison</p>
-                </td>
-                <td id="regtable" style="text-align:center">
-                    <p>1 Jan 2015</p>
-                </td>
-                <td id="regtable" style="text-align:center">
-                    <p>31 Apr 2016</p>
-                </td>
-                <td id="regtable" style="text-align:center">
-                    <p>Completed</p>
-                </td>
-            </tr>
-            """+ projectRows + """
-            
-        </tbody>
-    </table>
-</div>
-
-</div>
-
-</div>
-</body>
-    </html>"""
+    page = getPage(name, mcrno, awardsRows, projectRows, educationalInvolvements, communityInvolvements,
+        leadershipInvolvements, procedureLogsRows, postingRows, educationRows)
 
     html_file_name = "./cv/cv.html"
     Func = open(html_file_name,"w")
@@ -2271,11 +2137,10 @@ def generate_cv(id):
     import pdfkit
     from pathlib import Path
     input = Path(html_file_name)
-    print(input)
     pdfkit.from_file(html_file_name, 
     './cv/cv.pdf')
-
     return "done"
+
 
 db.create_all()
 
