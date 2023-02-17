@@ -107,6 +107,7 @@ INSERT INTO `Projects` (`MCR_No`, `Project_ID`, `Project_Type`, `Project_Title`,
 -- Table structure for table `Procedure_Log`
 --
 CREATE TABLE `Procedure_Log` (
+  `id` INT AUTO_INCREMENT NOT NULL,
   `MCR_No` varchar(50) NOT NULL,
   `Procedure_Name` varchar(50) NOT NULL,
   `Date_of_Completion` varchar(50) NOT NULL,
@@ -114,7 +115,10 @@ CREATE TABLE `Procedure_Log` (
   `Performed` varchar(50) NOT NULL,
   `Observed` varchar(50) NOT NULL,
   `Verified` varchar(50) NOT NULL,
-  `Certified` varchar(50) NOT NULL
+  `Certified` varchar(50) NOT NULL,
+  primary key (id),
+  CONSTRAINT FK_PersonOrder13 FOREIGN KEY (MCR_No)
+  REFERENCES Personal_Details(MCR_No)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `Procedure_Log` (`MCR_No`, `Procedure_Name`, `Date_of_Completion`, `Total`, `Performed`, `Observed`, `Verified`, `Certified`) VALUES
