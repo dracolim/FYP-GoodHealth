@@ -1,0 +1,28 @@
+@app.route('/create_resident', methods=['POST'])
+def create_resident():
+    data = request.get_json()
+    personal_details_query = f'INSERT INTO Personal_Details VALUES ('
+    for column in data['Personal_Details']:
+        value_to_insert = data['Personal_Details'][column]
+        personal_details_query += "'" + value_to_insert+"',"
+    personal_details_query = personal_details_query[:-3]
+    personal_details_query += "'0'"
+    personal_details_query += ')'
+    connection.execute(personal_details_query)
+
+    # remove personal details from data
+    del data['Personal_Details']
+    print(data, 'data now is what')
+
+    for table in data:
+        query = f'INSERT INTO {table} VALUES ('
+        query_string_values = ''
+        for col in data[table]:
+            value_to_insert = data[table][col]
+            query_string_values += "'" + value_to_insert+"',"
+        query_string_values = query_string_values[:-3]
+        query_string_values += "'0'"
+        query_string_values += ')'
+        query += query_string_values
+        connection.execute(query)
+
