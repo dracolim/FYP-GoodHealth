@@ -39,9 +39,9 @@ class Personal_Details(db.Model):
     Date_of_Second_Dose = db.Column(db.String(50))
     Vaccination_Remarks = db.Column(db.String(50))
 
-    procedure_logs = db.relationship('procedure_log', backref='Personal_Details')
-    projects = db.relationship('Project', backref='Personal_Details')
-    ihis = db.relationship('ihi', backref='Personal_Details')
+    procedure_logs = db.relationship('Procedure_Log', backref='Personal_Details')
+    # projects = db.relationship('Project', backref='Personal_Details')
+    # ihis = db.relationship('ihi', backref='Personal_Details')
 
     __mapper_args__ = {
         'polymorphic_identity': 'Personal_Details'

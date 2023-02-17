@@ -52,7 +52,7 @@ from Duty_Hour_Log import Duty_Hour_Log
 from Didactic_Attendance import didactic_attendance
 from IHI import ihi
 from projects import Project
-from Procedure_Log import procedure_log
+from Procedure_Log import Procedure_Log
 
 class Awards(db.Model):
     __tablename__ = 'Awards'
@@ -569,8 +569,8 @@ def get_duty_log_by_employeeid_year(employee_id, year):
 # ============================
 @app.route("/procedure_logs")
 def read_procedure_logs():
-    userList = procedure_log.query\
-        .join(Personal_Details, procedure_log.MCR_No == Personal_Details.MCR_No)\
+    userList = Procedure_Log.query\
+        .join(Personal_Details, Procedure_Log.MCR_No == Personal_Details.MCR_No)\
         .add_columns(Personal_Details.Programme, Personal_Details.Year_of_Training)\
         .paginate(1, 50, True)
 
