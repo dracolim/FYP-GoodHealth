@@ -18,17 +18,17 @@ app = Flask(__name__)
 app.app_context().push()
 
 if __name__ == '__main__':
-    # Mac user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-                                           '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+#     # Mac user -------------------------------------------------------------------
+#     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+#                                            '@localhost:3306/SingHealth'
+#     engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
     # --------------------------------------------------------------------------------
 
     # # Windows user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
-    #                                         '@localhost:3306/SingHealth'
-    # engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
+                                            '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -2161,8 +2161,7 @@ def create_presentation():
         print("An error occurred:", e)
         print("Stack trace:")
         traceback.print_exc()
-        
-connection = engine.connect()
+
 
 @app.route('/presentation/<int:id>', methods=['PUT'])
 def update_presentation(id):
@@ -2193,40 +2192,15 @@ def delete_presentation(id):
     db.session.commit()
     return 'presentation deleted', 200
 
-#OBSELETED
-# @app.route('/edit_field_value', methods=['POST'])
-# def edit_field_value():
-#     data = request.get_json()
-#     table=data['Table']
-#     field = data['Field']
-#     value=data['Value']
-#     row=data['Row']
-    
-#     update_query=f'UPDATE {table} SET {field} = \'{value}\' WHERE MCR_No = \'{row}\''
-#     try:
-#         connection.execute(update_query)
-#         return jsonify(data.to_dict()), 201
-#     except Exception as e:
-#         print("An error occurred:", e)
-#         traceback.print_exc()
-#         return jsonify(
-#             {
-#                 "Error Msg": "error occured"
-#             }
-#         ), 404
 
-# Read Awards field/column name (R)
-@app.route('/create_resident', methods=['POST'])
-def create_resident():
-    data = request.get_json()
-    personal_details_query=f'INSERT INTO Personal_Details VALUES ('
-    for column in data['Personal_Details']:
-        value_to_insert=data['Personal_Details'][column]
-        personal_details_query+="'" + value_to_insert+"',"
-    personal_details_query=personal_details_query[:-3]
-    personal_details_query+="'0'"
-    personal_details_query+=')'
-    connection.execute(personal_details_query)
+
+
+import pdfkit
+from pdfkit.api import configuration
+
+wkhtml_path = pdfkit.configuration(wkhtmltopdf = r"C:\Users\feryo\OneDrive\Documents\GitHub\wkhtmltopdf\bin\wkhtmltopdf.exe")  #by using configuration you can add path value.
+
+
 
 # ============================
 # CV TEMPLATE SECTION
@@ -2237,8 +2211,8 @@ def pdf_to_doc(id):
     generate_cv(id)
     from pdf2docx import parse
 
-    pdf_file = './cv/cv.pdf'
-    docx_file = './cv/cv.docx'
+    pdf_file = '../cv/cv.pdf'
+    docx_file = '../cv/cv.docx'
 
     # convert pdf to docx
     parse(pdf_file, docx_file)
@@ -2246,7 +2220,8 @@ def pdf_to_doc(id):
 
 from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
     getCommunityInvolvement, getLeadershipInvolvment, getProcedureLogs, getPostingRows,\
-    getEducationRows, getPage
+    getEducationRows, getPresentationRows,getTeachingPresentationRows,getPublications,getPage,\
+    getQIPatientSafetyRows
 
 # Generate CV pdf:
 @app.route("/personaldetails_cv_generate/<id>")
@@ -2269,6 +2244,7 @@ def generate_cv(id):
     mcrno = person.MCR_No
     name = person.Staff_Name
     education_histories = person.education_history
+    
 
     awardsRows = getAwardsRows(awards)
     projectRows = getProjectRows(projects)
@@ -2278,11 +2254,17 @@ def generate_cv(id):
     procedureLogsRows = getProcedureLogs(procedure_logs)
     postingRows = getPostingRows(posting_histories)
     educationRows = getEducationRows(exam_histories)
+    teachingPresentationRows=getTeachingPresentationRows(presentations)
+    presentationRows=getPresentationRows(presentations)
+    publicationRows=getPublications(publications)
+    patientSafetyQIRows=getQIPatientSafetyRows(projects)
     
     page = getPage(name, mcrno, awardsRows, projectRows, educationalInvolvements, communityInvolvements,
-        leadershipInvolvements, procedureLogsRows, postingRows, educationRows)
+        leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentationRows,teachingPresentationRows,
+        publicationRows,patientSafetyQIRows)
 
-    html_file_name = "./cv/cv.html"
+
+    html_file_name = "../cv/cv.html"
     Func = open(html_file_name,"w")
     Func.write(page)
     Func.close()
@@ -2292,8 +2274,6 @@ def generate_cv(id):
     pdfkit.from_file(html_file_name, 
     './cv/cv.pdf')
     return "done"
-
-
 db.create_all()
 
 if __name__ == '__main__':
