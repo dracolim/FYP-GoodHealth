@@ -24,6 +24,63 @@ USE SingHealth;
 --
 
 -- --------------------------------------------------------
+--
+-- Table structure for table `personal_details`
+--
+
+CREATE TABLE `personal_details` (
+  `Employee_ID` varchar(50) NOT NULL,
+  `MCR_No` varchar(50) NOT NULL,
+  `Staff_Name` varchar(50) NOT NULL,
+  `Designation` varchar(50) NOT NULL,
+  `Programme` varchar(50) NOT NULL,
+  `Year_of_Training` varchar(50) NOT NULL,
+  `Academic_Year` varchar(50) NOT NULL,
+  `Department` varchar(50) NOT NULL,
+  `Institution` varchar(50) NOT NULL,
+  `Academic_Clinical_Programme` varchar(50) NOT NULL,
+  `Employment_Status` varchar(50) NOT NULL,
+  `Nationality` varchar(50) NOT NULL,
+  `Date_of_Birth` varchar(50) NOT NULL,
+  `Gender` varchar(50) NOT NULL,
+  `Registration_Type` varchar(50) NOT NULL,
+  `House_Blk_No` varchar(50) NOT NULL,
+  `Street` varchar(50) NOT NULL,
+  `Building_Name` varchar(50) NOT NULL,
+  `Unit_No` varchar(50) NOT NULL,
+  `Postal_Code` varchar(50) NOT NULL,
+  `Contact_No_Work` varchar(50) NOT NULL,
+  `Contact_No_Personal` varchar(50) NOT NULL,
+  `Email_Official` varchar(50) NOT NULL,
+  `Email_Personal` varchar(50) NOT NULL,
+  `BCLS_Expiry_Date` varchar(50) DEFAULT NULL,
+  `ACLS_Expiry_Date` varchar(50) DEFAULT NULL,
+  `Covid_19_Vaccination_Status` varchar(50) DEFAULT NULL,
+  `Date_of_First_Dose` varchar(50) DEFAULT NULL,
+  `Date_of_Second_Dose` varchar(50) DEFAULT NULL,
+  `Vaccination_Remarks` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `personal_details`
+--
+
+INSERT INTO `personal_details` (`Employee_ID`, `MCR_No`, `Staff_Name`, `Designation`, `Programme`, `Year_of_Training`, `Academic_Year`, `Department`, `Institution`, `Academic_Clinical_Programme`, `Employment_Status`, `Nationality`, `Date_of_Birth`, `Gender`, `Registration_Type`, `House_Blk_No`, `Street`, `Building_Name`, `Unit_No`, `Postal_Code`, `Contact_No_Work`, `Contact_No_Personal`, `Email_Official`, `Email_Personal`, `BCLS_Expiry_Date`, `ACLS_Expiry_Date`, `Covid_19_Vaccination_Status`, `Date_of_First_Dose`, `Date_of_Second_Dose`, `Vaccination_Remarks`) VALUES
+('MOM12390', 'M11367A', 'Daniel Tyler', 'Senior Resident', 'Gastroenterology', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-11-11 00:00:00', 'Male', 'Full', '', '11A Tanglin Hill', '', '', '248000', '92343980', '91391470', 'daniel.tyler@mohh.com.sg', '', '2019-07-20 00:00:00', '2019-08-29 00:00:00', 'Yes', '2021-03-30 00:00:00', '2021-04-20 00:00:00', ''),
+('MOM05233', 'M16782H', 'Betty Li', 'Senior Resident', 'Gastroenterology', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singapore PR', '1987-09-02 00:00:00', 'Female', 'Full', '', '44B Jalan Anggerek', '', '', '369000', '', '81838980', 'betty.li@mohh.com.sg', '', '2019-03-23 00:00:00', '2019-04-11 00:00:00', 'Yes', '2021-03-31 00:00:00', '2021-04-21 00:00:00', ''),
+('MOM05601', 'M33571G', 'Koh Zheng Tang', 'Senior Resident', 'Renal Medicine', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-08-21 00:00:00', 'Male', 'Full', '', '111 Duchess Road', '', '', '269000', '88692800', '98290530', 'zhengtang.koh@mohh.com.sg', '', '', '2021-07-25 00:00:00', 'Yes', '2021-01-14 00:00:00', '2021-02-04 00:00:00', ''),
+('MOM06313', 'M35589A', 'Koh Xiaojia Lynette', 'Senior Resident', 'Respiratory Medicine', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1992-07-23 00:00:00', 'Female', 'Full', '', '700 Tampines Street 71 ', '', '#16-60 ', '520000', '97980650', '', 'lynette.koh@mohh.com.sg', '', '2022-08-31 00:00:00', '2022-10-15 00:00:00', 'Yes', '2021-01-15 00:00:00', '2021-02-10 00:00:00', ''),
+('MOM06600', 'M35718D', 'Malcolm Tang', 'Senior Resident', 'Renal Medicine', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Myanmar', '1983-04-25 00:00:00', 'Male', 'Conditional (L3)', '', 'Blk 264D, Compass Vale Bow', '', '#07-30', '544000', '', '96303450', 'malcolm.tang@mohh.com.sg', '', '', '2021-09-01 00:00:00', 'Yes', '2021-02-03 00:00:00', '2021-03-01 00:00:00', ''),
+('MOM05928', 'M45528I', 'Brendan Lee Potter', 'Senior Resident', 'Respiratory Medicine', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-04-20 00:00:00', 'Male', 'Full', '', '72 Chu Yen Street ', '', '', '669000', '88098560', '', 'bryan.lee.potter@mohh.com.sg', '', '2021-10-08 00:00:00', '2021-11-18 00:00:00', 'Yes', '2021-01-21 00:00:00', '2021-02-16 00:00:00', ''),
+('MOM05609', 'M54354E', 'Rahul Rajaratnam', 'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-08-28 00:00:00', 'Male', 'Full', '', 'Block 111 Woodlands Ave 1', '', '#06-441', '730000', '90259920', '66181540', 'rahul.rajaratnam@mohh.com.sg', '', '2016-10-27 00:00:00', '2016-10-29 00:00:00', 'Yes', '2021-03-17 00:00:00', '2021-04-07 00:00:00', ''),
+('MOM05579', 'M56829J', 'Ivanka Lee Xiao Wei', 'Senior Resident', 'Renal Medicine', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-02-20 00:00:00', 'Female', 'Full', '', 'BLK 939 Jurong West St 73', '', '#09-429', '640000', '97424710', '67917320', 'ivanka.lee@mohh.com.sg', '', '', '2021-11-18 00:00:00', 'Yes', '2021-02-03 00:00:00', '2021-02-25 00:00:00', ''),
+('MOM05459', 'M65659J', 'Chen Youyi', 'Senior Resident', 'Respiratory Medicine', 'SR1', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-12-12 00:00:00', 'Female', 'Full', '', '900 Joo Chiat Terrace ', '', '#05-08 ', '427000', '97688160', '', 'youyi.chen@mohh.com.sg', '', '2021-04-22 00:00:00', '2021-06-09 00:00:00', 'No', '', '', ''),
+('MOM07177', 'M65889A', 'Sally Pei', 'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1993-02-13 00:00:00', 'Female', 'Full', '', '83 Hazel Park Terrace', '', '#11-04  ', '678000', '', '91148250', 'sally.pei@mohh.com.sg', '', '2020-09-10 00:00:00', '2018-10-25 00:00:00', 'Yes', '2021-01-27 00:00:00', '2021-02-17 00:00:00', ''),
+('MOM05705', 'M66630D', 'Toh Jiahao Thomas', 'Senior Resident', 'Respiratory Medicine', 'SR1', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-02-01 00:00:00', 'Male', 'Full', '', '19A Ford Avenue ', '', '#01-07 ', '268000', '88692870', ' 96269350', 'thomas.toh@mohh.com.sg', '', '2021-08-25 00:00:00', '2021-09-02 00:00:00', 'Yes', '', '2021-02-17 00:00:00', ''),
+('MOM04393', 'M83162D', 'Cindee Tan', 'Senior Resident', 'Renal Medicine', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Malaysian', '1988-02-29 00:00:00', 'Female', 'Conditional (L3)', '', 'Block 37D,Kreta Ayer Road', '', '#20-02', '803000', '', '96610520', 'cindee.tan@mohh.com.sg', '', '', '2021-11-14 00:00:00', 'Yes', '2021-03-11 00:00:00', '', ''),
+('MOM05690', 'M88791Z', 'Kang Hyun Bin', 'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-12-05 00:00:00', 'Male', 'Full', '', 'Lorong Gambir', '', '', '536000', '', '91515780', 'hyunbin.kang@mohh.com.sg', '', '', '', 'Yes', '2021-02-09 00:00:00', '2021-03-02 00:00:00', '');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `awards`
@@ -96,9 +153,9 @@ CREATE TABLE `case_log` (
 --
 
 INSERT INTO `case_log` (`id`, `MCR_No`, `Case_Name`, `Subspecialty`, `Type_of_Case_Log`, `Date_of_Log`, `CPT`, `Total`, `Performed`, `Observed`, `Verified`, `Certified`) VALUES
-(1, 'MOM12390', 'AKI - Case Log', 'gastro', 'inpatient', '3/2/2022', 'Null', '10', '2', '8', '', 'No'),
-(2, 'MOM05233', 'CKD - Case Log', 'renal', 'outpatient', '3/2/2022', 'Null', '36', '1', '4', '', 'No'),
-(3, 'MOM07177', 'GN - Case Log', 'renal', 'blue letter', '3/2/2022', 'Null', '37', '13', '24', '', 'Yes');
+(1, 'M11367A', 'AKI - Case Log', 'gastro', 'inpatient', '3/2/2022', 'Null', '10', '2', '8', '', 'No'),
+(2, 'M16782H', 'CKD - Case Log', 'renal', 'outpatient', '3/2/2022', 'Null', '36', '1', '4', '', 'No'),
+(3, 'M65889A', 'GN - Case Log', 'renal', 'blue letter', '3/2/2022', 'Null', '37', '13', '24', '', 'Yes');
 
 -- --------------------------------------------------------
 
@@ -169,13 +226,11 @@ CREATE TABLE `duty_hour_log` (
 --
 
 INSERT INTO `duty_hour_log` (`id`, `MCR_No`, `Level`, `Submitted`, `Submitted_Proportion`, `MMYYYY`, `Logged_for_month`) VALUES
-(1, '1234o18', '4', '3', '0.5', 'Mar-20', 'Yes'),
-(2, '1234o18', '4', '4', '0.3', 'Mar-20', 'Yes'),
-(3, '1234o18', '4', '0', '0', 'Mar-20', 'Yes'),
-(4, '1234o19', '4', '3', '1', 'Mar-20', 'Yes'),
-(5, '1234o19', '4', '4', '1', 'Mar-20', 'Yes'),
-(6, '1234o19', '', '', '', '', ''),
-(7, '1234o19', '', '', '', '', '');
+(1, 'M54354E', '4', '3', '0.5', 'Mar-20', 'Yes'),
+(2, 'M11367A', '4', '4', '0.3', 'Mar-20', 'Yes'),
+(3, 'M88791Z', '4', '0', '0', 'Mar-20', 'Yes'),
+(4, 'M65889A', '4', '3', '1', 'Mar-20', 'Yes'),
+(5, 'M65889A', '4', '4', '1', 'Mar-20', 'Yes');
 
 -- --------------------------------------------------------
 
@@ -242,10 +297,10 @@ CREATE TABLE `evaluations` (
 --
 
 INSERT INTO `evaluations` (`id`, `MCR_No`, `Year_of_Training`, `Rotation_Period`, `Name_of_Evaluation_Form`, `Question_Number`, `Score`, `Evaluator`, `Service`, `Answer`) VALUES
-(1, 'MOM05233', '2022', '7/1/2022-7/31/2022', 'ABC', '2', '4', 'Dr. Chan, Webber Pak Wo', 'SHS-GASTRO:BASIC ENDO-SGH', '5 (5)'),
-(2, 'MOM07177', '2022', '11/1/2022-11/30/2022', 'DEF', '3', '4', 'Dr. Chang, Jason Pik Eu', 'SHS-GRM:GERI-CGH', '7 (7)'),
-(3, 'MOM05609', '2022', '11/1/2022-11/30/2022', 'GHI', '4', '4', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH', '8 (8)'),
-(4, 'MOM05690', '2022', '12/1/2022-1/3/2023', 'JKL', '5', '3', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', '7 (7)');
+(1, 'M11367A', '2022', '7/1/2022-7/31/2022', 'ABC', '2', '4', 'Dr. Chan, Webber Pak Wo', 'SHS-GASTRO:BASIC ENDO-SGH', '5 (5)'),
+(2, 'M65889A', '2022', '11/1/2022-11/30/2022', 'DEF', '3', '4', 'Dr. Chang, Jason Pik Eu', 'SHS-GRM:GERI-CGH', '7 (7)'),
+(3, 'M54354E', '2022', '11/1/2022-11/30/2022', 'GHI', '4', '4', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH', '8 (8)'),
+(4, 'M88791Z', '2022', '12/1/2022-1/3/2023', 'JKL', '5', '3', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', '7 (7)');
 
 -- --------------------------------------------------------
 
@@ -340,8 +395,8 @@ CREATE TABLE `grants` (
 --
 
 INSERT INTO `grants` (`id`, `MCR_No`, `Name_of_Grant`, `Project_Title`, `Project_ID`, `Grant_End_Date`, `Grant_Start_Date`) VALUES
-(1, '1234o18', 'grant1', 'project1', '1234', '1/1/2022', '1/2/2022'),
-(2, '1234o19', 'grant2', 'project12', '5667', '4/5/2022', '4/6/2022');
+(1, 'M65659J', 'grant1', 'project1', '1234', '1/1/2022', '1/2/2022'),
+(2, 'M88791Z', 'grant2', 'project12', '5667', '4/5/2022', '4/6/2022');
 
 -- --------------------------------------------------------
 
@@ -485,64 +540,6 @@ INSERT INTO `involvement` (`id`, `Involvement_Type`, `MCR_No`, `Event`, `Role`, 
 (90, 'Community', 'M65659J', 'Neighbourhood health service ', '', 'Oct-17', 'Oct-17'),
 (91, 'Teaching', 'M65659J', 'SingHealth PGY1 Programme', 'Physician Faculty', 'Oct-20', 'Dec-23'),
 (92, 'Teaching', 'M65659J', 'CGH ICU Procedure Course for Junior Residents', 'Simulation Centre Teachings', 'Jul-20', 'Dec-20');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `personal_details`
---
-
-CREATE TABLE `personal_details` (
-  `Employee_ID` varchar(50) NOT NULL,
-  `MCR_No` varchar(50) NOT NULL,
-  `Staff_Name` varchar(50) NOT NULL,
-  `Designation` varchar(50) NOT NULL,
-  `Programme` varchar(50) NOT NULL,
-  `Year_of_Training` varchar(50) NOT NULL,
-  `Academic_Year` varchar(50) NOT NULL,
-  `Department` varchar(50) NOT NULL,
-  `Institution` varchar(50) NOT NULL,
-  `Academic_Clinical_Programme` varchar(50) NOT NULL,
-  `Employment_Status` varchar(50) NOT NULL,
-  `Nationality` varchar(50) NOT NULL,
-  `Date_of_Birth` varchar(50) NOT NULL,
-  `Gender` varchar(50) NOT NULL,
-  `Registration_Type` varchar(50) NOT NULL,
-  `House_Blk_No` varchar(50) NOT NULL,
-  `Street` varchar(50) NOT NULL,
-  `Building_Name` varchar(50) NOT NULL,
-  `Unit_No` varchar(50) NOT NULL,
-  `Postal_Code` varchar(50) NOT NULL,
-  `Contact_No_Work` varchar(50) NOT NULL,
-  `Contact_No_Personal` varchar(50) NOT NULL,
-  `Email_Official` varchar(50) NOT NULL,
-  `Email_Personal` varchar(50) NOT NULL,
-  `BCLS_Expiry_Date` varchar(50) DEFAULT NULL,
-  `ACLS_Expiry_Date` varchar(50) DEFAULT NULL,
-  `Covid_19_Vaccination_Status` varchar(50) DEFAULT NULL,
-  `Date_of_First_Dose` varchar(50) DEFAULT NULL,
-  `Date_of_Second_Dose` varchar(50) DEFAULT NULL,
-  `Vaccination_Remarks` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `personal_details`
---
-
-INSERT INTO `personal_details` (`Employee_ID`, `MCR_No`, `Staff_Name`, `Designation`, `Programme`, `Year_of_Training`, `Academic_Year`, `Department`, `Institution`, `Academic_Clinical_Programme`, `Employment_Status`, `Nationality`, `Date_of_Birth`, `Gender`, `Registration_Type`, `House_Blk_No`, `Street`, `Building_Name`, `Unit_No`, `Postal_Code`, `Contact_No_Work`, `Contact_No_Personal`, `Email_Official`, `Email_Personal`, `BCLS_Expiry_Date`, `ACLS_Expiry_Date`, `Covid_19_Vaccination_Status`, `Date_of_First_Dose`, `Date_of_Second_Dose`, `Vaccination_Remarks`) VALUES
-('MOM12390', 'M11367A', 'Daniel Tyler', 'Senior Resident', 'Gastroenterology', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-11-11 00:00:00', 'Male', 'Full', '', '11A Tanglin Hill', '', '', '248000', '92343980', '91391470', 'daniel.tyler@mohh.com.sg', '', '2019-07-20 00:00:00', '2019-08-29 00:00:00', 'Yes', '2021-03-30 00:00:00', '2021-04-20 00:00:00', ''),
-('MOM05233', 'M16782H', 'Betty Li', 'Senior Resident', 'Gastroenterology', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singapore PR', '1987-09-02 00:00:00', 'Female', 'Full', '', '44B Jalan Anggerek', '', '', '369000', '', '81838980', 'betty.li@mohh.com.sg', '', '2019-03-23 00:00:00', '2019-04-11 00:00:00', 'Yes', '2021-03-31 00:00:00', '2021-04-21 00:00:00', ''),
-('MOM05601', 'M33571G', 'Koh Zheng Tang', 'Senior Resident', 'Renal Medicine', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-08-21 00:00:00', 'Male', 'Full', '', '111 Duchess Road', '', '', '269000', '88692800', '98290530', 'zhengtang.koh@mohh.com.sg', '', '', '2021-07-25 00:00:00', 'Yes', '2021-01-14 00:00:00', '2021-02-04 00:00:00', ''),
-('MOM06313', 'M35589A', 'Koh Xiaojia Lynette', 'Senior Resident', 'Respiratory Medicine', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1992-07-23 00:00:00', 'Female', 'Full', '', '700 Tampines Street 71 ', '', '#16-60 ', '520000', '97980650', '', 'lynette.koh@mohh.com.sg', '', '2022-08-31 00:00:00', '2022-10-15 00:00:00', 'Yes', '2021-01-15 00:00:00', '2021-02-10 00:00:00', ''),
-('MOM06600', 'M35718D', 'Malcolm Tang', 'Senior Resident', 'Renal Medicine', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Myanmar', '1983-04-25 00:00:00', 'Male', 'Conditional (L3)', '', 'Blk 264D, Compass Vale Bow', '', '#07-30', '544000', '', '96303450', 'malcolm.tang@mohh.com.sg', '', '', '2021-09-01 00:00:00', 'Yes', '2021-02-03 00:00:00', '2021-03-01 00:00:00', ''),
-('MOM05928', 'M45528I', 'Brendan Lee Potter', 'Senior Resident', 'Respiratory Medicine', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-04-20 00:00:00', 'Male', 'Full', '', '72 Chu Yen Street ', '', '', '669000', '88098560', '', 'bryan.lee.potter@mohh.com.sg', '', '2021-10-08 00:00:00', '2021-11-18 00:00:00', 'Yes', '2021-01-21 00:00:00', '2021-02-16 00:00:00', ''),
-('MOM05609', 'M54354E', 'Rahul Rajaratnam', 'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-08-28 00:00:00', 'Male', 'Full', '', 'Block 111 Woodlands Ave 1', '', '#06-441', '730000', '90259920', '66181540', 'rahul.rajaratnam@mohh.com.sg', '', '2016-10-27 00:00:00', '2016-10-29 00:00:00', 'Yes', '2021-03-17 00:00:00', '2021-04-07 00:00:00', ''),
-('MOM05579', 'M56829J', 'Ivanka Lee Xiao Wei', 'Senior Resident', 'Renal Medicine', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-02-20 00:00:00', 'Female', 'Full', '', 'BLK 939 Jurong West St 73', '', '#09-429', '640000', '97424710', '67917320', 'ivanka.lee@mohh.com.sg', '', '', '2021-11-18 00:00:00', 'Yes', '2021-02-03 00:00:00', '2021-02-25 00:00:00', ''),
-('MOM05459', 'M65659J', 'Chen Youyi', 'Senior Resident', 'Respiratory Medicine', 'SR1', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-12-12 00:00:00', 'Female', 'Full', '', '900 Joo Chiat Terrace ', '', '#05-08 ', '427000', '97688160', '', 'youyi.chen@mohh.com.sg', '', '2021-04-22 00:00:00', '2021-06-09 00:00:00', 'No', '', '', ''),
-('MOM07177', 'M65889A', 'Sally Pei', 'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1993-02-13 00:00:00', 'Female', 'Full', '', '83 Hazel Park Terrace', '', '#11-04  ', '678000', '', '91148250', 'sally.pei@mohh.com.sg', '', '2020-09-10 00:00:00', '2018-10-25 00:00:00', 'Yes', '2021-01-27 00:00:00', '2021-02-17 00:00:00', ''),
-('MOM05705', 'M66630D', 'Toh Jiahao Thomas', 'Senior Resident', 'Respiratory Medicine', 'SR1', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-02-01 00:00:00', 'Male', 'Full', '', '19A Ford Avenue ', '', '#01-07 ', '268000', '88692870', ' 96269350', 'thomas.toh@mohh.com.sg', '', '2021-08-25 00:00:00', '2021-09-02 00:00:00', 'Yes', '', '2021-02-17 00:00:00', ''),
-('MOM04393', 'M83162D', 'Cindee Tan', 'Senior Resident', 'Renal Medicine', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Malaysian', '1988-02-29 00:00:00', 'Female', 'Conditional (L3)', '', 'Block 37D,Kreta Ayer Road', '', '#20-02', '803000', '', '96610520', 'cindee.tan@mohh.com.sg', '', '', '2021-11-14 00:00:00', 'Yes', '2021-03-11 00:00:00', '', ''),
-('MOM05690', 'M88791Z', 'Kang Hyun Bin', 'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-12-05 00:00:00', 'Male', 'Full', '', 'Lorong Gambir', '', '', '536000', '', '91515780', 'hyunbin.kang@mohh.com.sg', '', '', '', 'Yes', '2021-02-09 00:00:00', '2021-03-02 00:00:00', '');
 
 -- --------------------------------------------------------
 
@@ -1003,7 +1000,7 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`id`, `MCR_No`, `Project_Type`, `Project_Title`, `Project_ID`, `Start_Date`, `End_Date`, `Date_of_QI_Certification`, `PMID`) VALUES
-(1, 'M11367A', 'Qi', 'Creating an Intranet Site Showing Each Medical Departments\' Criteria for Inpatient Reviews', ' ', '2019', '2020', '', ''),
+(1 , 'M11367A', 'Qi', 'Creating an Intranet Site Showing Each Medical Departments\ Criteria for Inpatient Reviews', ' ', '2019', '2020', '', ''),
 (2, 'M11367A', '', '', '', '', '', '', ''),
 (3, 'M16782H', 'QI', 'Code Blue Documentation ', ' ', '2018', '2019', '', ''),
 (4, 'M16782H', '', '', '', '', '', '', ''),
@@ -1124,6 +1121,13 @@ INSERT INTO `trgextrem_history` (`id`, `MCR_No`, `LOAPIP`, `StartDate`, `EndDate
 -- Indexes for dumped tables
 --
 
+
+-- Indexes for table `personal_details`
+--
+ALTER TABLE `personal_details`
+  ADD PRIMARY KEY (`MCR_No`);
+
+--
 --
 -- Indexes for table `awards`
 --
@@ -1193,12 +1197,6 @@ ALTER TABLE `ihi`
 ALTER TABLE `involvement`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FK_PersonOrder10` (`MCR_No`);
-
---
--- Indexes for table `personal_details`
---
-ALTER TABLE `personal_details`
-  ADD PRIMARY KEY (`MCR_No`);
 
 --
 -- Indexes for table `posting_history`
