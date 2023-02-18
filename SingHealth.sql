@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 18, 2023 at 12:03 AM
+-- Generation Time: Feb 18, 2023 at 01:08 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -905,7 +905,7 @@ CREATE TABLE `presentations` (
   `Title` varchar(300) NOT NULL,
   `Type` varchar(300) NOT NULL,
   `Project_ID` varchar(300) NOT NULL,
-  `Name_of_Conference` varchar(300) NOT NULL,
+  `Conference_Name` varchar(300) NOT NULL,
   `Country` varchar(300) NOT NULL,
   `Presentation_Date` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -914,7 +914,7 @@ CREATE TABLE `presentations` (
 -- Dumping data for table `presentations`
 --
 
-INSERT INTO `presentations` (`id`, `MCR_No`, `Title`, `Type`, `Project_ID`, `Name_of_Conference`, `Country`, `Presentation_Date`) VALUES
+INSERT INTO `presentations` (`id`, `MCR_No`, `Title`, `Type`, `Project_ID`, `Conference_Name`, `Country`, `Presentation_Date`) VALUES
 (1, 'M11367A', '', '', '', '', '', ''),
 (2, 'M16782H', '‘Dementia Care in UK: Patient’s Journey’.', ' ', 'Nil', 'Asian Medical Student Conference, Indonesia, 2012 ', 'Indonesia', '2021'),
 (3, 'M16782H', '', '', '', '', '', ''),
@@ -1044,8 +1044,8 @@ INSERT INTO `projects` (`id`, `MCR_No`, `Project_Type`, `Project_Title`, `Projec
 CREATE TABLE `publications` (
   `id` int(11) NOT NULL,
   `MCR_No` varchar(50) NOT NULL,
-  `Title_of_Publication` varchar(300) NOT NULL,
-  `Title_of_Journal` varchar(300) NOT NULL,
+  `Publication_Title` varchar(300) NOT NULL,
+  `Journal_Title` varchar(300) NOT NULL,
   `PMID` varchar(300) NOT NULL,
   `Publication_Date` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -1054,7 +1054,7 @@ CREATE TABLE `publications` (
 -- Dumping data for table `publications`
 --
 
-INSERT INTO `publications` (`id`, `MCR_No`, `Title_of_Publication`, `Title_of_Journal`, `PMID`, `Publication_Date`) VALUES
+INSERT INTO `publications` (`id`, `MCR_No`, `Publication_Title`, `Journal_Title`, `PMID`, `Publication_Date`) VALUES
 (1, 'M11367A', '', '', '', ''),
 (2, 'M16782H', '', '', '', ''),
 (3, 'M65889A', '', '', '', ''),
@@ -1083,15 +1083,15 @@ CREATE TABLE `trgextrem_history` (
   `id` int(11) NOT NULL,
   `MCR_No` varchar(50) NOT NULL,
   `LOAPIP` varchar(300) DEFAULT NULL,
-  `Start_Date` varchar(300) DEFAULT NULL,
-  `End_Date` varchar(300) DEFAULT NULL
+  `StartDate` varchar(300) DEFAULT NULL,
+  `EndDate` varchar(300) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `trgextrem_history`
 --
 
-INSERT INTO `trgextrem_history` (`id`, `MCR_No`, `LOAPIP`, `Start_Date`, `End_Date`) VALUES
+INSERT INTO `trgextrem_history` (`id`, `MCR_No`, `LOAPIP`, `StartDate`, `EndDate`) VALUES
 (1, 'M11367A', 'LOA', '01-Oct-2020', '05-Jan-2021'),
 (2, 'M11367A', 'LOA', '28-Jul-2021', '30-Nov-2021'),
 (3, 'M16782H', 'LOA', '07-Nov-2020', '28-Feb-2021'),
