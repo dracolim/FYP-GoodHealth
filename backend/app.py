@@ -1,4 +1,4 @@
-from sqlalchemy import insert, text, create_engine,inspect
+from sqlalchemy import insert, text, create_engine,inspect, select
 from flask import abort
 from flask import Flask, request, jsonify, render_template, send_file, redirect
 from flask_sqlalchemy import SQLAlchemy
@@ -1839,7 +1839,6 @@ def delete_IHI(id):
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
-# AKA Duty_Hour_Log table routes:
 
 # Read duty Hour field/column name (R)
 @app.route('/duty_hour_log', methods=['GET'])
@@ -1853,8 +1852,6 @@ def get_duty_hour_log():
     ), 200
 
 # Read Existing by Person (R)
-
-
 @app.route("/dutyhour/<id>")
 def read_dutyhourlogs_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -1867,8 +1864,6 @@ def read_dutyhourlogs_by_person(id):
     ), 200
 
 # Add duty hour
-
-
 @app.route('/add_duty_hour', methods=['POST'])
 def create_duty_hour():
     data = request.get_json()
@@ -1887,60 +1882,6 @@ def create_duty_hour():
         print("An error occurred:", e)
         print("Stack trace:")
         traceback.print_exc()
-
-@app.route('/import_duty_hour', methods=['POST'])
-def view2():
-    file = request.files['file']
-    file.save(file.filename)
-    #duty_hour_log
-    duty_hour_log = pd.read_excel(
-        file, dtype=str)
-    duty_hour_log.columns = [ 'MCR_No', 'Level' , 'Submitted' , 'Submitted_Proportion' , 'MMYYYY' , 'Logged_for_month']
-
-    if duty_hour_log['MCR_No'].isnull().sum() > 0 or duty_hour_log.duplicated().any():
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
-        workbook = writer.book
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-
-        duty_hour_log.to_excel(writer, sheet_name='involvement_error')
-        workbook = writer.book
-        worksheet = writer.sheets['involvement_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = duty_hour_log[duty_hour_log[[
-        "MCR_No"]].isnull().any(axis=1)]
-        duplicate_row_bool = duty_hour_log.duplicated()
-        for i in range(len(duplicate_row_bool)):
-            if (duplicate_row_bool[i] == True):
-                ran = "A" + str(i+2) + ":BA" + str(i+2)
-                worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-
-        for row in nullrows.index:
-            ran = "A" + str(row+2) + ":BA" + str(row+2)
-            worksheet.conditional_format(ran,
-                                                {'type':     'cell',
-                                                'criteria': 'not equal to',
-                                                'value': '"o1"',
-                                                'format':   format1})
-
-    duty_hour_log= duty_hour_log.fillna('')
-    for i in range(len(duty_hour_log)):
-        data = dict(duty_hour_log.iloc[i])
-        presentation = Duty_Hour_Log(**data)
-        try:
-            exist = db.session.query(exists().where(Duty_Hour_Log.MCR_No == data['MCR_No'] , Duty_Hour_Log.Submitted_Proportion == data['Submitted_Proportion'],  Duty_Hour_Log.MMYYYY == data['MMYYYY'],Duty_Hour_Log.Logged_for_month == data['Logged_for_month'])).scalar()
-            if exist == False:
-                db.session.add(presentation)
-                db.session.commit()
-
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()
-    return redirect("http://localhost/FYP-GoodHealth/tab_pages/duty_hour_log.html", code=302)
 
 @app.route('/duty_hour_log/<int:id>', methods=['PUT'])
 def update_duty_hour_log(id):
@@ -1970,22 +1911,9 @@ def delete_duty_hour_log(id):
     db.session.commit()
     return 'Duty Hour Log deleted', 200
 
-# insp = inspect(engine)
-# print(insp.get_table_names())
-# @app.route('/get_all_tables', methods=['GET'])
-# def get_all_tables():
-#     res = {}
-#     for table_name in insp.get_table_names():
-#         res[table_name]=[]
-#         for column in insp.get_columns(table_name):
-#             res[table_name].append(column['name'])
 
-#     return jsonify(
-#         {
-#             "data":res
-#         }
-#     ), 200
-#     print(insp.get_table_names(),'OSJVGNWOEVNWOECNVWEOICMWEOI')
+
+
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
