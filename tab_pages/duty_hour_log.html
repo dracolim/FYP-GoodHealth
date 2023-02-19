@@ -208,10 +208,9 @@
                         <h3 class="mb-4 text-xl font-medium text-gray-900 ">Upload Excel Sheet</h3>
                         <form class="space-y-6" method="post" enctype="multipart/form-data">
                             <!-- input form -->
-                            <!-- @change = "isDisabled()" -->
                             <input id="UploadFile" @change="importExcel"
                                 class="block w-full text-md text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                                type="file" name="file">
+                                type="file" name="file" ref = "UploadFile">
                             <!-- error -->
                             <div v-if="error_message != ''"
                                 class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
@@ -224,16 +223,13 @@
                                 </svg>
                                 <span class="sr-only">Info</span>
                                 <div>
-                                    <span class="font-medium">Error!</span>
-                                    <p>
-                                        <ul id="error">
-
-                                        </ul>
-                                    </p>
+                                    <span class="font-bold">Error!</span>
+                                    <!-- show the list of errors -->
+                                    <ul v-html="error_message"></ul>
                                 </div>
                             </div>
 
-                            <button type="submit" value="Submit" id='submit' @click="importExcel"
+                            <button type="submit" value="Submit" id='submit' @click="isDisabled()"
                                 class="w-full text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
                         </form>
                     </div>
@@ -284,6 +280,7 @@
             mmYYYY: "",
             table_error_message: "",
             duty_hour_logs: "",
+            file_error: ""
 
         },
         computed: {
@@ -473,26 +470,19 @@
         },
         methods: {
             importExcel() {
-                console.log(this.duty_hour_logs);
-
-                // this.file = event.target.files ? event.target.files[0] : null;
-                // console.log(this.file)
-
                 var fileVal = document.getElementById("UploadFile");
                 this.file = fileVal.files[0]
 
-        
-                // // error hangling : duplicate rows or no name
-                // wb.xlsx.readFile(this.file)
-                // var worksheet = wb.getWorksheet("1");
-                // console.log(worksheet)
-                // worksheet.getRow(rowIndex).fill = {
-                //     bgColor: {
-                //         argb: 'FF8080'
-                //     }
-                // };
-                // abort(404, description = 'Invalid Excel submitted')
+                if (!this.file.name.toLowerCase().includes("duty hour")){
+                    this.file_error = true;
+                    this.error_message = "<li>- Wrong File added</li>";
+                    document.getElementById('submit').disabled = true;
+                    return 
+                }
+                this.isDisabled();
+            
 
+                var file_error = false; 
                 const wb = new Excel.Workbook();
                 const reader = new FileReader()
                 reader.readAsArrayBuffer(this.file)
@@ -501,11 +491,13 @@
                     wb.xlsx.load(buffer).then(workbook => {
                         //console.log(workbook, 'workbook instance')
                         workbook.eachSheet((sheet, id) => {
-                            console.log(sheet)
-                            //console.log(sheet.name) //sheet name (eg: personal details)
-                            // check duplicates 
+                            const rowsWithValues = sheet.actualRowCount - 7;
+                            var user_count = 0
                             sheet.eachRow((row, rowIndex) => {
-                                var same = false; //check if exist in DB
+                                var same_error = false; 
+                                var name_error = false;
+                                var user_error = false;
+
                                 var url = this.local_host_url + 'add_duty_hour';
                                 var data = {};
                                 var loggded_for_months = "";
@@ -513,87 +505,95 @@
                                     this.mmYYYY = row.values[1].slice(21, 28) || "";
                                 } else if (rowIndex >= 8) {
                                     if (row.values[1] == undefined) {
-                                        // sheet.getRow(rowIndex).fill = {
-                                        //     bgColor: {
-                                        //         argb: 'FF8080'
-                                        //     }
-                                        // };
-                                        this.error_message += "<li>Name cannot be Empty</li>";
-                                        console.log(document.getElementById('error'))
-                                        document.getElementById('error').innerHTML = this.error_message;
-                                        document.getElementById('submit').disabled = true;
-                                    }
+                                        name_error = true;
+                                    } else {
+                                        for (each in this.MCR_name) {
+                                            let name_list = row.values[1].trim()
+                                                .split(
+                                                    ',')
+                                            var new_name = name_list.reverse().join(
+                                                    " ")
+                                                .trim()
+                                            if (new_name == each) {
+                                                data.MCR_No = this.MCR_name[each] ||
+                                                    "";
+                                            }
+                                        }
 
-                                    for (each in this.MCR_name) {
-                                        let name_list = row.values[1].trim().split(
-                                            ',')
-                                        var new_name = name_list.reverse().join(" ")
-                                            .trim()
-                                        if (new_name == each) {
-                                            data.MCR_No = this.MCR_name[each] || "";
+                                        if (data.MCR_No == undefined) {
+                                            user_error = true;
                                         }
                                     }
-                                    if (data.MCR_No == "") {
-                                        this.error_message += "<li>" + new_name + "does not exist in the Database</li>"
-                                    }
+
                                     data.Level = row.values[2] || '';
                                     data.Logged_for_month = "Yes";
                                     data.Submitted = row.values[3] || '';
                                     data.Submitted_Proportion = row.values[4] || '';
                                     data.MMYYYY = this.mmYYYY;
 
-                                    // if (this.error_message != ""){
-                                    //     document.getElementById('error').innerHTML = this.error_message;
-                                    // }
-
                                     // check if EXISTS already
                                     for (each of this.duty_hour_logs) {
-                                        // data.Level == each.Level && data.Logged_for_month == each.Logged_for_month && data.MCR_No ==
                                         if (data.Level == each.Level && data
                                             .Logged_for_month == each
                                             .Logged_for_month && data.MCR_No == each
                                             .MCR_No && data.Submitted_Proportion ==
                                             each.Submitted_Proportion) {
-                                            console.log('same')
-                                            same = true;
+                                            same_error = true;
                                             break
                                         }
                                     }
 
                                     // if all conditions okay, then import
-                                    if (same == false && this.error_message == ""){
+                                    if (same_error == false && name_error == false && this.error_message == "" && user_error == false) {
                                         axios.post(url, data)
-                                                .then(response => {
-                                                    // console.log(response.data)
-                                                    this.mmYYYY = "";
-                                                })
-                                                .catch(error => {
-                                                    this.error = error.response
-                                                        .data
-                                                        .message
+                                            .then(response => {
+                                                // console.log(response.data)
+                                                this.mmYYYY = "";
+                                            })
+                                            .catch(error => {
+                                                this.error = error.response
+                                                    .data
+                                                    .message
                                             });
                                     }
-                            
+                                    else{
+                                        user_count += 1;
+                                    }
 
-                            }
+                                    //produce error message
+                                    if (name_error == true) {
+                                        this.error_message +=
+                                            "<li> - Name cannot be Empty</li>";
+                                    } else if (user_error == true) {
+                                        this.error_message += this.error_message +=
+                                            "<li> - " + new_name +
+                                            "does not exist in the Database</li>"
+                                    } else if (user_count == rowsWithValues){
+                                        this.error_message += "<li> - All rows already exist in Database</li>";
+                                    }
+
+                                    if (this.error_message != "") {
+                                        document.getElementById('submit').disabled =true;
+                                    }
+                                }
                             })
                         })
                     })
                 }
+                this.error_message = "";
+                document.getElementById('submit').disabled = false;
             },
-            // validateFile() {
-            //     if (document.getElementById("UploadFile").files.length == 1) {
-            //         this.error_message = "";
-            //         document.getElementById('submit').disabled = false;
-            //     }
-            // },
+            validateFile() {
+                if (document.getElementById("UploadFile").files.length == 1) {
+                    this.error_message = "";
+                    document.getElementById('submit').disabled = false;
+                }
+            },
             isDisabled() {
                 console.log('hi')
-                // evaluate whatever you need to determine disabled here...
-                console.log(document.getElementById("UploadFile").files.length)
+                // evaluate whatever you need to determine disabled here... 
                 if (document.getElementById("UploadFile").files.length == 0) {
-                    this.error_message = "<li>No Files Selected</li>";
-                    document.getElementById('error').innerHTML = this.error_message;
+                    this.error_message += "<li>- No Files Selected</li>";
                     document.getElementById('submit').disabled = true;
                 } else {
                     this.error_message = "";
@@ -602,6 +602,8 @@
             },
             removeErrorMsg() {
                 this.error_message = "";
+                document.getElementById('submit').disabled = false;
+                this.$refs.UploadFile.value=null;
             }
 
         }
