@@ -1789,8 +1789,6 @@ def read_ihi():
     ), 200
 
 # Read Existing by Person (R)
-
-
 @app.route("/ihi/<id>")
 def read_ihi_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -1972,6 +1970,37 @@ def read_procedurelog_by_person(id):
         }
     ), 200
 
+# Update ihi
+@app.route('/procedurelog/<int:id>', methods=['PUT'])
+def update_procedure_log(id):
+    user = Procedure_Log.query.get(id)
+    if not user:
+        return 'Procedure Log not found', 404
+
+    data = request.get_json()
+    user.MCR_No = data['MCR_No']
+    user.Certified = data['Certified']
+    user.Date_of_Completion = data['Date_of_Completion']
+    user.Observed = data['Observed']
+    user.Performed = data['Performed']
+    user.Procedure_Name = data['Procedure_Name']
+    user.Total = data['Total']
+    user.Verified = data['Verified']
+
+
+    db.session.commit()
+    return 'Procedure Log updated', 200
+
+# Delete IHI
+@app.route('/procedurelog/<int:id>', methods=['DELETE'])
+def delete_procedure_log(id):
+    row = Procedure_Log.query.get(id)
+    if not row:
+        return 'Procedure Log not found', 404
+
+    db.session.delete(row)
+    db.session.commit()
+    return 'Procedure Log deleted', 200
 
 # ============================
 # █▀▀ █▄░█ █▀▄
@@ -1986,7 +2015,7 @@ def read_procedurelog_by_person(id):
 # ============================
 # AKA Case_log table routes:
 # Read Existing caselog (R)
-@app.route("/case_log")
+@app.route("/case_logs")
 def read_case_log():
     res = Case_Log.query.all()
     return jsonify(
@@ -2010,6 +2039,41 @@ def read_caselogs_by_person(id):
         }
     ), 200
 
+# Update caselog
+@app.route('/caselog/<int:id>', methods=['PUT'])
+def update_caselog(id):
+    user = Case_Log.query.get(id)
+    if not user:
+        return 'caselog not found', 404
+
+    data = request.get_json()
+    user.MCR_No = data['MCR_No']
+    user.CPT = data['CPT']
+    user.Case_Name = data['Case_Name']
+    user.Certified = data['Certified']
+    user.Date_of_Log = data['Date_of_Log']
+    user.Observed = data['Observed']
+    user.Performed = data['Performed']
+    user.Subspecialty = data['Subspecialty']
+    user.Total = data['Total']
+    user.Type_of_Case_Log = data['Type_of_Case_Log']
+    user.Verified = data['Verified']
+
+
+
+    db.session.commit()
+    return 'caselog updated', 200
+
+# Delete IHI
+@app.route('/caselog/<int:id>', methods=['DELETE'])
+def delete_caselog(id):
+    row = Case_Log.query.get(id)
+    if not row:
+        return 'caselog not found', 404
+
+    db.session.delete(row)
+    db.session.commit()
+    return 'caselog deleted', 200
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
@@ -2040,7 +2104,7 @@ def read_evaluations_by_person(id):
 # Read Existing evaluations (R)
 
 
-@app.route("/evaluation")
+@app.route("/evaluations")
 def read_evaluation():
     res = Evaluations.query.all()
     return jsonify(
@@ -2049,6 +2113,38 @@ def read_evaluation():
                      for r in res]
         }
     ), 200
+
+# Update Evaluation
+@app.route('/evaluation/<int:id>', methods=['PUT'])
+def update_evaluation(id):
+    user = Evaluations.query.get(id)
+    if not user:
+        return 'evaluation not found', 404
+
+    data = request.get_json()
+    user.MCR_No = data['MCR_No']
+    user.Answer = data['Answer']
+    user.Evaluator = data['Evaluator']
+    user.Name_of_Evaluation_Form = data['Name_of_Evaluation_Form']
+    user.Question_Number = data['Question_Number']
+    user.Rotation_Period = data['Rotation_Period']
+    user.Score = data['Score']
+    user.Service = data['Service']
+    user.Year_of_Training = data['Year_of_Training']
+
+    db.session.commit()
+    return 'evaluation updated', 200
+
+# Delete Evaluation
+@app.route('/evaluation/<int:id>', methods=['DELETE'])
+def delete_evaluation(id):
+    row = Evaluations.query.get(id)
+    if not row:
+        return 'evaluation not found', 404
+
+    db.session.delete(row)
+    db.session.commit()
+    return 'evaluation deleted', 200
 
 
 # ============================

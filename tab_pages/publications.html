@@ -239,8 +239,8 @@
 
         <!-- TABLE START -->
         <div class="overflow-x-auto sm:rounded-lg mx-8 mb-10">
-            <div class="relative bg-white rounded-lg shadow ">
-                {{table_error_message}}
+            <div v-if="table_error_message!=''" class="relative bg-white rounded-lg ">
+                <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xlr">{{table_error_message}}</h1>
             </div>
             <table id="example-table"></table>
         </div>
