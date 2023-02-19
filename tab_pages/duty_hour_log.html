@@ -193,7 +193,7 @@
             <div class="relative w-full h-full max-w-md md:h-auto">
                 <!-- Modal content -->
                 <div class="relative bg-white rounded-lg shadow ">
-                    <button type="button"
+                    <button type="button" @click="removeErrorMsg"
                         class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                         data-modal-hide="import-modal">
                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -206,10 +206,10 @@
                     </button>
                     <div class="px-6 py-6 lg:px-8">
                         <h3 class="mb-4 text-xl font-medium text-gray-900 ">Upload Excel Sheet</h3>
-                        <form class="space-y-6" method="post" enctype="multipart/form-data"
-                            action="http://localhost:5011/import_duty_hour">
+                        <form class="space-y-6" method="post" enctype="multipart/form-data">
                             <!-- input form -->
-                            <input @change="validateFile" id="UploadFile"
+                            <!-- @change = "isDisabled()" -->
+                            <input id="UploadFile" @change="importExcel"
                                 class="block w-full text-md text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
                                 type="file" name="file">
                             <!-- error -->
@@ -225,10 +225,15 @@
                                 <span class="sr-only">Info</span>
                                 <div>
                                     <span class="font-medium">Error!</span>
-                                    {{error_message}}
+                                    <p>
+                                        <ul id="error">
+
+                                        </ul>
+                                    </p>
                                 </div>
                             </div>
-                            <button type="submit" value="Submit" @click="isDisabled()" id='submit'
+
+                            <button type="submit" value="Submit" id='submit' @click="importExcel"
                                 class="w-full text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
                         </form>
                     </div>
@@ -278,6 +283,7 @@
             error_message: "",
             mmYYYY: "",
             table_error_message: "",
+            duty_hour_logs: "",
 
         },
         computed: {
@@ -301,6 +307,7 @@
 
             axios.get(this.local_host_url + 'duty_hour_log')
                 .then(response => {
+                    this.duty_hour_logs = response.data.data
                     var printRemoveButton = function (cell, formatterParams,
                         onRendered) { //plain text value
                         //return "<v-btn type='button' class='text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-xs rounded-full text-xs px-5 py-1 text-center mx-3 mb-2'>Remove</v-btn>";
@@ -312,129 +319,128 @@
                         data: response.data.data,
                         index: "MCR_No",
                         columns: [{
-                            title: "MCR No",
-                            field: "MCR_No",
-                            sorter: "string",
-                            headerHozAlign: "center",
-                            headerFilter: true,
-                            headerFilterPlaceholder: "Enter Value",
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true,
+                                title: "MCR No",
+                                field: "MCR_No",
+                                sorter: "string",
+                                headerHozAlign: "center",
+                                headerFilter: true,
+                                headerFilterPlaceholder: "Enter Value",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true,
+
+                                },
+                                minWidth: 200,
+                            },
+
+                            {
+                                title: "Level",
+                                field: "Level",
+                                sorter: "number",
+                                editor: "number",
+                                editorParams: {
+                                    min: 0,
+                                },
+                                headerFilter: "list",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
+                                headerFilterPlaceholder: "Select",
+                                minWidth: 150,
+                            },
+                            {
+                                title: "Submitted",
+                                field: "Submitted",
+                                sorter: "number",
+                                editor: "number",
+                                editorParams: {
+                                    min: 0,
+                                    autocomplete: true,
+                                },
+                                headerFilter: "list",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
+                                headerFilterPlaceholder: "Select",
+                                minWidth: 150,
 
                             },
-                            minWidth: 200,
-                        },
+                            {
+                                title: "Submitted Proportion",
+                                field: "Submitted_Proportion",
+                                sorter: "number",
+                                editor: "number",
+                                editorParams: {
+                                    min: 0,
+                                },
+                                headerFilter: "list",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
+                                headerFilterPlaceholder: "Select",
+                                minWidth: 220,
+                            },
+                            {
+                                title: "MMYYYY",
+                                field: "MMYYYY",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: "input",
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                    mask: "AAA-99",
+                                    maskAutoFill: true,
+                                },
+                                headerFilterPlaceholder: "Enter Value",
+                                minWidth: 150,
 
-                        {
-                            title: "Level",
-                            field: "Level",
-                            sorter: "number",
-                            editor: "number",
-                            editorParams: {
-                                min: 0,
                             },
-                            headerFilter: "list",
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
-                            },
-                            headerFilterPlaceholder: "Select",
-                            minWidth: 150,
-                        },
-                        {
-                            title: "Submitted",
-                            field: "Submitted",
-                            sorter: "number",
-                            editor: "number",
-                            editorParams: {
-                                min: 0,
-                                autocomplete: true,
-                            },
-                            headerFilter: "list",
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
-                            },
-                            headerFilterPlaceholder: "Select",
-                            minWidth: 150,
+                            {
+                                title: "Logged for Month",
+                                field: "Logged_for_month",
+                                sorter: "string",
+                                headerFilter: "list",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: "list",
+                                editorParams: {
+                                    values: {
+                                        "Yes": "Yes",
+                                        "No": "No",
+                                        "Unknown": "Unknown",
+                                    }
+                                },
+                                headerFilterPlaceholder: "Select",
+                                minWidth: 200,
 
-                        },
-                        {
-                            title: "Submitted Proportion",
-                            field: "Submitted_Proportion",
-                            sorter: "number",
-                            editor: "number",
-                            editorParams: {
-                                min: 0,
                             },
-                            headerFilter: "list",
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
+                            {
+                                title: "Action",
+                                formatter: printRemoveButton,
+                                hozAlign: "center",
+                                cellClick: function (e, cell) {
+                                    axios.delete(local_host_url + 'duty_hour_log/' + cell
+                                            .getRow().getData().id)
+                                        .then(function (response) {
+                                            console.log(response.data);
+                                            cell.getRow().delete();
+                                        })
+                                        .catch(function (error) {
+                                            console.log(error);
+                                        });
+                                },
+                                minWidth: 150,
                             },
-                            headerFilterPlaceholder: "Select",
-                            minWidth: 220,
-                        },
-                        {
-                            title: "MMYYYY",
-                            field: "MMYYYY",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true,
-                            },
-                            editor: "input",
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
-                                mask: "AAA-99",
-                                maskAutoFill: true,
-                            },
-                            headerFilterPlaceholder: "Enter Value",
-                            minWidth: 150,
-
-                        },
-                        {
-                            title: "Logged for Month",
-                            field: "Logged_for_month",
-                            sorter: "string",
-                            headerFilter: "list",
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true,
-                            },
-                            editor: "list",
-                            editorParams: {
-                                values:
-                                {
-                                    "Yes": "Yes",
-                                    "No": "No",
-                                    "Unknown": "Unknown",
-                                }
-                            },
-                            headerFilterPlaceholder: "Select",
-                            minWidth: 200,
-
-                        },
-                        {
-                            title: "Action",
-                            formatter: printRemoveButton,
-                            hozAlign: "center",
-                            cellClick: function (e, cell) {
-                                axios.delete(local_host_url + 'duty_hour_log/' + cell
-                                    .getRow().getData().id)
-                                    .then(function (response) {
-                                        console.log(response.data);
-                                        cell.getRow().delete();
-                                    })
-                                    .catch(function (error) {
-                                        console.log(error);
-                                    });
-                            },
-                            minWidth: 150,
-                        },
                         ],
                     });
                     // update data in the database after a cell is edited
@@ -443,13 +449,13 @@
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
                         axios.put(local_host_url + "duty_hour_log/" + thisrow.id, {
-                            "Level": thisrow.Level,
-                            "Logged_for_month": thisrow.Logged_for_month,
-                            "MCR_No": thisrow.MCR_No,
-                            "MMYYYY": thisrow.MMYYYY,
-                            "Submitted": thisrow.Submitted,
-                            "Submitted_Proportion": thisrow.Submitted_Proportion
-                        })
+                                "Level": thisrow.Level,
+                                "Logged_for_month": thisrow.Logged_for_month,
+                                "MCR_No": thisrow.MCR_No,
+                                "MMYYYY": thisrow.MMYYYY,
+                                "Submitted": thisrow.Submitted,
+                                "Submitted_Proportion": thisrow.Submitted_Proportion
+                            })
                             .then(response => {
                                 console.log('Duty Hour Log ID {' + row.getData().id +
                                     '} updated.')
@@ -466,83 +472,144 @@
 
         },
         methods: {
-            importExcel(event) {
-                this.validateFile();
+            importExcel() {
+                console.log(this.duty_hour_logs);
 
-                this.file = event.target.files ? event.target.files[0] : null;
+                // this.file = event.target.files ? event.target.files[0] : null;
+                // console.log(this.file)
+
+                var fileVal = document.getElementById("UploadFile");
+                this.file = fileVal.files[0]
+
+        
+                // // error hangling : duplicate rows or no name
+                // wb.xlsx.readFile(this.file)
+                // var worksheet = wb.getWorksheet("1");
+                // console.log(worksheet)
+                // worksheet.getRow(rowIndex).fill = {
+                //     bgColor: {
+                //         argb: 'FF8080'
+                //     }
+                // };
+                // abort(404, description = 'Invalid Excel submitted')
+
                 const wb = new Excel.Workbook();
                 const reader = new FileReader()
-
                 reader.readAsArrayBuffer(this.file)
                 reader.onload = () => {
                     const buffer = reader.result;
                     wb.xlsx.load(buffer).then(workbook => {
                         //console.log(workbook, 'workbook instance')
                         workbook.eachSheet((sheet, id) => {
+                            console.log(sheet)
                             //console.log(sheet.name) //sheet name (eg: personal details)
+                            // check duplicates 
                             sheet.eachRow((row, rowIndex) => {
+                                var same = false; //check if exist in DB
                                 var url = this.local_host_url + 'add_duty_hour';
                                 var data = {};
                                 var loggded_for_months = "";
                                 if (rowIndex == 3) {
                                     this.mmYYYY = row.values[1].slice(21, 28) || "";
                                 } else if (rowIndex >= 8) {
-                                    // console.log(row.values[2])
+                                    if (row.values[1] == undefined) {
+                                        // sheet.getRow(rowIndex).fill = {
+                                        //     bgColor: {
+                                        //         argb: 'FF8080'
+                                        //     }
+                                        // };
+                                        this.error_message += "<li>Name cannot be Empty</li>";
+                                        console.log(document.getElementById('error'))
+                                        document.getElementById('error').innerHTML = this.error_message;
+                                        document.getElementById('submit').disabled = true;
+                                    }
+
                                     for (each in this.MCR_name) {
-                                        let name_list = row.values[1].trim().split(',')
-                                        var new_name = name_list.reverse().join(" ").trim()
+                                        let name_list = row.values[1].trim().split(
+                                            ',')
+                                        var new_name = name_list.reverse().join(" ")
+                                            .trim()
                                         if (new_name == each) {
                                             data.MCR_No = this.MCR_name[each] || "";
                                         }
                                     }
                                     if (data.MCR_No == "") {
-                                        this.error_message =
-                                            "There is no such resident in the database";
+                                        this.error_message += "<li>" + new_name + "does not exist in the Database</li>"
                                     }
                                     data.Level = row.values[2] || '';
+                                    data.Logged_for_month = "Yes";
                                     data.Submitted = row.values[3] || '';
                                     data.Submitted_Proportion = row.values[4] || '';
                                     data.MMYYYY = this.mmYYYY;
-                                    data.Logged_for_month = "Yes"
-                                    axios.post(url, data)
-                                        .then(response => {
-                                            console.log(response.data)
-                                            this.mmYYYY = "";
-                                        })
-                                        .catch(error => {
-                                            this.error = error.response.data
-                                                .message
-                                        });
-                                }
+
+                                    // if (this.error_message != ""){
+                                    //     document.getElementById('error').innerHTML = this.error_message;
+                                    // }
+
+                                    // check if EXISTS already
+                                    for (each of this.duty_hour_logs) {
+                                        // data.Level == each.Level && data.Logged_for_month == each.Logged_for_month && data.MCR_No ==
+                                        if (data.Level == each.Level && data
+                                            .Logged_for_month == each
+                                            .Logged_for_month && data.MCR_No == each
+                                            .MCR_No && data.Submitted_Proportion ==
+                                            each.Submitted_Proportion) {
+                                            console.log('same')
+                                            same = true;
+                                            break
+                                        }
+                                    }
+
+                                    // if all conditions okay, then import
+                                    if (same == false && this.error_message == ""){
+                                        axios.post(url, data)
+                                                .then(response => {
+                                                    // console.log(response.data)
+                                                    this.mmYYYY = "";
+                                                })
+                                                .catch(error => {
+                                                    this.error = error.response
+                                                        .data
+                                                        .message
+                                            });
+                                    }
+                            
+
+                            }
                             })
                         })
                     })
                 }
             },
-            validateFile() {
-                if (document.getElementById("UploadFile").files.length == 1) {
-                    this.error_message = "";
-                    document.getElementById('submit').disabled = false;
-
-                }
-            },
+            // validateFile() {
+            //     if (document.getElementById("UploadFile").files.length == 1) {
+            //         this.error_message = "";
+            //         document.getElementById('submit').disabled = false;
+            //     }
+            // },
             isDisabled() {
                 console.log('hi')
                 // evaluate whatever you need to determine disabled here...
                 console.log(document.getElementById("UploadFile").files.length)
                 if (document.getElementById("UploadFile").files.length == 0) {
-                    this.error_message = "No Files Selected";
+                    this.error_message = "<li>No Files Selected</li>";
+                    document.getElementById('error').innerHTML = this.error_message;
                     document.getElementById('submit').disabled = true;
-                    return true
+                } else {
+                    this.error_message = "";
+                    document.getElementById('submit').disabled = false;
                 }
-                else {
-                    this.error_message = ""
-                    return false
-                }
+            },
+            removeErrorMsg() {
+                this.error_message = "";
             }
 
         }
     });
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 </html>

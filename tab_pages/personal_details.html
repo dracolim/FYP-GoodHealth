@@ -216,7 +216,7 @@
             <div class="relative w-full h-full max-w-md md:h-auto">
                 <!-- Modal content -->
                 <div class="relative bg-white rounded-lg shadow ">
-                    <button type="button"
+                    <button type="button" @click = "removeErrorMsg"
                         class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                         data-modal-hide="import-modal">
                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -647,6 +647,9 @@
                     this.error_message = ""
                     return false
                 }
+            },
+            removeErrorMsg(){
+                this.error_message = "";
             }
         }
     });
