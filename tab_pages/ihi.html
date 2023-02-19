@@ -133,8 +133,7 @@
                     </li>
                     <li>
                         <a href="../tab_pages/presentations.html"
-                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0 dark:text-white"
-                            aria-current="page">Presentations</a>
+                            class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Presentations</a>
                     </li>
                     <li>
                         <a href="../tab_pages/awards.html"
@@ -147,7 +146,8 @@
                     </li>
                     <li>
                         <a href="../tab_pages/ihi.html"
-                            class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">IHI</a>
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0 dark:text-white"
+                            aria-current="page">IHI</a>
                     </li>
                     <li>
                         <a href="../tab_pages/duty_hour_log.html"
@@ -240,7 +240,9 @@
         <!-- TABLE START -->
         <div class="overflow-x-auto sm:rounded-lg mx-8 mb-10">
             <div v-if="table_error_message!=''" class="relative bg-white rounded-lg ">
-                <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xlr">{{table_error_message}}</h1>
+                <h1
+                    class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xlr">
+                    {{table_error_message}}</h1>
             </div>
             <table id="example-table"></table>
         </div>
