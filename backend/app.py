@@ -1731,6 +1731,38 @@ def read_projects_by_person(id):
         }
     ), 200
 
+# Update project
+@app.route('/project/<int:id>', methods=['PUT'])
+def update_project(id):
+    user = Projects.query.get(id)
+    if not user:
+        return 'Project not found', 404
+
+    data = request.get_json()
+    user.MCR_No = data['MCR_No']
+    user.Date_of_QI_Certification = data['Date_of_QI_Certification']
+    user.End_Date = data['End_Date']
+    user.PMID = data['PMID']
+    user.Project_ID = data['Project_ID']
+    user.Project_Title = data['Project_Title']
+    user.Project_Type = data['Project_Type']
+    user.Start_Date = data['Start_Date']
+    user.id = data['id']
+
+    db.session.commit()
+    return 'Project ', id, ' updated', 200
+
+# Delete project
+@app.route('/project/<int:id>', methods=['DELETE'])
+def delete_project(id):
+    row = Projects.query.get(id)
+    if not row:
+        return 'Project not found', 404
+
+    db.session.delete(row)
+    db.session.commit()
+    return 'Project ', id, ' deleted', 200
+
 
 # ============================
 # █▀▀ █▄░█ █▀▄
@@ -1770,7 +1802,32 @@ def read_ihi_by_person(id):
         }
     ), 200
 
+# Update ihi
+@app.route('/ihi/<int:id>', methods=['PUT'])
+def update_ihi(id):
+    user = IHI.query.get(id)
+    if not user:
+        return 'IHI not found', 404
 
+    data = request.get_json()
+    user.MCR_No = data['MCR_No']
+    user.Completion_of_Emodules = data['Completion_of_Emodules']
+    user.Date = data['Date']
+    user.id = data['id']
+
+    db.session.commit()
+    return 'IHI updated', 200
+
+# Delete IHI
+@app.route('/ihi/<int:id>', methods=['DELETE'])
+def delete_IHI(id):
+    row = IHI.query.get(id)
+    if not row:
+        return 'IHI not found', 404
+
+    db.session.delete(row)
+    db.session.commit()
+    return 'IHI deleted', 200
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀

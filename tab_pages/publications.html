@@ -279,6 +279,7 @@
             error_message: "",
             mmYYYY: "",
             table_error_message: "",
+            tableData: "",
         },
         computed: {
 
@@ -301,7 +302,7 @@
 
             axios.get(this.local_host_url + 'publications')
                 .then(response => {
-                    console.log(response.data.data)
+                    this.tableData = response.data.data
                     var printRemoveButton = function (cell, formatterParams,
                         onRendered) { //plain text value
                         return "<a class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Remove</a>"
@@ -309,7 +310,7 @@
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
                         layout: "fitColumns",
-                        data: response.data.data,
+                        data: this.tableData,
                         index: "MCR_No",
                         columns: [{
                             title: "MCR No",

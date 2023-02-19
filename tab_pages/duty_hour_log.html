@@ -271,6 +271,7 @@
         el: "#app",
         data: {
             local_host_url: "http://localhost:5011/",
+            currentPage: "duty_hour_log",
             personal_details_fields: [],
             personal_details_datas: [],
             file: "",
@@ -278,6 +279,7 @@
             error_message: "",
             mmYYYY: "",
             table_error_message: "",
+            tableData: "",
 
         },
         computed: {
@@ -299,17 +301,17 @@
                     console.log(error)
                 });
 
-            axios.get(this.local_host_url + 'duty_hour_log')
+            axios.get(this.local_host_url + this.currentPage)
                 .then(response => {
+                    this.tableData = response.data.data
                     var printRemoveButton = function (cell, formatterParams,
-                        onRendered) { //plain text value
-                        //return "<v-btn type='button' class='text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-xs rounded-full text-xs px-5 py-1 text-center mx-3 mb-2'>Remove</v-btn>";
+                        onRendered) {
                         return "<a class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Remove</a>"
                     };
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
                         layout: "fitColumns",
-                        data: response.data.data,
+                        data: this.tableData,
                         index: "MCR_No",
                         columns: [{
                             title: "MCR No",
@@ -423,7 +425,7 @@
                             formatter: printRemoveButton,
                             hozAlign: "center",
                             cellClick: function (e, cell) {
-                                axios.delete(local_host_url + 'duty_hour_log/' + cell
+                                axios.delete(local_host_url + "duty_hour_log" + "/" + cell
                                     .getRow().getData().id)
                                     .then(function (response) {
                                         console.log(response.data);
@@ -442,7 +444,7 @@
                         // connect to database and execute update statement
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
-                        axios.put(local_host_url + "duty_hour_log/" + thisrow.id, {
+                        axios.put(local_host_url + this.currentPage+ "/" + thisrow.id, {
                             "Level": thisrow.Level,
                             "Logged_for_month": thisrow.Logged_for_month,
                             "MCR_No": thisrow.MCR_No,
