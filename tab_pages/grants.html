@@ -246,7 +246,7 @@
                     console.log(error)
                 });
 
-            axios.get(this.local_host_url + 'history_trg')
+            axios.get(this.local_host_url + 'grants')
                 .then(response => {
                     this.duty_hour_logs = response.data.data
                     var printRemoveButton = function (cell, formatterParams,
@@ -275,8 +275,8 @@
                             },
 
                             {
-                                title: "LOAPIP",
-                                field: "LOAPIP",
+                                title: "Name of Grant",
+                                field: "Name_of_Grant",
                                 sorter: "string",
                                 editor: "input",
                                 editorParams: {
@@ -294,8 +294,8 @@
                                 minWidth: 200,
                             },
                             {
-                                title: "Start Date",
-                                field: "StartDate",
+                                title: "Project Title",
+                                field: "Project_Title",
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -312,8 +312,26 @@
                                 minWidth: 150,
                             },
                             {
-                                title: "End Date",
-                                field: "EndDate",
+                                title: "Grant End Date",
+                                field: "Grant_End_Date",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: "input",
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                    maskAutoFill: true,
+                                },
+                                headerFilterPlaceholder: "Enter Value",
+                                minWidth: 150,
+                            }, 
+                            {
+                                title: "Grant Start Date",
+                                field: "Grant_Start_Date",
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -334,7 +352,7 @@
                                 formatter: printRemoveButton,
                                 hozAlign: "center",
                                 cellClick: function (e, cell) {
-                                    axios.delete(local_host_url + 'history_trg/' +
+                                    axios.delete(local_host_url + 'grants/' +
                                             cell
                                             .getRow().getData().id)
                                         .then(function (response) {
@@ -354,14 +372,16 @@
                         // connect to database and execute update statement
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
-                        axios.put(local_host_url + "history_trg/" + thisrow.id, {
+                        axios.put(local_host_url + "grants/" + thisrow.id, {
                                 "MCR_No": thisrow.MCR_No,
-                                "LOAPIP": thisrow.LOAPIP,
-                                "StartDate": thisrow.StartDate,
-                                "EndDate": thisrow.EndDate,
+                                "Name_of_Grant": thisrow.Name_of_Grant,
+                                "Project_Title": thisrow.Project_Title,
+                                "Project_ID": thisrow.ID,
+                                "Grant_End_Date": thisrow.Grant_End_Date,
+                                "Grant_Start_Date": thisrow.Grant_Start_Date
                             })
                             .then(response => {
-                                console.log('History Training ID {' + row.getData().id +
+                                console.log('Grants ID {' + row.getData().id +
                                     '} updated.')
                             })
                             .catch(error => {

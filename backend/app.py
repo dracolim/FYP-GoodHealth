@@ -1703,7 +1703,33 @@ def read_grants_by_person(id):
         }
     ), 200
 
+# update grants
+@app.route('/grants/<int:id>', methods=['PUT'])
+def update_grants(id):
+    user = Grants.query.get(id)
+    if not user:
+        return 'Grants not found', 404
 
+    data = request.get_json()
+    user.MCR_No = data['MCR_No']
+    user.Name_of_Grant = data['Name_of_Grant']
+    user.Project_Title = data['Project_Title']
+    user.Grant_Start_Date = data['Grant_Start_Date']
+    user.Grant_End_Date = data['Grant_End_Date']
+
+    db.session.commit()
+    return 'Grants updated', 200
+
+# remove grants
+@app.route('/grants/<int:id>', methods=['DELETE'])
+def delete_grants(id):
+    row = Grants.query.get(id)
+    if not row:
+        return 'Grants not found', 404
+
+    db.session.delete(row)
+    db.session.commit()
+    return 'Grants deleted', 200
 
 
 
@@ -1720,8 +1746,6 @@ def read_grants_by_person(id):
 # ============================
 # AKA awards table routes:
 # Read Existing awards (R)
-
-
 @app.route("/awards")
 def read_awards():
     awardsList = Awards.query.all()
@@ -1752,27 +1776,34 @@ def read_awards_by_person(id):
         }
     ), 200
 
-# Add awards
-@app.route('/add_award', methods=['POST'])
-def create_award():
-    data = request.get_json()
-    print(data)
-    if not all(key in data.keys() for key in ('MCR_No', 'Award_ID', 'Employee_id', "Award_Category", "Name_of_Award", "FY_of_Award_Received",
-                                            "Date_of_Award_Received", "Project_ID_Ref"
-                                            )):
-        return jsonify({
-            "message": "Incorrect JSON object provided."
-        }), 500
-    awards = Awards(**data)
-    try:
-        db.session.add(awards)
-        db.session.commit()
-        return jsonify(awards.to_dict()), 201
-    except Exception as e:
-        print("An error occurred:", e)
-        print("Stack trace:")
-        traceback.print_exc()
+# update awards
+@app.route('/awards/<int:id>', methods=['PUT'])
+def update_awards(id):
+    user = Awards.query.get(id)
+    if not user:
+        return 'Awards not found', 404
 
+    data = request.get_json()
+    user.MCR_No = data['MCR_No']
+    user.Award_Category = data['Award_Category']
+    user.Name_of_Award = data['Name_of_Award']
+    user.FY_of_Award_Received = data['FY_of_Award_Received']
+    user.Date_of_Award_Received = data['Date_of_Award_Received']
+    user.Project_ID = data['Project_ID']
+
+    db.session.commit()
+    return 'Awards updated', 200
+
+# remove awards
+@app.route('/awards/<int:id>', methods=['DELETE'])
+def delete_awards(id):
+    row = Awards.query.get(id)
+    if not row:
+        return 'Awards not found', 404
+
+    db.session.delete(row)
+    db.session.commit()
+    return 'Awards deleted', 200
 
 
 # ============================
@@ -2079,9 +2110,6 @@ def delete_duty_hour_log(id):
     db.session.commit()
     return 'Duty Hour Log deleted', 200
 
-
-
-
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
@@ -2245,9 +2273,6 @@ def update_caselog(id):
     user.Total = data['Total']
     user.Type_of_Case_Log = data['Type_of_Case_Log']
     user.Verified = data['Verified']
-
-
-
     db.session.commit()
     return 'caselog updated', 200
 
@@ -2275,8 +2300,6 @@ def delete_caselog(id):
 # AKA Evaluation table routes:
 
 # Read Existing by Person (R)
-
-
 @app.route("/evaluations/<id>")
 def read_evaluations_by_person(id):
     person = Personal_Details.query.get_or_404(id)
