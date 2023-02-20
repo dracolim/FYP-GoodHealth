@@ -78,7 +78,8 @@ INSERT INTO `personal_details` (`Employee_ID`, `MCR_No`, `Staff_Name`, `Designat
 ('MOM07177', 'M65889A', 'Sally Pei', 'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1993-02-13 00:00:00', 'Female', 'Full', '', '83 Hazel Park Terrace', '', '#11-04  ', '678000', '', '91148250', 'sally.pei@mohh.com.sg', '', '2020-09-10 00:00:00', '2018-10-25 00:00:00', 'Yes', '2021-01-27 00:00:00', '2021-02-17 00:00:00', ''),
 ('MOM05705', 'M66630D', 'Toh Jiahao Thomas', 'Senior Resident', 'Respiratory Medicine', 'SR1', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-02-01 00:00:00', 'Male', 'Full', '', '19A Ford Avenue ', '', '#01-07 ', '268000', '88692870', ' 96269350', 'thomas.toh@mohh.com.sg', '', '2021-08-25 00:00:00', '2021-09-02 00:00:00', 'Yes', '', '2021-02-17 00:00:00', ''),
 ('MOM04393', 'M83162D', 'Cindee Tan', 'Senior Resident', 'Renal Medicine', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Malaysian', '1988-02-29 00:00:00', 'Female', 'Conditional (L3)', '', 'Block 37D,Kreta Ayer Road', '', '#20-02', '803000', '', '96610520', 'cindee.tan@mohh.com.sg', '', '', '2021-11-14 00:00:00', 'Yes', '2021-03-11 00:00:00', '', ''),
-('MOM05690', 'M88791Z', 'Kang Hyun Bin', 'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-12-05 00:00:00', 'Male', 'Full', '', 'Lorong Gambir', '', '', '536000', '', '91515780', 'hyunbin.kang@mohh.com.sg', '', '', '', 'Yes', '2021-02-09 00:00:00', '2021-03-02 00:00:00', '');
+('MOM05690', 'M88791Z', 'Kang Hyun Bin', 'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-12-05 00:00:00', 'Male', 'Full', '', 'Lorong Gambir', '', '', '536000', '', '91515780', 'hyunbin.kang@mohh.com.sg', '', '', '', 'Yes', '2021-02-09 00:00:00', '2021-03-02 00:00:00', ''),
+('MOM11116', 'M11166J', 'Noob Doc', 'Junior Resident', 'Internal Medicine', 'R1', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-11-11 00:00:00', 'Male', 'Full', '', '11A Lalalala Hill', '', '', '243400', '92767980', '95351470', 'noob_doc@mohh.com.sg', '', '2019-07-20 00:00:00', '2019-08-29 00:00:00', 'Yes', '2021-03-30 00:00:00', '2021-04-20 00:00:00', '');
 
 -- --------------------------------------------------------
 
@@ -977,7 +978,20 @@ INSERT INTO `procedure_log` (`id`, `MCR_No`, `Procedure_Name`, `CPT`, `Date_of_C
 (19, 'M11367A', 'Endoscopic mucosal resection (EMR) / Endoscopic submucosal dissection (ESD)', '','01/01/2022', '-', '5', '-', '-', '-'),
 (20, 'M11367A', 'Endoscopic Retrograde and Cholangiocpancreatography (ERCP)', '','01/01/2022', '-', '5', '-', '-', '-'),
 (21, 'M11367A', 'Endoscopic ultrasound', '','01/01/2022', '-', '5', '-', '-', '-'),
-(22, 'M11367A', 'Esophageal motility / pH studies', '','01/01/2022', '-', '5', '-', '-', '-');
+(22, 'M11367A', 'Esophageal motility / pH studies', '','01/01/2022', '-', '5', '-', '-', '-'),
+(23, 'M11166J', 'Abdominal Tap', '','01/01/2022', '-', '-', '-', '3', '-'),
+(24, 'M11166J', 'Arterial Line Placement', '','01/01/2022', '-', '-', '-', '5', '-'),
+(25, 'M11166J', 'Central Line Placement', '','01/01/2022', '-', '-', '-', '5', '-'),
+(26, 'M11166J', 'Thoracentesis / Chest tube', '','01/01/2022', '-', '-', '-', '3', '-'),
+(27, 'M11166J', 'Lumbar Puncture', '','01/01/2022', '-', '-', '-', '5', '-'),
+(28, 'M11166J', 'Endotracheal Intubation', '','01/01/2022', '-', '-', '-', '5', '-'),
+(29, 'M11166J', 'Ventilator Management', '','01/01/2022', '-', '-', '-', '5', '-'),
+(30, 'M11166J', 'Arthrocentesis', '','01/01/2022', '-', '-', '-', '2', '-'),
+(31, 'M11166J', 'Hemodialysis Catheter Insertion', '','01/01/2022', '-', '-', '-', '3', '-'),
+(32, 'M11166J', 'ABG', '','01/01/2022', '-', '-', '-', '1', '-'),
+(33, 'M11166J', 'Vene', '','01/01/2022', '-', '-', '-', '1', '-'),
+(34, 'M11166J', 'IV Plug', '','01/01/2022', '-', '-', '-', '1', '-'),
+(35, 'M11166J', 'Ecg', '','01/01/2022', '-', '-', '-', '1', '-');
 
 -- --------------------------------------------------------
 

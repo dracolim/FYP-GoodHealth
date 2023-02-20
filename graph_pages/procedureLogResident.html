@@ -175,7 +175,7 @@
                     data: [],
                     backgroundColor: '#ff6b00',
                     borderColor: 'rgba(136,136,136,0.5)',
-                    label: "Compliant"
+                    label: "Compliance Level"
                     }
                 ]
                 },
@@ -270,6 +270,7 @@
                         chartData.data.data['procedure_logs']
 
                     // POPULATING VARIABLES USING INFO FROM DATABASE
+
                         // for every procedure log entry
                         for (var i = 0; i < chartData.data.data['procedure_logs'].length; i++) {
                             procedure_name = chartData.data.data['procedure_logs'][i]['Procedure_Name']
@@ -420,6 +421,7 @@
 
                         // push GastroOGDPlusColon data into chart
                         if (GastroOGDPlusColon == true) {
+
                             this.ChartConfig.datasets[0].data.push(1)
                             this.ChartConfig.datasets[0].data.push(1)
                             this.ChartConfig.datasets[0].data.push(1)
@@ -441,7 +443,7 @@
                                 this.ChartConfig.datasets[0].data.push(1)   
                             }
                             // if not compliant due to both
-                            else if (additionalCheckGastroOGDPlusColon < 10 && GastroOGDPlusColon < 20) {
+                            else if (additionalCheckGastroOGDPlusColon < 10 && GastroOGDPlusColon < 20) {                                
                                 this.ChartConfig.datasets[0].data.push(GastroOGDPlusColon/20)  
                                 this.ChartConfig.datasets[0].data.push(additionalCheckGastroOGDPlusColon/10)  
                                 this.ChartConfig.datasets[0].data.push(GastroOGDPlusColon/20)  
@@ -454,7 +456,7 @@
                             this.ChartConfig.datasets[0].data.push(1)
                             this.ChartConfig.datasets[0].data.push(1)
                         }
-                        else {
+                        else {                           
                             this.ChartConfig.datasets[0].data.push(ColonoscopyPlusColonoscopyWithBiopsy/180)
                             this.ChartConfig.datasets[0].data.push(ColonoscopyPlusColonoscopyWithBiopsy/180)
                         }
@@ -463,7 +465,7 @@
                         if (ColonoscopyWithPolypectomy == true) {
                             this.ChartConfig.datasets[0].data.push(1)
                         }
-                        else {
+                        else {                            
                             this.ChartConfig.datasets[0].data.push(ColonoscopyWithPolypectomy/20)
                         }
 
@@ -471,7 +473,7 @@
                         if (AbdominalParacentesis == true) {
                             this.ChartConfig.datasets[0].data.push(1)
                         }
-                        else {
+                        else {                           
                             this.ChartConfig.datasets[0].data.push(AbdominalParacentesis/10)
                         }     
 
@@ -479,7 +481,7 @@
                         if (CapsuleEndoscopy == true) {
                             this.ChartConfig.datasets[0].data.push(1)
                         }
-                        else {
+                        else {                           
                             this.ChartConfig.datasets[0].data.push(CapsuleEndoscopy/10)
                         }   
                 
@@ -487,7 +489,7 @@
                         if (Peg == true) {
                             this.ChartConfig.datasets[0].data.push(1)
                         }
-                        else {
+                        else {                            
                             this.ChartConfig.datasets[0].data.push(Peg/5)
                         }   
                         
@@ -499,21 +501,21 @@
                         }
                         else {
                             // if not compliant due to active bleeders
-                            if (additionalCheckGastroVaricealHemoPlusLigation < 5 && GastroVaricealHemoPlusLigation >= 20) {
+                            if (additionalCheckGastroVaricealHemoPlusLigation < 5 && GastroVaricealHemoPlusLigation >= 20) {                                
                                 this.ChartConfig.datasets[0].data.push(1)  
                                 this.ChartConfig.datasets[0].data.push(additionalCheckGastroVaricealHemoPlusLigation/5)  
                                 this.ChartConfig.datasets[0].data.push(1)  
                                 this.ChartConfig.datasets[0].data.push(additionalCheckGastroVaricealHemoPlusLigation/5)  
                             }
                             // if not compliant due to total number required
-                            else if (additionalCheckGastroVaricealHemoPlusLigation >= 5 && GastroVaricealHemoPlusLigation < 20) {
+                            else if (additionalCheckGastroVaricealHemoPlusLigation >= 5 && GastroVaricealHemoPlusLigation < 20) {                                
                                 this.ChartConfig.datasets[0].data.push(GastroVaricealHemoPlusLigation/20)  
                                 this.ChartConfig.datasets[0].data.push(1)  
                                 this.ChartConfig.datasets[0].data.push(GastroVaricealHemoPlusLigation/20)  
                                 this.ChartConfig.datasets[0].data.push(1)   
                             }
                             // if not compliant due to both
-                            else if (additionalCheckGastroVaricealHemoPlusLigation < 5 && GastroVaricealHemoPlusLigation < 20) {
+                            else if (additionalCheckGastroVaricealHemoPlusLigation < 5 && GastroVaricealHemoPlusLigation < 20) {                               
                                 this.ChartConfig.datasets[0].data.push(GastroVaricealHemoPlusLigation/20)  
                                 this.ChartConfig.datasets[0].data.push(additionalCheckGastroVaricealHemoPlusLigation/5)  
                                 this.ChartConfig.datasets[0].data.push(GastroVaricealHemoPlusLigation/20)  
@@ -525,7 +527,7 @@
                         if (LiverBiopsy == true) {
                             this.ChartConfig.datasets[0].data.push(1)
                         }
-                        else {
+                        else {                           
                             this.ChartConfig.datasets[0].data.push(LiverBiopsy/5)
                         }   
                         
@@ -534,7 +536,7 @@
                             this.ChartConfig.datasets[0].data.push(1)
                             this.ChartConfig.datasets[0].data.push(1)
                         }
-                        else {
+                        else {                           
                             this.ChartConfig.datasets[0].data.push(EsophagealDilatationPlusLuminalStenting/5)
                             this.ChartConfig.datasets[0].data.push(EsophagealDilatationPlusLuminalStenting/5)
                         }
@@ -543,7 +545,7 @@
                         if (EmrPlusEsd == true) {
                             this.ChartConfig.datasets[0].data.push(1)
                         }
-                        else {
+                        else {                            
                             this.ChartConfig.datasets[0].data.push(EmrPlusEsd/5)
                         }   
                         
@@ -551,7 +553,7 @@
                         if (Ercp == true) {
                             this.ChartConfig.datasets[0].data.push(1)
                         }
-                        else {
+                        else {                            
                             this.ChartConfig.datasets[0].data.push(Ercp/5)
                         }         
                         
@@ -559,7 +561,7 @@
                         if (EndoscopicUltrasound == true) {
                             this.ChartConfig.datasets[0].data.push(1)
                         }
-                        else {
+                        else {                           
                             this.ChartConfig.datasets[0].data.push(EndoscopicUltrasound/5)
                         }     
                         
@@ -567,7 +569,7 @@
                         if (EsophagealMotilityPlusPh == true) {
                             this.ChartConfig.datasets[0].data.push(1)
                         }
-                        else {
+                        else {                           
                             this.ChartConfig.datasets[0].data.push(EsophagealMotilityPlusPh/5)
                         }      
 
@@ -578,12 +580,256 @@
                     }
 
                     if (chartData.data.data['personaldetails']['Programme'] == "Internal Medicine") {
-                        
+
+                        const Internal = ["Abdominal Tap", "Arterial Line Placement", "Central Line Placement", "Thoracentesis / Chest tube", "Lumbar Puncture", "Endotracheal Intubation", "Ventilator Management", "Arthrocentesis", "Hemodialysis Catheter Insertion", "ABG", "Vene", "IV Plug", "Ecg"]
+                        this.ChartConfig.labels = Internal
+
+                        AbdominalTap = 0
+                        ArterialLinePlacement = 0
+                        CentralLinePlacement = 0
+                        ThoracentesisChestTube = 0
+                        LumbarPuncture = 0
+                        EndotrachealIntubation = 0
+                        VentilatorManagement = 0
+                        Arthrocentesis = 0
+                        HemodialysisCatheterInsertion = 0
+                        Abg = 0
+                        Vene = 0
+                        IVPlug = 0
+                        Ecg = 0
+
+                        // to be used to check requirements regarding R1:30%, R2:50% and R3:100% in the future
+                        totalNumOfProceduresRequirements = 40
+                        totalNumOfProceduresDoneByResident = 0
+
+                        chartData.data.data['procedure_logs']
+
+                    // POPULATING VARIABLES USING INFO FROM DATABASE
+
+                        // for every procedure log entry
+                        for (var i = 0; i < chartData.data.data['procedure_logs'].length; i++) {
+                            procedure_name = chartData.data.data['procedure_logs'][i]['Procedure_Name']
+                            if (procedure_name == Internal[0]) {
+                                AbdominalTap = AbdominalTap + parseInt(chartData.data.data['procedure_logs'][i]['Verified'])
+                            }
+                            if (procedure_name == Internal[1]) {
+                                ArterialLinePlacement = ArterialLinePlacement + parseInt(chartData.data.data['procedure_logs'][i]['Verified'])
+                            }
+                            if (procedure_name == Internal[2]) {
+                                CentralLinePlacement = CentralLinePlacement + parseInt(chartData.data.data['procedure_logs'][i]['Verified'])
+                            }
+                            if (procedure_name == Internal[3]) {
+                                ThoracentesisChestTube = ThoracentesisChestTube + parseInt(chartData.data.data['procedure_logs'][i]['Verified'])
+                            }
+                            if (procedure_name == Internal[4]) {
+                                LumbarPuncture = LumbarPuncture + parseInt(chartData.data.data['procedure_logs'][i]['Verified'])
+                            }
+                            if (procedure_name == Internal[5]) {
+                                EndotrachealIntubation = EndotrachealIntubation + parseInt(chartData.data.data['procedure_logs'][i]['Verified'])
+                            }
+                            if (procedure_name == Internal[6]) {
+                                VentilatorManagement = VentilatorManagement + parseInt(chartData.data.data['procedure_logs'][i]['Verified'])
+                            }
+                            if (procedure_name == Internal[7]) {
+                                Arthrocentesis = Arthrocentesis + parseInt(chartData.data.data['procedure_logs'][i]['Verified'])
+                            }
+                            if (procedure_name == Internal[8]) {
+                                HemodialysisCatheterInsertion = HemodialysisCatheterInsertion + parseInt(chartData.data.data['procedure_logs'][i]['Verified'])
+                            }
+                            if (procedure_name == Internal[9]) {
+                                Abg = Abg + parseInt(chartData.data.data['procedure_logs'][i]['Verified'])
+                            }
+                            if (procedure_name == Internal[10]) {
+                                Vene = Vene + parseInt(chartData.data.data['procedure_logs'][i]['Verified'])
+                            }
+                            if (procedure_name == Internal[11]) {
+                                IVPlug = IVPlug + parseInt(chartData.data.data['procedure_logs'][i]['Verified'])
+                            }
+                            if (procedure_name == Internal[12]) {
+                                Ecg = Ecg + parseInt(chartData.data.data['procedure_logs'][i]['Verified'])
+                            }
+                        }
+
+                        totalNumOfProceduresDoneByResident = AbdominalTap + ArterialLinePlacement + CentralLinePlacement + ThoracentesisChestTube + LumbarPuncture + EndotrachealIntubation + VentilatorManagement + Arthrocentesis + HemodialysisCatheterInsertion + Abg + Vene + IVPlug + Ecg
+
                     }
 
+                    // CHECK INTERNAL COMPLIANCE
+
+                        // check AbdominalTap compliance
+                        if (AbdominalTap >= 3) { 
+                            AbdominalTap = true
+                        }
+
+                        // check ArterialLinePlacement compliance
+                        if (ArterialLinePlacement >= 5) { 
+                            ArterialLinePlacement = true
+                        }                    
+
+                        // check CentralLinePlacement compliance
+                        if (CentralLinePlacement >= 5) { 
+                            CentralLinePlacement = true
+                        }   
+                        
+                        // check ThoracentesisChestTube compliance
+                        if (ThoracentesisChestTube >= 3) { 
+                            ThoracentesisChestTube = true
+                        }              
+
+                        // check LumbarPuncture compliance
+                        if (LumbarPuncture >= 5) { 
+                            LumbarPuncture = true
+                        }         
+
+                        // check EndotrachealIntubation compliance
+                        if (EndotrachealIntubation >= 5) { 
+                            EndotrachealIntubation = true
+                        }   
+      
+                        // check VentilatorManagement compliance
+                        if (VentilatorManagement >= 5) { 
+                            VentilatorManagement = true
+                        }   
+
+                        // check Arthrocentesis compliance
+                        if (Arthrocentesis >= 2) { 
+                            Arthrocentesis = true
+                        }   
+
+                        // check HemodialysisCatheterInsertion compliance
+                        if (HemodialysisCatheterInsertion >= 3) { 
+                            HemodialysisCatheterInsertion = true
+                        }   
+
+                        // check Abg compliance
+                        if (Abg >= 1) { 
+                            Abg = true
+                        }   
+
+                        // check Vene compliance
+                        if (Vene >= 1) { 
+                            Vene = true
+                        } 
+            
+                        // check IVPlug compliance
+                        if (IVPlug >= 1) { 
+                            IVPlug = true
+                        }   
+
+                        // check Ecg compliance
+                        if (Ecg >= 1) { 
+                            Ecg = true
+                        }                           
                     
-                    // this.ChartConfig.datasets[0].data.push(percentCompliantJanJune)
-                    // this.ChartConfig.datasets[0].data.push(percentCompliantJulDec)
+
+                    // PUSHING DATA INTO CHART
+
+                        // push AbdominalTap data into chart
+                        if (AbdominalTap == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(AbdominalTap/3)
+                        }
+
+                        // push ArterialLinePlacement data into chart
+                        if (ArterialLinePlacement == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(ArterialLinePlacement/5)
+                        }
+
+                        // push CentralLinePlacement data into chart
+                        if (CentralLinePlacement == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(CentralLinePlacement/5)
+                        }
+
+                        // push ThoracentesisChestTube data into chart
+                        if (ThoracentesisChestTube == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(ThoracentesisChestTube/3)
+                        }
+
+                        // push LumbarPuncture data into chart
+                        if (LumbarPuncture == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(LumbarPuncture/5)
+                        }
+
+                        // push EndotrachealIntubation data into chart
+                        if (EndotrachealIntubation == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(EndotrachealIntubation/5)
+                        }
+
+                        // push VentilatorManagement data into chart
+                        if (VentilatorManagement == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(VentilatorManagement/5)
+                        }
+
+                        // push Arthrocentesis data into chart
+                        if (Arthrocentesis == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(Arthrocentesis/2)
+                        }
+
+                        // push HemodialysisCatheterInsertion data into chart
+                        if (HemodialysisCatheterInsertion == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(HemodialysisCatheterInsertion/3)
+                        }
+
+                        // push Abg data into chart
+                        if (Abg == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(0)
+                        }
+
+                        // push Vene data into chart
+                        if (Vene == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(0)
+                        }
+
+                        // push IVPlug data into chart
+                        if (IVPlug == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(0)
+                        }
+
+                        // push Ecg data into chart
+                        if (Ecg == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(0)
+                        }
+
+                        // console.log(totalNumOfProceduresDoneByResident)
+                        // console.log(totalNumOfProceduresRequirements)            
 
                 }
             }
