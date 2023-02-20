@@ -124,7 +124,7 @@
             <div id="app">
 
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
-                    Year:
+                    Academic Year (AY):
                 </label>
                 <input v-model="year" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Year Here">
                 <button @click="getDidacticAttendanceData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
@@ -166,7 +166,7 @@
                 year: null,
                 loaded: false,
                 ChartConfig: {
-                labels: ["Jan-Jun", "Jul-Dec"],
+                labels: ["Jul-Dec", "Jan-Jun"],
                 datasets: [
                     {
                     data: [],
@@ -241,34 +241,40 @@
                     // console.log("This is chartData")
                     // console.log(chartData);
 
+                    counterCompliantJulDec = 0
                     counterCompliantJanJune = 0
-                    counterCompliantJulDec = 
-                    percentCompliantJanJune = 0
                     percentCompliantJulDec = 0
+                    percentCompliantJanJune = 0
 
-                    numOfJanJuneEntries = 0
                     numofJulDecEntries = 0
+                    numOfJanJuneEntries = 0
 
-                    for (var i = 0; i < chartData.data.data.length; i++) {
-                        if (('JanuaryFebruaryMarchAprilMayJune'.includes(chartData.data.data[i]['Month'])) && ((chartData.data.data[i]['MmYyyy'].substr(-4)) == this.year)) {
-                            numOfJanJuneEntries++
-                            if (chartData.data.data[i]['Compliance_or_Not'] == 'Yes') {
-                                counterCompliantJanJune = counterCompliantJanJune + 1;
-                            }
-                        }
-                        else if (('JulyAugustSeptemberOctoberNovemberDecember'.includes(chartData.data.data[i]['Month'])) && ((chartData.data.data[i]['MmYyyy'].substr(-4)) == this.year)) {
+                    nonCompliantResidents = []
+
+                    arrayOfDidacticAttendanceObjects = chartData.data.data
+
+                    for (var i = 0; i < arrayOfDidacticAttendanceObjects.length; i++) {
+
+                        if (('JulyAugustSeptemberOctoberNovemberDecember'.includes(arrayOfDidacticAttendanceObjects[i]['Month'])) && ((arrayOfDidacticAttendanceObjects[i]['MmYyyy'].substr(-4)) == this.year)) {
                             numofJulDecEntries++
-                            if (chartData.data.data[i]['Compliance_or_Not'] == 'Yes') {
+                            if (arrayOfDidacticAttendanceObjects[i]['Compliance_or_Not'] == 'Yes') {
                                 counterCompliantJulDec = counterCompliantJulDec + 1;
                             }
+                            else if (arrayOfDidacticAttendanceObjects[i]['Compliance_or_Not'] == 'No') {
+                                nonCompliantResidents.push(arrayOfDidacticAttendanceObjects[i])
+                            }
                         }
-                    }
 
-                    if (counterCompliantJanJune == 0) {
-                        percentCompliantJanJune = 0
-                    }
-                    else {
-                        percentCompliantJanJune = counterCompliantJanJune/numOfJanJuneEntries 
+                        else if (('JanuaryFebruaryMarchAprilMayJune'.includes(arrayOfDidacticAttendanceObjects[i]['Month'])) && ((arrayOfDidacticAttendanceObjects[i]['MmYyyy'].substr(-4)) == parseInt(this.year) + 1)) {
+                            numOfJanJuneEntries++
+                            if (arrayOfDidacticAttendanceObjects[i]['Compliance_or_Not'] == 'Yes') {
+                                counterCompliantJanJune = counterCompliantJanJune + 1;
+                            }
+                            else if (arrayOfDidacticAttendanceObjects[i]['Compliance_or_Not'] == 'No') {
+                                nonCompliantResidents.push(arrayOfDidacticAttendanceObjects[i])
+                            }
+                        }
+
                     }
                     
                     if (counterCompliantJulDec == 0) {
@@ -278,19 +284,27 @@
                         percentCompliantJulDec = counterCompliantJulDec/numofJulDecEntries 
                     }
 
+                    if (counterCompliantJanJune == 0) {
+                        percentCompliantJanJune = 0
+                    }
+                    else {
+                        percentCompliantJanJune = counterCompliantJanJune/numOfJanJuneEntries 
+                    }
+
                     // console.log("counter compliant")
-                    // console.log(counterCompliantJanJune)
                     // console.log(counterCompliantJulDec)
+                    // console.log(counterCompliantJanJune)
 
                     // console.log("num entries")
-                    // console.log(numOfJanJuneEntries)
                     // console.log(numofJulDecEntries)
+                    // console.log(numOfJanJuneEntries)
 
-                    // console.log(percentCompliantJanJune)
+                    // console.log("percentages")
                     // console.log(percentCompliantJulDec)
+                    // console.log(percentCompliantJanJune)
 
-                    this.ChartConfig.datasets[0].data.push(percentCompliantJanJune)
                     this.ChartConfig.datasets[0].data.push(percentCompliantJulDec)
+                    this.ChartConfig.datasets[0].data.push(percentCompliantJanJune)
 
                 }
             }
