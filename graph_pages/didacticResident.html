@@ -132,7 +132,7 @@
                 </button> 
 
                 <label v-if="second_step" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 pt-3" for="grid-first-name">
-                    Year:
+                    Academic Year (AY):
                 </label>
                 <input v-if="second_step" v-model="year" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Year Here">
                 <button v-if="second_step" @click="getSpecificDidacticAttendanceData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
@@ -176,7 +176,7 @@
                 mcr_no: "",
                 loaded: false,
                 ChartConfig: {
-                labels: ["Jan-Jun", "Jul-Dec"],
+                labels: ["Jul-Dec", "Jan-Jun"],
                 datasets: [
                     {
                     data: [],
@@ -248,50 +248,61 @@
                     });
                 },
                 getChartData: function (chartData) {
-                    // console.log("This is chartData")
-                    // console.log(chartData);
+                    console.log("This is chartData")
+                    console.log(chartData);
 
                     this.ChartConfig.datasets[0].data = []
 
-                    counterCompliantJanJune = 0
                     counterCompliantJulDec = 0
-                    percentCompliantJanJune = 0
+                    counterCompliantJanJune = 0
                     percentCompliantJulDec = 0
+                    percentCompliantJanJune = 0
 
-                    totalPercentAttendedJanJune = 0
                     totalPercentAttendedJulDec = 0
+                    totalPercentAttendedJanJune = 0
 
-                    numOfJanJuneEntries = 0
                     numofJulDecEntries = 0
+                    numOfJanJuneEntries = 0
 
-                    for (var i = 0; i < chartData.data.didactic_attendance.length; i++) {
-                        if (('JanuaryFebruaryMarchAprilMayJune'.includes(chartData.data.didactic_attendance[i]['Month'])) && ((chartData.data.didactic_attendance[i]['MmYyyy'].substr(-4)) == this.year)) {
-                            numOfJanJuneEntries++
-                            totalPercentAttendedJanJune =  totalPercentAttendedJanJune + parseFloat(chartData.data.didactic_attendance[i]['Percentage_of_sessions_attended'])
-                        }
-                        else if (('JulyAugustSeptemberOctoberNovemberDecember'.includes(chartData.data.didactic_attendance[i]['Month'])) && ((chartData.data.didactic_attendance[i]['MmYyyy'].substr(-4)) == this.year)) {
+                    specificResidentDidacticInformation = chartData.data.didactic_attendance
+
+                    for (var i = 0; i < specificResidentDidacticInformation.length; i++) {
+
+                        if (('JulyAugustSeptemberOctoberNovemberDecember'.includes(specificResidentDidacticInformation[i]['Month'])) && ((specificResidentDidacticInformation[i]['MmYyyy'].substr(-4)) == this.year)) {
                             numofJulDecEntries++
-                            totalPercentAttendedJulDec =  totalPercentAttendedJulDec + parseFloat(chartData.data.didactic_attendance[i]['Percentage_of_sessions_attended'])
+                            totalPercentAttendedJulDec =  totalPercentAttendedJulDec + parseFloat(specificResidentDidacticInformation[i]['Percentage_of_sessions_attended'])
                         }
-                    }
 
-                    // console.log("checking total percent attended jan june")
-                    // console.log(totalPercentAttendedJanJune)
+                        else if (('JanuaryFebruaryMarchAprilMayJune'.includes(specificResidentDidacticInformation[i]['Month'])) && ((specificResidentDidacticInformation[i]['MmYyyy'].substr(-4)) == parseInt(this.year) + 1)) {
+                            numOfJanJuneEntries++
+                            totalPercentAttendedJanJune =  totalPercentAttendedJanJune + parseFloat(specificResidentDidacticInformation[i]['Percentage_of_sessions_attended'])
+                        }
+
+                    }
 
                     // console.log("checking total percent attended jul dec")
                     // console.log(totalPercentAttendedJulDec)
 
-                    // console.log("checking num jan june entries")
-                    // console.log(numOfJanJuneEntries)
+                    // console.log("checking total percent attended jan june")
+                    // console.log(totalPercentAttendedJanJune)
 
                     // console.log("checking num jul dec entries")
                     // console.log(numofJulDecEntries)
 
-                    percentCompliantJanJune = (totalPercentAttendedJanJune/numOfJanJuneEntries)
-                    percentCompliantJulDec = (totalPercentAttendedJulDec/numofJulDecEntries)
+                    // console.log("checking num jan june entries")
+                    // console.log(numOfJanJuneEntries)
 
-                    this.ChartConfig.datasets[0].data.push(percentCompliantJanJune.toFixed(3))
+                    // console.log("checking percentCompliantJulDec")
+                    // console.log(percentCompliantJulDec)
+
+                    // console.log("checking percentCompliantJanJune")
+                    // console.log(percentCompliantJanJune)
+
+                    percentCompliantJulDec = (totalPercentAttendedJulDec/numofJulDecEntries)
+                    percentCompliantJanJune = (totalPercentAttendedJanJune/numOfJanJuneEntries)
+
                     this.ChartConfig.datasets[0].data.push(percentCompliantJulDec.toFixed(3))
+                    this.ChartConfig.datasets[0].data.push(percentCompliantJanJune.toFixed(3))
                     
                 },
                 activateSecondStep: function () {
