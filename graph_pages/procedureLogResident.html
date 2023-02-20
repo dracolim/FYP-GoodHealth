@@ -248,7 +248,7 @@
                     year_of_training = chartData.data.data['personaldetails']['Year_of_Training'] // somehow need to make use of this to mark resident as compliant or not to reflect on front end if needed
 
                     if (chartData.data.data['personaldetails']['Programme'] == "Gastroenterology") {
-                        
+                        console.log("Reached Gastro")
                         const Gastro = ["Gastroscopy (OGD)", "Gastroscopy (OGD) with biopsy", "Gastroscopy (OGD) with non-variceal hemostasis; not actively bleeding","Gastroscopy (OGD) with non-variceal hemostasis; actively bleeding", "Colonoscopy with non-variceal hemostasis; not actively bleeding", "Colonoscopy with non-variceal hemostasis; actively bleeding","Colonoscopy", "Colonoscopy with biopsy", "Colonoscopy with polypectomy","Abdominal paracentesis", "Capsule endoscopy", "Percutaneous Endoscopic Gastrostomy (PEG)","Gastroscopy with variceal hemostasis; active bleeding", "Gastroscopy with variceal hemostasis; not actively bleeding", "Gastroscopy with variceal ligation; elective eradication","Liver biopsy", "Esophageal dilatation", "Luminal Stenting","Endoscopic mucosal resection (EMR) / Endoscopic submucosal dissection (ESD)", "Endoscopic Retrograde and Cholangiocpancreatography (ERCP)", "Endoscopic ultrasound", "Esophageal motility / pH studies"]
                         this.ChartConfig.labels = Gastro
 
@@ -652,8 +652,6 @@
 
                         totalNumOfProceduresDoneByResident = AbdominalTap + ArterialLinePlacement + CentralLinePlacement + ThoracentesisChestTube + LumbarPuncture + EndotrachealIntubation + VentilatorManagement + Arthrocentesis + HemodialysisCatheterInsertion + Abg + Vene + IVPlug + Ecg
 
-                    }
-
                     // CHECK INTERNAL COMPLIANCE
 
                         // check AbdominalTap compliance
@@ -720,7 +718,6 @@
                         if (Ecg >= 1) { 
                             Ecg = true
                         }                           
-                    
 
                     // PUSHING DATA INTO CHART
 
@@ -828,8 +825,7 @@
                             this.ChartConfig.datasets[0].data.push(0)
                         }
 
-                        // console.log(totalNumOfProceduresDoneByResident)
-                        // console.log(totalNumOfProceduresRequirements)            
+                    }
 
                 }
             }

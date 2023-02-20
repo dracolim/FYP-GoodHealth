@@ -231,8 +231,8 @@
                     percentageCompleted = counterCompletionEmodules/numOfEntries
                     percentageNotCompleted = 1 - percentageCompleted
 
-                    this.ChartConfig.datasets[0].data.push(percentageCompleted)
-                    this.ChartConfig.datasets[0].data.push(percentageNotCompleted)
+                    this.ChartConfig.datasets[0].data.push(percentageCompleted.toFixed(3))
+                    this.ChartConfig.datasets[0].data.push(percentageNotCompleted.toFixed(3))
 
                 }
             }
