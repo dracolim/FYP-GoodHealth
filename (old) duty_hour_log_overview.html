@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duty Hours Logs - Overview</title>
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/@mdi/font@3.x/css/materialdesignicons.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Material+Icons" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/vuetify@2.0.10/dist/vuetify.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
+    
+    <script src="https://cdn.jsdelivr.net/npm/babel-regenerator-runtime@6.5.0/runtime.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/babel-polyfill/dist/polyfill.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.0.10/dist/vuetify.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    <script src="https://unpkg.com/vue-chartjs@3.4.0/dist/vue-chartjs.js"></script>
+</head>
+<body>
+    <!-- header -->
+    <div class="bg-stone-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded ">
+        <div class="container flex flex-wrap items-center justify-between mx-auto" style="width: 100%; overflow: hidden;">
+            <img src="images/SingHealth_Logo.png" class="mr-3 sm:h-15 ml-3 mt-2 mb-2"
+                style="height: 80px ; width: 100px;" alt="Flowbite Logo" />
+
+            <div class="flex md:order-2">
+                <a href="homepage.html" style="margin-right: 10px;">
+                    <iconify-icon icon="ic:round-home" style="color: #ff6b00;" width="40" height="40"></iconify-icon>
+                </a>
+                <a>
+                    <iconify-icon icon="healthicons:ui-user-profile" style="color: #ff6b00;" width="40" height="40">
+                    </iconify-icon>
+                </a>
+
+                <button data-collapse-toggle="navbar-sticky" type="button"
+                    class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
+                    aria-controls="navbar-cta" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="bg-white">
+        <div class="items-center justify-between hidden w-full md:flex md:width-auto  md:order-1" id="navbar-sticky" style="width: 100%; overflow: hidden;">
+            <ul class="md:divide-x md:divide-slate-200 flex flex-col p-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row  md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
+                <li>
+                    <a href="#"
+                        class="lg:text-sm md:text-xs mr-2 ml-4 lg:ml-10 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0 dark:text-white"
+                        aria-current="page">Homepage</a>
+                </li>
+                <li>
+                    <a href="../FYP-GoodHealth/tab_pages/personal_details.html"
+                        class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                        Resident Profile</a>
+                </li>
+                <li>
+                    <a href="#"
+                        class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                        History</a>
+                </li>
+                <li>
+                    <a href="#"
+                        class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                        Involvement</a>
+                </li>
+                <li>
+                    <a href="#"
+                        class="lg:text-sm md:text-xs  ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                        Grants</a>
+                </li>
+                <li>
+                    <a href="#"
+                        class="lg:text-sm md:text-xs  ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                        Publications</a>
+                </li>
+                <li>
+                    <a href="#"
+                        class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Presentations</a>
+                </li>
+                <li>
+                    <a href="#"
+                        class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                        Awards</a>
+                </li>
+                <li>
+                    <a href="#"
+                        class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Projects</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Orange Divider -->
+    <div class='row' style='height: 8px; background-color: #ff6b00;'></div>
+    <div id="app">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+            Year:
+        </label>
+        <input v-model="year" 
+            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
+            id="grid-first-name" type="text" placeholder="Input Year Here">
+        <br>
+        <button @click="getDutyHourLogData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+            Get Residents' Info
+        </button>
+        <br>
+        <button @click="reset()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded ">
+            Reset
+        </button>
+
+        <v-row dense>
+            <v-col cols="sm">
+                <v-card class="pa-2" outlined tile raised>
+                <my-line-chart v-if="loaded" :line-data="ChartConfig" :chart-options="options">
+                </my-line-chart>
+                </v-card>
+            </v-col>
+
+    </div>
+
+<script>
+    // Vue.component('my-bar-chart', {
+    //     extends: VueChartJs.Bar,
+    //     props: ['barData', 'chartOptions'],
+    //     mounted() {
+    //     this.renderChart(this.barData, this.chartOptions);
+    //     },
+    //     /*watch: {
+    //     barData () {
+    //         console.log('bar data changed')
+    //         this.renderChart(this.barData, this.chartOptions);
+    //     },
+    //     chartOptions () {
+    //         this.renderChart(this.barData, this.chartOptions);
+    //     }
+    //     }*/
+    // }, {
+    //     responsive: true,
+    //     maintainAspectRatio: false
+    // })
+
+    Vue.component('my-line-chart', {
+        extends: VueChartJs.Line,
+        props: ['lineData', 'chartOptions'],
+        mounted() {
+        this.renderChart(this.lineData, this.chartOptions);
+        }/*,
+    watch:{
+    lineData () {
+        this.renderChart(this.lineData, this.chartOptions);
+    },
+    chartOptions () {
+        this.renderChart(this.lineData, this.chartOptions);
+    }
+    } */
+    }, {
+        responsive: true,
+        maintainAspectRatio: false
+    })
+
+    new Vue({
+        el: "#app",
+        vuetify: new Vuetify(),
+        data() {
+        return {
+            year: null,
+            loaded: false,
+            ChartConfig: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [
+                {
+                data: [],
+                fill: false,
+                backgroundColor: '#3498db',
+                borderColor: 'rgba(136,136,136,0.5)',
+                label: "Compliant"
+                }
+            ]
+            },
+            options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'Duty Hours Logs (Overview)'
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            scales: {
+                xAxes: [{
+                display: true,
+                categoryPercentage: 0.5,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Month'
+                }
+                }],
+                yAxes: [{
+                ticks : {
+                max : 1,    
+                min : 0
+                },
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: '% Submitted'
+                }
+                }]
+            }
+            },
+            // iceCream: [],
+            drawer: false,
+            // selectedYear: '',
+        }
+        },
+        mounted: function () {
+            this.loaded = false
+                },
+        methods: {
+        reset: function (){
+            this.ChartConfig.datasets[0].data.length = 0
+            this.loaded = false
+        },
+        getDutyHourLogData: async function () {
+
+            this.status = "getting data...";
+
+            await axios.get("http://localhost:5010/duty_hour_log/" + this.year).then((response) => {
+            // console.log(response.data)
+            this.getChartData(response.data);
+            this.loaded = true
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+        getChartData: function (chartData) {
+            console.log(chartData.data);
+            console.log('break1')
+
+            numLogsJan = 0.0
+            countCompliantJan = 0.0
+            percentCompliantJan = 0.0
+
+            numLogsFeb = 0.0
+            countCompliantFeb = 0.0
+            percentCompliantFeb = 0.0
+
+            numLogsMar = 0.0
+            countCompliantMar = 0.0
+            percentCompliantMar = 0.0
+
+            numLogsApr = 0.0
+            countCompliantApr = 0.0
+            percentCompliantApr = 0.0
+
+            numLogsMay = 0.0
+            countCompliantMay = 0.0
+            percentCompliantMay = 0.0
+
+            numLogsJun = 0.0
+            countCompliantJun = 0.0
+            percentCompliantJun = 0.0
+
+            numLogsJul = 0.0
+            countCompliantJul = 0.0
+            percentCompliantJul = 0.0
+
+            numLogsAug = 0.0
+            countCompliantAug = 0.0
+            percentCompliantAug = 0.0
+
+            numLogsSep = 0.0
+            countCompliantSep = 0.0
+            percentCompliantSep = 0.0
+
+            numLogsOct = 0.0
+            countCompliantOct = 0.0
+            percentCompliantOct = 0.0
+
+            numLogsNov = 0.0
+            countCompliantNov = 0.0
+            percentCompliantNov = 0.0
+
+            numLogsDec = 0.0
+            countCompliantDec = 0.0
+            percentCompliantDec = 0.0
+
+            // NEED TO CALCULATE % OF RESIDENTS WITH FULL SUBMISSION FOR EACH MONTH
+            // 
+            for (var i = 0; i < chartData.data.length; i++) {
+
+                if(('01'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
+                    numLogsJan = numLogsJan + 1.0
+                    if(chartData.data[i]['Submitted_Proportion'] == '1'){
+                        countCompliantJan += 1.0
+                    }
+                }
+                else if (('02'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
+                    numLogsFeb = numLogsFeb + 1.0
+                    if(chartData.data[i]['Submitted_Proportion'] == '1'){
+                        countCompliantFeb += 1.0
+                    }
+                }
+                else if (('03'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
+                    numLogsMar = numLogsMar + 1.0
+                    if(chartData.data[i]['Submitted_Proportion'] == '1'){
+                        countCompliantMar += 1.0
+                    }
+                }
+                else if (('04'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
+                    numLogsApr = numLogsApr + 1.0
+                    if(chartData.data[i]['Submitted_Proportion'] == '1'){
+                        countCompliantApr += 1.0
+                    }
+                }
+                else if (('05'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
+                    numLogsMay = numLogsMay + 1.0
+                    if(chartData.data[i]['Submitted_Proportion'] == '1'){
+                        countCompliantMay += 1.0
+                    }
+                }
+                else if (('06'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
+                    numLogsJun = numLogsJun + 1.0
+                    if(chartData.data[i]['Submitted_Proportion'] == '1'){
+                        countCompliantJun += 1.0
+                    }
+                }
+                else if (('07'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
+                    numLogsJul = numLogsJul + 1.0
+                    if(chartData.data[i]['Submitted_Proportion'] == '1'){
+                        countCompliantJul += 1.0
+                    }
+                }
+                else if (('08'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
+                    numLogsAug = numLogsAug + 1.0
+                    if(chartData.data[i]['Submitted_Proportion'] == '1'){
+                        countCompliantAug += 1.0
+                    }
+                }
+                else if (('09'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
+                    numLogsSep = numLogsSep + 1.0
+                    if(chartData.data[i]['Submitted_Proportion'] == '1'){
+                        countCompliantSep += 1.0
+                    }
+                }
+                else if (('10'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
+                    numLogsOct = numLogsOct + 1.0
+                    if(chartData.data[i]['Submitted_Proportion'] == '1'){
+                        countCompliantOct += 1.0
+                    }
+                }
+                else if (('11'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
+                    numLogsNov = numLogsNov + 1.0
+                    if(chartData.data[i]['Submitted_Proportion'] == '1'){
+                        countCompliantNov += 1.0
+                    }
+                }
+                else if (('12'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
+                    numLogsDec = numLogsDec + 1.0
+                    if(chartData.data[i]['Submitted_Proportion'] == '1'){
+                        countCompliantDec += 1.0
+                    }
+                }
+            }
+
+            if(countCompliantJan != 0 && numLogsJan != 0){
+                percentCompliantJan = countCompliantJan/numLogsJan}
+            // console.log(percentCompliantJan)
+            this.ChartConfig.datasets[0].data.push(percentCompliantJan)
+
+            if(countCompliantFeb != 0 && numLogsFeb != 0){
+                percentCompliantFeb = countCompliantFeb/numLogsFeb}
+            // console.log(percentCompliantFeb)
+            this.ChartConfig.datasets[0].data.push(percentCompliantFeb)
+            
+            if(countCompliantMar != 0 && numLogsMar != 0){
+                percentCompliantMar = countCompliantMar/numLogsMar}
+            // console.log(percentCompliantJan)
+            this.ChartConfig.datasets[0].data.push(percentCompliantMar)
+
+            if(countCompliantApr != 0 && numLogsApr != 0){
+                percentCompliantApr = countCompliantApr/numLogsApr}
+            // console.log(percentCompliantApr)
+            this.ChartConfig.datasets[0].data.push(percentCompliantApr)
+
+            if(countCompliantMay != 0 && numLogsMay != 0){
+                percentCompliantMay = countCompliantMay/numLogsMay}
+            // console.log(percentCompliantMay)
+            this.ChartConfig.datasets[0].data.push(percentCompliantMay)
+
+            if(countCompliantJun != 0 && numLogsJun != 0){
+                percentCompliantJun = countCompliantJun/numLogsJun}
+            // console.log(percentCompliantJun)
+            this.ChartConfig.datasets[0].data.push(percentCompliantJun)
+
+            if(countCompliantJul != 0 && numLogsJul != 0){
+                percentCompliantJul = countCompliantJul/numLogsJul}
+            // console.log(percentCompliantJul)
+            this.ChartConfig.datasets[0].data.push(percentCompliantJul)
+
+            if(countCompliantAug != 0 && numLogsAug != 0){
+                percentCompliantAug = countCompliantAug/numLogsAug}
+            // console.log(percentCompliantAug)
+            this.ChartConfig.datasets[0].data.push(percentCompliantAug)
+
+            if(countCompliantSep != 0 && numLogsSep != 0){
+                percentCompliantSep = countCompliantSep/numLogsSep}
+            // console.log(percentCompliantSep)
+            this.ChartConfig.datasets[0].data.push(percentCompliantSep)
+
+            if(countCompliantOct != 0 && numLogsOct != 0){
+                percentCompliantOct = countCompliantOct/numLogsOct}
+            // console.log(percentCompliantOct)
+            this.ChartConfig.datasets[0].data.push(percentCompliantOct)
+
+            if(countCompliantNov != 0 && numLogsNov != 0){
+                percentCompliantNov = countCompliantNov/numLogsNov}
+            // console.log(percentCompliantNov)
+            this.ChartConfig.datasets[0].data.push(percentCompliantNov)
+
+            if(countCompliantDec!= 0 && numLogsDec != 0){
+                percentCompliantDec = countCompliantDec/numLogsDec}
+            // console.log(percentCompliantDec)
+            this.ChartConfig.datasets[0].data.push(percentCompliantDec)
+
+            console.log(this.ChartConfig);
+
+        }
+        }
+    });
+</script>
+</body>
+</html>
