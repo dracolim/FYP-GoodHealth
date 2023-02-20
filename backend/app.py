@@ -19,16 +19,16 @@ app.app_context().push()
 
 if __name__ == '__main__':
 #     # Mac user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-    #                                     '@localhost:3306/SingHealth'
-    # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+                                        '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
     # --------------------------------------------------------------------------------
 
     # # Windows user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
-                                            '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
+    #                                         '@localhost:3306/SingHealth'
+    # engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -1469,7 +1469,7 @@ def delete_history_education(id):
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
 # Read Existing  (R)
-@app.route("/postinghistory")
+@app.route("/history_posting")
 def read_postinghistory():
     pdList = Posting_History.query.all()
     return jsonify(
@@ -1480,7 +1480,7 @@ def read_postinghistory():
     ), 200
 
 # Read Existing by Person (R)
-@app.route("/postinghistory/<id>")
+@app.route("/history_posting/<id>")
 def read_postinghistory_by_person(id):
     person = Personal_Details.query.get_or_404(id)
     presentation_of_person = person.posting_histories
@@ -1502,8 +1502,8 @@ def update_history_posting(id):
     user.MCR_No = data['MCR_No']
     user.Posting_Institution = data['Posting_Institution']
     user.Posting_Department = data['Posting_Department']
-    user.Posting_StartDate = data['Postin_StartDate']
-    user.Posting_EndDate = data['Postin_EndDate']
+    user.Posting_StartDate = data['Posting_StartDate']
+    user.Posting_EndDate = data['Posting_EndDate']
 
     db.session.commit()
     return 'History Posting updated', 200
@@ -1552,7 +1552,7 @@ def get_exam_history_fields():
 
 # Read Existing by Person (R)
 @app.route("/history_exam/<id>")
-def read_proceSSdurelog_by_person(id):
+def read_historyexam_by_person(id):
     person = Personal_Details.query.get_or_404(id)
     examhistory_of_person = person.exam_histories
     return jsonify(
@@ -1601,7 +1601,63 @@ def delete_history_exam(id):
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
-# AKA  table routes:
+# Read Existing ExamHistory (R)
+@app.route("/history_trg")
+def read_trghistory():
+    trghistoryList =TrgExtRem_History.query.all()
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in trghistoryList]
+        }
+    ), 200
+
+# Read ExamHistory field/column name (R)
+@app.route('/history_trg_fields', methods=['GET'])
+def get_trg_history_fields():
+    fields = {}
+    for column in TrgExtRem_History.__table__.columns:
+        fields[column.name] = str(column.type)
+    return jsonify(fields)
+
+# Read Existing by Person (R)
+@app.route("/history_trg/<id>")
+def read_historytrg_by_person(id):
+    person = Personal_Details.query.get_or_404(id)
+    examhistory_of_person = person.exam_histories
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in examhistory_of_person]
+        }
+    ), 200
+
+# update history exam
+@app.route('/history_trg/<int:id>', methods=['PUT'])
+def update_history_training(id):
+    user = TrgExtRem_History.query.get(id)
+    if not user:
+        return 'History Training not found', 404
+
+    data = request.get_json()
+    user.MCR_No = data['MCR_No']
+    user.LOAPIP = data['LOAPIP']
+    user.StartDate = data['StartDate']
+    user.EndDate = data['EndDate']
+
+    db.session.commit()
+    return 'History Exam updated', 200
+
+# remove history exam
+@app.route('/history_trg/<int:id>', methods=['DELETE'])
+def delete_history_training(id):
+    row = TrgExtRem_History.query.get(id)
+    if not row:
+        return 'History Training not found', 404
+
+    db.session.delete(row)
+    db.session.commit()
+    return 'History Training deleted', 200
 
 
 # ============================
@@ -1628,8 +1684,6 @@ def read_grants():
     ), 200
 
 # Read Grants field/column name (R)
-
-
 @app.route('/grants_fields', methods=['GET'])
 def get_grants_fields():
     fields = {}
@@ -1638,8 +1692,6 @@ def get_grants_fields():
     return jsonify(fields)
 
 # Read Existing by Person (R)
-
-
 @app.route("/grants/<id>")
 def read_grants_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -1650,6 +1702,10 @@ def read_grants_by_person(id):
                      for pd in grants_of_person]
         }
     ), 200
+
+
+
+
 
 # ============================
 # █▀▀ █▄░█ █▀▄
@@ -1677,8 +1733,6 @@ def read_awards():
     ), 200
 
 # Read Awards field/column name (R)
-
-
 @app.route('/awards_fields', methods=['GET'])
 def get_awards_fields():
     fields = {}
@@ -1687,8 +1741,6 @@ def get_awards_fields():
     return jsonify(fields)
 
 # Read Existing by Person (R)
-
-
 @app.route("/awards/<id>")
 def read_awards_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -1696,13 +1748,11 @@ def read_awards_by_person(id):
     return jsonify(
         {
             "data": [pd.to_dict()
-                     for pd in awards_of_person]
+                    for pd in awards_of_person]
         }
     ), 200
 
 # Add awards
-
-
 @app.route('/add_award', methods=['POST'])
 def create_award():
     data = request.get_json()
@@ -1722,10 +1772,7 @@ def create_award():
         print("An error occurred:", e)
         print("Stack trace:")
         traceback.print_exc()
-    # except Exception:
-    #     return jsonify({
-    #         "message": "Unable to commit to database."
-    #     }), 500
+
 
 
 # ============================
@@ -1842,8 +1889,6 @@ def read_projects():
     ), 200
 
 # Read Existing by Person (R)
-
-
 @app.route("/projects/<id>")
 def read_projects_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -2050,8 +2095,6 @@ def delete_duty_hour_log(id):
 # ============================
 # AKA Procedure_Log table routes:
 # Read Existing procedure log (R)
-
-
 @app.route("/procedure_log")
 def read_procedure_log():
     logs = Procedure_Log.query.all()
@@ -2172,8 +2215,6 @@ def read_case_log():
     ), 200
 
 # Read Existing by Person (R)
-
-
 @app.route("/caselogs/<id>")
 def read_caselogs_by_person(id):
     person = Personal_Details.query.get_or_404(id)

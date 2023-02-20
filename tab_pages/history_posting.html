@@ -275,28 +275,8 @@
                             },
 
                             {
-                                title: "Year of Graduation",
-                                field: "Year_of_Graduation",
-                                sorter: "number",
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    mask: "9999",
-                                    maskAutoFill: true,
-                                },
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                headerFilterPlaceholder: "Select",
-                                minWidth: 200,
-                            },
-                            {
-                                title: "Date of Graduation",
-                                field: "Date_of_Graduation",
+                                title: "Posting Institution",
+                                field: "Posting_Institution",
                                 sorter: "string",
                                 editor: "input",
                                 editorParams: {
@@ -314,8 +294,8 @@
                                 minWidth: 200,
                             },
                             {
-                                title: "Basic Qualification",
-                                field: "Basic_Qualification",
+                                title: "Posting Department",
+                                field: "Posting_Department",
                                 sorter: "string",
                                 editor: "input",
                                 editorParams: {
@@ -330,49 +310,11 @@
                                     clearable: true
                                 },
                                 headerFilterPlaceholder: "Select",
-                                minWidth: 220,
+                                minWidth: 200,
                             },
                             {
-                                title: "Medical School",
-                                field: "Medical_School",
-                                sorter: "string",
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                headerFilterPlaceholder: "Select",
-                                minWidth: 220,
-                            }, 
-                            {
-                                title: "IM Residency Start Date",
-                                field: "IM_Residency_Start_Date",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                headerFilterPlaceholder: "Enter Value",
-                                minWidth: 150,
-
-                            },
-                            {
-                                title: "IM Residency End Date",
-                                field: "IM_Residency_End_Date",
+                                title: "Posting Start Date",
+                                field: "Posting_StartDate",
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -389,27 +331,8 @@
                                 minWidth: 150,
                             },
                             {
-                                title: "SR Residency Programme",
-                                field: "SR_Residency_Programme",
-                                sorter: "string",
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                headerFilterPlaceholder: "Select",
-                                minWidth: 220,
-                            }, 
-                            {
-                                title: "SR Residency Start Date",
-                                field: "SR_Residency_Start_Date",
+                                title: "Posting End Date",
+                                field: "Posting_EndDate",
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -424,63 +347,6 @@
                                 },
                                 headerFilterPlaceholder: "Enter Value",
                                 minWidth: 150,
-
-                            },
-                            {
-                                title: "SR Residency End Date",
-                                field: "SR_Residency_End_Date",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                headerFilterPlaceholder: "Enter Value",
-                                minWidth: 150,
-                            },
-                            {
-                                title: "IM Residency Start Date",
-                                field: "IM_Residency_Start_Date",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                headerFilterPlaceholder: "Enter Value",
-                                minWidth: 150,
-
-                            },
-                            {
-                                title: "PG Year",
-                                field: "PG_Year",
-                                sorter: "number",
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                headerFilterPlaceholder: "Select",
-                                minWidth: 220,
                             }, 
                             {
                                 title: "Action",
@@ -507,12 +373,12 @@
                         // connect to database and execute update statement
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
-                        axios.put(local_host_url + "history_eposting/" + thisrow.id, {
+                        axios.put(local_host_url + "history_posting/" + thisrow.id, {
                                 "MCR_No": thisrow.MCR_No,
                                 "Posting_Institution": thisrow.Posting_Institution,
                                 "Posting_Department": thisrow.Posting_Department,
-                                "Basic_Qualification": thisrow.Basic_Qualification,
-                                "Medical_School": thisrow.Medical_School,
+                                "Posting_StartDate": thisrow.Posting_StartDate,
+                                "Posting_EndDate": thisrow.Posting_EndDate,
                             })
                             .then(response => {
                                 console.log('History Education ID {' + row.getData().id +
