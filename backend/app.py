@@ -19,16 +19,16 @@ app.app_context().push()
 
 if __name__ == '__main__':
 #     # Mac user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-    #                                     '@localhost:3306/SingHealth'
-    # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+                                        '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
     # --------------------------------------------------------------------------------
 
     # # Windows user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
-                                            '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
+    #                                         '@localhost:3306/SingHealth'
+    # engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -1316,7 +1316,7 @@ def read_personaldetailssd(id):
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
-# AKA Involvement table routes:
+
 # Read Existing involvement (R)
 @app.route("/involvement")
 def read_involvement():
@@ -1327,9 +1327,8 @@ def read_involvement():
                      for pd in involvementList]
         }
     ), 200
+
 # Read Involvement field/column name (R)
-
-
 @app.route('/involvement_fields', methods=['GET'])
 def get_involvement_fields():
     fields = {}
@@ -1338,8 +1337,6 @@ def get_involvement_fields():
     return jsonify(fields)
 
 # Read Existing by Person (R)
-
-
 @app.route("/involvement/<id>")
 def read_involvement_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -1350,6 +1347,39 @@ def read_involvement_by_person(id):
                      for pd in involvements_of_person]
         }
     ), 200
+
+# update involvement
+@app.route('/involvement/<int:id>', methods=['PUT'])
+def update_involvement(id):
+    user = Involvement.query.get(id)
+    if not user:
+        return 'Involvement not found', 404
+
+    data = request.get_json()
+    user.MCR_No = data['MCR_No']
+    user.Involvement_Type = data['Involvement_Type']
+    user.Event = data['Event']
+    user.Role = data['Role']
+    user.Start_Date= data['Start_Date']
+    user.End_Date = data['End_Date']
+
+    db.session.commit()
+    return 'Involvement updated', 200
+
+# remove duty hour log
+@app.route('/involvement/<int:id>', methods=['DELETE'])
+def delete_involvement(id):
+    row = Involvement.query.get(id)
+    if not row:
+        return 'Involvement not found', 404
+
+    db.session.delete(row)
+    db.session.commit()
+    return 'Involvement deleted', 200
+
+
+
+
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀
@@ -1361,8 +1391,71 @@ def read_involvement_by_person(id):
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
-# AKA Education_History table routes:
+# Read Existing history education (R)
+@app.route("/history_education")
+def read_history_education():
+    history_education_List = Education_History.query.all()
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                     for pd in history_education_List]
+        }
+    ), 200
 
+# Read History Education field/column name (R)
+@app.route('/history_education', methods=['GET'])
+def get_history_education_fields():
+    fields = {}
+    for column in Education_History.__table__.columns:
+        fields[column.name] = str(column.type)
+    return jsonify(fields)
+
+# Read Existing by Person (R)
+@app.route("/history_education/<id>")
+def read_histpry_education_by_person(id):
+    person = Personal_Details.query.get_or_404(id)
+    history_education__of_person = person.hisotry_education
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                     for pd in history_education__of_person]
+        }
+    ), 200
+
+# update history_education
+@app.route('/history_education/<int:id>', methods=['PUT'])
+def update_history_education(id):
+    user = Education_History.query.get(id)
+    if not user:
+        return 'History Education not found', 404
+
+    data = request.get_json()
+    user.MCR_No = data['MCR_No']
+    user.Year_of_Graduation = data['Year_of_Graduation']
+    user.Date_of_Graduation = data['Date_of_Graduation']
+    user.Basic_Qualification = data['Basic_Qualification']
+    user.Medical_School = data['Medical_School']
+    user.Country_of_Graduation= data['Country_of_Graduation']
+    user.IM_Residency_Start_Date = data['IM_Residency_Start_Date']
+    user.IM_Residency_End_Date = data['IM_Residency_End_Date']
+    user.SR_Residency_Programme = data['SR_Residency_Programme']
+    user.SR_Residency_Start_Date  = data['SR_Residency_Start_Date']
+    user.SR_Residency_End_Date  = data['SR_Residency_End_Date']
+    user.PG_Year = data['PG_Year']
+
+    db.session.commit()
+    return 'History Education updated', 200
+
+# remove history education
+@app.route('/history_education/<int:id>', methods=['DELETE'])
+def delete_history_education(id):
+    row = Education_History.query.get(id)
+    if not row:
+        return 'History Education not found', 404
+
+    db.session.delete(row)
+    db.session.commit()
+    return 'History Education deleted', 200
 
 # ============================
 # █▀▀ █▄░█ █▀▄
@@ -1375,9 +1468,8 @@ def read_involvement_by_person(id):
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
-# AKA Posting_History table routes:
 # Read Existing  (R)
-@app.route("/postinghistory")
+@app.route("/history_posting")
 def read_postinghistory():
     pdList = Posting_History.query.all()
     return jsonify(
@@ -1388,9 +1480,7 @@ def read_postinghistory():
     ), 200
 
 # Read Existing by Person (R)
-
-
-@app.route("/postinghistory/<id>")
+@app.route("/history_posting/<id>")
 def read_postinghistory_by_person(id):
     person = Personal_Details.query.get_or_404(id)
     presentation_of_person = person.posting_histories
@@ -1400,6 +1490,34 @@ def read_postinghistory_by_person(id):
                      for pd in presentation_of_person]
         }
     ), 200
+
+# update history posting
+@app.route('/history_posting/<int:id>', methods=['PUT'])
+def update_history_posting(id):
+    user = Posting_History.query.get(id)
+    if not user:
+        return 'History Posting not found', 404
+
+    data = request.get_json()
+    user.MCR_No = data['MCR_No']
+    user.Posting_Institution = data['Posting_Institution']
+    user.Posting_Department = data['Posting_Department']
+    user.Posting_StartDate = data['Posting_StartDate']
+    user.Posting_EndDate = data['Posting_EndDate']
+
+    db.session.commit()
+    return 'History Posting updated', 200
+
+# remove history posting
+@app.route('/history_posting<int:id>', methods=['DELETE'])
+def delete_history_posting(id):
+    row = Posting_History.query.get(id)
+    if not row:
+        return 'History Posting not found', 404
+
+    db.session.delete(row)
+    db.session.commit()
+    return 'History Posting deleted', 200
 
 
 # ============================
@@ -1413,25 +1531,8 @@ def read_postinghistory_by_person(id):
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
-# AKA history_exam table routes:
-
-
-# ============================
-# █▀▀ █▄░█ █▀▄
-# ██▄ █░▀█ █▄▀
-# ============================
-
-
-# ============================
-# █▀▀ ▀▄▀ ▄▀█ █▀▄▀█   █░█ █ █▀ ▀█▀ █▀█ █▀█ █▄█
-# ██▄ █░█ █▀█ █░▀░█   █▀█ █ ▄█ ░█░ █▄█ █▀▄ ░█░
-# █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
-# ▄█ ░█░ █▀█ █▀▄ ░█░
-# ============================
-# AKA exam_history table routes:
-
 # Read Existing ExamHistory (R)
-@app.route("/examhistory")
+@app.route("/history_exam")
 def read_examhistory():
     examhistoryList = Exam_History.query.all()
     return jsonify(
@@ -1442,9 +1543,7 @@ def read_examhistory():
     ), 200
 
 # Read ExamHistory field/column name (R)
-
-
-@app.route('/exam_history_fields', methods=['GET'])
+@app.route('/history_exam_fields', methods=['GET'])
 def get_exam_history_fields():
     fields = {}
     for column in Exam_History.__table__.columns:
@@ -1452,10 +1551,8 @@ def get_exam_history_fields():
     return jsonify(fields)
 
 # Read Existing by Person (R)
-
-
-@app.route("/examhistory/<id>")
-def read_proceSSdurelog_by_person(id):
+@app.route("/history_exam/<id>")
+def read_historyexam_by_person(id):
     person = Personal_Details.query.get_or_404(id)
     examhistory_of_person = person.exam_histories
     return jsonify(
@@ -1464,6 +1561,33 @@ def read_proceSSdurelog_by_person(id):
                      for pd in examhistory_of_person]
         }
     ), 200
+
+# update history exam
+@app.route('/history_exam/<int:id>', methods=['PUT'])
+def update_history_exam(id):
+    user = Exam_History.query.get(id)
+    if not user:
+        return 'History Exam not found', 404
+
+    data = request.get_json()
+    user.MCR_No = data['MCR_No']
+    user.Name_of_Exam = data['Name_of_Exam']
+    user.Date_of_Attempty = data['Date_of_Attempt']
+    user.Exam_Status = data['Exam_Status']
+
+    db.session.commit()
+    return 'History Exam updated', 200
+
+# remove history exam
+@app.route('/history_exam/<int:id>', methods=['DELETE'])
+def delete_history_exam(id):
+    row = Exam_History.query.get(id)
+    if not row:
+        return 'History Exam not found', 404
+
+    db.session.delete(row)
+    db.session.commit()
+    return 'History Exam deleted', 200
 
 
 # ============================
@@ -1477,7 +1601,63 @@ def read_proceSSdurelog_by_person(id):
 # █▀ ▀█▀ ▄▀█ █▀█ ▀█▀
 # ▄█ ░█░ █▀█ █▀▄ ░█░
 # ============================
-# AKA  table routes:
+# Read Existing ExamHistory (R)
+@app.route("/history_trg")
+def read_trghistory():
+    trghistoryList =TrgExtRem_History.query.all()
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in trghistoryList]
+        }
+    ), 200
+
+# Read ExamHistory field/column name (R)
+@app.route('/history_trg_fields', methods=['GET'])
+def get_trg_history_fields():
+    fields = {}
+    for column in TrgExtRem_History.__table__.columns:
+        fields[column.name] = str(column.type)
+    return jsonify(fields)
+
+# Read Existing by Person (R)
+@app.route("/history_trg/<id>")
+def read_historytrg_by_person(id):
+    person = Personal_Details.query.get_or_404(id)
+    examhistory_of_person = person.exam_histories
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in examhistory_of_person]
+        }
+    ), 200
+
+# update history exam
+@app.route('/history_trg/<int:id>', methods=['PUT'])
+def update_history_training(id):
+    user = TrgExtRem_History.query.get(id)
+    if not user:
+        return 'History Training not found', 404
+
+    data = request.get_json()
+    user.MCR_No = data['MCR_No']
+    user.LOAPIP = data['LOAPIP']
+    user.StartDate = data['StartDate']
+    user.EndDate = data['EndDate']
+
+    db.session.commit()
+    return 'History Exam updated', 200
+
+# remove history exam
+@app.route('/history_trg/<int:id>', methods=['DELETE'])
+def delete_history_training(id):
+    row = TrgExtRem_History.query.get(id)
+    if not row:
+        return 'History Training not found', 404
+
+    db.session.delete(row)
+    db.session.commit()
+    return 'History Training deleted', 200
 
 
 # ============================
@@ -1504,8 +1684,6 @@ def read_grants():
     ), 200
 
 # Read Grants field/column name (R)
-
-
 @app.route('/grants_fields', methods=['GET'])
 def get_grants_fields():
     fields = {}
@@ -1514,8 +1692,6 @@ def get_grants_fields():
     return jsonify(fields)
 
 # Read Existing by Person (R)
-
-
 @app.route("/grants/<id>")
 def read_grants_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -1526,6 +1702,10 @@ def read_grants_by_person(id):
                      for pd in grants_of_person]
         }
     ), 200
+
+
+
+
 
 # ============================
 # █▀▀ █▄░█ █▀▄
@@ -1553,8 +1733,6 @@ def read_awards():
     ), 200
 
 # Read Awards field/column name (R)
-
-
 @app.route('/awards_fields', methods=['GET'])
 def get_awards_fields():
     fields = {}
@@ -1563,8 +1741,6 @@ def get_awards_fields():
     return jsonify(fields)
 
 # Read Existing by Person (R)
-
-
 @app.route("/awards/<id>")
 def read_awards_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -1572,13 +1748,11 @@ def read_awards_by_person(id):
     return jsonify(
         {
             "data": [pd.to_dict()
-                     for pd in awards_of_person]
+                    for pd in awards_of_person]
         }
     ), 200
 
 # Add awards
-
-
 @app.route('/add_award', methods=['POST'])
 def create_award():
     data = request.get_json()
@@ -1598,10 +1772,7 @@ def create_award():
         print("An error occurred:", e)
         print("Stack trace:")
         traceback.print_exc()
-    # except Exception:
-    #     return jsonify({
-    #         "message": "Unable to commit to database."
-    #     }), 500
+
 
 
 # ============================
@@ -1718,8 +1889,6 @@ def read_projects():
     ), 200
 
 # Read Existing by Person (R)
-
-
 @app.route("/projects/<id>")
 def read_projects_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -1881,6 +2050,7 @@ def create_duty_hour():
         print("Stack trace:")
         traceback.print_exc()
 
+# update duty hour log
 @app.route('/duty_hour_log/<int:id>', methods=['PUT'])
 def update_duty_hour_log(id):
     user = Duty_Hour_Log.query.get(id)
@@ -1898,7 +2068,7 @@ def update_duty_hour_log(id):
     db.session.commit()
     return 'Duty Hour Log updated', 200
 
-
+# remove duty hour log
 @app.route('/duty_hour_log/<int:id>', methods=['DELETE'])
 def delete_duty_hour_log(id):
     row = Duty_Hour_Log.query.get(id)
@@ -1925,8 +2095,6 @@ def delete_duty_hour_log(id):
 # ============================
 # AKA Procedure_Log table routes:
 # Read Existing procedure log (R)
-
-
 @app.route("/procedure_log")
 def read_procedure_log():
     logs = Procedure_Log.query.all()
@@ -1958,6 +2126,27 @@ def read_procedure_logs():
             "data": combinedProcedureLogs
         }), 200
 
+# Add procedure log
+@app.route('/add_procedure_log', methods=['POST'])
+def create_procedure_log():
+    data = request.get_json()
+    if not all(key in data.keys() for key in ('MCR_No', 'Procedure_Name', 'CPT', 'Date of Completion', 'Total',
+                                            'Performed' , 'Observed' , 'Verified' , 'Certified'
+                                            )):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+    duty_hour_log = Duty_Hour_Log(**data)
+    try:
+        db.session.add(duty_hour_log)
+        db.session.commit()
+        return jsonify(duty_hour_log.to_dict()), 201
+    except Exception as e:
+        print("An error occurred:", e)
+        print("Stack trace:")
+        traceback.print_exc()
+
+
 # Read Existing by Person (R)
 @app.route("/procedurelog/<id>")
 def read_procedurelog_by_person(id):
@@ -1970,7 +2159,7 @@ def read_procedurelog_by_person(id):
         }
     ), 200
 
-# Update ihi
+# Update procedure log
 @app.route('/procedurelog/<int:id>', methods=['PUT'])
 def update_procedure_log(id):
     user = Procedure_Log.query.get(id)
@@ -1991,7 +2180,7 @@ def update_procedure_log(id):
     db.session.commit()
     return 'Procedure Log updated', 200
 
-# Delete IHI
+# Delete procedure log
 @app.route('/procedurelog/<int:id>', methods=['DELETE'])
 def delete_procedure_log(id):
     row = Procedure_Log.query.get(id)
@@ -2026,8 +2215,6 @@ def read_case_log():
     ), 200
 
 # Read Existing by Person (R)
-
-
 @app.route("/caselogs/<id>")
 def read_caselogs_by_person(id):
     person = Personal_Details.query.get_or_404(id)
@@ -2213,8 +2400,6 @@ def read_presentations_by_person(id):
     ), 200
 
 # Add duty hour
-
-
 @app.route('/add_presentation', methods=['POST'])
 def create_presentation():
     data = request.get_json()

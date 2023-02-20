@@ -97,7 +97,7 @@
             <div class="items-center justify-between hidden w-full md:flex md:width-auto  md:order-1" id="navbar-sticky"
                 style="width: 100%; overflow: hidden;">
                 <ul
-                    class="md:divide-x md:divide-slate-200 flex flex-col p-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row  md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
+                    class="overflow-x-auto md:divide-x md:divide-slate-200 flex flex-col p-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row  md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
                     <li>
                         <a href="../homepage.html"
                             class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
@@ -194,7 +194,7 @@
             <div class="relative w-full h-full max-w-md md:h-auto">
                 <!-- Modal content -->
                 <div class="relative bg-white rounded-lg shadow ">
-                    <button type="button"
+                    <button type="button" @click="removeErrorMsg"
                         class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                         data-modal-hide="import-modal">
                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -316,172 +316,173 @@
                         data: this.tableData,
                         index: "MCR_No",
                         columns: [{
-                            title: "MCR No",
-                            field: "MCR_No",
-                            sorter: "string",
-                            headerHozAlign: "center",
-                            headerFilter: true,
-                            headerFilterPlaceholder: "Enter value",
-                            headerFilterParams: {
-                                autocomplete: true,
-                                valuesLookup: true,
-                                clearable: true,
+                                title: "MCR No",
+                                field: "MCR_No",
+                                sorter: "string",
+                                headerHozAlign: "center",
+                                headerFilter: true,
+                                headerFilterPlaceholder: "Enter value",
+                                headerFilterParams: {
+                                    autocomplete: true,
+                                    valuesLookup: true,
+                                    clearable: true,
 
+                                },
+                                minWidth: 200,
                             },
-                            minWidth: 200,
-                        },
-                        {
-                            title: "Procedure Name",
-                            field: "Procedure_Name",
-                            sorter: "string",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true,
+                            {
+                                title: "Procedure Name",
+                                field: "Procedure_Name",
+                                sorter: "string",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: "input",
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
+                                headerFilterPlaceholder: "Enter Value",
+                                minWidth: 150,
                             },
-                            editor: "input",
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
-                            },
-                            headerFilterPlaceholder: "Enter Value",
-                            minWidth: 150,
-                        },
 
-                        {
-                            title: "Date of Completion",
-                            field: "Date_of_Completion",
-                            sorter: "string",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true,
+                            {
+                                title: "Date of Completion",
+                                field: "Date_of_Completion",
+                                sorter: "string",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: "input",
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
+                                headerFilterPlaceholder: "Enter Value",
+                                minWidth: 150,
                             },
-                            editor: "input",
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
+                            {
+                                title: "CPT",
+                                field: "CPT",
+                                sorter: "string",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: "input",
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
+                                headerFilterPlaceholder: "Enter Value",
+                                minWidth: 150,
                             },
-                            headerFilterPlaceholder: "Enter Value",
-                            minWidth: 150,
-                        },
-                        {
-                            title: "CPT",
-                            field: "CPT",
-                            sorter: "string",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true,
+                            {
+                                title: "Total",
+                                field: "Total",
+                                sorter: "number",
+                                editor: "number",
+                                editorParams: {
+                                    min: 0,
+                                },
+                                headerFilter: "list",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
+                                headerFilterPlaceholder: "Select",
+                                minWidth: 150,
                             },
-                            editor: "input",
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
+                            {
+                                title: "Performed",
+                                field: "Performed",
+                                sorter: "number",
+                                editor: "number",
+                                editorParams: {
+                                    min: 0,
+                                },
+                                headerFilter: "list",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
+                                headerFilterPlaceholder: "Select",
+                                minWidth: 150,
                             },
-                            headerFilterPlaceholder: "Enter Value",
-                            minWidth: 150,
-                        },
-                        {
-                            title: "Total",
-                            field: "Total",
-                            sorter: "number",
-                            editor: "number",
-                            editorParams: {
-                                min: 0,
+                            {
+                                title: "Observed",
+                                field: "Observed",
+                                sorter: "number",
+                                editor: "number",
+                                editorParams: {
+                                    min: 0,
+                                },
+                                headerFilter: "list",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
+                                headerFilterPlaceholder: "Select",
+                                minWidth: 150,
                             },
-                            headerFilter: "list",
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
+                            {
+                                title: "Verified",
+                                field: "Verified",
+                                sorter: "number",
+                                editor: "number",
+                                editorParams: {
+                                    min: 0,
+                                },
+                                headerFilter: "list",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
+                                headerFilterPlaceholder: "Select",
+                                minWidth: 150,
                             },
-                            headerFilterPlaceholder: "Select",
-                            minWidth: 150,
-                        },
-                        {
-                            title: "Performed",
-                            field: "Performed",
-                            sorter: "number",
-                            editor: "number",
-                            editorParams: {
-                                min: 0,
+                            {
+                                title: "Certified",
+                                field: "Certified",
+                                sorter: "number",
+                                editor: "number",
+                                editorParams: {
+                                    min: 0,
+                                },
+                                headerFilter: "list",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
+                                headerFilterPlaceholder: "Select",
+                                minWidth: 150,
                             },
-                            headerFilter: "list",
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
+                            {
+                                title: "Action",
+                                formatter: printRemoveButton,
+                                hozAlign: "center",
+                                cellClick: function (e, cell) {
+                                    axios.delete(local_host_url + "procedurelog" + "/" +
+                                            cell
+                                            .getRow().getData().id)
+                                        .then(function (response) {
+                                            console.log(response.data);
+                                            cell.getRow().delete();
+                                        })
+                                        .catch(function (error) {
+                                            console.log(error);
+                                        });
+                                },
+                                minWidth: 150,
                             },
-                            headerFilterPlaceholder: "Select",
-                            minWidth: 150,
-                        },
-                        {
-                            title: "Observed",
-                            field: "Observed",
-                            sorter: "number",
-                            editor: "number",
-                            editorParams: {
-                                min: 0,
-                            },
-                            headerFilter: "list",
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
-                            },
-                            headerFilterPlaceholder: "Select",
-                            minWidth: 150,
-                        },
-                        {
-                            title: "Verified",
-                            field: "Verified",
-                            sorter: "number",
-                            editor: "number",
-                            editorParams: {
-                                min: 0,
-                            },
-                            headerFilter: "list",
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
-                            },
-                            headerFilterPlaceholder: "Select",
-                            minWidth: 150,
-                        },
-                        {
-                            title: "Certified",
-                            field: "Certified",
-                            sorter: "number",
-                            editor: "number",
-                            editorParams: {
-                                min: 0,
-                            },
-                            headerFilter: "list",
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
-                            },
-                            headerFilterPlaceholder: "Select",
-                            minWidth: 150,
-                        },
-                        {
-                            title: "Action",
-                            formatter: printRemoveButton,
-                            hozAlign: "center",
-                            cellClick: function (e, cell) {
-                                axios.delete(local_host_url + "procedurelog" + "/" + cell
-                                    .getRow().getData().id)
-                                    .then(function (response) {
-                                        console.log(response.data);
-                                        cell.getRow().delete();
-                                    })
-                                    .catch(function (error) {
-                                        console.log(error);
-                                    });
-                            },
-                            minWidth: 150,
-                        },
                         ],
                     });
                     // update data in the database after a cell is edited
@@ -490,15 +491,15 @@
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
                         axios.put(local_host_url + "procedurelog" + "/" + thisrow.id, {
-                            "MCR_No": thisrow.MCR_No,
-                            "Certified": thisrow.Certified,
-                            "Date_of_Completion": thisrow.Date_of_Completion,
-                            "Observed": thisrow.Observed,
-                            "Performed": thisrow.Performed,
-                            "Procedure_Name": thisrow.Procedure_Name,
-                            "Total": thisrow.Total,
-                            "Verified": thisrow.Verified,
-                        })
+                                "MCR_No": thisrow.MCR_No,
+                                "Certified": thisrow.Certified,
+                                "Date_of_Completion": thisrow.Date_of_Completion,
+                                "Observed": thisrow.Observed,
+                                "Performed": thisrow.Performed,
+                                "Procedure_Name": thisrow.Procedure_Name,
+                                "Total": thisrow.Total,
+                                "Verified": thisrow.Verified,
+                            })
                             .then(response => {
                                 console.log('Project ID {' + row.getData().id +
                                     '} updated.')
@@ -515,81 +516,151 @@
 
         },
         methods: {
-            importExcel(event) {
-                this.validateFile();
+            importExcel() {
+                var fileVal = document.getElementById("UploadFile");
+                this.file = fileVal.files[0]
 
-                this.file = event.target.files ? event.target.files[0] : null;
+                if (!this.file.name.toLowerCase().includes("procedure log")) {
+                    this.file_error = true;
+                    this.error_message = "<li>- Invalid File Uploaded</li>";
+                    document.getElementById('submit').disabled = true;
+                    return
+                }
+                this.isDisabled();
+
+                var file_error = false;
                 const wb = new Excel.Workbook();
                 const reader = new FileReader()
-
                 reader.readAsArrayBuffer(this.file)
                 reader.onload = () => {
                     const buffer = reader.result;
                     wb.xlsx.load(buffer).then(workbook => {
                         //console.log(workbook, 'workbook instance')
                         workbook.eachSheet((sheet, id) => {
-                            //console.log(sheet.name) //sheet name (eg: personal details)
+                            const rowsWithValues = sheet.actualRowCount - 7;
+                            var user_count = 0
                             sheet.eachRow((row, rowIndex) => {
-                                var url = this.local_host_url + 'add_duty_hour';
+                                var same_error = false;
+                                var name_error = false;
+                                var user_error = false;
+
+                                var url = this.local_host_url + 'add_procedure_log';
                                 var data = {};
                                 var loggded_for_months = "";
                                 if (rowIndex == 3) {
-                                    this.mmYYYY = row.values[1].slice(21, 28) || "";
+                                    this.mmYYYY = row.values[1].slice(21, 28) ||
+                                        "";
                                 } else if (rowIndex >= 8) {
-                                    // console.log(row.values[2])
-                                    for (each in this.MCR_name) {
-                                        let name_list = row.values[1].trim().split(',')
-                                        var new_name = name_list.reverse().join(" ").trim()
-                                        if (new_name == each) {
-                                            data.MCR_No = this.MCR_name[each] || "";
+                                    if (row.values[1] == undefined) {
+                                        name_error = true;
+                                    } else {
+                                        for (each in this.MCR_name) {
+                                            let name_list = row.values[1].trim()
+                                                .split(
+                                                    ',')
+                                            var new_name = name_list.reverse()
+                                                .join(
+                                                    " ")
+                                                .trim()
+                                            if (new_name == each) {
+                                                data.MCR_No = this.MCR_name[
+                                                        each] ||
+                                                    "";
+                                            }
+                                        }
+
+                                        if (data.MCR_No == undefined) {
+                                            user_error = true;
                                         }
                                     }
-                                    if (data.MCR_No == "") {
-                                        this.error_message =
-                                            "There is no such resident in the database";
-                                    }
+
                                     data.Level = row.values[2] || '';
+                                    data.Logged_for_month = "Yes";
                                     data.Submitted = row.values[3] || '';
-                                    data.Submitted_Proportion = row.values[4] || '';
+                                    data.Submitted_Proportion = row.values[4] ||
+                                        '';
                                     data.MMYYYY = this.mmYYYY;
-                                    data.Logged_for_month = "Yes"
-                                    axios.post(url, data)
-                                        .then(response => {
-                                            console.log(response.data)
-                                            this.mmYYYY = "";
-                                        })
-                                        .catch(error => {
-                                            this.error = error.response.data
-                                                .message
-                                        });
+
+                                    // check if EXISTS already
+                                    for (each of this.duty_hour_logs) {
+                                        if (data.Level == each.Level && data
+                                            .Logged_for_month == each
+                                            .Logged_for_month && data.MCR_No ==
+                                            each
+                                            .MCR_No && data
+                                            .Submitted_Proportion ==
+                                            each.Submitted_Proportion) {
+                                            same_error = true;
+                                            break
+                                        }
+                                    }
+
+                                    // if all conditions okay, then import
+                                    if (same_error == false && name_error ==
+                                        false && this.error_message == "" &&
+                                        user_error == false) {
+                                        axios.post(url, data)
+                                            .then(response => {
+                                                // console.log(response.data)
+                                                this.mmYYYY = "";
+                                            })
+                                            .catch(error => {
+                                                this.error = error.response
+                                                    .data
+                                                    .message
+                                            });
+                                    } else {
+                                        user_count += 1;
+                                    }
+
+                                    //produce error message
+                                    if (name_error == true) {
+                                        this.error_message +=
+                                            "<li> - Name cannot be Empty</li>";
+                                    } else if (user_error == true) {
+                                        this.error_message += this
+                                            .error_message +=
+                                            "<li> - " + new_name +
+                                            " does not exist in the Database</li>"
+                                    } else if (user_count == rowsWithValues) {
+                                        this.error_message +=
+                                            "<li> - All rows already exist in Database</li>";
+                                    }
+
+                                    if (this.error_message != "") {
+                                        document.getElementById('submit')
+                                            .disabled = true;
+                                    }
                                 }
                             })
                         })
                     })
                 }
+                this.error_message = "";
+                document.getElementById('submit').disabled = false;
             },
             validateFile() {
                 if (document.getElementById("UploadFile").files.length == 1) {
                     this.error_message = "";
                     document.getElementById('submit').disabled = false;
-
                 }
             },
             isDisabled() {
                 console.log('hi')
-                // evaluate whatever you need to determine disabled here...
-                console.log(document.getElementById("UploadFile").files.length)
+                // evaluate whatever you need to determine disabled here... 
                 if (document.getElementById("UploadFile").files.length == 0) {
-                    this.error_message = "No Files Selected";
+                    this.error_message += "<li>- No Files Selected</li>";
                     document.getElementById('submit').disabled = true;
-                    return true
+                } else {
+                    this.error_message = "";
+                    document.getElementById('submit').disabled = false;
                 }
-                else {
-                    this.error_message = ""
-                    return false
-                }
+            },
+            removeErrorMsg() {
+                this.error_message = "";
+                document.getElementById('submit').disabled = false;
+                this.$refs.UploadFile.value = null;
             }
-
         }
     });
 </script>
