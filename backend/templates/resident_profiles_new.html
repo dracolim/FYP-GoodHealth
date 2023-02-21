@@ -80,7 +80,7 @@
                             aria-current="page">Resident Profiles</a>
                     </li>
                     <li>
-                        <a href="../tab_pages/personal_details.html"
+                        <a href="./personal_details.html"
                             class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
                             Personal Details</a>
                     </li>
@@ -448,10 +448,8 @@
             employer_details: []
         },
         mounted: async function () {
-            const queryString = window.location.search;
-            console.log("this is the mcr_no:", queryString.substring(8))
-            const API_URL_1_old = 'http://127.0.0.1:5011/profile/M65889A';
-            const API_URL_1 = 'http://127.0.0.1:5011/profile/' + queryString.substring(8);
+            const API_URL_1 = 'http://127.0.0.1:5011/profile/M65889A';
+            const API_URL_2 = 'http://127.0.0.1:5011/profile/1234o18';
 
             const apiCalls = [
                 axios.get(API_URL_1),
