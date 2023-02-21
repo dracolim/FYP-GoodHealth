@@ -1060,8 +1060,14 @@ def view():
                                                 'criteria': 'not equal to',
                                                 'value': '"o1"',
                                                 'format':   format1})
-            
+                
         writer.save()
+
+        # with open('/backend/error.xlsx' , 'rb') as f: 
+        #     data
+        # myio.write(data)
+        # myio.seek(0)
+        # send_file(, download_name="error.xlsx" , as_attachment=True)
         abort(404, description='Invalid Excel submitted')
 
 
