@@ -51,6 +51,14 @@ CORS(app)
 def display():
     return render_template('homepage2.html')
 
+@app.route('/tab/personal_details', methods=['GET'])
+def displaypersonal():
+    return render_template('personal_details2.html')
+
+@app.route('/tab/', methods=['GET'])
+def displayprojects():
+    return render_template('personal_details2.html')
+
 
 class Personal_Details(db.Model):
     __tablename__ = 'Personal_Details'
@@ -2499,9 +2507,9 @@ def delete_presentation(id):
 def pdf_to_doc(id):
     generate_cv(id)
     from pdf2docx import parse
-
-    pdf_file = '../cv/cv.pdf'
-    docx_file = '../cv/cv.docx'
+    folder = "./cv/"
+    pdf_file = folder + 'cv.pdf'
+    docx_file = folder + 'cv.docx'
 
     # convert pdf to docx
     parse(pdf_file, docx_file)
@@ -2552,8 +2560,8 @@ def generate_cv(id):
         leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentationRows,teachingPresentationRows,
         publicationRows,patientSafetyQIRows)
 
-
-    html_file_name = "../cv/cv.html"
+    folder = "./cv/"
+    html_file_name = folder +"cv.html"
     Func = open(html_file_name,"w")
     Func.write(page)
     Func.close()
@@ -2561,7 +2569,7 @@ def generate_cv(id):
     from pathlib import Path
     input = Path(html_file_name)
     pdfkit.from_file(html_file_name, 
-    './cv/cv.pdf')
+    folder + 'cv.pdf')
     return "done"
 db.create_all()
 

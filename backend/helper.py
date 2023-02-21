@@ -350,8 +350,10 @@ leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentati
 
         </tbody>
     </table>
+<p><br></p>
 
-    <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>EDUCATION & QUALIFICATIONS</b></span></p>
+<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>EDUCATION & QUALIFICATIONS</b></span></p>
+<p><br></p>
 <div align="left" >
     <table style="width: 100%;" >
         <tbody>

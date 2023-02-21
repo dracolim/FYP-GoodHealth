@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- INSTALLATIONS -->
+    <!-- flowbite -->
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" /> -->
+
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- ICONIFY -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    <!-- VUE 3 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    <!-- Tabulator  -->
+    <link href="https://unpkg.com/tabulator-tables@5.4.3/dist/css/tabulator.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.4.3/dist/js/tabulator.min.js"></script>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+        .content-auto {
+        content-visibility: auto;
+        }
+    }
+    </style>
+
+    <title>SingHealth</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- header -->
+        <div class="bg-stone-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded ">
+            <div class="container flex flex-wrap items-center justify-between mx-auto"
+                style="width: 100%; overflow: hidden;">
+                <img src="../images/SingHealth_Logo.png" class="mr-3 sm:h-15 ml-3 mt-2 mb-2"
+                    style="height: 80px ; width: 100px;" alt="Flowbite Logo" />
+
+                <div class="flex md:order-2">
+                    <a href="../homepage.html" style="margin-right: 10px;">
+                        <iconify-icon icon="ic:round-home" style="color: #ff6b00;" width="40" height="40">
+                        </iconify-icon>
+                    </a>
+                    <a>
+                        <iconify-icon icon="healthicons:ui-user-profile" style="color: #ff6b00;" width="40" height="40">
+                        </iconify-icon>
+                    </a>
+
+                    <button data-collapse-toggle="navbar-sticky" type="button"
+                        class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
+                        aria-controls="navbar-cta" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navbar -->
+        <nav class="bg-white">
+            <div class="items-center justify-between hidden w-full md:flex md:width-auto  md:order-1" id="navbar-sticky"
+                style="width: 100%; overflow: hidden;">
+                <ul
+                    class="md:divide-x md:divide-slate-200 flex flex-col p-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row  md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
+                    <li>
+                        <a href="../homepage.html"
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Home</a>
+                    </li>
+                    <li>
+                        <a href="../tab_pages/resident_profiles.html"
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0 dark:text-white"
+                            aria-current="page">Resident Profiles</a>
+                    </li>
+                    <li>
+                        <a href="../tab_pages/personal_details.html"
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                            Personal Details</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                            History</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                            Involvement</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="lg:text-sm md:text-xs  ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                            Grants</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="lg:text-sm md:text-xs  ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                            Publications</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Presentations</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                            Awards</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Projects</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- Orange Divider -->
+        <div class='row' style='height: 8px; background-color: #ff6b00;'></div>
+
+        <table id="example-table"></table>
+
+
+
+
+
+
+
+    </div>
+
+
+
+</body>
+
+<script>
+    // const Excel = window.ExcelJS;
+    // const vm = new Vue({
+    //     el: '#app',
+    //     data: {
+    //         personal_details_fields: [],
+    //         personal_details_datas: [],
+
+    //     },
+    //     mounted() {
+    //         const API_URL_1 = 'http://localhost:5010/personal_details_fields';
+    //         const API_URL_2 = 'http://localhost:5010/personaldetails';
+
+    //         const apiCalls = [
+    //             axios.get(API_URL_1),
+    //             axios.get(API_URL_2),
+    //         ];
+
+    //         Promise.all(apiCalls)
+    //             .then(responses => {
+    //                 this.personal_details_fields = responses[0].data;
+    //                 this.personal_details_datas = responses[1].data.data;
+    //             })
+    //             .catch(error => {
+    //                 console.error(error);
+    //             });
+    //     },
+
+    // });
+    new Vue({
+        el: "#app",
+        data: {
+            personal_details_fields: [],
+            personal_details_datas_test: [{ id: 1, name: "Billy Bob", age: "12", gender: "male", height: 1, col: "red", dob: "", cheese: 1 },
+            { id: 2, name: "Mary May", age: "1", gender: "female", height: 2, col: "blue", dob: "14/05/1982", cheese: true },
+            { id: 3, name: "Christine Lobowski", age: "42", height: 0, col: "green", dob: "22/05/1982", cheese: "true" },
+            { id: 4, name: "Brendon Philips", age: "125", gender: "male", height: 1, col: "orange", dob: "01/08/1980" },
+            { id: 5, name: "Margret Marmajuke", age: "16", gender: "female", height: 5, col: "yellow", dob: "31/01/1999" },
+            { id: 6, name: "Billy Bob", age: "12", gender: "male", height: 1, col: "red", dob: "", cheese: 1 },
+            { id: 7, name: "Mary May", age: "1", gender: "female", height: 2, col: "blue", dob: "14/05/1982", cheese: true },
+            { id: 8, name: "Christine Lobowski", age: "42", height: 0, col: "green", dob: "22/05/1982", cheese: "true" },
+            { id: 9, name: "Brendon Philips", age: "125", gender: "male", height: 1, col: "orange", dob: "01/08/1980" },
+            { id: 10, name: "Margret Marmajuke", age: "16", gender: "female", height: 5, col: "yellow", dob: "31/01/1999" },],
+            personal_details_datas: [],
+
+        },
+        mounted() {
+
+            const API_URL_1 = 'http://localhost:5010/duty_hour_log';
+            const apiCalls = [
+                axios.get(API_URL_1),
+            ];
+            Promise.all(apiCalls)
+                .then(responses => {
+                    this.personal_details_datas = responses[0].data.data;
+                    console.log(this.personal_details_datas)
+                    console.log(this.personal_details_datas_test)
+
+
+
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+
+            new Tabulator("#example-table", {
+                data: this.personal_details_datas_test,
+                layout: "fitColumns",      //fit columns to width of table
+                responsiveLayout: "hide",  //hide columns that dont fit on the table
+                addRowPos: "top",          //when adding a new row, add it to the top of the table
+                history: true,             //allow undo and redo actions on the table
+                // pagination: "local",       //paginate the data
+                // paginationSize: 7,         //allow 7 rows per page of data
+                // paginationCounter: "rows", //display count of paginated rows in footer
+                movableColumns: true,      //allow column order to be changed
+                initialSort: [             //set the initial sort order of the data
+                    { column: "name", dir: "asc" },
+                ],
+                columnDefaults: {
+                    tooltip: true,         //show tool tips on cells
+                },
+                columns: [
+                    { title: "Name", field: "name", sorter: "string", width: 200, editor: true },
+                    { title: "Age", field: "age", sorter: "number", hozAlign: "left", formatter: "progress" },
+                    { title: "Gender", field: "gender", sorter: "string", cellClick: function (e, cell) { console.log("cell click") }, },
+                    { title: "Height", field: "height", formatter: "star", hozAlign: "center", width: 100 },
+                    { title: "Favourite Color", field: "col", sorter: "string" },
+                    { title: "Date Of Birth", field: "dob", sorter: "date", hozAlign: "center" },
+                    { title: "Cheese Preference", field: "cheese", sorter: "boolean", hozAlign: "center", formatter: "tickCross" },
+                ],
+            });
+        }
+    });
+</script>
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script> -->
+
+
+
+</html>
