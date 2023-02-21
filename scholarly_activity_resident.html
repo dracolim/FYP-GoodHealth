@@ -143,7 +143,7 @@
                 class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
                 id="grid-first-name" type="text" placeholder="Input Year Here">
             <br>
-            <button @click="getChartData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+            <button @click="getData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
                 Get Resident's Info
             </button>
             <br>
@@ -184,7 +184,7 @@
             loaded2: false,
             combinedData: [],
             ChartConfig: {
-            labels: ["Completed", "Not Completed"],
+            // labels: ["Completed", "Not Completed"],
             datasets: [
                 {
                 data: [],
@@ -217,23 +217,23 @@
         mounted: function () {
             this.loaded1 = false
             this.loaded2 = false
-            this.getPublicationsData();
-            this.getPresentationsData();
-            this.getChartData();
+            // this.getPublicationsData();
+            // this.getPresentationsData();
+            // this.getChartData();
             },
         methods: {
             reset: function (){
-            this.ChartConfig.datasets[0].data.length = 0
-            this.combinedData.length = 0
-            this.loaded1 = false
-            this.loaded2 = false
-            },
+                this.ChartConfig.datasets[0].data.length = 0
+                this.combinedData.length = 0
+                this.loaded1 = false
+                this.loaded2 = false
+                },
             getPublicationsData: async function () {
 
                 this.status = "getting data...";
 
                 await axios.get("http://localhost:5010/publication/" + this.mcr_no + "/" + this.year).then((response) => {
-                console.log("This is responseData")
+                console.log("This is responseData1")
                 console.log(response.data)
                 // this.getChartData(response.data);
                 this.combinedData.push(response.data);
@@ -247,7 +247,7 @@
                 this.status = "getting data...";
 
                 await axios.get("http://localhost:5010/presentation/" + this.mcr_no + "/" + this.year).then((response) => {
-                console.log("This is responseData")
+                console.log("This is responseData2")
                 console.log(response.data)
                 // this.getChartData(response.data);
                 this.combinedData.push(response.data);
@@ -257,12 +257,16 @@
                     console.log(error);
                 });
             },
+            getData: function(){
+                this.getPresentationsData();
+                this.getPublicationsData();
+                console.log(this.combinedData);
+                this.getChartData(this.combinedData);
+            },
 
             getChartData: async function (combinedData) {
-                this.getPublicationsData();
-                this.getPublicationsData();
                 console.log("This is combinedData")
-                console.log(this.combinedData);
+                // console.log(this.combinedData);
                 // console.log(chartData.data[0]['End_Date']);
 
                 // counterCompletionQI = 0
