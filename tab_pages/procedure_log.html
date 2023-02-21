@@ -207,15 +207,14 @@
                     </button>
                     <div class="px-6 py-6 lg:px-8">
                         <h3 class="mb-4 text-xl font-medium text-gray-900 ">Upload Excel Sheet</h3>
-                        <form class="space-y-6" method="post" enctype="multipart/form-data"
-                            action="http://localhost:5011/import_duty_hour">
+                        <form class="space-y-6" method="post" enctype="multipart/form-data">
                             <!-- input form -->
-                            <input @change="validateFile" id="UploadFile"
+                            <input id="UploadFile" @change="importExcel"
                                 class="block w-full text-md text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                                type="file" name="file">
+                                type="file" name="file" ref = "UploadFile">
                             <!-- error -->
                             <div v-if="error_message != ''"
-                                class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50"
                                 role="alert">
                                 <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor"
                                     viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -225,11 +224,13 @@
                                 </svg>
                                 <span class="sr-only">Info</span>
                                 <div>
-                                    <span class="font-medium">Error!</span>
-                                    {{error_message}}
+                                    <span class="font-bold">Error!</span>
+                                    <!-- show the list of errors -->
+                                    <ul v-html="error_message"></ul>
                                 </div>
                             </div>
-                            <button type="submit" value="Submit" @click="isDisabled()" id='submit'
+
+                            <button type="submit" value="Submit" id='submit' @click="isDisabled()"
                                 class="w-full text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
                         </form>
                     </div>
@@ -665,4 +666,8 @@
     });
 </script>
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </html>
