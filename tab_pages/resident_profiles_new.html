@@ -133,6 +133,10 @@
         <div id="mainbody" class="flex py-5">
         <div id="leftside" class="md:w-1/2">
 
+            <div class="bg-indigo-300 ...">
+                <img class="object-cover h-48 w-96 ..." src="">
+              </div>
+
         <!-- Table start -->
         <div class="relative overflow-x-auto mx-8 mt-10" v-if="profile_data.length != 0">
 
@@ -200,6 +204,7 @@
                 <tr>
                     <th>Specialty Programme</th>
                     <th>Start Date</th>
+                    <th>End Date</th>
                 </tr>
             </thead>
             <tbody>
@@ -210,6 +215,26 @@
                         <p>{{item.personaldetails.Programme}}</p>
                     </td>
                     <!-- bg-orange-100 -->
+                    <td class=" border-slate-700 flex text-black items-center px-6 py-4">
+                        <!-- where to get start and end date?? -->
+                        <h1></h1>
+                    </td>
+                    <td class=" border-slate-700 flex text-black items-center px-6 py-4">
+                        <!-- where to get start and end date?? -->
+                        <h1></h1>
+                    </td>
+                </tr>
+                <tr class="border border-black" v-for="item in profile_data_original">
+                    <td class="w-2/5 text-center bg-orange-300 border-slate-700 px-1 py-4 font-medium text-black"
+                        >
+                        <!-- got only one programme but why example got so many:?? -->
+                        <p>{{item.personaldetails.Programme}}</p>
+                    </td>
+                    <!-- bg-orange-100 -->
+                    <td class=" border-slate-700 flex text-black items-center px-6 py-4">
+                        <!-- where to get start and end date?? -->
+                        <h1></h1>
+                    </td>
                     <td class=" border-slate-700 flex text-black items-center px-6 py-4">
                         <!-- where to get start and end date?? -->
                         <h1></h1>
