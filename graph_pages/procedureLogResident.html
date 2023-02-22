@@ -251,6 +251,7 @@
                         console.log("Reached Gastro")
                         const Gastro = ["Gastroscopy (OGD)", "Gastroscopy (OGD) with biopsy", "Gastroscopy (OGD) with non-variceal hemostasis; not actively bleeding","Gastroscopy (OGD) with non-variceal hemostasis; actively bleeding", "Colonoscopy with non-variceal hemostasis; not actively bleeding", "Colonoscopy with non-variceal hemostasis; actively bleeding","Colonoscopy", "Colonoscopy with biopsy", "Colonoscopy with polypectomy","Abdominal paracentesis", "Capsule endoscopy", "Percutaneous Endoscopic Gastrostomy (PEG)","Gastroscopy with variceal hemostasis; active bleeding", "Gastroscopy with variceal hemostasis; not actively bleeding", "Gastroscopy with variceal ligation; elective eradication","Liver biopsy", "Esophageal dilatation", "Luminal Stenting","Endoscopic mucosal resection (EMR) / Endoscopic submucosal dissection (ESD)", "Endoscopic Retrograde and Cholangiocpancreatography (ERCP)", "Endoscopic ultrasound", "Esophageal motility / pH studies"]
                         this.ChartConfig.labels = Gastro
+                        this.options.title.text = "Procedure Log (Gastro Resident)"
 
                         GastroOGDPlusGastroOGDWithBiopsy = 0
                         GastroOGDPlusColon = 0
@@ -576,13 +577,165 @@
                     }
 
                     if (chartData.data.data['personaldetails']['Programme'] == "Renal Medicine") {
+                        const Renal = ["Insertion of non-tunneled haemodialysis catheter - Femoral (C)", "Insertion of non-tunneled haemodialysis catheter - Internal Jugular (C)", "Insertion of non-tunneled haemodialysis catheter - Femoral", "Insertion of non-tunneled haemodialysis catheter - Internal Jugular", "Native Kidney Biopsy (C)", "Transplant Kidney Biopsy (C)", "Native Kidney Biopsy", "Transplant Kidney Biopsy"]
+                        this.ChartConfig.labels = Renal
+                        this.options.title.text = "Procedure Log (Renal Resident)"
 
+                        InsertionFemoralC = 0
+                        InsertionJugularC = 0
+                        InsertionFemoral = 0
+                        InsertionJugular = 0
+                        NativeKidneyBiopsyC = 0
+                        TransplantKidneyBiopsyC = 0
+                        NativeKidneyBiopsy = 0
+                        TransplantKidneyBiopsy = 0
+
+                    // POPULATING VARIABLES USING INFO FROM DATABASE
+
+                        // for every procedure log entry
+                        for (var i = 0; i < chartData.data.data['procedure_logs'].length; i++) {
+                            procedure_name = chartData.data.data['procedure_logs'][i]['Procedure_Name']
+                            if (procedure_name == Renal[0]) {
+                                InsertionFemoralC = InsertionFemoralC + parseInt(chartData.data.data['procedure_logs'][i]['Performed'])
+                            }
+                            if (procedure_name == Renal[1]) {
+                                InsertionJugularC = InsertionJugularC + parseInt(chartData.data.data['procedure_logs'][i]['Performed'])
+                            }
+                            if (procedure_name == Renal[2]) {
+                                InsertionFemoral = InsertionFemoral + parseInt(chartData.data.data['procedure_logs'][i]['Performed'])
+                            }
+                            if (procedure_name == Renal[3]) {
+                                InsertionJugular = InsertionJugular + parseInt(chartData.data.data['procedure_logs'][i]['Performed'])
+                            }
+                            if (procedure_name == Renal[4]) {
+                                NativeKidneyBiopsyC = NativeKidneyBiopsyC + parseInt(chartData.data.data['procedure_logs'][i]['Performed'])
+                            }
+                            if (procedure_name == Renal[5]) {
+                                TransplantKidneyBiopsyC = TransplantKidneyBiopsyC + parseInt(chartData.data.data['procedure_logs'][i]['Performed'])
+                            }
+                            if (procedure_name == Renal[6]) {
+                                NativeKidneyBiopsy = NativeKidneyBiopsy + parseInt(chartData.data.data['procedure_logs'][i]['Performed'])
+                            }
+                            if (procedure_name == Renal[7]) {
+                                TransplantKidneyBiopsy = TransplantKidneyBiopsy + parseInt(chartData.data.data['procedure_logs'][i]['Performed'])
+                            }
+                        }    
+                    
+                    // CHECK RENAL COMPLIANCE
+
+                        // check InsertionFemoralC compliance
+                        if (InsertionFemoralC >= 5) { 
+                            InsertionFemoralC = true
+                        }
+
+                        // check InsertionJugularC compliance
+                        if (InsertionJugularC >= 5) { 
+                            InsertionJugularC = true
+                        }                    
+
+                        // check InsertionFemoral compliance
+                        if (InsertionFemoral >= 5) { 
+                            InsertionFemoral = true
+                        }   
+                        
+                        // check InsertionJugular compliance
+                        if (InsertionJugular >= 5) { 
+                            InsertionJugular = true
+                        }              
+
+                        // check NativeKidneyBiopsyC compliance
+                        if (NativeKidneyBiopsyC >= 10) { 
+                            NativeKidneyBiopsyC = true
+                        }         
+
+                        // check TransplantKidneyBiopsyC compliance
+                        if (TransplantKidneyBiopsyC >= 3) { 
+                            TransplantKidneyBiopsyC = true
+                        }   
+      
+                        // check NativeKidneyBiopsy compliance
+                        if (NativeKidneyBiopsy >= 5) { 
+                            NativeKidneyBiopsy = true
+                        }   
+
+                        // check TransplantKidneyBiopsy compliance
+                        if (TransplantKidneyBiopsy >= 2) { 
+                            TransplantKidneyBiopsy = true
+                        }   
+                    
+                    // PUSHING DATA INTO CHART
+
+                        // push InsertionFemoralC data into chart
+                        if (InsertionFemoralC == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(InsertionFemoralC/5)
+                        }
+
+                        // push InsertionJugularC data into chart
+                        if (InsertionJugularC == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(InsertionJugularC/5)
+                        }
+
+                        // push InsertionFemoral data into chart
+                        if (InsertionFemoral == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(InsertionFemoral/5)
+                        }
+
+                        // push InsertionJugular data into chart
+                        if (InsertionJugular == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(InsertionJugular/5)
+                        }
+
+                        // push NativeKidneyBiopsyC data into chart
+                        if (NativeKidneyBiopsyC == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(NativeKidneyBiopsyC/10)
+                        }
+
+                        // push TransplantKidneyBiopsyC data into chart
+                        if (TransplantKidneyBiopsyC == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(TransplantKidneyBiopsyC/3)
+                        }
+
+                        // push NativeKidneyBiopsy data into chart
+                        if (NativeKidneyBiopsy == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(NativeKidneyBiopsy/5)
+                        }
+
+                        // push TransplantKidneyBiopsy data into chart
+                        if (TransplantKidneyBiopsy == true) {
+                            this.ChartConfig.datasets[0].data.push(1)
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push(TransplantKidneyBiopsy/2)
+                        }
+                    
                     }
 
                     if (chartData.data.data['personaldetails']['Programme'] == "Internal Medicine") {
 
                         const Internal = ["Abdominal Tap", "Arterial Line Placement", "Central Line Placement", "Thoracentesis / Chest tube", "Lumbar Puncture", "Endotracheal Intubation", "Ventilator Management", "Arthrocentesis", "Hemodialysis Catheter Insertion", "ABG", "Vene", "IV Plug", "Ecg"]
                         this.ChartConfig.labels = Internal
+                        this.options.title.text = "Procedure Log (Internal Resident)"
 
                         AbdominalTap = 0
                         ArterialLinePlacement = 0

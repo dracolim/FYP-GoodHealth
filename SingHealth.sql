@@ -79,7 +79,8 @@ INSERT INTO `personal_details` (`Employee_ID`, `MCR_No`, `Staff_Name`, `Designat
 ('MOM05705', 'M66630D', 'Toh Jiahao Thomas', 'Senior Resident', 'Respiratory Medicine', 'SR1', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-02-01 00:00:00', 'Male', 'Full', '', '19A Ford Avenue ', '', '#01-07 ', '268000', '88692870', ' 96269350', 'thomas.toh@mohh.com.sg', '', '2021-08-25 00:00:00', '2021-09-02 00:00:00', 'Yes', '', '2021-02-17 00:00:00', ''),
 ('MOM04393', 'M83162D', 'Cindee Tan', 'Senior Resident', 'Renal Medicine', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Malaysian', '1988-02-29 00:00:00', 'Female', 'Conditional (L3)', '', 'Block 37D,Kreta Ayer Road', '', '#20-02', '803000', '', '96610520', 'cindee.tan@mohh.com.sg', '', '', '2021-11-14 00:00:00', 'Yes', '2021-03-11 00:00:00', '', ''),
 ('MOM05690', 'M88791Z', 'Kang Hyun Bin', 'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-12-05 00:00:00', 'Male', 'Full', '', 'Lorong Gambir', '', '', '536000', '', '91515780', 'hyunbin.kang@mohh.com.sg', '', '', '', 'Yes', '2021-02-09 00:00:00', '2021-03-02 00:00:00', ''),
-('MOM11116', 'M11166J', 'Noob Doc', 'Junior Resident', 'Internal Medicine', 'R1', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-11-11 00:00:00', 'Male', 'Full', '', '11A Lalalala Hill', '', '', '243400', '92767980', '95351470', 'noob_doc@mohh.com.sg', '', '2019-07-20 00:00:00', '2019-08-29 00:00:00', 'Yes', '2021-03-30 00:00:00', '2021-04-20 00:00:00', '');
+('MOM11116', 'M11166J', 'Noob Doc', 'Junior Resident', 'Internal Medicine', 'R1', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-11-11 00:00:00', 'Male', 'Full', '', '11A Lalalala Hill', '', '', '243400', '92767980', '95351470', 'noob_doc@mohh.com.sg', '', '2019-07-20 00:00:00', '2019-08-29 00:00:00', 'Yes', '2021-03-30 00:00:00', '2021-04-20 00:00:00', ''),
+('MOM11117', 'M11166U', 'Pro Doc', 'Senior Resident', 'Renal Medicine', 'SR1', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1999-11-11 00:00:00', 'Male', 'Full', '', '11A Lolololo Hill', '', '', '244400', '92467980', '95341470', 'pro_doc@mohh.com.sg', '', '2019-07-20 00:00:00', '2019-08-29 00:00:00', 'Yes', '2021-03-30 00:00:00', '2021-04-20 00:00:00', '');
 
 -- --------------------------------------------------------
 
@@ -172,6 +173,9 @@ CREATE TABLE `didactic_attendance` (
   `Number_of_sessions_attended` varchar(300) NOT NULL,
   `Percentage_of_sessions_attended` varchar(300) NOT NULL,
   `MmYyyy` varchar(300) NOT NULL,
+  `Posting_Institution` varchar (200) NOT NULL,
+  `Posting_Department` varchar (200) NOT NULL,
+  `Scheduled_Teachings` varchar (200) NOT NULL,
   `Compliance_or_Not` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -179,33 +183,33 @@ CREATE TABLE `didactic_attendance` (
 -- Dumping data for table `didactic_attendance`
 --
 
-INSERT INTO `didactic_attendance` (`id`, `MCR_No`, `Month`, `Total_tracked_sessions`, `Number_of_sessions_attended`, `Percentage_of_sessions_attended`, `MmYyyy`, `Compliance_or_Not`) VALUES
-(1, 'M11367A', 'July', '14', '14', '1', '07/2022', 'Yes'),
-(2, 'M16782H', 'July', '20', '20', '1', '07/2022', 'Yes'),
-(3, 'M65889A', 'July', '14', '12', '0.8571428571428571', '07/2022', 'Yes'),
-(4, 'M54354E', 'July', '12', '9', '0.75', '07/2023', 'Yes'),
-(5, 'M88791Z', 'July', '12', '12', '1', '07/2023', 'Yes'),
-(6, 'M11367A', 'August', '14', '10', '0.7142857142857143', '08/2022', 'Yes'),
-(7, 'M16782H', 'August', '20', '20', '1', '08/2022', 'Yes'),
-(8, 'M65889A', 'August', '14', '14', '1', '08/2022', 'Yes'),
-(9, 'M54354E', 'August', '12', '10', '0.8333333333333334', '08/2023', 'Yes'),
-(10, 'M88791Z', 'August', '12', '10', '0.8333333333333334', '08/2023', 'Yes'),
-(11, 'M11367A', 'October', '12', '8', '0.6666666666666666', '10/2022', 'No'),
-(12, 'M16782H', 'October', '19', '19', '1', '10/2022', 'Yes'),
-(13, 'M65889A', 'October', '12', '12', '1', '10/2022', 'Yes'),
-(14, 'M54354E', 'October', '14', '11', '0.7857142857142857', '10/2023', 'Yes'),
-(15, 'M88791Z', 'October', '14', '12', '0.8571428571428571', '10/2023', 'Yes'),
-(16, 'M11367A', 'November', '12', '11', '0.9166666666666666', '11/2022', 'Yes'),
-(17, 'M16782H', 'November', '20', '20', '1', '11/2022', 'Yes'),
-(18, 'M65889A', 'November', '12', '11', '0.9166666666666666', '11/2022', 'Yes'),
-(19, 'M54354E', 'November', '14', '11', '0.7857142857142857', '11/2023', 'Yes'),
-(20, 'M88791Z', 'November', '12', '10', '0.8333333333333334', '11/2023', 'Yes'),
-(21, 'M11367A', 'January', '12', '10', '0.8333333333333334', '01/2023', 'Yes'),
-(22, 'M16782H', 'December', '13', '13', '1', '12/2022', 'Yes'),
-(23, 'M65889A', 'December', '12', '11', '0.9166666666666666', '12/2022', 'Yes'),
-(24, 'M54354E', 'December', '14', '13', '0.9285714285714286', '12/2023', 'Yes'),
-(25, 'M16782H', 'January', '12', '10', '0.8333333333333334', '01/2023', 'Yes'),
-(26, 'M88791Z', 'December', '12', '10', '0.8333333333333334', '12/2023', 'Yes');
+INSERT INTO `didactic_attendance` (`id`, `MCR_No`, `Month`, `Total_tracked_sessions`, `Number_of_sessions_attended`, `Percentage_of_sessions_attended`, `MmYyyy`, `Posting_Institution` , `Posting_Department` , `Scheduled_Teachings` ,`Compliance_or_Not`) VALUES
+(1, 'M11367A', 'July', '14', '14', '1', '07/2022', 'Residency', 'MOHH', '','Yes'),
+(2, 'M16782H', 'July', '20', '20', '1', '07/2022', 'Residency', 'MOHH', '','Yes'),
+(3, 'M65889A', 'July', '14', '12', '0.8571428571428571', '07/2022','Residency', 'MOHH', '', 'Yes'),
+(4, 'M54354E', 'July', '12', '9', '0.75', '07/2023', 'Residency', 'MOHH', '','Yes'),
+(5, 'M88791Z', 'July', '12', '12', '1', '07/2023','Residency', 'MOHH', '','Yes'),
+(6, 'M11367A', 'August', '14', '10', '0.7142857142857143', '08/2022', 'Residency', 'MOHH', '','Yes'),
+(7, 'M16782H', 'August', '20', '20', '1', '08/2022','Residency', 'MOHH', '', 'Yes'),
+(8, 'M65889A', 'August', '14', '14', '1', '08/2022','Residency', 'MOHH', '', 'Yes');
+-- (9, 'M54354E', 'August', '12', '10', '0.8333333333333334', '08/2023', 'Yes'),
+-- (10, 'M88791Z', 'August', '12', '10', '0.8333333333333334', '08/2023', 'Yes'),
+-- (11, 'M11367A', 'October', '12', '8', '0.6666666666666666', '10/2022', 'No'),
+-- (12, 'M16782H', 'October', '19', '19', '1', '10/2022', 'Yes'),
+-- (13, 'M65889A', 'October', '12', '12', '1', '10/2022', 'Yes'),
+-- (14, 'M54354E', 'October', '14', '11', '0.7857142857142857', '10/2023', 'Yes'),
+-- (15, 'M88791Z', 'October', '14', '12', '0.8571428571428571', '10/2023', 'Yes'),
+-- (16, 'M11367A', 'November', '12', '11', '0.9166666666666666', '11/2022', 'Yes'),
+-- (17, 'M16782H', 'November', '20', '20', '1', '11/2022', 'Yes'),
+-- (18, 'M65889A', 'November', '12', '11', '0.9166666666666666', '11/2022', 'Yes'),
+-- (19, 'M54354E', 'November', '14', '11', '0.7857142857142857', '11/2023', 'Yes'),
+-- (20, 'M88791Z', 'November', '12', '10', '0.8333333333333334', '11/2023', 'Yes'),
+-- (21, 'M11367A', 'January', '12', '10', '0.8333333333333334', '01/2023', 'Yes'),
+-- (22, 'M16782H', 'December', '13', '13', '1', '12/2022', 'Yes'),
+-- (23, 'M65889A', 'December', '12', '11', '0.9166666666666666', '12/2022', 'Yes'),
+-- (24, 'M54354E', 'December', '14', '13', '0.9285714285714286', '12/2023', 'Yes'),
+-- (25, 'M16782H', 'January', '12', '10', '0.8333333333333334', '01/2023', 'Yes'),
+-- (26, 'M88791Z', 'December', '12', '10', '0.8333333333333334', '12/2023', 'Yes');
 
 -- --------------------------------------------------------
 
@@ -991,7 +995,15 @@ INSERT INTO `procedure_log` (`id`, `MCR_No`, `Procedure_Name`, `CPT`, `Date_of_C
 (32, 'M11166J', 'ABG', '','01/01/2022', '-', '-', '-', '1', '-'),
 (33, 'M11166J', 'Vene', '','01/01/2022', '-', '-', '-', '1', '-'),
 (34, 'M11166J', 'IV Plug', '','01/01/2022', '-', '-', '-', '1', '-'),
-(35, 'M11166J', 'Ecg', '','01/01/2022', '-', '-', '-', '1', '-');
+(35, 'M11166J', 'Ecg', '','01/01/2022', '-', '-', '-', '1', '-'),
+(36, 'M11166U', 'Insertion of non-tunneled haemodialysis catheter - Femoral (C)', '','01/01/2022', '-', '4', '-', '-', '-'),
+(37, 'M11166U', 'Insertion of non-tunneled haemodialysis catheter - Internal Jugular (C)', '','01/01/2022', '-', '5', '-', '-', '-'),
+(38, 'M11166U', 'Insertion of non-tunneled haemodialysis catheter - Femoral', '','01/01/2022', '-', '4', '-', '-', '-'),
+(39, 'M11166U', 'Insertion of non-tunneled haemodialysis catheter - Internal Jugular', '','01/01/2022', '-', '5', '-', '-', '-'),
+(40, 'M11166U', 'Native Kidney Biopsy (C)', '','01/01/2022', '-', '10', '-', '-', '-'),
+(41, 'M11166U', 'Transplant Kidney Biopsy (C)', '','01/01/2022', '-', '3', '-', '-', '-'),
+(42, 'M11166U', 'Native Kidney Biopsy', '','01/01/2022', '-', '5', '-', '-', '-'),
+(43, 'M11166U', 'Transplant Kidney Biopsy', '','01/01/2022', '-', '2', '-', '-', '-');
 
 -- --------------------------------------------------------
 

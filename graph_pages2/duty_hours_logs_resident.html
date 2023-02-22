@@ -10,7 +10,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
-    
+    <!doctype html>
+
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 	<script src="https://cdn.jsdelivr.net/npm/xlsx@0.14.3/dist/xlsx.full.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datasource@0.1.0"></script>
@@ -38,7 +39,7 @@
 <body>
 
     <div id="main-container">
-        
+
         <!-- header -->
         <div class="bg-stone-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded ">
             <div class="container flex flex-wrap items-center justify-between mx-auto" style="width: 100%; overflow: hidden;">
@@ -129,14 +130,17 @@
 
                 <input v-model="mcr_no" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input MCR No Here">
 
-                <button @click="getSpecificProjectData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+                <button @click="getDutyHourLogData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
                     Get Resident's Info
+                </button> 
+                <button @click="reset()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+                    Reset
                 </button> 
 
                 <v-row dense>
                   <v-col cols="sm">
                     <v-card class="pa-2" outlined tile raised>
-                      <my-donut-chart v-if="loaded" :donut-data="ChartConfig" :chart-options="options"></my-donut-chart>
+                      <my-line-chart v-if="loaded" :line-data="ChartConfig" :chart-options="options"></my-line-chart>
                     </v-card>
                   </v-col>
                 </v-row>
@@ -152,11 +156,11 @@
     <!--- JAVASCRIPT -->
     <script>
 
-        Vue.component('my-donut-chart', {
-            extends: VueChartJs.Doughnut,
-            props: ['donutData', 'chartOptions'],
+        Vue.component('my-line-chart', {
+            extends: VueChartJs.Line,
+            props: ['lineData', 'chartOptions'],
             mounted() {
-            this.renderChart(this.donutData, this.chartOptions);
+            this.renderChart(this.lineData, this.chartOptions);
             },
         }, {
             responsive: true,
@@ -168,13 +172,15 @@
             vuetify: new Vuetify(),
             data() {
             return {
+                year: null,
                 mcr_no: "",
                 loaded: false,
                 ChartConfig: {
-                labels: ["% of Completion"],
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 datasets: [
                     {
                     data: [],
+                    fill: false,
                     backgroundColor: ['#ff6b00','#ffedd5'],
                     borderColor: 'rgba(136,136,136,0.5)',
                     label: "Compliant"
@@ -186,7 +192,7 @@
                 maintainAspectRatio: false,
                 title: {
                     display: true,
-                    text: 'Project (Resident)'
+                    text: 'Duty Hours Logs (Resident)'
                 },
                 tooltips: {
                     mode: 'index',
@@ -197,23 +203,45 @@
                     intersect: true
                 },
                 scales: {
+                    xAxes: [{
+                    display: true,
+                    categoryPercentage: 0.5,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Month'
+                    }
+                    }],
+                    yAxes: [{
+                    ticks : {
+                    max : 1,    
+                    min : 0
+                    },
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: '% Submitted'
+                    }
+                    }]
                 }
                 },
             }
             },
             mounted: function () {
                 this.loaded = false
-                this.getSpecificProjectData();
+                // this.getSpecificDidacticAttendanceData();
                 },
             methods: {
-                getSpecificProjectData: async function () {
-
+                reset: function (){
+                    this.ChartConfig.datasets[0].data.length = 0
+                    this.loaded = false
+                    },
+                getDutyHourLogData: async function () {
                     this.status = "getting data...";
 
                     specificURL = "http://localhost:5011/profile/" + this.mcr_no
                     await axios.get(specificURL).then((response) => {
-                    // console.log("This is responseData")
-                    // console.log(response.data)
+                    console.log("This is responseData")
+                    console.log(response.data)
 
                     this.getChartData(response.data);
                     this.loaded = true
@@ -221,32 +249,105 @@
                     .catch(function (error) {
                         console.log(error);
                     });
-                },
+                    },
                 getChartData: function (chartData) {
                     // console.log("This is chartData")
-                    // console.log(chartData)
+                    // console.log(chartData);
 
-                    didResidentComplete = null;
-                    percentageCompletion = 0
+                    console.log(chartData.data);
+                    console.log('break1')
 
-                    if (chartData.data.projects[0]['End_Date'] == "Ongoing") {
-                        didResidentComplete = "No";
-                    }
-                    else {
-                        didResidentComplete = "Yes";
+                    percentCompliantJan = ''
+
+                    percentCompliantFeb = ''
+
+                    percentCompliantMar = ''
+
+                    percentCompliantApr = ''
+
+                    percentCompliantMay = ''
+
+                    percentCompliantJun = ''
+
+                    percentCompliantJul = ''
+
+                    percentCompliantAug = ''
+
+                    percentCompliantSep = ''
+
+                    percentCompliantOct = ''
+
+                    percentCompliantNov = ''
+
+                    percentCompliantDec = ''
+                    console.log(chartData.data.duty_hour_logs.length)
+                    for (var i = 0; i < chartData.data.duty_hour_logs.length; i++) {
+
+                        if(('01'.includes(chartData.data.duty_hour_logs[i]['MMYYYY'].substr(0,2)))){
+                            percentCompliantJan = chartData.data.duty_hour_logs[i]['Submitted_Proportion']
+                        }
+                        else if (('02'.includes(chartData.data.duty_hour_logs[i]['MMYYYY'].substr(0,2)))){
+                            percentCompliantFeb = chartData.data.duty_hour_logs[i]['Submitted_Proportion']
+                        }
+                        else if (('03'.includes(chartData.data.duty_hour_logs[i]['MMYYYY'].substr(0,2)))){
+                            percentCompliantMar = chartData.data.duty_hour_logs[i]['Submitted_Proportion']
+                        }
+                        else if (('04'.includes(chartData.data.duty_hour_logs[i]['MMYYYY'].substr(0,2)))){
+                            percentCompliantApr = chartData.data.duty_hour_logs[i]['Submitted_Proportion']
+                        }
+                        else if (('05'.includes(chartData.data.duty_hour_logs[i]['MMYYYY'].substr(0,2)))){
+                            percentCompliantMay = chartData.data.duty_hour_logs[i]['Submitted_Proportion']
+                        }
+                        else if (('06'.includes(chartData.data.duty_hour_logs[i]['MMYYYY'].substr(0,2)))){
+                            percentCompliantJun = chartData.data.duty_hour_logs[i]['Submitted_Proportion']
+                        }
+                        else if (('07'.includes(chartData.data.duty_hour_logs[i]['MMYYYY'].substr(0,2)))){
+                            percentCompliantJul = chartData.data.duty_hour_logs[i]['Submitted_Proportion']
+                        }
+                        else if (('08'.includes(chartData.data.duty_hour_logs[i]['MMYYYY'].substr(0,2)))){
+                            percentCompliantAug = chartData.data.duty_hour_logs[i]['Submitted_Proportion']
+                        }
+                        else if (('09'.includes(chartData.data.duty_hour_logs[i]['MMYYYY'].substr(0,2)))){
+                            percentCompliantSep = chartData.data.duty_hour_logs[i]['Submitted_Proportion']
+                        }
+                        else if (('10'.includes(chartData.data.duty_hour_logs[i]['MMYYYY'].substr(0,2)))){
+                            percentCompliantOct = chartData.data.duty_hour_logs[i]['Submitted_Proportion']
+                        }
+                        else if (('11'.includes(chartData.data.duty_hour_logs[i]['MMYYYY'].substr(0,2)))){
+                            percentCompliantNov = chartData.data.duty_hour_logs[i]['Submitted_Proportion']
+                        }
+                        else if (('12'.includes(chartData.data.duty_hour_logs[i]['MMYYYY'].substr(0,2)))){
+                            percentCompliantDec = chartData.data.duty_hour_logs[i]['Submitted_Proportion']
+                        }
                     }
 
-                    if (didResidentComplete == 'Yes') {
-                        percentageCompletion = 100
-                    }
-                    else {
-                        percentageCompletion = 0
-                    }
-                
-                    this.ChartConfig.datasets[0].data.push(percentageCompletion)
-                    percentageCompletion = 0
-                    this.loaded = false
-                    
+
+                    this.ChartConfig.datasets[0].data.push(percentCompliantJan)
+
+                    this.ChartConfig.datasets[0].data.push(percentCompliantFeb)
+
+                    this.ChartConfig.datasets[0].data.push(percentCompliantMar)
+
+                    this.ChartConfig.datasets[0].data.push(percentCompliantApr)
+
+                    this.ChartConfig.datasets[0].data.push(percentCompliantMay)
+
+                    this.ChartConfig.datasets[0].data.push(percentCompliantJun)
+
+                    this.ChartConfig.datasets[0].data.push(percentCompliantJul)
+
+                    this.ChartConfig.datasets[0].data.push(percentCompliantAug)
+
+                    this.ChartConfig.datasets[0].data.push(percentCompliantSep)
+
+                    this.ChartConfig.datasets[0].data.push(percentCompliantOct)
+
+                    this.ChartConfig.datasets[0].data.push(percentCompliantNov)
+
+                    this.ChartConfig.datasets[0].data.push(percentCompliantDec)
+
+                    console.log(this.ChartConfig);
+                    console.log('break 2')
                 }
             }
         });
