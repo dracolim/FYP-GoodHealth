@@ -79,7 +79,8 @@ INSERT INTO `personal_details` (`Employee_ID`, `MCR_No`, `Staff_Name`, `Designat
 ('MOM05705', 'M66630D', 'Toh Jiahao Thomas', 'Senior Resident', 'Respiratory Medicine', 'SR1', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-02-01 00:00:00', 'Male', 'Full', '', '19A Ford Avenue ', '', '#01-07 ', '268000', '88692870', ' 96269350', 'thomas.toh@mohh.com.sg', '', '2021-08-25 00:00:00', '2021-09-02 00:00:00', 'Yes', '', '2021-02-17 00:00:00', ''),
 ('MOM04393', 'M83162D', 'Cindee Tan', 'Senior Resident', 'Renal Medicine', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Malaysian', '1988-02-29 00:00:00', 'Female', 'Conditional (L3)', '', 'Block 37D,Kreta Ayer Road', '', '#20-02', '803000', '', '96610520', 'cindee.tan@mohh.com.sg', '', '', '2021-11-14 00:00:00', 'Yes', '2021-03-11 00:00:00', '', ''),
 ('MOM05690', 'M88791Z', 'Kang Hyun Bin', 'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-12-05 00:00:00', 'Male', 'Full', '', 'Lorong Gambir', '', '', '536000', '', '91515780', 'hyunbin.kang@mohh.com.sg', '', '', '', 'Yes', '2021-02-09 00:00:00', '2021-03-02 00:00:00', ''),
-('MOM11116', 'M11166J', 'Noob Doc', 'Junior Resident', 'Internal Medicine', 'R1', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-11-11 00:00:00', 'Male', 'Full', '', '11A Lalalala Hill', '', '', '243400', '92767980', '95351470', 'noob_doc@mohh.com.sg', '', '2019-07-20 00:00:00', '2019-08-29 00:00:00', 'Yes', '2021-03-30 00:00:00', '2021-04-20 00:00:00', '');
+('MOM11116', 'M11166J', 'Noob Doc', 'Junior Resident', 'Internal Medicine', 'R1', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-11-11 00:00:00', 'Male', 'Full', '', '11A Lalalala Hill', '', '', '243400', '92767980', '95351470', 'noob_doc@mohh.com.sg', '', '2019-07-20 00:00:00', '2019-08-29 00:00:00', 'Yes', '2021-03-30 00:00:00', '2021-04-20 00:00:00', ''),
+('MOM11117', 'M11166U', 'Pro Doc', 'Senior Resident', 'Renal Medicine', 'SR1', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1999-11-11 00:00:00', 'Male', 'Full', '', '11A Lolololo Hill', '', '', '244400', '92467980', '95341470', 'pro_doc@mohh.com.sg', '', '2019-07-20 00:00:00', '2019-08-29 00:00:00', 'Yes', '2021-03-30 00:00:00', '2021-04-20 00:00:00', '');
 
 -- --------------------------------------------------------
 
@@ -994,7 +995,15 @@ INSERT INTO `procedure_log` (`id`, `MCR_No`, `Procedure_Name`, `CPT`, `Date_of_C
 (32, 'M11166J', 'ABG', '','01/01/2022', '-', '-', '-', '1', '-'),
 (33, 'M11166J', 'Vene', '','01/01/2022', '-', '-', '-', '1', '-'),
 (34, 'M11166J', 'IV Plug', '','01/01/2022', '-', '-', '-', '1', '-'),
-(35, 'M11166J', 'Ecg', '','01/01/2022', '-', '-', '-', '1', '-');
+(35, 'M11166J', 'Ecg', '','01/01/2022', '-', '-', '-', '1', '-'),
+(36, 'M11166U', 'Insertion of non-tunneled haemodialysis catheter - Femoral (C)', '','01/01/2022', '-', '4', '-', '-', '-'),
+(37, 'M11166U', 'Insertion of non-tunneled haemodialysis catheter - Internal Jugular (C)', '','01/01/2022', '-', '5', '-', '-', '-'),
+(38, 'M11166U', 'Insertion of non-tunneled haemodialysis catheter - Femoral', '','01/01/2022', '-', '4', '-', '-', '-'),
+(39, 'M11166U', 'Insertion of non-tunneled haemodialysis catheter - Internal Jugular', '','01/01/2022', '-', '5', '-', '-', '-'),
+(40, 'M11166U', 'Native Kidney Biopsy (C)', '','01/01/2022', '-', '10', '-', '-', '-'),
+(41, 'M11166U', 'Transplant Kidney Biopsy (C)', '','01/01/2022', '-', '3', '-', '-', '-'),
+(42, 'M11166U', 'Native Kidney Biopsy', '','01/01/2022', '-', '5', '-', '-', '-'),
+(43, 'M11166U', 'Transplant Kidney Biopsy', '','01/01/2022', '-', '2', '-', '-', '-');
 
 -- --------------------------------------------------------
 
