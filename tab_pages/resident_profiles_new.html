@@ -413,11 +413,15 @@
             </button>
 
                 <button
-            type="button" value="download" @click="download" id='submit'
-                class="inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 text-white transition duration-150 ease-in-out bg-orange-500 rounded-md shadow cursor-not-allowed hover:bg-orange-400"
-                disabled="">
+            type="button" value="download" v-on:click="download()" id='submit'
+                class="mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 text-white transition duration-150 ease-in-out bg-orange-500 rounded-md shadow cursor-not-allowed hover:bg-orange-400"
+                >
                 Export Profile as Word
             </button>
+            <!-- <a class="btn btn-success" href="{{url_for('download')}}">Download</a> -->
+
+
+
         </div>
 
 
@@ -435,6 +439,7 @@
     const vm = new Vue({
         el: '#app',
         data: {
+            count: 0,
             personal_details_fields: [],
             fields_display: [],
             personal_details_datas: [],
@@ -450,11 +455,11 @@
         mounted: async function () {
             const queryString = window.location.search;
             console.log("this is the mcr_no:", queryString.substring(8))
-            const API_URL_1_old = 'http://127.0.0.1:5011/profile/M65889A';
+            const API_URL_1_old = 'http://127.0.0.1:5011/profile/M16782H';
             const API_URL_1 = 'http://127.0.0.1:5011/profile/' + queryString.substring(8);
 
             const apiCalls = [
-                axios.get(API_URL_1),
+                axios.get(API_URL_1_old),
                 // axios.get(API_URL_2),
             ];
             let personalProfile = {}
@@ -487,8 +492,34 @@
 
             
 
-            download(){
+            download(e){
+                // e.preventDefault();
                 console.log("download now");
+                // var axios = require('axios');
+
+                    var config = {
+                    method: 'get',
+                    maxBodyLength: Infinity,
+                    url: 'http://127.0.0.1:5011/personaldetails_cv_generate/M65889A',
+                    headers: { },
+                    responseType: 'blob',
+
+                    };
+
+                    axios(config)
+                    .then(function (response) {
+                    console.log(JSON.stringify(response.data));
+                    })
+                    .catch(function (error) {
+                    console.log(error);
+                    });
+
+//                     axios.post('download', {
+//     responseType: 'blob',
+// })
+// .then((res) => {})
+
+
             },
             importExcel(event) {
                 this.file = event.target.files ? event.target.files[0] : null;

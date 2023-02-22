@@ -2595,7 +2595,11 @@ def generate_cv(id):
     input = Path(html_file_name)
     pdfkit.from_file(html_file_name, 
     folder + 'cv.pdf')
-    return "done"
+    import os
+    print(os.getcwd())
+    # return "done"
+    download_folder = os.getcwd() + "/cv/"
+    return send_file(download_folder + 'cv.pdf', mimetype="application/zip", as_attachment=True)
 db.create_all()
 
 if __name__ == '__main__':
