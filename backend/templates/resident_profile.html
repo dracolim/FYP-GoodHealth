@@ -6,19 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- INSTALLATIONS -->
+            <!-- INSTALLATIONS -->
     <!-- flowbite -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='flowbite.min.css') }}" rel="stylesheet">
     <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='tailwindcss.4')}}"></script>
     <!-- ICONIFY -->
-    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
-    <!-- VUE 3 -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
-
+    <script type="text/javascript" src="{{url_for('static', filename='iconify-icon.min.js')}}"></script>
+    <!-- VUE 2 -->
+    <!-- <script type="text/javascript" src="{{url_for('static', filename='vue.js')}}"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='axios.min.js')}}"></script>
+    <!-- ExcelJS -->
+    <script type="text/javascript" src="{{url_for('static', filename='xlsx.full.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='exceljs.min.js')}}"></script>
+    <!-- Tabulator  -->
+    <!-- LOCAL Tabulator  -->
+    <link href="{{ url_for('static', filename='tabulator_semanticui.css') }}" rel="stylesheet">
+    <script type="text/javascript" src="{{url_for('static', filename='tabulator.js')}}"></script>
+    <!-- LOCAL Axios -->
+    <script type="text/javascript" src="{{url_for('static', filename='axios.min.js')}}"></script>
+    <!-- LUXON js-->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/luxon@3.2.1/build/global/luxon.min.js"></script> -->
+    
     <style type="text/tailwindcss">
         @layer utilities {
         .content-auto {
@@ -80,7 +90,7 @@
                             aria-current="page">Resident Profiles</a>
                     </li>
                     <li>
-                        <a href="./personal_details.html"
+                        <a href="../tab_pages/personal_details.html"
                             class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
                             Personal Details</a>
                     </li>
@@ -154,11 +164,11 @@
                     <tr class="border border-black" v-for="(value,key) in profile_data[0]">
                         <td class="w-2/5 text-center bg-orange-300 border-slate-700 px-1 py-4 font-medium text-black"
                             >
-                            <h1>{{key}}</h1>
+                            <h1>[[key]]</h1>
                         </td>
                         <!-- bg-orange-100 -->
                         <td class=" border-slate-700 flex text-black items-center px-6 py-4">
-                            <h1>{{value}}</h1>
+                            <h1>[[value]]</h1>
                         </td>
                     </tr>
                 </tbody>
@@ -175,11 +185,11 @@
                     <tr class="border border-black" v-for="(value,key) in employer_details[0]">
                         <td class="w-2/5 text-center bg-orange-300 border-slate-700 px-1 py-4 font-medium text-black"
                             >
-                            <h1>{{key}}</h1>
+                            <h1>[[key]]</h1>
                         </td>
                         <!-- bg-orange-100 -->
                         <td class=" border-slate-700 flex text-black items-center px-6 py-4">
-                            <h1>{{value}}</h1>
+                            <h1>[[value]]</h1>
                         </td>
                     </tr>
                 </tbody>
@@ -211,35 +221,28 @@
                 </tr>
             </thead>
             <tbody>
+                
                 <tr class="border border-black" v-for="item in profile_data_original">
                     <td class="w-2/5 text-center bg-orange-300 border-slate-700 px-1 py-4 font-medium text-black"
                         >
-                        <!-- got only one programme but why example got so many:?? -->
-                        <p>{{item.personaldetails.Programme}}</p>
+                        <p>[[item.personaldetails.Programme]]</p>
                     </td>
-                    <!-- bg-orange-100 -->
                     <td class=" border-slate-700 flex text-black items-center px-6 py-4">
-                        <!-- where to get start and end date?? -->
                         <h1></h1>
                     </td>
                     <td class=" border-slate-700 flex text-black items-center px-6 py-4">
-                        <!-- where to get start and end date?? -->
                         <h1></h1>
                     </td>
                 </tr>
                 <tr class="border border-black" v-for="item in profile_data_original">
                     <td class="w-2/5 text-center bg-orange-300 border-slate-700 px-1 py-4 font-medium text-black"
                         >
-                        <!-- got only one programme but why example got so many:?? -->
-                        <p>{{item.personaldetails.Programme}}</p>
+                        <p>[[item.personaldetails.Programme]]</p>
                     </td>
-                    <!-- bg-orange-100 -->
                     <td class=" border-slate-700 flex text-black items-center px-6 py-4">
-                        <!-- where to get start and end date?? -->
                         <h1></h1>
                     </td>
                     <td class=" border-slate-700 flex text-black items-center px-6 py-4">
-                        <!-- where to get start and end date?? -->
                         <h1></h1>
                     </td>
                 </tr>
@@ -260,7 +263,7 @@
                     <td class="w-2/5 text-center bg-orange-300 border-slate-700 px-1 py-4 font-medium text-black"
                         >
                         <!-- got only one programme but why example got so many:?? -->
-                        <p>{{personaldetails.personaldetails.Programme}}</p>
+                        <p>[[personaldetails.personaldetails.Programme]]</p>
                     </td>
                     <!-- bg-orange-100 -->
                     <td class=" border-slate-700 flex text-black items-center px-6 py-4">
@@ -319,35 +322,35 @@
                 <!-- 1 row = 1 reisdent = 1 key -->
                 <tr class="border" v-for="case_log in profile_data_original[0].case_logs">
                     <td class="bg-orange-100 text-center px-1 py-4 font-medium text-black">
-                        <p>{{case_log.Case_Name}}</p>
+                        <p>[[case_log.Case_Name]]</p>
                     </td>
                     <td class="bg-orange-200 border text-black items-center px-6 py-4">
-                        <p>{{case_log.CPT}}</p>
+                        <p>[[case_log.CPT]]</p>
                     </td>
 
                     <td class="bg-orange-100 border text-black items-center px-6 py-4">
-                        <p>{{case_log.Certified}}</p>
+                        <p>[[case_log.Certified]]</p>
                     </td>
                     <td class="bg-orange-200 border text-black items-center px-6 py-4">
-                        <p>{{case_log.Date_of_Log}}</p>
+                        <p>[[case_log.Date_of_Log]]</p>
                     </td>
                     <td class="bg-orange-100 border text-black items-center px-6 py-4">
-                        <p>{{case_log.Observed}}</p>
+                        <p>[[case_log.Observed]]</p>
                     </td>
                     <td class="bg-orange-200 border text-black items-center px-6 py-4">
-                        <p>{{case_log.Performed}}</p>
+                        <p>[[case_log.Performed]]</p>
                     </td>
                     <td class="bg-orange-100 border text-black items-center px-6 py-4">
-                        <p>{{case_log.Subspecialty}}</p>
+                        <p>[[case_log.Subspecialty]]</p>
                     </td>
                     <td class="bg-orange-200 border text-black items-center px-6 py-4">
-                        <p>{{case_log.Total}}</p>
+                        <p>[[case_log.Total]]</p>
                     </td>
                     <td class="bg-orange-100 border text-black items-center px-6 py-4">
-                        <p>{{case_log.Type_of_Case_Log}}</p>
+                        <p>[[case_log.Type_of_Case_Log]]</p>
                     </td>
                     <td class="bg-orange-200 border text-black items-center px-6 py-4">
-                        <p>{{case_log.Verified}}</p>
+                        <p>[[case_log.Verified]]</p>
                     </td>
                 </tr>
             </tbody>
@@ -369,19 +372,19 @@
                 <!-- 1 row = 1 reisdent = 1 key -->
                 <tr class="border" v-for="award in profile_data_original[0].awards">
                     <td class="bg-orange-100 text-center px-1 py-4 font-medium text-black">
-                        <p>{{award.Name_of_Award}}</p>
+                        <p>[[award.Name_of_Award]]</p>
                     </td>
                     <td class="bg-orange-200 border text-black items-center px-6 py-4">
-                        <p>{{award.Date_of_Award_Received}}</p>
+                        <p>[[award.Date_of_Award_Received]]</p>
                     </td>
                     <td class="bg-orange-100 border text-black items-center px-6 py-4">
-                        <p>{{award.FY_of_Award_Received}}</p>
+                        <p>[[award.FY_of_Award_Received]]</p>
                     </td>
                     <td class="bg-orange-200 border text-black items-center px-6 py-4">
-                        <p>{{award.Project_ID}}</p>
+                        <p>[[award.Project_ID]]</p>
                     </td>
                     <td class="bg-orange-100 border text-black items-center px-6 py-4">
-                        <p>{{award.Award_Category}}</p>
+                        <p>[[award.Award_Category]]</p>
                     </td>
                 </tr>
             </tbody>
@@ -434,6 +437,7 @@
     const Excel = window.ExcelJS;
     const vm = new Vue({
         el: '#app',
+        delimiters: ['[[', ']]'],
         data: {
             personal_details_fields: [],
             fields_display: [],
@@ -448,8 +452,11 @@
             employer_details: []
         },
         mounted: async function () {
-            const API_URL_1 = 'http://127.0.0.1:5011/profile/M65889A';
-            const API_URL_2 = 'http://127.0.0.1:5011/profile/1234o18';
+            console.log("mounting")
+            const queryString = window.location.search;
+            console.log("this is the mcr_no:", queryString.substring(8))
+            const API_URL_1_old = 'http://127.0.0.1:5011/profile/M65889A';
+            const API_URL_1 = 'http://127.0.0.1:5011/profile/' + queryString.substring(8);
 
             const apiCalls = [
                 axios.get(API_URL_1),
@@ -459,6 +466,7 @@
             Promise.all(apiCalls)
                 .then(responses => {
                     personalProfile = responses[0].data
+                    console.log("personalProfile: ", personalProfile)
                     this.profile_data_original.push(responses[0].data.data)
                     let object = responses[0].data.data.personaldetails
 

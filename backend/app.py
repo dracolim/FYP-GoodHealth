@@ -49,15 +49,33 @@ CORS(app)
 
 @app.route('/', methods=['GET'])
 def display():
-    return render_template('homepage2.html')
+    return render_template('personal_details2.html')
 
-@app.route('/tab/personal_details', methods=['GET'])
+@app.route('/personal_details', methods=['GET'])
 def displaypersonal():
     return render_template('personal_details2.html')
 
-@app.route('/tab/', methods=['GET'])
-def displayprojects():
-    return render_template('personal_details2.html')
+@app.route('/involvement', methods=['GET'])
+def displayinvolvement():
+    return render_template('involvement.html')
+
+@app.route('/presentations', methods=['GET'])
+def displaypresentations():
+    return render_template('presentations.html')
+
+@app.route('/profiles', methods=['GET'])
+def displayprofile():
+    return render_template('resident_profile.html')
+
+# @app.route('/<path:filename>', methods=['GET'])
+@app.route('/v', methods=['GET'])
+def displayv():
+    return render_template('vuepage.html')
+    # return app.send_static_file(filename)
+
+# @app.route('/tab/', methods=['GET'])
+# def displayprojects():
+#     return render_template('personal_details2.html')
 
 
 class Personal_Details(db.Model):

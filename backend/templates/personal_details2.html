@@ -6,24 +6,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- INSTALLATIONS -->
+        <!-- INSTALLATIONS -->
     <!-- flowbite -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='flowbite.min.css') }}" rel="stylesheet">
     <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script type="text/javascript" src="{{url_for('static', filename='tailwindcss.4')}}"></script> -->
+    <script type="text/javascript" src="/static/tailwindcss.4"></script>
     <!-- ICONIFY -->
-    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='iconify-icon.min.js')}}"></script>
     <!-- VUE 2 -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- <script type="text/javascript" src="{{url_for('static', filename='vue.js')}}"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+    <script type="text/javascript" src="/static/vue.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='axios.min.js')}}"></script>
     <!-- ExcelJS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='xlsx.full.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='exceljs.min.js')}}"></script>
     <!-- Tabulator  -->
     <!-- LOCAL Tabulator  -->
-    <link href="../node_modules/tabulator-tables/dist/css/tabulator_semanticui.css" rel="stylesheet">
-    <script type="text/javascript" src="../node_modules/tabulator-tables/dist/js/tabulator.js"></script>
-
+    <link href="{{ url_for('static', filename='tabulator_semanticui.css') }}" rel="stylesheet">
+    <script type="text/javascript" src="{{url_for('static', filename='tabulator.js')}}"></script>
+    <!-- LOCAL Axios -->
+    <script type="text/javascript" src="{{url_for('static', filename='axios.min.js')}}"></script>
+    <!-- LUXON js-->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/luxon@3.2.1/build/global/luxon.min.js"></script> -->
+    
 
     <style type="text/tailwindcss">
         @layer utilities {
@@ -69,7 +76,7 @@
                     style="height: 80px ; width: 100px;" alt="Flowbite Logo" />
 
                 <div class="flex md:order-2">
-                    <a href="../homepage.html" style="margin-right: 10px;">
+                    <a href="./homepage2.html" style="margin-right: 10px;">
                         <iconify-icon icon="ic:round-home" style="color: #ff6b00;" width="40" height="40">
                         </iconify-icon>
                     </a>
@@ -100,12 +107,12 @@
                 <ul
                     class="overflow-x-auto md:divide-x md:divide-slate-200 flex flex-col p-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row  md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
                     <li>
-                        <a href="../homepage.html"
+                        <a href="./homepage2.html"
                             class="lg:text-sm md:text-sm ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
                             Home</a>
                     </li>
                     <li>
-                        <a href="../tab_pages/personal_details.html"
+                        <a href="./personal_details2.html"
                             class="lg:text-sm md:text-sm ml-5 mr-4 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0"
                             aria-current="page">Personal
                             Details</a>
@@ -118,7 +125,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="../tab_pages/involvement.html"
+                        <a href="/involvement"
                             class="lg:text-sm md:text-sm ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
                             Involvement</a>
                     </li>
@@ -133,7 +140,7 @@
                             Publications</a>
                     </li>
                     <li>
-                        <a href="../tab_pages/presentations.html"
+                        <a href="/presentations"
                             class="lg:text-sm md:text-sm  ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Presentations</a>
                     </li>
                     <li>
@@ -294,7 +301,7 @@
 
                     function link(cell, formatterParams){
                         var url = cell.getValue();
-                        return "<a href='/resident_profiles_new/"+url+"'>"+url+"</a>";
+                        return "<a href='/profiles?mcr_no="+url+"'>"+url+"</a>";
                     }
                     //console.log(response.data,'response data')
                     var table = new Tabulator("#example-table", {
