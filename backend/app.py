@@ -8,7 +8,7 @@ import pandas as pd
 import traceback
 import werkzeug.exceptions as ex
 from sqlalchemy.sql import exists
-from flask_login import login_required, current_user
+# from flask_login import login_required, current_user
 
 app = Flask(__name__)
 
@@ -580,6 +580,9 @@ class Didactic_Attendance(db.Model):
     Total_tracked_sessions = db.Column(db.String(100))
     Number_of_sessions_attended = db.Column(db.String(100))
     MmYyyy = db.Column(db.String(100))
+    Posting_Institution = db.column(db.String(200))
+    Posting_Department = db.column(db.String(200))
+    Scheduled_Teachings = db.column(db.String(200))
     Percentage_of_sessions_attended= db.Column(db.String(100))
     Compliance_or_Not = db.Column(db.String(100))
 
@@ -729,7 +732,7 @@ def view():
     #didatic attendance
     didatic_attendance = pd.read_excel(
         file, sheet_name="Didactic Attendance", dtype=str)
-    didatic_attendance.columns = [ 'MCR_No', 'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended'  , 'MmYyyy' , 'Compliance_or_Not' , "Percentage_of_sessions_attended"]
+    didatic_attendance.columns = [ 'MCR_No', 'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended'  , 'MmYyyy' , 'Posting_Institution' , 'Posting_Department' , 'Scheduled_Teachings' 'Compliance_or_Not' , "Percentage_of_sessions_attended"]
 
     if didatic_attendance.duplicated().any() or didatic_attendance['MCR_No'].isnull().sum() > 0 or ihi['MCR_No'].isnull().sum() > 0 or ihi.duplicated().any() or project['MCR_No'].isnull().sum() > 0 or project.duplicated().any() or presentations['MCR_No'].isnull().sum() > 0 or presentations.duplicated().any() or publlications['MCR_No'].isnull().sum() > 0 or publlications.duplicated().any() or awards['MCR_No'].isnull().sum() > 0 or awards.duplicated().any() or grants['MCR_No'].isnull().sum() > 0 or grants.duplicated().any() or personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or personalDetails.duplicated().any() or involvement['MCR_No'].isnull().sum() > 0 or (involvement.duplicated().any()) or history_education['MCR_No'].isnull().sum() > 0 or (history_education.duplicated().any()) or history_posting['MCR_No'].isnull().sum() > 0 or history_posting.duplicated().any() or history_exam['MCR_No'].isnull().sum() > 0 or history_exam.duplicated().any() or history_trg['MCR_No'].isnull().sum() > 0 or history_trg.duplicated().any():
         writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
