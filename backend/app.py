@@ -1333,6 +1333,7 @@ def read_personaldetailssd(id):
                 "ihis": getList(person.ihis),
                 "involvements": getList(person.involvements),
                 "didactic_attendance": getList(person.didactic_attendance),
+                "education_history": getList(person.education_history),
             }
         }
     ), 200
