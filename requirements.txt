@@ -39,5 +39,6 @@ SQLAlchemy==1.4.41
 termcolor==2.2.0
 tomli==2.0.1
 Werkzeug==2.2.2
+wkhtmltopdf==0.2
 XlsxWriter==3.0.8
 zipp==3.8.1
