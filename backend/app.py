@@ -20,20 +20,20 @@ app.app_context().push()
 
 if __name__ == '__main__':
 #     # Mac user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-    #                                     '@localhost:3306/SingHealth'
-    # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+                                        '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
     # --------------------------------------------------------------------------------
 
     # # Windows user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
-                                            '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
+    #                                         '@localhost:3306/SingHealth'
+    # engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
 
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
-                                            'pool_recycle': 280}
+    # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
+    #                                         'pool_recycle': 280}
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
@@ -580,9 +580,6 @@ class Didactic_Attendance(db.Model):
     Total_tracked_sessions = db.Column(db.String(100))
     Number_of_sessions_attended = db.Column(db.String(100))
     MmYyyy = db.Column(db.String(100))
-    Posting_Institution = db.column(db.String(200))
-    Posting_Department = db.column(db.String(200))
-    Scheduled_Teachings = db.column(db.String(200))
     Percentage_of_sessions_attended= db.Column(db.String(100))
     Compliance_or_Not = db.Column(db.String(100))
 
@@ -1577,6 +1574,28 @@ def read_examhistory():
                      for pd in examhistoryList]
         }
     ), 200
+
+# Read Existing procedure logs with personal details Programme and Year_of_Training (R)
+@app.route("/history_exams")
+def read_history_exams():
+    print("fetching history_exams")
+    userList = Exam_History.query\
+        .join(Personal_Details, Exam_History.MCR_No == Personal_Details.MCR_No)\
+        .add_columns(Personal_Details.Programme)\
+        .paginate(1, 50, True)
+
+    combinedProcedureLogs = []
+    for i in userList.iter_pages():
+        for item in userList.items:
+            procedurelog = item[0].to_dict()
+            procedurelog["Programme"] = item[1]
+            # procedurelog["Year_of_Training"] = item[2]
+            combinedProcedureLogs.append(procedurelog)
+
+    return jsonify(
+        {
+            "data": combinedProcedureLogs
+        }), 200
 
 # Read ExamHistory field/column name (R)
 @app.route('/history_exam_fields', methods=['GET'])
@@ -2602,7 +2621,7 @@ def generate_cv(id):
     print(os.getcwd())
     # return "done"
     download_folder = os.getcwd() + "/cv/"
-    return send_file(download_folder + 'cv.pdf', mimetype="application/zip", as_attachment=True)
+    return send_file(download_folder + 'cv.pdf', as_attachment=True)
 db.create_all()
 
 if __name__ == '__main__':

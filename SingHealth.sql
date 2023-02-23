@@ -173,9 +173,6 @@ CREATE TABLE `didactic_attendance` (
   `Number_of_sessions_attended` varchar(300) NOT NULL,
   `Percentage_of_sessions_attended` varchar(300) NOT NULL,
   `MmYyyy` varchar(300) NOT NULL,
-  `Posting_Institution` varchar (200) NOT NULL,
-  `Posting_Department` varchar (200) NOT NULL,
-  `Scheduled_Teachings` varchar (200) NOT NULL,
   `Compliance_or_Not` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 

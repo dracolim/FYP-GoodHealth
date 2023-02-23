@@ -419,6 +419,7 @@
                 Export Profile as Word
             </button>
             <!-- <a class="btn btn-success" href="{{url_for('download')}}">Download</a> -->
+            <a class="btn btn-success" href="http://127.0.0.1:5011/personaldetails_cv_generate/M65889A">Download</a>
 
 
 
@@ -506,13 +507,28 @@
 
                     };
 
-                    axios(config)
-                    .then(function (response) {
-                    console.log(JSON.stringify(response.data));
-                    })
-                    .catch(function (error) {
-                    console.log(error);
-                    });
+                    // axios(config)
+                    // .then(function (response) {
+                    // console.log(JSON.stringify(response.data));
+                    // })
+                    // .catch(function (error) {
+                    // console.log(error);
+                    // });
+
+    //                 const options={
+    //     method: "POST",
+    //     body: JSON.stringify(json),
+    //     headers:{
+    //         'Content-Type':'application/json',
+    //     }
+    // };
+
+    fetch(config)
+        .then(res=>{
+            return res.blob();
+        }).then(blob=>{
+            download(blob)
+        }).catch(err=>console.log(err));
 
 //                     axios.post('download', {
 //     responseType: 'blob',
