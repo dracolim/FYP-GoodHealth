@@ -127,14 +127,14 @@
 
             <input v-model="programme" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input MCR No Here">
 
-            <button @click="getSpecificIhiData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
-                Get Programme's Exam Info
-            </button> 
-
             <div id="app">
+                <button @click="getExamsData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+                    Get Programme's Part 1 Exam Info
+                </button> 
+
                 <v-row dense>
                   <v-col cols="sm">
-                    <v-card class="pa-2" outlined tile raised>
+                    <v-card class="pa-2 pt-5" outlined tile raised>
                       <my-donut-chart v-if="loaded" :donut-data="ChartConfig" :chart-options="options"></my-donut-chart>
                     </v-card>
                   </v-col>
@@ -142,6 +142,10 @@
             </div>
 
             <div id="app2">
+                <button @click="getExamsData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+                    Get Programme's Part 2a Exam Info
+                </button> 
+
                 <v-row dense>
                   <v-col cols="sm">
                     <v-card class="pa-2 pt-5" outlined tile raised>
@@ -152,6 +156,10 @@
             </div>
 
             <div id="app3">
+                <button @click="getExamsData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+                    Get PACES Exam Info
+                </button> 
+
                 <v-row dense>
                   <v-col cols="sm">
                     <v-card class="pa-2 pt-5" outlined tile raised>
@@ -248,16 +256,17 @@
             },
             mounted: function () {
                 this.loaded = false
-                this.getExamsData();
+                // this.getExamsData();
                 },
             methods: {
                 getExamsData: async function () {
 
                     this.status = "getting data...";
 
-                    await axios.get("http://localhost:5011/history_exam").then((response) => {
-                    // console.log("This is responseData")
-                    // console.log(response.data)
+                    await axios.get("http://localhost:5011/history_exams").then((response) => {
+                    console.log("Reached method 1")
+                    console.log("This is responseData")
+                    console.log(response.data)
 
                     this.getChartData(response.data);
                     this.loaded = true
@@ -341,16 +350,17 @@
             },
             mounted: function () {
                 this.loaded = false
-                this.getExamsData();
+                // this.getExamsData();
                 },
             methods: {
                 getExamsData: async function () {
 
                     this.status = "getting data...";
 
-                    await axios.get("http://localhost:5011/history_exam").then((response) => {
-                    // console.log("This is responseData")
-                    // console.log(response.data)
+                    await axios.get("http://localhost:5011/history_exams").then((response) => {
+                    console.log("Reached method 2")
+                    console.log("This is responseData")
+                    console.log(response.data)
 
                     this.getChartData(response.data);
                     this.loaded = true
@@ -434,16 +444,17 @@
             },
             mounted: function () {
                 this.loaded = false
-                this.getExamsData();
+                // this.getExamsData();
                 },
             methods: {
                 getExamsData: async function () {
 
                     this.status = "getting data...";
 
-                    await axios.get("http://localhost:5011/history_exam").then((response) => {
-                    // console.log("This is responseData")
-                    // console.log(response.data)
+                    await axios.get("http://localhost:5011/history_exams").then((response) => {
+                    console.log("Reached method 3")
+                    console.log("This is responseData")
+                    console.log(response.data)
 
                     this.getChartData(response.data);
                     this.loaded = true

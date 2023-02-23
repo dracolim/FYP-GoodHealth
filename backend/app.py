@@ -20,16 +20,16 @@ app.app_context().push()
 
 if __name__ == '__main__':
 #     # Mac user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-                                        '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+    #                                     '@localhost:3306/SingHealth'
+    # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
     # --------------------------------------------------------------------------------
 
     # # Windows user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
-    #                                         '@localhost:3306/SingHealth'
-    # engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
+                                            '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
 
     # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -1584,17 +1584,17 @@ def read_history_exams():
         .add_columns(Personal_Details.Programme)\
         .paginate(1, 50, True)
 
-    combinedProcedureLogs = []
+    combinedExamHistory = []
     for i in userList.iter_pages():
         for item in userList.items:
-            procedurelog = item[0].to_dict()
-            procedurelog["Programme"] = item[1]
+            examHistory = item[0].to_dict()
+            examHistory["Programme"] = item[1]
             # procedurelog["Year_of_Training"] = item[2]
-            combinedProcedureLogs.append(procedurelog)
+            combinedExamHistory.append(examHistory)
 
     return jsonify(
         {
-            "data": combinedProcedureLogs
+            "data": combinedExamHistory
         }), 200
 
 # Read ExamHistory field/column name (R)
