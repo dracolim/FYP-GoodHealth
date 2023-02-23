@@ -125,16 +125,16 @@
                 Programme:
             </label>
 
-            <input v-model="programme" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input MCR No Here">
-
             <div id="app">
+                <input v-model="programme" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Programme Here">
+
                 <button @click="getExamsData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
                     Get Programme's Part 1 Exam Info
                 </button> 
 
                 <v-row dense>
                   <v-col cols="sm">
-                    <v-card class="pa-2 pt-5" outlined tile raised>
+                    <v-card class="pa-2 pt-5 pb-6" outlined tile raised>
                       <my-donut-chart v-if="loaded" :donut-data="ChartConfig" :chart-options="options"></my-donut-chart>
                     </v-card>
                   </v-col>
@@ -142,13 +142,15 @@
             </div>
 
             <div id="app2">
+                <input v-model="programme" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Programme Here">
+
                 <button @click="getExamsData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
                     Get Programme's Part 2a Exam Info
                 </button> 
 
                 <v-row dense>
                   <v-col cols="sm">
-                    <v-card class="pa-2 pt-5" outlined tile raised>
+                    <v-card class="pa-2 pt-5 pb-6" outlined tile raised>
                       <my-donut-chart2 v-if="loaded" :donut-data="ChartConfig" :chart-options="options"></my-donut-chart2>
                     </v-card>
                   </v-col>
@@ -156,13 +158,15 @@
             </div>
 
             <div id="app3">
+                <input v-model="programme" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Programme Here">
+
                 <button @click="getExamsData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
                     Get PACES Exam Info
                 </button> 
 
                 <v-row dense>
                   <v-col cols="sm">
-                    <v-card class="pa-2 pt-5" outlined tile raised>
+                    <v-card class="pa-2 pt-5 pb-6" outlined tile raised>
                       <my-donut-chart3 v-if="loaded" :donut-data="ChartConfig" :chart-options="options"></my-donut-chart3>
                     </v-card>
                   </v-col>
@@ -224,7 +228,7 @@
                 programme: "",
                 loaded: false,
                 ChartConfig: {
-                labels: ["Passed", "Failed"],
+                labels: ["Passed (%)", "Failed (%)"],
                 datasets: [
                     {
                     data: [],
@@ -276,8 +280,19 @@
                     });
                 },
                 getChartData: function (chartData) {
-                    // console.log("This is chartData")
-                    // console.log(chartData)
+                    console.log("This is chartData")
+                    console.log(chartData)
+
+                    // console.log("should return 1st object")
+                    // console.log(chartData.data[0])
+
+                    // console.log("testing")
+                    // console.log(chartData.data[0]['Programme'])
+                    // console.log(chartData.data[0].Name_of_Exam)
+
+                    console.log(chartData.data[0]['Programme'])
+                    console.log(chartData.data[0].Name_of_Exam)
+                    console.log(this.programme)
 
                     failedResidents = []
 
@@ -287,10 +302,10 @@
                     percentageFailed = 0
 
                     for (var i = 0; i < chartData.data.length; i++) {
-
-                        if (chartData.data[i]['Programme'] == this.programme && chartData.data[i]['Name of Exam'] == "MRCP Part 1") {
+                        if (chartData.data[i]['Programme'].toLowerCase() == this.programme.toLowerCase() && chartData.data[i].Name_of_Exam == "MRCP Part 1") {
+                            console.log("reached here")
                             numOfExamEntries++
-                            if (chartData.data[i]['Exam Status'] == "Pass") {
+                            if (chartData.data[i].Exam_Status == "Pass") {
                                 numOfPasses++
                             }
                             else {
@@ -299,13 +314,19 @@
                         }
 
                     }
+                    console.log(numOfExamEntries)
+                    console.log(numOfPasses)
 
                     percentagePassed = numOfPasses/numOfExamEntries
                     percentageFailed = 1 - percentagePassed
-
-                    this.ChartConfig.datasets[0].data.push(percentagePassed.toFixed(3))
-                    this.ChartConfig.datasets[0].data.push(percentageFailed.toFixed(3))
-
+                    
+                    if (percentagePassed == 1) {
+                        this.ChartConfig.datasets[0].data.push(100)
+                    }
+                    else {
+                        this.ChartConfig.datasets[0].data.push(percentagePassed.toFixed(3))
+                        this.ChartConfig.datasets[0].data.push(percentageFailed.toFixed(3))
+                    }
                 }
             }
         });
@@ -318,7 +339,7 @@
             return {
                 loaded: false,
                 ChartConfig: {
-                labels: ["Passed", "Failed"],
+                labels: ["Passed (%)", "Failed (%)"],
                 datasets: [
                     {
                     data: [],
@@ -370,8 +391,19 @@
                     });
                 },
                 getChartData: function (chartData) {
-                    // console.log("This is chartData")
-                    // console.log(chartData)
+                    console.log("This is chartData")
+                    console.log(chartData)
+
+                    // console.log("should return 1st object")
+                    // console.log(chartData.data[0])
+
+                    // console.log("testing")
+                    // console.log(chartData.data[0]['Programme'])
+                    // console.log(chartData.data[0].Name_of_Exam)
+
+                    console.log(chartData.data[0]['Programme'])
+                    console.log(chartData.data[0].Name_of_Exam)
+                    console.log(this.programme)
 
                     failedResidents = []
 
@@ -381,10 +413,10 @@
                     percentageFailed = 0
 
                     for (var i = 0; i < chartData.data.length; i++) {
-
-                        if (chartData.data[i]['Programme'] == this.programme && chartData.data[i]['Name of Exam'] == "MRCP Part 2a") {
+                        if (chartData.data[i]['Programme'].toLowerCase() == this.programme.toLowerCase() && chartData.data[i].Name_of_Exam == "MRCP Part 2a") {
+                            console.log("reached here")
                             numOfExamEntries++
-                            if (chartData.data[i]['Exam Status'] == "Pass") {
+                            if (chartData.data[i].Exam_Status == "Pass") {
                                 numOfPasses++
                             }
                             else {
@@ -393,12 +425,19 @@
                         }
 
                     }
+                    console.log(numOfExamEntries)
+                    console.log(numOfPasses)
 
                     percentagePassed = numOfPasses/numOfExamEntries
                     percentageFailed = 1 - percentagePassed
 
-                    this.ChartConfig.datasets[0].data.push(percentagePassed.toFixed(3))
-                    this.ChartConfig.datasets[0].data.push(percentageFailed.toFixed(3))
+                    if (percentagePassed == 1) {
+                        this.ChartConfig.datasets[0].data.push(100)
+                    }
+                    else {
+                        this.ChartConfig.datasets[0].data.push(percentagePassed.toFixed(3))
+                        this.ChartConfig.datasets[0].data.push(percentageFailed.toFixed(3))
+                    }
 
                 }
             }
@@ -412,7 +451,7 @@
             return {
                 loaded: false,
                 ChartConfig: {
-                labels: ["Passed", "Failed"],
+                labels: ["Passed (%)", "Failed (%)"],
                 datasets: [
                     {
                     data: [],
@@ -464,8 +503,19 @@
                     });
                 },
                 getChartData: function (chartData) {
-                    // console.log("This is chartData")
-                    // console.log(chartData)
+                    console.log("This is chartData")
+                    console.log(chartData)
+
+                    // console.log("should return 1st object")
+                    // console.log(chartData.data[0])
+
+                    // console.log("testing")
+                    // console.log(chartData.data[0]['Programme'])
+                    // console.log(chartData.data[0].Name_of_Exam)
+
+                    console.log(chartData.data[0]['Programme'])
+                    console.log(chartData.data[0].Name_of_Exam)
+                    console.log(this.programme)
 
                     failedResidents = []
 
@@ -475,10 +525,10 @@
                     percentageFailed = 0
 
                     for (var i = 0; i < chartData.data.length; i++) {
-
-                        if (chartData.data[i]['Programme'] == this.programme && chartData.data[i]['Name of Exam'] == "PACES") {
+                        if (chartData.data[i]['Programme'].toLowerCase() == this.programme.toLowerCase() && chartData.data[i].Name_of_Exam == "PACES") {
+                            console.log("reached here")
                             numOfExamEntries++
-                            if (chartData.data[i]['Exam Status'] == "Pass") {
+                            if (chartData.data[i].Exam_Status == "Pass") {
                                 numOfPasses++
                             }
                             else {
@@ -487,13 +537,18 @@
                         }
 
                     }
+                    console.log(numOfExamEntries)
+                    console.log(numOfPasses)
 
                     percentagePassed = numOfPasses/numOfExamEntries
                     percentageFailed = 1 - percentagePassed
-
-                    this.ChartConfig.datasets[0].data.push(percentagePassed.toFixed(3))
-                    this.ChartConfig.datasets[0].data.push(percentageFailed.toFixed(3))
-
+                    if (percentagePassed == 1) {
+                        this.ChartConfig.datasets[0].data.push(100)
+                    }
+                    else {
+                        this.ChartConfig.datasets[0].data.push(percentagePassed.toFixed(3))
+                        this.ChartConfig.datasets[0].data.push(percentageFailed.toFixed(3))
+                    }
 
                 }
             }
