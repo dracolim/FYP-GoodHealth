@@ -128,19 +128,91 @@
             <option value=""  v-for = "program in programme_values">{{program}}</option>
         </select> -->
 
+        <div id="errorpage" v-if="error">
+            <main class="h-screen w-full flex flex-col justify-center items-center bg-[#1A2238]">
+            <h1 class="text-9xl font-extrabold text-white tracking-widest">404</h1>
+            <div class="bg-[#FF6A3D] px-2 text-lg rounded rotate-12 absolute">
+                Profile not found
+            </div>
+            <!-- <a class="mt-5">
+              <a
+                class="relative inline-block text-sm font-medium text-[#FF6A3D] group active:text-orange-500 focus:outline-none focus:ring"
+              >
+                <span
+                  class="absolute inset-0 transition-transform translate-x-0.5 translate-y-0.5 bg-[#FF6A3D] group-hover:translate-y-0 group-hover:translate-x-0"
+                ></span>
+        
+                <span class="relative block px-8 py-3 bg-[#1A2238] border border-current">
+
+                  <a class="bg-orange-200" href="../tab_pages/personal_details.html">Go Home</a>
+                </span>
+              </a>
+            </a> -->
+            <button class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
+                <a class="" href="../tab_pages/personal_details.html">Go Home</a>
+              </button>
+        </main>
+    </div>
+        <div id="profiletables" class="" v-else>
+
+            <div class="flex items-right justify-end mt-10 mr-10" id="one">
+                <!-- <button type="button" id="loading"
+                    class="hidden inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 text-white transition duration-150 ease-in-out bg-indigo-500 rounded-md shadow cursor-not-allowed hover:bg-indigo-400"
+                    disabled="">
+                    <svg class="w-5 h-5 mr-3 -ml-1 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                    </svg>
+                    Loading...
+                </button> -->
+
+                <a class="py-2 px-2 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold 
+                leading-6 text-gray-700 transition duration-150 ease-in-out bg-gray-300 
+                rounded-md shadow cursor-not-allowed hover:bg-grey-100" 
+                :href="currpage[2] + '/' + mcr_no" target="_blank"  
+                style="margin-right: 5px;">
+                <svg class="hidden fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
+                <span></span> Preview
+            </a>
+    
+                <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold 
+                leading-6 text-white transition duration-150 ease-in-out bg-red-500 
+                rounded-md shadow cursor-not-allowed hover:bg-red-400" 
+                :href="currpage[0] + '/' + mcr_no" target="_blank"  
+                style="margin-right: 5px;">
+                <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
+                <span></span> PDF CV
+            </a>
+    
+            <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 
+            text-white transition duration-150 ease-in-out bg-blue-500 rounded-md shadow 
+            cursor-not-allowed hover:bg-blue-400" 
+                :href="currpage[1] + '/' + mcr_no" target="_blank"  
+                style="margin-right: 5px;">
+                <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
+                <span></span>
+                </button>
+                Word CV
+            </a>
+            </div>
+
+
         <div id="smallertables">
 
         <div id="mainbody" class="flex py-5">
         <div id="leftside" class="md:w-1/2">
 
-            <div class="flex relative width-full mx-8 justify-center mt-10 ">
+            <div class="flex relative width-full mx-8 justify-center ">
                 <!-- h-60 w-96 ml-40 -->
                 <!-- rounded-lg vs rounded-full -->
                 <img class="object-cover w-1/3 shadow-md rounded-full" src="../profileimg/mr101.jpeg">
                 
               </div>
 
-        <!-- Table start -->
+        <!-- Personal details Table start -->
         <div class="relative overflow-x-auto mx-8 mt-5" v-if="profile_data.length != 0">
 
             <p class="underline underline-offset-8 font-bold text-lg mt-10">Personal Details</p>
@@ -184,13 +256,6 @@
                     </tr>
                 </tbody>
             </table>
-
-           
-
-
-        
-
-            
 
         </div>
 
@@ -388,6 +453,356 @@
         </table>
 
 
+        <p class="underline underline-offset-8 font-bold text-lg mt-10">Presentations</p>
+
+        <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100 my-5">
+            <!-- COLUMN NAMES -->
+            <thead class="text-xs text-white bg-orange-500">
+                <th scope="col" class="px-6 py-3" v-for="title in ['Title', 'Conference_Name', 
+                'Type', 'Project_ID', 'Country', 'Presentation_Date']">
+                    <span
+                        class="inline-flex items-center bg-orange-500 text-white focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5">
+                        {{title}}</span>
+                </th>
+            </thead>
+            <tbody>
+                <!-- 1 row = 1 reisdent = 1 key -->
+                <tr class="border" v-for="present in profile_data_original[0].presentations">
+                    <td class="bg-orange-100 text-center px-1 py-4 font-medium text-black">
+                        <p>{{present.Title}}</p>
+                    </td>
+                    <td class="bg-orange-200 border text-black items-center px-6 py-4">
+                        <p>{{present.Conference_Name}}</p>
+                    </td>
+                    <td class="bg-orange-100 border text-black items-center px-6 py-4">
+                        <p>{{present.Type}}</p>
+                    </td>
+                    <td class="bg-orange-200 border text-black items-center px-6 py-4">
+                        <p>{{present.Project_ID}}</p>
+                    </td>
+                    <td class="bg-orange-100 border text-black items-center px-6 py-4">
+                        <p>{{present.Country}}</p>
+                    </td>
+                    <td class="bg-orange-100 border text-black items-center px-6 py-4">
+                        <p>{{present.Presentation_Date}}</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="underline underline-offset-8 font-bold text-lg mt-10">Posting Histories</p>
+        <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100 my-5">
+            <!-- COLUMN NAMES -->
+            <thead class="text-xs text-white bg-orange-500">
+                <th scope="col" class="px-6 py-3" v-for="title in ['Posting_Institution', 
+                'Posting_Department', 'Posting_StartDate', 'Posting_EndDate']">
+                    <span
+                        class="inline-flex items-center bg-orange-500 text-white focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5">
+                        {{title}}</span>
+                </th>
+            </thead>
+            <tbody>
+                <!-- 1 row = 1 reisdent = 1 key -->
+                <tr class="border" v-for="posting in profile_data_original[0].posting_histories">
+
+                    <td class="bg-orange-100 text-center px-1 py-4 font-medium text-black"
+                    v-for="title in ['Posting_Institution', 'Posting_Department', 
+                    'Posting_StartDate', 'Posting_EndDate']">
+                        <p>{{posting[title]}}</p>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+
+        <p class="underline underline-offset-8 font-bold text-lg mt-10">Duty Hour Logs</p>
+        <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100 my-5">
+            <!-- COLUMN NAMES -->
+            <thead class="text-xs text-white bg-orange-500">
+                <th scope="col" class="px-6 py-3" v-for="title in ['Level', 'Submitted', 
+                'Submitted_Proportion', 'MMYYYY', 'Logged_for_month']">
+                    <span
+                        class="inline-flex items-center bg-orange-500 text-white focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5">
+                        {{title}}</span>
+                </th>
+            </thead>
+            <tbody>
+                <!-- 1 row = 1 reisdent = 1 key -->
+                <tr class="border" v-for="posting in profile_data_original[0].duty_hour_logs">
+
+                    <td class="bg-orange-100 text-center px-1 py-4 font-medium text-black"
+                    v-for="title in ['Level', 'Submitted', 'Submitted_Proportion', 
+                    'MMYYYY', 'Logged_for_month']">
+                        <p>{{posting[title]}}</p>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+
+        <p class="underline underline-offset-8 font-bold text-lg mt-10">Exam Histories</p>
+        <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100 my-5">
+            <!-- COLUMN NAMES -->
+            <thead class="text-xs text-white bg-orange-500">
+                <th scope="col" class="px-6 py-3" v-for="title in ['Name_of_Exam', 'Date_of_Attempt', 'Exam_Status']">
+                    <span
+                        class="inline-flex items-center bg-orange-500 text-white focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5">
+                        {{title}}</span>
+                </th>
+            </thead>
+            <tbody>
+                <!-- 1 row = 1 reisdent = 1 key -->
+                <tr class="border" v-for="posting in profile_data_original[0].exam_histories">
+
+                    <td class="bg-orange-100 text-center px-1 py-4 font-medium text-black"
+                    v-for="title in ['Name_of_Exam', 'Date_of_Attempt', 'Exam_Status']">
+                        <p>{{posting[title]}}</p>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+
+        <p class="underline underline-offset-8 font-bold text-lg mt-10">Publications</p>
+        <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100 my-5">
+            <!-- COLUMN NAMES -->
+            <thead class="text-xs text-white bg-orange-500">
+                <th scope="col" class="px-6 py-3" v-for="title in ['Publication_Title', 
+                'Journal_Title', 'PMID', 'Publication_Date']">
+                    <span
+                        class="inline-flex items-center bg-orange-500 text-white focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5">
+                        {{title}}</span>
+                </th>
+            </thead>
+            <tbody>
+                <!-- 1 row = 1 reisdent = 1 key -->
+                <tr class="border" v-for="posting in profile_data_original[0].publications">
+
+                    <td class="bg-orange-100 text-center px-1 py-4 font-medium text-black"
+                    v-for="title in ['Publication_Title', 'Journal_Title', 'PMID', 
+                    'Publication_Date']">
+                        <p>{{posting[title]}}</p>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="underline underline-offset-8 font-bold text-lg mt-10">Evaluations</p>
+        <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100 my-5">
+            <!-- COLUMN NAMES -->
+            <thead class="text-xs text-white bg-orange-500">
+                <th scope="col" class="px-6 py-3" v-for="title in ['Year_of_Training', 
+                'Rotation_Period', 'Name_of_Evaluation_Form',
+                'Question_Number', 'Score', 'Evaluator', 'Service', 'Answer']">
+                    <span
+                        class="inline-flex items-center bg-orange-500 text-white focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5">
+                        {{title}}</span>
+                </th>
+            </thead>
+            <tbody>
+                <!-- 1 row = 1 reisdent = 1 key -->
+                <tr class="border" v-for="item in profile_data_original[0].evaluations">
+
+                    <td class="bg-orange-100 text-center px-1 py-4 font-medium text-black"
+                    v-for="title in ['Year_of_Training', 'Rotation_Period', 
+                    'Name_of_Evaluation_Form', 'Question_Number', 'Score', 
+                    'Evaluator', 'Service', 'Answer']">
+                        <p>{{item[title]}}</p>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+
+        <p class="underline underline-offset-8 font-bold text-lg mt-10">Trg ExtRem Histories</p>
+        <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100 my-5">
+            <!-- COLUMN NAMES -->
+            <thead class="text-xs text-white bg-orange-500">
+                <th scope="col" class="px-6 py-3" v-for="title in ['LOAPIP', 
+                'StartDate', 'EndDate']">
+                    <span
+                        class="inline-flex items-center bg-orange-500 text-white focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5">
+                        {{title}}</span>
+                </th>
+            </thead>
+            <tbody>
+                <!-- 1 row = 1 reisdent = 1 key -->
+                <tr class="border" v-for="item in profile_data_original[0].trgExtRem_Histories">
+
+                    <td class="bg-orange-100 text-center px-1 py-4 font-medium text-black"
+                    v-for="title in ['LOAPIP', 'StartDate', 'EndDate']">
+                        <p>{{item[title]}}</p>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="underline underline-offset-8 font-bold text-lg mt-10">Projects</p>
+        <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100 my-5">
+            <!-- COLUMN NAMES -->
+            <thead class="text-xs text-white bg-orange-500">
+                <th scope="col" class="px-6 py-3" v-for="title in ['Project_Type', 
+                'Project_Title', 'Project_ID', 'Start_Date', 'End_Date', 
+                'Date_of_QI_Certification', 'PMID']">
+                    <span
+                        class="inline-flex items-center bg-orange-500 text-white focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5">
+                        {{title}}</span>
+                </th>
+            </thead>
+            <tbody>
+                <!-- 1 row = 1 reisdent = 1 key -->
+                <tr class="border" v-for="item in profile_data_original[0].projects">
+
+                    <td class="bg-orange-100 text-center px-1 py-4 font-medium text-black"
+                    v-for="title in ['Project_Type', 'Project_Title', 'Project_ID', 
+                    'Start_Date', 'End_Date', 'Date_of_QI_Certification', 'PMID']">
+                        <p>{{item[title]}}</p>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+
+        <p class="underline underline-offset-8 font-bold text-lg mt-10">Grants</p>
+        <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100 my-5">
+            <!-- COLUMN NAMES -->
+            <thead class="text-xs text-white bg-orange-500">
+                <th scope="col" class="px-6 py-3" v-for="title in ['Name_of_Grant', 
+                'Project_Title', 'Project_ID', 'Grant_End_Date', 'Grant_Start_Date']">
+                    <span
+                        class="inline-flex items-center bg-orange-500 text-white focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5">
+                        {{title}}</span>
+                </th>
+            </thead>
+            <tbody>
+                <!-- 1 row = 1 reisdent = 1 key -->
+                <tr class="border" v-for="item in profile_data_original[0].grants">
+
+                    <td class="bg-orange-100 text-center px-1 py-4 font-medium text-black"
+                    v-for="title in ['Name_of_Grant', 'Project_Title', 'Project_ID', 
+                    'Grant_End_Date', 'Grant_Start_Date']">
+                        <p>{{item[title]}}</p>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="underline underline-offset-8 font-bold text-lg mt-10">IHIs</p>
+        <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100 my-5">
+            <!-- COLUMN NAMES -->
+            <thead class="text-xs text-white bg-orange-500">
+                <th scope="col" class="px-6 py-3" v-for="title in ['Completion_of_Emodules', 'Date']">
+                    <span
+                        class="inline-flex items-center bg-orange-500 text-white focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5">
+                        {{title}}</span>
+                </th>
+            </thead>
+            <tbody>
+                <!-- 1 row = 1 reisdent = 1 key -->
+                <tr class="border" v-for="item in profile_data_original[0].grants">
+
+                    <td class="bg-orange-100 text-center px-1 py-4 font-medium text-black"
+                    v-for="title in ['Completion_of_Emodules', 'Date']">
+                        <p>{{item[title]}}</p>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="underline underline-offset-8 font-bold text-lg mt-10">Involvements</p>
+        <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100 my-5">
+            <!-- COLUMN NAMES -->
+            <thead class="text-xs text-white bg-orange-500">
+                <th scope="col" class="px-6 py-3" v-for="title in ['Involvement_Type', 
+                'Event', 'Role', 'Start_Date', 'End_Date']">
+                    <span
+                        class="inline-flex items-center bg-orange-500 text-white focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5">
+                        {{title}}</span>
+                </th>
+            </thead>
+            <tbody>
+                <!-- 1 row = 1 reisdent = 1 key -->
+                <tr class="border" v-for="item in profile_data_original[0].involvements">
+
+                    <td class="bg-orange-100 text-center px-1 py-4 font-medium text-black"
+                    v-for="title in ['Involvement_Type', 'Event', 'Role', 'Start_Date', 'End_Date']">
+                        <p>{{item[title]}}</p>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+
+        <p class="underline underline-offset-8 font-bold text-lg mt-10">Didactic Attendence</p>
+        <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100 my-5">
+            <!-- COLUMN NAMES -->
+            <thead class="text-xs text-white bg-orange-500">
+                <th scope="col" class="px-6 py-3" v-for="title in ['Month', 
+                'Total_tracked_sessions', 'Number_of_sessions_attended', 'MmYyyy', 
+                'Percentage_of_sessions_attended', 'Compliance_or_Not']">
+                    <span
+                        class="inline-flex items-center bg-orange-500 text-white focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5">
+                        {{title}}</span>
+                </th>
+            </thead>
+            <tbody>
+                <!-- 1 row = 1 reisdent = 1 key -->
+                <tr class="border" v-for="item in profile_data_original[0].didactic_attendance">
+
+                    <td class="bg-orange-100 text-center px-1 py-4 font-medium text-black"
+                    v-for="title in ['Month', 'Total_tracked_sessions', 
+                    'Number_of_sessions_attended', 'MmYyyy', 
+                    'Percentage_of_sessions_attended', 'Compliance_or_Not']">
+                        <p>{{item[title]}}</p>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="underline underline-offset-8 font-bold text-lg mt-10">Education History</p>
+        <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100 my-5">
+            <!-- COLUMN NAMES -->
+            <thead class="text-xs text-white bg-orange-500">
+                <th scope="col" class="px-6 py-3" v-for="title in [
+                'Year_of_Graduation', 'Date_of_Graduation', 'Basic_Qualification',
+                'Medical_School', 'Country_of_Graduation', 'IM_Residency_Start_Date',
+                'IM_Residency_End_Date', 'SR_Residency_Programme', 'SR_Residency_Start_Date',
+                'SR_Residency_End_Date', 'PG_Year']">
+                    <span
+                        class="inline-flex items-center bg-orange-500 text-white focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5">
+                        {{title}}</span>
+                </th>
+            </thead>
+            <tbody>
+                <!-- 1 row = 1 reisdent = 1 key -->
+                <tr class="border" v-for="item in profile_data_original[0].education_history">
+
+                    <td class="bg-orange-100 text-center px-1 py-4 font-medium text-black"
+                    v-for="title in [
+                    'Year_of_Graduation', 'Date_of_Graduation', 'Basic_Qualification',
+                    'Medical_School', 'Country_of_Graduation', 'IM_Residency_Start_Date',
+                    'IM_Residency_End_Date', 'SR_Residency_Programme', 'SR_Residency_Start_Date',
+                    'SR_Residency_End_Date', 'PG_Year'
+                    ]">
+                        <p>{{item[title]}}</p>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+
 
 
         <div role="status" class="mb-10">
@@ -398,37 +813,16 @@
             <span class="sr-only">Loading...</span>
         </div>
 
-        <div class="flex items-center justify-center">
-            <button type="button" id="loading" @click="download"
-                class="hidden inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 text-white transition duration-150 ease-in-out bg-indigo-500 rounded-md shadow cursor-not-allowed hover:bg-indigo-400"
-                disabled="">
-                <svg class="w-5 h-5 mr-3 -ml-1 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                    </path>
-                </svg>
-                Loading...
-            </button>
 
-                <button type="button" value="download" v-on:click="download" id='submit'
-                class="mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 text-white transition duration-150 ease-in-out bg-orange-500 rounded-md shadow cursor-not-allowed hover:bg-orange-400"
-                >
-                Export Profile as Word
-            </button>
-            <!-- <a class="btn btn-success" href="{{url_for('download')}}">Download</a> -->
-            <a class="btn btn-success" href="http://127.0.0.1:5011/personaldetails_cv_generate/M65889A">Download</a>
-
-
-
-        </div>
 
 
 
     </div>
+</div>
 
     </div>
+
+    <!-- end of profiles div -->
 
 </div>
 
@@ -450,24 +844,41 @@
             profile_data: [],
             val: " ",
             contact_details: [],
-            employer_details: []
+            employer_details: [],
+            error: false,
+            mcr_no:[""],
+            currpage: ["http://127.0.0.1:5011/cv_pdf/", "http://127.0.0.1:5011/cv_word/", "http://127.0.0.1:5011/preview/"]
         },
         mounted: async function () {
             const queryString = window.location.search;
-            console.log("this is the mcr_no:", queryString.substring(8))
-            const API_URL_1_old = 'http://127.0.0.1:5011/profile/M16782H';
+            error = true;
+            if (queryString.length >= 7){
+                error = false;
+            }
+            this.error = error;
+            if (this.error){
+                return
+            }
+            // const API_URL_1_old = 'http://127.0.0.1:5011/profile/M16782H';
             const API_URL_1 = 'http://127.0.0.1:5011/profile/' + queryString.substring(8);
-
+            
             const apiCalls = [
-                axios.get(API_URL_1_old),
-                // axios.get(API_URL_2),
+                axios.get(API_URL_1)
             ];
             let personalProfile = {}
-            Promise.all(apiCalls)
+            let currpage = this.currpage[0]
+            let mcr_no = "";
+            error = false;
+            await Promise.all(apiCalls)
                 .then(responses => {
                     personalProfile = responses[0].data
                     this.profile_data_original.push(responses[0].data.data)
+                    
+                    console.log("case logs:",responses[0].data.data)
                     let object = responses[0].data.data.personaldetails
+                    console.log("object:", object)
+                    currpage = currpage + responses[0].data.data.personaldetails.MCR_No
+                    this.mcr_no = responses[0].data.data.personaldetails.MCR_No;
 
                     picked = (({ Staff_Name, Nationality, Date_of_Birth, Gender, BCLS_Expiry_Date, ACLS_Expiry_Date }) => 
                     ({ Staff_Name, Nationality, Date_of_Birth, Gender, BCLS_Expiry_Date, ACLS_Expiry_Date }))(object);
@@ -483,128 +894,14 @@
                 })
                 .catch(error => {
                     console.error(error);
+                    error = true;
                 });
-                
-            // this.profile_data = personalProfile;
+            this.mcr_no.pop()
+            this.mcr_no.push(mcr_no)
+            this.error = error;
             console.log("profile: ", this.profile_data);
         },
         methods: {
-            download(){
-                // e.preventDefault();
-                console.log("download now");
-                // var axios = require('axios');
-
-                    var config = {
-                    method: 'get',
-                    maxBodyLength: Infinity,
-                    url: 'http://127.0.0.1:5011/personaldetails_cv_generate/M65889A',
-                    headers: { },
-                    responseType: 'blob',
-
-                    };
-
-                    // axios(config)
-                    // .then(function (response) {
-                    // console.log(JSON.stringify(response.data));
-                    // })
-                    // .catch(function (error) {
-                    // console.log(error);
-                    // });
-
-    //                 const options={
-    //     method: "POST",
-    //     body: JSON.stringify(json),
-    //     headers:{
-    //         'Content-Type':'application/json',
-    //     }
-    // };
-
-    fetch(config)
-        .then(res=>{
-            return res.blob();
-        }).then(blob=>{
-            download(blob)
-        }).catch(err=>console.log(err));
-
-//                     axios.post('download', {
-//     responseType: 'blob',
-// })
-// .then((res) => {})
-
-
-            },
-            importExcel(event) {
-                this.file = event.target.files ? event.target.files[0] : null;
-                const wb = new Excel.Workbook();
-                const reader = new FileReader()
-
-                reader.readAsArrayBuffer(this.file)
-                reader.onload = () => {
-                    const buffer = reader.result;
-                    wb.xlsx.load(buffer).then(workbook => {
-                        //console.log(workbook, 'workbook instance')
-                        workbook.eachSheet((sheet, id) => {
-                            console.log(sheet.name) //sheet name (eg: personal details)
-                            if (sheet.name == "Personal Details") {
-                                sheet.eachRow((row, rowIndex) => {
-                                    if (rowIndex != 1) {
-                                        console.log(row.values)
-                                        var url =
-                                            'http://localhost:5010/personal_detail'
-                                        axios.post(url, {
-                                                Employee_id: row.values[1],
-                                                MCR_No: row.values[2],
-                                                Staff_Name: row.values[3],
-                                                Designation: row.values[4],
-
-                                                Programme: row.values[5],
-                                                Year_of_Training: row.values[6],
-                                                Academic_Year: row.values[7],
-                                                Department: row.values[8],
-
-                                                Institution: row.values[9],
-                                                Academic_Clinical_Programme: row.values[10],
-                                                Employment_Status: row.values[11],
-                                                Nationality: row.values[12],
-                                                Date_of_Birth: row.values[13],
-
-                                                Gender: row.values[14],
-                                                Registration_Type: row.values[15],
-                                                House_Blk_No: row.values[16],
-                                                Street: row.values[17],
-                                                Building_Name: row.values[18],
-
-                                                Unit_No: row.values[19],
-                                                Postal_Code: row.values[20],
-                                                Contact_No_Work: row.values[21],
-                                                Contact_No_Personal: row.values[22],
-
-                                                Email_Official: row.values[23],
-                                                Email_Personal: row.values[24],
-                                                BCLS_Expiry_Date: row.values[25],
-                                                ACLS_Expiry_Date: row.values[26],
-                                                Covid_19_Vaccination_Status: row.values[27],
-                                                Date_of_First_Dose: row.values[28],
-                                                Date_of_Second_Dose: row.values[29],
-                                                Vaccination_Remarks: row.values[30]
-                                            })
-                                            .then(response => {
-                                                console.log(response.data)
-                                            })
-                                            .catch(error => {
-                                                this.error = error.response.data
-                                                    .message
-                                            });
-                                    }
-                                })
-                            }
-                            else{
-                                console.log('hi')
-                            }
-                        })
-                    })
-                }
-            },
         }
     });
 </script>
