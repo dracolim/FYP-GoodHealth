@@ -2578,7 +2578,13 @@ def generate_cv(id):
     path = os.getcwd() + "/cv/cv.pdf"
     return send_file(path, as_attachment=True)
 
-def generatepdf(id):
+# Preview CV pdf:
+@app.route("/preview/<id>")
+def preview(id):
+    page = getCompletePage(id)
+    return page
+
+def getCompletePage(id):
     person = Personal_Details.query.get_or_404(id)
     presentations = person.presentations
     posting_histories = person.posting_histories
@@ -2614,6 +2620,11 @@ def generatepdf(id):
     page = getPage(name, mcrno, awardsRows, projectRows, educationalInvolvements, communityInvolvements,
         leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentationRows,teachingPresentationRows,
         publicationRows,patientSafetyQIRows)
+    return page
+
+def generatepdf(id):
+    
+    page = getCompletePage(id)
 
     folder = "./cv/"
     html_file_name = folder + "cv.html"

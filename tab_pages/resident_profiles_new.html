@@ -168,8 +168,17 @@
                     </svg>
                     Loading...
                 </button> -->
+
+                <a class="py-2 px-2 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold 
+                leading-6 text-gray-700 transition duration-150 ease-in-out bg-gray-300 
+                rounded-md shadow cursor-not-allowed hover:bg-grey-100" 
+                :href="currpage[2] + '/' + mcr_no" target="_blank"  
+                style="margin-right: 5px;">
+                <svg class="hidden fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
+                <span></span> Preview
+            </a>
     
-                <a class="mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold 
+                <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold 
                 leading-6 text-white transition duration-150 ease-in-out bg-red-500 
                 rounded-md shadow cursor-not-allowed hover:bg-red-400" 
                 :href="currpage[0] + '/' + mcr_no" target="_blank"  
@@ -838,7 +847,7 @@
             employer_details: [],
             error: false,
             mcr_no:[""],
-            currpage: ["http://127.0.0.1:5011/cv_pdf/", "http://127.0.0.1:5011/cv_word/"]
+            currpage: ["http://127.0.0.1:5011/cv_pdf/", "http://127.0.0.1:5011/cv_word/", "http://127.0.0.1:5011/preview/"]
         },
         mounted: async function () {
             const queryString = window.location.search;
@@ -859,6 +868,7 @@
             let personalProfile = {}
             let currpage = this.currpage[0]
             let mcr_no = "";
+            error = false;
             await Promise.all(apiCalls)
                 .then(responses => {
                     personalProfile = responses[0].data
@@ -884,9 +894,11 @@
                 })
                 .catch(error => {
                     console.error(error);
+                    error = true;
                 });
             this.mcr_no.pop()
             this.mcr_no.push(mcr_no)
+            this.error = error;
             console.log("profile: ", this.profile_data);
         },
         methods: {
