@@ -20,16 +20,16 @@ app.app_context().push()
 
 if __name__ == '__main__':
 #     # Mac user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-    #                                     '@localhost:3306/SingHealth'
-    # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+                                        '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
     # --------------------------------------------------------------------------------
 
     # # Windows user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
-                                            '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
+    #                                         '@localhost:3306/SingHealth'
+    # engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
 
     # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -2623,8 +2623,6 @@ def generatepdf(id):
     from pathlib import Path
     input = Path(html_file_name)
     pdfkit.from_file(html_file_name, folder +'cv.pdf')
-
-    # return send_file(path, as_attachment=True)
 
 db.create_all()
 
