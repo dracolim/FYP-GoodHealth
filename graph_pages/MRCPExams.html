@@ -129,7 +129,7 @@
                 <input v-model="programme" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Programme Here">
 
                 <button @click="getExamsData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
-                    Get Programme's Part 1 Exam Info
+                    Get Programme's Exam Info
                 </button> 
 
                 <v-row dense>
@@ -142,12 +142,6 @@
             </div>
 
             <div id="app2">
-                <input v-model="programme" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Programme Here">
-
-                <button @click="getExamsData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
-                    Get Programme's Part 2a Exam Info
-                </button> 
-
                 <v-row dense>
                   <v-col cols="sm">
                     <v-card class="pa-2 pt-5 pb-6" outlined tile raised>
@@ -158,12 +152,6 @@
             </div>
 
             <div id="app3">
-                <input v-model="programme" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Programme Here">
-
-                <button @click="getExamsData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
-                    Get PACES Exam Info
-                </button> 
-
                 <v-row dense>
                   <v-col cols="sm">
                     <v-card class="pa-2 pt-5 pb-6" outlined tile raised>
@@ -220,7 +208,7 @@
         })
 
         //MRCP Exams Part 1
-        new Vue({
+        var firstInstance = new Vue({
             el: "#app",
             vuetify: new Vuetify(),
             data() {
@@ -268,17 +256,19 @@
                     this.status = "getting data...";
 
                     await axios.get("http://localhost:5011/history_exams").then((response) => {
-                    console.log("Reached method 1")
                     console.log("This is responseData")
                     console.log(response.data)
 
                     this.getChartData(response.data);
                     this.loaded = true
+                    secondInstance.loaded = true
+                    thirdInstance.loaded = true
+                    
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
-                },
+                },                
                 getChartData: function (chartData) {
                     console.log("This is chartData")
                     console.log(chartData)
@@ -294,49 +284,162 @@
                     console.log(chartData.data[0].Name_of_Exam)
                     console.log(this.programme)
 
-                    failedResidents = []
+                    failedMRCP1Residents = []
+                    failedMRCP2aResidents = []
+                    failedPACESResidents = []
 
-                    numOfExamEntries = 0
-                    numOfPasses = 0
-                    percentagePassed = 0
-                    percentageFailed = 0
+                    numOfMRCP1ExamEntries = 0
+                    numOfMRCP1Passes = 0
+                    MRCP1PercentagePassed = 0
+                    MRCP1PercentageFailed = 0
+
+                    numOfMRCP2aExamEntries = 0
+                    numOfMRCP2aPasses = 0
+                    MRCP2aPercentagePassed = 0
+                    MRCP2aPercentageFailed = 0
+
+                    numOfPACESExamEntries = 0
+                    numOfPACESPasses = 0
+                    PACESPercentagePassed = 0
+                    PACESPercentageFailed = 0
 
                     for (var i = 0; i < chartData.data.length; i++) {
                         if (chartData.data[i]['Programme'].toLowerCase() == this.programme.toLowerCase() && chartData.data[i].Name_of_Exam == "MRCP Part 1") {
-                            console.log("reached here")
-                            numOfExamEntries++
+                            // console.log("reached MRCP Part 1")
+                            numOfMRCP1ExamEntries++
+
                             if (chartData.data[i].Exam_Status == "Pass") {
-                                numOfPasses++
+                                numOfMRCP1Passes++
                             }
+
                             else {
-                                failedResidents.push(chartData.data[i]) //push resident object here for possible future use
+                                //check if this resident has attempted again and passed
+                                foundPassAttempt = false
+
+                                for (var j = 0; j < chartData.data.length; j++) {
+                                    if (chartData.data[i].MCR_No == chartData.data[j].MCR_No && chartData.data[j].Name_of_Exam == "MRCP Part 1" && chartData.data[j].Exam_Status == "Pass") {
+                                        foundPassAttempt == true
+                                        numOfMRCP1Passes++
+                                    }
+                                }   
+
+                                if (foundPassAttempt == false) {
+                                    failedMRCP1Residents.push(chartData.data[i]) //push resident object here for possible future use
+                                }
+
+                            }
+                        }
+
+                        else if (chartData.data[i]['Programme'].toLowerCase() == this.programme.toLowerCase() && chartData.data[i].Name_of_Exam == "MRCP Part 2a") {
+                            // console.log("reached MRCP Part 2a")
+                            numOfMRCP2aExamEntries++
+
+                            if (chartData.data[i].Exam_Status == "Pass") {
+                                numOfMRCP2aPasses++
+                            }
+
+                            else {
+                                //check if this resident has attempted again and passed
+                                foundPassAttempt = false
+
+                                for (var j = 0; j < chartData.data.length; j++) {
+                                    if (chartData.data[i].MCR_No == chartData.data[j].MCR_No && chartData.data[j].Name_of_Exam == "MRCP Part 2a" && chartData.data[j].Exam_Status == "Pass") {
+                                        foundPassAttempt == true
+                                        numOfMRCP2aPasses++
+                                    }
+                                }   
+
+                                if (foundPassAttempt == false) {
+                                    failedMRCP2aResidents.push(chartData.data[i]) //push resident object here for possible future use
+                                }   
+
+                            }
+                        }
+                        else if (chartData.data[i]['Programme'].toLowerCase() == this.programme.toLowerCase() && chartData.data[i].Name_of_Exam == "PACES") {
+                            // console.log("reached PACES")
+                            numOfPACESExamEntries++
+
+                            if (chartData.data[i].Exam_Status == "Pass") {
+                                numOfPACESPasses++
+                            }
+                            
+                            else {
+                                //check if this resident has attempted again and passed
+                                foundPassAttempt = false
+
+                                for (var j = 0; j < chartData.data.length; j++) {
+                                    if (chartData.data[i].MCR_No == chartData.data[j].MCR_No && chartData.data[j].Name_of_Exam == "PACES" && chartData.data[j].Exam_Status == "Pass") {
+                                        foundPassAttempt == true
+                                        numOfPACESPasses++
+                                    }
+                                }   
+
+                                if (foundPassAttempt == false) {
+                                    failedPACESResidents.push(chartData.data[i]) //push resident object here for possible future use
+                                }       
+
                             }
                         }
 
                     }
-                    console.log(numOfExamEntries)
-                    console.log(numOfPasses)
 
-                    percentagePassed = numOfPasses/numOfExamEntries
-                    percentageFailed = 1 - percentagePassed
+                    MRCP1PercentagePassed = numOfMRCP1Passes/numOfMRCP1ExamEntries
+                    MRCP1PercentageFailed = 1 - MRCP1PercentagePassed
+
+                    MRCP2aPercentagePassed = numOfMRCP2aPasses/numOfMRCP2aExamEntries
+                    MRCP2aPercentageFailed = 1 - MRCP2aPercentagePassed
+
+                    PACESPercentagePassed = numOfPACESPasses/numOfPACESExamEntries
+                    PACESPercentageFailed = 1 - PACESPercentagePassed
                     
-                    if (percentagePassed == 1) {
+                    // console.log("number of PACES entries")
+                    // console.log(numOfPACESExamEntries)
+
+                    // console.log("number of PACES passes")
+                    // console.log(numOfPACESPasses)
+
+                    // console.log("PACES percentage passed")
+                    // console.log(PACESPercentagePassed)
+
+                    // console.log(failedPACESResidents)
+                    
+                    if (MRCP1PercentagePassed == 1) {
                         this.ChartConfig.datasets[0].data.push(100)
                     }
                     else {
-                        this.ChartConfig.datasets[0].data.push(percentagePassed.toFixed(3))
-                        this.ChartConfig.datasets[0].data.push(percentageFailed.toFixed(3))
+                        this.ChartConfig.datasets[0].data.push(MRCP1PercentagePassed.toFixed(3))
+                        this.ChartConfig.datasets[0].data.push(MRCP1PercentageFailed.toFixed(3))
                     }
+
+
+                    if (MRCP2aPercentagePassed == 1) {
+                        secondInstance.ChartConfig.datasets[0].data.push(100)
+                    }
+                    else {
+                        secondInstance.ChartConfig.datasets[0].data.push(MRCP2aPercentagePassed.toFixed(3))
+                        secondInstance.ChartConfig.datasets[0].data.push(MRCP2aPercentageFailed.toFixed(3))
+                    }
+
+
+                    if (PACESPercentagePassed == 1) {
+                        thirdInstance.ChartConfig.datasets[0].data.push(100)
+                    }
+                    else {
+                        thirdInstance.ChartConfig.datasets[0].data.push(PACESPercentagePassed.toFixed(3))
+                        thirdInstance.ChartConfig.datasets[0].data.push(PACESPercentageFailed.toFixed(3))
+                    }
+
                 }
             }
         });
 
         //MRCP Exams Part 2a
-        new Vue({
+        var secondInstance = new Vue({
             el: "#app2",
             vuetify: new Vuetify(),
             data() {
             return {
+                programme: "",
                 loaded: false,
                 ChartConfig: {
                 labels: ["Passed (%)", "Failed (%)"],
@@ -372,83 +475,16 @@
             mounted: function () {
                 this.loaded = false
                 // this.getExamsData();
-                },
-            methods: {
-                getExamsData: async function () {
-
-                    this.status = "getting data...";
-
-                    await axios.get("http://localhost:5011/history_exams").then((response) => {
-                    console.log("Reached method 2")
-                    console.log("This is responseData")
-                    console.log(response.data)
-
-                    this.getChartData(response.data);
-                    this.loaded = true
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-                },
-                getChartData: function (chartData) {
-                    console.log("This is chartData")
-                    console.log(chartData)
-
-                    // console.log("should return 1st object")
-                    // console.log(chartData.data[0])
-
-                    // console.log("testing")
-                    // console.log(chartData.data[0]['Programme'])
-                    // console.log(chartData.data[0].Name_of_Exam)
-
-                    console.log(chartData.data[0]['Programme'])
-                    console.log(chartData.data[0].Name_of_Exam)
-                    console.log(this.programme)
-
-                    failedResidents = []
-
-                    numOfExamEntries = 0
-                    numOfPasses = 0
-                    percentagePassed = 0
-                    percentageFailed = 0
-
-                    for (var i = 0; i < chartData.data.length; i++) {
-                        if (chartData.data[i]['Programme'].toLowerCase() == this.programme.toLowerCase() && chartData.data[i].Name_of_Exam == "MRCP Part 2a") {
-                            console.log("reached here")
-                            numOfExamEntries++
-                            if (chartData.data[i].Exam_Status == "Pass") {
-                                numOfPasses++
-                            }
-                            else {
-                                failedResidents.push(chartData.data[i]) //push resident object here for possible future use
-                            }
-                        }
-
-                    }
-                    console.log(numOfExamEntries)
-                    console.log(numOfPasses)
-
-                    percentagePassed = numOfPasses/numOfExamEntries
-                    percentageFailed = 1 - percentagePassed
-
-                    if (percentagePassed == 1) {
-                        this.ChartConfig.datasets[0].data.push(100)
-                    }
-                    else {
-                        this.ChartConfig.datasets[0].data.push(percentagePassed.toFixed(3))
-                        this.ChartConfig.datasets[0].data.push(percentageFailed.toFixed(3))
-                    }
-
                 }
-            }
         });
         
         //MRCP Exams PACES
-        new Vue({
+        var thirdInstance = new Vue({
             el: "#app3",
             vuetify: new Vuetify(),
             data() {
             return {
+                programme: "",
                 loaded: false,
                 ChartConfig: {
                 labels: ["Passed (%)", "Failed (%)"],
@@ -484,74 +520,7 @@
             mounted: function () {
                 this.loaded = false
                 // this.getExamsData();
-                },
-            methods: {
-                getExamsData: async function () {
-
-                    this.status = "getting data...";
-
-                    await axios.get("http://localhost:5011/history_exams").then((response) => {
-                    console.log("Reached method 3")
-                    console.log("This is responseData")
-                    console.log(response.data)
-
-                    this.getChartData(response.data);
-                    this.loaded = true
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-                },
-                getChartData: function (chartData) {
-                    console.log("This is chartData")
-                    console.log(chartData)
-
-                    // console.log("should return 1st object")
-                    // console.log(chartData.data[0])
-
-                    // console.log("testing")
-                    // console.log(chartData.data[0]['Programme'])
-                    // console.log(chartData.data[0].Name_of_Exam)
-
-                    console.log(chartData.data[0]['Programme'])
-                    console.log(chartData.data[0].Name_of_Exam)
-                    console.log(this.programme)
-
-                    failedResidents = []
-
-                    numOfExamEntries = 0
-                    numOfPasses = 0
-                    percentagePassed = 0
-                    percentageFailed = 0
-
-                    for (var i = 0; i < chartData.data.length; i++) {
-                        if (chartData.data[i]['Programme'].toLowerCase() == this.programme.toLowerCase() && chartData.data[i].Name_of_Exam == "PACES") {
-                            console.log("reached here")
-                            numOfExamEntries++
-                            if (chartData.data[i].Exam_Status == "Pass") {
-                                numOfPasses++
-                            }
-                            else {
-                                failedResidents.push(chartData.data[i]) //push resident object here for possible future use
-                            }
-                        }
-
-                    }
-                    console.log(numOfExamEntries)
-                    console.log(numOfPasses)
-
-                    percentagePassed = numOfPasses/numOfExamEntries
-                    percentageFailed = 1 - percentagePassed
-                    if (percentagePassed == 1) {
-                        this.ChartConfig.datasets[0].data.push(100)
-                    }
-                    else {
-                        this.ChartConfig.datasets[0].data.push(percentagePassed.toFixed(3))
-                        this.ChartConfig.datasets[0].data.push(percentageFailed.toFixed(3))
-                    }
-
                 }
-            }
         });
     </script>
 </body>
