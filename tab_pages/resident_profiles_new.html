@@ -406,9 +406,6 @@
             </tbody>
         </table>
 
-
-
-
         <div role="status" class="mb-10">
             <svg aria-hidden="true" class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-orange-600 hidden" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
@@ -504,7 +501,6 @@
                     let object = responses[0].data.data.personaldetails
                     console.log("object:", object)
                     currpage = currpage + responses[0].data.data.personaldetails.MCR_No
-                    // console.log("new mcr no", currpage)
                     this.mcr_no = responses[0].data.data.personaldetails.MCR_No;
 
                     picked = (({ Staff_Name, Nationality, Date_of_Birth, Gender, BCLS_Expiry_Date, ACLS_Expiry_Date }) => 
@@ -522,133 +518,11 @@
                 .catch(error => {
                     console.error(error);
                 });
-            // this.currpage[0] = currpage;
-            // this.currpage.pop()
-            // this.currpage.push(currpage)
             this.mcr_no.pop()
             this.mcr_no.push(mcr_no)
-            console.log("updated:", this.currpage)
-                
-            // this.profile_data = personalProfile;
             console.log("profile: ", this.profile_data);
         },
         methods: {
-            download(){
-                // e.preventDefault();
-                console.log("download now");
-                // var axios = require('axios');
-
-                    var config = {
-                    method: 'get',
-                    maxBodyLength: Infinity,
-                    url: 'http://127.0.0.1:5011/personaldetails_cv_generate/M65889A',
-                    headers: { },
-                    responseType: 'blob',
-
-                    };
-
-                    // axios(config)
-                    // .then(function (response) {
-                    // console.log(JSON.stringify(response.data));
-                    // })
-                    // .catch(function (error) {
-                    // console.log(error);
-                    // });
-
-    //                 const options={
-    //     method: "POST",
-    //     body: JSON.stringify(json),
-    //     headers:{
-    //         'Content-Type':'application/json',
-    //     }
-    // };
-
-    fetch(config)
-        .then(res=>{
-            return res.blob();
-        }).then(blob=>{
-            download(blob)
-        }).catch(err=>console.log(err));
-
-//                     axios.post('download', {
-//     responseType: 'blob',
-// })
-// .then((res) => {})
-
-
-            },
-            importExcel(event) {
-                this.file = event.target.files ? event.target.files[0] : null;
-                const wb = new Excel.Workbook();
-                const reader = new FileReader()
-
-                reader.readAsArrayBuffer(this.file)
-                reader.onload = () => {
-                    const buffer = reader.result;
-                    wb.xlsx.load(buffer).then(workbook => {
-                        //console.log(workbook, 'workbook instance')
-                        workbook.eachSheet((sheet, id) => {
-                            console.log(sheet.name) //sheet name (eg: personal details)
-                            if (sheet.name == "Personal Details") {
-                                sheet.eachRow((row, rowIndex) => {
-                                    if (rowIndex != 1) {
-                                        console.log(row.values)
-                                        var url =
-                                            'http://localhost:5010/personal_detail'
-                                        axios.post(url, {
-                                                Employee_id: row.values[1],
-                                                MCR_No: row.values[2],
-                                                Staff_Name: row.values[3],
-                                                Designation: row.values[4],
-
-                                                Programme: row.values[5],
-                                                Year_of_Training: row.values[6],
-                                                Academic_Year: row.values[7],
-                                                Department: row.values[8],
-
-                                                Institution: row.values[9],
-                                                Academic_Clinical_Programme: row.values[10],
-                                                Employment_Status: row.values[11],
-                                                Nationality: row.values[12],
-                                                Date_of_Birth: row.values[13],
-
-                                                Gender: row.values[14],
-                                                Registration_Type: row.values[15],
-                                                House_Blk_No: row.values[16],
-                                                Street: row.values[17],
-                                                Building_Name: row.values[18],
-
-                                                Unit_No: row.values[19],
-                                                Postal_Code: row.values[20],
-                                                Contact_No_Work: row.values[21],
-                                                Contact_No_Personal: row.values[22],
-
-                                                Email_Official: row.values[23],
-                                                Email_Personal: row.values[24],
-                                                BCLS_Expiry_Date: row.values[25],
-                                                ACLS_Expiry_Date: row.values[26],
-                                                Covid_19_Vaccination_Status: row.values[27],
-                                                Date_of_First_Dose: row.values[28],
-                                                Date_of_Second_Dose: row.values[29],
-                                                Vaccination_Remarks: row.values[30]
-                                            })
-                                            .then(response => {
-                                                console.log(response.data)
-                                            })
-                                            .catch(error => {
-                                                this.error = error.response.data
-                                                    .message
-                                            });
-                                    }
-                                })
-                            }
-                            else{
-                                console.log('hi')
-                            }
-                        })
-                    })
-                }
-            },
         }
     });
 </script>
