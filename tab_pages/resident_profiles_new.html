@@ -412,8 +412,7 @@
                 Loading...
             </button>
 
-                <button
-            type="button" value="download" v-on:click="download()" id='submit'
+                <button type="button" value="download" v-on:click="download" id='submit'
                 class="mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 text-white transition duration-150 ease-in-out bg-orange-500 rounded-md shadow cursor-not-allowed hover:bg-orange-400"
                 >
                 Export Profile as Word
@@ -490,10 +489,7 @@
             console.log("profile: ", this.profile_data);
         },
         methods: {
-
-            
-
-            download(e){
+            download(){
                 // e.preventDefault();
                 console.log("download now");
                 // var axios = require('axios');
