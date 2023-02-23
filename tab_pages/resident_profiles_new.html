@@ -128,6 +128,32 @@
             <option value=""  v-for = "program in programme_values">{{program}}</option>
         </select> -->
 
+        <div id="errorpage" v-if="error">
+            <main class="h-screen w-full flex flex-col justify-center items-center bg-[#1A2238]">
+            <h1 class="text-9xl font-extrabold text-white tracking-widest">404</h1>
+            <div class="bg-[#FF6A3D] px-2 text-lg rounded rotate-12 absolute">
+                Profile not found
+            </div>
+            <!-- <a class="mt-5">
+              <a
+                class="relative inline-block text-sm font-medium text-[#FF6A3D] group active:text-orange-500 focus:outline-none focus:ring"
+              >
+                <span
+                  class="absolute inset-0 transition-transform translate-x-0.5 translate-y-0.5 bg-[#FF6A3D] group-hover:translate-y-0 group-hover:translate-x-0"
+                ></span>
+        
+                <span class="relative block px-8 py-3 bg-[#1A2238] border border-current">
+
+                  <a class="bg-orange-200" href="../tab_pages/personal_details.html">Go Home</a>
+                </span>
+              </a>
+            </a> -->
+            <button class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
+                <a class="" href="../tab_pages/personal_details.html">Go Home</a>
+              </button>
+        </main>
+    </div>
+        <div id="profiletables" class="" v-else>
         <div id="smallertables">
 
         <div id="mainbody" class="flex py-5">
@@ -140,7 +166,7 @@
                 
               </div>
 
-        <!-- Table start -->
+        <!-- Personal details Table start -->
         <div class="relative overflow-x-auto mx-8 mt-5" v-if="profile_data.length != 0">
 
             <p class="underline underline-offset-8 font-bold text-lg mt-10">Personal Details</p>
@@ -184,13 +210,6 @@
                     </tr>
                 </tbody>
             </table>
-
-           
-
-
-        
-
-            
 
         </div>
 
@@ -398,7 +417,7 @@
             <span class="sr-only">Loading...</span>
         </div>
 
-        <div class="flex items-center justify-center">
+        <div class="flex items-center justify-center" id="one">
             <button type="button" id="loading" @click="download"
                 class="hidden inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 text-white transition duration-150 ease-in-out bg-indigo-500 rounded-md shadow cursor-not-allowed hover:bg-indigo-400"
                 disabled="">
@@ -412,23 +431,27 @@
                 Loading...
             </button>
 
-                <button type="button" value="download" v-on:click="download" id='submit'
-                class="mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 text-white transition duration-150 ease-in-out bg-orange-500 rounded-md shadow cursor-not-allowed hover:bg-orange-400"
-                >
-                Export Profile as Word
-            </button>
-            <!-- <a class="btn btn-success" href="{{url_for('download')}}">Download</a> -->
-            <a class="btn btn-success" href="http://127.0.0.1:5011/personaldetails_cv_generate/M65889A">Download</a>
 
+            {{mcr_no}}
+            <a class="mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 text-white transition duration-150 ease-in-out bg-orange-500 rounded-md shadow cursor-not-allowed hover:bg-orange-400" 
+            :href="currpage[0] + '/' + mcr_no" target="_blank"  
+            style="margin-right: 5px;">Download PDF 
+        </a>
 
-
+        <a class="mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 text-white transition duration-150 ease-in-out bg-orange-500 rounded-md shadow cursor-not-allowed hover:bg-orange-400" 
+            :href="currpage[1] + '/' + mcr_no" target="_blank"  
+            style="margin-right: 5px;">Download Word 
+        </a>
         </div>
 
 
 
     </div>
+</div>
 
     </div>
+
+    <!-- end of profiles div -->
 
 </div>
 
@@ -450,24 +473,39 @@
             profile_data: [],
             val: " ",
             contact_details: [],
-            employer_details: []
+            employer_details: [],
+            error: false,
+            mcr_no:[""],
+            currpage: ["http://127.0.0.1:5011/cv_pdf/", "http://127.0.0.1:5011/cv_word/"]
         },
         mounted: async function () {
             const queryString = window.location.search;
-            console.log("this is the mcr_no:", queryString.substring(8))
-            const API_URL_1_old = 'http://127.0.0.1:5011/profile/M16782H';
+            error = true;
+            if (queryString.length >= 7){
+                error = false;
+            }
+            this.error = error;
+            if (this.error){
+                return
+            }
+            // const API_URL_1_old = 'http://127.0.0.1:5011/profile/M16782H';
             const API_URL_1 = 'http://127.0.0.1:5011/profile/' + queryString.substring(8);
-
+            
             const apiCalls = [
-                axios.get(API_URL_1_old),
-                // axios.get(API_URL_2),
+                axios.get(API_URL_1)
             ];
             let personalProfile = {}
-            Promise.all(apiCalls)
+            let currpage = this.currpage[0]
+            let mcr_no = "";
+            await Promise.all(apiCalls)
                 .then(responses => {
                     personalProfile = responses[0].data
                     this.profile_data_original.push(responses[0].data.data)
                     let object = responses[0].data.data.personaldetails
+                    console.log("object:", object)
+                    currpage = currpage + responses[0].data.data.personaldetails.MCR_No
+                    // console.log("new mcr no", currpage)
+                    this.mcr_no = responses[0].data.data.personaldetails.MCR_No;
 
                     picked = (({ Staff_Name, Nationality, Date_of_Birth, Gender, BCLS_Expiry_Date, ACLS_Expiry_Date }) => 
                     ({ Staff_Name, Nationality, Date_of_Birth, Gender, BCLS_Expiry_Date, ACLS_Expiry_Date }))(object);
@@ -484,6 +522,12 @@
                 .catch(error => {
                     console.error(error);
                 });
+            // this.currpage[0] = currpage;
+            // this.currpage.pop()
+            // this.currpage.push(currpage)
+            this.mcr_no.pop()
+            this.mcr_no.push(mcr_no)
+            console.log("updated:", this.currpage)
                 
             // this.profile_data = personalProfile;
             console.log("profile: ", this.profile_data);

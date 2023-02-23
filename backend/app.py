@@ -1,6 +1,6 @@
 from sqlalchemy import insert, text, create_engine,inspect, select
 from flask import abort
-from flask import Flask, request, jsonify, render_template, send_file, redirect
+from flask import Flask, request, jsonify, render_template, send_file, redirect, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import json
@@ -2550,9 +2550,9 @@ def delete_presentation(id):
 # CV TEMPLATE SECTION
 # ============================
 # Generate CV word
-@app.route("/worddoc/<id>")
+@app.route("/cv_word/<id>")
 def pdf_to_doc(id):
-    generate_cv(id)
+    generatepdf(id)
     from pdf2docx import parse
     folder = "./cv/"
     pdf_file = folder + 'cv.pdf'
@@ -2560,7 +2560,9 @@ def pdf_to_doc(id):
 
     # convert pdf to docx
     parse(pdf_file, docx_file)
-    return "done"
+    import os
+    path = os.getcwd() + "/cv/cv.docx"
+    return send_file(path, as_attachment=True)
 
 from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
     getCommunityInvolvement, getLeadershipInvolvment, getProcedureLogs, getPostingRows,\
@@ -2568,8 +2570,14 @@ from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
     getQIPatientSafetyRows
 
 # Generate CV pdf:
-@app.route("/personaldetails_cv_generate/<id>")
+@app.route("/cv_pdf/<id>")
 def generate_cv(id):
+    generatepdf(id)
+    import os
+    path = os.getcwd() + "/cv/cv.pdf"
+    return send_file(path, as_attachment=True)
+
+def generatepdf(id):
     person = Personal_Details.query.get_or_404(id)
     presentations = person.presentations
     posting_histories = person.posting_histories
@@ -2589,7 +2597,6 @@ def generate_cv(id):
     name = person.Staff_Name
     education_histories = person.education_history
     
-
     awardsRows = getAwardsRows(awards)
     projectRows = getProjectRows(projects)
     educationalInvolvements = getEducationalInvolvement(involvements)
@@ -2608,20 +2615,17 @@ def generate_cv(id):
         publicationRows,patientSafetyQIRows)
 
     folder = "./cv/"
-    html_file_name = folder +"cv.html"
+    html_file_name = folder + "cv.html"
     Func = open(html_file_name,"w")
     Func.write(page)
     Func.close()
     import pdfkit
     from pathlib import Path
     input = Path(html_file_name)
-    pdfkit.from_file(html_file_name, 
-    folder + 'cv.pdf')
-    import os
-    print(os.getcwd())
-    # return "done"
-    download_folder = os.getcwd() + "/cv/"
-    return send_file(download_folder + 'cv.pdf', as_attachment=True)
+    pdfkit.from_file(html_file_name, folder +'cv.pdf')
+
+    # return send_file(path, as_attachment=True)
+
 db.create_all()
 
 if __name__ == '__main__':
