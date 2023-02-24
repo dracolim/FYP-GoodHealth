@@ -26,14 +26,14 @@ if __name__ == '__main__':
 
     # --------------------------------------------------------------------------------
 
-    # # Windows user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
-    #                                         '@localhost:3306/SingHealth'
-    # engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+#     # # Windows user -------------------------------------------------------------------
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
+#                                         '@localhost:3306/SingHealth'
+# engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
 
-    # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
-    #                                         'pool_recycle': 280}
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
+#                                         'pool_recycle': 280}
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
@@ -2555,14 +2555,14 @@ def delete_presentation(id):
 def pdf_to_doc(id):
     generatepdf(id)
     from pdf2docx import parse
-    folder = "./cv/"
+    folder = "../cv/"
     pdf_file = folder + 'cv.pdf'
     docx_file = folder + 'cv.docx'
 
     # convert pdf to docx
     parse(pdf_file, docx_file)
     import os
-    path = os.getcwd() + "/cv/cv.docx"
+    path=os.path.join(os.getcwd(),'../cv/cv.pdf')
     return send_file(path, as_attachment=True)
 
 from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
@@ -2575,7 +2575,7 @@ from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
 def generate_cv(id):
     generatepdf(id)
     import os
-    path = os.getcwd() + "/cv/cv.pdf"
+    path=os.path.join(os.getcwd(),'../cv/cv.pdf')
     return send_file(path, as_attachment=True)
 
 # Preview CV pdf:
@@ -2625,16 +2625,17 @@ def getCompletePage(id):
 def generatepdf(id):
     
     page = getCompletePage(id)
-
-    folder = "./cv/"
-    html_file_name = folder + "cv.html"
+    folder='../cv/'
+    html_file_name = "cv.html"
     Func = open(html_file_name,"w")
     Func.write(page)
     Func.close()
     import pdfkit
-    from pathlib import Path
-    input = Path(html_file_name)
-    pdfkit.from_file(html_file_name, folder +'cv.pdf')
+    path_wkhtmltopdf = "../wkhtmltopdf/bin/wkhtmltopdf.exe"
+    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+    pdfkit.from_file(html_file_name, folder+'cv.pdf',configuration=config)
+    return "done"
+    
 
 db.create_all()
 
