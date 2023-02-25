@@ -2562,7 +2562,7 @@ def pdf_to_doc(id):
     # convert pdf to docx
     parse(pdf_file, docx_file)
     import os
-    path=os.path.join(os.getcwd(),'../cv/cv.pdf')
+    path=os.path.join(os.getcwd(),'../cv/cv.docx')
     return send_file(path, as_attachment=True)
 
 from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
@@ -2631,9 +2631,15 @@ def generatepdf(id):
     Func.write(page)
     Func.close()
     import pdfkit
-    path_wkhtmltopdf = "../wkhtmltopdf/bin/wkhtmltopdf.exe"
-    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
-    pdfkit.from_file(html_file_name, folder+'cv.pdf',configuration=config)
+    import platform
+    print(platform.system())
+    if platform.system() != "Darwin":
+        path_wkhtmltopdf = "../wkhtmltopdf/bin/wkhtmltopdf.exe"
+        config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+        pdfkit.from_file(html_file_name, folder+'cv.pdf',configuration=config)
+    else:
+        error_msg = "Please install wkhtmltopdf in your mac computer"
+        pdfkit.from_file(html_file_name, folder+'cv.pdf')
     return "done"
     
 
