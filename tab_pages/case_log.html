@@ -94,10 +94,10 @@
 
         <!-- Navbar -->
         <nav class="bg-white">
-            <div class="items-center justify-between hidden w-full md:flex md:width-auto  md:order-1" id="navbar-sticky"
+            <div class=" items-center justify-between hidden w-full md:flex md:width-auto  md:order-1" id="navbar-sticky"
                 style="width: 100%; overflow: hidden;">
                 <ul
-                    class="md:divide-x md:divide-slate-200 flex flex-col p-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row  md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
+                    class="overflow-y-auto md:divide-x md:divide-slate-200 flex flex-col p-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row  md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
                     <li>
                         <a href="../homepage.html"
                             class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
@@ -194,7 +194,7 @@
             <div class="relative w-full h-full max-w-md md:h-auto">
                 <!-- Modal content -->
                 <div class="relative bg-white rounded-lg shadow ">
-                    <button type="button"
+                    <button type="button" @click="removeErrorMsg"
                         class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                         data-modal-hide="import-modal">
                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -204,40 +204,17 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                         <span class="sr-only">Close modal</span>
-    <!-- Navbar -->
-    <nav class="bg-white">
-        <div class="items-center justify-between hidden w-full md:flex md:width-auto  md:order-1" id="navbar-sticky"
-            style="width: 100%; overflow: hidden;">
-            <ul
-                class="overflow-x-auto md:divide-x md:divide-slate-200 flex flex-col p-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row  md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
-                <li>
-                    <a href="../homepage.html"
-                        class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
-                        Home</a>
-                </li>
-                <li>
-                    <a href="./personal_details.html"
-                        class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
-                        Personal Details</a>
-                </li>
-                <li>
-                    <button  data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500" data-dropdown-trigger="hover" >
-                        <span 
-                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
-                            History</span>
                     </button>
                     <div class="px-6 py-6 lg:px-8">
                         <h3 class="mb-4 text-xl font-medium text-gray-900 ">Upload Excel Sheet</h3>
-                        <form class="space-y-6" method="post" enctype="multipart/form-data"
-                            action="http://localhost:5011/import_duty_hour">
+                        <form class="space-y-6" method="post" enctype="multipart/form-data">
                             <!-- input form -->
-                            <input @change="validateFile" id="UploadFile"
+                            <input id="UploadFile" @change="importExcel"
                                 class="block w-full text-md text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                                type="file" name="file">
+                                type="file" name="file" ref="UploadFile">
                             <!-- error -->
                             <div v-if="error_message != ''"
-                                class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-                                role="alert">
+                                class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
                                 <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor"
                                     viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
@@ -246,17 +223,21 @@
                                 </svg>
                                 <span class="sr-only">Info</span>
                                 <div>
-                                    <span class="font-medium">Error!</span>
-                                    {{error_message}}
+                                    <span class="font-bold">Error!</span>
+                                    <!-- show the list of errors -->
+                                    <ul v-html="error_message"></ul>
                                 </div>
                             </div>
-                            <button type="submit" value="Submit" @click="isDisabled()" id='submit'
+
+                            <button type="submit" value="Submit" id='submit' @click="isDisabled()"
                                 class="w-full text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+
+
 
         <!-- TABLE START -->
         <div class="overflow-x-auto sm:rounded-lg mx-8 mb-10">
@@ -337,58 +318,58 @@
                         data: this.tableData,
                         index: "MCR_No",
                         columns: [{
-                            title: "MCR No",
-                            field: "MCR_No",
-                            sorter: "string",
-                            headerHozAlign: "center",
-                            headerFilter: true,
-                            headerFilterPlaceholder: "Enter value",
-                            headerFilterParams: {
-                                autocomplete: true,
-                                valuesLookup: true,
-                                clearable: true,
+                                title: "MCR No",
+                                field: "MCR_No",
+                                sorter: "string",
+                                headerHozAlign: "center",
+                                headerFilter: true,
+                                headerFilterPlaceholder: "Enter value",
+                                headerFilterParams: {
+                                    autocomplete: true,
+                                    valuesLookup: true,
+                                    clearable: true,
 
+                                },
+                                minWidth: 200,
                             },
-                            minWidth: 200,
-                        },
-                        {
-                            title: "Case Name",
-                            field: "Case_Name",
-                            sorter: "string",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true,
+                            {
+                                title: "Case Name",
+                                field: "Case_Name",
+                                sorter: "string",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: "input",
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
+                                headerFilterPlaceholder: "Enter Value",
+                                minWidth: 150,
                             },
-                            editor: "input",
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
-                            },
-                            headerFilterPlaceholder: "Enter Value",
-                            minWidth: 150,
-                        },
 
-                        {
-                            title: "Subspecialty",
-                            field: "Subspecialty",
-                            sorter: "string",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true,
+                            {
+                                title: "Subspecialty",
+                                field: "Subspecialty",
+                                sorter: "string",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: "input",
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
+                                headerFilterPlaceholder: "Enter Value",
+                                minWidth: 150,
                             },
-                            editor: "input",
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
-                            },
-                            headerFilterPlaceholder: "Enter Value",
-                            minWidth: 150,
-                        },
-                        {
+                            {
                                 title: "Type of Case Log",
                                 field: "Type_of_Case_Log",
                                 sorter: "string",
@@ -409,137 +390,137 @@
                                 minWidth: 200,
 
                             },
-                        {
-                            title: "Date of Log",
-                            field: "Date_of_Log",
-                            sorter: "string",
-                            editor: true,
-                            editorParams: {
-                                min: 0,
+                            {
+                                title: "Date of Log",
+                                field: "Date_of_Log",
+                                sorter: "string",
+                                editor: true,
+                                editorParams: {
+                                    min: 0,
+                                },
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
+                                headerFilterPlaceholder: "Enter Date",
+                                minWidth: 150,
                             },
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
+                            {
+                                title: "CPT",
+                                field: "CPT",
+                                sorter: "string",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: "input",
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
+                                headerFilterPlaceholder: "Enter Value",
+                                minWidth: 150,
                             },
-                            headerFilterPlaceholder: "Enter Date",
-                            minWidth: 150,
-                        },
-                        {
-                            title: "CPT",
-                            field: "CPT",
-                            sorter: "string",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true,
+                            {
+                                title: "Total",
+                                field: "Total",
+                                sorter: "number",
+                                editor: "number",
+                                editorParams: {
+                                    min: 0,
+                                },
+                                headerFilter: "list",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
+                                headerFilterPlaceholder: "Select",
+                                minWidth: 150,
                             },
-                            editor: "input",
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
+                            {
+                                title: "Performed",
+                                field: "Performed",
+                                sorter: "number",
+                                editor: "number",
+                                editorParams: {
+                                    min: 0,
+                                },
+                                headerFilter: "list",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
+                                headerFilterPlaceholder: "Select",
+                                minWidth: 150,
                             },
-                            headerFilterPlaceholder: "Enter Value",
-                            minWidth: 150,
-                        },
-                        {
-                            title: "Total",
-                            field: "Total",
-                            sorter: "number",
-                            editor: "number",
-                            editorParams: {
-                                min: 0,
+                            {
+                                title: "Observed",
+                                field: "Observed",
+                                sorter: "number",
+                                editor: "number",
+                                editorParams: {
+                                    min: 0,
+                                },
+                                headerFilter: "list",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
+                                headerFilterPlaceholder: "Select",
+                                minWidth: 150,
                             },
-                            headerFilter: "list",
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
+                            {
+                                title: "Verified",
+                                field: "Verified",
+                                sorter: "number",
+                                editor: "number",
+                                editorParams: {
+                                    min: 0,
+                                },
+                                headerFilter: "list",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
+                                headerFilterPlaceholder: "Select",
+                                minWidth: 150,
                             },
-                            headerFilterPlaceholder: "Select",
-                            minWidth: 150,
-                        },
-                        {
-                            title: "Performed",
-                            field: "Performed",
-                            sorter: "number",
-                            editor: "number",
-                            editorParams: {
-                                min: 0,
+                            {
+                                title: "Certified",
+                                field: "Certified",
+                                sorter: "number",
+                                editor: "number",
+                                editorParams: {
+                                    min: 0,
+                                },
+                                headerFilter: "list",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
+                                headerFilterPlaceholder: "Select",
+                                minWidth: 150,
                             },
-                            headerFilter: "list",
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
+                            {
+                                title: "Action",
+                                formatter: printRemoveButton,
+                                hozAlign: "center",
+                                cellClick: function (e, cell) {
+                                    axios.delete(local_host_url + "caselog" + "/" + cell
+                                            .getRow().getData().id)
+                                        .then(function (response) {
+                                            console.log(response.data);
+                                            cell.getRow().delete();
+                                        })
+                                        .catch(function (error) {
+                                            console.log(error);
+                                        });
+                                },
+                                minWidth: 150,
                             },
-                            headerFilterPlaceholder: "Select",
-                            minWidth: 150,
-                        },
-                        {
-                            title: "Observed",
-                            field: "Observed",
-                            sorter: "number",
-                            editor: "number",
-                            editorParams: {
-                                min: 0,
-                            },
-                            headerFilter: "list",
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
-                            },
-                            headerFilterPlaceholder: "Select",
-                            minWidth: 150,
-                        },
-                        {
-                            title: "Verified",
-                            field: "Verified",
-                            sorter: "number",
-                            editor: "number",
-                            editorParams: {
-                                min: 0,
-                            },
-                            headerFilter: "list",
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
-                            },
-                            headerFilterPlaceholder: "Select",
-                            minWidth: 150,
-                        },
-                        {
-                            title: "Certified",
-                            field: "Certified",
-                            sorter: "number",
-                            editor: "number",
-                            editorParams: {
-                                min: 0,
-                            },
-                            headerFilter: "list",
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
-                            },
-                            headerFilterPlaceholder: "Select",
-                            minWidth: 150,
-                        },
-                        {
-                            title: "Action",
-                            formatter: printRemoveButton,
-                            hozAlign: "center",
-                            cellClick: function (e, cell) {
-                                axios.delete(local_host_url + "caselog" + "/" + cell
-                                    .getRow().getData().id)
-                                    .then(function (response) {
-                                        console.log(response.data);
-                                        cell.getRow().delete();
-                                    })
-                                    .catch(function (error) {
-                                        console.log(error);
-                                    });
-                            },
-                            minWidth: 150,
-                        },
                         ],
                     });
                     // update data in the database after a cell is edited
@@ -548,20 +529,20 @@
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
                         axios.put(local_host_url + "caselog" + "/" + thisrow.id, {
-                            "MCR_No": thisrow.MCR_No,
-                            "CPT": thisrow.CPT,
-                            "Case_Name": thisrow.Case_Name,
-                            "Certified": thisrow.Certified,
-                            "Date_of_Log": thisrow.Date_of_Log,
-                            "Observed": thisrow.Observed,
-                            "Performed": thisrow.Performed,
-                            "Subspecialty": thisrow.Subspecialty,
-                            "Total": thisrow.Total,
-                            "Type_of_Case_Log": thisrow.Type_of_Case_Log,
-                            "Verified": thisrow.Verified,
+                                "MCR_No": thisrow.MCR_No,
+                                "CPT": thisrow.CPT,
+                                "Case_Name": thisrow.Case_Name,
+                                "Certified": thisrow.Certified,
+                                "Date_of_Log": thisrow.Date_of_Log,
+                                "Observed": thisrow.Observed,
+                                "Performed": thisrow.Performed,
+                                "Subspecialty": thisrow.Subspecialty,
+                                "Total": thisrow.Total,
+                                "Type_of_Case_Log": thisrow.Type_of_Case_Log,
+                                "Verified": thisrow.Verified,
 
-                            
-                        })
+
+                            })
                             .then(response => {
                                 console.log('Project ID {' + row.getData().id +
                                     '} updated.')
@@ -601,8 +582,10 @@
                                 } else if (rowIndex >= 8) {
                                     // console.log(row.values[2])
                                     for (each in this.MCR_name) {
-                                        let name_list = row.values[1].trim().split(',')
-                                        var new_name = name_list.reverse().join(" ").trim()
+                                        let name_list = row.values[1].trim().split(
+                                            ',')
+                                        var new_name = name_list.reverse().join(" ")
+                                            .trim()
                                         if (new_name == each) {
                                             data.MCR_No = this.MCR_name[each] || "";
                                         }
@@ -646,15 +629,23 @@
                     this.error_message = "No Files Selected";
                     document.getElementById('submit').disabled = true;
                     return true
-                }
-                else {
+                } else {
                     this.error_message = ""
                     return false
                 }
+            },
+            removeErrorMsg() {
+                this.error_message = "";
+                document.getElementById('submit').disabled = false;
+                this.$refs.UploadFile.value = null;
             }
 
         }
     });
 </script>
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </html>

@@ -538,35 +538,38 @@
                     wb.xlsx.load(buffer).then(workbook => {
                         //console.log(workbook, 'workbook instance')
                         workbook.eachSheet((sheet, id) => {
+                            const rows = sheet.actualRowCount;
+                            console.log(rows)
+
                             const rowsWithValues = sheet.actualRowCount - 7;
                             var user_count = 0
                             sheet.eachRow((row, rowIndex) => {
+                                console.log(row.values[1])
                                 var same_error = false;
                                 var name_error = false;
                                 var user_error = false;
 
                                 var url = this.local_host_url + 'add_procedure_log';
                                 var data = {};
-                                var loggded_for_months = "";
-                                if (rowIndex == 3) {
-                                    this.mmYYYY = row.values[1].slice(21, 28) ||
-                                        "";
-                                } else if (rowIndex >= 8) {
+                                // var loggded_for_months = "";
+
+                                if (Array.isArray(row.values[1])){
+                                    console.log(row.values[1])
+                                    // var name = row.values[1][1]
+                                    // console.log(name)
+                                }
+                                var small = row.values[1].toLowerCase()
+                                //row.values[1].toLowerCase().includes('resident:')
+                                if ('hello') {
+                                    
                                     if (row.values[1] == undefined) {
                                         name_error = true;
                                     } else {
                                         for (each in this.MCR_name) {
-                                            let name_list = row.values[1].trim()
-                                                .split(
-                                                    ',')
-                                            var new_name = name_list.reverse()
-                                                .join(
-                                                    " ")
-                                                .trim()
+                                            let name_list = row.values[1].trim().split(',')
+                                            var new_name = name_list.reverse().join(" ").trim()
                                             if (new_name == each) {
-                                                data.MCR_No = this.MCR_name[
-                                                        each] ||
-                                                    "";
+                                                data.MCR_No = this.MCR_name[each] ||"";
                                             }
                                         }
 
@@ -574,6 +577,8 @@
                                             user_error = true;
                                         }
                                     }
+                                    console.log(data.MCR_No)
+                                }
 
                                     data.Level = row.values[2] || '';
                                     data.Logged_for_month = "Yes";
@@ -583,18 +588,18 @@
                                     data.MMYYYY = this.mmYYYY;
 
                                     // check if EXISTS already
-                                    for (each of this.duty_hour_logs) {
-                                        if (data.Level == each.Level && data
-                                            .Logged_for_month == each
-                                            .Logged_for_month && data.MCR_No ==
-                                            each
-                                            .MCR_No && data
-                                            .Submitted_Proportion ==
-                                            each.Submitted_Proportion) {
-                                            same_error = true;
-                                            break
-                                        }
-                                    }
+                                    // for (each of this.duty_hour_logs) {
+                                    //     if (data.Level == each.Level && data
+                                    //         .Logged_for_month == each
+                                    //         .Logged_for_month && data.MCR_No ==
+                                    //         each
+                                    //         .MCR_No && data
+                                    //         .Submitted_Proportion ==
+                                    //         each.Submitted_Proportion) {
+                                    //         same_error = true;
+                                    //         break
+                                    //     }
+                                    // }
 
                                     // if all conditions okay, then import
                                     if (same_error == false && name_error ==
@@ -632,7 +637,7 @@
                                         document.getElementById('submit')
                                             .disabled = true;
                                     }
-                                }
+                                
                             })
                         })
                     })
