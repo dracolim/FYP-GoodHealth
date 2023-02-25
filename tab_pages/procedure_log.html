@@ -211,11 +211,10 @@
                             <!-- input form -->
                             <input id="UploadFile" @change="importExcel"
                                 class="block w-full text-md text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                                type="file" name="file" ref = "UploadFile">
+                                type="file" name="file" ref="UploadFile">
                             <!-- error -->
                             <div v-if="error_message != ''"
-                                class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50"
-                                role="alert">
+                                class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
                                 <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor"
                                     viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
@@ -544,6 +543,7 @@
                             const rowsWithValues = sheet.actualRowCount - 7;
                             var user_count = 0
                             sheet.eachRow((row, rowIndex) => {
+
                                 console.log(row.values[1])
                                 var same_error = false;
                                 var name_error = false;
@@ -551,93 +551,107 @@
 
                                 var url = this.local_host_url + 'add_procedure_log';
                                 var data = {};
-                                // var loggded_for_months = "";
+                                if (row.values[1] != undefined) {
+                                    if (Array.isArray(row.values[1].richText) && row
+                                        .values[1].richText[0].text == "Resident:"
+                                        ) {
+                                        var name = row.values[1].richText[1].text
+                                        var name_list = name.trim().split(',')
 
-                                if (Array.isArray(row.values[1])){
-                                    console.log(row.values[1])
-                                    // var name = row.values[1][1]
-                                    // console.log(name)
-                                }
-                                var small = row.values[1].toLowerCase()
-                                //row.values[1].toLowerCase().includes('resident:')
-                                if ('hello') {
-                                    
-                                    if (row.values[1] == undefined) {
-                                        name_error = true;
-                                    } else {
-                                        for (each in this.MCR_name) {
-                                            let name_list = row.values[1].trim().split(',')
-                                            var new_name = name_list.reverse().join(" ").trim()
-                                            if (new_name == each) {
-                                                data.MCR_No = this.MCR_name[each] ||"";
+                                        for (i in name_list) {
+                                            if (name_list[i].includes(" ")) {
+                                                var new_name_list = []
+                                                new_name_list = name_list[i].trim()
+                                                    .split(" ")
+                                                new_name_list.push(name_list[0])
+                                                new_name_list = new_name_list
+                                            .sort();
                                             }
                                         }
 
-                                        if (data.MCR_No == undefined) {
-                                            user_error = true;
+                                        if (row.values[1] == undefined) {
+                                            name_error = true;
+                                        } else {
+                                            for (each in this.MCR_name) {
+                                                //console.log(each)
+                                                let name_list2 = each.trim().split(
+                                                    ' ').sort()
+                                                console.log(name_list2)
+                                                console.log(new_name_list)
+                                                if (JSON.stringify(new_name_list)==JSON.stringify(name_list2)) {
+                                                    console.log(
+                                                        'HALKFJHALDJFHALDJF')
+                                                    data.MCR_No = this.MCR_name[each] || "";
+                                                    var new_name = each;
+                                                }
+                                            }
+
+                                            if (data.MCR_No == undefined) {
+                                                user_error = true;
+                                            }
                                         }
+                                        console.log(data.MCR_No)
                                     }
-                                    console.log(data.MCR_No)
                                 }
 
-                                    data.Level = row.values[2] || '';
-                                    data.Logged_for_month = "Yes";
-                                    data.Submitted = row.values[3] || '';
-                                    data.Submitted_Proportion = row.values[4] ||
-                                        '';
-                                    data.MMYYYY = this.mmYYYY;
+                                data.Level = row.values[2] || '';
+                                data.Logged_for_month = "Yes";
+                                data.Submitted = row.values[3] || '';
+                                data.Submitted_Proportion = row.values[4] ||
+                                    '';
+                                data.MMYYYY = this.mmYYYY;
 
-                                    // check if EXISTS already
-                                    // for (each of this.duty_hour_logs) {
-                                    //     if (data.Level == each.Level && data
-                                    //         .Logged_for_month == each
-                                    //         .Logged_for_month && data.MCR_No ==
-                                    //         each
-                                    //         .MCR_No && data
-                                    //         .Submitted_Proportion ==
-                                    //         each.Submitted_Proportion) {
-                                    //         same_error = true;
-                                    //         break
-                                    //     }
-                                    // }
+                                // check if EXISTS already
+                                // for (each of this.duty_hour_logs) {
+                                //     if (data.Level == each.Level && data
+                                //         .Logged_for_month == each
+                                //         .Logged_for_month && data.MCR_No ==
+                                //         each
+                                //         .MCR_No && data
+                                //         .Submitted_Proportion ==
+                                //         each.Submitted_Proportion) {
+                                //         same_error = true;
+                                //         break
+                                //     }
+                                // }
 
-                                    // if all conditions okay, then import
-                                    if (same_error == false && name_error ==
-                                        false && this.error_message == "" &&
-                                        user_error == false) {
-                                        axios.post(url, data)
-                                            .then(response => {
-                                                // console.log(response.data)
-                                                this.mmYYYY = "";
-                                            })
-                                            .catch(error => {
-                                                this.error = error.response
-                                                    .data
-                                                    .message
-                                            });
-                                    } else {
-                                        user_count += 1;
-                                    }
+                                // if all conditions okay, then import
+                                if (same_error == false && name_error ==
+                                    false && this.error_message == "" &&
+                                    user_error == false) {
+                                    axios.post(url, data)
+                                        .then(response => {
+                                            // console.log(response.data)
+                                            this.mmYYYY = "";
+                                        })
+                                        .catch(error => {
+                                            this.error = error.response
+                                                .data
+                                                .message
+                                        });
+                                } else {
+                                    user_count += 1;
+                                }
 
-                                    //produce error message
-                                    if (name_error == true) {
-                                        this.error_message +=
-                                            "<li> - Name cannot be Empty</li>";
-                                    } else if (user_error == true) {
-                                        this.error_message += this
-                                            .error_message +=
-                                            "<li> - " + new_name +
-                                            " does not exist in the Database</li>"
-                                    } else if (user_count == rowsWithValues) {
-                                        this.error_message +=
-                                            "<li> - All rows already exist in Database</li>";
-                                    }
+                                //produce error message
+                                if (name_error == true) {
+                                    this.error_message +=
+                                        "<li> - Name cannot be Empty</li>";
+                                } else if (user_error == true) {
+                                    this.error_message += this
+                                        .error_message +=
+                                        "<li> - " + new_name +
+                                        " does not exist in the Database</li>"
+                                } else if (user_count == rowsWithValues) {
+                                    this.error_message +=
+                                        "<li> - All rows already exist in Database</li>";
+                                }
 
-                                    if (this.error_message != "") {
-                                        document.getElementById('submit')
-                                            .disabled = true;
-                                    }
-                                
+                                if (this.error_message != "") {
+                                    document.getElementById('submit')
+                                        .disabled = true;
+                                }
+
                             })
                         })
                     })
@@ -675,4 +689,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 </html>
