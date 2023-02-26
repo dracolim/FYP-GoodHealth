@@ -269,7 +269,13 @@
                     };
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
-                        layout: "fitColumns",
+                        layout:"fitDataStretch",
+                        placeholder: "No Data Available in Presentation",
+                        history: true,
+                        pagination: "local",
+                        paginationSize: 10,
+                        paginationCounter: "rows",
+                        movableColumns: true,    
                         data: this.tableData,
                         index: "MCR_No",
                         columns: [{
@@ -311,7 +317,7 @@
                             title: "Type",
                             field: "Type",
                             sorter: "string",
-                            headerFilter: "list",
+                            headerFilter: true,
                             headerFilterParams: {
                                 valuesLookup: true,
                                 clearable: true,

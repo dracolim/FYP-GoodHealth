@@ -323,7 +323,13 @@
                     }
                     //console.log(response.data,'response data')
                     var table = new Tabulator("#example-table", {
-                        layout: "fitDataTable",
+                        layout:"fitDataStretch",
+                        placeholder: "No Data Available in Didactic Attendance",
+                        history: true,
+                        pagination: "local",
+                        paginationSize: 10,
+                        paginationCounter: "rows",
+                        movableColumns: true,    
                         data: response.data.data,
                         index: "Employee_ID",
                         columns: [
@@ -332,7 +338,7 @@
                             //     field: "MCR_No",
                             //     sorter: "string",
                             //     headerFilter: "input",
-                            //     headerFilter: "list",
+                            //     headerFilter: true,
                             //     headerFilterParams: {
                             //         valuesLookup: true,
                             //         clearable: true
@@ -346,7 +352,7 @@
                                 field: "Employee_ID",
                                 sorter: "string",
                                 headerFilter: "input",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -359,7 +365,7 @@
                                 field: "MCR_No",
                                 sorter: "string",
                                 headerFilter: "input",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -374,7 +380,7 @@
                                 field: "Staff_Name",
                                 sorter: "string",
                                 headerFilter: "input",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -385,7 +391,7 @@
                                 title: "Designation",
                                 field: "Designation",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -395,7 +401,7 @@
                                 title: "Programme",
                                 field: "Programme",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -405,7 +411,7 @@
                                 title: "Year of Training",
                                 field: "Year_of_Training",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -415,7 +421,7 @@
                                 title: "Academic Year",
                                 field: "Academic_Year",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -425,7 +431,7 @@
                                 title: "Department",
                                 field: "Department",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -435,7 +441,7 @@
                                 title: "Institution",
                                 field: "Institution",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -445,7 +451,7 @@
                                 title: "Academic Clinical Programme",
                                 field: "Academic_Clinical_Programme",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -455,7 +461,7 @@
                                 title: "Employment Status",
                                 field: "Employment_Status",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -465,7 +471,7 @@
                                 title: "Nationality",
                                 field: "Nationality",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -475,7 +481,7 @@
                                 title: "Date of Birth",
                                 field: "Date_of_Birth",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -485,7 +491,7 @@
                                 title: "Registration Type",
                                 field: "Registration_Type",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -495,7 +501,7 @@
                                 title: "House Blk No",
                                 field: "House_Blk_No",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -505,7 +511,7 @@
                                 title: "Street",
                                 field: "Street",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -515,7 +521,7 @@
                                 title: "Building Name",
                                 field: "Building_Name",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -525,7 +531,7 @@
                                 title: "Unit No",
                                 field: "Unit_No",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -535,7 +541,7 @@
                                 title: "Postal Code",
                                 field: "Postal_Code",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -545,7 +551,7 @@
                                 title: "Contact No Work",
                                 field: "Contact_No_Work",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -555,7 +561,7 @@
                                 title: "Contact No Personal",
                                 field: "Contact_No_Personal",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -565,7 +571,7 @@
                                 title: "Email Official",
                                 field: "Email_Official",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -575,7 +581,7 @@
                                 title: "Email Personal",
                                 field: "Email_Personal",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -585,7 +591,7 @@
                                 title: "BCLS Expiry Date",
                                 field: "BCLS_Expiry_Date",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -595,7 +601,7 @@
                                 title: "ACLS Expiry Date",
                                 field: "ACLS_Expiry_Date",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -605,7 +611,7 @@
                                 title: "Covid_19 Vaccination Status",
                                 field: "Covid_19_Vaccination_Status",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -615,7 +621,7 @@
                                 title: "Date of First Dose",
                                 field: "Date_of_First_Dose",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -625,7 +631,7 @@
                                 title: "Date of Second Dose",
                                 field: "Date_of_Second_Dose",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -635,7 +641,7 @@
                                 title: "Vaccination Remarks",
                                 field: "Vaccination_Remarks",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
