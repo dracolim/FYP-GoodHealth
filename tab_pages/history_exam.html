@@ -261,7 +261,13 @@
                     };
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
-                        layout: "fitColumns",
+                        layout:"fitDataStretch",
+                        placeholder: "No Data Available in Didactic Attendance",
+                        history: true,
+                        pagination: "local",
+                        paginationSize: 10,
+                        paginationCounter: "rows",
+                        movableColumns: true,    
                         data: response.data.data,
                         index: "MCR_No",
                         columns: [{
@@ -311,7 +317,7 @@
                                     maskAutoFill: true,
                                     mask: "AAA-99"
                                 },
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -330,7 +336,7 @@
                                     valuesLookup: true,
                                     maskAutoFill: true,
                                 },
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
