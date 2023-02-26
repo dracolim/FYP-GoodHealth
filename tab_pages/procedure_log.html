@@ -283,6 +283,7 @@
             mmYYYY: "",
             table_error_message: "",
             tableData: "",
+            MCR_No_import: "",
         },
         computed: {
 
@@ -543,7 +544,6 @@
                             const rowsWithValues = sheet.actualRowCount - 7;
                             var user_count = 0
                             sheet.eachRow((row, rowIndex) => {
-
                                 console.log(row.values[1])
                                 var same_error = false;
                                 var name_error = false;
@@ -552,9 +552,10 @@
                                 var url = this.local_host_url + 'add_procedure_log';
                                 var data = {};
                                 if (row.values[1] != undefined) {
+                                    // MCR_No (for both case log and procedure log)
                                     if (Array.isArray(row.values[1].richText) && row
                                         .values[1].richText[0].text == "Resident:"
-                                        ) {
+                                    ) {
                                         var name = row.values[1].richText[1].text
                                         var name_list = name.trim().split(',')
 
@@ -565,7 +566,7 @@
                                                     .split(" ")
                                                 new_name_list.push(name_list[0])
                                                 new_name_list = new_name_list
-                                            .sort();
+                                                    .sort();
                                             }
                                         }
 
@@ -578,10 +579,14 @@
                                                     ' ').sort()
                                                 console.log(name_list2)
                                                 console.log(new_name_list)
-                                                if (JSON.stringify(new_name_list)==JSON.stringify(name_list2)) {
+                                                if (JSON.stringify(new_name_list) ==
+                                                    JSON.stringify(name_list2)) {
                                                     console.log(
                                                         'HALKFJHALDJFHALDJF')
-                                                    data.MCR_No = this.MCR_name[each] || "";
+                                                    data.MCR_No = this.MCR_name[
+                                                        each] || "";
+                                                    this.MCR_No_import = data
+                                                    .MCR_No; //setting it to MCR_No
                                                     var new_name = each;
                                                 }
                                             }
@@ -592,66 +597,99 @@
                                         }
                                         console.log(data.MCR_No)
                                     }
+                                    while (!(Array.isArray(row.values[1]
+                                            .richText) && row.values[1].richText[0]
+                                            .text == "Resident:")) {
+
+                                        // CASE LOG 
+                                        if (row.values[1].toLowerCase().includes("case log")) {
+                                            //(TYPE_OF_CASE_LOG) + (CASE_NAME)
+                                            if (row.values[1].toLowerCase()
+                                                .includes("inpatient")) {
+                                                data.Type_of_Case_Log = "inpatient"
+                                                var index = row.values[1].indexOf("inpatient")
+                                                    data.Case_Name = row.values[1].slice(0,index)
+                                            } else if (row.values[1].toLowerCase()
+                                                .includes("outpatient")){
+                                                    data.Type_of_Case_Log = "outpatient"
+                                                    var index = row.values[1].indexOf("outpatient")
+                                                    data.Case_Name = row.values[1].slice(0,index)
+                                                }
+                                            else if (row.values[1].toLowerCase()
+                                                .includes("blue letter")){
+                                                    data.Type_of_Case_Log = "blue letter"
+                                                    var index = row.values[1].indexOf("blue letter")
+                                                    data.Case_Name = row.values[1].slice(0,index)
+                                            }
+                                            else{
+                                                data.Case_Name = row.values[1]
+                                            }
+                                            
+                                            
+                                        }
+
+
+
+                                        data.Level = row.values[2] || '';
+                                        data.Logged_for_month = "Yes";
+                                        data.Submitted = row.values[3] || '';
+                                        data.Submitted_Proportion = row.values[4] ||
+                                            '';
+                                        data.MMYYYY = this.mmYYYY;
+
+                                        // check if EXISTS already
+                                        // for (each of this.duty_hour_logs) {
+                                        //     if (data.Level == each.Level && data
+                                        //         .Logged_for_month == each
+                                        //         .Logged_for_month && data.MCR_No ==
+                                        //         each
+                                        //         .MCR_No && data
+                                        //         .Submitted_Proportion ==
+                                        //         each.Submitted_Proportion) {
+                                        //         same_error = true;
+                                        //         break
+                                        //     }
+                                        // }
+
+                                        // if all conditions okay, then import
+                                        if (same_error == false && name_error ==
+                                            false && this.error_message == "" &&
+                                            user_error == false) {
+                                            axios.post(url, data)
+                                                .then(response => {
+                                                    // console.log(response.data)
+                                                    this.mmYYYY = "";
+                                                })
+                                                .catch(error => {
+                                                    this.error = error.response
+                                                        .data
+                                                        .message
+                                                });
+                                        } else {
+                                            user_count += 1;
+                                        }
+
+                                        //produce error message
+                                        if (name_error == true) {
+                                            this.error_message +=
+                                                "<li> - Name cannot be Empty</li>";
+                                        } else if (user_error == true) {
+                                            this.error_message += this
+                                                .error_message +=
+                                                "<li> - " + new_name +
+                                                " does not exist in the Database</li>"
+                                        } else if (user_count == rowsWithValues) {
+                                            this.error_message +=
+                                                "<li> - All rows already exist in Database</li>";
+                                        }
+
+                                        if (this.error_message != "") {
+                                            document.getElementById('submit')
+                                                .disabled = true;
+                                        }
+
+                                    }
                                 }
-
-                                data.Level = row.values[2] || '';
-                                data.Logged_for_month = "Yes";
-                                data.Submitted = row.values[3] || '';
-                                data.Submitted_Proportion = row.values[4] ||
-                                    '';
-                                data.MMYYYY = this.mmYYYY;
-
-                                // check if EXISTS already
-                                // for (each of this.duty_hour_logs) {
-                                //     if (data.Level == each.Level && data
-                                //         .Logged_for_month == each
-                                //         .Logged_for_month && data.MCR_No ==
-                                //         each
-                                //         .MCR_No && data
-                                //         .Submitted_Proportion ==
-                                //         each.Submitted_Proportion) {
-                                //         same_error = true;
-                                //         break
-                                //     }
-                                // }
-
-                                // if all conditions okay, then import
-                                if (same_error == false && name_error ==
-                                    false && this.error_message == "" &&
-                                    user_error == false) {
-                                    axios.post(url, data)
-                                        .then(response => {
-                                            // console.log(response.data)
-                                            this.mmYYYY = "";
-                                        })
-                                        .catch(error => {
-                                            this.error = error.response
-                                                .data
-                                                .message
-                                        });
-                                } else {
-                                    user_count += 1;
-                                }
-
-                                //produce error message
-                                if (name_error == true) {
-                                    this.error_message +=
-                                        "<li> - Name cannot be Empty</li>";
-                                } else if (user_error == true) {
-                                    this.error_message += this
-                                        .error_message +=
-                                        "<li> - " + new_name +
-                                        " does not exist in the Database</li>"
-                                } else if (user_count == rowsWithValues) {
-                                    this.error_message +=
-                                        "<li> - All rows already exist in Database</li>";
-                                }
-
-                                if (this.error_message != "") {
-                                    document.getElementById('submit')
-                                        .disabled = true;
-                                }
-
                             })
                         })
                     })
