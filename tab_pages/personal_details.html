@@ -270,7 +270,6 @@
         <!-- TABLE START (tabulator)-->
         <div class="relative overflow-x-auto shadow-lg sm:rounded-lg mx-8 mb-10">
             <table id="example-table"></table>
-            
         </div>
 
     </div>
@@ -342,19 +341,6 @@
 
                             // },
                             {
-                                title: "Employee ID",
-                                field: "Employee_ID",
-                                sorter: "string",
-                                headerFilter: "input",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                editor: true,
-
-                            },
-                            {
                                 title: "MCR No",
                                 field: "MCR_No",
                                 sorter: "string",
@@ -368,7 +354,19 @@
                                 formatter:link
 
                             },
+                            {
+                                title: "Employee ID",
+                                field: "Employee_ID",
+                                sorter: "string",
+                                headerFilter: "input",
+                                headerFilter: "list",
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
+                                editor: true,
 
+                            },
                             {
                                 title: "Staff Name",
                                 field: "Staff_Name",
@@ -684,6 +682,7 @@
             },
             isDisabled() {
                 console.log('hi')
+                window.onblur()
                 // evaluate whatever you need to determine disabled here...
                 console.log(document.getElementById("UploadFile").files.length)
                 if (document.getElementById("UploadFile").files.length == 0) {

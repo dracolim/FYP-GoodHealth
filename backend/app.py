@@ -655,6 +655,7 @@ def create_personal_detail():
 
 @app.route('/import', methods=['POST'])
 def view():
+    error = False
     file = request.files['file']
     file.save(file.filename)
     # personal details
@@ -732,6 +733,7 @@ def view():
     didatic_attendance.columns = [ 'MCR_No', 'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended'  , 'MmYyyy' , 'Posting_Institution' , 'Posting_Department' , 'Scheduled_Teachings' 'Compliance_or_Not' , "Percentage_of_sessions_attended"]
 
     if didatic_attendance.duplicated().any() or didatic_attendance['MCR_No'].isnull().sum() > 0 or ihi['MCR_No'].isnull().sum() > 0 or ihi.duplicated().any() or project['MCR_No'].isnull().sum() > 0 or project.duplicated().any() or presentations['MCR_No'].isnull().sum() > 0 or presentations.duplicated().any() or publlications['MCR_No'].isnull().sum() > 0 or publlications.duplicated().any() or awards['MCR_No'].isnull().sum() > 0 or awards.duplicated().any() or grants['MCR_No'].isnull().sum() > 0 or grants.duplicated().any() or personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or personalDetails.duplicated().any() or involvement['MCR_No'].isnull().sum() > 0 or (involvement.duplicated().any()) or history_education['MCR_No'].isnull().sum() > 0 or (history_education.duplicated().any()) or history_posting['MCR_No'].isnull().sum() > 0 or history_posting.duplicated().any() or history_exam['MCR_No'].isnull().sum() > 0 or history_exam.duplicated().any() or history_trg['MCR_No'].isnull().sum() > 0 or history_trg.duplicated().any():
+        error = True
         writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
         workbook = writer.book
         format1 = workbook.add_format({'bg_color': '#FF8080'})
@@ -1082,13 +1084,7 @@ def view():
                 
         writer.save()
 
-        # with open('/backend/error.xlsx' , 'rb') as f: 
-        #     data
-        # myio.write(data)
-        # myio.seek(0)
-        # send_file(, download_name="error.xlsx" , as_attachment=True)
-        abort(404, description='Invalid Excel submitted')
-
+        return redirect("http://localhost/FYP-GoodHealth/tab_pages/bulk_import_error.html", code=302)
 
     ### personal details
     personalDetails = personalDetails.fillna('')
@@ -1302,6 +1298,9 @@ def view():
 
     return redirect("http://localhost/FYP-GoodHealth/tab_pages/personal_details.html", code=302)
 
+@app.route("/bulk_error_excel")
+def give_error_excel():
+    return send_file("error.xlsx", as_attachment=True)
 
 def getList(items):
     list_ = []
