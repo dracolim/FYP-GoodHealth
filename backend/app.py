@@ -1876,8 +1876,8 @@ def delete_awards(id):
 # AKA didactic_attendance table routes:
 
 # Read Awards field/column name (R)
-@app.route('/didactic_attendance', methods=['GET'])
-def get_didactic_attendance():
+@app.route('/didactic_attendances', methods=['GET'])
+def get_didactic_attendances():
     daList = Didactic_Attendance.query.all()
     return jsonify(
         {
@@ -1886,6 +1886,35 @@ def get_didactic_attendance():
         }
     ), 200
 
+# Update Evaluation
+@app.route('/didactic_attendance/<int:id>', methods=['PUT'])
+def update_didactic_attendance(id):
+    user = Didactic_Attendance.query.get(id)
+    if not user:
+        return 'didactic_attendance not found', 404
+
+    data = request.get_json()
+    user.MCR_No = data['MCR_No']
+    user.Month = data['Month']
+    user.Total_tracked_sessions = data['Total_tracked_sessions']
+    user.Number_of_sessions_attended = data['Number_of_sessions_attended']
+    user.Percentage_of_sessions_attended = data['Percentage_of_sessions_attended']
+    user.MmYyyy = data['MmYyyy']
+    user.Compliance_or_Not = data['Compliance_or_Not']
+
+    db.session.commit()
+    return 'didactic_attendance updated', 200
+
+# Delete Evaluation
+@app.route('/didactic_attendance/<int:id>', methods=['DELETE'])
+def delete_didactic_attendance(id):
+    row = Didactic_Attendance.query.get(id)
+    if not row:
+        return 'didactic_attendance not found', 404
+
+    db.session.delete(row)
+    db.session.commit()
+    return 'didactic_attendance deleted', 200
 
 # ============================
 # █▀▀ █▄░█ █▀▄
