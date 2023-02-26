@@ -141,6 +141,11 @@
                             Awards</a>
                     </li>
                     <li>
+                        <a href="../tab_pages/didactic_attendance.html"
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                            Didactic Attendance</a>
+                    </li>
+                    <li>
                         <a href="../tab_pages/projects.html"
                             class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Projects</a>
                     </li>
@@ -173,7 +178,10 @@
         </nav>
         <!-- Orange Divider -->
         <div class='row' style='height: 8px; background-color: #ff6b00;'></div>
-
+        <!-- TABLE START -->
+        <div class="md:hidden sm:visible">
+            <h2 class="text-3xl font-bold  ml-8 mt-4 text-gray-700">Procedure Log</h2>
+        </div>
         <!-- filter rows -->
         <div class="flex items-center justify-between mt-6 mx-8">
             <div class="relative">
@@ -317,173 +325,173 @@
                         data: this.tableData,
                         index: "MCR_No",
                         columns: [{
-                                title: "MCR No",
-                                field: "MCR_No",
-                                sorter: "string",
-                                headerHozAlign: "center",
-                                headerFilter: true,
-                                headerFilterPlaceholder: "Enter value",
-                                headerFilterParams: {
-                                    autocomplete: true,
-                                    valuesLookup: true,
-                                    clearable: true,
+                            title: "MCR No",
+                            field: "MCR_No",
+                            sorter: "string",
+                            headerHozAlign: "center",
+                            headerFilter: true,
+                            headerFilterPlaceholder: "Enter value",
+                            headerFilterParams: {
+                                autocomplete: true,
+                                valuesLookup: true,
+                                clearable: true,
 
-                                },
-                                minWidth: 200,
                             },
-                            {
-                                title: "Procedure Name",
-                                field: "Procedure_Name",
-                                sorter: "string",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                },
-                                headerFilterPlaceholder: "Enter Value",
-                                minWidth: 150,
+                            minWidth: 200,
+                        },
+                        {
+                            title: "Procedure Name",
+                            field: "Procedure_Name",
+                            sorter: "string",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
                             },
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                            },
+                            headerFilterPlaceholder: "Enter Value",
+                            minWidth: 150,
+                        },
 
-                            {
-                                title: "Date of Completion",
-                                field: "Date_of_Completion",
-                                sorter: "string",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                },
-                                headerFilterPlaceholder: "Enter Value",
-                                minWidth: 150,
+                        {
+                            title: "Date of Completion",
+                            field: "Date_of_Completion",
+                            sorter: "string",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
                             },
-                            {
-                                title: "CPT",
-                                field: "CPT",
-                                sorter: "string",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                },
-                                headerFilterPlaceholder: "Enter Value",
-                                minWidth: 150,
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
                             },
-                            {
-                                title: "Total",
-                                field: "Total",
-                                sorter: "number",
-                                editor: "number",
-                                editorParams: {
-                                    min: 0,
-                                },
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                headerFilterPlaceholder: "Select",
-                                minWidth: 150,
+                            headerFilterPlaceholder: "Enter Value",
+                            minWidth: 150,
+                        },
+                        {
+                            title: "CPT",
+                            field: "CPT",
+                            sorter: "string",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
                             },
-                            {
-                                title: "Performed",
-                                field: "Performed",
-                                sorter: "number",
-                                editor: "number",
-                                editorParams: {
-                                    min: 0,
-                                },
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                headerFilterPlaceholder: "Select",
-                                minWidth: 150,
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
                             },
-                            {
-                                title: "Observed",
-                                field: "Observed",
-                                sorter: "number",
-                                editor: "number",
-                                editorParams: {
-                                    min: 0,
-                                },
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                headerFilterPlaceholder: "Select",
-                                minWidth: 150,
+                            headerFilterPlaceholder: "Enter Value",
+                            minWidth: 150,
+                        },
+                        {
+                            title: "Total",
+                            field: "Total",
+                            sorter: "number",
+                            editor: "number",
+                            editorParams: {
+                                min: 0,
                             },
-                            {
-                                title: "Verified",
-                                field: "Verified",
-                                sorter: "number",
-                                editor: "number",
-                                editorParams: {
-                                    min: 0,
-                                },
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                headerFilterPlaceholder: "Select",
-                                minWidth: 150,
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
                             },
-                            {
-                                title: "Certified",
-                                field: "Certified",
-                                sorter: "number",
-                                editor: "number",
-                                editorParams: {
-                                    min: 0,
-                                },
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                headerFilterPlaceholder: "Select",
-                                minWidth: 150,
+                            headerFilterPlaceholder: "Select",
+                            minWidth: 150,
+                        },
+                        {
+                            title: "Performed",
+                            field: "Performed",
+                            sorter: "number",
+                            editor: "number",
+                            editorParams: {
+                                min: 0,
                             },
-                            {
-                                title: "Action",
-                                formatter: printRemoveButton,
-                                hozAlign: "center",
-                                cellClick: function (e, cell) {
-                                    axios.delete(local_host_url + "procedurelog" + "/" +
-                                            cell
-                                            .getRow().getData().id)
-                                        .then(function (response) {
-                                            console.log(response.data);
-                                            cell.getRow().delete();
-                                        })
-                                        .catch(function (error) {
-                                            console.log(error);
-                                        });
-                                },
-                                minWidth: 150,
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
                             },
+                            headerFilterPlaceholder: "Select",
+                            minWidth: 150,
+                        },
+                        {
+                            title: "Observed",
+                            field: "Observed",
+                            sorter: "number",
+                            editor: "number",
+                            editorParams: {
+                                min: 0,
+                            },
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
+                            headerFilterPlaceholder: "Select",
+                            minWidth: 150,
+                        },
+                        {
+                            title: "Verified",
+                            field: "Verified",
+                            sorter: "number",
+                            editor: "number",
+                            editorParams: {
+                                min: 0,
+                            },
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
+                            headerFilterPlaceholder: "Select",
+                            minWidth: 150,
+                        },
+                        {
+                            title: "Certified",
+                            field: "Certified",
+                            sorter: "number",
+                            editor: "number",
+                            editorParams: {
+                                min: 0,
+                            },
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
+                            headerFilterPlaceholder: "Select",
+                            minWidth: 150,
+                        },
+                        {
+                            title: "Action",
+                            formatter: printRemoveButton,
+                            hozAlign: "center",
+                            cellClick: function (e, cell) {
+                                axios.delete(local_host_url + "procedurelog" + "/" +
+                                    cell
+                                        .getRow().getData().id)
+                                    .then(function (response) {
+                                        console.log(response.data);
+                                        cell.getRow().delete();
+                                    })
+                                    .catch(function (error) {
+                                        console.log(error);
+                                    });
+                            },
+                            minWidth: 150,
+                        },
                         ],
                     });
                     // update data in the database after a cell is edited
@@ -492,15 +500,15 @@
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
                         axios.put(local_host_url + "procedurelog" + "/" + thisrow.id, {
-                                "MCR_No": thisrow.MCR_No,
-                                "Certified": thisrow.Certified,
-                                "Date_of_Completion": thisrow.Date_of_Completion,
-                                "Observed": thisrow.Observed,
-                                "Performed": thisrow.Performed,
-                                "Procedure_Name": thisrow.Procedure_Name,
-                                "Total": thisrow.Total,
-                                "Verified": thisrow.Verified,
-                            })
+                            "MCR_No": thisrow.MCR_No,
+                            "Certified": thisrow.Certified,
+                            "Date_of_Completion": thisrow.Date_of_Completion,
+                            "Observed": thisrow.Observed,
+                            "Performed": thisrow.Performed,
+                            "Procedure_Name": thisrow.Procedure_Name,
+                            "Total": thisrow.Total,
+                            "Verified": thisrow.Verified,
+                        })
                             .then(response => {
                                 console.log('Project ID {' + row.getData().id +
                                     '} updated.')
@@ -579,8 +587,7 @@
                                                     ' ').sort()
                                                 console.log(name_list2)
                                                 console.log(new_name_list)
-                                                if (JSON.stringify(new_name_list) ==
-                                                    JSON.stringify(name_list2)) {
+                                                if (JSON.stringify(new_name_list) == JSON.stringify(name_list2)) {
                                                     console.log(
                                                         'HALKFJHALDJFHALDJF')
                                                     data.MCR_No = this.MCR_name[

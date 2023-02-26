@@ -94,8 +94,8 @@
 
         <!-- Navbar -->
         <nav class="bg-white">
-            <div class=" items-center justify-between hidden w-full md:flex md:width-auto  md:order-1" id="navbar-sticky"
-                style="width: 100%; overflow: hidden;">
+            <div class=" items-center justify-between hidden w-full md:flex md:width-auto  md:order-1"
+                id="navbar-sticky" style="width: 100%; overflow: hidden;">
                 <ul
                     class="overflow-x-auto md:divide-x md:divide-slate-200 flex flex-col p-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row  md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
                     <li>
@@ -141,6 +141,11 @@
                             Awards</a>
                     </li>
                     <li>
+                        <a href="../tab_pages/didactic_attendance.html"
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                            Didactic Attendance</a>
+                    </li>
+                    <li>
                         <a href="../tab_pages/projects.html"
                             class="lg:text-sm md:text-sm  ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Projects</a>
                     </li>
@@ -172,7 +177,10 @@
         </nav>
         <!-- Orange Divider -->
         <div class='row' style='height: 8px; background-color: #ff6b00;'></div>
-
+        <!-- TABLE START -->
+        <div class="md:hidden sm:visible">
+            <h2 class="text-3xl font-bold  ml-8 mt-4 text-gray-700">Duty Hour Log</h2>
+        </div>
         <!-- filter rows -->
         <div class="flex items-center justify-between  mt-6 mx-8">
             <div class="relative">
@@ -210,11 +218,10 @@
                             <!-- input form -->
                             <input id="UploadFile" @change="importExcel"
                                 class="block w-full text-md text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                                type="file" name="file" ref = "UploadFile">
+                                type="file" name="file" ref="UploadFile">
                             <!-- error -->
                             <div v-if="error_message != ''"
-                                class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50"
-                                role="alert">
+                                class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
                                 <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor"
                                     viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
@@ -240,13 +247,16 @@
         <!-- TABLE START -->
         <div class="relative overflow-x-auto shadow-lg sm:rounded-lg mx-8 mb-10">
             <div v-if="table_error_message!=''" class="relative bg-white rounded-lg ">
-                <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xlr">{{table_error_message}}</h1>
+                <h1
+                    class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xlr">
+                    {{table_error_message}}</h1>
             </div>
             <table v-if="table_error_message==''" id="example-table"></table>
         </div>
 
         <!-- History menu -->
-        <div id="dropdownDelay" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow  sm:w-full md:w-44">
+        <div id="dropdownDelay"
+            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow  sm:w-full md:w-44">
             <ul class="py-2 text-sm text-gray-500" aria-labelledby="dropdownDelayButton">
                 <li>
                     <a href="./history_education.html" class="block px-4 py-2 hover:bg-gray-100 ">Education</a>
@@ -316,128 +326,128 @@
                         data: response.data.data,
                         index: "MCR_No",
                         columns: [{
-                                title: "MCR No",
-                                field: "MCR_No",
-                                sorter: "string",
-                                headerHozAlign: "center",
-                                headerFilter: true,
-                                headerFilterPlaceholder: "Enter Value",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-
-                                },
-                                minWidth: 200,
-                            },
-
-                            {
-                                title: "Level",
-                                field: "Level",
-                                sorter: "number",
-                                editor: "number",
-                                editorParams: {
-                                    min: 0,
-                                },
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                headerFilterPlaceholder: "Select",
-                                minWidth: 150,
-                            },
-                            {
-                                title: "Submitted",
-                                field: "Submitted",
-                                sorter: "number",
-                                editor: "number",
-                                editorParams: {
-                                    min: 0,
-                                    autocomplete: true,
-                                },
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                headerFilterPlaceholder: "Select",
-                                minWidth: 150,
+                            title: "MCR No",
+                            field: "MCR_No",
+                            sorter: "string",
+                            headerHozAlign: "center",
+                            headerFilter: true,
+                            headerFilterPlaceholder: "Enter Value",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
 
                             },
-                            {
-                                title: "Submitted Proportion",
-                                field: "Submitted_Proportion",
-                                sorter: "number",
-                                editor: "number",
-                                editorParams: {
-                                    min: 0,
-                                },
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                headerFilterPlaceholder: "Select",
-                                minWidth: 220,
-                            },
-                            {
-                                title: "MMYYYY",
-                                field: "MMYYYY",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    mask: "AAA-99",
-                                    maskAutoFill: true,
-                                },
-                                headerFilterPlaceholder: "Enter Value",
-                                minWidth: 150,
+                            minWidth: 200,
+                        },
 
+                        {
+                            title: "Level",
+                            field: "Level",
+                            sorter: "number",
+                            editor: "number",
+                            editorParams: {
+                                min: 0,
                             },
-                            {
-                                title: "Logged for Month",
-                                field: "Logged_for_month",
-                                sorter: "string",
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "list",
-                                editorParams: {
-                                    values: {
-                                        "Yes": "Yes",
-                                        "No": "No",
-                                        "Unknown": "Unknown",
-                                    }
-                                },
-                                headerFilterPlaceholder: "Select",
-                                minWidth: 200,
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
+                            headerFilterPlaceholder: "Select",
+                            minWidth: 150,
+                        },
+                        {
+                            title: "Submitted",
+                            field: "Submitted",
+                            sorter: "number",
+                            editor: "number",
+                            editorParams: {
+                                min: 0,
+                                autocomplete: true,
+                            },
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
+                            headerFilterPlaceholder: "Select",
+                            minWidth: 150,
 
+                        },
+                        {
+                            title: "Submitted Proportion",
+                            field: "Submitted_Proportion",
+                            sorter: "number",
+                            editor: "number",
+                            editorParams: {
+                                min: 0,
                             },
-                            {
-                                title: "Action",
-                                formatter: printRemoveButton,
-                                hozAlign: "center",
-                                cellClick: function (e, cell) {
-                                    axios.delete(local_host_url + 'duty_hour_log/' + cell
-                                            .getRow().getData().id)
-                                        .then(function (response) {
-                                            console.log(response.data);
-                                            cell.getRow().delete();
-                                        })
-                                        .catch(function (error) {
-                                            console.log(error);
-                                        });
-                                },
-                                minWidth: 150,
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
                             },
+                            headerFilterPlaceholder: "Select",
+                            minWidth: 220,
+                        },
+                        {
+                            title: "MMYYYY",
+                            field: "MMYYYY",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
+                            },
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                mask: "AAA-99",
+                                maskAutoFill: true,
+                            },
+                            headerFilterPlaceholder: "Enter Value",
+                            minWidth: 150,
+
+                        },
+                        {
+                            title: "Logged for Month",
+                            field: "Logged_for_month",
+                            sorter: "string",
+                            headerFilter: "list",
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
+                            },
+                            editor: "list",
+                            editorParams: {
+                                values: {
+                                    "Yes": "Yes",
+                                    "No": "No",
+                                    "Unknown": "Unknown",
+                                }
+                            },
+                            headerFilterPlaceholder: "Select",
+                            minWidth: 200,
+
+                        },
+                        {
+                            title: "Action",
+                            formatter: printRemoveButton,
+                            hozAlign: "center",
+                            cellClick: function (e, cell) {
+                                axios.delete(local_host_url + 'duty_hour_log/' + cell
+                                    .getRow().getData().id)
+                                    .then(function (response) {
+                                        console.log(response.data);
+                                        cell.getRow().delete();
+                                    })
+                                    .catch(function (error) {
+                                        console.log(error);
+                                    });
+                            },
+                            minWidth: 150,
+                        },
                         ],
                     });
                     // update data in the database after a cell is edited
@@ -446,13 +456,13 @@
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
                         axios.put(local_host_url + "duty_hour_log/" + thisrow.id, {
-                                "Level": thisrow.Level,
-                                "Logged_for_month": thisrow.Logged_for_month,
-                                "MCR_No": thisrow.MCR_No,
-                                "MMYYYY": thisrow.MMYYYY,
-                                "Submitted": thisrow.Submitted,
-                                "Submitted_Proportion": thisrow.Submitted_Proportion
-                            })
+                            "Level": thisrow.Level,
+                            "Logged_for_month": thisrow.Logged_for_month,
+                            "MCR_No": thisrow.MCR_No,
+                            "MMYYYY": thisrow.MMYYYY,
+                            "Submitted": thisrow.Submitted,
+                            "Submitted_Proportion": thisrow.Submitted_Proportion
+                        })
                             .then(response => {
                                 console.log('Duty Hour Log ID {' + row.getData().id +
                                     '} updated.')
@@ -473,15 +483,15 @@
                 var fileVal = document.getElementById("UploadFile");
                 this.file = fileVal.files[0]
 
-                if (!this.file.name.toLowerCase().includes("duty hour")){
+                if (!this.file.name.toLowerCase().includes("duty hour")) {
                     this.file_error = true;
                     this.error_message = "<li>- Invalid File Uploaded</li>";
                     document.getElementById('submit').disabled = true;
-                    return 
+                    return
                 }
                 this.isDisabled();
-            
-                var file_error = false; 
+
+                var file_error = false;
                 const wb = new Excel.Workbook();
                 const reader = new FileReader()
                 reader.readAsArrayBuffer(this.file)
@@ -493,7 +503,7 @@
                             const rowsWithValues = sheet.actualRowCount - 7;
                             var user_count = 0
                             sheet.eachRow((row, rowIndex) => {
-                                var same_error = false; 
+                                var same_error = false;
                                 var name_error = false;
                                 var user_error = false;
 
@@ -511,7 +521,7 @@
                                                 .split(
                                                     ',')
                                             var new_name = name_list.reverse().join(
-                                                    " ")
+                                                " ")
                                                 .trim()
                                             if (new_name == each) {
                                                 data.MCR_No = this.MCR_name[each] ||
@@ -534,8 +544,8 @@
                                     for (each of this.duty_hour_logs) {
                                         if (data.Level == each.Level && data
                                             .Logged_for_month == each
-                                            .Logged_for_month && data.MCR_No == each
-                                            .MCR_No && data.Submitted_Proportion ==
+                                                .Logged_for_month && data.MCR_No == each
+                                                    .MCR_No && data.Submitted_Proportion ==
                                             each.Submitted_Proportion) {
                                             same_error = true;
                                             break
@@ -555,7 +565,7 @@
                                                     .message
                                             });
                                     }
-                                    else{
+                                    else {
                                         user_count += 1;
                                     }
 
@@ -567,12 +577,12 @@
                                         this.error_message += this.error_message +=
                                             "<li> - " + new_name +
                                             " does not exist in the Database</li>"
-                                    } else if (user_count == rowsWithValues){
+                                    } else if (user_count == rowsWithValues) {
                                         this.error_message += "<li> - All rows already exist in Database</li>";
                                     }
 
                                     if (this.error_message != "") {
-                                        document.getElementById('submit').disabled =true;
+                                        document.getElementById('submit').disabled = true;
                                     }
                                 }
                             })
@@ -602,7 +612,7 @@
             removeErrorMsg() {
                 this.error_message = "";
                 document.getElementById('submit').disabled = false;
-                this.$refs.UploadFile.value=null;
+                this.$refs.UploadFile.value = null;
             }
 
         }

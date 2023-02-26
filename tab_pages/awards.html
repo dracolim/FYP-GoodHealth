@@ -142,6 +142,11 @@
                             Awards</a>
                     </li>
                     <li>
+                        <a href="../tab_pages/didactic_attendance.html"
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                            Didactic Attendance</a>
+                    </li>
+                    <li>
                         <a href="../tab_pages/projects.html"
                             class="lg:text-sm md:text-sm  ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Projects</a>
                     </li>
@@ -255,7 +260,13 @@
                     };
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
-                        layout: "fitColumns",
+                        layout:"fitDataStretch",
+                        placeholder: "No Data Available in Awards",
+                        history: true,
+                        pagination: "local",
+                        paginationSize: 10,
+                        paginationCounter: "rows",
+                        movableColumns: true,
                         data: response.data.data,
                         index: "MCR_No",
                         columns: [{
@@ -264,7 +275,6 @@
                                 sorter: "string",
                                 headerHozAlign: "center",
                                 headerFilter: true,
-                                headerFilterPlaceholder: "Enter Value",
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true,
@@ -284,12 +294,7 @@
                                     valuesLookup: true,
                                     maskAutoFill: true,
                                 },
-                                headerFilter: "list",
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                headerFilterPlaceholder: "Select",
+                                headerFilter: true,
                                 minWidth: 200,
                             },
                             {
@@ -307,7 +312,6 @@
                                     valuesLookup: true,
                                     maskAutoFill: true,
                                 },
-                                headerFilterPlaceholder: "Enter Value",
                                 minWidth: 150,
                             },
                             {
@@ -325,7 +329,6 @@
                                     valuesLookup: true,
                                     maskAutoFill: true,
                                 },
-                                headerFilterPlaceholder: "Enter Value",
                                 minWidth: 150,
                             }, 
                             {
@@ -343,7 +346,6 @@
                                     valuesLookup: true,
                                     maskAutoFill: true,
                                 },
-                                headerFilterPlaceholder: "Enter Value",
                                 minWidth: 150,
                             }, 
                             {
@@ -361,7 +363,6 @@
                                     valuesLookup: true,
                                     maskAutoFill: true,
                                 },
-                                headerFilterPlaceholder: "Enter Value",
                                 minWidth: 150,
                             }, 
                             {

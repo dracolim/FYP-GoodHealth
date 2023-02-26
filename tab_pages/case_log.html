@@ -141,6 +141,11 @@
                             Awards</a>
                     </li>
                     <li>
+                        <a href="../tab_pages/didactic_attendance.html"
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                            Didactic Attendance</a>
+                    </li>
+                    <li>
                         <a href="../tab_pages/projects.html"
                             class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Projects</a>
                     </li>
@@ -173,6 +178,11 @@
         </nav>
         <!-- Orange Divider -->
         <div class='row' style='height: 8px; background-color: #ff6b00;'></div>
+
+        <!-- TABLE START -->
+        <div class="md:hidden sm:visible">
+            <h2 class="text-3xl font-bold  ml-8 mt-4 text-gray-700">Case Log</h2>
+        </div>
 
         <!-- filter rows -->
         <div class="flex items-center justify-between mt-6 mx-8">
@@ -314,7 +324,13 @@
                     };
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
-                        layout: "fitColumns",
+                        layout:"fitDataStretch",
+                        placeholder: "No Data Available in Case Log",
+                        history: true,
+                        pagination: "local",
+                        paginationSize: 10,
+                        paginationCounter: "rows",
+                        movableColumns: true, 
                         data: this.tableData,
                         index: "MCR_No",
                         columns: [{
@@ -323,7 +339,6 @@
                                 sorter: "string",
                                 headerHozAlign: "center",
                                 headerFilter: true,
-                                headerFilterPlaceholder: "Enter value",
                                 headerFilterParams: {
                                     autocomplete: true,
                                     valuesLookup: true,
@@ -347,7 +362,6 @@
                                     listOnEmpty: true,
                                     valuesLookup: true,
                                 },
-                                headerFilterPlaceholder: "Enter Value",
                                 minWidth: 150,
                             },
 
@@ -366,19 +380,18 @@
                                     listOnEmpty: true,
                                     valuesLookup: true,
                                 },
-                                headerFilterPlaceholder: "Enter Value",
                                 minWidth: 150,
                             },
                             {
                                 title: "Type of Case Log",
                                 field: "Type_of_Case_Log",
                                 sorter: "string",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true,
                                 },
-                                editor: "list",
+                                editor: true,
                                 editorParams: {
                                     values: {
                                         "inpatient": "inpatient",
@@ -386,7 +399,7 @@
                                         "blue letter": "blue letter",
                                     }
                                 },
-                                headerFilterPlaceholder: "Select",
+                                
                                 minWidth: 200,
 
                             },
@@ -403,7 +416,6 @@
                                     valuesLookup: true,
                                     clearable: true
                                 },
-                                headerFilterPlaceholder: "Enter Date",
                                 minWidth: 150,
                             },
                             {
@@ -421,7 +433,6 @@
                                     listOnEmpty: true,
                                     valuesLookup: true,
                                 },
-                                headerFilterPlaceholder: "Enter Value",
                                 minWidth: 150,
                             },
                             {
@@ -432,12 +443,12 @@
                                 editorParams: {
                                     min: 0,
                                 },
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
                                 },
-                                headerFilterPlaceholder: "Select",
+                                
                                 minWidth: 150,
                             },
                             {
@@ -448,12 +459,12 @@
                                 editorParams: {
                                     min: 0,
                                 },
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
                                 },
-                                headerFilterPlaceholder: "Select",
+                                
                                 minWidth: 150,
                             },
                             {
@@ -464,12 +475,12 @@
                                 editorParams: {
                                     min: 0,
                                 },
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
                                 },
-                                headerFilterPlaceholder: "Select",
+                                
                                 minWidth: 150,
                             },
                             {
@@ -480,12 +491,12 @@
                                 editorParams: {
                                     min: 0,
                                 },
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
                                 },
-                                headerFilterPlaceholder: "Select",
+                                
                                 minWidth: 150,
                             },
                             {
@@ -496,12 +507,12 @@
                                 editorParams: {
                                     min: 0,
                                 },
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
                                 },
-                                headerFilterPlaceholder: "Select",
+                                
                                 minWidth: 150,
                             },
                             {
