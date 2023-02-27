@@ -1793,7 +1793,7 @@ def delete_history_training(id):
 # ============================
 # AKA grants table routes:
 # Read Existing grants (R)
-@app.route("/grants")
+@app.route("/grant")
 def read_grants():
     grantsList = Grants.query.all()
     return jsonify(
@@ -1866,7 +1866,7 @@ def delete_grants(id):
 # ============================
 # AKA awards table routes:
 # Read Existing awards (R)
-@app.route("/awards")
+@app.route("/award")
 def read_awards():
     awardsList = Awards.query.all()
     return jsonify(
@@ -1940,7 +1940,7 @@ def delete_awards(id):
 # AKA didactic_attendance table routes:
 
 # Read Awards field/column name (R)
-@app.route('/didactic_attendances', methods=['GET'])
+@app.route('/didactic_attendance', methods=['GET'])
 def get_didactic_attendances():
     daList = Didactic_Attendance.query.all()
     return jsonify(
@@ -1994,7 +1994,7 @@ def delete_didactic_attendance(id):
 # AKA publications table routes:
 
 # Read Existing  (R)
-@app.route("/publications")
+@app.route("/publication")
 def read_publications():
     pdList = Publications.query.all()
     return jsonify(
@@ -2058,7 +2058,7 @@ def delete_publication(id):
 # ============================
 # AKA projects table routes:
 # Read Existing personaldetails (R)
-@app.route("/projects")
+@app.route("/project")
 def read_projects():
     pdList = Projects.query.all()
     return jsonify(
@@ -2638,7 +2638,7 @@ def delete_procedure_log(id):
 # ============================
 # AKA Case_log table routes:
 # Read Existing caselog (R)
-@app.route("/case_logs")
+@app.route("/case_log")
 def read_case_log():
     res = Case_Log.query.all()
     return jsonify(
@@ -2720,7 +2720,7 @@ def read_evaluations_by_person(id):
 # Read Existing evaluations (R)
 
 
-@app.route("/evaluations")
+@app.route("/evaluation")
 def read_evaluation():
     res = Evaluations.query.all()
     return jsonify(
@@ -2804,7 +2804,7 @@ def read_trgextrem_history_by_person(id):
 # Read Existing  (R)
 
 
-@app.route("/presentations")
+@app.route("/presentation")
 def read_presentations():
     pdList = Presentations.query.all()
     return jsonify(

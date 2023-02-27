@@ -278,8 +278,11 @@
         el: "#app",
         data: {
             local_host_url: "http://localhost:5011/",
+            page_name: "Projects", // for showing when DataTable is empty
+
             personal_details_fields: [],
             personal_details_datas: [],
+            page_name: "Projects", // for showing when DataTable is empty
             file: "",
             MCR_name: {},
             error_message: "",
@@ -306,7 +309,7 @@
                     console.log(error)
                 });
 
-            axios.get(this.local_host_url + 'projects')
+            axios.get(this.local_host_url + 'project')
                 .then(response => {
                     this.tableData = response.data.data
                     var printRemoveButton = function (cell, formatterParams,
@@ -315,7 +318,13 @@
                     };
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
-                        layout: "fitColumns",
+                        layout:"fitDataStretch",
+                        placeholder: "No Data Available in " + this.page_name,
+                        history: true,
+                        pagination: "local",
+                        paginationSize: 10,
+                        paginationCounter: "rows",
+                        movableColumns: true,    
                         data: this.tableData,
                         index: "MCR_No",
                         columns: [{

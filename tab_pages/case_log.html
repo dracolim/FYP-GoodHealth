@@ -285,7 +285,9 @@
         el: "#app",
         data: {
             local_host_url: "http://localhost:5011/",
-            currentPage: "case_logs",
+            currentPage: "case_log",
+            page_name: "Case Logs", // for showing when DataTable is empty
+
             personal_details_fields: [],
             personal_details_datas: [],
             file: "",
@@ -324,7 +326,7 @@
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
                         layout: "fitDataStretch",
-                        placeholder: "No Data Available in Case Log",
+                        placeholder: "No Data Available in " + this.page_name,
                         history: true,
                         pagination: "local",
                         paginationSize: 10,

@@ -231,6 +231,8 @@
         el: "#app",
         data: {
             local_host_url: "http://localhost:5011/",
+            page_name: "Presentation", // for showing when DataTable is empty
+
             personal_details_fields: [],
             personal_details_datas: [],
             file: "",
@@ -259,7 +261,7 @@
                     console.log(error)
                 });
 
-            axios.get(this.local_host_url + 'presentations')
+            axios.get(this.local_host_url + 'presentation')
                 .then(response => {
                     this.tableData = response.data.data
                     var printRemoveButton = function (cell, formatterParams,
@@ -269,7 +271,7 @@
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
                         layout: "fitDataStretch",
-                        placeholder: "No Data Available in Presentation",
+                        placeholder: "No Data Available in " + this.page_name,
                         history: true,
                         pagination: "local",
                         paginationSize: 10,
