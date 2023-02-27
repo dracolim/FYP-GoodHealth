@@ -83,31 +83,32 @@ class TestCaseLogs(unittest.TestCase):
     def test_to_dict(self):
         from app import Case_Log
         jr1 = Case_Log(
-            MCR_No = "1234o19",
-            CPT = "",
-            Case_Name = "Case_Name1",
-            Certified = "",
-            Date_of_Log = "",
-            Observed = "",
-            Performed = "",
-            Subspecialty = "",
-            Total = "",
-            Type_of_Case_Log = "",
-            Verified = ""
+            CPT= "Null",
+            Case_Name= "AKI - Case Log",
+            Certified= "No",
+            Date_of_Log= "3/2/2022",
+            MCR_No= "M11367A",
+            Observed= "8",
+            Performed= "2",
+            Subspecialty= "gastro",
+            Total= "10",
+            Type_of_Case_Log= "inpatient",
+            Verified= "",
+            id= 1
             )
         self.assertEqual(jr1.to_dict(), {
-            "CPT": "",
-            "Case_Name": "Case_Name1",
-            "Certified": "",
-            "Date_of_Log": "",
-            "MCR_No": "1234o19",
-            "Observed": "",
-            "Performed": "",
-            "Subspecialty": "",
-            "Total": "",
-            "Type_of_Case_Log": "",
+            "CPT": "Null",
+            "Case_Name": "AKI - Case Log",
+            "Certified": "No",
+            "Date_of_Log": "3/2/2022",
+            "MCR_No": "M11367A",
+            "Observed": "8",
+            "Performed": "2",
+            "Subspecialty": "gastro",
+            "Total": "10",
+            "Type_of_Case_Log": "inpatient",
             "Verified": "",
-            "id": None
+            "id": 1
             }
         )
 
@@ -135,13 +136,13 @@ class TestPublications(unittest.TestCase):
         from app import Publications
         jr1 = Publications(
             MCR_No = "1234o19",
-            Journal_Title = "juice box",
+            Journal_Title = "juice sbox",
             PMID = "123",
             Publication_Date = "2023-01-03",
             Publication_Title = "juice",
             )
         self.assertEqual(jr1.to_dict(), {
-            "Journal_Title": "juice box",
+            "Journal_Title": "juice sbox",
             "MCR_No": "1234o19",
             "PMID": "123",
             "Publication_Date": "2023-01-03",
@@ -220,6 +221,29 @@ class TestProjects(unittest.TestCase):
             "Project_Type": "",
             "Start_Date": "",
             "id": None
+            }
+        )
+        
+class TestAwards(unittest.TestCase):
+    def test_to_dict(self):
+        from app import Awards
+        jr1 = Awards(
+            Award_Category= "",
+            Date_of_Award_Received= "2016",
+            FY_of_Award_Received= "",
+            MCR_No= "M16782H",
+            Name_of_Award= "Antibiotic stewardship award",
+            Project_ID= "",
+            id= 2
+            )
+        self.assertEqual(jr1.to_dict(), {
+            "Award_Category": "",
+            "Date_of_Award_Received": "2016",
+            "FY_of_Award_Received": "",
+            "MCR_No": "M16782H",
+            "Name_of_Award": "Antibiotic stewardship award",
+            "Project_ID": "",
+            "id": 2
             }
         )
 

@@ -1875,7 +1875,7 @@ def delete_awards(id):
 # AKA didactic_attendance table routes:
 
 # Read Awards field/column name (R)
-@app.route('/didactic_attendances', methods=['GET'])
+@app.route('/didactic_attendance', methods=['GET'])
 def get_didactic_attendances():
     daList = Didactic_Attendance.query.all()
     return jsonify(
