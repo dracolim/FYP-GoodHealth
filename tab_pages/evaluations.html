@@ -494,6 +494,8 @@
                                     })
                                     .catch(function (error) {
                                         console.log(error);
+                                        if (alert("Failed to remove row MCR No: " + row.getData().MCR_No)) { }
+                                        else window.location.reload();
                                     });
                             },
                             minWidth: 150,
@@ -523,12 +525,15 @@
                             })
                             .catch(error => {
                                 console.log(error)
+                                if (alert("Failed to update row MCR No: " + row.getData().MCR_No)) { }
+                                else window.location.reload();		
                             })
                     });
                 })
                 .catch(error => {
                     this.table_error_message = error.message
                     console.error(error);
+                    
                 });
 
         },

@@ -96,8 +96,8 @@
 
         <!-- Navbar -->
         <nav class="bg-white">
-            <div class=" items-center justify-between hidden w-full md:flex md:width-auto  md:order-1" id="navbar-sticky"
-                style="width: 100%; overflow: hidden;">
+            <div class=" items-center justify-between hidden w-full md:flex md:width-auto  md:order-1"
+                id="navbar-sticky" style="width: 100%; overflow: hidden;">
                 <ul
                     class="overflow-x-auto md:divide-x md:divide-slate-200 flex flex-col p-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row  md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
                     <li>
@@ -111,12 +111,11 @@
                             Personal Details</a>
                     </li>
                     <li>
-                        <a data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500"
-                            data-dropdown-trigger="hover">
+                        <a data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500" data-dropdown-trigger="hover">
                             <span
                                 class="lg:text-sm md:text-sm ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
                                 History</span>
-                    </a>
+                        </a>
                     </li>
                     <li>
                         <a href="../tab_pages/involvement.html"
@@ -158,7 +157,8 @@
                     </li>
                     <li>
                         <a href="../tab_pages/duty_hour_log.html"
-                            class="lg:text-sm md:text-sm  ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Duty Hour Log</a>
+                            class="lg:text-sm md:text-sm  ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Duty
+                            Hour Log</a>
                     </li>
                     <li>
                         <a href="../tab_pages/procedure_log.html"
@@ -181,19 +181,22 @@
         <div class='row' style='height: 8px; background-color: #ff6b00;'></div>
 
         <!-- TABLE START -->
-        <div class = "md:hidden sm:visible">
-            <h2 class="text-3xl font-bold  ml-8 mt-4 text-gray-700">Involvement</h2> 
+        <div class="md:hidden sm:visible">
+            <h2 class="text-3xl font-bold  ml-8 mt-4 text-gray-700">Involvement</h2>
         </div>
-       
+
         <div class="overflow-x-auto sm:rounded-lg mx-8 mb-10 md:mt-4 sm:mt-2">
             <div v-if="table_error_message!=''" class="relative bg-white rounded-lg ">
-                <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xlr">{{table_error_message}}</h1>
+                <h1
+                    class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xlr">
+                    {{table_error_message}}</h1>
             </div>
             <table v-if="table_error_message==''" id="example-table"></table>
         </div>
 
         <!-- History menu -->
-        <div id="dropdownDelay" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow  sm:w-full md:w-44">
+        <div id="dropdownDelay"
+            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow  sm:w-full md:w-44">
             <ul class="py-2 text-sm text-gray-500" aria-labelledby="dropdownDelayButton">
                 <li>
                     <a href="./history_education.html" class="block px-4 py-2 hover:bg-gray-100 ">Education</a>
@@ -260,152 +263,154 @@
                     };
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
-                        layout:"fitDataStretch",
+                        layout: "fitDataStretch",
                         placeholder: "No Data Available in " + this.page_name,
                         history: true,
                         pagination: "local",
                         paginationSize: 10,
                         paginationCounter: "rows",
-                        movableColumns: true,    
+                        movableColumns: true,
                         data: response.data.data,
                         index: "MCR_No",
                         columns: [{
-                                title: "MCR No",
-                                field: "MCR_No",
-                                sorter: "string",
-                                headerHozAlign: "center",
-                                headerFilter: true,
-                                
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
+                            title: "MCR No",
+                            field: "MCR_No",
+                            sorter: "string",
+                            headerHozAlign: "center",
+                            headerFilter: true,
 
-                                },
-                                minWidth: 200,
-                            },
-
-                            {
-                                title: "Involvement Type",
-                                field: "Involvement_Type",
-                                sorter: "string",
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                
-                                minWidth: 200,
-                            },
-                            {
-                                title: "Event",
-                                field: "Event",
-                                sorter: "string",
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                headerHozAlign: "center",
-                                headerFilter: true,
-                                
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-
-                                },
-                                minWidth: 200,
-                            },
-                            {
-                                title: "Role",
-                                field: "Role",
-                                sorter: "string",
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                
-                                minWidth: 220,
-                            },
-                            {
-                                title: "Start Date",
-                                field: "Start_Date",
-                                // sorter: "date",
-                                // sorterParams:{
-                                //     format:"MM-yy",
-                                //     alignEmptyValues:"top",
-                                // },
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    mask: "AAA-99",
-                                    maskAutoFill: true,
-                                },
-                                
-                                minWidth: 150,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
 
                             },
-                            {
-                                title: "End Date",
-                                field: "End_Date",
-                                sorter: "string",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    mask: "AAA-99",
-                                    maskAutoFill: true,
-                                },
-                                
-                                minWidth: 200,
+                            minWidth: 200,
+                        },
+
+                        {
+                            title: "Involvement Type",
+                            field: "Involvement_Type",
+                            sorter: "string",
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                maskAutoFill: true,
+                            },
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
+
+                            minWidth: 200,
+                        },
+                        {
+                            title: "Event",
+                            field: "Event",
+                            sorter: "string",
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                maskAutoFill: true,
+                            },
+                            headerHozAlign: "center",
+                            headerFilter: true,
+
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
 
                             },
-                            {
-                                title: "Action",
-                                formatter: printRemoveButton,
-                                hozAlign: "center",
-                                cellClick: function (e, cell) {
-                                    axios.delete(local_host_url + 'involvement/' + cell
-                                            .getRow().getData().id)
-                                        .then(function (response) {
-                                            console.log(response.data);
-                                            cell.getRow().delete();
-                                        })
-                                        .catch(function (error) {
-                                            console.log(error);
-                                        });
-                                },
-                                minWidth: 150,
+                            minWidth: 200,
+                        },
+                        {
+                            title: "Role",
+                            field: "Role",
+                            sorter: "string",
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                maskAutoFill: true,
                             },
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
+
+                            minWidth: 220,
+                        },
+                        {
+                            title: "Start Date",
+                            field: "Start_Date",
+                            // sorter: "date",
+                            // sorterParams:{
+                            //     format:"MM-yy",
+                            //     alignEmptyValues:"top",
+                            // },
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
+                            },
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                mask: "AAA-99",
+                                maskAutoFill: true,
+                            },
+
+                            minWidth: 150,
+
+                        },
+                        {
+                            title: "End Date",
+                            field: "End_Date",
+                            sorter: "string",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
+                            },
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                mask: "AAA-99",
+                                maskAutoFill: true,
+                            },
+
+                            minWidth: 200,
+
+                        },
+                        {
+                            title: "Action",
+                            formatter: printRemoveButton,
+                            hozAlign: "center",
+                            cellClick: function (e, cell) {
+                                axios.delete(local_host_url + 'involvement/' + cell
+                                    .getRow().getData().id)
+                                    .then(function (response) {
+                                        console.log(response.data);
+                                        cell.getRow().delete();
+                                    })
+                                    .catch(function (error) {
+                                        console.log(error);
+                                        if (alert("Failed to remove row MCR No: " + row.getData().MCR_No)) { }
+                                        else window.location.reload();
+                                    });
+                            },
+                            minWidth: 150,
+                        },
                         ],
                     });
                     // update data in the database after a cell is edited
@@ -414,19 +419,21 @@
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
                         axios.put(local_host_url + "involvement/" + thisrow.id, {
-                                "Event": thisrow.Event,
-                                "Involvement_Type": thisrow.Involvement_Type,
-                                "MCR_No": thisrow.MCR_No,
-                                "Role": thisrow.Role,
-                                "Start_Date": thisrow.Start_Date,
-                                "End_Date": thisrow.End_Date
-                            })
+                            "Event": thisrow.Event,
+                            "Involvement_Type": thisrow.Involvement_Type,
+                            "MCR_No": thisrow.MCR_No,
+                            "Role": thisrow.Role,
+                            "Start_Date": thisrow.Start_Date,
+                            "End_Date": thisrow.End_Date
+                        })
                             .then(response => {
                                 console.log('Involvement ID {' + row.getData().id +
                                     '} updated.')
                             })
                             .catch(error => {
                                 console.log(error)
+                                if (alert("Failed to update row MCR No: " + row.getData().MCR_No)) { }
+                                else window.location.reload();	
                             })
                     });
                 })

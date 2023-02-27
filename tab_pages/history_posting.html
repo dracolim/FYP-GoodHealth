@@ -195,13 +195,15 @@
         </div>
 
         <!-- History menu -->
-        <div id="dropdownDelay" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow sm:w-full md:w-44">
+        <div id="dropdownDelay"
+            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow sm:w-full md:w-44">
             <ul class="py-2 text-sm text-gray-500" aria-labelledby="dropdownDelayButton">
                 <li>
                     <a href="./history_education.html" class="block px-4 py-2 hover:bg-gray-100">Education</a>
                 </li>
                 <li>
-                    <a href="./history_posting.html" class="block px-4 py-2 hover:bg-gray-100  bg-orange-200">Posting</a>
+                    <a href="./history_posting.html"
+                        class="block px-4 py-2 hover:bg-gray-100  bg-orange-200">Posting</a>
                 </li>
                 <li>
                     <a href="./history_exam.html" class="block px-4 py-2 hover:bg-gray-100 ">Exam</a>
@@ -262,117 +264,119 @@
                     };
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
-                        layout:"fitDataStretch",
+                        layout: "fitDataStretch",
                         placeholder: "No Data Available in " + this.page_name,
                         history: true,
                         pagination: "local",
                         paginationSize: 10,
                         paginationCounter: "rows",
-                        movableColumns: true,    
+                        movableColumns: true,
                         data: response.data.data,
                         index: "MCR_No",
                         columns: [{
-                                title: "MCR No",
-                                field: "MCR_No",
-                                sorter: "string",
-                                headerHozAlign: "center",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
+                            title: "MCR No",
+                            field: "MCR_No",
+                            sorter: "string",
+                            headerHozAlign: "center",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
 
-                                },
-                                minWidth: 200,
                             },
+                            minWidth: 200,
+                        },
 
-                            {
-                                title: "Posting Institution",
-                                field: "Posting_Institution",
-                                sorter: "string",
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                minWidth: 200,
+                        {
+                            title: "Posting Institution",
+                            field: "Posting_Institution",
+                            sorter: "string",
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                maskAutoFill: true,
                             },
-                            {
-                                title: "Posting Department",
-                                field: "Posting_Department",
-                                sorter: "string",
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                minWidth: 200,
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
                             },
-                            {
-                                title: "Posting Start Date",
-                                field: "Posting_StartDate",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                minWidth: 150,
+                            minWidth: 200,
+                        },
+                        {
+                            title: "Posting Department",
+                            field: "Posting_Department",
+                            sorter: "string",
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                maskAutoFill: true,
                             },
-                            {
-                                title: "Posting End Date",
-                                field: "Posting_EndDate",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                minWidth: 150,
-                            }, 
-                            {
-                                title: "Action",
-                                formatter: printRemoveButton,
-                                hozAlign: "center",
-                                cellClick: function (e, cell) {
-                                    axios.delete(local_host_url + 'history_posting/' +
-                                            cell
-                                            .getRow().getData().id)
-                                        .then(function (response) {
-                                            console.log(response.data);
-                                            cell.getRow().delete();
-                                        })
-                                        .catch(function (error) {
-                                            console.log(error);
-                                        });
-                                },
-                                minWidth: 150,
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
                             },
+                            minWidth: 200,
+                        },
+                        {
+                            title: "Posting Start Date",
+                            field: "Posting_StartDate",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
+                            },
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                maskAutoFill: true,
+                            },
+                            minWidth: 150,
+                        },
+                        {
+                            title: "Posting End Date",
+                            field: "Posting_EndDate",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
+                            },
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                maskAutoFill: true,
+                            },
+                            minWidth: 150,
+                        },
+                        {
+                            title: "Action",
+                            formatter: printRemoveButton,
+                            hozAlign: "center",
+                            cellClick: function (e, cell) {
+                                axios.delete(local_host_url + 'history_posting/' +
+                                    cell
+                                        .getRow().getData().id)
+                                    .then(function (response) {
+                                        console.log(response.data);
+                                        cell.getRow().delete();
+                                    })
+                                    .catch(function (error) {
+                                        console.log(error);
+                                        if (alert("Failed to remove row MCR No: " + row.getData().MCR_No)) { }
+                                        else window.location.reload();
+                                    });
+                            },
+                            minWidth: 150,
+                        },
                         ],
                     });
                     // update data in the database after a cell is edited
@@ -381,18 +385,20 @@
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
                         axios.put(local_host_url + "history_posting/" + thisrow.id, {
-                                "MCR_No": thisrow.MCR_No,
-                                "Posting_Institution": thisrow.Posting_Institution,
-                                "Posting_Department": thisrow.Posting_Department,
-                                "Posting_StartDate": thisrow.Posting_StartDate,
-                                "Posting_EndDate": thisrow.Posting_EndDate,
-                            })
+                            "MCR_No": thisrow.MCR_No,
+                            "Posting_Institution": thisrow.Posting_Institution,
+                            "Posting_Department": thisrow.Posting_Department,
+                            "Posting_StartDate": thisrow.Posting_StartDate,
+                            "Posting_EndDate": thisrow.Posting_EndDate,
+                        })
                             .then(response => {
                                 console.log('History Education ID {' + row.getData().id +
                                     '} updated.')
                             })
                             .catch(error => {
                                 console.log(error)
+                                if (alert("Failed to update row MCR No: " + row.getData().MCR_No)) { }
+                                else window.location.reload();	
                             })
                     });
                 })

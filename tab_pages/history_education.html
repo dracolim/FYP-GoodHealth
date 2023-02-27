@@ -195,10 +195,12 @@
         </div>
 
         <!-- History menu -->
-        <div id="dropdownDelay" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow sm:w-full md:w-44">
+        <div id="dropdownDelay"
+            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow sm:w-full md:w-44">
             <ul class="py-2 text-sm text-gray-500" aria-labelledby="dropdownDelayButton">
                 <li>
-                    <a href="./history_education.html" class="block px-4 py-2 hover:bg-gray-100 bg-orange-200">Education</a>
+                    <a href="./history_education.html"
+                        class="block px-4 py-2 hover:bg-gray-100 bg-orange-200">Education</a>
                 </li>
                 <li>
                     <a href="./history_posting.html" class="block px-4 py-2 hover:bg-gray-100 ">Posting</a>
@@ -262,248 +264,250 @@
                     };
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
-                        layout:"fitDataStretch",
+                        layout: "fitDataStretch",
                         placeholder: "No Data Available in " + this.page_name,
                         history: true,
                         pagination: "local",
                         paginationSize: 10,
                         paginationCounter: "rows",
-                        movableColumns: true,    
+                        movableColumns: true,
                         data: response.data.data,
                         index: "MCR_No",
                         columns: [{
-                                title: "MCR No",
-                                field: "MCR_No",
-                                sorter: "string",
-                                headerHozAlign: "center",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-
-                                },
-                                minWidth: 200,
-                            },
-
-                            {
-                                title: "Year of Graduation",
-                                field: "Year_of_Graduation",
-                                sorter: "number",
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    mask: "9999",
-                                    maskAutoFill: true,
-                                },
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                minWidth: 200,
-                            },
-                            {
-                                title: "Date of Graduation",
-                                field: "Date_of_Graduation",
-                                sorter: "string",
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                minWidth: 200,
-                            },
-                            {
-                                title: "Basic Qualification",
-                                field: "Basic_Qualification",
-                                sorter: "string",
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                
-                                minWidth: 220,
-                            },
-                            {
-                                title: "Medical School",
-                                field: "Medical_School",
-                                sorter: "string",
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                
-                                minWidth: 220,
-                            }, 
-                            {
-                                title: "IM Residency Start Date",
-                                field: "IM_Residency_Start_Date",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                minWidth: 150,
+                            title: "MCR No",
+                            field: "MCR_No",
+                            sorter: "string",
+                            headerHozAlign: "center",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
 
                             },
-                            {
-                                title: "IM Residency End Date",
-                                field: "IM_Residency_End_Date",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                minWidth: 150,
-                            },
-                            {
-                                title: "SR Residency Programme",
-                                field: "SR_Residency_Programme",
-                                sorter: "string",
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                
-                                minWidth: 220,
-                            }, 
-                            {
-                                title: "SR Residency Start Date",
-                                field: "SR_Residency_Start_Date",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                minWidth: 150,
+                            minWidth: 200,
+                        },
 
+                        {
+                            title: "Year of Graduation",
+                            field: "Year_of_Graduation",
+                            sorter: "number",
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                mask: "9999",
+                                maskAutoFill: true,
                             },
-                            {
-                                title: "SR Residency End Date",
-                                field: "SR_Residency_End_Date",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                minWidth: 150,
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
                             },
-                            {
-                                title: "IM Residency Start Date",
-                                field: "IM_Residency_Start_Date",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                minWidth: 150,
+                            minWidth: 200,
+                        },
+                        {
+                            title: "Date of Graduation",
+                            field: "Date_of_Graduation",
+                            sorter: "string",
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                maskAutoFill: true,
+                            },
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
+                            minWidth: 200,
+                        },
+                        {
+                            title: "Basic Qualification",
+                            field: "Basic_Qualification",
+                            sorter: "string",
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                maskAutoFill: true,
+                            },
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
 
+                            minWidth: 220,
+                        },
+                        {
+                            title: "Medical School",
+                            field: "Medical_School",
+                            sorter: "string",
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                maskAutoFill: true,
                             },
-                            {
-                                title: "PG Year",
-                                field: "PG_Year",
-                                sorter: "number",
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                    maskAutoFill: true,
-                                },
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                
-                                minWidth: 220,
-                            }, 
-                            {
-                                title: "Action",
-                                formatter: printRemoveButton,
-                                hozAlign: "center",
-                                cellClick: function (e, cell) {
-                                    axios.delete(local_host_url + 'history_education/' +
-                                            cell
-                                            .getRow().getData().id)
-                                        .then(function (response) {
-                                            console.log(response.data);
-                                            cell.getRow().delete();
-                                        })
-                                        .catch(function (error) {
-                                            console.log(error);
-                                        });
-                                },
-                                minWidth: 150,
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
                             },
+
+                            minWidth: 220,
+                        },
+                        {
+                            title: "IM Residency Start Date",
+                            field: "IM_Residency_Start_Date",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
+                            },
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                maskAutoFill: true,
+                            },
+                            minWidth: 150,
+
+                        },
+                        {
+                            title: "IM Residency End Date",
+                            field: "IM_Residency_End_Date",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
+                            },
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                maskAutoFill: true,
+                            },
+                            minWidth: 150,
+                        },
+                        {
+                            title: "SR Residency Programme",
+                            field: "SR_Residency_Programme",
+                            sorter: "string",
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                maskAutoFill: true,
+                            },
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
+
+                            minWidth: 220,
+                        },
+                        {
+                            title: "SR Residency Start Date",
+                            field: "SR_Residency_Start_Date",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
+                            },
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                maskAutoFill: true,
+                            },
+                            minWidth: 150,
+
+                        },
+                        {
+                            title: "SR Residency End Date",
+                            field: "SR_Residency_End_Date",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
+                            },
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                maskAutoFill: true,
+                            },
+                            minWidth: 150,
+                        },
+                        {
+                            title: "IM Residency Start Date",
+                            field: "IM_Residency_Start_Date",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
+                            },
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                maskAutoFill: true,
+                            },
+                            minWidth: 150,
+
+                        },
+                        {
+                            title: "PG Year",
+                            field: "PG_Year",
+                            sorter: "number",
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                                maskAutoFill: true,
+                            },
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
+
+                            minWidth: 220,
+                        },
+                        {
+                            title: "Action",
+                            formatter: printRemoveButton,
+                            hozAlign: "center",
+                            cellClick: function (e, cell) {
+                                axios.delete(local_host_url + 'history_education/' +
+                                    cell
+                                        .getRow().getData().id)
+                                    .then(function (response) {
+                                        console.log(response.data);
+                                        cell.getRow().delete();
+                                    })
+                                    .catch(function (error) {
+                                        console.log(error);
+                                        if (alert("Failed to remove row MCR No: " + row.getData().MCR_No)) { }
+                                        else window.location.reload();
+                                    });
+                            },
+                            minWidth: 150,
+                        },
                         ],
                     });
                     // update data in the database after a cell is edited
@@ -512,26 +516,28 @@
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
                         axios.put(local_host_url + "history_education/" + thisrow.id, {
-                                "MCR_No": thisrow.MCR_No,
-                                "Year_of_Graduation": thisrow.Year_of_Graduation,
-                                "Date_of_Graduation": thisrow.Date_of_Graduation,
-                                "Basic_Qualification": thisrow.Basic_Qualification,
-                                "Medical_School": thisrow.Medical_School,
-                                "Country_of_Graduation": thisrow.Country_of_Graduation,
-                                "IM_Residency_Start_Date": thisrow.IM_Residency_Start_Date,
-                                "IM_Residency_End_Date": thisrow.IM_Residency_End_Date,
-                                "SR_Residency_Programme": thisrow.SR_Residency_Programme,
-                                "SR_Residency_Start_Date": thisrow.SR_Residency_Start_Date,
-                                "SR_Residency_End_Date": thisrow.SR_Residency_End_Date,
-                                "PG_Year" : thisrow.PG_Year
+                            "MCR_No": thisrow.MCR_No,
+                            "Year_of_Graduation": thisrow.Year_of_Graduation,
+                            "Date_of_Graduation": thisrow.Date_of_Graduation,
+                            "Basic_Qualification": thisrow.Basic_Qualification,
+                            "Medical_School": thisrow.Medical_School,
+                            "Country_of_Graduation": thisrow.Country_of_Graduation,
+                            "IM_Residency_Start_Date": thisrow.IM_Residency_Start_Date,
+                            "IM_Residency_End_Date": thisrow.IM_Residency_End_Date,
+                            "SR_Residency_Programme": thisrow.SR_Residency_Programme,
+                            "SR_Residency_Start_Date": thisrow.SR_Residency_Start_Date,
+                            "SR_Residency_End_Date": thisrow.SR_Residency_End_Date,
+                            "PG_Year": thisrow.PG_Year
 
-                            })
+                        })
                             .then(response => {
                                 console.log('History Education ID {' + row.getData().id +
                                     '} updated.')
                             })
                             .catch(error => {
                                 console.log(error)
+                                if (alert("Failed to update row MCR No: " + row.getData().MCR_No)) { }
+                                else window.location.reload();
                             })
                     });
                 })

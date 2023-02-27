@@ -141,7 +141,7 @@
                     </li>
                     <li>
                         <a href="../tab_pages/didactic_attendance.html"
-                        class="lg:text-sm md:text-sm  ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                            class="lg:text-sm md:text-sm  ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
                             Didactic Attendance</a>
                     </li>
                     <li>
@@ -154,8 +154,8 @@
                     </li>
                     <li>
                         <a href="../tab_pages/duty_hour_log.html"
-                        class="lg:text-sm md:text-sm ml-5 mr-4 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0"
-                        aria-current="page">Duty
+                            class="lg:text-sm md:text-sm ml-5 mr-4 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0"
+                            aria-current="page">Duty
                             Hour Log</a>
                     </li>
                     <li>
@@ -323,7 +323,7 @@
                     };
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
-                        layout:"fitDataStretch",
+                        layout: "fitDataStretch",
                         placeholder: "No Data Available in " + this.page_name,
                         history: true,
                         pagination: "local",
@@ -338,7 +338,7 @@
                             sorter: "string",
                             headerHozAlign: "center",
                             headerFilter: true,
-                            
+
                             headerFilterParams: {
                                 valuesLookup: true,
                                 clearable: true,
@@ -360,7 +360,7 @@
                                 valuesLookup: true,
                                 clearable: true
                             },
-                            
+
                             minWidth: 150,
                         },
                         {
@@ -377,7 +377,7 @@
                                 valuesLookup: true,
                                 clearable: true
                             },
-                            
+
                             minWidth: 150,
 
                         },
@@ -394,7 +394,7 @@
                                 valuesLookup: true,
                                 clearable: true
                             },
-                            
+
                             minWidth: 220,
                         },
                         {
@@ -413,7 +413,7 @@
                                 mask: "AAA-99",
                                 maskAutoFill: true,
                             },
-                            
+
                             minWidth: 150,
 
                         },
@@ -434,7 +434,7 @@
                                     "Unknown": "Unknown",
                                 }
                             },
-                            
+
                             minWidth: 200,
 
                         },
@@ -451,6 +451,8 @@
                                     })
                                     .catch(function (error) {
                                         console.log(error);
+                                        if (alert("Failed to remove row MCR No: " + row.getData().MCR_No)) { }
+                                        else window.location.reload();
                                     });
                             },
                             minWidth: 150,
@@ -476,6 +478,9 @@
                             })
                             .catch(error => {
                                 console.log(error)
+                                if (alert("Failed to update row MCR No: " + row.getData().MCR_No)) { }
+                                else window.location.reload();
+
                             })
                     });
                 })
