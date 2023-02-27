@@ -331,7 +331,11 @@
                         data: this.tableData,
                         index: "MCR_No",
                         columns: [
-                        {title:"Status", field:"col" ,formatter:"color", width:100},
+                        {   title:"Compliance", 
+                            field:"color" ,
+                            formatter:"color", 
+                            width:150
+                        },
                         {
                             title: "MCR No",
                             field: "MCR_No",
@@ -520,6 +524,7 @@
                             .then(response => {
                                 console.log('Project ID {' + row.getData().id +
                                     '} updated.')
+                                window.location.reload();
                             })
                             .catch(error => {
                                 console.log(error)

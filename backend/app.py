@@ -20,16 +20,16 @@ app.app_context().push()
 
 if __name__ == '__main__':
 #     # Mac user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-    #                                     '@localhost:3306/SingHealth'
-    # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+                                        '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
     # --------------------------------------------------------------------------------
 
-#     # # Windows user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
-                                            '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+#     # Windows user -------------------------------------------------------------------
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
+    #                                         '@localhost:3306/SingHealth'
+    # engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
 
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -2318,6 +2318,7 @@ def read_colour_procedure_logs():
             procedurelog["Programme"] = item[1]
             procedurelog["Year_of_Training"] = item[2]
             combinedProcedureLogs.append(procedurelog)
+    
     #mcr_no
     dict_of_procedures = {}
     for each in combinedProcedureLogs:
@@ -2352,24 +2353,33 @@ def read_colour_procedure_logs():
             if each['MCR_No'] == each_mcr:
                 dict_of_procedures[each_mcr]['Year_of_Training'] = each['Year_of_Training']
 
-    color = []
+    color = {}
     
     for each_item in dict_of_procedures: #by mcr_no
         if dict_of_procedures[each_item]['Year_of_Training'].lower() == "sr1" and dict_of_procedures[each_item]['Programme'].lower() == "renal medicine":
             procedure_list = dict_of_procedures[each_item]['Procedure_Name']
             if ("Insertion of non-tunneled haemodialysis catheter - Femoral") in procedure_list:
                 index = procedure_list.index("Insertion of non-tunneled haemodialysis catheter - Femoral")
+                # print(dict_of_procedures)
                 performed = dict_of_procedures[each_item]['Performed'][index]
-                if (performed) < 5:
-                    color.append("#FF0000")
-                    break
+                if int(performed) < 5:
+                    if each_item not in color:
+                        color[each_item] = "#ff9999"
+                        break
             elif  "Insertion of non-tunneled haemodialysis catheter - Internal Jugular" in procedure_list:
                 index = procedure_list.index("Insertion of non-tunneled haemodialysis catheter - Femoral")
                 performed = dict_of_procedures[each_item]['Performed'][index]
-                if (performed) < 5:
-                    color.append("#FF0000")
-                    break
-
+                if int(performed) < 5:
+                    if each_item not in color:
+                        color[each_item] = "#ff9999"
+                        break
+    
+    for each in combinedProcedureLogs:
+        for each2 in color:
+            if each['MCR_No'] == each2:
+                each['color'] = color[each2]
+        if 'color' not in each:
+            each['color'] = "#99ffcc"
 
     return jsonify(
         {
