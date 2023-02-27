@@ -172,7 +172,7 @@
                     data: [],
                     backgroundColor: '#ff6b00',
                     borderColor: 'rgba(136,136,136,0.5)',
-                    label: "Compliant"
+                    label: "Compliant (%)"
                     }
                 ]
                 },
@@ -202,7 +202,7 @@
                     }],
                     yAxes: [{
                     ticks : {
-                    max : 1,    
+                    max : 100,    
                     min : 0
                     },
                     display: true,
@@ -225,7 +225,7 @@
 
                     this.status = "getting data...";
 
-                    await axios.get("http://localhost:5011/didactic_attendance").then((response) => {
+                    await axios.get("http://localhost:5011/didactic_attendances").then((response) => {
                     // console.log("This is responseData")
                     // console.log(response.data)
                 
@@ -303,8 +303,8 @@
                     // console.log(percentCompliantJulDec)
                     // console.log(percentCompliantJanJune)
 
-                    this.ChartConfig.datasets[0].data.push(percentCompliantJulDec.toFixed(3))
-                    this.ChartConfig.datasets[0].data.push(percentCompliantJanJune.toFixed(3))
+                    this.ChartConfig.datasets[0].data.push((percentCompliantJulDec * 100).toFixed(3))
+                    this.ChartConfig.datasets[0].data.push((percentCompliantJanJune * 100).toFixed(3))
 
                 }
             }

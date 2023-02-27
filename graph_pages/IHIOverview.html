@@ -159,7 +159,7 @@
             return {
                 loaded: false,
                 ChartConfig: {
-                labels: ["Completed", "Not Completed"],
+                labels: ["Completed (%)", "Not Completed (%)"],
                 datasets: [
                     {
                     data: [],
@@ -231,8 +231,8 @@
                     percentageCompleted = counterCompletionEmodules/numOfEntries
                     percentageNotCompleted = 1 - percentageCompleted
 
-                    this.ChartConfig.datasets[0].data.push(percentageCompleted.toFixed(3))
-                    this.ChartConfig.datasets[0].data.push(percentageNotCompleted.toFixed(3))
+                    this.ChartConfig.datasets[0].data.push(percentageCompleted * 100)
+                    this.ChartConfig.datasets[0].data.push(percentageNotCompleted * 100)
 
                 }
             }
