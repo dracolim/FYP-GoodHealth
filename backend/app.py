@@ -2303,6 +2303,79 @@ def read_procedure_logs():
             "data": combinedProcedureLogs
         }), 200
 
+# Add colour to the data 
+@app.route("/colour_procedure_logs")
+def read_colour_procedure_logs():
+    userList = Procedure_Log.query\
+        .join(Personal_Details, Procedure_Log.MCR_No == Personal_Details.MCR_No)\
+        .add_columns(Personal_Details.Programme, Personal_Details.Year_of_Training)\
+        .paginate(1, 50, True)
+
+    combinedProcedureLogs = []
+    for i in userList.iter_pages():
+        for item in userList.items:
+            procedurelog = item[0].to_dict()
+            procedurelog["Programme"] = item[1]
+            procedurelog["Year_of_Training"] = item[2]
+            combinedProcedureLogs.append(procedurelog)
+    #mcr_no
+    dict_of_procedures = {}
+    for each in combinedProcedureLogs:
+        if each['MCR_No'] not in dict_of_procedures:
+            dict_of_procedures[each['MCR_No']] = {}
+    
+    #procedure name
+    for each_mcr in dict_of_procedures:
+        Procedure_list = []
+        for each in combinedProcedureLogs:
+            if each['MCR_No'] == each_mcr:
+                Procedure_list.append(each['Procedure_Name'])
+        dict_of_procedures[each_mcr]['Procedure_Name'] = Procedure_list
+
+    # performed
+    for each_mcr in dict_of_procedures:
+        performed_list = []
+        for each in combinedProcedureLogs:
+            if each['MCR_No'] == each_mcr:
+                performed_list.append(each['Performed'])
+        dict_of_procedures[each_mcr]['Performed'] = performed_list
+    
+    #programme
+    for each_mcr in dict_of_procedures:
+        for each in combinedProcedureLogs:
+            if each['MCR_No'] == each_mcr:
+                dict_of_procedures[each_mcr]['Programme'] = each['Programme']
+        
+    #year_of_training
+    for each_mcr in dict_of_procedures:
+        for each in combinedProcedureLogs:
+            if each['MCR_No'] == each_mcr:
+                dict_of_procedures[each_mcr]['Year_of_Training'] = each['Year_of_Training']
+
+    color = []
+    
+    for each_item in dict_of_procedures: #by mcr_no
+        if dict_of_procedures[each_item]['Year_of_Training'].lower() == "sr1" and dict_of_procedures[each_item]['Programme'].lower() == "renal medicine":
+            procedure_list = dict_of_procedures[each_item]['Procedure_Name']
+            if ("Insertion of non-tunneled haemodialysis catheter - Femoral") in procedure_list:
+                index = procedure_list.index("Insertion of non-tunneled haemodialysis catheter - Femoral")
+                performed = dict_of_procedures[each_item]['Performed'][index]
+                if (performed) < 5:
+                    color.append("#FF0000")
+                    break
+            elif  "Insertion of non-tunneled haemodialysis catheter - Internal Jugular" in procedure_list:
+                index = procedure_list.index("Insertion of non-tunneled haemodialysis catheter - Femoral")
+                performed = dict_of_procedures[each_item]['Performed'][index]
+                if (performed) < 5:
+                    color.append("#FF0000")
+                    break
+
+
+    return jsonify(
+        {
+            "data": combinedProcedureLogs
+        }), 200
+
 # Add procedure log
 @app.route('/add_procedure_log', methods=['POST'])
 def create_procedure_log():

@@ -282,8 +282,7 @@
         data: {
             local_host_url: "http://localhost:5011/",
             currentPage: "procedure_log",
-            personal_details_fields: [],
-            personal_details_datas: [],
+            personal_details_data: "",
             file: "",
             MCR_name: {},
             error_message: "",
@@ -300,6 +299,7 @@
             axios.get(this.local_host_url + "/personaldetails")
                 .then(response => {
                     let result = response.data.data;
+                    this.personal_details_data = result
                     for (each of result) {
                         if (!(each["Staff_Name"] in this.MCR_name)) {
                             this.MCR_name[each["Staff_Name"]] = each["MCR_No"];
@@ -310,8 +310,9 @@
                 .catch(error => {
                     console.log(error)
                 });
-
-            axios.get(this.local_host_url + this.currentPage)
+            
+            
+            axios.get(this.local_host_url + "colour_procedure_logs")
                 .then(response => {
                     this.tableData = response.data.data
                     var printRemoveButton = function (cell, formatterParams,
@@ -329,7 +330,9 @@
                         movableColumns: true,
                         data: this.tableData,
                         index: "MCR_No",
-                        columns: [{
+                        columns: [
+                        {title:"Status", field:"col" ,formatter:"color", width:100},
+                        {
                             title: "MCR No",
                             field: "MCR_No",
                             sorter: "string",
