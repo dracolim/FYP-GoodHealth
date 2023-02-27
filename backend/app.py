@@ -45,40 +45,6 @@ db = SQLAlchemy(app)
 
 CORS(app)
 
-# Read PersonalDetails field/column name (R)
-
-
-@app.route('/', methods=['GET'])
-def display():
-    return render_template('personal_details2.html')
-
-@app.route('/personal_details', methods=['GET'])
-def displaypersonal():
-    return render_template('personal_details2.html')
-
-@app.route('/involvement', methods=['GET'])
-def displayinvolvement():
-    return render_template('involvement.html')
-
-@app.route('/presentations', methods=['GET'])
-def displaypresentations():
-    return render_template('presentations.html')
-
-@app.route('/profiles', methods=['GET'])
-def displayprofile():
-    return render_template('resident_profile.html')
-
-# @app.route('/<path:filename>', methods=['GET'])
-@app.route('/v', methods=['GET'])
-def displayv():
-    return render_template('vuepage.html')
-    # return app.send_static_file(filename)
-
-# @app.route('/tab/', methods=['GET'])
-# def displayprojects():
-#     return render_template('personal_details2.html')
-
-
 class Personal_Details(db.Model):
     __tablename__ = 'Personal_Details'
     Employee_ID = db.Column(db.String(50))
@@ -273,8 +239,9 @@ class Procedure_Log(db.Model):
     id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey(
         'Personal_Details.MCR_No'))
-    Procedure_Name = db.Column(db.String(100))
+    Procedure_Name = db.Column(db.String(300))
     Date_of_Completion = db.Column(db.String(100))
+    CPT = db.Column(db.String(300))
     Total = db.Column(db.String(100))
     Performed = db.Column(db.String(100))
     Observed = db.Column(db.String(100))
@@ -655,7 +622,8 @@ def create_personal_detail():
 
 @app.route('/import', methods=['POST'])
 def view():
-    error = False
+    count = 0 #to keep track of the same filenames
+
     file = request.files['file']
     file.save(file.filename)
     # personal details
@@ -733,7 +701,6 @@ def view():
     didatic_attendance.columns = [ 'MCR_No', 'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended'  , 'MmYyyy' , 'Posting_Institution' , 'Posting_Department' , 'Scheduled_Teachings' 'Compliance_or_Not' , "Percentage_of_sessions_attended"]
 
     if didatic_attendance.duplicated().any() or didatic_attendance['MCR_No'].isnull().sum() > 0 or ihi['MCR_No'].isnull().sum() > 0 or ihi.duplicated().any() or project['MCR_No'].isnull().sum() > 0 or project.duplicated().any() or presentations['MCR_No'].isnull().sum() > 0 or presentations.duplicated().any() or publlications['MCR_No'].isnull().sum() > 0 or publlications.duplicated().any() or awards['MCR_No'].isnull().sum() > 0 or awards.duplicated().any() or grants['MCR_No'].isnull().sum() > 0 or grants.duplicated().any() or personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or personalDetails.duplicated().any() or involvement['MCR_No'].isnull().sum() > 0 or (involvement.duplicated().any()) or history_education['MCR_No'].isnull().sum() > 0 or (history_education.duplicated().any()) or history_posting['MCR_No'].isnull().sum() > 0 or history_posting.duplicated().any() or history_exam['MCR_No'].isnull().sum() > 0 or history_exam.duplicated().any() or history_trg['MCR_No'].isnull().sum() > 0 or history_trg.duplicated().any():
-        error = True
         writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
         workbook = writer.book
         format1 = workbook.add_format({'bg_color': '#FF8080'})
@@ -1088,24 +1055,36 @@ def view():
 
     ### personal details
     personalDetails = personalDetails.fillna('')
+    pd_count = 0
+    total_pd = len(personalDetails)
     for i in range(len(personalDetails)):
         data = dict(personalDetails.iloc[i])
         presentation = Personal_Details(**data)
         try:
-            if Personal_Details.query.filter_by(MCR_No=data["MCR_No"]).first() != None:
-                Personal_Details.query.filter_by(
-                    MCR_No=data["MCR_No"]).update(data)
-            else:
+            exist = db.session.query(exists().where(Personal_Details.MCR_No == data['MCR_No'] , Personal_Details.Employee_ID == data['Employee_ID'])).scalar()
+            if exist == False:
                 db.session.add(presentation)
                 db.session.commit()
-
+            else: #it exist in the database 
+                pd_count += 1
+            # if Personal_Details.query.filter_by(MCR_No=data["MCR_No"]).first() != None:
+            #     Personal_Details.query.filter_by(
+            #         MCR_No=data["MCR_No"]).update(data)
+            # else:
+            #     db.session.add(presentation)
+            #     db.session.commit()
         except Exception as e:
             print("An error occurred:", e)
             print("Stack trace:")
             traceback.print_exc()
+    if pd_count == total_pd:
+        count += 1
+    print('pd' + str(count))
 
     ### involvement
     involvement = involvement.fillna('')
+    involvement_count = 0
+    total_involvement = len(involvement)
     for i in range(len(involvement)):
         data = dict(involvement.iloc[i])
         presentation2 = Involvement(**data)
@@ -1114,14 +1093,21 @@ def view():
             if exist == False:
                 db.session.add(presentation2)
                 db.session.commit()
+            else: #it exist in the database 
+                involvement_count += 1
 
         except Exception as e:
             print("An error occurred:", e)
             print("Stack trace:")
             traceback.print_exc()
+    if involvement_count == total_involvement:
+        count += 1
+    print('involvement' + str(count))
 
     ### history_education
     history_education = history_education.fillna('')
+    history_education_count = 0
+    total_history_education = len(history_education)
     for i in range(len(history_education)):
         data = dict(history_education.iloc[i])
         presentation3 = Education_History(**data)
@@ -1130,14 +1116,21 @@ def view():
             if exist == False:
                 db.session.add(presentation3)
                 db.session.commit()
+            else:
+                history_education_count += 1
 
         except Exception as e:
             print("An error occurred:", e)
             print("Stack trace:")
             traceback.print_exc()
+    if history_education_count == total_history_education:
+        count += 1
+    print('history_education' + str(count))
 
     ### history_posting
     history_posting= history_posting.fillna('')
+    history_posting_count = 0
+    total_history_posting = len(history_posting)
     for i in range(len(history_posting)):
         data = dict(history_posting.iloc[i])
         presentation4 = Posting_History(**data)
@@ -1146,14 +1139,21 @@ def view():
             if exist == False:
                 db.session.add(presentation4)
                 db.session.commit()
+            else:
+                history_posting_count += 1
 
         except Exception as e:
             print("An error occurred:", e)
             print("Stack trace:")
             traceback.print_exc()
+    if history_posting_count == total_history_posting:
+        count += 1
+    print('hist_posting' + str(count))
 
     ### history-exam
     history_exam= history_exam.fillna('')
+    history_exam_count = 0
+    total_history_exam = len(history_exam)
     for i in range(len(history_exam)):
         data = dict(history_exam.iloc[i])
         presentation5 = Exam_History(**data)
@@ -1162,14 +1162,21 @@ def view():
             if exist == False:
                 db.session.add(presentation5)
                 db.session.commit()
+            else:
+                history_exam_count += 1
 
         except Exception as e:
             print("An error occurred:", e)
             print("Stack trace:")
             traceback.print_exc()
+    if history_exam_count == total_history_exam:
+        count += 1
+    print('hist_exam' + str(count))
 
     ### history trg
     history_trg= history_trg.fillna('')
+    history_trg_count = 0
+    total_history_trg = len(history_trg)
     for i in range(len(history_trg)):
         data = dict(history_trg.iloc[i])
         presentation6 = TrgExtRem_History(**data)
@@ -1178,14 +1185,21 @@ def view():
             if exist == False:
                 db.session.add(presentation6)
                 db.session.commit()
+            else:
+                history_trg_count += 1
 
         except Exception as e:
             print("An error occurred:", e)
             print("Stack trace:")
             traceback.print_exc()
+    if history_trg_count == total_history_trg:
+        count += 1
+    print('hist_trg' + str(count))
 
     ### grants
     grants= grants.fillna('')
+    grants_count = 0
+    total_grants = len(grants)
     for i in range(len(grants)):
         data = dict(grants.iloc[i])
         presentation7 = Grants(**data)
@@ -1194,14 +1208,21 @@ def view():
             if exist == False:
                 db.session.add(presentation7)
                 db.session.commit()
+            else:
+                grants_count += 1
 
         except Exception as e:
             print("An error occurred:", e)
             print("Stack trace:")
             traceback.print_exc()
+    if grants_count == total_grants:
+        count += 1
+    print('hist_grants' + str(count))
 
     ### Awards
     awards= awards.fillna('')
+    awards_count = 0
+    total_awards = len(awards)
     for i in range(len(awards)):
         data = dict(awards.iloc[i])
         presentation8 = Awards(**data)
@@ -1210,14 +1231,21 @@ def view():
             if exist == False:
                 db.session.add(presentation8)
                 db.session.commit()
+            else:
+                awards_count += 1
 
         except Exception as e:
             print("An error occurred:", e)
             print("Stack trace:")
-            traceback.print_exc()     
+            traceback.print_exc()   
+    if awards_count == total_awards:
+        count += 1  
+    print('awards' + str(count))
 
     ### publications
     publlications= publlications.fillna('')
+    publications_count = 0
+    total_publications = len(publlications)
     for i in range(len(publlications)):
         data = dict(publlications.iloc[i])
         presentation10 = Publications(**data)
@@ -1226,14 +1254,22 @@ def view():
             if exist == False:
                 db.session.add(presentation10)
                 db.session.commit()
+            else:
+                publications_count += 1
 
         except Exception as e:
             print("An error occurred:", e)
             print("Stack trace:")
             traceback.print_exc()  
+    if publications_count == total_publications:
+        count += 1
+    print('publications' + str(count))
+
 
     ### presentations
     presentations= presentations.fillna('')
+    presentations_count = 0
+    total_presentations = len(presentations)
     for i in range(len(presentations)):
         data = dict(presentations.iloc[i])
         presentation11 = Presentations(**data)
@@ -1242,14 +1278,21 @@ def view():
             if exist == False:
                 db.session.add(presentation11)
                 db.session.commit()
+            else: 
+                presentations_count += 1
 
         except Exception as e:
             print("An error occurred:", e)
             print("Stack trace:")
-            traceback.print_exc()     
+            traceback.print_exc()    
+    if presentations_count == total_presentations:
+        count += 1 
+    print('presentation' + str(count))
 
     ###project
     project= project.fillna('')
+    project_count = 0
+    total_projects = len(project)
     for i in range(len(project)):
         data = dict(project.iloc[i])
         presentation12 = Projects(**data)
@@ -1258,14 +1301,21 @@ def view():
             if exist == False:
                 db.session.add(presentation12)
                 db.session.commit()
+            else:
+                project_count += 1
 
         except Exception as e:
             print("An error occurred:", e)
             print("Stack trace:")
             traceback.print_exc()    
+    if project_count == total_projects:
+        count += 1
+    print("project" + str(count))
     
     ### ihi
     ihi= ihi.fillna('')
+    ihi_count = 0
+    total_ihi = len(ihi)
     for i in range(len(ihi)):
         data = dict(ihi.iloc[i])
         presentation13 = IHI(**data)
@@ -1274,14 +1324,21 @@ def view():
             if exist == False:
                 db.session.add(presentation13)
                 db.session.commit()
+            else:
+                ihi_count += 1
 
         except Exception as e:
             print("An error occurred:", e)
             print("Stack trace:")
             traceback.print_exc()   
+    if ihi_count == total_ihi:
+        count += 1
+    print("ihi" + str(count))
 
     ### didatic attendance 
     didatic_attendance= didatic_attendance.fillna('')
+    didatic_attendance_count = 0
+    total_didactic_attendance = len(didatic_attendance)
     for i in range(len(didatic_attendance)):
         data = dict(didatic_attendance.iloc[i])
         presentation9 = Didactic_Attendance(**data)
@@ -1290,13 +1347,21 @@ def view():
             if exist == False:
                 db.session.add(presentation9)
                 db.session.commit()
+            else:
+                didatic_attendance_count += 1
 
         except Exception as e:
             print("An error occurred:", e)
             print("Stack trace:")
             traceback.print_exc()   
+    if didatic_attendance_count == total_didactic_attendance:
+        count += 1
+    print("didactic" + str(count))
 
-    return redirect("http://localhost/FYP-GoodHealth/tab_pages/personal_details.html", code=302)
+    if count == 13:
+        return redirect("http://localhost/FYP-GoodHealth/tab_pages/bulk_import_same_error.html", code=302)
+    else:
+        return redirect("http://localhost/FYP-GoodHealth/tab_pages/personal_details.html", code=302)
 
 @app.route("/bulk_error_excel")
 def give_error_excel():
@@ -1875,7 +1940,7 @@ def delete_awards(id):
 # AKA didactic_attendance table routes:
 
 # Read Awards field/column name (R)
-@app.route('/didactic_attendance', methods=['GET'])
+@app.route('/didactic_attendances', methods=['GET'])
 def get_didactic_attendances():
     daList = Didactic_Attendance.query.all()
     return jsonify(
@@ -2213,7 +2278,7 @@ def read_procedure_log():
     return jsonify(
         {
             "data": [pd.to_dict()
-                     for pd in logs]
+                    for pd in logs]
         }
     ), 200
 
