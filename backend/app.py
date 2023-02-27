@@ -1079,6 +1079,7 @@ def view():
             traceback.print_exc()
     if pd_count == total_pd:
         count += 1
+    print('pd' + str(count))
 
     ### involvement
     involvement = involvement.fillna('')
@@ -1101,6 +1102,7 @@ def view():
             traceback.print_exc()
     if involvement_count == total_involvement:
         count += 1
+    print('involvement' + str(count))
 
     ### history_education
     history_education = history_education.fillna('')
@@ -1123,6 +1125,7 @@ def view():
             traceback.print_exc()
     if history_education_count == total_history_education:
         count += 1
+    print('history_education' + str(count))
 
     ### history_posting
     history_posting= history_posting.fillna('')
@@ -1145,6 +1148,7 @@ def view():
             traceback.print_exc()
     if history_posting_count == total_history_posting:
         count += 1
+    print('hist_posting' + str(count))
 
     ### history-exam
     history_exam= history_exam.fillna('')
@@ -1167,11 +1171,12 @@ def view():
             traceback.print_exc()
     if history_exam_count == total_history_exam:
         count += 1
+    print('hist_exam' + str(count))
 
     ### history trg
     history_trg= history_trg.fillna('')
     history_trg_count = 0
-    total_history_trg = len(history_exam)
+    total_history_trg = len(history_trg)
     for i in range(len(history_trg)):
         data = dict(history_trg.iloc[i])
         presentation6 = TrgExtRem_History(**data)
@@ -1189,6 +1194,7 @@ def view():
             traceback.print_exc()
     if history_trg_count == total_history_trg:
         count += 1
+    print('hist_trg' + str(count))
 
     ### grants
     grants= grants.fillna('')
@@ -1211,6 +1217,7 @@ def view():
             traceback.print_exc()
     if grants_count == total_grants:
         count += 1
+    print('hist_grants' + str(count))
 
     ### Awards
     awards= awards.fillna('')
@@ -1233,6 +1240,7 @@ def view():
             traceback.print_exc()   
     if awards_count == total_awards:
         count += 1  
+    print('awards' + str(count))
 
     ### publications
     publlications= publlications.fillna('')
@@ -1255,6 +1263,8 @@ def view():
             traceback.print_exc()  
     if publications_count == total_publications:
         count += 1
+    print('publications' + str(count))
+
 
     ### presentations
     presentations= presentations.fillna('')
@@ -1277,6 +1287,7 @@ def view():
             traceback.print_exc()    
     if presentations_count == total_presentations:
         count += 1 
+    print('presentation' + str(count))
 
     ###project
     project= project.fillna('')
@@ -1299,6 +1310,7 @@ def view():
             traceback.print_exc()    
     if project_count == total_projects:
         count += 1
+    print("project" + str(count))
     
     ### ihi
     ihi= ihi.fillna('')
@@ -1321,9 +1333,12 @@ def view():
             traceback.print_exc()   
     if ihi_count == total_ihi:
         count += 1
+    print("ihi" + str(count))
 
     ### didatic attendance 
     didatic_attendance= didatic_attendance.fillna('')
+    didatic_attendance_count = 0
+    total_didactic_attendance = len(didatic_attendance)
     for i in range(len(didatic_attendance)):
         data = dict(didatic_attendance.iloc[i])
         presentation9 = Didactic_Attendance(**data)
@@ -1332,13 +1347,21 @@ def view():
             if exist == False:
                 db.session.add(presentation9)
                 db.session.commit()
+            else:
+                didatic_attendance_count += 1
 
         except Exception as e:
             print("An error occurred:", e)
             print("Stack trace:")
             traceback.print_exc()   
+    if didatic_attendance_count == total_didactic_attendance:
+        count += 1
+    print("didactic" + str(count))
 
-    return redirect("http://localhost/FYP-GoodHealth/tab_pages/personal_details.html", code=302)
+    if count == 13:
+        return redirect("http://localhost/FYP-GoodHealth/tab_pages/bulk_import_same_error.html", code=302)
+    else:
+        return redirect("http://localhost/FYP-GoodHealth/tab_pages/personal_details.html", code=302)
 
 @app.route("/bulk_error_excel")
 def give_error_excel():
