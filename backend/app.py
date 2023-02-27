@@ -45,40 +45,6 @@ db = SQLAlchemy(app)
 
 CORS(app)
 
-# Read PersonalDetails field/column name (R)
-
-
-@app.route('/', methods=['GET'])
-def display():
-    return render_template('personal_details2.html')
-
-@app.route('/personal_details', methods=['GET'])
-def displaypersonal():
-    return render_template('personal_details2.html')
-
-@app.route('/involvement', methods=['GET'])
-def displayinvolvement():
-    return render_template('involvement.html')
-
-@app.route('/presentations', methods=['GET'])
-def displaypresentations():
-    return render_template('presentations.html')
-
-@app.route('/profiles', methods=['GET'])
-def displayprofile():
-    return render_template('resident_profile.html')
-
-# @app.route('/<path:filename>', methods=['GET'])
-@app.route('/v', methods=['GET'])
-def displayv():
-    return render_template('vuepage.html')
-    # return app.send_static_file(filename)
-
-# @app.route('/tab/', methods=['GET'])
-# def displayprojects():
-#     return render_template('personal_details2.html')
-
-
 class Personal_Details(db.Model):
     __tablename__ = 'Personal_Details'
     Employee_ID = db.Column(db.String(50))
@@ -1877,7 +1843,7 @@ def delete_awards(id):
 # AKA didactic_attendance table routes:
 
 # Read Awards field/column name (R)
-@app.route('/didactic_attendance', methods=['GET'])
+@app.route('/didactic_attendances', methods=['GET'])
 def get_didactic_attendances():
     daList = Didactic_Attendance.query.all()
     return jsonify(
