@@ -2360,7 +2360,7 @@ def read_colour_procedure_logs():
         for each in combinedProcedureLogs:
             if each['MCR_No'] == each_mcr:
                 dict_of_procedures[each_mcr]['Year_of_Training'] = each['Year_of_Training']
-
+    
     color = {}
     for each_item in dict_of_procedures: #by mcr_no
         print(each_item)
@@ -2369,14 +2369,10 @@ def read_colour_procedure_logs():
         procedure_list = list(map(lambda x: x.lower(), procedure_list))
 
         if dict_of_procedures[each_item]['Year_of_Training'].lower() in ["sr1" , "sr2", "sr3"] and dict_of_procedures[each_item]['Programme'].lower() == "renal medicine":
+            # print(each_item)
             if "Insertion of non-tunneled haemodialysis catheter - Femoral (C)".lower() in procedure_list:
-                # print("Insertion of non-tunneled haemodialysis catheter - Femoral (C)".lower())
-                # print(procedure_list)
                 index = procedure_list.index("Insertion of non-tunneled haemodialysis catheter - Femoral (C)".lower())
-                # print(index)
                 performed = dict_of_procedures[each_item]['Performed'][index]
-                # print(performed)
-                print("hello")
                 if int(performed) < 5:
                     if each_item not in color:
                         color[each_item] = "#ff9999"
@@ -2426,7 +2422,8 @@ def read_colour_procedure_logs():
                     if each_item not in color:
                         color[each_item] = "#ff9999"
         # GASTRO
-        if dict_of_procedures[each_item]['Year_of_Training'].lower() == "sr2" and dict_of_procedures[each_item]['Programme'].lower() == "gastroenterology":
+        if dict_of_procedures[each_item]['Year_of_Training'].lower() == "r3" and dict_of_procedures[each_item]['Programme'].lower() == "gastroenterology":
+            # print(each_item)
             ogd = 0
             for idx, value in enumerate(procedure_list):
                 if "ogd" in value.lower():
@@ -2485,6 +2482,7 @@ def read_colour_procedure_logs():
                         color[each_item] = "#ff9999"
         # INTERNAL MEDICINE
         if dict_of_procedures[each_item]['Year_of_Training'].lower() in ["r1" , "r2" , "r3"] and dict_of_procedures[each_item]['Programme'].lower() == "internal medicine":
+            # print(each_item)
             total = 0
             if "Abdominal Tap".lower() in procedure_list:
                 index = procedure_list.index("Abdominal Tap".lower())
@@ -2542,16 +2540,13 @@ def read_colour_procedure_logs():
             if dict_of_procedures[each_item]['Year_of_Training'].lower() == "r1" and (total/40) < 0.3:
                 if each_item not in color:
                     color[each_item] = "#ff9999"
-                    print("sldfkjhslfjghsldfjhslkjfgsdfg")
-                    break
             elif dict_of_procedures[each_item]['Year_of_Training'].lower() == "r2" and (total/40) < 0.5:
                 if each_item not in color:
                     color[each_item] = "#ff9999"
-                    break
             elif dict_of_procedures[each_item]['Year_of_Training'].lower() == "r3" and (total/40) < 1.0:
                 if each_item not in color:
                     color[each_item] = "#ff9999"
-                    break
+
     print(color)
     for each in combinedProcedureLogs:
         for each2 in color:
