@@ -182,7 +182,7 @@
                     data: [],
                     backgroundColor: '#ff6b00',
                     borderColor: 'rgba(136,136,136,0.5)',
-                    label: "Average Compliance"
+                    label: "Average Compliance (%)"
                     }
                 ]
                 },
@@ -212,7 +212,7 @@
                     }],
                     yAxes: [{
                     ticks : {
-                    max : 1,    
+                    max : 100,    
                     min : 0
                     },
                     display: true,
@@ -301,8 +301,8 @@
                     percentCompliantJulDec = (totalPercentAttendedJulDec/numofJulDecEntries)
                     percentCompliantJanJune = (totalPercentAttendedJanJune/numOfJanJuneEntries)
 
-                    this.ChartConfig.datasets[0].data.push(percentCompliantJulDec.toFixed(3))
-                    this.ChartConfig.datasets[0].data.push(percentCompliantJanJune.toFixed(3))
+                    this.ChartConfig.datasets[0].data.push((percentCompliantJulDec * 100).toFixed(3))
+                    this.ChartConfig.datasets[0].data.push((percentCompliantJanJune * 100).toFixed(3))
                     
                 },
                 activateSecondStep: function () {

@@ -175,7 +175,7 @@
                     data: [],
                     backgroundColor: '#ff6b00',
                     borderColor: 'rgba(136,136,136,0.5)',
-                    label: "Compliance Level"
+                    label: "Compliance Level (%)"
                     }
                 ]
                 },
@@ -197,7 +197,7 @@
                 scales: {
                     xAxes: [{
                     ticks : {
-                    max : 1,    
+                    max : 100,    
                     min : 0
                     },
                     display: true,
@@ -412,166 +412,166 @@
 
                         // push GastroOGDPlusGastroOGDWithBiopsy data into chart
                         if (GastroOGDPlusGastroOGDWithBiopsy == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
-                            this.ChartConfig.datasets[0].data.push(GastroOGDPlusGastroOGDWithBiopsy/300)
-                            this.ChartConfig.datasets[0].data.push(GastroOGDPlusGastroOGDWithBiopsy/300)
+                            this.ChartConfig.datasets[0].data.push((GastroOGDPlusGastroOGDWithBiopsy/300*100).toFixed(3))
+                            this.ChartConfig.datasets[0].data.push((GastroOGDPlusGastroOGDWithBiopsy/300*100).toFixed(3))
                         }
 
                         // push GastroOGDPlusColon data into chart
                         if (GastroOGDPlusColon == true) {
 
-                            this.ChartConfig.datasets[0].data.push(1)
-                            this.ChartConfig.datasets[0].data.push(1)
-                            this.ChartConfig.datasets[0].data.push(1)
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
+                            this.ChartConfig.datasets[0].data.push(100)
+                            this.ChartConfig.datasets[0].data.push(100)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
                             // if not compliant due to active bleeders
                             if (additionalCheckGastroOGDPlusColon < 10 && GastroOGDPlusColon >= 20) {
-                                this.ChartConfig.datasets[0].data.push(1)  
-                                this.ChartConfig.datasets[0].data.push(additionalCheckGastroOGDPlusColon/10)  
-                                this.ChartConfig.datasets[0].data.push(1)  
-                                this.ChartConfig.datasets[0].data.push(additionalCheckGastroOGDPlusColon/10)  
+                                this.ChartConfig.datasets[0].data.push(100)  
+                                this.ChartConfig.datasets[0].data.push((additionalCheckGastroOGDPlusColon/10*100).toFixed(3))  
+                                this.ChartConfig.datasets[0].data.push(100)  
+                                this.ChartConfig.datasets[0].data.push((additionalCheckGastroOGDPlusColon/10*100).toFixed(3))  
                             }
                             // if not compliant due to total number required
                             else if (additionalCheckGastroOGDPlusColon >= 10 && GastroOGDPlusColon < 20) {
-                                this.ChartConfig.datasets[0].data.push(GastroOGDPlusColon/20)  
-                                this.ChartConfig.datasets[0].data.push(1)  
-                                this.ChartConfig.datasets[0].data.push(GastroOGDPlusColon/20)  
-                                this.ChartConfig.datasets[0].data.push(1)   
+                                this.ChartConfig.datasets[0].data.push((GastroOGDPlusColon/20*100).toFixed(3))  
+                                this.ChartConfig.datasets[0].data.push(100)  
+                                this.ChartConfig.datasets[0].data.push((GastroOGDPlusColon/20*100).toFixed(3))  
+                                this.ChartConfig.datasets[0].data.push(100)   
                             }
                             // if not compliant due to both
                             else if (additionalCheckGastroOGDPlusColon < 10 && GastroOGDPlusColon < 20) {                                
-                                this.ChartConfig.datasets[0].data.push(GastroOGDPlusColon/20)  
-                                this.ChartConfig.datasets[0].data.push(additionalCheckGastroOGDPlusColon/10)  
-                                this.ChartConfig.datasets[0].data.push(GastroOGDPlusColon/20)  
-                                this.ChartConfig.datasets[0].data.push(additionalCheckGastroOGDPlusColon/10)   
+                                this.ChartConfig.datasets[0].data.push((GastroOGDPlusColon/20*100).toFixed(3))  
+                                this.ChartConfig.datasets[0].data.push((additionalCheckGastroOGDPlusColon/10*100).toFixed(3))  
+                                this.ChartConfig.datasets[0].data.push((GastroOGDPlusColon/20*100).toFixed(3))  
+                                this.ChartConfig.datasets[0].data.push((additionalCheckGastroOGDPlusColon/10*100).toFixed(3))   
                             }
                         }
 
                         // push ColonoscopyPlusColonoscopyWithBiopsy data into chart
                         if (ColonoscopyPlusColonoscopyWithBiopsy == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {                           
-                            this.ChartConfig.datasets[0].data.push(ColonoscopyPlusColonoscopyWithBiopsy/180)
-                            this.ChartConfig.datasets[0].data.push(ColonoscopyPlusColonoscopyWithBiopsy/180)
+                            this.ChartConfig.datasets[0].data.push((ColonoscopyPlusColonoscopyWithBiopsy/180*100).toFixed(3))
+                            this.ChartConfig.datasets[0].data.push((ColonoscopyPlusColonoscopyWithBiopsy/180*100).toFixed(3))
                         }
 
                         // push ColonoscopyWithPolypectomy data into chart
                         if (ColonoscopyWithPolypectomy == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {                            
-                            this.ChartConfig.datasets[0].data.push(ColonoscopyWithPolypectomy/20)
+                            this.ChartConfig.datasets[0].data.push((ColonoscopyWithPolypectomy/20*100).toFixed(3))
                         }
 
                         // push AbdominalParacentesis data into chart
                         if (AbdominalParacentesis == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {                           
-                            this.ChartConfig.datasets[0].data.push(AbdominalParacentesis/10)
+                            this.ChartConfig.datasets[0].data.push((AbdominalParacentesis/10*100).toFixed(3))
                         }     
 
                         // push CapsuleEndoscopy data into chart
                         if (CapsuleEndoscopy == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {                           
-                            this.ChartConfig.datasets[0].data.push(CapsuleEndoscopy/10)
+                            this.ChartConfig.datasets[0].data.push((CapsuleEndoscopy/10*100).toFixed(3))
                         }   
                 
                         // push Peg data into chart
                         if (Peg == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {                            
-                            this.ChartConfig.datasets[0].data.push(Peg/5)
+                            this.ChartConfig.datasets[0].data.push((Peg/5*100).toFixed(3))
                         }   
                         
                         // push GastroVaricealHemoPlusLigation data into chart
                         if (GastroVaricealHemoPlusLigation == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
-                            this.ChartConfig.datasets[0].data.push(1)
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
+                            this.ChartConfig.datasets[0].data.push(100)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
                             // if not compliant due to active bleeders
                             if (additionalCheckGastroVaricealHemoPlusLigation < 5 && GastroVaricealHemoPlusLigation >= 20) {                                
-                                this.ChartConfig.datasets[0].data.push(1)  
-                                this.ChartConfig.datasets[0].data.push(additionalCheckGastroVaricealHemoPlusLigation/5)  
-                                this.ChartConfig.datasets[0].data.push(1)  
-                                this.ChartConfig.datasets[0].data.push(additionalCheckGastroVaricealHemoPlusLigation/5)  
+                                this.ChartConfig.datasets[0].data.push(100)  
+                                this.ChartConfig.datasets[0].data.push((additionalCheckGastroVaricealHemoPlusLigation/5*100).toFixed(3))  
+                                this.ChartConfig.datasets[0].data.push(100)  
+                                this.ChartConfig.datasets[0].data.push((additionalCheckGastroVaricealHemoPlusLigation/5*100).toFixed(3))  
                             }
                             // if not compliant due to total number required
                             else if (additionalCheckGastroVaricealHemoPlusLigation >= 5 && GastroVaricealHemoPlusLigation < 20) {                                
-                                this.ChartConfig.datasets[0].data.push(GastroVaricealHemoPlusLigation/20)  
-                                this.ChartConfig.datasets[0].data.push(1)  
-                                this.ChartConfig.datasets[0].data.push(GastroVaricealHemoPlusLigation/20)  
-                                this.ChartConfig.datasets[0].data.push(1)   
+                                this.ChartConfig.datasets[0].data.push((GastroVaricealHemoPlusLigation/20*100).toFixed(3))  
+                                this.ChartConfig.datasets[0].data.push(100)  
+                                this.ChartConfig.datasets[0].data.push((GastroVaricealHemoPlusLigation/20*100).toFixed(3))  
+                                this.ChartConfig.datasets[0].data.push(100)   
                             }
                             // if not compliant due to both
                             else if (additionalCheckGastroVaricealHemoPlusLigation < 5 && GastroVaricealHemoPlusLigation < 20) {                               
-                                this.ChartConfig.datasets[0].data.push(GastroVaricealHemoPlusLigation/20)  
-                                this.ChartConfig.datasets[0].data.push(additionalCheckGastroVaricealHemoPlusLigation/5)  
-                                this.ChartConfig.datasets[0].data.push(GastroVaricealHemoPlusLigation/20)  
-                                this.ChartConfig.datasets[0].data.push(additionalCheckGastroVaricealHemoPlusLigation/5)   
+                                this.ChartConfig.datasets[0].data.push((GastroVaricealHemoPlusLigation/20*100).toFixed(3))  
+                                this.ChartConfig.datasets[0].data.push((additionalCheckGastroVaricealHemoPlusLigation/5*100).toFixed(3))  
+                                this.ChartConfig.datasets[0].data.push((GastroVaricealHemoPlusLigation/20*100).toFixed(3))  
+                                this.ChartConfig.datasets[0].data.push((additionalCheckGastroVaricealHemoPlusLigation/5*100).toFixed(3))   
                             }
                         }
                         
                         // push Peg data into chart
                         if (LiverBiopsy == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {                           
-                            this.ChartConfig.datasets[0].data.push(LiverBiopsy/5)
+                            this.ChartConfig.datasets[0].data.push((LiverBiopsy/5*100).toFixed(3))
                         }   
                         
                         // push EsophagealDilatationPlusLuminalStenting data into chart
                         if (EsophagealDilatationPlusLuminalStenting == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {                           
-                            this.ChartConfig.datasets[0].data.push(EsophagealDilatationPlusLuminalStenting/5)
-                            this.ChartConfig.datasets[0].data.push(EsophagealDilatationPlusLuminalStenting/5)
+                            this.ChartConfig.datasets[0].data.push((EsophagealDilatationPlusLuminalStenting/5*100).toFixed(3))
+                            this.ChartConfig.datasets[0].data.push((EsophagealDilatationPlusLuminalStenting/5*100).toFixed(3))
                         }
                         
                         // push EmrPlusEsd data into chart
                         if (EmrPlusEsd == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(1100)
                         }
                         else {                            
-                            this.ChartConfig.datasets[0].data.push(EmrPlusEsd/5)
+                            this.ChartConfig.datasets[0].data.push((EmrPlusEsd/5*100).toFixed(3))
                         }   
                         
                         // push Ercp data into chart
                         if (Ercp == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {                            
-                            this.ChartConfig.datasets[0].data.push(Ercp/5)
+                            this.ChartConfig.datasets[0].data.push((Ercp/5*100).toFixed(3))
                         }         
                         
                         // push EndoscopicUltrasound data into chart
                         if (EndoscopicUltrasound == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {                           
-                            this.ChartConfig.datasets[0].data.push(EndoscopicUltrasound/5)
+                            this.ChartConfig.datasets[0].data.push((EndoscopicUltrasound/5*100).toFixed(3))
                         }     
                         
                         // push EsophagealMotilityPlusPh data into chart
                         if (EsophagealMotilityPlusPh == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {                           
-                            this.ChartConfig.datasets[0].data.push(EsophagealMotilityPlusPh/5)
+                            this.ChartConfig.datasets[0].data.push((EsophagealMotilityPlusPh/5*100).toFixed(3))
                         }      
 
                     }
@@ -667,66 +667,66 @@
 
                         // push InsertionFemoralC data into chart
                         if (InsertionFemoralC == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
-                            this.ChartConfig.datasets[0].data.push(InsertionFemoralC/5)
+                            this.ChartConfig.datasets[0].data.push((InsertionFemoralC/5*100).toFixed(3))
                         }
 
                         // push InsertionJugularC data into chart
                         if (InsertionJugularC == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
-                            this.ChartConfig.datasets[0].data.push(InsertionJugularC/5)
+                            this.ChartConfig.datasets[0].data.push((InsertionJugularC/5*100).toFixed(3))
                         }
 
                         // push InsertionFemoral data into chart
                         if (InsertionFemoral == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
-                            this.ChartConfig.datasets[0].data.push(InsertionFemoral/5)
+                            this.ChartConfig.datasets[0].data.push((InsertionFemoral/5*100).toFixed(3))
                         }
 
                         // push InsertionJugular data into chart
                         if (InsertionJugular == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
-                            this.ChartConfig.datasets[0].data.push(InsertionJugular/5)
+                            this.ChartConfig.datasets[0].data.push((InsertionJugular/5*100).toFixed(3))
                         }
 
                         // push NativeKidneyBiopsyC data into chart
                         if (NativeKidneyBiopsyC == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
-                            this.ChartConfig.datasets[0].data.push(NativeKidneyBiopsyC/10)
+                            this.ChartConfig.datasets[0].data.push((NativeKidneyBiopsyC/10*100).toFixed(3))
                         }
 
                         // push TransplantKidneyBiopsyC data into chart
                         if (TransplantKidneyBiopsyC == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
-                            this.ChartConfig.datasets[0].data.push(TransplantKidneyBiopsyC/3)
+                            this.ChartConfig.datasets[0].data.push((TransplantKidneyBiopsyC/3*100).toFixed(3))
                         }
 
                         // push NativeKidneyBiopsy data into chart
                         if (NativeKidneyBiopsy == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
-                            this.ChartConfig.datasets[0].data.push(NativeKidneyBiopsy/5)
+                            this.ChartConfig.datasets[0].data.push((NativeKidneyBiopsy/5*100).toFixed(3))
                         }
 
                         // push TransplantKidneyBiopsy data into chart
                         if (TransplantKidneyBiopsy == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
-                            this.ChartConfig.datasets[0].data.push(TransplantKidneyBiopsy/2)
+                            this.ChartConfig.datasets[0].data.push((TransplantKidneyBiopsy/2*100).toFixed(3))
                         }
                     
                     }
@@ -876,79 +876,79 @@
 
                         // push AbdominalTap data into chart
                         if (AbdominalTap == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
-                            this.ChartConfig.datasets[0].data.push(AbdominalTap/3)
+                            this.ChartConfig.datasets[0].data.push((AbdominalTap/3*100).toFixed(3))
                         }
 
                         // push ArterialLinePlacement data into chart
                         if (ArterialLinePlacement == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
-                            this.ChartConfig.datasets[0].data.push(ArterialLinePlacement/5)
+                            this.ChartConfig.datasets[0].data.push((ArterialLinePlacement/5*100).toFixed(3))
                         }
 
                         // push CentralLinePlacement data into chart
                         if (CentralLinePlacement == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
-                            this.ChartConfig.datasets[0].data.push(CentralLinePlacement/5)
+                            this.ChartConfig.datasets[0].data.push((CentralLinePlacement/5*100).toFixed(3))
                         }
 
                         // push ThoracentesisChestTube data into chart
                         if (ThoracentesisChestTube == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
-                            this.ChartConfig.datasets[0].data.push(ThoracentesisChestTube/3)
+                            this.ChartConfig.datasets[0].data.push((ThoracentesisChestTube/3*100).toFixed(3))
                         }
 
                         // push LumbarPuncture data into chart
                         if (LumbarPuncture == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
-                            this.ChartConfig.datasets[0].data.push(LumbarPuncture/5)
+                            this.ChartConfig.datasets[0].data.push((LumbarPuncture/5*100).toFixed(3))
                         }
 
                         // push EndotrachealIntubation data into chart
                         if (EndotrachealIntubation == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
-                            this.ChartConfig.datasets[0].data.push(EndotrachealIntubation/5)
+                            this.ChartConfig.datasets[0].data.push((EndotrachealIntubation/5*100).toFixed(3))
                         }
 
                         // push VentilatorManagement data into chart
                         if (VentilatorManagement == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
-                            this.ChartConfig.datasets[0].data.push(VentilatorManagement/5)
+                            this.ChartConfig.datasets[0].data.push((VentilatorManagement/5*100).toFixed(3))
                         }
 
                         // push Arthrocentesis data into chart
                         if (Arthrocentesis == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
-                            this.ChartConfig.datasets[0].data.push(Arthrocentesis/2)
+                            this.ChartConfig.datasets[0].data.push((Arthrocentesis/2*100).toFixed(3))
                         }
 
                         // push HemodialysisCatheterInsertion data into chart
                         if (HemodialysisCatheterInsertion == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
-                            this.ChartConfig.datasets[0].data.push(HemodialysisCatheterInsertion/3)
+                            this.ChartConfig.datasets[0].data.push((HemodialysisCatheterInsertion/3*100).toFixed(3))
                         }
 
                         // push Abg data into chart
                         if (Abg == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
                             this.ChartConfig.datasets[0].data.push(0)
@@ -956,7 +956,7 @@
 
                         // push Vene data into chart
                         if (Vene == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
                             this.ChartConfig.datasets[0].data.push(0)
@@ -964,7 +964,7 @@
 
                         // push IVPlug data into chart
                         if (IVPlug == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
                             this.ChartConfig.datasets[0].data.push(0)
@@ -972,7 +972,7 @@
 
                         // push Ecg data into chart
                         if (Ecg == true) {
-                            this.ChartConfig.datasets[0].data.push(1)
+                            this.ChartConfig.datasets[0].data.push(100)
                         }
                         else {
                             this.ChartConfig.datasets[0].data.push(0)

@@ -20,16 +20,16 @@ app.app_context().push()
 
 if __name__ == '__main__':
 #     # Mac user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-                                        '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+    #                                     '@localhost:3306/SingHealth'
+    # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
     # --------------------------------------------------------------------------------
 
 #     # # Windows user -------------------------------------------------------------------
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
-#                                         '@localhost:3306/SingHealth'
-# engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
+                                            '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
 
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -280,8 +280,6 @@ class Procedure_Log(db.Model):
     Observed = db.Column(db.String(100))
     Verified = db.Column(db.String(100))
     Certified = db.Column(db.String(100))
-    Programme= db.Column(db.String(100))
-    Year_of_Training= db.Column(db.String(100))
 
     __mapper_args__ = {
         'polymorphic_identity': 'Procedure_Log'
@@ -1578,7 +1576,7 @@ def read_examhistory():
     ), 200
 
 # Read Existing procedure logs with personal details Programme and Year_of_Training (R)
-@app.route("/history_exams")
+@app.route("/history_exam_data")
 def read_history_exams():
     print("fetching history_exams")
     userList = Exam_History.query\
@@ -2220,7 +2218,7 @@ def read_procedure_log():
     ), 200
 
 # Read Existing procedure logs with personal details Programme and Year_of_Training (R)
-@app.route("/procedure_logs")
+@app.route("/procedure_log_data")
 def read_procedure_logs():
     userList = Procedure_Log.query\
         .join(Personal_Details, Procedure_Log.MCR_No == Personal_Details.MCR_No)\
