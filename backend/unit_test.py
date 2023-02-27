@@ -11,21 +11,22 @@ class TestDutyHourLogRole(unittest.TestCase):
     def test_to_dict(self):
         from app import Duty_Hour_Log
         jr1 = Duty_Hour_Log(
-            MCR_No = "1234o19",
-            Level = "4",
-            Logged_for_month = "Yes",
-            MMYYYY = "Mar-20",
-            Submitted = "3",
-            Submitted_Proportion = "1"
+            Level= "2",
+            Logged_for_month= "Yes",
+            MCR_No= "M54354E",
+            MMYYYY= "12/2022",
+            Submitted= "3",
+            Submitted_Proportion= "0.5",
+            id= 1
             )
         self.assertEqual(jr1.to_dict(), {
-            "Level": "4",
+            "Level": "2",
             "Logged_for_month": "Yes",
-            "MCR_No": "1234o19",
-            "MMYYYY": "Mar-20",
+            "MCR_No": "M54354E",
+            "MMYYYY": "12/2022",
             "Submitted": "3",
-            "Submitted_Proportion": "1",
-            "id": None
+            "Submitted_Proportion": "0.5",
+            "id": 1
         }
         )
 
@@ -61,19 +62,20 @@ class TestPostingHistory(unittest.TestCase):
     def test_to_dict(self):
         from app import Posting_History
         jr1 = Posting_History(
-            MCR_No = "1234o19",
-            Posting_Department = "Posting_Department111",
-            Posting_EndDate = "Posting_EndDate111",
-            Posting_Institution = "Posting_Institution222",
-            Posting_StartDate = "Posting_StartDate111"
+            MCR_No= "M11367A",
+            Posting_Department= "Cardio",
+            Posting_EndDate= "Sep-17",
+            Posting_Institution= "NHC",
+            Posting_StartDate= "Jul-17",
+            id= 1
             )
         self.assertEqual(jr1.to_dict(), {
-            "MCR_No": "1234o19",
-            "Posting_Department": "Posting_Department111",
-            "Posting_EndDate": "Posting_EndDate111",
-            "Posting_Institution": "Posting_Institution222",
-            "Posting_StartDate": "Posting_StartDate111",
-            "id": None
+            "MCR_No": "M11367A",
+            "Posting_Department": "Cardio",
+            "Posting_EndDate": "Sep-17",
+            "Posting_Institution": "NHC",
+            "Posting_StartDate": "Jul-17",
+            "id": 1
             }
         )
 
@@ -116,17 +118,18 @@ class TestExamHistory(unittest.TestCase):
     def test_to_dict(self):
         from app import Exam_History
         jr1 = Exam_History(
-            MCR_No = "1234o19",
-            Date_of_Attempt = "Date_of_Attempt111",
-            Exam_Status = "Exam_Status111",
-            Name_of_Exam = "Name_of_Exam111"
+            Date_of_Attempt= "Sep-16",
+            Exam_Status= "Pass",
+            MCR_No= "M11367A",
+            Name_of_Exam= "MRCP Part 1",
+            id= 1
             )
         self.assertEqual(jr1.to_dict(), {
-            "Date_of_Attempt": "Date_of_Attempt111",
-            "Exam_Status": "Exam_Status111",
-            "MCR_No": "1234o19",
-            "Name_of_Exam": "Name_of_Exam111",
-            "id": None
+            "Date_of_Attempt": "Sep-16",
+            "Exam_Status": "Pass",
+            "MCR_No": "M11367A",
+            "Name_of_Exam": "MRCP Part 1",
+            "id": 1
             }
         )
 
@@ -135,19 +138,20 @@ class TestPublications(unittest.TestCase):
     def test_to_dict(self):
         from app import Publications
         jr1 = Publications(
-            MCR_No = "1234o19",
-            Journal_Title = "juice sbox",
-            PMID = "123",
-            Publication_Date = "2023-01-03",
-            Publication_Title = "juice",
+            Journal_Title= "",
+            MCR_No= "M11367A",
+            PMID= "",
+            Publication_Date= "",
+            Publication_Title= "",
+            id= 1
             )
         self.assertEqual(jr1.to_dict(), {
-            "Journal_Title": "juice sbox",
-            "MCR_No": "1234o19",
-            "PMID": "123",
-            "Publication_Date": "2023-01-03",
-            "Publication_Title": "juice",
-            "id": None
+            "Journal_Title": "",
+            "MCR_No": "M11367A",
+            "PMID": "",
+            "Publication_Date": "",
+            "Publication_Title": "",
+            "id": 1
             }
         )
 
@@ -155,27 +159,28 @@ class TestEvaluations(unittest.TestCase):
     def test_to_dict(self):
         from app import Evaluations
         jr1 = Evaluations(
-            MCR_No = "1234o19",
-            Answer = "",
-            Evaluator = "",
-            Name_of_Evaluation_Form = "",
-            Question_Number = "",
-            Rotation_Period = "",
-            Score = "",
-            Service = "",
-            Year_of_Training = "",
+            Answer= "5 (5)",
+            Evaluator= "Dr. Chan, Webber Pak Wo",
+            MCR_No= "M11367A",
+            Name_of_Evaluation_Form= "ABC",
+            Question_Number= "2",
+            Rotation_Period= "7/1/2022-7/31/2022",
+            Score= "4",
+            Service= "SHS-GASTRO:BASIC ENDO-SGH",
+            Year_of_Training= "2022",
+            id= 1
             )
         self.assertEqual(jr1.to_dict(), {
-            "Answer": "",
-            "Evaluator": "",
-            "MCR_No": "1234o19",
-            "Name_of_Evaluation_Form": "",
-            "Question_Number": "",
-            "Rotation_Period": "",
-            "Score": "",
-            "Service": "",
-            "Year_of_Training": "",
-            "id": None
+            "Answer": "5 (5)",
+            "Evaluator": "Dr. Chan, Webber Pak Wo",
+            "MCR_No": "M11367A",
+            "Name_of_Evaluation_Form": "ABC",
+            "Question_Number": "2",
+            "Rotation_Period": "7/1/2022-7/31/2022",
+            "Score": "4",
+            "Service": "SHS-GASTRO:BASIC ENDO-SGH",
+            "Year_of_Training": "2022",
+            "id": 1
             }
         )
 
@@ -183,18 +188,19 @@ class TestTrgextremhistory(unittest.TestCase):
     def test_to_dict(self):
         from app import TrgExtRem_History
         jr1 = TrgExtRem_History(
-            MCR_No = "1234o19",
-            EndDate = "2023-02-03 22:50:25",
-            LOAPIP = None,
-            StartDate = "2023-02-03 22:50:25",
+            EndDate= "05-Jan-2021",
+            LOAPIP= "LOA",
+            MCR_No= "M11367A",
+            StartDate= "01-Oct-2020",
+            id= 1
             
             )
         self.assertEqual(jr1.to_dict(), {
-             "EndDate": "2023-02-03 22:50:25",
-            "LOAPIP": None,
-            "MCR_No": "1234o19",
-            "StartDate": "2023-02-03 22:50:25",
-            "id": None
+            "EndDate": "05-Jan-2021",
+            "LOAPIP": "LOA",
+            "MCR_No": "M11367A",
+            "StartDate": "01-Oct-2020",
+            "id": 1
             }
         )
 
@@ -202,25 +208,26 @@ class TestProjects(unittest.TestCase):
     def test_to_dict(self):
         from app import Projects
         jr1 = Projects(
-            MCR_No = "1234o19",
-            Date_of_QI_Certification = "",
-            End_Date = "",
-            PMID = "",
-            Project_ID = "",
-            Project_Title = "",
-            Project_Type = "",
-            Start_Date = "",
+            Date_of_QI_Certification= "",
+            End_Date= "2020",
+            MCR_No= "M11367A",
+            PMID= "",
+            Project_ID= " ",
+            Project_Title= "Creating an Intranet Site Showing Each Medical Departments Criteria for Inpatient Reviews",
+            Project_Type= "Qi",
+            Start_Date= "2019",
+            id= 1
             )
         self.assertEqual(jr1.to_dict(), {
             "Date_of_QI_Certification": "",
-            "End_Date": "",
-            "MCR_No": "1234o19",
+            "End_Date": "2020",
+            "MCR_No": "M11367A",
             "PMID": "",
-            "Project_ID": "",
-            "Project_Title": "",
-            "Project_Type": "",
-            "Start_Date": "",
-            "id": None
+            "Project_ID": " ",
+            "Project_Title": "Creating an Intranet Site Showing Each Medical Departments Criteria for Inpatient Reviews",
+            "Project_Type": "Qi",
+            "Start_Date": "2019",
+            "id": 1
             }
         )
         
@@ -246,6 +253,139 @@ class TestAwards(unittest.TestCase):
             "id": 2
             }
         )
+        
+class TestDidacticAttendace(unittest.TestCase):
+    def test_to_dict(self):
+        from app import Didactic_Attendance
+        jr1 = Didactic_Attendance(
+            Compliance_or_Not= "Yes",
+            MCR_No= "M11367A",
+            MmYyyy= "07/2022",
+            Month= "July",
+            Number_of_sessions_attended= "14",
+            Percentage_of_sessions_attended= "1",
+            Total_tracked_sessions= "14",
+            id= 1
+            )
+        self.assertEqual(jr1.to_dict(), {
+            "Compliance_or_Not": "Yes",
+            "MCR_No": "M11367A",
+            "MmYyyy": "07/2022",
+            "Month": "July",
+            "Number_of_sessions_attended": "14",
+            "Percentage_of_sessions_attended": "1",
+            "Total_tracked_sessions": "14",
+            "id": 1
+            }
+        )
+        
+class TestEducationHistory(unittest.TestCase):
+    def test_to_dict(self):
+        from app import Education_History
+        jr1 = Education_History(
+            Basic_Qualification= "MBBS",
+            Country_of_Graduation= "United Kingdom",
+            Date_of_Graduation= "July",
+            IM_Residency_End_Date= "1/7/2020",
+            IM_Residency_Start_Date= "3/7/2017",
+            MCR_No= "M11367A",
+            Medical_School= "Imperial College",
+            PG_Year= "8",
+            SR_Residency_End_Date= "6-Oct-23",
+            SR_Residency_Programme= "Gastroenterology",
+            SR_Residency_Start_Date= "2-Jul-20",
+            Year_of_Graduation= "2014",
+            id= 1
+            )
+        self.assertEqual(jr1.to_dict(), {
+            "Basic_Qualification": "MBBS",
+            "Country_of_Graduation": "United Kingdom",
+            "Date_of_Graduation": "July",
+            "IM_Residency_End_Date": "1/7/2020",
+            "IM_Residency_Start_Date": "3/7/2017",
+            "MCR_No": "M11367A",
+            "Medical_School": "Imperial College",
+            "PG_Year": "8",
+            "SR_Residency_End_Date": "6-Oct-23",
+            "SR_Residency_Programme": "Gastroenterology",
+            "SR_Residency_Start_Date": "2-Jul-20",
+            "Year_of_Graduation": "2014",
+            "id": 1
+            }
+        )
+        
+class TestGrants(unittest.TestCase):
+    def test_to_dict(self):
+        from app import Grants
+        jr1 = Grants(
+            Grant_End_Date= "1/1/2022",
+            Grant_Start_Date= "1/2/2022",
+            MCR_No= "M65659J",
+            Name_of_Grant= "grant1",
+            Project_ID= "1234",
+            Project_Title= "project1",
+            id= 1
+            )
+        self.assertEqual(jr1.to_dict(), {
+            "Grant_End_Date": "1/1/2022",
+            "Grant_Start_Date": "1/2/2022",
+            "MCR_No": "M65659J",
+            "Name_of_Grant": "grant1",
+            "Project_ID": "1234",
+            "Project_Title": "project1",
+            "id": 1
+            }
+        )
+        
+class TestIHI(unittest.TestCase):
+    def test_to_dict(self):
+        from app import IHI
+        jr1 = IHI(
+            Completion_of_Emodules= "Yes",
+            Date= "07/07/2023",
+            MCR_No= "M11367A",
+            id= 1
+            )
+        self.assertEqual(jr1.to_dict(), {
+            "Completion_of_Emodules": "Yes",
+            "Date": "07/07/2023",
+            "MCR_No": "M11367A",
+            "id": 1
+            }
+        )
+        
+class TestProcedureLogs(unittest.TestCase):
+    def test_to_dict(self):
+        from app import Procedure_Log
+        jr1 = Procedure_Log(
+            Certified= "-",
+            Date_of_Completion= "01/01/2022",
+            MCR_No= "M11367A",
+            Observed= "-",
+            Performed= "150",
+            Procedure_Name= "Gastroscopy (OGD)",
+            Programme= "Gastroenterology",
+            Total= "-",
+            Verified= "-",
+            Year_of_Training= "SR2",
+            id= 1
+            )
+        self.assertEqual(jr1.to_dict(), {
+            "Certified": "-",
+            "Date_of_Completion": "01/01/2022",
+            "MCR_No": "M11367A",
+            "Observed": "-",
+            "Performed": "150",
+            "Procedure_Name": "Gastroscopy (OGD)",
+            "Programme": "Gastroenterology",
+            "Total": "-",
+            "Verified": "-",
+            "Year_of_Training": "SR2",
+            "id": 1
+            }
+        )
+        
+
 
 
 if __name__ == "__main__":

@@ -280,6 +280,8 @@ class Procedure_Log(db.Model):
     Observed = db.Column(db.String(100))
     Verified = db.Column(db.String(100))
     Certified = db.Column(db.String(100))
+    Programme= db.Column(db.String(100))
+    Year_of_Training= db.Column(db.String(100))
 
     __mapper_args__ = {
         'polymorphic_identity': 'Procedure_Log'
