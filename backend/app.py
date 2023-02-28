@@ -2368,7 +2368,7 @@ def read_colour_procedure_logs():
         procedure_list = dict_of_procedures[each_item]['Procedure_Name']
         procedure_list = list(map(lambda x: x.lower(), procedure_list))
 
-        if dict_of_procedures[each_item]['Year_of_Training'].lower() in ["sr1" , "sr2", "sr3"] and dict_of_procedures[each_item]['Programme'].lower() == "renal medicine":
+        if dict_of_procedures[each_item]['Year_of_Training'].lower() == "sr1" and dict_of_procedures[each_item]['Programme'].lower() == "renal medicine":
             # print(each_item)
             if "Insertion of non-tunneled haemodialysis catheter - Femoral (C)".lower() in procedure_list:
                 index = procedure_list.index("Insertion of non-tunneled haemodialysis catheter - Femoral (C)".lower())
@@ -2383,7 +2383,7 @@ def read_colour_procedure_logs():
                 if int(performed) < 5:
                     if each_item not in color:
                         color[each_item] = "#ff9999"
-        if dict_of_procedures[each_item]['Year_of_Training'].lower() in ["sr2", "sr3"] and dict_of_procedures[each_item]['Programme'].lower() == "renal medicine":
+        if dict_of_procedures[each_item]['Year_of_Training'].lower() == "sr2" and dict_of_procedures[each_item]['Programme'].lower() == "renal medicine":
             if  "Insertion of non-tunneled haemodialysis catheter - Internal Jugular".lower() in procedure_list:
                 index = procedure_list.index("Insertion of non-tunneled haemodialysis catheter - Internal Jugular".lower())
                 performed = dict_of_procedures[each_item]['Performed'][index]
@@ -2412,46 +2412,91 @@ def read_colour_procedure_logs():
             if  "Native Kidney Biopsy".lower() in procedure_list:
                 index = procedure_list.index("Native Kidney Biopsy".lower())
                 performed = dict_of_procedures[each_item]['Performed'][index]
-                if int(performed) < 10:
+                if int(performed) < 5:
                     if each_item not in color:
                         color[each_item] = "#ff9999"
             elif  "Transplant Kidney Biopsy".lower() in procedure_list:
                 index = procedure_list.index("Transplant Kidney Biopsy".lower())
                 performed = dict_of_procedures[each_item]['Performed'][index]
-                if int(performed) < 3:
+                if int(performed) < 2:
                     if each_item not in color:
                         color[each_item] = "#ff9999"
         # GASTRO
         if dict_of_procedures[each_item]['Year_of_Training'].lower() == "r3" and dict_of_procedures[each_item]['Programme'].lower() == "gastroenterology":
             # print(each_item)
-            ogd = 0
+            ogd_1 = 0
+            ogd_2 = 0
+            colonoscopy = 0
+            variceal_active = 0
+            variceal_total = 0
+            EL = 0
             for idx, value in enumerate(procedure_list):
-                if "ogd" in value.lower():
+                if value.lower() == "Gastroscopy (OGD)".lower() or value.lower() == "Gastroscopy (OGD) with biopsy".lower():
                     performed = dict_of_procedures[each_item]['Performed'][idx]
-                    ogd += int(performed)
-            if ogd < 200:
+                    ogd_1 += int(performed)
+                if value.lower() == "Gastroscopy (OGD) with non-variceal hemostasis; not actively bleeding".lower() or value.lower() == "Gastroscopy (OGD) with non-variceal hemostasis; actively bleeding".lower() or value.lower() == "Colonoscopy with non-variceal hemostasis; not actively bleeding".lower() or value.lower() == "Colonoscopy with non-variceal hemostasis; actively bleeding".lower():
+                    performed = dict_of_procedures[each_item]['Performed'][idx]
+                    ogd_2 += int(performed)
+                if value.lower() == "Colonoscopy".lower() or value.lower() == "Colonoscopy with biopsy".lower():
+                    performed = dict_of_procedures[each_item]['Performed'][idx]
+                    colonoscopy += int(performed)
+                if value.lower() == "Gastroscopy with variceal hemostasis; active bleeding".lower() or value.lower() == "Gastroscopy with variceal hemostasis; not actively bleeding".lower() or value.lower() == "Gastroscopy with variceal ligation; elective eradication".lower():
+                    performed = dict_of_procedures[each_item]['Performed'][idx]
+                    if value.lower() == "Gastroscopy with variceal hemostasis; active bleeding".lower():
+                        variceal_active += int(performed)
+                    variceal_total += int(performed)
+                if value.lower() == "Esophageal dilation".lower() or value.lower() == "Luminal Stenting".lower():
+                    performed = dict_of_procedures[each_item]['Performed'][idx]
+                    EL += int(performed)
+            if ogd_1 < 300:
                 if each_item not in color:
                     color[each_item] = "#ff9999"
+            if ogd_2 < 10:
+                if each_item not in color:
+                    color[each_item] = "#ff9999"
+            if colonoscopy < 180:
+                if each_item not in color:
+                    color[each_item] = "#ff9999"
+            if variceal_total < 20 and variceal_active < 5:
+                print("aldkjfahldfkjhad")
+                if each_item not in color:
+                    color[each_item] = "#ff9999"
+            if EL < 5:
+                if each_item not in color:
+                    color[each_item] = "#ff9999"
+
+            if "Colonoscopy with polypectomy".lower() in procedure_list:
+                index = procedure_list.index("Colonoscopy with polypectomy".lower())
+                performed = dict_of_procedures[each_item]['Performed'][index]
+                if int(performed) < 20:
+                    if each_item not in color:
+                        color[each_item] = "#ff9999"
+            if "Abdominal paracentesis".lower() in procedure_list:
+                index = procedure_list.index("Abdominal paracentesis".lower())
+                performed = dict_of_procedures[each_item]['Performed'][index]
+                if int(performed) < 10:
+                    if each_item not in color:
+                        color[each_item] = "#ff9999"
+            if "Percutaneous Endoscopic Gastrostomy (PEG)".lower() in procedure_list:
+                index = procedure_list.index("Percutaneous Endoscopic Gastrostomy (PEG)".lower())
+                performed = dict_of_procedures[each_item]['Performed'][index]
+                if int(performed) < 5:
+                    if each_item not in color:
+                        color[each_item] = "#ff9999"
             if "Capsule endoscopy".lower() in procedure_list:
                 index = procedure_list.index("Capsule endoscopy".lower())
                 performed = dict_of_procedures[each_item]['Performed'][index]
                 if int(performed) < 10:
                     if each_item not in color:
                         color[each_item] = "#ff9999"
-            if "Esophageal dilation / Luminal Stenting".lower() in procedure_list:
-                index = procedure_list.index("Esophageal dilation / Luminal Stenting".lower())
+            if "Liver biopsy".lower() in procedure_list:
+                index = procedure_list.index("Liver biopsy".lower())
                 performed = dict_of_procedures[each_item]['Performed'][index]
                 if int(performed) < 5:
                     if each_item not in color:
                         color[each_item] = "#ff9999"
             if "Endoscopic Retrograde and Cholangiocpancreatography (ERCP)".lower() in procedure_list:
                 index = procedure_list.index("Endoscopic Retrograde and Cholangiocpancreatography (ERCP)".lower())
-                performed = dict_of_procedures[each_item]['Performed'][index]
-                if int(performed) < 5:
-                    if each_item not in color:
-                        color[each_item] = "#ff9999"
-            if "Percutaneous liver biopsy".lower() in procedure_list:
-                index = procedure_list.index("Percutaneous liver biopsy".lower())
                 performed = dict_of_procedures[each_item]['Performed'][index]
                 if int(performed) < 5:
                     if each_item not in color:
@@ -2468,14 +2513,8 @@ def read_colour_procedure_logs():
                 if int(performed) < 5:
                     if each_item not in color:
                         color[each_item] = "#ff9999"
-            if "Endoscopic mucosal resection (EMR)".lower() in procedure_list:
-                index = procedure_list.index("Endoscopic mucosal resection (EMR)".lower())
-                performed = dict_of_procedures[each_item]['Performed'][index]
-                if int(performed) < 5:
-                    if each_item not in color:
-                        color[each_item] = "#ff9999"
-            if "Endoscopic submucosal dissection (ESD)".lower() in procedure_list:
-                index = procedure_list.index("Endoscopic submucosal dissection (ESD)".lower())
+            if "Endoscopic mucosal resection (EMR) / Endoscopic submucosal dissection (ESD)".lower() in procedure_list:
+                index = procedure_list.index("Endoscopic mucosal resection (EMR) / Endoscopic submucosal dissection (ESD)".lower())
                 performed = dict_of_procedures[each_item]['Performed'][index]
                 if int(performed) < 5:
                     if each_item not in color:
