@@ -253,7 +253,7 @@
                     console.log(error)
                 });
 
-            axios.get(this.local_host_url + 'awards')
+            axios.get(this.local_host_url + 'award')
                 .then(response => {
                     this.duty_hour_logs = response.data.data
                     var printRemoveButton = function (cell, formatterParams,
@@ -373,7 +373,7 @@
                             formatter: printRemoveButton,
                             hozAlign: "center",
                             cellClick: function (e, cell) {
-                                axios.delete(local_host_url + 'awards/' +
+                                axios.delete(local_host_url + 'award/' +
                                     cell
                                         .getRow().getData().id)
                                     .then(function (response) {
@@ -395,7 +395,7 @@
                         // connect to database and execute update statement
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
-                        axios.put(local_host_url + "awards/" + thisrow.id, {
+                        axios.put(local_host_url + "award/" + thisrow.id, {
                             "MCR_No": thisrow.MCR_No,
                             "Award_Category": thisrow.Award_Category,
                             "Name_of_Award": thisrow.Name_of_Award,
