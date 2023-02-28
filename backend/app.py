@@ -575,7 +575,7 @@ class Didactic_Attendance(db.Model):
 # ============================
 # AKA Personal_Details table routes:
 # Read Existing personaldetails (R)
-@app.route("/personaldetails")
+@app.route("/personaldetail")
 def read_personaldetails():
     pdList = Personal_Details.query.all()
     return jsonify(
@@ -586,14 +586,64 @@ def read_personaldetails():
     ), 200
 
 # Read PersonalDetails field/column name (R)
-
-
 @app.route('/personal_details_fields', methods=['GET'])
 def get_personal_details_fields():
     fields = {}
     for column in Personal_Details.__table__.columns:
         fields[column.name] = str(column.type)
     return jsonify(fields)
+
+# update Personal Detail
+@app.route('/personaldetail/<MCR_No>', methods=['PUT'])
+def update_personal_detail(MCR_No):
+    user = Personal_Details.query.get(MCR_No)
+    if not user:
+        return 'Personal Detail not found', 404
+
+    data = request.get_json()
+    user.Employee_ID = data['Employee_ID']
+    user.Staff_Name = data['Staff_Name']
+    user.Designation = data['Designation']
+    user.Programme = data['Programme']
+    user.Year_of_Training = data['Year_of_Training']
+    user.Academic_Year = data['Academic_Year']
+    user.Department = data['Department']
+    user.Institution = data['Institution']
+    user.Academic_Clinical_Programme = data['Academic_Clinical_Programme']
+    user.Employment_Status = data['Employment_Status']
+    user.Nationality = data['Nationality']
+    user.Date_of_Birth = data['Date_of_Birth']
+    user.Gender = data['Gender']
+    user.Registration_Type = data['Registration_Type']
+    user.House_Blk_No = data['House_Blk_No']
+    user.Street = data['Street']
+    user.Building_Name = data['Building_Name']
+    user.Unit_No = data['Unit_No']
+    user.Postal_Code = data['Postal_Code']
+    user.Contact_No_Work = data['Contact_No_Work']
+    user.Contact_No_Personal = data['Contact_No_Personal']
+    user.Email_Official = data['Email_Official']
+    user.Email_Personal = data['Email_Personal']
+    user.BCLS_Expiry_Date = data['BCLS_Expiry_Date']
+    user.ACLS_Expiry_Date = data['ACLS_Expiry_Date']
+    user.Covid_19_Vaccination_Status = data['Covid_19_Vaccination_Status']
+    user.Date_of_First_Dose = data['Date_of_First_Dose']
+    user.Date_of_Second_Dose = data['Date_of_Second_Dose']
+    user.Vaccination_Remarks = data['Vaccination_Remarks']
+
+    db.session.commit()
+    return 'Personal Detail updated', 200
+
+# # remove Personal Detail
+# @app.route('/personaldetail/<MCR_No>', methods=['DELETE'])
+# def delete_personal_detail(MCR_No):
+#     row = Personal_Details.query.get(MCR_No)
+#     if not row:
+#         return 'Personal Detail not found', 404
+
+#     db.session.delete(row)
+#     db.session.commit()
+#     return 'Personal Detail deleted', 200
 
 # Add personaldetails
 @app.route('/add_personal_detail', methods=['POST'])

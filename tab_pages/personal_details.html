@@ -281,6 +281,7 @@
     const vm = new Vue({
         el: '#app',
         data: {
+            local_host_url: "http://localhost:5011/",
             personal_details_fields: [],
             fields_display: [],
             personal_details_datas: [],
@@ -291,46 +292,50 @@
             disabled: false,
         },
         methods: {
-            trigger(){
+            trigger() {
                 console.log("hellooo")
             }
         },
         mounted: async function () {
-            const API_URL_2 = 'http://localhost:5011/personaldetails';
+            
+            // const API_URL_2 = 'http://localhost:5011/personaldetail';
 
-            axios.get(API_URL_2)
+            axios.get("http://localhost:5011/" + "personaldetail")
                 .then(response => {
-
-                    function link(cell, formatterParams){
+                    var printRemoveButton = function (cell, formatterParams,
+                        onRendered) { 
+                        return "<a class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Remove</a>"
+                    };
+                    function link(cell, formatterParams) {
                         var url = cell.getValue();
                         // return "<a href='/tab_pages/resident_profiles_new.html?mcr_no="+url+"'>"+url+"</a>";
                         // return "<a href='/tab_pages/resident_profiles_new.html?mcr_no="+url+"'>"+url+"</a>";
-                        if (url.length < 7){
-                            return"<a disabled class='text-black bg-gray-100 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400'> <span class='relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0' href='/tab_pages/resident_profiles_new.html?mcr_no=" + url+"'>"+ "Unavailable" + "</span></a>"
+                        if (url.length < 7) {
+                            return "<a disabled class='text-black bg-gray-100 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400'> <span class='relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0' href='/tab_pages/resident_profiles_new.html?mcr_no=" + url + "'>" + "Unavailable" + "</span></a>"
                         }
-                        return"<a class='px-2 py-2 text-black bg-gray-100 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-orange-100 via-orange-500 to-orange-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 focus:ring-4 focus:outline-none focus:ring-red-100' href='../tab_pages/resident_profiles_new.html?mcr_no=" + url+"'>"+ url + "</a>"
+                        return "<a class='px-2 py-2 text-black bg-gray-100 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-orange-100 via-orange-500 to-orange-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 focus:ring-4 focus:outline-none focus:ring-red-100' href='../tab_pages/resident_profiles_new.html?mcr_no=" + url + "'>" + url + "</a>"
                     }
 
-                    function link2(cell, formatterParams){
+                    function link2(cell, formatterParams) {
                         var url = cell.getValue();
                         // return "<a href='/tab_pages/resident_profiles_new.html?mcr_no="+url+"'>"+url+"</a>";
                         // return "<a href='/tab_pages/resident_profiles_new.html?mcr_no="+url+"'>"+url+"</a>";
-                        if (url.length < 7){
-                            return"<a disabled class='text-black bg-gray-100 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400'> <span class='relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0' href='/tab_pages/resident_profiles_new.html?mcr_no=" + url+"'>"+ "Unavailable" + "</span></a>"
+                        if (url.length < 7) {
+                            return "<a disabled class='text-black bg-gray-100 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400'> <span class='relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0' href='/tab_pages/resident_profiles_new.html?mcr_no=" + url + "'>" + "Unavailable" + "</span></a>"
                         }
-                        return"<input v-on='trigger' id='checked-checkbox' type='checkbox' value='' class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2'>"
+                        return "<input v-on='trigger' id='checked-checkbox' type='checkbox' value='' class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2'>"
                     }
                     //console.log(response.data,'response data')
                     var table = new Tabulator("#example-table", {
-                        layout:"fitDataStretch",
-                        placeholder: "No Data Available in Didactic Attendance",
+                        layout: "fitDataStretch",
+                        placeholder: "No Data Available in Personal Details",
                         history: true,
                         pagination: "local",
                         paginationSize: 10,
                         paginationCounter: "rows",
-                        movableColumns: true,    
+                        movableColumns: true,
                         data: response.data.data,
-                        index: "Employee_ID",
+                        index: "MCR_No",
                         columns: [
                             // {
                             //     title: "Batch Export CVs",
@@ -357,15 +362,14 @@
                                     clearable: true
                                 },
                                 editor: true,
-                                formatter:link
+                                formatter: link
 
                             },
                             {
                                 title: "Employee ID",
                                 field: "Employee_ID",
                                 sorter: "string",
-                                headerFilter: "input",
-                                headerFilter: "list",
+                                headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
@@ -377,7 +381,6 @@
                                 title: "Staff Name",
                                 field: "Staff_Name",
                                 sorter: "string",
-                                headerFilter: "input",
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -423,7 +426,9 @@
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
-                                }
+                                },
+                                editor: true,
+
                             },
                             {
                                 title: "Department",
@@ -645,34 +650,76 @@
                                     clearable: true
                                 }
                             },
+                            // {
+                            //     title: "Action",
+                            //     formatter: printRemoveButton,
+                            //     hozAlign: "center",
+                            //     cellClick: function (e, cell) {
+                            //         axios.delete("http://localhost:5011/" + 'personaldetail/' + cell
+                            //             .getRow().getData().MCR_No)
+                            //             .then(function (response) {
+                            //                 console.log(response.data);
+                            //                 cell.getRow().delete();
+                            //             })
+                            //             .catch(function (error) {
+                            //                 console.log(error);
+                            //                 if (alert("Failed to remove row MCR No: " + row.getData().MCR_No)) { }
+                            //                 else window.location.reload();
+                            //             });
+                            //     },
+                            //     minWidth: 150,
+                            // },
                         ],
                     });
 
-                    table.on("cellEdited", function (cell) {
-                        //cell - cell component
-                        var value = cell.getValue()
-                        var field = cell.getColumn().getDefinition()['field']
-                        console.log(cell.getRow().getData()['MCR_No'], 'row')
-                        var row = cell.getRow().getData()['MCR_No']
-                        var data1 = {
-                            "Table": "Personal_Details",
-                            "Field": field,
-                            "Value": value,
-                            "Row": row
-                        }
+                    table.on("cellEdited", function (row) {
+                        // connect to database and execute update statement
+                        let thisrow = row.getData()
+                        axios.put("http://localhost:5011/" + "personaldetail/" + thisrow.MCR_No, {
+                            
+                            "Employee_ID": thisrow.Employee_ID,
+                            "Staff_Name": thisrow.Staff_Name,
+                            "Designation": thisrow.Designation,
+                            "Programme": thisrow.Programme,
+                            "Year_of_Training": thisrow.Year_of_Training,
+                            "Academic_Year": thisrow.Academic_Year,
+                            "Department": thisrow.Department,
+                            "Institution": thisrow.Institution,
+                            "Academic_Clinical_Programme": thisrow.Academic_Clinical_Programme,
+                            "Employment_Status": thisrow.Employment_Status,
+                            "Nationality": thisrow.Nationality,
+                            "Date_of_Birth": thisrow.Date_of_Birth,
+                            "Gender": thisrow.Gender,
+                            "Registration_Type": thisrow.Registration_Type,
+                            "House_Blk_No": thisrow.House_Blk_No,
+                            "Street": thisrow.Street,
+                            "Building_Name": thisrow.Building_Name,
+                            "Unit_No": thisrow.Unit_No,
+                            "Postal_Code": thisrow.Postal_Code,
+                            "Contact_No_Work": thisrow.Contact_No_Work,
+                            "Contact_No_Personal": thisrow.Contact_No_Personal,
+                            "Email_Official": thisrow.Email_Official,
+                            "Email_Personal": thisrow.Email_Personal,
+                            "BCLS_Expiry_Date": thisrow.BCLS_Expiry_Date,
+                            "ACLS_Expiry_Date": thisrow.ACLS_Expiry_Date,
+                            "Covid_19_Vaccination_Status": thisrow.Covid_19_Vaccination_Status,
+                            "Date_of_First_Dose": thisrow.Date_of_First_Dose,
+                            "Date_of_Second_Dose": thisrow.Date_of_Second_Dose,
+                            "Vaccination_Remarks": thisrow.Vaccination_Remarks,
+                            // "xx": thisrow.xx,
 
-                        axios({
-                                url: "http://localhost:5011/edit_field_value",
-                                data: data1,
-                                method: 'post'
-                            })
+                        })
                             .then(response => {
-                                console.log(response)
+                                console.log('Duty Hour Log ID {' + row.getData().MCR_No +
+                                    '} updated.')
+                                    
                             })
                             .catch(error => {
-                                console.log(error);
-                            });
-
+                                console.log(row.getData().MCR_No)
+                                console.log(error)
+                                if (alert("Failed to update row MCR No: " + row.getData().MCR_No)) { }
+                                else window.location.reload();
+                            })
                     });
                 })
                 .catch(error => {
