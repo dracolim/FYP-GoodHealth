@@ -138,7 +138,7 @@ CREATE TABLE `case_log` (
   `id` int(11) NOT NULL,
   `MCR_No` varchar(50) NOT NULL,
   `Case_Name` varchar(300) NOT NULL,
-  `Subspecialty` varchar(300) NOT NULL,
+  -- `Subspecialty` varchar(300) NOT NULL,
   `Type_of_Case_Log` varchar(300) NOT NULL,
   `Date_of_Log` varchar(300) NOT NULL,
   `CPT` varchar(300) NOT NULL,
@@ -153,10 +153,10 @@ CREATE TABLE `case_log` (
 -- Dumping data for table `case_log`
 --
 
-INSERT INTO `case_log` (`id`, `MCR_No`, `Case_Name`, `Subspecialty`, `Type_of_Case_Log`, `Date_of_Log`, `CPT`, `Total`, `Performed`, `Observed`, `Verified`, `Certified`) VALUES
-(1, 'M11367A', 'AKI - Case Log', 'gastro', 'inpatient', '3/2/2022', 'Null', '10', '2', '8', '', 'No'),
-(2, 'M16782H', 'CKD - Case Log', 'renal', 'outpatient', '3/2/2022', 'Null', '36', '1', '4', '', 'No'),
-(3, 'M65889A', 'GN - Case Log', 'renal', 'blue letter', '3/2/2022', 'Null', '37', '13', '24', '', 'Yes');
+INSERT INTO `case_log` (`id`, `MCR_No`, `Case_Name`, `Type_of_Case_Log`, `Date_of_Log`, `CPT`, `Total`, `Performed`, `Observed`, `Verified`, `Certified`) VALUES
+(1, 'M11367A', 'AKI - Case Log', 'inpatient', '3/2/2022', 'Null', '10', '2', '8', '', 'No'),
+(2, 'M16782H', 'CKD - Case Log', 'outpatient', '3/2/2022', 'Null', '36', '1', '4', '', 'No'),
+(3, 'M65889A', 'GN - Case Log', 'blue letter', '3/2/2022', 'Null', '37', '13', '24', '', 'Yes');
 
 -- --------------------------------------------------------
 
