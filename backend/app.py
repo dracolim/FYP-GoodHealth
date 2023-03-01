@@ -655,7 +655,7 @@ def create_personal_detail():
                                               "Registration_Type", "House_Blk_No", "Street", "Building_Name", "Unit_No", "Postal_Code", "Contact_No_Work",
                                               "Contact_No_Personal", "Email_Official", "Email_Personal", "BCLS_Expiry_Date", "ACLS_Expiry_Date",
                                               "Covid_19_Vaccination_Status", "Date_of_First_Dose", "Date_of_Second_Dose", "Vaccination_Remarks"
-                                              )):
+                                            )):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
