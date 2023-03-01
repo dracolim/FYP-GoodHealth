@@ -297,13 +297,13 @@
             }
         },
         mounted: async function () {
-            
+
             // const API_URL_2 = 'http://localhost:5011/personaldetail';
 
             axios.get("http://localhost:5011/" + "personaldetail")
                 .then(response => {
                     var printRemoveButton = function (cell, formatterParams,
-                        onRendered) { 
+                        onRendered) {
                         return "<a class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Remove</a>"
                     };
                     function link(cell, formatterParams) {
@@ -381,17 +381,19 @@
                                 title: "Staff Name",
                                 field: "Staff_Name",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
                                 },
-                                editor: true,
+
                             },
                             {
                                 title: "Designation",
                                 field: "Designation",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -402,6 +404,7 @@
                                 title: "Programme",
                                 field: "Programme",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -412,6 +415,7 @@
                                 title: "Year of Training",
                                 field: "Year_of_Training",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -422,6 +426,7 @@
                                 title: "Academic Year",
                                 field: "Academic_Year",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -434,6 +439,7 @@
                                 title: "Department",
                                 field: "Department",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -444,6 +450,7 @@
                                 title: "Institution",
                                 field: "Institution",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -454,6 +461,7 @@
                                 title: "Academic Clinical Programme",
                                 field: "Academic_Clinical_Programme",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -464,6 +472,7 @@
                                 title: "Employment Status",
                                 field: "Employment_Status",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -474,6 +483,7 @@
                                 title: "Nationality",
                                 field: "Nationality",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -484,6 +494,7 @@
                                 title: "Date of Birth",
                                 field: "Date_of_Birth",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -494,6 +505,7 @@
                                 title: "Registration Type",
                                 field: "Registration_Type",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -504,6 +516,7 @@
                                 title: "House Blk No",
                                 field: "House_Blk_No",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -514,6 +527,7 @@
                                 title: "Street",
                                 field: "Street",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -524,6 +538,7 @@
                                 title: "Building Name",
                                 field: "Building_Name",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -534,6 +549,7 @@
                                 title: "Unit No",
                                 field: "Unit_No",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -544,6 +560,7 @@
                                 title: "Postal Code",
                                 field: "Postal_Code",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -554,6 +571,7 @@
                                 title: "Contact No Work",
                                 field: "Contact_No_Work",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -564,6 +582,7 @@
                                 title: "Contact No Personal",
                                 field: "Contact_No_Personal",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -574,6 +593,7 @@
                                 title: "Email Official",
                                 field: "Email_Official",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -584,6 +604,7 @@
                                 title: "Email Personal",
                                 field: "Email_Personal",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -594,6 +615,7 @@
                                 title: "BCLS Expiry Date",
                                 field: "BCLS_Expiry_Date",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -604,6 +626,7 @@
                                 title: "ACLS Expiry Date",
                                 field: "ACLS_Expiry_Date",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -614,6 +637,7 @@
                                 title: "Covid_19 Vaccination Status",
                                 field: "Covid_19_Vaccination_Status",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -624,6 +648,7 @@
                                 title: "Date of First Dose",
                                 field: "Date_of_First_Dose",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -634,6 +659,7 @@
                                 title: "Date of Second Dose",
                                 field: "Date_of_Second_Dose",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -644,6 +670,7 @@
                                 title: "Vaccination Remarks",
                                 field: "Vaccination_Remarks",
                                 sorter: "string",
+                                editor: true,
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
@@ -676,7 +703,7 @@
                         // connect to database and execute update statement
                         let thisrow = row.getData()
                         axios.put("http://localhost:5011/" + "personaldetail/" + thisrow.MCR_No, {
-                            
+
                             "Employee_ID": thisrow.Employee_ID,
                             "Staff_Name": thisrow.Staff_Name,
                             "Designation": thisrow.Designation,
@@ -712,7 +739,7 @@
                             .then(response => {
                                 console.log('Duty Hour Log ID {' + row.getData().MCR_No +
                                     '} updated.')
-                                    
+
                             })
                             .catch(error => {
                                 console.log(row.getData().MCR_No)
