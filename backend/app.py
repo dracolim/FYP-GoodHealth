@@ -208,7 +208,7 @@ class Case_Log(db.Model):
     MCR_No = db.Column(db.String(100),  db.ForeignKey(
         'Personal_Details.MCR_No'))
     Case_Name = db.Column(db.String(100))
-    Subspecialty = db.Column(db.String(100))
+    # Subspecialty = db.Column(db.String(100))
     Type_of_Case_Log = db.Column(db.String(100))
     Date_of_Log = db.Column(db.String(100))
     CPT = db.Column(db.String(100))
@@ -655,7 +655,7 @@ def create_personal_detail():
                                               "Registration_Type", "House_Blk_No", "Street", "Building_Name", "Unit_No", "Postal_Code", "Contact_No_Work",
                                               "Contact_No_Personal", "Email_Official", "Email_Personal", "BCLS_Expiry_Date", "ACLS_Expiry_Date",
                                               "Covid_19_Vaccination_Status", "Date_of_First_Dose", "Date_of_Second_Dose", "Vaccination_Remarks"
-                                              )):
+                                            )):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
@@ -2764,7 +2764,7 @@ def update_caselog(id):
     user.Date_of_Log = data['Date_of_Log']
     user.Observed = data['Observed']
     user.Performed = data['Performed']
-    user.Subspecialty = data['Subspecialty']
+    # user.Subspecialty = data['Subspecialty']
     user.Total = data['Total']
     user.Type_of_Case_Log = data['Type_of_Case_Log']
     user.Verified = data['Verified']
@@ -2781,6 +2781,130 @@ def delete_caselog(id):
     db.session.delete(row)
     db.session.commit()
     return 'caselog deleted', 200
+
+# add compliance to case_log
+@app.route("/colour_case_logs")
+def read_colour_case_logs():
+    userList = Case_Log.query\
+        .join(Personal_Details, Case_Log.MCR_No == Personal_Details.MCR_No)\
+        .add_columns(Personal_Details.Programme, Personal_Details.Year_of_Training)\
+        .paginate(1, 50, True)
+
+    combinedCaseLogs = []
+    for i in userList.iter_pages():
+        for item in userList.items:
+            caselog = item[0].to_dict()
+            caselog["Programme"] = item[1]
+            caselog["Year_of_Training"] = item[2]
+            combinedCaseLogs.append(caselog)
+    
+    #mcr_no
+    dict_of_cases = {}
+    for each in combinedCaseLogs:
+        if each['MCR_No'] not in dict_of_cases:
+            dict_of_cases[each['MCR_No']] = {}
+    
+    #case name
+    for each_mcr in dict_of_cases:
+        Case_list = []
+        for each in combinedCaseLogs:
+            if each['MCR_No'] == each_mcr:
+                Case_list.append(each['Case_Name'])
+        dict_of_cases[each_mcr]['Case_Name'] = Case_list
+
+    # performed
+    for each_mcr in dict_of_cases:
+        performed_list = []
+        for each in combinedCaseLogs:
+            if each['MCR_No'] == each_mcr:
+                performed_list.append(each['Performed'])
+        dict_of_cases[each_mcr]['Performed'] = performed_list
+    
+    #verified
+    for each_mcr in dict_of_cases:
+        performed2_list = []
+        for each in combinedCaseLogs:
+            if each['MCR_No'] == each_mcr:
+                performed2_list.append(each['Verified'])
+        dict_of_cases[each_mcr]['Verified'] = performed2_list
+
+    #type of case log
+    for each_mcr in dict_of_cases:
+        performed3_list = []
+        for each in combinedCaseLogs:
+            if each['MCR_No'] == each_mcr:
+                performed3_list.append(each['Type_of_Case_Log'])
+        dict_of_cases[each_mcr]['Type_of_Case_Log'] = performed3_list
+    
+    #programme
+    for each_mcr in dict_of_cases:
+        for each in combinedCaseLogs:
+            if each['MCR_No'] == each_mcr:
+                dict_of_cases[each_mcr]['Programme'] = each['Programme']
+        
+    #year_of_training
+    for each_mcr in dict_of_cases:
+        for each in combinedCaseLogs:
+            if each['MCR_No'] == each_mcr:
+                dict_of_cases[each_mcr]['Year_of_Training'] = each['Year_of_Training']
+    
+    for each_item in dict_of_cases: #by mcr_no
+        print(each_item)
+        color = []
+        # RENAL MEDICINE
+        case_list = dict_of_cases[each_item]['Case_Name']
+        case_list = list(map(lambda x: x.lower(), case_list))
+
+        if dict_of_cases[each_item]['Year_of_Training'].lower() == "sr2" and dict_of_cases[each_item]['Programme'].lower() == "renal medicine":
+            if "Transplant Credit (10 required)".lower() in case_list:
+                index = case_list.index("Transplant Credit (10 required)".lower())
+                performed = dict_of_cases[each_item]['Performed'][index]
+                if int(performed) < 10:
+                    color.append("#ff9999")
+                    # if each_item not in color:
+                    #     color[each_item] = "#ff9999"
+
+        # INTERNAL MEDICINE
+        if dict_of_cases[each_item]['Year_of_Training'].lower() in ["r1" , "sr2" , "r3"] and dict_of_cases[each_item]['Programme'].lower() == "gastroenterology":
+            inpatient = 0
+            outpatient = 0
+            blue_letter = 0
+            for idx, value in enumerate(dict_of_cases[each_item]['Type_of_Case_Log']):
+                if value.lower() == "inpatient":
+                    inpatient += int(dict_of_cases[each_item]["Performed"][idx])
+                elif value.lower() == "outpatient":
+                    outpatient += int(dict_of_cases[each_item]["Performed"][idx])
+                elif value.lower() == "blue letter":
+                    blue_letter += int(dict_of_cases[each_item]["Performed"][idx])
+
+            if inpatient < 3:
+                for idx, value in enumerate(dict_of_cases[each_item]['Type_of_Case_Log']):
+                    if value.lower() == "inpatient":
+                        color.append("#ff9999")
+            elif inpatient > 3:
+                for idx, value in enumerate(dict_of_cases[each_item]['Type_of_Case_Log']):
+                    if value.lower() == "inpatient":
+                        color.append("#99ffcc")
+            if outpatient <3:
+                for idx, value in enumerate(dict_of_cases[each_item]['Type_of_Case_Log']):
+                    if value.lower() == "inpatient":
+                        color.append("#ff9999")
+            elif outpatient > 3:
+                for idx, value in enumerate(dict_of_cases[each_item]['Type_of_Case_Log']):
+                    if value.lower() == "inpatient":
+                        color.append("#99ffcc")
+            
+    for each in combinedCaseLogs:
+        print(each)
+        for i in range(len(color)):
+            each['color'] = color[i]
+
+    return jsonify(
+        {
+            "data": combinedCaseLogs
+        }), 200
+
+
 # ============================
 # █▀▀ █▄░█ █▀▄
 # ██▄ █░▀█ █▄▀

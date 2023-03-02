@@ -298,7 +298,7 @@
 
         },
         mounted() {
-            axios.get(this.local_host_url + "/personaldetails")
+            axios.get(this.local_host_url + "/personaldetail")
                 .then(response => {
                     let result = response.data.data;
                     this.personal_details_data = result

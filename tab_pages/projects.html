@@ -9,6 +9,7 @@
     <!-- INSTALLATIONS -->
     <!-- flowbite -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- ICONIFY -->
@@ -295,7 +296,7 @@
 
         },
         mounted() {
-            axios.get(this.local_host_url + "/personaldetails")
+            axios.get(this.local_host_url + "/personaldetail")
                 .then(response => {
                     let result = response.data.data;
                     for (each of result) {

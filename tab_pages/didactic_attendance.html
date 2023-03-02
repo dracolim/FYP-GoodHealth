@@ -8,7 +8,9 @@
 
     <!-- INSTALLATIONS -->
     <!-- flowbite -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" 
+    rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- ICONIFY -->
@@ -177,6 +179,25 @@
         </nav>
         <!-- Orange Divider -->
         <div class='row' style='height: 8px; background-color: #ff6b00;'></div>
+        <!-- History menu -->
+        <div id="dropdownDelay"
+            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow sm:w-full md:w-44 ">
+            <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDelayButton">
+                <li>
+                    <a href="./history_education.html" class="block px-4 py-2 hover:bg-gray-100 ">Education</a>
+                </li>
+                <li>
+                    <a href="./history_posting.html" class="block px-4 py-2 hover:bg-gray-100 ">Posting</a>
+                </li>
+                <li>
+                    <a href="./history_exam.html" class="block px-4 py-2 hover:bg-gray-100 ">Exam</a>
+                </li>
+                <li>
+                    <a href="./history_trg_ext_remediation.html" class="block px-4 py-2 hover:bg-gray-100 ">Trg Ext. &
+                        Remediation</a>
+                </li>
+            </ul>
+        </div>
         <!-- TABLE START -->
         <div class="md:hidden sm:visible">
             <h2 class="text-3xl font-bold  ml-8 mt-4 text-gray-700">Didactic Attendance</h2>
@@ -203,24 +224,7 @@
             <table id="example-table"></table>
         </div>
 
-        <!-- History menu -->
-        <div id="dropdownDelay" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
-            <ul class="py-2 text-sm text-gray-500" aria-labelledby="dropdownDelayButton">
-                <li>
-                    <a href="./history_education.html" class="block px-4 py-2 hover:bg-gray-100 ">Education</a>
-                </li>
-                <li>
-                    <a href="./history_posting.html" class="block px-4 py-2 hover:bg-gray-100 ">Posting</a>
-                </li>
-                <li>
-                    <a href="./history_exam.html" class="block px-4 py-2 hover:bg-gray-100 ">Exam</a>
-                </li>
-                <li>
-                    <a href="./history_trg_ext_remediation.html" class="block px-4 py-2 hover:bg-gray-100 ">Trg Ext. &
-                        Remediation</a>
-                </li>
-            </ul>
-        </div>
+        
     </div>
 </body>
 

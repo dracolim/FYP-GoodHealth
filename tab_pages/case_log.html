@@ -302,7 +302,7 @@
 
         },
         mounted() {
-            axios.get(this.local_host_url + "/personaldetails")
+            axios.get(this.local_host_url + "/personaldetail")
                 .then(response => {
                     let result = response.data.data;
                     for (each of result) {
@@ -316,7 +316,7 @@
                     console.log(error)
                 });
 
-            axios.get(this.local_host_url + this.currentPage)
+            axios.get(this.local_host_url + "colour_case_logs")
                 .then(response => {
                     this.tableData = response.data.data
                     var printRemoveButton = function (cell, formatterParams,
@@ -335,6 +335,12 @@
                         data: this.tableData,
                         index: "MCR_No",
                         columns: [{
+                                title: "Compliance",
+                                field: "color",
+                                formatter: "color",
+                                width: 150
+                            },
+                            {
                             title: "MCR No",
                             field: "MCR_No",
                             sorter: "string",
@@ -365,24 +371,23 @@
                             },
                             minWidth: 150,
                         },
-
-                        {
-                            title: "Subspecialty",
-                            field: "Subspecialty",
-                            sorter: "string",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true,
-                            },
-                            editor: "input",
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
-                            },
-                            minWidth: 150,
-                        },
+                        // {
+                        //     title: "Subspecialty",
+                        //     field: "Subspecialty",
+                        //     sorter: "string",
+                        //     headerFilter: true,
+                        //     headerFilterParams: {
+                        //         valuesLookup: true,
+                        //         clearable: true,
+                        //     },
+                        //     editor: "input",
+                        //     editorParams: {
+                        //         allowEmpty: true,
+                        //         listOnEmpty: true,
+                        //         valuesLookup: true,
+                        //     },
+                        //     minWidth: 150,
+                        // },
                         {
                             title: "Type of Case Log",
                             field: "Type_of_Case_Log",
