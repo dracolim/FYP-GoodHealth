@@ -29,7 +29,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.0.10/dist/vuetify.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.jshome/2.7.3/Chart.min.js"></script>
     <script src="https://unpkg.com/vue-chartjs@3.4.0/dist/vue-chartjs.js"></script>
 
     <title>SingHealth</title>
@@ -46,7 +46,7 @@
                     style="height: 80px ; width: 100px;" alt="Flowbite Logo" />
 
                 <div class="flex md:order-2">
-                    <a href="homepage.html" style="margin-right: 10px;">
+                    <a href="../homepage.html" style="margin-right: 10px;">
                         <iconify-icon icon="ic:round-home" style="color: #ff6b00;" width="40" height="40"></iconify-icon>
                     </a>
                     <a>
@@ -71,45 +71,79 @@
 
         <!-- Navbar -->
         <nav class="bg-white">
-            <div class="items-center justify-between hidden w-full md:flex md:width-auto  md:order-1" id="navbar-sticky" style="width: 100%; overflow: hidden;">
-                <ul class="md:divide-x md:divide-slate-200 flex flex-col p-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row  md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
+            <div class="items-center justify-between hidden w-full md:flex md:width-auto  md:order-1" id="navbar-sticky"
+                style="width: 100%; overflow: hidden;">
+                <ul
+                    class="md:divide-x md:divide-slate-200 flex flex-col p-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row  md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
                     <li>
-                        <a href="#"
-                            class="lg:text-sm md:text-xs mr-2 ml-4 lg:ml-10 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0 dark:text-white"
-                            aria-current="page">Resident Profiles</a>
-                    </li>
-                    <li>
-                        <a href="#"
+                        <a href="../homepage.html"
                             class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
-                            History</a>
+                            Home</a>
                     </li>
                     <li>
-                        <a href="#"
+                        <a href="../tab_pages/personal_details.html"
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0 dark:text-white"
+                            aria-current="page">Personal
+                            Details</a>
+                    </li>
+                    <li>
+                        <button data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500"
+                            data-dropdown-trigger="hover">
+                            <span
+                                class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                                History</span>
+                        </button>
+                    </li>
+                    <li>
+                        <a href="../tab_pages/involvement.html"
                             class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
                             Involvement</a>
                     </li>
                     <li>
-                        <a href="#"
+                        <a href="../tab_pages/grants.html"
                             class="lg:text-sm md:text-xs  ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
                             Grants</a>
                     </li>
                     <li>
-                        <a href="#"
+                        <a href="../tab_pages/publications.html"
                             class="lg:text-sm md:text-xs  ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
                             Publications</a>
                     </li>
                     <li>
-                        <a href="#"
+                        <a href="../tab_pages/presentations.html"
                             class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Presentations</a>
                     </li>
                     <li>
-                        <a href="#"
-                            class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                        <a href="../tab_pages/awards.html"
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
                             Awards</a>
                     </li>
                     <li>
-                        <a href="#"
+                        <a href="../tab_pages/projects.html"
                             class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Projects</a>
+                    </li>
+                    <li>
+                        <a href="../tab_pages/ihi.html"
+                            class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">IHI</a>
+                    </li>
+                    <li>
+                        <a href="../tab_pages/duty_hour_log.html"
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Duty
+                            Hour Log</a>
+                    </li>
+                    <li>
+                        <a href="../tab_pages/procedure_log.html"
+                            class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Procedure
+                            Log</a>
+                    </li>
+                    <li>
+                        <a href="../tab_pages/case_log.html"
+                            class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Case
+                            Log</a>
+                    </li>
+                    <li>
+                        <a href="../tab_pages/evaluations.html"
+                            class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Evaluation</a>
                     </li>
                 </ul>
             </div>
