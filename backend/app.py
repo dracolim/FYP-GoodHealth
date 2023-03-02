@@ -2847,10 +2847,16 @@ def read_colour_case_logs():
         for each in combinedCaseLogs:
             if each['MCR_No'] == each_mcr:
                 dict_of_cases[each_mcr]['Year_of_Training'] = each['Year_of_Training']
+
+    #color
+    for each_mcr in dict_of_cases:
+        for each in combinedCaseLogs:
+            if each['MCR_No'] == each_mcr:
+                dict_of_cases[each_mcr]['Color'] = []
     
     for each_item in dict_of_cases: #by mcr_no
         print(each_item)
-        color = []
+        color_list = dict_of_cases[each_item]['Color']
         # RENAL MEDICINE
         case_list = dict_of_cases[each_item]['Case_Name']
         case_list = list(map(lambda x: x.lower(), case_list))
@@ -2860,9 +2866,9 @@ def read_colour_case_logs():
                 index = case_list.index("Transplant Credit (10 required)".lower())
                 performed = dict_of_cases[each_item]['Performed'][index]
                 if int(performed) < 10:
-                    color.append("#ff9999")
-                    # if each_item not in color:
-                    #     color[each_item] = "#ff9999"
+                    color_list.append("#ff9999")
+                else:
+                    color_list.append("#FFFFFF")
 
         # INTERNAL MEDICINE
         if dict_of_cases[each_item]['Year_of_Training'].lower() in ["r1" , "sr2" , "r3"] and dict_of_cases[each_item]['Programme'].lower() == "gastroenterology":
@@ -2872,32 +2878,33 @@ def read_colour_case_logs():
             for idx, value in enumerate(dict_of_cases[each_item]['Type_of_Case_Log']):
                 if value.lower() == "inpatient":
                     inpatient += int(dict_of_cases[each_item]["Performed"][idx])
+                    color_list.append("#FFFFFF") #go green first
                 elif value.lower() == "outpatient":
                     outpatient += int(dict_of_cases[each_item]["Performed"][idx])
+                    color_list.append("#FFFFFF") #go green first
                 elif value.lower() == "blue letter":
                     blue_letter += int(dict_of_cases[each_item]["Performed"][idx])
+                    color_list.append("#FFFFFF") #go green first
 
             if inpatient < 3:
                 for idx, value in enumerate(dict_of_cases[each_item]['Type_of_Case_Log']):
                     if value.lower() == "inpatient":
-                        color.append("#ff9999")
-            elif inpatient > 3:
+                        color_list[idx] = "#ff9999"
+            if outpatient < 3:
                 for idx, value in enumerate(dict_of_cases[each_item]['Type_of_Case_Log']):
-                    if value.lower() == "inpatient":
-                        color.append("#99ffcc")
-            if outpatient <3:
-                for idx, value in enumerate(dict_of_cases[each_item]['Type_of_Case_Log']):
-                    if value.lower() == "inpatient":
-                        color.append("#ff9999")
-            elif outpatient > 3:
-                for idx, value in enumerate(dict_of_cases[each_item]['Type_of_Case_Log']):
-                    if value.lower() == "inpatient":
-                        color.append("#99ffcc")
+                    if value.lower() == "outpatient":
+                        color_list[idx] = "#ff9999"
             
-    for each in combinedCaseLogs:
-        print(each)
-        for i in range(len(color)):
-            each['color'] = color[i]
+        # print(dict_of_cases)
+        print(color_list)
+        count = 0
+        for each in combinedCaseLogs:
+            if each['MCR_No'] == each_item and len(color_list) != 0:
+                print(count)
+                each['color'] = color_list[count]
+                count += 1
+
+
 
     return jsonify(
         {
