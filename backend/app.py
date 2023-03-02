@@ -2496,7 +2496,7 @@ def read_colour_procedure_logs():
                     color_list.append("#FFFFFF")
             
         # GASTRO
-        if dict_of_procedures[each_item]['Year_of_Training'].lower() == "r3" and dict_of_procedures[each_item]['Programme'].lower() == "gastroenterology":
+        if dict_of_procedures[each_item]['Year_of_Training'].lower() == "sr2" and dict_of_procedures[each_item]['Programme'].lower() == "gastroenterology":
             # print(each_item)
             ogd_1 = 0
             ogd_1_idx = []
@@ -2510,43 +2510,66 @@ def read_colour_procedure_logs():
             variceal_non_active_idx = []
             EL = 0
             el_idx = []
+            procedure_list_copy = procedure_list.copy()
+
             for idx, value in enumerate(procedure_list):
                 if value.lower() == "Gastroscopy (OGD)".lower() or value.lower() == "Gastroscopy (OGD) with biopsy".lower():
                     performed = dict_of_procedures[each_item]['Performed'][idx]
                     ogd_1 += int(performed)
-                    del procedure_list[idx]
                     color_list.append("#FFFFFF")
                     ogd_1_idx.append(idx)
+                    if value.lower() == "Gastroscopy (OGD)".lower():
+                        procedure_list_copy.remove("Gastroscopy (OGD)".lower())
+                    else: 
+                        procedure_list_copy.remove("Gastroscopy (OGD) with biopsy".lower())
                 elif value.lower() == "Gastroscopy (OGD) with non-variceal hemostasis; not actively bleeding".lower() or value.lower() == "Gastroscopy (OGD) with non-variceal hemostasis; actively bleeding".lower() or value.lower() == "Colonoscopy with non-variceal hemostasis; not actively bleeding".lower() or value.lower() == "Colonoscopy with non-variceal hemostasis; actively bleeding".lower():
                     performed = dict_of_procedures[each_item]['Performed'][idx]
                     ogd_2 += int(performed)
-                    del procedure_list[idx]
                     color_list.append("#FFFFFF")
                     ogd_2_idx.append(idx)
+                    if value.lower() == "Gastroscopy (OGD) with non-variceal hemostasis; not actively bleeding".lower():
+                        procedure_list_copy.remove("Gastroscopy (OGD) with non-variceal hemostasis; not actively bleeding".lower())
+                    elif value.lower() == "Gastroscopy (OGD) with non-variceal hemostasis; actively bleeding".lower():
+                        procedure_list_copy.remove("Gastroscopy (OGD) with non-variceal hemostasis; actively bleeding".lower())
+                    elif value.lower() == "Colonoscopy with non-variceal hemostasis; not actively bleeding".lower():
+                        procedure_list_copy.remove("Colonoscopy with non-variceal hemostasis; not actively bleeding".lower())
+                    elif  value.lower() == "Colonoscopy with non-variceal hemostasis; actively bleeding".lower():
+                        procedure_list_copy.remove("Colonoscopy with non-variceal hemostasis; actively bleeding".lower())
                 elif value.lower() == "Colonoscopy".lower() or value.lower() == "Colonoscopy with biopsy".lower():
                     performed = dict_of_procedures[each_item]['Performed'][idx]
                     colonoscopy += int(performed)
-                    del procedure_list[idx]
                     color_list.append("#FFFFFF")
                     colonoscopy_idx.append(idx)
+                    if value.lower() == "Colonoscopy".lower():
+                        procedure_list_copy.remove("Colonoscopy".lower())
+                    elif value.lower() == "Colonoscopy with biopsy".lower():
+                        procedure_list_copy.remove("Colonoscopy with biopsy".lower())
                 elif value.lower() == "Gastroscopy with variceal hemostasis; active bleeding".lower() or value.lower() == "Gastroscopy with variceal hemostasis; not actively bleeding".lower() or value.lower() == "Gastroscopy with variceal ligation; elective eradication".lower():
                     performed = dict_of_procedures[each_item]['Performed'][idx]
                     if value.lower() == "Gastroscopy with variceal hemostasis; active bleeding".lower():
                         variceal_active += int(performed)
                         variceal_active_idx.append(idx)
+                        procedure_list_copy.remove("Gastroscopy with variceal hemostasis; active bleeding".lower())
                     else:
                         variceal_non_active_idx.append(idx)
+                        if value.lower() == "Gastroscopy with variceal hemostasis; not actively bleeding".lower():
+                            procedure_list_copy.remove("Gastroscopy with variceal hemostasis; not actively bleeding".lower())
+                        elif value.lower() == "Gastroscopy with variceal ligation; elective eradication".lower():
+                            procedure_list_copy.remove("Gastroscopy with variceal ligation; elective eradication".lower())
                     variceal_total += int(performed)
-                    del procedure_list[idx]
                     color_list.append("#FFFFFF")
                 elif value.lower() == "Esophageal dilation".lower() or value.lower() == "Luminal Stenting".lower():
                     performed = dict_of_procedures[each_item]['Performed'][idx]
                     EL += int(performed)
                     color_list.append("#FFFFFF")
-                    del procedure_list[idx]
                     el_idx.append(el_idx)
+                    if  value.lower() == "Esophageal dilation".lower():
+                        procedure_list_copy.remove("Esophageal dilation".lower())
+                    else:
+                        procedure_list_copy.remove("Luminal Stenting".lower())
             
             if ogd_1 < 300:
+                print("asdlkfjhalsdkjfhasd")
                 for i in ogd_1_idx:
                     color_list[i] = "#ff9999"
             if ogd_2 < 10:
@@ -2562,52 +2585,70 @@ def read_colour_procedure_logs():
                 for i in el_idx:
                     color_list[i] = "#ff9999"
 
-            for i in range(len(procedure_list)):
-                if procedure_list[i] == "Colonoscopy with polypectomy".lower():
+            for i in range(len(procedure_list_copy)):
+                if procedure_list_copy[i] == "Colonoscopy with polypectomy".lower():
                     index = procedure_list.index("Colonoscopy with polypectomy".lower())
                     performed = dict_of_procedures[each_item]['Performed'][index]
                     if int(performed) < 20:
                         color_list.append("#ff9999")
-                elif procedure_list[i] == "Abdominal paracentesis".lower():
+                    else: 
+                        color_list.append("#FFFFFF")
+                elif procedure_list_copy[i] == "Abdominal paracentesis".lower():
                     index = procedure_list.index("Abdominal paracentesis".lower())
                     performed = dict_of_procedures[each_item]['Performed'][index]
                     if int(performed) < 10:
                         color_list.append("#ff9999")
-                elif procedure_list[i] == "Percutaneous Endoscopic Gastrostomy (PEG)".lower():
+                    else: 
+                        color_list.append("#FFFFFF")
+                elif procedure_list_copy[i] == "Percutaneous Endoscopic Gastrostomy (PEG)".lower():
                     index = procedure_list.index("Percutaneous Endoscopic Gastrostomy (PEG)".lower())
                     performed = dict_of_procedures[each_item]['Performed'][index]
                     if int(performed) < 5:
                         color_list.append("#ff9999")
-                elif procedure_list[i] == "Capsule endoscopy".lower():
+                    else: 
+                        color_list.append("#FFFFFF")
+                elif procedure_list_copy[i] == "Capsule endoscopy".lower():
                     index = procedure_list.index("Capsule endoscopy".lower())
                     performed = dict_of_procedures[each_item]['Performed'][index]
                     if int(performed) < 10:
                         color_list.append("#ff9999")
-                elif procedure_list[i] == "Liver biopsy".lower():
+                    else: 
+                        color_list.append("#FFFFFF")
+                elif procedure_list_copy[i] == "Liver biopsy".lower():
                     index = procedure_list.index("Liver biopsy".lower())
                     performed = dict_of_procedures[each_item]['Performed'][index]
                     if int(performed) < 5:
                         color_list.append("#ff9999")
-                elif procedure_list[i] == "Endoscopic Retrograde and Cholangiocpancreatography (ERCP)".lower():
+                    else: 
+                        color_list.append("#FFFFFF")
+                elif procedure_list_copy[i] == "Endoscopic Retrograde and Cholangiocpancreatography (ERCP)".lower():
                     index = procedure_list.index("Endoscopic Retrograde and Cholangiocpancreatography (ERCP)".lower())
                     performed = dict_of_procedures[each_item]['Performed'][index]
                     if int(performed) < 5:
                         color_list.append("#ff9999")
-                elif procedure_list[i] == "Endoscopic ultrasound".lower():
+                    else: 
+                        color_list.append("#FFFFFF")
+                elif procedure_list_copy[i] == "Endoscopic ultrasound".lower():
                     index = procedure_list.index("Endoscopic ultrasound".lower())
                     performed = dict_of_procedures[each_item]['Performed'][index]
                     if int(performed) < 5:
                         color_list.append("#ff9999")
-                elif procedure_list[i] == "Esophageal motility / pH studies".lower():
+                    else: 
+                        color_list.append("#FFFFFF")
+                elif procedure_list_copy[i] == "Esophageal motility / pH studies".lower():
                     index = procedure_list.index("Esophageal motility / pH studies".lower())
                     performed = dict_of_procedures[each_item]['Performed'][index]
                     if int(performed) < 5:
                         color_list.append("#ff9999")
-                elif procedure_list[i] == "Endoscopic mucosal resection (EMR) / Endoscopic submucosal dissection (ESD)".lower():
+                    else: 
+                        color_list.append("#FFFFFF")
+                elif procedure_list_copy[i] == "Endoscopic mucosal resection (EMR) / Endoscopic submucosal dissection (ESD)".lower():
                     index = procedure_list.index("Endoscopic mucosal resection (EMR) / Endoscopic submucosal dissection (ESD)".lower())
                     performed = dict_of_procedures[each_item]['Performed'][index]
                     if int(performed) < 5:
                         color_list.append("#ff9999")
+                    else: 
+                        color_list.append("#FFFFFF")
                 else:
                     color_list.append("#FFFFFF")
 
