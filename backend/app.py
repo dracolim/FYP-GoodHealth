@@ -3017,6 +3017,7 @@ def generate_cv(id):
     path=os.path.join(os.getcwd(),'../cv/cv.pdf')
     return send_file(path, as_attachment=True)
 
+
 # Preview CV pdf:
 @app.route("/preview/<id>")
 def preview(id):
@@ -3036,13 +3037,14 @@ def getCompletePage(id):
     trgExtRem_Histories = person.trgExtRem_Histories
     projects = person.projects
     awards = person.awards
+
     grants = person.grants
     ihis = person.ihis
     involvements = person.involvements
     mcrno = person.MCR_No
     name = person.Staff_Name
     education_histories = person.education_history
-    
+    # just the table and attributes u want 
     awardsRows = getAwardsRows(awards)
     projectRows = getProjectRows(projects)
     educationalInvolvements = getEducationalInvolvement(involvements)
@@ -3061,9 +3063,194 @@ def getCompletePage(id):
         publicationRows,patientSafetyQIRows)
     return page
 
+from abc import ABCMeta, abstractmethod
+
+class IBuilder(metaclass=ABCMeta):
+
+    @staticmethod
+    @abstractmethod
+    def assembleRows():
+        "Builds rows based on details of the person"
+
+    @staticmethod
+    @abstractmethod
+    def buildPage():
+        "Builds pages from details of that person"
+        
+    @staticmethod
+    @abstractmethod
+    def getPage():
+        "Retrieves"
+
+    @staticmethod
+    @abstractmethod
+    def generatepdf(self):
+        "Generates pdf"
+
+    @staticmethod
+    @abstractmethod
+    def generatepdfresponse(self):
+        "Generates pdf response for flask app"
+
+    @staticmethod
+    @abstractmethod
+    def pdf_to_doc(self):
+        "Generates word document and corresponding word file response for flask app"
+
+
+class Builder(IBuilder):
+    "The Concrete Builder."
+
+    def __init__(self, person):
+        import os
+        self.person = person
+        self.awardsRows = ""
+        self.projectRows = ""
+        self.educationalInvolvements = ""
+        self.communityInvolvements = ""
+        self.leadershipInvolvements = ""
+        self.procedureLogsRows = ""
+        self.postingRows = ""
+        self.educationRows = ""
+        self.teachingPresentationRows= ""
+        self.presentationRows= ""
+        self.publicationRows= ""
+        self.patientSafetyQIRows= ""
+        self.page = ""
+        self.folder='../cv/'
+        self.html_file_name = "cv.html"
+        self.path_wkhtmltopdf = "../wkhtmltopdf/bin/wkhtmltopdf.exe"
+        self.pdf_file = self.folder + 'cv.pdf'
+        self.docx_file = self.folder + 'cv.docx'
+        self.docx_path = os.path.join(os.getcwd(),'../cv/cv.docx')
+
+    def assembleRows(self):
+        self.awardsRows = getAwardsRows(self.person.awards)
+        self.projectRows = getProjectRows(self.person.projects)
+        self.educationalInvolvements = getEducationalInvolvement(self.person.involvements)
+        self.communityInvolvements = getCommunityInvolvement(self.person.involvements)
+        self.leadershipInvolvements =  getLeadershipInvolvment(self.person.involvements)
+        self.procedureLogsRows = getProcedureLogs(self.person.procedure_logs)
+        self.postingRows = getPostingRows(self.person.posting_histories)
+        self.educationRows = getEducationRows(self.person.exam_histories)
+        self.teachingPresentationRows=getTeachingPresentationRows(self.person.presentations)
+        self.presentationRows=getPresentationRows(self.person.presentations)
+        self.publicationRows=getPublications(self.person.publications)
+        self.patientSafetyQIRows=getQIPatientSafetyRows(self.person.projects)
+
+    def buildPage(self):
+        self.page = getPage(self.person.Staff_Name, 
+                            self.person.MCR_No, 
+                            self.awardsRows, 
+                            self.projectRows, 
+                            self.educationalInvolvements, 
+                            self.communityInvolvements,
+                            self.leadershipInvolvements, 
+                            self.procedureLogsRows, 
+                            self.postingRows, 
+                            self.educationRows,
+                            self.presentationRows,
+                            self.teachingPresentationRows,
+                            self.publicationRows,
+                            self.patientSafetyQIRows)
+        
+        return self
+    
+    def getPage(self):
+        self.assembleRows()
+        self.buildPage()
+        return self.page
+    
+    def generatepdf(self):
+        self.assembleRows()
+        self.buildPage()
+        page = self.page
+        Func = open(self.html_file_name,"w")
+        Func.write(page)
+        Func.close()
+        import pdfkit
+        import platform
+        print(platform.system())
+        if platform.system() != "Darwin":
+            config = pdfkit.configuration(wkhtmltopdf=self.path_wkhtmltopdf)
+            pdfkit.from_file(self.html_file_name, self.folder+'cv.pdf',configuration=config)
+        else:
+            error_msg = "Please install wkhtmltopdf in your mac computer"
+            pdfkit.from_file(self.html_file_name, self.folder+'cv.pdf')
+        return True
+
+    def generatepdfresponse(self):
+        self.generatepdf()
+        import os
+        path=os.path.join(os.getcwd(),'../cv/cv.pdf')
+        return send_file(path, as_attachment=True)
+    
+    def pdf_to_doc(self):
+        self.generatepdf()
+        from pdf2docx import parse
+        # convert pdf to docx
+        parse(self.pdf_file, self.docx_file)
+        import os
+        return send_file(self.docx_path, as_attachment=True)
+
+# Generate CV word
+@app.route("/cv_word2/<id>")
+def pdf_to_doc2(id):
+    person = Personal_Details.query.get_or_404(id)
+    buildobj = Builder(person)
+    return buildobj.pdf_to_doc()
+
+from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
+    getCommunityInvolvement, getLeadershipInvolvment, getProcedureLogs, getPostingRows,\
+    getEducationRows, getPresentationRows,getTeachingPresentationRows,getPublications,getPage,\
+    getQIPatientSafetyRows
+
+# Generate CV pdf:
+@app.route("/cv_pdf2/<id>")
+def generate_cv2(id):
+    person = Personal_Details.query.get_or_404(id)
+    buildobj = Builder(person)
+    return buildobj.generatepdfresponse()
+
+# Preview CV pdf:
+@app.route("/preview2/<id>")
+def preview2(id):
+    person = Personal_Details.query.get_or_404(id)
+    buildobj = Builder(person)
+    buildobj.buildPage()
+    page = buildobj.getPage()
+    return page
+
 def generatepdf(id):
     
     page = getCompletePage(id)
+    folder='../cv/'
+    html_file_name = "cv.html"
+    Func = open(html_file_name,"w")
+    Func.write(page)
+    Func.close()
+    import pdfkit
+    import platform
+    print(platform.system())
+    if platform.system() != "Darwin":
+        path_wkhtmltopdf = "../wkhtmltopdf/bin/wkhtmltopdf.exe"
+        config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+        pdfkit.from_file(html_file_name, folder+'cv.pdf',configuration=config)
+    else:
+        error_msg = "Please install wkhtmltopdf in your mac computer"
+        pdfkit.from_file(html_file_name, folder+'cv.pdf')
+    return "done"
+    
+
+def generatepdf2(id):
+
+    person = Personal_Details.query.get_or_404(id)
+    obj = Person(person)
+    buildobj = Builder(obj)
+    buildobj.buildPage()
+    page = buildobj.getPage()
+    
+    # page = getCompletePage(id)
     folder='../cv/'
     html_file_name = "cv.html"
     Func = open(html_file_name,"w")
