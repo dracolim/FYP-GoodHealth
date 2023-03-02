@@ -242,7 +242,7 @@
                             <!-- input file -->
                             <input @change="validateFile"
                                 class="block w-full text-md text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                                id="UploadFile" type="file" name="file">
+                                id="UploadFile" type="file" name="file" ref="UploadFile">
                             <!-- error-->
                             <div v-if="error_message != ''"
                                 class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
@@ -775,6 +775,8 @@
             },
             removeErrorMsg() {
                 this.error_message = "";
+                document.getElementById('submit').disabled = false;
+                this.$refs.UploadFile.value = null;
             }
         }
     });

@@ -2910,7 +2910,7 @@ def read_colour_case_logs():
                     color_list.append("#FFFFFF")
 
         # INTERNAL MEDICINE
-        if dict_of_cases[each_item]['Year_of_Training'].lower() in ["r1" , "r2" , "r3"] and dict_of_cases[each_item]['Programme'].lower() == "gastroenterology":
+        if dict_of_cases[each_item]['Year_of_Training'].lower() in ["r1" , "sr2" , "r3"] and dict_of_cases[each_item]['Programme'].lower() == "gastroenterology":
             inpatient = 0
             outpatient = 0
             blue_letter = 0
