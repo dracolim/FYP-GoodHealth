@@ -3197,6 +3197,7 @@ class DocumentBuilder(metaclass=ABCMeta):
     pdf_file = folder + 'cv.pdf'
     docx_file = folder + 'cv.docx'
     docx_path = os.path.join(os.getcwd(),'../cv/cv.docx')
+    page = ""
 
 
     @staticmethod
@@ -3228,6 +3229,39 @@ class DocumentBuilder(metaclass=ABCMeta):
     @abstractmethod
     def generateDoc(self):
         "Generates word document and corresponding word file response for flask app"
+
+    def generatePdf(self):
+        self.assembleRows()
+        self.buildPage()
+        page = self.page
+        Func = open(self.html_file_name,"w")
+        Func.write(page)
+        Func.close()
+        import pdfkit
+        import platform
+        print(platform.system())
+        if platform.system() != "Darwin":
+            config = pdfkit.configuration(wkhtmltopdf=self.path_wkhtmltopdf)
+            pdfkit.from_file(self.html_file_name, self.folder+'cv.pdf',configuration=config)
+        else:
+            error_msg = "Please install wkhtmltopdf in your mac computer"
+            pdfkit.from_file(self.html_file_name, self.folder+'cv.pdf')
+        return True
+
+    def generatePdfResponse(self):
+        self.generatePdf()
+        import os
+        path=os.path.join(os.getcwd(),'../cv/cv.pdf')
+        print(send_file(path, as_attachment=True))
+        return send_file(path, as_attachment=True)
+    
+    def generateDoc(self):
+        self.generatePdf()
+        from pdf2docx import parse
+        # convert pdf to docx
+        parse(self.pdf_file, self.docx_file)
+        import os
+        return send_file(self.docx_path, as_attachment=True)
 
 
 class Builder(DocumentBuilder):
@@ -3293,39 +3327,6 @@ class Builder(DocumentBuilder):
         self.buildPage()
         return self.page
     
-    def generatePdf(self):
-        self.assembleRows()
-        self.buildPage()
-        page = self.page
-        Func = open(self.html_file_name,"w")
-        Func.write(page)
-        Func.close()
-        import pdfkit
-        import platform
-        print(platform.system())
-        if platform.system() != "Darwin":
-            config = pdfkit.configuration(wkhtmltopdf=self.path_wkhtmltopdf)
-            pdfkit.from_file(self.html_file_name, self.folder+'cv.pdf',configuration=config)
-        else:
-            error_msg = "Please install wkhtmltopdf in your mac computer"
-            pdfkit.from_file(self.html_file_name, self.folder+'cv.pdf')
-        return True
-
-    def generatePdfResponse(self):
-        self.generatePdf()
-        import os
-        path=os.path.join(os.getcwd(),'../cv/cv.pdf')
-        print(send_file(path, as_attachment=True))
-        return send_file(path, as_attachment=True)
-    
-    def generateDoc(self):
-        self.generatePdf()
-        from pdf2docx import parse
-        # convert pdf to docx
-        parse(self.pdf_file, self.docx_file)
-        import os
-        return send_file(self.docx_path, as_attachment=True)
-
 
 # Generate CV word
 @app.route("/cv_word2/<id>")
