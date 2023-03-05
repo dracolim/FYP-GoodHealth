@@ -338,26 +338,27 @@
                         data: response.data.data,
                         index: "MCR_No",
                         columns: [
-
-                        {formatter:"rowSelection", titleFormatter:"rowSelection", hozAlign:"center", headerSort:false, cellClick:function(e, cell){
-                            console.log(cell)
-        cell.getRow().toggleSelect();
-        console.log(cell.getValue())
-      }},
                             {
-                                title: "Batch Export CVs",
-                                field: "MCR_No",
-                                sorter: "string",
-                                headerFilter: "input",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                editor: true,
-                                formatter:link2
-
+                                formatter: "rowSelection", titleFormatter: "rowSelection", hozAlign: "center", headerSort: false, editable: true, cellClick: function (e, cell) {
+                                    cell.getRow().toggleSelect();
+                                    console.log(table.getSelectedData());
+                                }
                             },
+                            
+                            // {
+                            //     title: "Batch Export CVs",
+                            //     field: "MCR_No",
+                            //     sorter: "string",
+                            //     headerFilter: "input",
+                            //     headerFilter: true,
+                            //     headerFilterParams: {
+                            //         valuesLookup: true,
+                            //         clearable: true
+                            //     },
+                            //     editor: true,
+                            //     formatter: link2
+
+                            // },
                             {
                                 title: "MCR No",
                                 field: "MCR_No",
@@ -759,6 +760,7 @@
                 .catch(error => {
                     console.error(error);
                 });
+
 
 
         },
