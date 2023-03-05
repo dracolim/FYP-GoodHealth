@@ -318,6 +318,7 @@
 
                     function link2(cell, formatterParams) {
                         var url = cell.getValue();
+                        // console.log(url)
                         // return "<a href='/tab_pages/resident_profiles_new.html?mcr_no="+url+"'>"+url+"</a>";
                         // return "<a href='/tab_pages/resident_profiles_new.html?mcr_no="+url+"'>"+url+"</a>";
                         if (url.length < 7) {
@@ -337,20 +338,26 @@
                         data: response.data.data,
                         index: "MCR_No",
                         columns: [
-                            // {
-                            //     title: "Batch Export CVs",
-                            //     field: "MCR_No",
-                            //     sorter: "string",
-                            //     headerFilter: "input",
-                            //     headerFilter: true,
-                            //     headerFilterParams: {
-                            //         valuesLookup: true,
-                            //         clearable: true
-                            //     },
-                            //     editor: true,
-                            //     formatter:link2
 
-                            // },
+                        {formatter:"rowSelection", titleFormatter:"rowSelection", hozAlign:"center", headerSort:false, cellClick:function(e, cell){
+                            console.log(cell)
+        cell.getRow().toggleSelect();
+        console.log(cell.getValue())
+      }},
+                            {
+                                title: "Batch Export CVs",
+                                field: "MCR_No",
+                                sorter: "string",
+                                headerFilter: "input",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
+                                editor: true,
+                                formatter:link2
+
+                            },
                             {
                                 title: "MCR No",
                                 field: "MCR_No",
@@ -752,6 +759,8 @@
                 .catch(error => {
                     console.error(error);
                 });
+
+
         },
         methods: {
             validateFile() {
