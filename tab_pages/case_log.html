@@ -565,6 +565,7 @@
                             .then(response => {
                                 console.log('Project ID {' + row.getData().id +
                                     '} updated.')
+                                window.location.reload();
                             })
                             .catch(error => {
                                 console.log(error)
