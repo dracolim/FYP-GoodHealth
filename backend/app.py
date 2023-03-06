@@ -3482,8 +3482,6 @@ def generatepdf(id):
         error_msg = "Please install wkhtmltopdf in your mac computer"
         pdfkit.from_file(html_file_name, folder+'cv.pdf')
     return "done"
-    
-
 db.create_all()
 
 if __name__ == '__main__':

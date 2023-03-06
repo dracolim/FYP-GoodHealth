@@ -214,6 +214,17 @@
                     class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2 mb-2">
                     <label class="ml-2">Bulk Import</label>
                 </button>
+
+                
+            <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 
+            text-white transition duration-150 ease-in-out bg-blue-500 rounded-md shadow 
+            hover:bg-blue-400" v-if="mcr_no.length != 0"
+                :href="currpage[1] + '' + mcr_no" target="_blank"  
+                style="margin-right: 5px;">
+                <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
+                <span></span>
+                Bulk Export
+            </a>
             </div>
         </div>
 
@@ -272,6 +283,9 @@
             <table id="example-table"></table>
         </div>
 
+
+        Length: <span id="select-stats"></span>
+
     </div>
 
 </body>
@@ -290,10 +304,16 @@
             file: "",
             error_message: "",
             disabled: false,
+            currpage: ["http://127.0.0.1:5011/cv_pdf/", "http://127.0.0.1:5011/batch_cv_pdf/", "http://127.0.0.1:5011/preview/"],
+            mcr_no: [],
+
         },
         methods: {
             trigger() {
                 console.log("hellooo")
+            },
+            export_batch(){
+                console.log("export clicked")
             }
         },
         mounted: async function () {
@@ -344,21 +364,6 @@
                                     console.log(table.getSelectedData());
                                 }
                             },
-                            
-                            // {
-                            //     title: "Batch Export CVs",
-                            //     field: "MCR_No",
-                            //     sorter: "string",
-                            //     headerFilter: "input",
-                            //     headerFilter: true,
-                            //     headerFilterParams: {
-                            //         valuesLookup: true,
-                            //         clearable: true
-                            //     },
-                            //     editor: true,
-                            //     formatter: link2
-
-                            // },
                             {
                                 title: "MCR No",
                                 field: "MCR_No",
@@ -707,6 +712,8 @@
                         ],
                     });
 
+                    
+
                     table.on("cellEdited", function (row) {
                         // connect to database and execute update statement
                         let thisrow = row.getData()
@@ -756,11 +763,26 @@
                                 else window.location.reload();
                             })
                     });
+                    newdata = []
+                    this.mcr_no = newdata
+                    table.on("rowSelectionChanged", function(data, rows){
+                    // newdata = []
+                    for (i of data){
+                        newdata.push(i["MCR_No"])
+                        // this.mcr_no.push(i["MCR_No"])
+                    }
+                    // // this.mcr_no.pop();
+                    // this.mcr_no.push(newdata);
+                    console.log(this.mcr_no)
+                document.getElementById("select-stats").innerHTML = JSON.stringify(newdata);
+                });
+                // this.mcr_no = newdata;
+                // console.log(this.mcr_no)
+                
                 })
                 .catch(error => {
                     console.error(error);
                 });
-
 
 
         },
@@ -790,7 +812,10 @@
                 this.$refs.UploadFile.value = null;
             }
         }
-    });
+    })
+    
+    
+    ;
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
