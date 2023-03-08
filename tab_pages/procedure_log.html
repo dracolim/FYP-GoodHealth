@@ -295,6 +295,9 @@
             temp_DOC: "",
             procedure_logs: "",
             case_logs: "",
+            resident_count: 0,
+            duplicate_rows: [],
+            value_rows: []
 
         },
         computed: {
@@ -315,13 +318,14 @@
                 .catch(error => {
                     console.log(error)
                 });
-            
+
             axios.get(this.local_host_url + "colour_case_logs")
-            .then(response => {
-                    this.case_logs = response.data.data})
-            .catch(error => {
+                .then(response => {
+                    this.case_logs = response.data.data
+                })
+                .catch(error => {
                     console.log(error)
-            });
+                });
 
             axios.get(this.local_host_url + "colour_procedure_logs")
                 .then(response => {
@@ -579,7 +583,7 @@
                             const rows = sheet.actualRowCount;
                             console.log(rows)
 
-                            const rowsWithValues = sheet.actualRowCount - 7;
+                            // const rowsWithValues = sheet.actualRowCount - 7;
                             var user_count = 0
                             sheet.eachRow((row, rowIndex) => {
                                 console.log(row.values[1])
@@ -595,6 +599,7 @@
                                     if (row.values[1] == "SINGAPORE HEALTH") {
                                         this.MCR_No_import = ""
                                         this.temp_DOC = ""
+                                        this.resident_count += 1
                                     }
                                     // MCR_No (for both case log and proceure log)
                                     else if (row.values[1].includes("Resident: ")) {
@@ -635,57 +640,15 @@
                                             }
                                         }
                                         console.log(this.MCR_No_import)
-                                    } else if (row.values[1].includes(
+                                    }
+                                    // Date of Completeion / Date of Log
+                                    else if (row.values[1].includes(
                                             "Date Range:")) {
                                         var dash_idx = row.values[1].indexOf("-")
                                         var complete_date = row.values[1].substring(
                                             dash_idx + 1, )
                                         this.temp_DOC = complete_date
                                     }
-                                    // MCR_No (for both case log and procedure log) [with RICH TEXT]
-                                    // if (Array.isArray(row.values[1].richText) && row
-                                    //     .values[1].richText[0].text == "Resident:"
-                                    // ) {
-                                    //     var name = row.values[1].richText[1].text
-                                    //     var name_list = name.trim().split(',')
-
-                                    //     for (i in name_list) {
-                                    //         if (name_list[i].includes(" ")) {
-                                    //             var new_name_list = []
-                                    //             new_name_list = name_list[i].trim()
-                                    //                 .split(" ")
-                                    //             new_name_list.push(name_list[0])
-                                    //             new_name_list = new_name_list
-                                    //                 .sort();
-                                    //         }
-                                    //     }
-
-                                    //     if (row.values[1] == undefined) {
-                                    //         name_error = true;
-                                    //     } else {
-                                    //         for (each in this.MCR_name) {
-                                    //             //console.log(each)
-                                    //             let name_list2 = each.trim().split(
-                                    //                 ' ').sort()
-                                    //             // console.log(name_list2)
-                                    //             // console.log(new_name_list)
-                                    //             if (JSON.stringify(new_name_list) == JSON.stringify(name_list2)) {
-                                    //                 console.log(
-                                    //                     'HALKFJHALDJFHALDJF')
-                                    //                 data.MCR_No = this.MCR_name[
-                                    //                     each] || "";
-                                    //                 this.MCR_No_import = data
-                                    //                     .MCR_No; //setting it to MCR_No
-                                    //                 var new_name = each;
-                                    //             }
-                                    //         }
-
-                                    //         if (data.MCR_No == undefined) {
-                                    //             user_error = true;
-                                    //         }
-                                    //     }
-                                    //     console.log(data.MCR_No)
-                                    // }
 
                                     // CASE LOG 
                                     else if (row.values[1].toLowerCase().includes(
@@ -727,26 +690,21 @@
                                         data.Observed = row.values[5] || ""
                                         data.Verified = row.values[6] || ""
                                         data.Certified = row.values[7] || ""
-                                        console.log(data)
-
-                                        axios.post(url2, data)
-                                            .then(response => {
-                                                console.log(response.data)
-                                            })
-                                            .catch(error => {
-                                                this.error = error.response
-                                                    .data
-                                                    .message
-                                            });
+                                        // console.log(data)
 
                                         //check if EXISTS already
                                         for (each of this.case_logs) {
-                                            if (data.Date_of_Log == each.Date_of_Log && data.CPT == each.CPT && 
-                                            data.MCR_No == each.MCR_No && 
-                                            data.Performed == each.Performed && 
-                                            data.Observed == each.Observed && data.Verified == each.Verified
-                                            && data.Certified == each.Certified && data.Type_of_Case_Log == data.Type_of_Case_Log &&
-                                            data.Case_Name == each.Case_Name) {
+                                            if (data.Date_of_Log == each
+                                                .Date_of_Log && data.CPT == each
+                                                .CPT &&
+                                                data.MCR_No == each.MCR_No &&
+                                                data.Performed == each.Performed &&
+                                                data.Observed == each.Observed &&
+                                                data.Verified == each.Verified &&
+                                                data.Certified == each.Certified &&
+                                                data.Type_of_Case_Log == data
+                                                .Type_of_Case_Log &&
+                                                data.Case_Name == each.Case_Name) {
                                                 same_error = true;
                                                 break
                                             }
@@ -758,6 +716,8 @@
                                             axios.post(url2, data)
                                                 .then(response => {
                                                     console.log(response.data)
+                                                    this.value_rows.push(
+                                                        rowIndex)
                                                 })
                                                 .catch(error => {
                                                     this.error = error.response
@@ -766,6 +726,7 @@
                                                 });
                                         } else {
                                             user_count += 1;
+                                            this.duplicate_rows.push(rowIndex)
                                         }
                                     }
 
@@ -791,16 +752,21 @@
                                         data.Observed = row.values[5] || ""
                                         data.Verified = row.values[6] || ""
                                         data.Certified = row.values[7] || ""
-                                        console.log(data)
+                                        // console.log(data)
 
                                         //check if EXISTS already
                                         for (each of this.procedure_logs) {
-                                            if (data.Date_of_Completion == each.Date_of_Completion && data.CPT == each.CPT && 
-                                            data.MCR_No == each.MCR_No && 
-                                            data.Performed == each.Performed && 
-                                            data.Observed == each.Observed && data.Verified == each.Verified
-                                            && data.Certified == each.Certified && data.Procedure_Name == data.Procedure_Name &&
-                                            data.Case_Name == each.Case_Name) {
+                                            if (data.Date_of_Completion == each
+                                                .Date_of_Completion && data.CPT ==
+                                                each.CPT &&
+                                                data.MCR_No == each.MCR_No &&
+                                                data.Performed == each.Performed &&
+                                                data.Observed == each.Observed &&
+                                                data.Verified == each.Verified &&
+                                                data.Certified == each.Certified &&
+                                                data.Procedure_Name == data
+                                                .Procedure_Name &&
+                                                data.Case_Name == each.Case_Name) {
                                                 same_error = true;
                                                 break
                                             }
@@ -813,6 +779,8 @@
                                             axios.post(url, data)
                                                 .then(response => {
                                                     console.log(response.data)
+                                                    this.value_rows.push(
+                                                        rowIndex)
                                                 })
                                                 .catch(error => {
                                                     this.error = error.response
@@ -821,28 +789,34 @@
                                                 });
                                         } else {
                                             user_count += 1;
+                                            this.duplicate_rows.push(rowIndex)
                                         }
                                     }
+                                }
+                                //produce error message
+                                if (name_error == true) {
+                                    this.error_message +=
+                                        "<li> - Name cannot be Empty</li>";
+                                } else if (user_error == true) {
+                                    this.error_message += this
+                                        .error_message +=
+                                        "<li> - " + name +
+                                        " does not exist in the Database</li>"
+                                }
+                                else if (this.duplicate_rows != [] && this
+                                    .value_rows == []) {
+                                    this.error_message +=
+                                        "<li> - All Rows already exist in Database</li>";
+                                } else if (this.duplicate_rows != []) {
+                                    this.error_message +=
+                                        "<li> - Rows " + this.duplicate_rows
+                                        .toString() +
+                                        " already exist in Database</li>";
+                                }
 
-                                    //produce error message
-                                    if (name_error == true) {
-                                        this.error_message +=
-                                            "<li> - Name cannot be Empty</li>";
-                                    } else if (user_error == true) {
-                                        this.error_message += this
-                                            .error_message +=
-                                            "<li> - " + name +
-                                            " does not exist in the Database</li>"
-                                    } else if (user_count == rowsWithValues) {
-                                        this.error_message +=
-                                            "<li> - All rows already exist in Database</li>";
-                                    }
-
-                                    if (this.error_message != "") {
-                                        document.getElementById('submit')
-                                            .disabled = true;
-                                    }
-                                    // }
+                                if (this.error_message != "") {
+                                    document.getElementById('submit')
+                                        .disabled = true;
                                 }
                             })
                         })
