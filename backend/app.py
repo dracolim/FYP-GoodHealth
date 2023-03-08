@@ -2755,7 +2755,7 @@ def read_colour_procedure_logs():
 @app.route('/add_procedure_log', methods=['POST'])
 def create_procedure_log():
     data = request.get_json()
-    if not all(key in data.keys() for key in ('MCR_No', 'Procedure_Name', 'CPT', 'Date of Completion', 'Total',
+    if not all(key in data.keys() for key in ('MCR_No', 'Procedure_Name', 'CPT', 'Date_of_Completion', 'Total',
                                             'Performed' , 'Observed' , 'Verified' , 'Certified'
                                             )):
         return jsonify({
@@ -2851,6 +2851,26 @@ def read_caselogs_by_person(id):
         }
     ), 200
 
+# add case log
+@app.route('/add_case_log', methods=['POST'])
+def create_case_log():
+    data = request.get_json()
+    if not all(key in data.keys() for key in ('MCR_No', 'Case_Name', 'Type_of_Case_Log', 'Date_of_Log', 'CPT', 'Total',
+                                            'Performed' , 'Observed' , 'Verified' , 'Certified'
+                                            )):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+    duty_hour_log = Duty_Hour_Log(**data)
+    try:
+        db.session.add(duty_hour_log)
+        db.session.commit()
+        return jsonify(duty_hour_log.to_dict()), 201
+    except Exception as e:
+        print("An error occurred:", e)
+        print("Stack trace:")
+        traceback.print_exc()
+
 # Update caselog
 @app.route('/caselog/<int:id>', methods=['PUT'])
 def update_caselog(id):
@@ -2873,7 +2893,7 @@ def update_caselog(id):
     db.session.commit()
     return 'caselog updated', 200
 
-# Delete IHI
+# Delete case log
 @app.route('/caselog/<int:id>', methods=['DELETE'])
 def delete_caselog(id):
     row = Case_Log.query.get(id)
