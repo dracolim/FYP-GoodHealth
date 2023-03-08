@@ -2761,11 +2761,11 @@ def create_procedure_log():
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
-    duty_hour_log = Duty_Hour_Log(**data)
+    procedure_log = Procedure_Log(**data)
     try:
-        db.session.add(duty_hour_log)
+        db.session.add(procedure_log)
         db.session.commit()
-        return jsonify(duty_hour_log.to_dict()), 201
+        return jsonify(procedure_log.to_dict()), 201
     except Exception as e:
         print("An error occurred:", e)
         print("Stack trace:")
@@ -2861,11 +2861,11 @@ def create_case_log():
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
-    duty_hour_log = Duty_Hour_Log(**data)
+    case_log = Case_Log(**data)
     try:
-        db.session.add(duty_hour_log)
+        db.session.add(case_log)
         db.session.commit()
-        return jsonify(duty_hour_log.to_dict()), 201
+        return jsonify(case_log.to_dict()), 201
     except Exception as e:
         print("An error occurred:", e)
         print("Stack trace:")
