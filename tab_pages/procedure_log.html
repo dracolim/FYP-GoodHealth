@@ -580,6 +580,8 @@
                                 var url = this.local_host_url + 'add_procedure_log';
                                 var data = {};
                                 if (row.values[1] != undefined) {
+                                    // MCR_No (for both case log and proceure log)
+                                    
                                     // MCR_No (for both case log and procedure log)
                                     if (Array.isArray(row.values[1].richText) && row
                                         .values[1].richText[0].text == "Resident:"
@@ -605,8 +607,8 @@
                                                 //console.log(each)
                                                 let name_list2 = each.trim().split(
                                                     ' ').sort()
-                                                console.log(name_list2)
-                                                console.log(new_name_list)
+                                                // console.log(name_list2)
+                                                // console.log(new_name_list)
                                                 if (JSON.stringify(new_name_list) == JSON.stringify(name_list2)) {
                                                     console.log(
                                                         'HALKFJHALDJFHALDJF')
@@ -624,10 +626,6 @@
                                         }
                                         console.log(data.MCR_No)
                                     }
-                                    while (!(Array.isArray(row.values[1]
-                                        .richText) && row.values[1].richText[0]
-                                            .text == "Resident:")) {
-
                                         // CASE LOG 
                                         if (row.values[1].toLowerCase().includes("case log")) {
                                             //(TYPE_OF_CASE_LOG) + (CASE_NAME)
@@ -652,15 +650,16 @@
                                                 data.Case_Name = row.values[1]
                                             }
                                         }
+                                    
 
 
 
-                                        data.Level = row.values[2] || '';
-                                        data.Logged_for_month = "Yes";
-                                        data.Submitted = row.values[3] || '';
-                                        data.Submitted_Proportion = row.values[4] ||
-                                            '';
-                                        data.MMYYYY = this.mmYYYY;
+                                        // data.Level = row.values[2] || '';
+                                        // data.Logged_for_month = "Yes";
+                                        // data.Submitted = row.values[3] || '';
+                                        // data.Submitted_Proportion = row.values[4] ||
+                                        //     '';
+                                        // data.MMYYYY = this.mmYYYY;
 
                                         // check if EXISTS already
                                         // for (each of this.duty_hour_logs) {
@@ -712,8 +711,7 @@
                                             document.getElementById('submit')
                                                 .disabled = true;
                                         }
-
-                                    }
+                                    // }
                                 }
                             })
                         })
@@ -729,7 +727,6 @@
                 }
             },
             isDisabled() {
-                console.log('hi')
                 // evaluate whatever you need to determine disabled here... 
                 if (document.getElementById("UploadFile").files.length == 0) {
                     this.error_message += "<li>- No Files Selected</li>";
