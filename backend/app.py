@@ -2871,6 +2871,27 @@ def create_case_log():
         print("Stack trace:")
         traceback.print_exc()
 
+# error case log
+@app.route('/error_case_log', methods=['POST'])
+def error_case_log():
+    data = request.get_json()
+    if not all(key in data.keys() for key in ('MCR_No', 'Case_Name', 'Type_of_Case_Log', 'Date_of_Log', 'CPT', 'Total',
+                                            'Performed' , 'Observed' , 'Verified' , 'Certified'
+                                            )):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+    case_log = Case_Log(**data)
+    try:
+        db.session.add(case_log)
+        db.session.commit()
+        return jsonify(case_log.to_dict()), 201
+    except Exception as e:
+        print("An error occurred:", e)
+        print("Stack trace:")
+        traceback.print_exc()
+
+
 # Update caselog
 @app.route('/caselog/<int:id>', methods=['PUT'])
 def update_caselog(id):

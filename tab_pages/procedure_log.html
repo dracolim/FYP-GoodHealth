@@ -297,7 +297,9 @@
             case_logs: "",
             resident_count: 0,
             duplicate_rows: [],
-            value_rows: []
+            value_rows: [],
+            all_data : {},
+            idx: 0,
 
         },
         computed: {
@@ -600,6 +602,7 @@
                                         this.MCR_No_import = ""
                                         this.temp_DOC = ""
                                         this.resident_count += 1
+                                        this.idx = 0
                                     }
                                     // MCR_No (for both case log and proceure log)
                                     else if (row.values[1].includes("Resident: ")) {
@@ -690,7 +693,9 @@
                                         data.Observed = row.values[5] || ""
                                         data.Verified = row.values[6] || ""
                                         data.Certified = row.values[7] || ""
-                                        // console.log(data)
+                                    
+                                        this.all_data[this.idx] = data
+                                        this.idx += 1
 
                                         //check if EXISTS already
                                         for (each of this.case_logs) {
@@ -753,6 +758,8 @@
                                         data.Verified = row.values[6] || ""
                                         data.Certified = row.values[7] || ""
                                         // console.log(data)
+                                        this.all_data[this.idx] = data
+                                        this.idx += 1
 
                                         //check if EXISTS already
                                         for (each of this.procedure_logs) {
@@ -793,26 +800,28 @@
                                         }
                                     }
                                 }
+
+                                console.log(this.all_data)
                                 //produce error message
-                                if (name_error == true) {
-                                    this.error_message +=
-                                        "<li> - Name cannot be Empty</li>";
-                                } else if (user_error == true) {
-                                    this.error_message += this
-                                        .error_message +=
-                                        "<li> - " + name +
-                                        " does not exist in the Database</li>"
-                                }
-                                else if (this.duplicate_rows != [] && this
-                                    .value_rows == []) {
-                                    this.error_message +=
-                                        "<li> - All Rows already exist in Database</li>";
-                                } else if (this.duplicate_rows != []) {
-                                    this.error_message +=
-                                        "<li> - Rows " + this.duplicate_rows
-                                        .toString() +
-                                        " already exist in Database</li>";
-                                }
+                                // if (name_error == true) {
+                                //     this.error_message +=
+                                //         "<li> - Name cannot be Empty</li>";
+                                // } else if (user_error == true) {
+                                //     this.error_message += this
+                                //         .error_message +=
+                                //         "<li> - " + name +
+                                //         " does not exist in the Database</li>"
+                                // }
+                                // else if (this.duplicate_rows != [] && this
+                                //     .value_rows == []) {
+                                //     this.error_message +=
+                                //         "<li> - All Rows already exist in Database</li>";
+                                // } else if (this.duplicate_rows != []) {
+                                //     this.error_message +=
+                                //         "<li> - Rows " + this.duplicate_rows
+                                //         .toString() +
+                                //         " already exist in Database</li>";
+                                // }
 
                                 if (this.error_message != "") {
                                     document.getElementById('submit')
