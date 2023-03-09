@@ -2874,22 +2874,23 @@ def create_case_log():
 # error case log
 @app.route('/error_case_log', methods=['POST'])
 def error_case_log():
-    data = request.get_json()
-    if not all(key in data.keys() for key in ('MCR_No', 'Case_Name', 'Type_of_Case_Log', 'Date_of_Log', 'CPT', 'Total',
-                                            'Performed' , 'Observed' , 'Verified' , 'Certified'
-                                            )):
-        return jsonify({
-            "message": "Incorrect JSON object provided."
-        }), 500
-    case_log = Case_Log(**data)
-    try:
-        db.session.add(case_log)
-        db.session.commit()
-        return jsonify(case_log.to_dict()), 201
-    except Exception as e:
-        print("An error occurred:", e)
-        print("Stack trace:")
-        traceback.print_exc()
+    # receives a json 
+    if involvement['MCR_No'].isnull().sum() > 0 or involvement.duplicated().any():
+        involvement.to_excel(writer, sheet_name='involvement_error')
+        workbook = writer.book
+        worksheet = writer.sheets['involvement_error']
+        format1 = workbook.add_format({'bg_color': '#FF8080'})
+        nullrows = involvement[involvement[[
+            "MCR_No"]].isnull().any(axis=1)]
+        duplicate_row_bool = involvement.duplicated()
+        for i in range(len(duplicate_row_bool)):
+            if (duplicate_row_bool[i] == True):
+                ran = "A" + str(i+2) + ":BA" + str(i+2)
+                worksheet.conditional_format(ran,
+                                        {'type':     'cell',
+                                        'criteria': 'not equal to',
+                                        'value': '"o1"',
+                                        'format':   format1})
 
 
 # Update caselog
