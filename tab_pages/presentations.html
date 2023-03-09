@@ -292,7 +292,6 @@
                                 clearable: true,
 
                             },
-                            minWidth: 200,
                         },
                         {
                             title: "Title",
@@ -312,7 +311,6 @@
                                 listOnEmpty: true,
                                 valuesLookup: true,
                             },
-                            minWidth: 200,
                         },
                         {
                             title: "Type",
@@ -323,16 +321,12 @@
                                 valuesLookup: true,
                                 clearable: true,
                             },
-                            editor: "list",
+                            editor: "input",
                             editorParams: {
-                                values:
-                                {
-                                    "Abstract": "Abstract",
-                                    "Oral": "Oral",
-                                    "Poster": "Poster",
-                                }
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
                             },
-                            minWidth: 200,
                         },
                         {
                             title: "Project_ID",
@@ -346,14 +340,12 @@
                                 clearable: true,
 
                             },
-                            editor: "number",
+                            editor: "input",
                             editorParams: {
-                                min: 0,
                                 allowEmpty: true,
                                 listOnEmpty: true,
                                 valuesLookup: true,
                             },
-                            minWidth: 200,
                         },
                         {
                             title: "Conference Name",
@@ -370,7 +362,6 @@
                                 valuesLookup: true,
                             },
 
-                            minWidth: 150,
 
                         },
                         {
@@ -388,7 +379,6 @@
                                 valuesLookup: true,
                             },
 
-                            minWidth: 150,
 
                         },
                         {
@@ -406,7 +396,6 @@
                                 valuesLookup: true,
                             },
 
-                            minWidth: 150,
 
                         },
 
@@ -427,7 +416,6 @@
                                         else window.location.reload();
                                     });
                             },
-                            minWidth: 150,
                         },
                         ],
                     });

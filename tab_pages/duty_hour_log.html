@@ -344,58 +344,56 @@
                                 clearable: true,
 
                             },
-                            minWidth: 200,
                         },
 
                         {
                             title: "Level",
                             field: "Level",
-                            sorter: "number",
-                            editor: "number",
-                            editorParams: {
-                                min: 0,
-                            },
+                            sorter:"alphanum",
                             headerFilter: true,
                             headerFilterParams: {
                                 valuesLookup: true,
-                                clearable: true
+                                clearable: true,
                             },
-
-                            minWidth: 150,
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                            },
                         },
                         {
                             title: "Submitted",
                             field: "Submitted",
-                            sorter: "number",
-                            editor: "number",
-                            editorParams: {
-                                min: 0,
-                                autocomplete: true,
-                            },
+                            sorter: "alphanum",
                             headerFilter: true,
                             headerFilterParams: {
                                 valuesLookup: true,
-                                clearable: true
+                                clearable: true,
                             },
-
-                            minWidth: 150,
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                            },
 
                         },
                         {
                             title: "Submitted Proportion",
                             field: "Submitted_Proportion",
-                            sorter: "number",
-                            editor: "number",
-                            editorParams: {
-                                min: 0,
-                            },
+                            sorter: "alphanum",
                             headerFilter: true,
                             headerFilterParams: {
                                 valuesLookup: true,
-                                clearable: true
+                                clearable: true,
                             },
-
-                            minWidth: 220,
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                            },
                         },
                         {
                             title: "MMYYYY",
@@ -410,11 +408,7 @@
                                 allowEmpty: true,
                                 listOnEmpty: true,
                                 valuesLookup: true,
-                                mask: "AAA-99",
-                                maskAutoFill: true,
                             },
-
-                            minWidth: 150,
 
                         },
                         {
@@ -426,16 +420,12 @@
                                 valuesLookup: true,
                                 clearable: true,
                             },
-                            editor: "list",
+                            editor: "input",
                             editorParams: {
-                                values: {
-                                    "Yes": "Yes",
-                                    "No": "No",
-                                    "Unknown": "Unknown",
-                                }
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
                             },
-
-                            minWidth: 200,
 
                         },
                         {
@@ -455,7 +445,6 @@
                                         else window.location.reload();
                                     });
                             },
-                            minWidth: 150,
                         },
                         ],
                     });

@@ -343,16 +343,16 @@
                                 clearable: true,
 
                             },
-                            minWidth: 200,
                         },
                         {
                             title: "Year of Training",
                             field: "Year_of_Training",
                             sorter: "number",
-                            editor: "number",
+                            editor: "input",
                             editorParams: {
-                                min: 0,
-                                autocomplete: true,
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
                             },
                             headerFilter: true,
                             headerFilterParams: {
@@ -360,7 +360,6 @@
                                 clearable: true
                             },
                             
-                            minWidth: 150,
 
                         },
                         {
@@ -379,7 +378,6 @@
                                 valuesLookup: true,
                             },
                             
-                            minWidth: 150,
                         },
                         {
                             title: "Name of Evaluation Form",
@@ -396,40 +394,39 @@
                                 listOnEmpty: true,
                                 valuesLookup: true,
                             },
-                            minWidth: 230,
                         },
                         {
                             title: "Question_Number",
                             field: "Question_Number",
                             sorter: "number",
-                            editor: "number",
+                            editor: "input",
                             editorParams: {
-                                min: 0,
-                                autocomplete: true,
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
                             },
                             headerFilter: true,
                             headerFilterParams: {
                                 valuesLookup: true,
                                 clearable: true
                             },
-                            minWidth: 150,
 
                         },
                         {
                             title: "Score",
                             field: "Score",
                             sorter: "number",
-                            editor: "number",
+                            editor: "input",
                             editorParams: {
-                                min: 0,
-                                autocomplete: true,
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
                             },
                             headerFilter: true,
                             headerFilterParams: {
                                 valuesLookup: true,
                                 clearable: true
                             },
-                            minWidth: 150,
                         },
                         {
                             title: "Evaluator",
@@ -446,7 +443,6 @@
                                 listOnEmpty: true,
                                 valuesLookup: true,
                             },
-                            minWidth: 150,
                         },
                         {
                             title: "Service",
@@ -463,7 +459,6 @@
                                 listOnEmpty: true,
                                 valuesLookup: true,
                             },
-                            minWidth: 150,
                         },
                         {
                             title: "Answer",
@@ -480,7 +475,6 @@
                                 listOnEmpty: true,
                                 valuesLookup: true,
                             },
-                            minWidth: 150,
                         },
                         {
                             title: "Action",
@@ -499,7 +493,6 @@
                                         else window.location.reload();
                                     });
                             },
-                            minWidth: 150,
                         },
                         ],
                     });

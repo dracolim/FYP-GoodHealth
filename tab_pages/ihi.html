@@ -341,7 +341,6 @@
                                 clearable: true,
 
                             },
-                            minWidth: 200,
                         },
                         {
                             title: "Date",
@@ -357,7 +356,6 @@
                                 listOnEmpty: true,
                                 valuesLookup: true,
                             },
-                            minWidth: 150,
 
                         },
                         {
@@ -369,16 +367,12 @@
                                 valuesLookup: true,
                                 clearable: true,
                             },
-                            editor: "list",
+                            editor: "input",
                             editorParams: {
-                                values:
-                                {
-                                    "Yes": "Yes",
-                                    "No": "No",
-                                    "Unknown": "Unknown",
-                                }
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
                             },
-                            minWidth: 200,
 
                         },
                         {
@@ -398,7 +392,6 @@
                                         else window.location.reload();
                                     });
                             },
-                            minWidth: 150,
                         },
                         ],
                     });

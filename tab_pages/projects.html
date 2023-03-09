@@ -319,13 +319,13 @@
                     };
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
-                        layout:"fitDataStretch",
+                        layout: "fitDataStretch",
                         placeholder: "No Data Available in " + this.page_name,
                         history: true,
                         pagination: "local",
                         paginationSize: 10,
                         paginationCounter: "rows",
-                        movableColumns: true,    
+                        movableColumns: true,
                         data: this.tableData,
                         index: "MCR_No",
                         columns: [{
@@ -341,7 +341,6 @@
                                 clearable: true,
 
                             },
-                            minWidth: 200,
                         },
                         {
                             title: "Project Type",
@@ -352,9 +351,12 @@
                                 valuesLookup: true,
                                 clearable: true,
                             },
-                            editor: "list",
-
-                            minWidth: 200,
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                            },
 
                         },
                         {
@@ -375,7 +377,6 @@
                                 listOnEmpty: true,
                                 valuesLookup: true,
                             },
-                            minWidth: 200,
                         },
                         {
                             title: "Start Date",
@@ -395,7 +396,6 @@
                                 listOnEmpty: true,
                                 valuesLookup: true,
                             },
-                            minWidth: 200,
                         },
                         {
                             title: "End Date",
@@ -415,7 +415,6 @@
                                 listOnEmpty: true,
                                 valuesLookup: true,
                             },
-                            minWidth: 200,
                         },
                         {
                             title: "Date of QI Certification",
@@ -435,7 +434,6 @@
                                 listOnEmpty: true,
                                 valuesLookup: true,
                             },
-                            minWidth: 200,
                         },
                         {
                             title: "PMID",
@@ -449,14 +447,12 @@
                                 clearable: true,
 
                             },
-                            editor: "number",
+                            editor: "input",
                             editorParams: {
-                                min: 0,
                                 allowEmpty: true,
                                 listOnEmpty: true,
                                 valuesLookup: true,
                             },
-                            minWidth: 200,
                         },
 
                         {
@@ -476,7 +472,6 @@
                                         else window.location.reload();
                                     });
                             },
-                            minWidth: 150,
                         },
                         ],
                     });
@@ -503,7 +498,7 @@
                             .catch(error => {
                                 console.log(error)
                                 if (alert("Failed to update row MCR No: " + row.getData().MCR_No)) { }
-                                else window.location.reload();	
+                                else window.location.reload();
                             })
                     });
                 })

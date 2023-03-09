@@ -335,12 +335,12 @@
                         data: this.tableData,
                         index: "MCR_No",
                         columns: [{
-                                title: "Compliance",
-                                field: "color",
-                                formatter: "color",
-                                width: 150
-                            },
-                            {
+                            title: "Compliance",
+                            field: "color",
+                            formatter: "color",
+                            width: 150
+                        },
+                        {
                             title: "MCR No",
                             field: "MCR_No",
                             sorter: "string",
@@ -352,7 +352,6 @@
                                 clearable: true,
 
                             },
-                            minWidth: 200,
                         },
                         {
                             title: "Case Name",
@@ -369,7 +368,6 @@
                                 listOnEmpty: true,
                                 valuesLookup: true,
                             },
-                            minWidth: 150,
                         },
                         // {
                         //     title: "Subspecialty",
@@ -386,7 +384,7 @@
                         //         listOnEmpty: true,
                         //         valuesLookup: true,
                         //     },
-                        //     minWidth: 150,
+                        //     
                         // },
                         {
                             title: "Type of Case Log",
@@ -397,32 +395,29 @@
                                 valuesLookup: true,
                                 clearable: true,
                             },
-                            editor: true,
+                            editor: "input",
                             editorParams: {
-                                values: {
-                                    "inpatient": "inpatient",
-                                    "outpatient": "outpatient",
-                                    "blue letter": "blue letter",
-                                }
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
                             },
-
-                            minWidth: 200,
 
                         },
                         {
                             title: "Date of Log",
                             field: "Date_of_Log",
                             sorter: "string",
-                            editor: true,
+                            editor: "input",
                             editorParams: {
-                                min: 0,
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
                             },
                             headerFilter: true,
                             headerFilterParams: {
                                 valuesLookup: true,
                                 clearable: true
                             },
-                            minWidth: 150,
                         },
                         {
                             title: "CPT",
@@ -439,15 +434,16 @@
                                 listOnEmpty: true,
                                 valuesLookup: true,
                             },
-                            minWidth: 150,
                         },
                         {
                             title: "Total",
                             field: "Total",
                             sorter: "number",
-                            editor: "number",
+                            editor: "input",
                             editorParams: {
-                                min: 0,
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
                             },
                             headerFilter: true,
                             headerFilterParams: {
@@ -455,15 +451,17 @@
                                 clearable: true
                             },
 
-                            minWidth: 150,
+                            
                         },
                         {
                             title: "Performed",
                             field: "Performed",
                             sorter: "number",
-                            editor: "number",
+                            editor: "input",
                             editorParams: {
-                                min: 0,
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
                             },
                             headerFilter: true,
                             headerFilterParams: {
@@ -471,15 +469,17 @@
                                 clearable: true
                             },
 
-                            minWidth: 150,
+                            
                         },
                         {
                             title: "Observed",
                             field: "Observed",
                             sorter: "number",
-                            editor: "number",
+                            editor: "input",
                             editorParams: {
-                                min: 0,
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
                             },
                             headerFilter: true,
                             headerFilterParams: {
@@ -487,15 +487,17 @@
                                 clearable: true
                             },
 
-                            minWidth: 150,
+                            
                         },
                         {
                             title: "Verified",
                             field: "Verified",
                             sorter: "number",
-                            editor: "number",
+                            editor: "input",
                             editorParams: {
-                                min: 0,
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
                             },
                             headerFilter: true,
                             headerFilterParams: {
@@ -503,15 +505,17 @@
                                 clearable: true
                             },
 
-                            minWidth: 150,
+                            
                         },
                         {
                             title: "Certified",
                             field: "Certified",
                             sorter: "number",
-                            editor: "number",
+                            editor: "input",
                             editorParams: {
-                                min: 0,
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
                             },
                             headerFilter: true,
                             headerFilterParams: {
@@ -519,7 +523,6 @@
                                 clearable: true
                             },
 
-                            minWidth: 150,
                         },
                         {
                             title: "Action",
@@ -538,7 +541,6 @@
                                         else window.location.reload();
                                     });
                             },
-                            minWidth: 150,
                         },
                         ],
                     });
@@ -570,7 +572,7 @@
                             .catch(error => {
                                 console.log(error)
                                 if (alert("Failed to update row MCR No: " + row.getData().MCR_No)) { }
-                                else window.location.reload();	
+                                else window.location.reload();
                             })
                     });
                 })
