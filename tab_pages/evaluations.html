@@ -287,7 +287,6 @@
             personal_details_fields: [],
             personal_details_datas: [],
             file: "",
-            MCR_name: {},
             error_message: "",
             mmYYYY: "",
             table_error_message: "",
@@ -298,20 +297,6 @@
 
         },
         mounted() {
-            axios.get(this.local_host_url + "/personaldetails")
-                .then(response => {
-                    let result = response.data.data;
-                    for (each of result) {
-                        if (!(each["Staff_Name"] in this.MCR_name)) {
-                            this.MCR_name[each["Staff_Name"]] = each["MCR_No"];
-                        }
-                    }
-                })
-
-                .catch(error => {
-                    console.log(error)
-                });
-
             axios.get(this.local_host_url + this.currentPage)
                 .then(response => {
                     this.tableData = response.data.data
@@ -532,58 +517,279 @@
 
         },
         methods: {
-            importExcel(event) {
-                this.validateFile();
+            importExcel() {
+                var fileVal = document.getElementById("UploadFile");
+                this.file = fileVal.files[0]
 
-                this.file = event.target.files ? event.target.files[0] : null;
+                if (!this.file.name.toLowerCase().includes("procedure log")) {
+                    this.file_error = true;
+                    this.error_message = "<li>- Invalid File Uploaded</li>";
+                    document.getElementById('submit').disabled = true;
+                    return
+                }
+                this.isDisabled();
+
+                var file_error = false;
                 const wb = new Excel.Workbook();
                 const reader = new FileReader()
-
                 reader.readAsArrayBuffer(this.file)
                 reader.onload = () => {
                     const buffer = reader.result;
                     wb.xlsx.load(buffer).then(workbook => {
                         //console.log(workbook, 'workbook instance')
                         workbook.eachSheet((sheet, id) => {
-                            //console.log(sheet.name) //sheet name (eg: personal details)
+                            const rows = sheet.actualRowCount;
+                            console.log(rows)
+
+                            // const rowsWithValues = sheet.actualRowCount - 7;
+                            var user_count = 0
                             sheet.eachRow((row, rowIndex) => {
-                                var url = this.local_host_url + 'add_duty_hour';
+                                console.log(row.values[1])
+                                var same_error = false;
+                                var name_error = false;
+                                var user_error = false;
+
+                                var url = this.local_host_url + 'add_procedure_log';
+                                var url2 = this.local_host_url + "add_case_log";
                                 var data = {};
-                                var loggded_for_months = "";
-                                if (rowIndex == 3) {
-                                    this.mmYYYY = row.values[1].slice(21, 28) || "";
-                                } else if (rowIndex >= 8) {
-                                    // console.log(row.values[2])
-                                    for (each in this.MCR_name) {
-                                        let name_list = row.values[1].trim().split(',')
-                                        var new_name = name_list.reverse().join(" ").trim()
-                                        if (new_name == each) {
-                                            data.MCR_No = this.MCR_name[each] || "";
+
+                                if (row.values[1] != undefined) {
+                                    if (row.values[1] == "SINGAPORE HEALTH") {
+                                        this.MCR_No_import = ""
+                                        this.temp_DOC = ""
+                                        this.resident_count += 1
+                                        this.idx = 0
+                                        this.all_data = {}
+                                    }
+                                    // MCR_No (for both case log and proceure log)
+                                    else if (row.values[1].includes("Resident: ")) {
+                                        var name = row.values[1].substring(10, )
+                                        var name_list = name.trim().split(',')
+                                        for (i in name_list) {
+                                            if (name_list[i].includes(" ")) {
+                                                var new_name_list = []
+                                                new_name_list = name_list[i].trim()
+                                                    .split(" ")
+                                                new_name_list.push(name_list[0])
+                                                new_name_list = new_name_list
+                                                    .sort();
+                                            }
+                                        }
+
+                                        if (row.values[1] == undefined) {
+                                            name_error = true;
+                                        } else {
+                                            for (each in this.MCR_name) {
+                                                let name_list2 = each.trim().split(
+                                                    ' ').sort()
+                                                if (JSON.stringify(new_name_list) ==
+                                                    JSON.stringify(name_list2)) {
+                                                    console.log(
+                                                        'HALKFJHALDJFHALDJF')
+                                                    this.MCR_No_import = this
+                                                        .MCR_name[
+                                                            each
+                                                        ]; //setting it to MCR_No
+                                                    var new_name = each;
+                                                    break
+                                                }
+                                            }
+
+                                            if (this.MCR_No_import == "") {
+                                                user_error = true;
+                                            }
+                                        }
+                                        console.log(this.MCR_No_import)
+                                    }
+                                    // Date of Completeion / Date of Log
+                                    else if (row.values[1].includes(
+                                            "Date Range:")) {
+                                        var dash_idx = row.values[1].indexOf("-")
+                                        var complete_date = row.values[1].substring(
+                                            dash_idx + 1, )
+                                        this.temp_DOC = complete_date
+                                    }
+
+                                    // CASE LOG 
+                                    else if (row.values[1].toLowerCase().includes(
+                                            "case log")) {
+                                        data.MCR_No = this.MCR_No_import
+                                        //(TYPE_OF_CASE_LOG) + (CASE_NAME)
+                                        if (row.values[1].toLowerCase()
+                                            .includes("inpatient")) {
+                                            data.Type_of_Case_Log = "inpatient"
+                                            var index = row.values[1].toLowerCase()
+                                                .indexOf(
+                                                    "inpatient")
+                                            data.Case_Name = row.values[1].slice(0,
+                                                index - 1)
+                                        } else if (row.values[1].toLowerCase()
+                                            .includes("outpatient")) {
+                                            data.Type_of_Case_Log = "outpatient"
+                                            var index = row.values[1].toLowerCase()
+                                                .indexOf(
+                                                    "outpatient")
+                                            data.Case_Name = row.values[1].slice(0,
+                                                index - 1)
+                                        } else if (row.values[1].toLowerCase()
+                                            .includes("blue letter")) {
+                                            data.Type_of_Case_Log = "blue letter"
+                                            var index = row.values[1].toLowerCase()
+                                                .indexOf(
+                                                    "blue letter" - 1)
+                                            data.Case_Name = row.values[1].slice(0,
+                                                index)
+                                        } else {
+                                            data.Type_of_Case_Log = ""
+                                            data.Case_Name = row.values[1]
+                                        }
+                                        data.Date_of_Log = this.temp_DOC
+                                        data.CPT = row.values[2] || ""
+                                        data.Total = row.values[3] || ""
+                                        data.Performed = row.values[4] || ""
+                                        data.Observed = row.values[5] || ""
+                                        data.Verified = row.values[6] || ""
+                                        data.Certified = row.values[7] || ""
+                                    
+                                        this.all_data[this.idx] = data
+                                        this.idx += 1
+
+                                        //check if EXISTS already
+                                        for (each of this.case_logs) {
+                                            if (data.Date_of_Log == each
+                                                .Date_of_Log && data.CPT == each
+                                                .CPT &&
+                                                data.MCR_No == each.MCR_No &&
+                                                data.Performed == each.Performed &&
+                                                data.Observed == each.Observed &&
+                                                data.Verified == each.Verified &&
+                                                data.Certified == each.Certified &&
+                                                data.Type_of_Case_Log == data
+                                                .Type_of_Case_Log &&
+                                                data.Case_Name == each.Case_Name) {
+                                                same_error = true;
+                                                break
+                                            }
+                                        }
+                                        // if all conditions okay, then import
+                                        if (same_error == false && name_error ==
+                                            false && this.error_message == "" &&
+                                            user_error == false) {
+                                            axios.post(url2, data)
+                                                .then(response => {
+                                                    console.log(response.data)
+                                                    this.value_rows.push(
+                                                        rowIndex)
+                                                })
+                                                .catch(error => {
+                                                    this.error = error.response
+                                                        .data
+                                                        .message
+                                                });
+                                        } else {
+                                            user_count += 1;
+                                            this.duplicate_rows.push(rowIndex)
                                         }
                                     }
-                                    if (data.MCR_No == "") {
-                                        this.error_message =
-                                            "There is no such resident in the database";
+
+                                    // Procedure Log
+                                    else if (!(row.values[1].toLowerCase().includes(
+                                            "total")) &&
+                                        !(row.values[1].toLowerCase().includes(
+                                            "procedures summary by resident")) &&
+                                        !(row.values[1].toLowerCase().includes(
+                                            "other procedures")) &&
+                                        !(row.values[1].toLowerCase().includes(
+                                            "report generated:")) &&
+                                        !(row.values[2].toLowerCase().includes(
+                                            "cpt"))) {
+
+                                        // console.log(this.MCR_No_import)
+                                        data.MCR_No = this.MCR_No_import
+                                        data.Procedure_Name = row.values[1] || ""
+                                        data.CPT = row.values[2] || ""
+                                        data.Date_of_Completion = this.temp_DOC
+                                        data.Total = row.values[3] || ""
+                                        data.Performed = row.values[4] || ""
+                                        data.Observed = row.values[5] || ""
+                                        data.Verified = row.values[6] || ""
+                                        data.Certified = row.values[7] || ""
+                                        // console.log(data)
+                                        this.all_data[this.idx] = data
+                                        this.idx += 1
+
+                                        //check if EXISTS already
+                                        for (each of this.procedure_logs) {
+                                            if (data.Date_of_Completion == each
+                                                .Date_of_Completion && data.CPT ==
+                                                each.CPT &&
+                                                data.MCR_No == each.MCR_No &&
+                                                data.Performed == each.Performed &&
+                                                data.Observed == each.Observed &&
+                                                data.Verified == each.Verified &&
+                                                data.Certified == each.Certified &&
+                                                data.Procedure_Name == data
+                                                .Procedure_Name &&
+                                                data.Case_Name == each.Case_Name) {
+                                                same_error = true;
+                                                break
+                                            }
+                                        }
+
+                                        // if all conditions okay, then import
+                                        if (same_error == false && name_error ==
+                                            false && this.error_message == "" &&
+                                            user_error == false) {
+                                            axios.post(url, data)
+                                                .then(response => {
+                                                    console.log(response.data)
+                                                    this.value_rows.push(
+                                                        rowIndex)
+                                                })
+                                                .catch(error => {
+                                                    this.error = error.response
+                                                        .data
+                                                        .message
+                                                });
+                                        } else {
+                                            user_count += 1;
+                                            this.duplicate_rows.push(rowIndex)
+                                        }
                                     }
-                                    data.Level = row.values[2] || '';
-                                    data.Submitted = row.values[3] || '';
-                                    data.Submitted_Proportion = row.values[4] || '';
-                                    data.MMYYYY = this.mmYYYY;
-                                    data.Logged_for_month = "Yes"
-                                    axios.post(url, data)
-                                        .then(response => {
-                                            console.log(response.data)
-                                            this.mmYYYY = "";
-                                        })
-                                        .catch(error => {
-                                            this.error = error.response.data
-                                                .message
-                                        });
+                                }
+
+                                console.log(this.all_data)
+                                //produce error message
+                                // if (name_error == true) {
+                                //     this.error_message +=
+                                //         "<li> - Name cannot be Empty</li>";
+                                // } else if (user_error == true) {
+                                //     this.error_message += this
+                                //         .error_message +=
+                                //         "<li> - " + name +
+                                //         " does not exist in the Database</li>"
+                                // }
+                                // else if (this.duplicate_rows != [] && this
+                                //     .value_rows == []) {
+                                //     this.error_message +=
+                                //         "<li> - All Rows already exist in Database</li>";
+                                // } else if (this.duplicate_rows != []) {
+                                //     this.error_message +=
+                                //         "<li> - Rows " + this.duplicate_rows
+                                //         .toString() +
+                                //         " already exist in Database</li>";
+                                // }
+
+                                if (this.error_message != "") {
+                                    document.getElementById('submit')
+                                        .disabled = true;
                                 }
                             })
                         })
                     })
                 }
+                this.error_message = "";
+                document.getElementById('submit').disabled = false;
             },
             validateFile() {
                 if (document.getElementById("UploadFile").files.length == 1) {

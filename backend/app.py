@@ -751,7 +751,7 @@ def view():
     didatic_attendance.columns = [ 'MCR_No', 'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended'  , 'MmYyyy' , 'Posting_Institution' , 'Posting_Department' , 'Scheduled_Teachings' 'Compliance_or_Not' , "Percentage_of_sessions_attended"]
 
     if didatic_attendance.duplicated().any() or didatic_attendance['MCR_No'].isnull().sum() > 0 or ihi['MCR_No'].isnull().sum() > 0 or ihi.duplicated().any() or project['MCR_No'].isnull().sum() > 0 or project.duplicated().any() or presentations['MCR_No'].isnull().sum() > 0 or presentations.duplicated().any() or publlications['MCR_No'].isnull().sum() > 0 or publlications.duplicated().any() or awards['MCR_No'].isnull().sum() > 0 or awards.duplicated().any() or grants['MCR_No'].isnull().sum() > 0 or grants.duplicated().any() or personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or personalDetails.duplicated().any() or involvement['MCR_No'].isnull().sum() > 0 or (involvement.duplicated().any()) or history_education['MCR_No'].isnull().sum() > 0 or (history_education.duplicated().any()) or history_posting['MCR_No'].isnull().sum() > 0 or history_posting.duplicated().any() or history_exam['MCR_No'].isnull().sum() > 0 or history_exam.duplicated().any() or history_trg['MCR_No'].isnull().sum() > 0 or history_trg.duplicated().any():
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+        writer = pd.ExcelWriter("nulk_import_error.xlsx", engine='xlsxwriter')
         workbook = writer.book
         format1 = workbook.add_format({'bg_color': '#FF8080'})
 
@@ -3081,8 +3081,6 @@ def read_evaluations_by_person(id):
     ), 200
 
 # Read Existing evaluations (R)
-
-
 @app.route("/evaluation")
 def read_evaluation():
     res = Evaluations.query.all()
@@ -3125,6 +3123,25 @@ def delete_evaluation(id):
     db.session.commit()
     return 'evaluation deleted', 200
 
+# import for evaluations
+@app.route('/add_evaluation', methods=['POST'])
+def create_evaluation():
+    data = request.get_json()
+    if not all(key in data.keys() for key in ('MCR_No', 'Year_of_Training', 'Rotaional_Period', 'Name_of_Evaluation_Form', 'Question_Number', 'Score',
+                                            'Evaluator' , 'Service' , 'Answer' 
+                                            )):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+    evaluations = Evaluations(**data)
+    try:
+        db.session.add(evaluations)
+        db.session.commit()
+        return jsonify(evaluations.to_dict()), 201
+    except Exception as e:
+        print("An error occurred:", e)
+        print("Stack trace:")
+        traceback.print_exc()
 
 # ============================
 # █▀▀ █▄░█ █▀▄
