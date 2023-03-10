@@ -569,6 +569,7 @@ INSERT INTO `posting_history` (`id`, `MCR_No`, `Posting_Institution`, `Posting_D
 (5, 'M11367A', 'CGH', 'GenMed', '03-Oct-2022', '28-Oct-2022'),
 (6, 'M11367A', 'SKH', 'GenMed', '01-Nov-2022', '31-Nov-2022'),
 (7, 'M11367A', 'SGH', 'GasHep', '01-Dec-2022', '04-Mar-2023');
+
 -- --------------------------------------------------------
 
 --

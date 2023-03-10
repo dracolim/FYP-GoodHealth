@@ -135,18 +135,14 @@
                 <br>
                 <table class="table-auto">
                     <thead v-if="this.clicked">
-                        <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" v-if="this.clicked">Leave of Absence/PIP:</p>
+                        <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" v-if="this.clicked">Postings by Month</p>
                         <tr>
-                            <th class="border px-4 py-2 bg-orange-600">Remarks</th>
-                            <th class="border px-4 py-2 bg-orange-600">Start Date</th>
-                            <th class="border px-4 py-2 bg-orange-600">End Date</th>
+                            <th v-for="month in months_to_show" class="border px-4 py-2 bg-orange-600">{{month}}</th>
                         </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="loa in loa_records">
-                        <td class="border px-4 py-2 bg-gray-300">{{ loa.LOAPIP }}</td>
-                        <td class="border px-4 py-2 bg-gray-300">{{ loa.StartDate }}</td>
-                        <td class="border px-4 py-2 bg-gray-300">{{ loa.EndDate }}</td>
+                      <tr>
+                        <td v-for="info in info_to_show" class="border px-4 py-2 bg-gray-300">{{ info }}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -163,50 +159,26 @@
         el: '#app',
             data: {
             mcr_no: "",
-            loa_records: [],
             months_to_show: [],
+            posting_histories: [],
+            info_to_show: [],
             clicked: false
 
         },
         methods: {
             retrievePostings: async function () {
-                const month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
-                const d = new Date()
+                const dates = [];
+                const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+                const currentDate = new Date();
 
-                let currentMonth = month[d.getMonth()]
-                let currentYear = d.getFullYear().toString()
-                let current_pointer = 0
-                let previousMonthPointer = 0
-                // console.log(currentMonth)
-                // console.log(currentYear)
-                // console.log(currentMonth + "-" + currentYear)
-                let currentMonthYear = currentMonth + "-" + currentYear
-
-                this.months_to_show.push(currentMonthYear)
-
-                current_pointer = month.indexOf(currentMonthYear.split("-")[0])
                 for (let i = 0; i < 12; i++) {
-                    if (previousMonthPointer == -1) {
-           
-                        previousMonth = month[11]
-                        previousYear = currentYear-1
-                        previousMonthPointer = 11
-                    }
-                    else  {
-                        previousMonthPointer = current_pointer-1-i
-                        previousMonth = month[previousMonthPointer]
-                        previousYear = currentYear
-                    }
-
-                    previousMonthYear = previousMonth + "-" + previousYear
-
-                    this.months_to_show.push(previousMonthYear)
+                    const date = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
+                    const formattedDate = `${monthNames[date.getMonth()]}-${date.getFullYear()}`;
+                    this.months_to_show.push(formattedDate);
                 }
 
+                this.months_to_show.reverse()
                 console.log(this.months_to_show)
-            
-
-
                 
                 this.status = "getting data..."
                 this.clicked = true
@@ -214,13 +186,101 @@
                 specificURL = "http://localhost:5011/profile/" + this.mcr_no
                 await axios.get(specificURL).then((response) => {
 
-                console.log("This is responseData")
-                console.log(response.data.data['trgExtRem_Histories'])
+                // console.log("This is responseData")
+                console.log(response.data.data['posting_histories'][0])
+                
+                this.posting_histories = response.data.data['posting_histories']
 
-                this.loa_records = response.data.data['trgExtRem_Histories']
+                for (let i = 0; i < this.posting_histories.length; i++) {
+                    //format of 01-Apr-2022
+                    let responseStartDate = response.data.data['posting_histories'][i]['Posting_StartDate'] 
+                    let responseEndDate = response.data.data['posting_histories'][i]['Posting_EndDate']
 
+                    //format of 01-Apr-2022
+                    let formattedStartDate = responseStartDate.split("-")[1] + "-" + responseStartDate.split("-")[2]
+                    let formattedEndDate = responseEndDate.split("-")[1] + "-" + responseEndDate.split("-")[2]
 
+                    //loop through months to show (last 12 months on HTML)
+                    for (let j = 0; j < this.months_to_show.length; j++) {
 
+                        //if the month and year in the response data of the resident == months to show
+                        if (formattedStartDate == this.months_to_show[j]) {
+
+                            this.info_to_show.push(responseStartDate + " to " + responseEndDate)
+
+                            //if the responseData cuts across multiple months
+                            if (responseStartDate + " to " + responseEndDate.split("-")[1] != responseStartDate + " to " + responseEndDate.split("-")[3]) {
+                                //if never cross year but cross through multiple months do this
+                                if (responseStartDate.split("-")[2] == responseEndDate.split("-")[2]) {
+                                    for (let k = 0; k < (monthNames.indexOf((responseStartDate + " to " + responseEndDate).split("-")[3]) + 1) - (monthNames.indexOf((responseStartDate + " to " + responseEndDate).split("-")[1]) + 1); k++) {
+                                    this.info_to_show.push(responseStartDate + " to " + responseEndDate)
+                                    }
+                                }
+                                //if cross year do this
+                                else {
+
+                                    //put into variable to prevent mess
+                                    let date1 = response.data.data['posting_histories'][i]['Posting_StartDate'] //format is like 05-Apr-2022
+                                    let date2 = response.data.data['posting_histories'][i]['Posting_EndDate']
+
+                                    //get the months in number format (Jan == 1, Feb == 2)
+                                    let date1MonthInNumber = ((monthNames.indexOf(date1.split("-")[1])+1).toString())
+                                    let date2MonthInNumber = ((monthNames.indexOf(date2.split("-")[1])+1).toString())
+
+                                    //changing format of the startDate to all num like 05-04-2022
+                                    if ((date1MonthInNumber.length == 2)) {
+                                        console.log("reached here")
+                                        date1MonthInNumber.toString() 
+                                        formattedDate1 = date1.split("-")[0] + "-" + date1MonthInNumber + "-" + date1.split("-")[2]
+                                    }
+                                    else {
+                                        date1MonthInNumber = "0" + date1MonthInNumber.toString() 
+                                        formattedDate1 = date1.split("-")[0] + "-" + date1MonthInNumber + "-" + date1.split("-")[2]
+                                    }
+
+                                    //changing format of the endDate to all num like 05-04-2022
+                                    if ((date2MonthInNumber.length == 2)) {
+                                        console.log("reached here")
+                                        date2MonthInNumber.toString() 
+                                        formattedDate2 = date2.split("-")[0] + "-" + date2MonthInNumber + "-" + date2.split("-")[2]
+                                    }
+                                    else {
+                                        date2MonthInNumber = "0" + date2MonthInNumber.toString() 
+                                        formattedDate2 = date2.split("-")[0] + "-" + date2MonthInNumber + "-" + date2.split("-")[2]
+                                    }                                 
+
+                                    //find months difference between the 2 dates
+                                    let startDateDateFormat = new Date(formattedDate1.split('-').reverse().join('-'));
+                                    let endDateDateFormat = new Date(formattedDate2.split('-').reverse().join('-'));
+                                    let millisecondsInMonth = 1000 * 60 * 60 * 24 * 30;
+                                    let differenceInMilliseconds = endDateDateFormat - startDateDateFormat;
+                                    let monthsBetweenDates = Math.floor(differenceInMilliseconds / millisecondsInMonth);
+
+                                    //push into info_to_show array
+                                    for (let l = 0; l < monthsBetweenDates; l++) {
+                                    this.info_to_show.push(responseStartDate + " to " + responseEndDate)
+                                    }
+
+                                }
+
+                            }
+                        }
+                    
+                        //if the month and year in the response data of the resident != months to show
+                        else {
+                            //check if that month and year belongs somewhere in the last 12 months (months to show)
+                            // if () {
+
+                            // }
+                            // // if it doesn't, then push into info to show a dash or something
+                            // else {
+
+                            // }
+
+                        }
+                    }
+
+                }
 
                 })
                 .catch(function (error) {
