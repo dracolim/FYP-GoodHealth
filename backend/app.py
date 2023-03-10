@@ -2161,7 +2161,7 @@ def delete_project(id):
 
     db.session.delete(row)
     db.session.commit()
-    return 'Project ', id, ' deleted', 200
+    return 'Project deleted', 200
 
 
 # ============================

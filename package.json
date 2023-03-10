@@ -2,6 +2,7 @@
   "dependencies": {
     "@iconify/tools": "^1.3.18",
     "axios": "^1.3.4",
+    "chart.js": "^4.2.1",
     "exceljs": "^4.3.0",
     "flowbite": "^1.6.3",
     "iconify": "^1.4.0",
