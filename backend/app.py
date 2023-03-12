@@ -325,7 +325,7 @@ class Evaluations(db.Model):
     Rotation_Period = db.Column(db.String(100))
     Name_of_Evaluation_Form = db.Column(db.String(100))
     Question = db.Column(db.String(100))
-    Score = db.Column(db.String(100))
+    Score = db.Column(db.String(8000))
     Evaluator = db.Column(db.String(100))
     Service = db.Column(db.String(100))
 

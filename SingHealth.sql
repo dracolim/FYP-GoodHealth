@@ -297,7 +297,7 @@ CREATE TABLE `evaluations` (
   `Rotation_Period` varchar(300) NOT NULL,
   `Name_of_Evaluation_Form` varchar(300) NOT NULL,
   `Question` varchar(300) NOT NULL,
-  `Score` varchar(300) NOT NULL,
+  `Score` varchar(8000) NOT NULL,
   `Evaluator` varchar(300) NOT NULL,
   `Service` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
