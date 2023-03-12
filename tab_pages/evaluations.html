@@ -201,7 +201,7 @@
             <div class="relative w-full h-full max-w-md md:h-auto">
                 <!-- Modal content -->
                 <div class="relative bg-white rounded-lg shadow ">
-                    <button type="button"  @click="removeErrorMsg"
+                    <button type="button" @click="removeErrorMsg"
                         class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                         data-modal-hide="import-modal">
                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -291,9 +291,11 @@
             tableData: "",
             all_evaluations: "",
             //import
-            form_name : "",
+            form_name: "",
             question_name: "",
             minus_from_target: 1,
+            row_count: 0,
+            duplicate_count: 0,
         },
         computed: {
 
@@ -309,15 +311,15 @@
                         }
                     }
                 }),
-            axios.get(this.local_host_url + "evaluation")
-            .then(response => {
-                this.all_evaluations = response.data.data;
-                console.log(this.all_evaluations)
-            })
-            .catch(error => {
-                console.log(error.message)
-            }),
-            axios.get(this.local_host_url + this.currentPage)
+                axios.get(this.local_host_url + "evaluation")
+                .then(response => {
+                    this.all_evaluations = response.data.data;
+                    console.log(this.all_evaluations)
+                })
+                .catch(error => {
+                    console.log(error.message)
+                }),
+                axios.get(this.local_host_url + this.currentPage)
                 .then(response => {
                     this.tableData = response.data.data
                     var printRemoveButton = function (cell, formatterParams,
@@ -538,18 +540,24 @@
 
                                 if (row.values[1] != undefined) {
                                     // one time variable 
-                                    if (row.values[1].toLowerCase().includes("evaluation:")){
+                                    if (row.values[1].toLowerCase().includes(
+                                            "evaluation:")) {
                                         var colonidx = row.values[1].indexOf(":")
-                                        this.form_name = row.values[1].substring(colonidx + 1 ,).trim();
+                                        this.form_name = row.values[1].substring(
+                                            colonidx + 1, ).trim();
                                     }
                                     // BLOCK (question_name)
-                                    else if(row.values[1].toLowerCase().includes("question:")){
+                                    else if (row.values[1].toLowerCase().includes(
+                                            "question:")) {
                                         var colonidx2 = row.values[1].indexOf(":")
-                                        this.question_name = row.values[1].substring(colonidx2 + 1 ,).trim();
+                                        this.question_name = row.values[1]
+                                            .substring(colonidx2 + 1, ).trim();
                                         this.minus_from_target = 1;
                                     }
                                     // data body
-                                    else if(sheet.getRow(rowIndex - this.minus_from_target)._cells[0]._value.value == "Target:"){
+                                    else if (sheet.getRow(rowIndex - this
+                                            .minus_from_target)._cells[0]._value
+                                        .value == "Target:") {
                                         // MCR_NO (target)
                                         var name = row.values[1]
                                         var name_list = name.trim().split(',')
@@ -585,22 +593,31 @@
                                         }
 
                                         //Evaluator
-                                        data.Name_of_Evaluation_Form = this.form_name
+                                        data.Name_of_Evaluation_Form = this
+                                            .form_name
                                         data.Question = this.question_name;
                                         data.Evaluator = row.values[2] || "";
                                         data.Rotation_Period = row.values[3] || "";
                                         data.Service = row.values[4] || "";
-                                        data.Score = row.values[5]|| "";
+                                        data.Score = row.values[5] || "";
+                                        this.row_count += 1
 
                                         // check if EXISTS already
                                         for (each of this.all_evaluations) {
-                                            if (data.Name_of_Evaluation_Form == each.Name_of_Evaluation_Form && data
+                                            if (data.Name_of_Evaluation_Form == each
+                                                .Name_of_Evaluation_Form && data
                                                 .Question == each
-                                                    .Question && data.MCR_No == each
-                                                        .MCR_No && data.Evaluator ==
-                                                each.Evaluator && data.Rotation_Period == each.Rotation_Period &&
-                                                data.Service == each.Service && data.Score == each.Score) {
+                                                .Question && data.MCR_No == each
+                                                .MCR_No && data.Evaluator ==
+                                                each.Evaluator && data
+                                                .Rotation_Period == each
+                                                .Rotation_Period &&
+                                                data.Service == each.Service && data
+                                                .Score == each.Score) {
                                                 same_error = true;
+                                                this.duplicate_count += 1;
+                                                console.log("alskdjfhalsdjkfas")
+
                                                 break
                                             }
                                         }
@@ -620,39 +637,46 @@
                                                         .data
                                                         .message
                                                 });
-                                            }
+                                        }
                                     }
 
-                                //produce error message
-                                if (name_error == true) {
-                                    this.error_message +=
-                                        "<li> - Name cannot be Empty</li>";
-                                } else if (user_error == true) {
-                                    this.error_message += this
-                                        .error_message +=
-                                        "<li> - " + name +
-                                        " does not exist in the Database</li>"
-                                }
-                                // else if (this.duplicate_rows != [] && this
-                                //     .value_rows == []) {
-                                //     this.error_message +=
-                                //         "<li> - All Rows already exist in Database</li>";
-                                // } else if (this.duplicate_rows != []) {
-                                //     this.error_message +=
-                                //         "<li> - Rows " + this.duplicate_rows
-                                //         .toString() +
-                                //         " already exist in Database</li>";
-                                // }
+                                    //produce error message
+                                    if (name_error == true) {
+                                        this.error_message +=
+                                            "<li> - Name cannot be Empty</li>";
+                                    } else if (user_error == true) {
+                                        this.error_message += this
+                                            .error_message +=
+                                            "<li> - " + name +
+                                            " does not exist in the Database</li>"
+                                    }
+                                    // else if (this.duplicate_rows != [] && this
+                                    //     .value_rows == []) {
+                                    //     this.error_message +=
+                                    //         "<li> - All Rows already exist in Database</li>";
+                                    // } else if (this.duplicate_rows != []) {
+                                    //     this.error_message +=
+                                    //         "<li> - Rows " + this.duplicate_rows
+                                    //         .toString() +
+                                    //         " already exist in Database</li>";
+                                    // }
 
-                                if (this.error_message != "") {
-                                    document.getElementById('submit')
-                                        .disabled = true;
+                                    if (this.error_message != "") {
+                                        document.getElementById('submit')
+                                            .disabled = true;
+                                    }
                                 }
-                            }
+                            })
                         })
-                        })
+                        if (this.row_count == this.duplicate_count) {
+                            this.error_message += this
+                                .error_message +=
+                                "<li> - All Rows already exist in the Database"
+                        }
                     })
                 }
+                this.row_count = 0;
+                this.duplicate_count = 0;
                 this.error_message = "";
                 document.getElementById('submit').disabled = false;
             },
