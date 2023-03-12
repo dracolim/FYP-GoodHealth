@@ -294,25 +294,23 @@ INSERT INTO `education_history` (`id`, `MCR_No`, `Year_of_Graduation`, `Date_of_
 CREATE TABLE `evaluations` (
   `id` int(11) NOT NULL,
   `MCR_No` varchar(50) NOT NULL,
-  `Year_of_Training` varchar(300) NOT NULL,
   `Rotation_Period` varchar(300) NOT NULL,
   `Name_of_Evaluation_Form` varchar(300) NOT NULL,
-  `Question_Number` varchar(300) NOT NULL,
-  `Score` varchar(300) NOT NULL,
+  `Question` varchar(300) NOT NULL,
+  `Score` varchar(8000) NOT NULL,
   `Evaluator` varchar(300) NOT NULL,
-  `Service` varchar(300) NOT NULL,
-  `Answer` varchar(300) NOT NULL
+  `Service` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `evaluations`
 --
 
-INSERT INTO `evaluations` (`id`, `MCR_No`, `Year_of_Training`, `Rotation_Period`, `Name_of_Evaluation_Form`, `Question_Number`, `Score`, `Evaluator`, `Service`, `Answer`) VALUES
-(1, 'M11367A', '2022', '7/1/2022-7/31/2022', 'ABC', '2', '4', 'Dr. Chan, Webber Pak Wo', 'SHS-GASTRO:BASIC ENDO-SGH', '5 (5)'),
-(2, 'M65889A', '2022', '11/1/2022-11/30/2022', 'DEF', '3', '4', 'Dr. Chang, Jason Pik Eu', 'SHS-GRM:GERI-CGH', '7 (7)'),
-(3, 'M54354E', '2022', '11/1/2022-11/30/2022', 'GHI', '4', '4', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH', '8 (8)'),
-(4, 'M88791Z', '2022', '12/1/2022-1/3/2023', 'JKL', '5', '3', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', '7 (7)');
+INSERT INTO `evaluations` (`id`, `MCR_No`, `Rotation_Period`, `Name_of_Evaluation_Form`, `Question`,  `Evaluator`, `Service`, `Score`) VALUES
+(1, 'M11367A', '7/1/2022-7/31/2022', 'ABC', 'PROFESSIONALISM', 'Dr. Chan, Webber Pak Wo', 'SHS-GASTRO:BASIC ENDO-SGH', '5 (5)'),
+(2, 'M65889A', '11/1/2022-11/30/2022', 'DEF', 'PROFESSIONALISM', 'Dr. Chang, Jason Pik Eu', 'SHS-GRM:GERI-CGH', '7 (7)'),
+(3, 'M54354E', '11/1/2022-11/30/2022', 'GHI', 'INTERPERSONAL & COMMUNICATION', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH', '8 (8)'),
+(4, 'M88791Z', '12/1/2022-1/3/2023', 'JKL', 'MEDICAL KNOWLEDGE', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', '7 (7)');
 
 -- --------------------------------------------------------
 

@@ -854,12 +854,12 @@
                 this.error_message = "";
                 document.getElementById('submit').disabled = false;
             },
-            validateFile() {
-                if (document.getElementById("UploadFile").files.length == 1) {
-                    this.error_message = "";
-                    document.getElementById('submit').disabled = false;
-                }
-            },
+            // validateFile() {
+            //     if (document.getElementById("UploadFile").files.length == 1) {
+            //         this.error_message = "";
+            //         document.getElementById('submit').disabled = false;
+            //     }
+            // },
             isDisabled() {
                 // evaluate whatever you need to determine disabled here... 
                 if (document.getElementById("UploadFile").files.length == 0) {

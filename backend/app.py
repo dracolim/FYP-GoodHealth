@@ -322,14 +322,12 @@ class Evaluations(db.Model):
     id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey(
         'Personal_Details.MCR_No'))
-    Year_of_Training = db.Column(db.String(100))
     Rotation_Period = db.Column(db.String(100))
     Name_of_Evaluation_Form = db.Column(db.String(100))
-    Question_Number = db.Column(db.String(100))
-    Score = db.Column(db.String(100))
+    Question = db.Column(db.String(100))
+    Score = db.Column(db.String(8000))
     Evaluator = db.Column(db.String(100))
     Service = db.Column(db.String(100))
-    Answer = db.Column(db.String(100))
 
     __mapper_args__ = {
         'polymorphic_identity': 'Evaluations'
@@ -2872,28 +2870,6 @@ def create_case_log():
         print("Stack trace:")
         traceback.print_exc()
 
-# error case log
-@app.route('/error_case_log', methods=['POST'])
-def error_case_log():
-    # receives a json 
-    if involvement['MCR_No'].isnull().sum() > 0 or involvement.duplicated().any():
-        involvement.to_excel(writer, sheet_name='involvement_error')
-        workbook = writer.book
-        worksheet = writer.sheets['involvement_error']
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-        nullrows = involvement[involvement[[
-            "MCR_No"]].isnull().any(axis=1)]
-        duplicate_row_bool = involvement.duplicated()
-        for i in range(len(duplicate_row_bool)):
-            if (duplicate_row_bool[i] == True):
-                ran = "A" + str(i+2) + ":BA" + str(i+2)
-                worksheet.conditional_format(ran,
-                                        {'type':     'cell',
-                                        'criteria': 'not equal to',
-                                        'value': '"o1"',
-                                        'format':   format1})
-
-
 # Update caselog
 @app.route('/caselog/<int:id>', methods=['PUT'])
 def update_caselog(id):
@@ -3100,14 +3076,12 @@ def update_evaluation(id):
 
     data = request.get_json()
     user.MCR_No = data['MCR_No']
-    user.Answer = data['Answer']
     user.Evaluator = data['Evaluator']
     user.Name_of_Evaluation_Form = data['Name_of_Evaluation_Form']
-    user.Question_Number = data['Question_Number']
+    user.Question = data['Question']
     user.Rotation_Period = data['Rotation_Period']
     user.Score = data['Score']
     user.Service = data['Service']
-    user.Year_of_Training = data['Year_of_Training']
 
     db.session.commit()
     return 'evaluation updated', 200
@@ -3123,21 +3097,21 @@ def delete_evaluation(id):
     db.session.commit()
     return 'evaluation deleted', 200
 
-# import for evaluations
+# add case log
 @app.route('/add_evaluation', methods=['POST'])
 def create_evaluation():
     data = request.get_json()
-    if not all(key in data.keys() for key in ('MCR_No', 'Year_of_Training', 'Rotaional_Period', 'Name_of_Evaluation_Form', 'Question_Number', 'Score',
-                                            'Evaluator' , 'Service' , 'Answer' 
+    if not all(key in data.keys() for key in ('MCR_No', 'Rotation_Period', 'Name_of_Evaluation_Form', 'Question', 'Score', 'Evaluator',
+                                            'Service'
                                             )):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
-    evaluations = Evaluations(**data)
+    evaluation = Evaluations(**data)
     try:
-        db.session.add(evaluations)
+        db.session.add(evaluation)
         db.session.commit()
-        return jsonify(evaluations.to_dict()), 201
+        return jsonify(evaluation.to_dict()), 201
     except Exception as e:
         print("An error occurred:", e)
         print("Stack trace:")
@@ -3162,8 +3136,6 @@ def read_trgextrem_history():
     ), 200
 
 # Read Existing by Person (R)
-
-
 @app.route("/trgextremhistory/<id>")
 def read_trgextrem_history_by_person(id):
     person = Personal_Details.query.get_or_404(id)
