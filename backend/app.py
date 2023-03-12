@@ -322,14 +322,12 @@ class Evaluations(db.Model):
     id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey(
         'Personal_Details.MCR_No'))
-    Year_of_Training = db.Column(db.String(100))
     Rotation_Period = db.Column(db.String(100))
     Name_of_Evaluation_Form = db.Column(db.String(100))
-    Question_Number = db.Column(db.String(100))
+    Question = db.Column(db.String(100))
     Score = db.Column(db.String(100))
     Evaluator = db.Column(db.String(100))
     Service = db.Column(db.String(100))
-    Answer = db.Column(db.String(100))
 
     __mapper_args__ = {
         'polymorphic_identity': 'Evaluations'
@@ -3100,14 +3098,12 @@ def update_evaluation(id):
 
     data = request.get_json()
     user.MCR_No = data['MCR_No']
-    user.Answer = data['Answer']
     user.Evaluator = data['Evaluator']
     user.Name_of_Evaluation_Form = data['Name_of_Evaluation_Form']
-    user.Question_Number = data['Question_Number']
+    user.Question = data['Question']
     user.Rotation_Period = data['Rotation_Period']
     user.Score = data['Score']
     user.Service = data['Service']
-    user.Year_of_Training = data['Year_of_Training']
 
     db.session.commit()
     return 'evaluation updated', 200
@@ -3127,8 +3123,8 @@ def delete_evaluation(id):
 @app.route('/add_evaluation', methods=['POST'])
 def create_evaluation():
     data = request.get_json()
-    if not all(key in data.keys() for key in ('MCR_No', 'Year_of_Training', 'Rotaional_Period', 'Name_of_Evaluation_Form', 'Question_Number', 'Score',
-                                            'Evaluator' , 'Service' , 'Answer' 
+    if not all(key in data.keys() for key in ('MCR_No', 'Rotaional_Period', 'Name_of_Evaluation_Form', 'Question', 'Score',
+                                            'Evaluator' , 'Service' 
                                             )):
         return jsonify({
             "message": "Incorrect JSON object provided."
