@@ -296,6 +296,7 @@
             minus_from_target: 1,
             row_count: 0,
             duplicate_count: 0,
+            user_error_count: 0,
         },
         computed: {
 
@@ -506,6 +507,7 @@
             importExcel() {
                 var fileVal = document.getElementById("UploadFile");
                 this.file = fileVal.files[0]
+                console.log(this.file)
 
                 if (!this.file.name.toLowerCase().includes("evaluation")) {
                     this.file_error = true;
@@ -560,37 +562,37 @@
                                         .value == "Target:") {
                                         // MCR_NO (target)
                                         var name = row.values[1]
+
                                         var name_list = name.trim().split(',')
                                         for (i in name_list) {
                                             if (name_list[i].includes(" ")) {
                                                 var new_name_list = []
-                                                new_name_list = name_list[i].trim()
+                                                new_name_list = name_list[i]
+                                                    .trim()
                                                     .split(" ")
                                                 new_name_list.push(name_list[0])
                                                 new_name_list = new_name_list
                                                     .sort();
                                             }
                                         }
-                                        if (row.values[1] == undefined) {
-                                            name_error = true;
-                                        } else {
-                                            for (each in this.MCR_name) {
-                                                let name_list2 = each.trim().split(
-                                                    ' ').sort()
-                                                if (JSON.stringify(new_name_list) ==
-                                                    JSON.stringify(name_list2)) {
-                                                    data.MCR_No = this
-                                                        .MCR_name[each] || "";
-                                                    break
-                                                }
-                                            }
+                                        for (each in this.MCR_name) {
+                                            let name_list2 = each.trim().split(
+                                                ' ').sort()
+                                            if (JSON.stringify(new_name_list) ==
+                                                JSON.stringify(name_list2)) {
+                                                data.MCR_No = this
+                                                    .MCR_name[each];
 
-                                            if (data.MCR_No == "") {
-                                                user_error = true;
+                                                break
                                             }
-                                            // console.log(data.MCR_No)
-                                            this.minus_from_target += 1;
                                         }
+
+                                        if (data.MCR_No == undefined) {
+                                            user_error = true;
+                                            this.user_error_count += 1;
+                                        }
+                                        // console.log(data.MCR_No)
+                                        this.minus_from_target += 1;
 
                                         //Evaluator
                                         data.Name_of_Evaluation_Form = this
@@ -616,8 +618,6 @@
                                                 .Score == each.Score) {
                                                 same_error = true;
                                                 this.duplicate_count += 1;
-                                                console.log("alskdjfhalsdjkfas")
-
                                                 break
                                             }
                                         }
@@ -629,8 +629,6 @@
                                             axios.post(url, data)
                                                 .then(response => {
                                                     console.log(response.data)
-                                                    // this.value_rows.push(
-                                                    //     rowIndex)
                                                 })
                                                 .catch(error => {
                                                     this.error = error.response
@@ -641,51 +639,61 @@
                                     }
 
                                     //produce error message
-                                    if (name_error == true) {
-                                        this.error_message +=
-                                            "<li> - Name cannot be Empty</li>";
-                                    } else if (user_error == true) {
-                                        this.error_message += this
-                                            .error_message +=
-                                            "<li> - " + name +
-                                            " does not exist in the Database</li>"
+                                    if (user_error == true) {
+                                        if (!(this.error_message.includes(
+                                                "<li> - " + name +
+                                                " does not exist in the Database</li>"
+                                                ))) {
+                                            this.error_message += 
+                                                "<li> - " + name +
+                                                " does not exist in the Database</li>"
+                                        }
                                     }
-                                    // else if (this.duplicate_rows != [] && this
-                                    //     .value_rows == []) {
-                                    //     this.error_message +=
-                                    //         "<li> - All Rows already exist in Database</li>";
-                                    // } else if (this.duplicate_rows != []) {
-                                    //     this.error_message +=
-                                    //         "<li> - Rows " + this.duplicate_rows
-                                    //         .toString() +
-                                    //         " already exist in Database</li>";
-                                    // }
-
                                     if (this.error_message != "") {
                                         document.getElementById('submit')
                                             .disabled = true;
                                     }
+
+                                } else {
+                                    if (sheet.getRow(rowIndex)._cells[3]._value
+                                        .value != "Average:" && sheet.getRow(
+                                            rowIndex)._cells[1]._value.value != null
+                                        ) {
+                                            name_error = true;
+                                        // console.log(this.error_message)
+                                        if (!(this.error_message.includes("<li> - Row " + rowIndex +
+                                                " Name cannot be Empty</li>"))) {
+                                            this.error_message +=
+                                                "<li> - Row " + rowIndex +
+                                                " Name cannot be Empty</li>";
+                                        }
+                                    }
                                 }
+
                             })
                         })
-                        if (this.row_count == this.duplicate_count) {
-                            this.error_message += this
-                                .error_message +=
+                        if (this.row_count == this.duplicate_count || (this.row_count - this.user_error_count == this.duplicate_count)) {
+                            this.error_message +=
                                 "<li> - All Rows already exist in the Database"
+                        } else if (this.duplicate_count > 0 && this.duplicate_count < this
+                            .row_count) {
+                            this.error_message += 
+                                "<li> - There are duplicates in the Excel sheet"
                         }
+                        if (this.error_message != "") {
+                            document.getElementById('submit')
+                                .disabled = true;
+                        }
+                        
                     })
                 }
+                this.user_error_count = 0;
                 this.row_count = 0;
                 this.duplicate_count = 0;
                 this.error_message = "";
+                this.minus_from_target = 1;
                 document.getElementById('submit').disabled = false;
             },
-            // validateFile() {
-            //     if (document.getElementById("UploadFile").files.length == 1) {
-            //         this.error_message = "";
-            //         document.getElementById('submit').disabled = false;
-            //     }
-            // },
             isDisabled() {
                 // evaluate whatever you need to determine disabled here... 
                 if (document.getElementById("UploadFile").files.length == 0) {
