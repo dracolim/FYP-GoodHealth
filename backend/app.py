@@ -3154,8 +3154,6 @@ def read_trgextrem_history_by_person(id):
 
 # AKA Presentations table routes:
 # Read Existing  (R)
-
-
 @app.route("/presentation")
 def read_presentations():
     pdList = Presentations.query.all()

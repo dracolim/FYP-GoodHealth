@@ -810,10 +810,7 @@
                                         }
                                     }
                                 }
-
-                                console.log(this.all_data)
                                 //produce error message
-                                console.log(this.error_message)
                                 if (name_error == true) {
                                     this.error_message +=
                                         "<li> - Name cannot be Empty</li>";
@@ -822,8 +819,7 @@
                                             name +
                                             " does not exist in the Database</li>"
                                             ))) {
-                                        this.error_message += this
-                                            .error_message +=
+                                        this.error_message += 
                                             "<li> - " + name +
                                             " does not exist in the Database</li>"
                                     }
@@ -835,12 +831,7 @@
                                         this.error_message +=
                                             "<li> - All rows for " + this.MCR_No_import + " already exist in the database</li>";
                                 }
-                                // ooverall
-                                if (this.exist_error_count == this.resident_count) {
-                                    this.error_message +=
-                                        "<li> - Excel already uploaded before</li>";
-                                }
-
+                                
                                 if (this.error_message != "") {
                                     document.getElementById('submit')
                                         .disabled = true;
