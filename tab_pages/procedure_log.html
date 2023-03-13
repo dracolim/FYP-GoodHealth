@@ -620,39 +620,42 @@
                                     // MCR_No (for both case log and proceure log)
                                     else if (row.values[1].includes("Resident: ")) {
                                         var name = row.values[1].substring(10, )
-                                        var name_list = name.trim().split(',')
-                                        for (i in name_list) {
-                                            if (name_list[i].includes(" ")) {
-                                                var new_name_list = []
-                                                new_name_list = name_list[i].trim()
-                                                    .split(" ")
-                                                new_name_list.push(name_list[0])
-                                                new_name_list = new_name_list
-                                                    .sort();
-                                            }
-                                        }
-
-                                        if (row.values[1] == undefined) {
+                                        if (name == ""){
                                             name_error = true;
-                                        } else {
-                                            for (each in this.MCR_name) {
-                                                let name_list2 = each.trim().split(
-                                                    ' ').sort()
-                                                if (JSON.stringify(new_name_list) ==
-                                                    JSON.stringify(name_list2)) {
-                                                    this.MCR_No_import = this
-                                                        .MCR_name[
-                                                            each
-                                                        ]; //setting it to MCR_No
-                                                    var new_name = each;
-                                                    break
+                                        }
+                                        else{
+                                            var name_list = name.trim().split(',')
+                                            for (i in name_list) {
+                                                if (name_list[i].includes(" ")) {
+                                                    var new_name_list = []
+                                                    new_name_list = name_list[i].trim()
+                                                        .split(" ")
+                                                    new_name_list.push(name_list[0])
+                                                    new_name_list = new_name_list
+                                                        .sort();
                                                 }
                                             }
+                                        }
 
-                                            if (this.MCR_No_import == "") {
-                                                user_error = true;
+
+                                        for (each in this.MCR_name) {
+                                            let name_list2 = each.trim().split(
+                                                ' ').sort()
+                                            if (JSON.stringify(new_name_list) ==
+                                                JSON.stringify(name_list2)) {
+                                                this.MCR_No_import = this
+                                                    .MCR_name[
+                                                        each
+                                                    ]; //setting it to MCR_No
+                                                var new_name = each;
+                                                break
                                             }
                                         }
+
+                                        if (this.MCR_No_import == "") {
+                                            user_error = true;
+                                        }
+
                                     }
                                     // Date of Completeion / Date of Log
                                     else if (row.values[1].includes(
@@ -813,25 +816,32 @@
                                 //produce error message
                                 if (name_error == true) {
                                     this.error_message +=
-                                        "<li> - Name cannot be Empty</li>";
+                                        "<li> - Row " + rowIndex +
+                                                ": Name cannot be Empty</li>";
                                 } else if (user_error == true) {
                                     if (!(this.error_message.includes("<li> - " +
                                             name +
                                             " does not exist in the Database</li>"
-                                            ))) {
-                                        this.error_message += 
+                                        ))) {
+                                        this.error_message +=
                                             "<li> - " + name +
                                             " does not exist in the Database</li>"
                                     }
-                                // individual mcr_no
+                                    // individual mcr_no
                                 } else if (this.duplicate_count == this
-                                    .value_row_count) {
+                                    .value_row_count && this.duplicate_count != 0) {
                                     this.exist_error_count += 1
-                                    if (!(this.error_message.includes("<li> - All rows for " + this.MCR_No_import + " already exist in the database</li>")) && this.MCR_No_import != "")
+                                    if (!(this.error_message.includes(
+                                            "<li> - All Rows for " + this
+                                            .MCR_No_import +
+                                            " already exist in the database</li>"
+                                            )) && this.MCR_No_import != "")
                                         this.error_message +=
-                                            "<li> - All rows for " + this.MCR_No_import + " already exist in the database</li>";
+                                        "<li> - All Rows for " + this
+                                        .MCR_No_import +
+                                        " already exist in the database</li>";
                                 }
-                                
+
                                 if (this.error_message != "") {
                                     document.getElementById('submit')
                                         .disabled = true;
@@ -845,12 +855,6 @@
                 this.error_message = "";
                 document.getElementById('submit').disabled = false;
             },
-            // validateFile() {
-            //     if (document.getElementById("UploadFile").files.length == 1) {
-            //         this.error_message = "";
-            //         document.getElementById('submit').disabled = false;
-            //     }
-            // },
             isDisabled() {
                 // evaluate whatever you need to determine disabled here... 
                 if (document.getElementById("UploadFile").files.length == 0) {

@@ -828,8 +828,10 @@
                                             " does not exist in the Database</li>"
                                     }
                                 // individual mcr_no
+                                console.log(this.duplicate_count)
+                                console.log(this.value_row_count)
                                 } else if (this.duplicate_count == this
-                                    .value_row_count) {
+                                    .value_row_count && this.duplicate_count != 0) {
                                     this.exist_error_count += 1
                                     if (!(this.error_message.includes("<li> - All rows for " + this.MCR_No_import + " already exist in the database</li>")) && this.MCR_No_import != "")
                                         this.error_message +=

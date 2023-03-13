@@ -574,13 +574,13 @@
                                     //produce error message
                                     if (name_error == true) {
                                         this.error_message +=
-                                            "<li> - Name cannot be Empty</li>";
+                                            "<li> - Row " + rowIndex + ": Name cannot be Empty</li>";
                                     } else if (user_error == true) {
                                         this.error_message += this.error_message +=
                                             "<li> - " + new_name +
                                             " does not exist in the Database</li>"
                                     } else if (user_count == rowsWithValues) {
-                                        this.error_message += "<li> - All rows already exist in Database</li>";
+                                        this.error_message += "<li> - All Rows already exist in Database</li>";
                                     }
 
                                     if (this.error_message != "") {
