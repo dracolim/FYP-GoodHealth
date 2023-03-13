@@ -313,170 +313,190 @@
                     }
                 }),
                 axios.get(this.local_host_url + "evaluation")
-                .then(response => {
-                    this.all_evaluations = response.data.data;
-                    console.log(this.all_evaluations)
-                })
-                .catch(error => {
-                    console.log(error.message)
-                }),
+                    .then(response => {
+                        this.all_evaluations = response.data.data;
+                        console.log(this.all_evaluations)
+                    })
+                    .catch(error => {
+                        console.log(error.message)
+                    }),
                 axios.get(this.local_host_url + this.currentPage)
-                .then(response => {
-                    this.tableData = response.data.data
-                    var printRemoveButton = function (cell, formatterParams,
-                        onRendered) { //plain text value
-                        return "<a class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Remove</a>"
-                    };
-                    const local_host_url = this.local_host_url
-                    var table = new Tabulator("#example-table", {
-                        layout: "fitDataStretch",
-                        placeholder: "No Data Available in " + this.page_name,
-                        history: true,
-                        pagination: "local",
-                        paginationSize: 10,
-                        paginationCounter: "rows",
-                        movableColumns: true,
-                        data: this.tableData,
-                        index: "MCR_No",
-                        columns: [{
-                                title: "MCR No",
-                                field: "MCR_No",
-                                sorter: "string",
-                                headerHozAlign: "center",
-                                headerFilter: true,
+                    .then(response => {
+                        this.tableData = response.data.data
+                        // 'Remove' button design start
+                        var printRemoveButton = function (cell, formatterParams,
+                            onRendered) { //plain text value
+                            return "<a class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Remove</a>"
+                        };
+                        // 'Remove' button design ends
+                        // 'Popup/Comment' settings starts
+                        var rowPopupFormatter = function (e, row, onRendered) {
+                            var data = row.getData(),
+                                container = document.createElement("div"),
+                                contents = "<strong style='font-size:1.2em;'>Row Details</strong><br/><ul style='padding:0;  margin-top:10px; margin-bottom:0;'>";
+                            contents += "<li><strong>Name of Evaluation Form:</strong> " + data.Name_of_Evaluation_Form + "</li>";
+                            contents += "<li><strong>Score:</strong> " + data.Score + "</li>";
+                            contents += "</ul>";
 
-                                headerFilterParams: {
-                                    autocomplete: true,
-                                    valuesLookup: true,
-                                    clearable: true,
+                            container.innerHTML = contents;
+
+                            return container;
+                        };
+                        // 'Popup/Comment' settings ends
+                        const local_host_url = this.local_host_url
+                        var table = new Tabulator("#example-table", {
+                            layout: "fitDataStretch",
+                            placeholder: "No Data Available in " + this.page_name,
+                            history: true,
+                            pagination: "local",
+                            paginationSize: 10,
+                            paginationCounter: "rows",
+                            movableColumns: true,
+                            data: this.tableData,
+                            index: "MCR_No",
+                            rowClickPopup: rowPopupFormatter, //add click popup to row
+                            columns: [
+                                {
+                                    title: "MCR No",
+                                    field: "MCR_No",
+                                    sorter: "string",
+                                    headerHozAlign: "center",
+                                    headerFilter: true,
+                                    headerFilterParams: {
+                                        autocomplete: true,
+                                        valuesLookup: true,
+                                        clearable: true,
+                                    },
+                                    // headerPopup: headerPopupFormatter,
+                                    headerPopupIcon: "<i class='fas fa-filter' title='Filter column'></i>",
+                                    // headerFilter: emptyHeaderFilter, 
+                                    // headerFilterFunc: "like"
+                                },
+                                {
+                                    title: "Rotation Period",
+                                    field: "Rotation_Period",
+                                    sorter: "string",
+                                    headerFilter: true,
+                                    headerFilterParams: {
+                                        valuesLookup: true,
+                                        clearable: true,
+                                    },
+                                    editor: "input",
+                                    editorParams: {
+                                        allowEmpty: true,
+                                        listOnEmpty: true,
+                                        valuesLookup: true,
+                                    },
 
                                 },
-                            },
-                            {
-                                title: "Rotation Period",
-                                field: "Rotation_Period",
-                                sorter: "string",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
+                                {
+                                    title: "Name of Evaluation Form",
+                                    field: "Name_of_Evaluation_Form",
+                                    sorter: "string",
+                                    headerFilter: true,
+                                    headerFilterParams: {
+                                        valuesLookup: true,
+                                        clearable: true,
+                                    },
+                                    editor: "input",
+                                    editorParams: {
+                                        allowEmpty: true,
+                                        listOnEmpty: true,
+                                        valuesLookup: true,
+                                    },
                                 },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                },
+                                {
+                                    title: "Question",
+                                    field: "Question",
+                                    sorter: "number",
+                                    editor: "input",
+                                    editorParams: {
+                                        allowEmpty: true,
+                                        listOnEmpty: true,
+                                        valuesLookup: true,
+                                    },
+                                    headerFilter: true,
+                                    headerFilterParams: {
+                                        valuesLookup: true,
+                                        clearable: true
+                                    },
 
-                            },
-                            {
-                                title: "Name of Evaluation Form",
-                                field: "Name_of_Evaluation_Form",
-                                sorter: "string",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
                                 },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
+                                {
+                                    title: "Score",
+                                    field: "Score",
+                                    sorter: "number",
+                                    editor: "input",
+                                    editorParams: {
+                                        allowEmpty: true,
+                                        listOnEmpty: true,
+                                        valuesLookup: true,
+                                    },
+                                    headerFilter: true,
+                                    headerFilterParams: {
+                                        valuesLookup: true,
+                                        clearable: true
+                                    },
                                 },
-                            },
-                            {
-                                title: "Question",
-                                field: "Question",
-                                sorter: "number",
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
+                                {
+                                    title: "Evaluator",
+                                    field: "Evaluator",
+                                    sorter: "string",
+                                    headerFilter: true,
+                                    headerFilterParams: {
+                                        valuesLookup: true,
+                                        clearable: true,
+                                    },
+                                    editor: "input",
+                                    editorParams: {
+                                        allowEmpty: true,
+                                        listOnEmpty: true,
+                                        valuesLookup: true,
+                                    },
                                 },
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
+                                {
+                                    title: "Service",
+                                    field: "Service",
+                                    sorter: "string",
+                                    headerFilter: true,
+                                    headerFilterParams: {
+                                        valuesLookup: true,
+                                        clearable: true,
+                                    },
+                                    editor: "input",
+                                    editorParams: {
+                                        allowEmpty: true,
+                                        listOnEmpty: true,
+                                        valuesLookup: true,
+                                    },
                                 },
-
-                            },
-                            {
-                                title: "Score",
-                                field: "Score",
-                                sorter: "number",
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                },
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                            },
-                            {
-                                title: "Evaluator",
-                                field: "Evaluator",
-                                sorter: "string",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                },
-                            },
-                            {
-                                title: "Service",
-                                field: "Service",
-                                sorter: "string",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                },
-                            },
-                            {
-                                title: "Action",
-                                formatter: printRemoveButton,
-                                hozAlign: "center",
-                                cellClick: function (e, cell) {
-                                    axios.delete(local_host_url + "evaluation" + "/" + cell
+                                {
+                                    title: "Action",
+                                    formatter: printRemoveButton,
+                                    hozAlign: "center",
+                                    cellClick: function (e, cell) {
+                                        axios.delete(local_host_url + "evaluation" + "/" + cell
                                             .getRow().getData().id)
-                                        .then(function (response) {
-                                            console.log(response.data);
-                                            cell.getRow().delete();
-                                        })
-                                        .catch(function (error) {
-                                            console.log(error);
-                                            if (alert("Failed to remove row MCR No: " +
-                                                    row.getData().MCR_No)) {} else
-                                                window.location.reload();
-                                        });
+                                            .then(function (response) {
+                                                console.log(response.data);
+                                                cell.getRow().delete();
+                                            })
+                                            .catch(function (error) {
+                                                console.log(error);
+                                                if (alert("Failed to remove row MCR No: " +
+                                                    row.getData().MCR_No)) { } else
+                                                    window.location.reload();
+                                            });
+                                    },
                                 },
-                            },
-                        ],
-                    });
-                    // update data in the database after a cell is edited
-                    table.on("cellEdited", function (row) {
-                        // connect to database and execute update statement
-                        let thisrow = row.getData()
-                        // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
-                        axios.put(local_host_url + "evaluation" + "/" + thisrow.id, {
+                            ],
+                        });
+                        // update data in the database after a cell is edited
+                        table.on("cellEdited", function (row) {
+                            // connect to database and execute update statement
+                            let thisrow = row.getData()
+                            // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
+                            axios.put(local_host_url + "evaluation" + "/" + thisrow.id, {
                                 "MCR_No": thisrow.MCR_No,
                                 "Evaluator": thisrow.Evaluator,
                                 "Name_of_Evaluation_Form": thisrow.Name_of_Evaluation_Form,
@@ -485,22 +505,22 @@
                                 "Score": thisrow.Score,
                                 "Service": thisrow.Service,
                             })
-                            .then(response => {
-                                console.log('Project ID {' + row.getData().id +
-                                    '} updated.')
-                            })
-                            .catch(error => {
-                                console.log(error)
-                                if (alert("Failed to update row MCR No: " + row.getData()
-                                        .MCR_No)) {} else window.location.reload();
-                            })
-                    });
-                })
-                .catch(error => {
-                    this.table_error_message = error.message
-                    console.error(error);
+                                .then(response => {
+                                    console.log('Project ID {' + row.getData().id +
+                                        '} updated.')
+                                })
+                                .catch(error => {
+                                    console.log(error)
+                                    if (alert("Failed to update row MCR No: " + row.getData()
+                                        .MCR_No)) { } else window.location.reload();
+                                })
+                        });
+                    })
+                    .catch(error => {
+                        this.table_error_message = error.message
+                        console.error(error);
 
-                });
+                    });
 
         },
         methods: {
@@ -543,22 +563,22 @@
                                 if (row.values[1] != undefined) {
                                     // one time variable 
                                     if (row.values[1].toLowerCase().includes(
-                                            "evaluation:")) {
+                                        "evaluation:")) {
                                         var colonidx = row.values[1].indexOf(":")
                                         this.form_name = row.values[1].substring(
-                                            colonidx + 1, ).trim();
+                                            colonidx + 1,).trim();
                                     }
                                     // BLOCK (question_name)
                                     else if (row.values[1].toLowerCase().includes(
-                                            "question:")) {
+                                        "question:")) {
                                         var colonidx2 = row.values[1].indexOf(":")
                                         this.question_name = row.values[1]
-                                            .substring(colonidx2 + 1, ).trim();
+                                            .substring(colonidx2 + 1,).trim();
                                         this.minus_from_target = 1;
                                     }
                                     // data body
                                     else if (sheet.getRow(rowIndex - this
-                                            .minus_from_target)._cells[0]._value
+                                        .minus_from_target)._cells[0]._value
                                         .value == "Target:") {
                                         // MCR_NO (target)
                                         var name = row.values[1]
@@ -608,14 +628,14 @@
                                         for (each of this.all_evaluations) {
                                             if (data.Name_of_Evaluation_Form == each
                                                 .Name_of_Evaluation_Form && data
-                                                .Question == each
-                                                .Question && data.MCR_No == each
-                                                .MCR_No && data.Evaluator ==
+                                                    .Question == each
+                                                    .Question && data.MCR_No == each
+                                                        .MCR_No && data.Evaluator ==
                                                 each.Evaluator && data
-                                                .Rotation_Period == each
-                                                .Rotation_Period &&
+                                                    .Rotation_Period == each
+                                                    .Rotation_Period &&
                                                 data.Service == each.Service && data
-                                                .Score == each.Score) {
+                                                    .Score == each.Score) {
                                                 same_error = true;
                                                 this.duplicate_count += 1;
                                                 break
@@ -641,10 +661,10 @@
                                     //produce error message
                                     if (user_error == true) {
                                         if (!(this.error_message.includes(
-                                                "<li> - " + name +
-                                                " does not exist in the Database</li>"
-                                                ))) {
-                                            this.error_message += 
+                                            "<li> - " + name +
+                                            " does not exist in the Database</li>"
+                                        ))) {
+                                            this.error_message +=
                                                 "<li> - " + name +
                                                 " does not exist in the Database</li>"
                                         }
@@ -658,11 +678,11 @@
                                     if (sheet.getRow(rowIndex)._cells[3]._value
                                         .value != "Average:" && sheet.getRow(
                                             rowIndex)._cells[1]._value.value != null
-                                        ) {
-                                            name_error = true;
+                                    ) {
+                                        name_error = true;
                                         // console.log(this.error_message)
                                         if (!(this.error_message.includes("<li> - Row " + rowIndex +
-                                                " Name cannot be Empty</li>"))) {
+                                            " Name cannot be Empty</li>"))) {
                                             this.error_message +=
                                                 "<li> - Row " + rowIndex +
                                                 " Name cannot be Empty</li>";
@@ -677,14 +697,14 @@
                                 "<li> - All Rows already exist in the Database"
                         } else if (this.duplicate_count > 0 && this.duplicate_count < this
                             .row_count) {
-                            this.error_message += 
+                            this.error_message +=
                                 "<li> - There are duplicates in the Excel sheet"
                         }
                         if (this.error_message != "") {
                             document.getElementById('submit')
                                 .disabled = true;
                         }
-                        
+
                     })
                 }
                 this.user_error_count = 0;
