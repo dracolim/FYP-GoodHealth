@@ -8,23 +8,22 @@
 
     <!-- INSTALLATIONS -->
     <!-- flowbite -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
+    <link href="../node_modules/flowbite/dist/flowbite.min.css" rel="stylesheet" />
     <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/tailwind.css">
     <!-- ICONIFY -->
-    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    <script src="../css/iconify-icon.min.js"></script>
+    <!-- <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script> -->
     <!-- LOCAL VUE 2.7.14 -->
     <script src="../node_modules/vue/dist/vue.js"></script>
     <!-- LOCAL Tabulator  -->
     <link href="../node_modules/tabulator-tables/dist/css/tabulator_semanticui.css" rel="stylesheet">
     <script type="text/javascript" src="../node_modules/tabulator-tables/dist/js/tabulator.js"></script>
     <!-- ExcelJS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    <script src="../node_modules/exceljs/dist/exceljs.min.js"></script>
+    <script src="../node_modules/xlsx/dist/xlsx.full.min.js"></script>
     <!-- LOCAL Axios -->
-    <script src="../node_modules/axios/dist/axios.js"></script>
-    <!-- LUXON js-->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/luxon@3.2.1/build/global/luxon.min.js"></script> -->
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
 
     <style type="text/tailwindcss">
         @layer utilities {
@@ -283,7 +282,6 @@
                                 clearable: true,
 
                             },
-                            minWidth: 200,
                         },
 
                         {
@@ -298,7 +296,6 @@
                                 maskAutoFill: true,
                             },
                             headerFilter: true,
-                            minWidth: 200,
                         },
                         {
                             title: "Name of Award",
@@ -315,7 +312,6 @@
                                 valuesLookup: true,
                                 maskAutoFill: true,
                             },
-                            minWidth: 150,
                         },
                         {
                             title: "FY of Award Received",
@@ -332,7 +328,6 @@
                                 valuesLookup: true,
                                 maskAutoFill: true,
                             },
-                            minWidth: 150,
                         },
                         {
                             title: "Date of Award Received",
@@ -349,7 +344,6 @@
                                 valuesLookup: true,
                                 maskAutoFill: true,
                             },
-                            minWidth: 150,
                         },
                         {
                             title: "Project ID",
@@ -366,7 +360,6 @@
                                 valuesLookup: true,
                                 maskAutoFill: true,
                             },
-                            minWidth: 150,
                         },
                         {
                             title: "Action",
@@ -386,7 +379,6 @@
                                         else window.location.reload();
                                     });
                             },
-                            minWidth: 150,
                         },
                         ],
                     });
@@ -422,8 +414,6 @@
     });
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
 
 </html>

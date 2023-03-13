@@ -322,14 +322,12 @@ class Evaluations(db.Model):
     id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     MCR_No = db.Column(db.String(100),  db.ForeignKey(
         'Personal_Details.MCR_No'))
-    Year_of_Training = db.Column(db.String(100))
     Rotation_Period = db.Column(db.String(100))
     Name_of_Evaluation_Form = db.Column(db.String(100))
-    Question_Number = db.Column(db.String(100))
-    Score = db.Column(db.String(100))
+    Question = db.Column(db.String(100))
+    Score = db.Column(db.String(8000))
     Evaluator = db.Column(db.String(100))
     Service = db.Column(db.String(100))
-    Answer = db.Column(db.String(100))
 
     __mapper_args__ = {
         'polymorphic_identity': 'Evaluations'
@@ -751,7 +749,7 @@ def view():
     didatic_attendance.columns = [ 'MCR_No', 'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended'  , 'MmYyyy' , 'Posting_Institution' , 'Posting_Department' , 'Scheduled_Teachings' 'Compliance_or_Not' , "Percentage_of_sessions_attended"]
 
     if didatic_attendance.duplicated().any() or didatic_attendance['MCR_No'].isnull().sum() > 0 or ihi['MCR_No'].isnull().sum() > 0 or ihi.duplicated().any() or project['MCR_No'].isnull().sum() > 0 or project.duplicated().any() or presentations['MCR_No'].isnull().sum() > 0 or presentations.duplicated().any() or publlications['MCR_No'].isnull().sum() > 0 or publlications.duplicated().any() or awards['MCR_No'].isnull().sum() > 0 or awards.duplicated().any() or grants['MCR_No'].isnull().sum() > 0 or grants.duplicated().any() or personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or personalDetails.duplicated().any() or involvement['MCR_No'].isnull().sum() > 0 or (involvement.duplicated().any()) or history_education['MCR_No'].isnull().sum() > 0 or (history_education.duplicated().any()) or history_posting['MCR_No'].isnull().sum() > 0 or history_posting.duplicated().any() or history_exam['MCR_No'].isnull().sum() > 0 or history_exam.duplicated().any() or history_trg['MCR_No'].isnull().sum() > 0 or history_trg.duplicated().any():
-        writer = pd.ExcelWriter("error.xlsx", engine='xlsxwriter')
+        writer = pd.ExcelWriter("nulk_import_error.xlsx", engine='xlsxwriter')
         workbook = writer.book
         format1 = workbook.add_format({'bg_color': '#FF8080'})
 
@@ -1794,7 +1792,8 @@ def get_trg_history_fields():
 @app.route("/history_trg/<id>")
 def read_historytrg_by_person(id):
     person = Personal_Details.query.get_or_404(id)
-    examhistory_of_person = person.exam_histories
+    history_of_person = person.exam_histories
+    
     return jsonify(
         {
             "data": [pd.to_dict()
@@ -2160,7 +2159,7 @@ def delete_project(id):
 
     db.session.delete(row)
     db.session.commit()
-    return 'Project ', id, ' deleted', 200
+    return 'Project deleted', 200
 
 
 # ============================
@@ -2755,17 +2754,17 @@ def read_colour_procedure_logs():
 @app.route('/add_procedure_log', methods=['POST'])
 def create_procedure_log():
     data = request.get_json()
-    if not all(key in data.keys() for key in ('MCR_No', 'Procedure_Name', 'CPT', 'Date of Completion', 'Total',
+    if not all(key in data.keys() for key in ('MCR_No', 'Procedure_Name', 'CPT', 'Date_of_Completion', 'Total',
                                             'Performed' , 'Observed' , 'Verified' , 'Certified'
                                             )):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
-    duty_hour_log = Duty_Hour_Log(**data)
+    procedure_log = Procedure_Log(**data)
     try:
-        db.session.add(duty_hour_log)
+        db.session.add(procedure_log)
         db.session.commit()
-        return jsonify(duty_hour_log.to_dict()), 201
+        return jsonify(procedure_log.to_dict()), 201
     except Exception as e:
         print("An error occurred:", e)
         print("Stack trace:")
@@ -2851,6 +2850,26 @@ def read_caselogs_by_person(id):
         }
     ), 200
 
+# add case log
+@app.route('/add_case_log', methods=['POST'])
+def create_case_log():
+    data = request.get_json()
+    if not all(key in data.keys() for key in ('MCR_No', 'Case_Name', 'Type_of_Case_Log', 'Date_of_Log', 'CPT', 'Total',
+                                            'Performed' , 'Observed' , 'Verified' , 'Certified'
+                                            )):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+    case_log = Case_Log(**data)
+    try:
+        db.session.add(case_log)
+        db.session.commit()
+        return jsonify(case_log.to_dict()), 201
+    except Exception as e:
+        print("An error occurred:", e)
+        print("Stack trace:")
+        traceback.print_exc()
+
 # Update caselog
 @app.route('/caselog/<int:id>', methods=['PUT'])
 def update_caselog(id):
@@ -2873,7 +2892,7 @@ def update_caselog(id):
     db.session.commit()
     return 'caselog updated', 200
 
-# Delete IHI
+# Delete case log
 @app.route('/caselog/<int:id>', methods=['DELETE'])
 def delete_caselog(id):
     row = Case_Log.query.get(id)
@@ -3038,8 +3057,6 @@ def read_evaluations_by_person(id):
     ), 200
 
 # Read Existing evaluations (R)
-
-
 @app.route("/evaluation")
 def read_evaluation():
     res = Evaluations.query.all()
@@ -3059,14 +3076,12 @@ def update_evaluation(id):
 
     data = request.get_json()
     user.MCR_No = data['MCR_No']
-    user.Answer = data['Answer']
     user.Evaluator = data['Evaluator']
     user.Name_of_Evaluation_Form = data['Name_of_Evaluation_Form']
-    user.Question_Number = data['Question_Number']
+    user.Question = data['Question']
     user.Rotation_Period = data['Rotation_Period']
     user.Score = data['Score']
     user.Service = data['Service']
-    user.Year_of_Training = data['Year_of_Training']
 
     db.session.commit()
     return 'evaluation updated', 200
@@ -3082,6 +3097,25 @@ def delete_evaluation(id):
     db.session.commit()
     return 'evaluation deleted', 200
 
+# add case log
+@app.route('/add_evaluation', methods=['POST'])
+def create_evaluation():
+    data = request.get_json()
+    if not all(key in data.keys() for key in ('MCR_No', 'Rotation_Period', 'Name_of_Evaluation_Form', 'Question', 'Score', 'Evaluator',
+                                            'Service'
+                                            )):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+    evaluation = Evaluations(**data)
+    try:
+        db.session.add(evaluation)
+        db.session.commit()
+        return jsonify(evaluation.to_dict()), 201
+    except Exception as e:
+        print("An error occurred:", e)
+        print("Stack trace:")
+        traceback.print_exc()
 
 # ============================
 # █▀▀ █▄░█ █▀▄
@@ -3102,8 +3136,6 @@ def read_trgextrem_history():
     ), 200
 
 # Read Existing by Person (R)
-
-
 @app.route("/trgextremhistory/<id>")
 def read_trgextrem_history_by_person(id):
     person = Personal_Details.query.get_or_404(id)

@@ -8,22 +8,21 @@
 
     <!-- INSTALLATIONS -->
     <!-- flowbite -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+    <link href="../node_modules/flowbite/dist/flowbite.min.css" rel="stylesheet" />
     <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/tailwind.css">
     <!-- ICONIFY -->
-    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    <script src="../css/iconify-icon.min.js"></script>
     <!-- LOCAL VUE 2.7.14 -->
     <script src="../node_modules/vue/dist/vue.js"></script>
     <!-- LOCAL Tabulator  -->
     <link href="../node_modules/tabulator-tables/dist/css/tabulator_semanticui.css" rel="stylesheet">
     <script type="text/javascript" src="../node_modules/tabulator-tables/dist/js/tabulator.js"></script>
     <!-- ExcelJS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    <script src="../node_modules/exceljs/dist/exceljs.min.js"></script>
+    <script src="../node_modules/xlsx/dist/xlsx.full.min.js"></script>
     <!-- LOCAL Axios -->
-    <script src="../node_modules/axios/dist/axios.js"></script>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
 
     <style type="text/tailwindcss">
         @layer utilities {
@@ -160,7 +159,7 @@
                     </li>
                     <li>
                         <a href="../tab_pages/procedure_log.html"
-                        class="lg:text-sm md:text-sm ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Procedure
+                            class="lg:text-sm md:text-sm ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Procedure
                             Log</a>
                     </li>
                     <li>
@@ -170,8 +169,8 @@
                     </li>
                     <li>
                         <a href="../tab_pages/evaluations.html"
-                        class="lg:text-sm md:text-sm ml-5 mr-4 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0"
-                        aria-current="page">Evaluation</a>
+                            class="lg:text-sm md:text-sm ml-5 mr-4 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0"
+                            aria-current="page">Evaluation</a>
                     </li>
                 </ul>
             </div>
@@ -180,7 +179,7 @@
         <div class='row' style='height: 8px; background-color: #ff6b00;'></div>
         <!-- TABLE START -->
         <div class="md:hidden sm:visible">
-            <h2 class="text-3xl font-bold  ml-8 mt-4 text-gray-700">Awards</h2>
+            <h2 class="text-3xl font-bold  ml-8 mt-4 text-gray-700">Evaluation</h2>
         </div>
         <!-- filter rows -->
         <div class="flex items-center justify-between mt-6 mx-8">
@@ -191,7 +190,7 @@
                 </div>
                 <button data-modal-target="import-modal" data-modal-toggle="import-modal" type="button"
                     class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">
-                    <label class="ml-2">Import</label>
+                    <label class="ml-2">Evaluations Import</label>
                 </button>
             </div>
         </div>
@@ -202,7 +201,7 @@
             <div class="relative w-full h-full max-w-md md:h-auto">
                 <!-- Modal content -->
                 <div class="relative bg-white rounded-lg shadow ">
-                    <button type="button"
+                    <button type="button" @click="removeErrorMsg"
                         class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                         data-modal-hide="import-modal">
                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -215,16 +214,14 @@
                     </button>
                     <div class="px-6 py-6 lg:px-8">
                         <h3 class="mb-4 text-xl font-medium text-gray-900 ">Upload Excel Sheet</h3>
-                        <form class="space-y-6" method="post" enctype="multipart/form-data"
-                            action="http://localhost:5011/import_duty_hour">
+                        <form class="space-y-6" method="post" enctype="multipart/form-data">
                             <!-- input form -->
-                            <input @change="validateFile" id="UploadFile"
+                            <input id="UploadFile" @change="importExcel"
                                 class="block w-full text-md text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                                type="file" name="file">
+                                type="file" name="file" ref="UploadFile">
                             <!-- error -->
                             <div v-if="error_message != ''"
-                                class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-                                role="alert">
+                                class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
                                 <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor"
                                     viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
@@ -233,11 +230,12 @@
                                 </svg>
                                 <span class="sr-only">Info</span>
                                 <div>
-                                    <span class="font-medium">Error!</span>
-                                    {{error_message}}
+                                    <span class="font-bold">Error!</span>
+                                    <!-- show the list of errors -->
+                                    <ul v-html="error_message"></ul>
                                 </div>
                             </div>
-                            <button type="submit" value="Submit" @click="isDisabled()" id='submit'
+                            <button type="submit" value="Submit" id='submit' @click="isDisabled()"
                                 class="w-full text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
                         </form>
                     </div>
@@ -284,21 +282,28 @@
             local_host_url: "http://localhost:5011/",
             currentPage: "evaluation",
             page_name: "Evaluation", // for showing when DataTable is empty
-            personal_details_fields: [],
-            personal_details_datas: [],
-            file: "",
+            personal_details_data: "",
             MCR_name: {},
+            file: "",
             error_message: "",
             mmYYYY: "",
             table_error_message: "",
             tableData: "",
+            all_evaluations: "",
+            //import
+            form_name: "",
+            question_name: "",
+            minus_from_target: 1,
+            row_count: 0,
+            duplicate_count: 0,
+            user_error_count: 0,
         },
         computed: {
 
 
         },
         mounted() {
-            axios.get(this.local_host_url + "/personaldetails")
+            axios.get(this.local_host_url + "personaldetail")
                 .then(response => {
                     let result = response.data.data;
                     for (each of result) {
@@ -306,13 +311,16 @@
                             this.MCR_name[each["Staff_Name"]] = each["MCR_No"];
                         }
                     }
+                }),
+                axios.get(this.local_host_url + "evaluation")
+                .then(response => {
+                    this.all_evaluations = response.data.data;
+                    console.log(this.all_evaluations)
                 })
-
                 .catch(error => {
-                    console.log(error)
-                });
-
-            axios.get(this.local_host_url + this.currentPage)
+                    console.log(error.message)
+                }),
+                axios.get(this.local_host_url + this.currentPage)
                 .then(response => {
                     this.tableData = response.data.data
                     var printRemoveButton = function (cell, formatterParams,
@@ -321,186 +329,146 @@
                     };
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
-                        layout:"fitDataStretch",
+                        layout: "fitDataStretch",
                         placeholder: "No Data Available in " + this.page_name,
                         history: true,
                         pagination: "local",
                         paginationSize: 10,
                         paginationCounter: "rows",
-                        movableColumns: true,    
+                        movableColumns: true,
                         data: this.tableData,
                         index: "MCR_No",
                         columns: [{
-                            title: "MCR No",
-                            field: "MCR_No",
-                            sorter: "string",
-                            headerHozAlign: "center",
-                            headerFilter: true,
-                            
-                            headerFilterParams: {
-                                autocomplete: true,
-                                valuesLookup: true,
-                                clearable: true,
+                                title: "MCR No",
+                                field: "MCR_No",
+                                sorter: "string",
+                                headerHozAlign: "center",
+                                headerFilter: true,
+
+                                headerFilterParams: {
+                                    autocomplete: true,
+                                    valuesLookup: true,
+                                    clearable: true,
+
+                                },
+                            },
+                            {
+                                title: "Rotation Period",
+                                field: "Rotation_Period",
+                                sorter: "string",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: "input",
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
 
                             },
-                            minWidth: 200,
-                        },
-                        {
-                            title: "Year of Training",
-                            field: "Year_of_Training",
-                            sorter: "number",
-                            editor: "number",
-                            editorParams: {
-                                min: 0,
-                                autocomplete: true,
+                            {
+                                title: "Name of Evaluation Form",
+                                field: "Name_of_Evaluation_Form",
+                                sorter: "string",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: "input",
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
                             },
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
-                            },
-                            
-                            minWidth: 150,
+                            {
+                                title: "Question",
+                                field: "Question",
+                                sorter: "number",
+                                editor: "input",
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
 
-                        },
-                        {
-                            title: "Rotation Period",
-                            field: "Rotation_Period",
-                            sorter: "string",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true,
                             },
-                            editor: "input",
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
+                            {
+                                title: "Score",
+                                field: "Score",
+                                sorter: "number",
+                                editor: "input",
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
                             },
-                            
-                            minWidth: 150,
-                        },
-                        {
-                            title: "Name of Evaluation Form",
-                            field: "Name_of_Evaluation_Form",
-                            sorter: "string",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true,
+                            {
+                                title: "Evaluator",
+                                field: "Evaluator",
+                                sorter: "string",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: "input",
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
                             },
-                            editor: "input",
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
+                            {
+                                title: "Service",
+                                field: "Service",
+                                sorter: "string",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: "input",
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
                             },
-                            minWidth: 230,
-                        },
-                        {
-                            title: "Question_Number",
-                            field: "Question_Number",
-                            sorter: "number",
-                            editor: "number",
-                            editorParams: {
-                                min: 0,
-                                autocomplete: true,
+                            {
+                                title: "Action",
+                                formatter: printRemoveButton,
+                                hozAlign: "center",
+                                cellClick: function (e, cell) {
+                                    axios.delete(local_host_url + "evaluation" + "/" + cell
+                                            .getRow().getData().id)
+                                        .then(function (response) {
+                                            console.log(response.data);
+                                            cell.getRow().delete();
+                                        })
+                                        .catch(function (error) {
+                                            console.log(error);
+                                            if (alert("Failed to remove row MCR No: " +
+                                                    row.getData().MCR_No)) {} else
+                                                window.location.reload();
+                                        });
+                                },
                             },
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
-                            },
-                            minWidth: 150,
-
-                        },
-                        {
-                            title: "Score",
-                            field: "Score",
-                            sorter: "number",
-                            editor: "number",
-                            editorParams: {
-                                min: 0,
-                                autocomplete: true,
-                            },
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
-                            },
-                            minWidth: 150,
-                        },
-                        {
-                            title: "Evaluator",
-                            field: "Evaluator",
-                            sorter: "string",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true,
-                            },
-                            editor: "input",
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
-                            },
-                            minWidth: 150,
-                        },
-                        {
-                            title: "Service",
-                            field: "Service",
-                            sorter: "string",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true,
-                            },
-                            editor: "input",
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
-                            },
-                            minWidth: 150,
-                        },
-                        {
-                            title: "Answer",
-                            field: "Answer",
-                            sorter: "string",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true,
-                            },
-                            editor: "input",
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
-                            },
-                            minWidth: 150,
-                        },
-                        {
-                            title: "Action",
-                            formatter: printRemoveButton,
-                            hozAlign: "center",
-                            cellClick: function (e, cell) {
-                                axios.delete(local_host_url + "evaluation" + "/" + cell
-                                    .getRow().getData().id)
-                                    .then(function (response) {
-                                        console.log(response.data);
-                                        cell.getRow().delete();
-                                    })
-                                    .catch(function (error) {
-                                        console.log(error);
-                                        if (alert("Failed to remove row MCR No: " + row.getData().MCR_No)) { }
-                                        else window.location.reload();
-                                    });
-                            },
-                            minWidth: 150,
-                        },
                         ],
                     });
                     // update data in the database after a cell is edited
@@ -509,113 +477,242 @@
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
                         axios.put(local_host_url + "evaluation" + "/" + thisrow.id, {
-                            "MCR_No": thisrow.MCR_No,
-                            "Answer": thisrow.Answer,
-                            "Evaluator": thisrow.Evaluator,
-                            "Name_of_Evaluation_Form": thisrow.Name_of_Evaluation_Form,
-                            "Question_Number": thisrow.Question_Number,
-                            "Rotation_Period": thisrow.Rotation_Period,
-                            "Score": thisrow.Score,
-                            "Service": thisrow.Service,
-                            "Year_of_Training": thisrow.Year_of_Training,
-
-                        })
+                                "MCR_No": thisrow.MCR_No,
+                                "Evaluator": thisrow.Evaluator,
+                                "Name_of_Evaluation_Form": thisrow.Name_of_Evaluation_Form,
+                                "Question": thisrow.Question,
+                                "Rotation_Period": thisrow.Rotation_Period,
+                                "Score": thisrow.Score,
+                                "Service": thisrow.Service,
+                            })
                             .then(response => {
                                 console.log('Project ID {' + row.getData().id +
                                     '} updated.')
                             })
                             .catch(error => {
                                 console.log(error)
-                                if (alert("Failed to update row MCR No: " + row.getData().MCR_No)) { }
-                                else window.location.reload();		
+                                if (alert("Failed to update row MCR No: " + row.getData()
+                                        .MCR_No)) {} else window.location.reload();
                             })
                     });
                 })
                 .catch(error => {
                     this.table_error_message = error.message
                     console.error(error);
-                    
+
                 });
 
         },
         methods: {
-            importExcel(event) {
-                this.validateFile();
+            importExcel() {
+                var fileVal = document.getElementById("UploadFile");
+                this.file = fileVal.files[0]
+                console.log(this.file)
 
-                this.file = event.target.files ? event.target.files[0] : null;
+                if (!this.file.name.toLowerCase().includes("evaluation")) {
+                    this.file_error = true;
+                    this.error_message = "<li>- Invalid File Uploaded</li>";
+                    document.getElementById('submit').disabled = true;
+                    return
+                }
+                this.isDisabled();
+
+                var file_error = false;
                 const wb = new Excel.Workbook();
                 const reader = new FileReader()
-
                 reader.readAsArrayBuffer(this.file)
                 reader.onload = () => {
                     const buffer = reader.result;
                     wb.xlsx.load(buffer).then(workbook => {
                         //console.log(workbook, 'workbook instance')
                         workbook.eachSheet((sheet, id) => {
-                            //console.log(sheet.name) //sheet name (eg: personal details)
+                            const rows = sheet.actualRowCount;
+                            console.log(rows)
+
+                            // const rowsWithValues = sheet.actualRowCount - 7;
+                            var user_count = 0
                             sheet.eachRow((row, rowIndex) => {
-                                var url = this.local_host_url + 'add_duty_hour';
+                                // console.log(row.values[1])
+                                var same_error = false;
+                                var name_error = false;
+                                var user_error = false;
+
+                                var url = this.local_host_url + 'add_evaluation';
                                 var data = {};
-                                var loggded_for_months = "";
-                                if (rowIndex == 3) {
-                                    this.mmYYYY = row.values[1].slice(21, 28) || "";
-                                } else if (rowIndex >= 8) {
-                                    // console.log(row.values[2])
-                                    for (each in this.MCR_name) {
-                                        let name_list = row.values[1].trim().split(',')
-                                        var new_name = name_list.reverse().join(" ").trim()
-                                        if (new_name == each) {
-                                            data.MCR_No = this.MCR_name[each] || "";
+
+                                if (row.values[1] != undefined) {
+                                    // one time variable 
+                                    if (row.values[1].toLowerCase().includes(
+                                            "evaluation:")) {
+                                        var colonidx = row.values[1].indexOf(":")
+                                        this.form_name = row.values[1].substring(
+                                            colonidx + 1, ).trim();
+                                    }
+                                    // BLOCK (question_name)
+                                    else if (row.values[1].toLowerCase().includes(
+                                            "question:")) {
+                                        var colonidx2 = row.values[1].indexOf(":")
+                                        this.question_name = row.values[1]
+                                            .substring(colonidx2 + 1, ).trim();
+                                        this.minus_from_target = 1;
+                                    }
+                                    // data body
+                                    else if (sheet.getRow(rowIndex - this
+                                            .minus_from_target)._cells[0]._value
+                                        .value == "Target:") {
+                                        // MCR_NO (target)
+                                        var name = row.values[1]
+
+                                        var name_list = name.trim().split(',')
+                                        for (i in name_list) {
+                                            if (name_list[i].includes(" ")) {
+                                                var new_name_list = []
+                                                new_name_list = name_list[i]
+                                                    .trim()
+                                                    .split(" ")
+                                                new_name_list.push(name_list[0])
+                                                new_name_list = new_name_list
+                                                    .sort();
+                                            }
+                                        }
+                                        for (each in this.MCR_name) {
+                                            let name_list2 = each.trim().split(
+                                                ' ').sort()
+                                            if (JSON.stringify(new_name_list) ==
+                                                JSON.stringify(name_list2)) {
+                                                data.MCR_No = this
+                                                    .MCR_name[each];
+
+                                                break
+                                            }
+                                        }
+
+                                        if (data.MCR_No == undefined) {
+                                            user_error = true;
+                                            this.user_error_count += 1;
+                                        }
+                                        // console.log(data.MCR_No)
+                                        this.minus_from_target += 1;
+
+                                        //Evaluator
+                                        data.Name_of_Evaluation_Form = this
+                                            .form_name
+                                        data.Question = this.question_name;
+                                        data.Evaluator = row.values[2] || "";
+                                        data.Rotation_Period = row.values[3] || "";
+                                        data.Service = row.values[4] || "";
+                                        data.Score = row.values[5] || "";
+                                        this.row_count += 1
+
+                                        // check if EXISTS already
+                                        for (each of this.all_evaluations) {
+                                            if (data.Name_of_Evaluation_Form == each
+                                                .Name_of_Evaluation_Form && data
+                                                .Question == each
+                                                .Question && data.MCR_No == each
+                                                .MCR_No && data.Evaluator ==
+                                                each.Evaluator && data
+                                                .Rotation_Period == each
+                                                .Rotation_Period &&
+                                                data.Service == each.Service && data
+                                                .Score == each.Score) {
+                                                same_error = true;
+                                                this.duplicate_count += 1;
+                                                break
+                                            }
+                                        }
+
+                                        // if all conditions okay, then import
+                                        if (same_error == false && name_error ==
+                                            false && this.error_message == "" &&
+                                            user_error == false) {
+                                            axios.post(url, data)
+                                                .then(response => {
+                                                    console.log(response.data)
+                                                })
+                                                .catch(error => {
+                                                    this.error = error.response
+                                                        .data
+                                                        .message
+                                                });
                                         }
                                     }
-                                    if (data.MCR_No == "") {
-                                        this.error_message =
-                                            "There is no such resident in the database";
+
+                                    //produce error message
+                                    if (user_error == true) {
+                                        if (!(this.error_message.includes(
+                                                "<li> - " + name +
+                                                " does not exist in the Database</li>"
+                                                ))) {
+                                            this.error_message += 
+                                                "<li> - " + name +
+                                                " does not exist in the Database</li>"
+                                        }
                                     }
-                                    data.Level = row.values[2] || '';
-                                    data.Submitted = row.values[3] || '';
-                                    data.Submitted_Proportion = row.values[4] || '';
-                                    data.MMYYYY = this.mmYYYY;
-                                    data.Logged_for_month = "Yes"
-                                    axios.post(url, data)
-                                        .then(response => {
-                                            console.log(response.data)
-                                            this.mmYYYY = "";
-                                        })
-                                        .catch(error => {
-                                            this.error = error.response.data
-                                                .message
-                                        });
+                                    if (this.error_message != "") {
+                                        document.getElementById('submit')
+                                            .disabled = true;
+                                    }
+
+                                } else {
+                                    if (sheet.getRow(rowIndex)._cells[3]._value
+                                        .value != "Average:" && sheet.getRow(
+                                            rowIndex)._cells[1]._value.value != null
+                                        ) {
+                                            name_error = true;
+                                        // console.log(this.error_message)
+                                        if (!(this.error_message.includes("<li> - Row " + rowIndex +
+                                                " Name cannot be Empty</li>"))) {
+                                            this.error_message +=
+                                                "<li> - Row " + rowIndex +
+                                                " Name cannot be Empty</li>";
+                                        }
+                                    }
                                 }
+
                             })
                         })
+                        if (this.row_count == this.duplicate_count || (this.row_count - this.user_error_count == this.duplicate_count)) {
+                            this.error_message +=
+                                "<li> - All Rows already exist in the Database"
+                        } else if (this.duplicate_count > 0 && this.duplicate_count < this
+                            .row_count) {
+                            this.error_message += 
+                                "<li> - There are duplicates in the Excel sheet"
+                        }
+                        if (this.error_message != "") {
+                            document.getElementById('submit')
+                                .disabled = true;
+                        }
+                        
                     })
                 }
-            },
-            validateFile() {
-                if (document.getElementById("UploadFile").files.length == 1) {
-                    this.error_message = "";
-                    document.getElementById('submit').disabled = false;
-
-                }
+                this.user_error_count = 0;
+                this.row_count = 0;
+                this.duplicate_count = 0;
+                this.error_message = "";
+                this.minus_from_target = 1;
+                document.getElementById('submit').disabled = false;
             },
             isDisabled() {
-                console.log('hi')
-                // evaluate whatever you need to determine disabled here...
-                console.log(document.getElementById("UploadFile").files.length)
+                // evaluate whatever you need to determine disabled here... 
                 if (document.getElementById("UploadFile").files.length == 0) {
-                    this.error_message = "No Files Selected";
+                    this.error_message += "<li>- No Files Selected</li>";
                     document.getElementById('submit').disabled = true;
-                    return true
+                } else {
+                    this.error_message = "";
+                    document.getElementById('submit').disabled = false;
                 }
-                else {
-                    this.error_message = ""
-                    return false
-                }
+            },
+            removeErrorMsg() {
+                this.error_message = "";
+                document.getElementById('submit').disabled = false;
+                this.$refs.UploadFile.value = null;
             }
 
         }
     });
 </script>
+<script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
 
 </html>

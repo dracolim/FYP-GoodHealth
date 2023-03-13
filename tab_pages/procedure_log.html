@@ -8,21 +8,21 @@
 
     <!-- INSTALLATIONS -->
     <!-- flowbite -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
+    <link href="../node_modules/flowbite/dist/flowbite.min.css" rel="stylesheet" />
     <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/tailwind.css">
     <!-- ICONIFY -->
-    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    <script src="../css/iconify-icon.min.js"></script>
     <!-- LOCAL VUE 2.7.14 -->
     <script src="../node_modules/vue/dist/vue.js"></script>
     <!-- LOCAL Tabulator  -->
     <link href="../node_modules/tabulator-tables/dist/css/tabulator_semanticui.css" rel="stylesheet">
     <script type="text/javascript" src="../node_modules/tabulator-tables/dist/js/tabulator.js"></script>
     <!-- ExcelJS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    <script src="../node_modules/exceljs/dist/exceljs.min.js"></script>
+    <script src="../node_modules/xlsx/dist/xlsx.full.min.js"></script>
     <!-- LOCAL Axios -->
-    <script src="../node_modules/axios/dist/axios.js"></script>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
 
     <style type="text/tailwindcss">
         @layer utilities {
@@ -190,7 +190,7 @@
                 </div>
                 <button data-modal-target="import-modal" data-modal-toggle="import-modal" type="button"
                     class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">
-                    <label class="ml-2">Import</label>
+                    <label class="ml-2">Procedure & Case Log Import</label>
                 </button>
             </div>
         </div>
@@ -283,15 +283,25 @@
             local_host_url: "http://localhost:5011/",
             currentPage: "procedure_log",
             page_name: "Procedure Log", // for showing when DataTable is empty
-
             personal_details_data: "",
-            file: "",
             MCR_name: {},
+            file: "",
             error_message: "",
             mmYYYY: "",
             table_error_message: "",
             tableData: "",
+            //for import
             MCR_No_import: "",
+            temp_DOC: "",
+            procedure_logs: "",
+            case_logs: "",
+            resident_count: 0,
+            exist_error_count: 0,
+            value_row_count: 0,
+            duplicate_count: 0,
+            all_data: {},
+            idx: 0,
+
         },
         computed: {
 
@@ -301,7 +311,6 @@
             axios.get(this.local_host_url + "/personaldetail")
                 .then(response => {
                     let result = response.data.data;
-                    this.personal_details_data = result
                     for (each of result) {
                         if (!(each["Staff_Name"] in this.MCR_name)) {
                             this.MCR_name[each["Staff_Name"]] = each["MCR_No"];
@@ -313,10 +322,28 @@
                     console.log(error)
                 });
 
+            axios.get(this.local_host_url + "procedure_log")
+                .then(response => {
+                    let result = response.data.data;
+                    this.procedure_logs = result;
+                })
+                .catch(error => {
+                    console.log(error)
+                });
+
+
+            axios.get(this.local_host_url + "colour_case_logs")
+                .then(response => {
+                    this.case_logs = response.data.data
+                })
+                .catch(error => {
+                    console.log(error)
+                });
 
             axios.get(this.local_host_url + "colour_procedure_logs")
                 .then(response => {
                     this.tableData = response.data.data
+                    console.log(this.procedure_logs)
                     var printRemoveButton = function (cell, formatterParams,
                         onRendered) { //plain text value
                         return "<a class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Remove</a>"
@@ -332,8 +359,7 @@
                         movableColumns: true,
                         data: this.tableData,
                         index: "MCR_No",
-                        columns: [
-                            {
+                        columns: [{
                                 title: "Compliance",
                                 field: "color",
                                 formatter: "color",
@@ -352,7 +378,6 @@
                                     clearable: true,
 
                                 },
-                                minWidth: 200,
                             },
                             {
                                 title: "Procedure Name",
@@ -370,7 +395,6 @@
                                     valuesLookup: true,
                                 },
 
-                                minWidth: 150,
                             },
 
                             {
@@ -389,7 +413,6 @@
                                     valuesLookup: true,
                                 },
 
-                                minWidth: 150,
                             },
                             {
                                 title: "CPT",
@@ -407,31 +430,32 @@
                                     valuesLookup: true,
                                 },
 
-                                minWidth: 150,
                             },
                             {
                                 title: "Total",
                                 field: "Total",
                                 sorter: "number",
-                                editor: "number",
-                                editorParams: {
-                                    min: 0,
-                                },
                                 headerFilter: true,
                                 headerFilterParams: {
                                     valuesLookup: true,
                                     clearable: true
                                 },
-
-                                minWidth: 150,
+                                editor: "input",
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
                             },
                             {
                                 title: "Performed",
                                 field: "Performed",
                                 sorter: "number",
-                                editor: "number",
+                                editor: "input",
                                 editorParams: {
-                                    min: 0,
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
                                 },
                                 headerFilter: true,
                                 headerFilterParams: {
@@ -439,15 +463,16 @@
                                     clearable: true
                                 },
 
-                                minWidth: 150,
                             },
                             {
                                 title: "Observed",
                                 field: "Observed",
                                 sorter: "number",
-                                editor: "number",
+                                editor: "input",
                                 editorParams: {
-                                    min: 0,
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
                                 },
                                 headerFilter: true,
                                 headerFilterParams: {
@@ -455,15 +480,16 @@
                                     clearable: true
                                 },
 
-                                minWidth: 150,
                             },
                             {
                                 title: "Verified",
                                 field: "Verified",
                                 sorter: "number",
-                                editor: "number",
+                                editor: "input",
                                 editorParams: {
-                                    min: 0,
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
                                 },
                                 headerFilter: true,
                                 headerFilterParams: {
@@ -471,15 +497,16 @@
                                     clearable: true
                                 },
 
-                                minWidth: 150,
                             },
                             {
                                 title: "Certified",
                                 field: "Certified",
                                 sorter: "number",
-                                editor: "number",
+                                editor: "input",
                                 editorParams: {
-                                    min: 0,
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
                                 },
                                 headerFilter: true,
                                 headerFilterParams: {
@@ -487,7 +514,6 @@
                                     clearable: true
                                 },
 
-                                minWidth: 150,
                             },
                             {
                                 title: "Action",
@@ -495,7 +521,7 @@
                                 hozAlign: "center",
                                 cellClick: function (e, cell) {
                                     axios.delete(local_host_url + "procedurelog" + "/" +
-                                        cell
+                                            cell
                                             .getRow().getData().id)
                                         .then(function (response) {
                                             console.log(response.data);
@@ -503,11 +529,11 @@
                                         })
                                         .catch(function (error) {
                                             console.log(error);
-                                            if (alert("Failed to remove row MCR No: " + row.getData().MCR_No)) { }
-                                        else window.location.reload();
+                                            if (alert("Failed to remove row MCR No: " +
+                                                    row.getData().MCR_No)) {} else
+                                                window.location.reload();
                                         });
                                 },
-                                minWidth: 150,
                             },
                         ],
                     });
@@ -517,15 +543,15 @@
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
                         axios.put(local_host_url + "procedurelog" + "/" + thisrow.id, {
-                            "MCR_No": thisrow.MCR_No,
-                            "Certified": thisrow.Certified,
-                            "Date_of_Completion": thisrow.Date_of_Completion,
-                            "Observed": thisrow.Observed,
-                            "Performed": thisrow.Performed,
-                            "Procedure_Name": thisrow.Procedure_Name,
-                            "Total": thisrow.Total,
-                            "Verified": thisrow.Verified,
-                        })
+                                "MCR_No": thisrow.MCR_No,
+                                "Certified": thisrow.Certified,
+                                "Date_of_Completion": thisrow.Date_of_Completion,
+                                "Observed": thisrow.Observed,
+                                "Performed": thisrow.Performed,
+                                "Procedure_Name": thisrow.Procedure_Name,
+                                "Total": thisrow.Total,
+                                "Verified": thisrow.Verified,
+                            })
                             .then(response => {
                                 console.log('Project ID {' + row.getData().id +
                                     '} updated.')
@@ -533,8 +559,8 @@
                             })
                             .catch(error => {
                                 console.log(error)
-                                if (alert("Failed to update row MCR No: " + row.getData().MCR_No)) { }
-                                else window.location.reload();	
+                                if (alert("Failed to update row MCR No: " + row.getData()
+                                        .MCR_No)) {} else window.location.reload();
                             })
                     });
                 })
@@ -569,24 +595,32 @@
                             const rows = sheet.actualRowCount;
                             console.log(rows)
 
-                            const rowsWithValues = sheet.actualRowCount - 7;
+                            // const rowsWithValues = sheet.actualRowCount - 7;
                             var user_count = 0
                             sheet.eachRow((row, rowIndex) => {
-                                console.log(row.values[1])
+                                // console.log(row.values[1])
                                 var same_error = false;
                                 var name_error = false;
                                 var user_error = false;
 
                                 var url = this.local_host_url + 'add_procedure_log';
+                                var url2 = this.local_host_url + "add_case_log";
                                 var data = {};
-                                if (row.values[1] != undefined) {
-                                    // MCR_No (for both case log and procedure log)
-                                    if (Array.isArray(row.values[1].richText) && row
-                                        .values[1].richText[0].text == "Resident:"
-                                    ) {
-                                        var name = row.values[1].richText[1].text
-                                        var name_list = name.trim().split(',')
 
+                                if (row.values[1] != undefined) {
+                                    if (row.values[1] == "SINGAPORE HEALTH") {
+                                        this.MCR_No_import = ""
+                                        this.temp_DOC = ""
+                                        this.resident_count += 1
+                                        this.idx = 0
+                                        this.all_data = {}
+                                        this.duplicate_count = 0;
+                                        this.value_row_count = 0
+                                    }
+                                    // MCR_No (for both case log and proceure log)
+                                    else if (row.values[1].includes("Resident: ")) {
+                                        var name = row.values[1].substring(10, )
+                                        var name_list = name.trim().split(',')
                                         for (i in name_list) {
                                             if (name_list[i].includes(" ")) {
                                                 var new_name_list = []
@@ -602,88 +636,105 @@
                                             name_error = true;
                                         } else {
                                             for (each in this.MCR_name) {
-                                                //console.log(each)
                                                 let name_list2 = each.trim().split(
                                                     ' ').sort()
-                                                console.log(name_list2)
-                                                console.log(new_name_list)
-                                                if (JSON.stringify(new_name_list) == JSON.stringify(name_list2)) {
-                                                    console.log(
-                                                        'HALKFJHALDJFHALDJF')
-                                                    data.MCR_No = this.MCR_name[
-                                                        each] || "";
-                                                    this.MCR_No_import = data
-                                                        .MCR_No; //setting it to MCR_No
+                                                if (JSON.stringify(new_name_list) ==
+                                                    JSON.stringify(name_list2)) {
+                                                    this.MCR_No_import = this
+                                                        .MCR_name[
+                                                            each
+                                                        ]; //setting it to MCR_No
                                                     var new_name = each;
+                                                    break
                                                 }
                                             }
 
-                                            if (data.MCR_No == undefined) {
+                                            if (this.MCR_No_import == "") {
                                                 user_error = true;
                                             }
                                         }
-                                        console.log(data.MCR_No)
                                     }
-                                    while (!(Array.isArray(row.values[1]
-                                        .richText) && row.values[1].richText[0]
-                                            .text == "Resident:")) {
+                                    // Date of Completeion / Date of Log
+                                    else if (row.values[1].includes(
+                                            "Date Range:")) {
+                                        var dash_idx = row.values[1].indexOf("-")
+                                        var complete_date = row.values[1].substring(
+                                            dash_idx + 1, )
+                                        this.temp_DOC = complete_date
+                                    }
 
-                                        // CASE LOG 
-                                        if (row.values[1].toLowerCase().includes("case log")) {
-                                            //(TYPE_OF_CASE_LOG) + (CASE_NAME)
-                                            if (row.values[1].toLowerCase()
-                                                .includes("inpatient")) {
-                                                data.Type_of_Case_Log = "inpatient"
-                                                var index = row.values[1].indexOf("inpatient")
-                                                data.Case_Name = row.values[1].slice(0, index)
-                                            } else if (row.values[1].toLowerCase()
-                                                .includes("outpatient")) {
-                                                data.Type_of_Case_Log = "outpatient"
-                                                var index = row.values[1].indexOf("outpatient")
-                                                data.Case_Name = row.values[1].slice(0, index)
-                                            }
-                                            else if (row.values[1].toLowerCase()
-                                                .includes("blue letter")) {
-                                                data.Type_of_Case_Log = "blue letter"
-                                                var index = row.values[1].indexOf("blue letter")
-                                                data.Case_Name = row.values[1].slice(0, index)
-                                            }
-                                            else {
-                                                data.Case_Name = row.values[1]
+                                    // CASE LOG 
+                                    else if (row.values[1].toLowerCase().includes(
+                                            "case log")) {
+                                        this.value_row_count += 1
+                                        data.MCR_No = this.MCR_No_import
+                                        //(TYPE_OF_CASE_LOG) + (CASE_NAME)
+                                        if (row.values[1].toLowerCase()
+                                            .includes("inpatient")) {
+                                            data.Type_of_Case_Log = "inpatient"
+                                            var index = row.values[1].toLowerCase()
+                                                .indexOf(
+                                                    "inpatient")
+                                            data.Case_Name = row.values[1].slice(0,
+                                                index - 1)
+                                        } else if (row.values[1].toLowerCase()
+                                            .includes("outpatient")) {
+                                            data.Type_of_Case_Log = "outpatient"
+                                            var index = row.values[1].toLowerCase()
+                                                .indexOf(
+                                                    "outpatient")
+                                            data.Case_Name = row.values[1].slice(0,
+                                                index - 1)
+                                        } else if (row.values[1].toLowerCase()
+                                            .includes("blue letter")) {
+                                            data.Type_of_Case_Log = "blue letter"
+                                            var index = row.values[1].toLowerCase()
+                                                .indexOf(
+                                                    "blue letter" - 1)
+                                            data.Case_Name = row.values[1].slice(0,
+                                                index)
+                                        } else {
+                                            data.Type_of_Case_Log = ""
+                                            data.Case_Name = row.values[1]
+                                        }
+                                        data.Date_of_Log = this.temp_DOC
+                                        data.CPT = row.values[2] || ""
+                                        data.Total = row.values[3] || ""
+                                        data.Performed = row.values[4] || ""
+                                        data.Observed = row.values[5] || ""
+                                        data.Verified = row.values[6] || ""
+                                        data.Certified = row.values[7] || ""
+
+                                        this.all_data[this.idx] = data
+                                        this.idx += 1
+
+                                        //check if EXISTS already
+                                        for (each of this.case_logs) {
+                                            if (data.Date_of_Log == each
+                                                .Date_of_Log && data.CPT == each
+                                                .CPT &&
+                                                data.MCR_No == each.MCR_No &&
+                                                data.Performed == each.Performed &&
+                                                data.Observed == each.Observed &&
+                                                data.Verified == each.Verified &&
+                                                data.Certified == each.Certified &&
+                                                data.Type_of_Case_Log == data
+                                                .Type_of_Case_Log &&
+                                                data.Case_Name == each.Case_Name) {
+                                                same_error = true;
+                                                console.log('case log duplicate')
+                                                this.duplicate_count += 1
+                                                break
                                             }
                                         }
-
-
-
-                                        data.Level = row.values[2] || '';
-                                        data.Logged_for_month = "Yes";
-                                        data.Submitted = row.values[3] || '';
-                                        data.Submitted_Proportion = row.values[4] ||
-                                            '';
-                                        data.MMYYYY = this.mmYYYY;
-
-                                        // check if EXISTS already
-                                        // for (each of this.duty_hour_logs) {
-                                        //     if (data.Level == each.Level && data
-                                        //         .Logged_for_month == each
-                                        //         .Logged_for_month && data.MCR_No ==
-                                        //         each
-                                        //         .MCR_No && data
-                                        //         .Submitted_Proportion ==
-                                        //         each.Submitted_Proportion) {
-                                        //         same_error = true;
-                                        //         break
-                                        //     }
-                                        // }
-
+                                        console.log(same_error)
                                         // if all conditions okay, then import
                                         if (same_error == false && name_error ==
                                             false && this.error_message == "" &&
                                             user_error == false) {
-                                            axios.post(url, data)
+                                            axios.post(url2, data)
                                                 .then(response => {
-                                                    // console.log(response.data)
-                                                    this.mmYYYY = "";
+                                                    console.log(response.data)
                                                 })
                                                 .catch(error => {
                                                     this.error = error.response
@@ -693,43 +744,123 @@
                                         } else {
                                             user_count += 1;
                                         }
-
-                                        //produce error message
-                                        if (name_error == true) {
-                                            this.error_message +=
-                                                "<li> - Name cannot be Empty</li>";
-                                        } else if (user_error == true) {
-                                            this.error_message += this
-                                                .error_message +=
-                                                "<li> - " + new_name +
-                                                " does not exist in the Database</li>"
-                                        } else if (user_count == rowsWithValues) {
-                                            this.error_message +=
-                                                "<li> - All rows already exist in Database</li>";
-                                        }
-
-                                        if (this.error_message != "") {
-                                            document.getElementById('submit')
-                                                .disabled = true;
-                                        }
-
                                     }
+
+                                    // Procedure Log
+                                    else if (!(row.values[1].toLowerCase().includes(
+                                            "total")) &&
+                                        !(row.values[1].toLowerCase().includes(
+                                            "procedures summary by resident")) &&
+                                        !(row.values[1].toLowerCase().includes(
+                                            "other procedures")) &&
+                                        !(row.values[1].toLowerCase().includes(
+                                            "report generated:")) &&
+                                        !(row.values[2].toLowerCase().includes(
+                                            "cpt"))) {
+                                        this.value_row_count += 1
+                                        // console.log(this.MCR_No_import)
+                                        data.MCR_No = this.MCR_No_import
+                                        data.Procedure_Name = row.values[1] || ""
+                                        data.CPT = row.values[2] || ""
+                                        data.Date_of_Completion = this.temp_DOC
+                                        data.Total = row.values[3] || ""
+                                        data.Performed = row.values[4] || ""
+                                        data.Observed = row.values[5] || ""
+                                        data.Verified = row.values[6] || ""
+                                        data.Certified = row.values[7] || ""
+                                        // console.log(data)
+                                        this.all_data[this.idx] = data
+                                        this.idx += 1
+
+                                        //check if EXISTS already
+                                        for (each of this.procedure_logs) {
+                                            if (data.CPT == each.CPT && data
+                                                .Certified == each.Certified &&
+                                                data.MCR_No == each.MCR_No &&
+                                                data.Observed == each.Observed &&
+                                                data.Performed == each.Performed &&
+                                                data.Procedure_Name == each
+                                                .Procedure_Name &&
+                                                data.Total == each.Total &&
+                                                data.Verified == each.Verified) {
+                                                same_error = true;
+                                                console.log(
+                                                    'procedure log duplicate')
+                                                this.duplicate_count += 1
+                                                break
+                                            }
+                                        }
+                                        console.log(same_error)
+
+                                        // if all conditions okay, then import
+                                        if (same_error == false && name_error ==
+                                            false && this.error_message == "" &&
+                                            user_error == false) {
+                                            axios.post(url, data)
+                                                .then(response => {
+                                                    console.log(response.data)
+                                                })
+                                                .catch(error => {
+                                                    this.error = error.response
+                                                        .data
+                                                        .message
+                                                });
+                                        } else {
+                                            user_count += 1;
+                                        }
+                                    }
+                                }
+
+                                console.log(this.all_data)
+                                //produce error message
+                                console.log(this.error_message)
+                                if (name_error == true) {
+                                    this.error_message +=
+                                        "<li> - Name cannot be Empty</li>";
+                                } else if (user_error == true) {
+                                    if (!(this.error_message.includes("<li> - " +
+                                            name +
+                                            " does not exist in the Database</li>"
+                                            ))) {
+                                        this.error_message += this
+                                            .error_message +=
+                                            "<li> - " + name +
+                                            " does not exist in the Database</li>"
+                                    }
+                                // individual mcr_no
+                                } else if (this.duplicate_count == this
+                                    .value_row_count) {
+                                    this.exist_error_count += 1
+                                    if (!(this.error_message.includes("<li> - All rows for " + this.MCR_No_import + " already exist in the database</li>")) && this.MCR_No_import != "")
+                                        this.error_message +=
+                                            "<li> - All rows for " + this.MCR_No_import + " already exist in the database</li>";
+                                }
+                                // ooverall
+                                if (this.exist_error_count == this.resident_count) {
+                                    this.error_message +=
+                                        "<li> - Excel already uploaded before</li>";
+                                }
+
+                                if (this.error_message != "") {
+                                    document.getElementById('submit')
+                                        .disabled = true;
                                 }
                             })
                         })
                     })
                 }
+                this.exist_error_count = 0;
+                this.resident_count = 0;
                 this.error_message = "";
                 document.getElementById('submit').disabled = false;
             },
-            validateFile() {
-                if (document.getElementById("UploadFile").files.length == 1) {
-                    this.error_message = "";
-                    document.getElementById('submit').disabled = false;
-                }
-            },
+            // validateFile() {
+            //     if (document.getElementById("UploadFile").files.length == 1) {
+            //         this.error_message = "";
+            //         document.getElementById('submit').disabled = false;
+            //     }
+            // },
             isDisabled() {
-                console.log('hi')
                 // evaluate whatever you need to determine disabled here... 
                 if (document.getElementById("UploadFile").files.length == 0) {
                     this.error_message += "<li>- No Files Selected</li>";
@@ -747,10 +878,6 @@
         }
     });
 </script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
 
 </html>
