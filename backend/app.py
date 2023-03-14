@@ -1691,7 +1691,6 @@ def read_examhistory():
 # Read Existing procedure logs with personal details Programme and Year_of_Training (R)
 @app.route("/history_exam_data")
 def read_history_exams():
-    print("fetching history_exams")
     userList = Exam_History.query\
         .join(Personal_Details, Exam_History.MCR_No == Personal_Details.MCR_No)\
         .add_columns(Personal_Details.Programme)\
@@ -2417,7 +2416,6 @@ def read_colour_procedure_logs():
                 dict_of_procedures[each_mcr]['color'] = []
     
     for each_item in dict_of_procedures: #by mcr_no
-        print(each_item)
         color_list = dict_of_procedures[each_item]['color']
         # RENAL MEDICINE
         procedure_list = dict_of_procedures[each_item]['Procedure_Name']
@@ -2496,7 +2494,6 @@ def read_colour_procedure_logs():
             
         # GASTRO
         if dict_of_procedures[each_item]['Year_of_Training'].lower() == "sr2" and dict_of_procedures[each_item]['Programme'].lower() == "gastroenterology":
-            # print(each_item)
             ogd_1 = 0
             ogd_1_idx = []
             ogd_2 = 0
@@ -2568,7 +2565,6 @@ def read_colour_procedure_logs():
                         procedure_list_copy.remove("Luminal Stenting".lower())
             
             if ogd_1 < 300:
-                print("asdlkfjhalsdkjfhasd")
                 for i in ogd_1_idx:
                     color_list[i] = "#ff9999"
             if ogd_2 < 10:
@@ -2654,7 +2650,6 @@ def read_colour_procedure_logs():
 
         # INTERNAL MEDICINE
         if dict_of_procedures[each_item]['Year_of_Training'].lower() in ["r1" , "r2" , "r3"] and dict_of_procedures[each_item]['Programme'].lower() == "internal medicine":
-            # print(each_item)
             total = 0
             all_idx = []
             for i in range(len(procedure_list)):
@@ -2736,7 +2731,6 @@ def read_colour_procedure_logs():
                 for i in all_idx:
                     color_list[i] = "#ff9999"
 
-        # print(color_list)
         count_rows = 0
         print(len(color_list))
         print(color_list)
@@ -2976,7 +2970,6 @@ def read_colour_case_logs():
                 dict_of_cases[each_mcr]['Color'] = []
     
     for each_item in dict_of_cases: #by mcr_no
-        print(each_item)
         color_list = dict_of_cases[each_item]['Color']
         # RENAL MEDICINE
         case_list = dict_of_cases[each_item]['Case_Name']
@@ -3015,13 +3008,9 @@ def read_colour_case_logs():
                 for idx, value in enumerate(dict_of_cases[each_item]['Type_of_Case_Log']):
                     if value.lower() == "outpatient":
                         color_list[idx] = "#ff9999"
-            
-        # print(dict_of_cases)
-        print(color_list)
         count = 0
         for each in combinedCaseLogs:
             if each['MCR_No'] == each_item and len(color_list) != 0:
-                print(count)
                 each['color'] = color_list[count]
                 count += 1
 
@@ -3389,7 +3378,6 @@ class DocumentBuilder(metaclass=ABCMeta):
         self.generatePdf()
         import os
         path=os.path.join(os.getcwd(),'../cv/cv.pdf')
-        print(send_file(path, as_attachment=True))
         return send_file(path, as_attachment=True)
     
     def generateDoc(self):
@@ -3494,7 +3482,6 @@ def preview2(id):
     return page
 
 def generatepdf(id):
-    
     page = getCompletePage(id)
     folder='../cv/'
     html_file_name = "cv.html"
@@ -3512,6 +3499,47 @@ def generatepdf(id):
         error_msg = "Please install wkhtmltopdf in your mac computer"
         pdfkit.from_file(html_file_name, folder+'cv.pdf')
     return "done"
+
+# Generate CV pdf:
+@app.route("/batch_cv_pdf/<ids>")
+def generate_cv_batch(ids):
+    items = ids.split(",")
+    folder = "bulk"
+    import os
+    foldername = "bulk"
+    foldername = os.getcwd() + "/" + foldername
+    path = os.path.join(os.getcwd(), foldername)
+    
+    if os.path.exists(foldername):
+        itemspath = os.listdir(foldername)
+        for myfile in itemspath:
+            if os.path.isfile(path + "/" + myfile):
+                currpath = path + "/" + myfile
+                os.remove(currpath)
+    import shutil
+
+    parentdir = os.getcwd()
+    path = os.path.join(parentdir, folder)
+    for id in items:
+        Personal_Details.query.get_or_404(id)
+        page = getCompletePage(id)
+        html_file_name = path +"/"+ id + ".html"
+        Func = open(html_file_name,"w")
+        Func.write(page)
+        Func.close()
+        import pdfkit
+        from pathlib import Path
+        input = Path(html_file_name)
+        pdfkit.from_file(html_file_name, path +"/" + id + '.pdf')
+        
+    import shutil
+    zip_name = 'bulk'
+    directory_name = path
+    shutil.make_archive(zip_name, 'zip', directory_name)
+    import time
+    return send_file("./" + zip_name + ".zip", as_attachment=True)
+
+
 db.create_all()
 
 if __name__ == '__main__':
