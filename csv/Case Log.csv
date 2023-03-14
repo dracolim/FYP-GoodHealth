@@ -1,4 +1,0 @@
-id,MCR_No,Case_Name,Subspecialty,Type_of_Case_Log,Date_of_Log,CPT:,Total:,Performed:,Observed:,Verified:,Certified:
-1,MOM12390,AKI - Case Log,gastro,inpatient,3/2/2022,Null,10,2,8,,No
-2,MOM05233,CKD - Case Log,renal,outpatient,3/2/2022,Null,36,1,4,,No
-3,MOM07177,GN - Case Log,renal,blue letter,3/2/2022,Null,37,13,24,,Yes
