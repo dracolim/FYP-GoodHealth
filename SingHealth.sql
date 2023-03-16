@@ -672,7 +672,9 @@ INSERT INTO `procedure_log` (`id`, `MCR_No`, `Procedure_Name`, `CPT`, `Date_of_C
 (40, 'M11166U', 'Native Kidney Biopsy (C)', '','01/01/2022', '-', '10', '-', '-', '-'),
 (41, 'M11166U', 'Transplant Kidney Biopsy (C)', '','01/01/2022', '-', '3', '-', '-', '-'),
 (42, 'M11166U', 'Native Kidney Biopsy', '','01/01/2022', '-', '5', '-', '-', '-'),
-(43, 'M11166U', 'Transplant Kidney Biopsy', '','01/01/2022', '-', '2', '-', '-', '-');
+(43, 'M11166U', 'Transplant Kidney Biopsy', '','01/01/2022', '-', '2', '-', '-', '-'),
+(44, 'M16782H', 'Gastroscopy (OGD)', '','01/01/2022', '-', '150', '-', '-', '-'),
+(45, 'M16782H', 'Gastroscopy (OGD) with biopsy', '','01/01/2022', '-', '150', '-', '-', '-');
 
 -- --------------------------------------------------------
 

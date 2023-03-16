@@ -280,47 +280,78 @@
                         this.ChartConfig.labels = Gastro
                         this.options.title.text = "Procedure Log (Gastro Programme)"
 
+                        nonCompliantResidents = []
+
                         GastroOGDPlusGastroOGDWithBiopsy = []
-                        TotalGastroOGDPlusGastroOGDWithBiopsy = 0
+                        TotalDoneGastroOGDPlusGastroOGDWithBiopsy = 0
+                        CountGastroOGDPlusGastroOGDWithBiopsy = 0
                         NumComplianceGastroOGDPlusGastroOGDWithBiopsy = 0
-
-                        TotalGastroOGDPlusColon = 0
+                
+                        GastroOGDPlusColon = []
+                        TotalDoneGastroOGDPlusColon = 0
+                        CountGastroOGDPlusColon = 0
                         NumComplianceGastroOGDPlusColon = 0
+                        GastroOGDPlusColonAdditionalReqNum = 0
 
-                        TotalColonoscopyPlusColonoscopyWithBiopsy = 0
+
+                        ColonoscopyPlusColonoscopyWithBiopsy = []
+                        TotalDoneColonoscopyPlusColonoscopyWithBiopsy = 0
+                        CountColonoscopyPlusColonoscopyWithBiopsy = 0
                         NumComplianceColonoscopyPlusColonoscopyWithBiopsy = 0
 
-                        TotalColonoscopyWithPolypectomy = 0
+                        ColonoscopyWithPolypectomy = []
+                        TotalDoneColonoscopyWithPolypectomy = 0
+                        CountColonoscopyWithPolypectomy = 0
                         NumComplianceColonoscopyWithPolypectomy = 0
 
-                        TotalAbdominalParacentesis = 0
+                        AbdominalParacentesis = []
+                        TotalDoneAbdominalParacentesis = 0
+                        CountAbdominalParacentesis = 0
                         NumComplianceAbdominalParacentesis = 0
 
-                        TotalCapsuleEndoscopy = 0
+                        CapsuleEndoscopy = []
+                        TotalDoneCapsuleEndoscopy = 0
+                        CountCapsuleEndoscopy = 0
                         NumComplianceCapsuleEndoscopy = 0
 
-                        TotalPeg = 0
+                        Peg = []
+                        TotalDonePeg = 0
+                        CountPeg = 0
                         NumCompliancePeg = 0
 
-                        TotalGastroVaricealHemoPlusLigation = 0
+                        GastroVaricealHemoPlusLigation = []
+                        TotalDoneGastroVaricealHemoPlusLigation = 0
+                        CountGastroVaricealHemoPlusLigation = 0
                         NumComplianceGastroVaricealHemoPlusLigation = 0
 
-                        TotalLiverBiopsy = 0
+                        LiverBiopsy = []
+                        TotalDoneLiverBiopsy = 0
+                        CountLiverBiopsy = 0
                         NumComplianceLiverBiopsy = 0
 
-                        TotalEsophagealDilatationPlusLuminalStenting = 0
+                        EsophagealDilatationPlusLuminalStenting = []
+                        TotalDoneEsophagealDilatationPlusLuminalStenting = 0
+                        CountEsophagealDilatationPlusLuminalStenting = 0
                         NumComplianceEsophagealDilatationPlusLuminalStenting = 0
 
-                        TotalEmrPlusEsd = 0
+                        EmrPlusEsd = []
+                        TotalDoneEmrPlusEsd = 0
+                        CountEmrPlusEsd = 0
                         NumComplianceEmrPlusEsd = 0
 
-                        TotalErcp = 0
+                        Ercp = []
+                        TotalDoneErcp = 0
+                        CountErcp = 0
                         NumComplianceErcp = 0
 
-                        TotalEndoscopicUltrasound = 0
+                        EndoscopicUltrasound = []
+                        TotalDoneEndoscopicUltrasound = 0
+                        CountEndoscopicUltrasound = 0
                         NumComplianceEndoscopicUltrasound = 0
 
-                        TotalEsophagealMotilityPlusPh = 0
+                        EsophagealMotilityPlusPh = []
+                        TotalDoneEsophagealMotilityPlusPh = 0
+                        CountEsophagealMotilityPlusPh = 0
                         NumComplianceEsophagealMotilityPlusPh = 0
 
                         const groups = []
@@ -330,70 +361,256 @@
 
                             gastro_array[j] //each gastro log
                             let procedure_name = gastro_array[j]['Procedure_Name'] // each gastro log's procedure name
+                            // if name matches, push into respective procedure array
                             if (procedure_name == Gastro[0] || procedure_name == Gastro[1]) {
-
                                 GastroOGDPlusGastroOGDWithBiopsy.push(gastro_array[j]) // could have multiple residents in this array
-
                             }
+
                             else if (procedure_name == Gastro[2] || procedure_name == Gastro[3] || procedure_name == Gastro[4] || procedure_name == Gastro[5]) {
-
+                                GastroOGDPlusColon.push(gastro_array[j]) // could have multiple residents in this array
                             }
+
                             else if (procedure_name == Gastro[6] || procedure_name == Gastro[7]) {
-
+                                ColonoscopyPlusColonoscopyWithBiopsy.push(gastro_array[j]) // could have multiple residents in this array
                             }
+
                             else if (procedure_name == Gastro[8]) {
-
+                                ColonoscopyWithPolypectomy.push(gastro_array[j]) // could have multiple residents in this array
                             }
+
                             else if (procedure_name == Gastro[9]) {
-
+                                AbdominalParacentesis.push(gastro_array[j]) // could have multiple residents in this array
                             }
+
                             else if (procedure_name == Gastro[10]) {
-
+                                CapsuleEndoscopy.push(gastro_array[j]) // could have multiple residents in this array
                             }
+
                             else if (procedure_name == Gastro[11]) {
-
+                                Peg.push(gastro_array[j])
                             }
+
                             else if (procedure_name == Gastro[12] || procedure_name == Gastro[13] || procedure_name == Gastro[14]) {
-
+                                GastroVaricealHemoPlusLigation.push(gastro_array[j])
                             }
+
                             else if (procedure_name == Gastro[15]) {
-
+                                LiverBiopsy.push(gastro_array[j])
                             }
+
                             else if (procedure_name == Gastro[16] || procedure_name == Gastro[17]) {
-
+                                EsophagealDilatationPlusLuminalStenting.push(gastro_array[j])
                             }
+
                             else if (procedure_name == Gastro[18]) {
-
+                                EmrPlusEsd.push(gastro_array[j])
                             }
+
                             else if (procedure_name == Gastro[19]) {
-
+                                Ercp.push(gastro_array[j])
                             }
+
                             else if (procedure_name == Gastro[20]) {
-
+                                EndoscopicUltrasound.push(gastro_array[j])
                             }
+                            
                             else if (procedure_name == Gastro[21]) {
-
+                                EsophagealMotilityPlusPh.push(gastro_array[j])
                             }
-
-
-                            // for each gastro log count the total number of each procedure
-
-                            // for each gastro log count the total number that complies
 
                         }
                         
-                        const grouped = GastroOGDPlusGastroOGDWithBiopsy.reduce((groups, item) => {
-                        const mcr_no = item['MCR_No']; //this .MCR.No might be wrong
-                        if (!groups[mcr_no]) {
-                            groups[mcr_no] = [];
+                        // grouped1 contains GastroOGD plus GastroOGDWithBiopsy records, split into different residents
+                        let grouped1 = {};
+                        for (let i=0; i<GastroOGDPlusGastroOGDWithBiopsy.length; i++) {
+                            let p = GastroOGDPlusGastroOGDWithBiopsy[i]['MCR_No'];
+                            if (!grouped1[p]) { grouped1[p] = []; }
+                            grouped1[p].push(GastroOGDPlusGastroOGDWithBiopsy[i]);
                         }
-                        groups[mcr_no].push(item);
-                        return groups;
-                        }, {});
 
-                        console.log(groups)
+                        CountGastroOGDPlusGastroOGDWithBiopsy = Object.keys(grouped1).length
 
+                        // for each resident in grouped1,
+                        for (const key in grouped1) {
+                            const value = grouped1[key] // the [?]array containing the resident's procedure info
 
+                            TotalDoneGastroOGDPlusGastroOGDWithBiopsy = 0
+
+                            for (let i = 0; i < value.length; i++) {
+                                let procedure_obj = value[i] // the object containing the resident's procedure info
+                                TotalDoneGastroOGDPlusGastroOGDWithBiopsy = TotalDoneGastroOGDPlusGastroOGDWithBiopsy + parseInt(procedure_obj['Performed']) // total done for specific resident
+                            }
+
+                            if (TotalDoneGastroOGDPlusGastroOGDWithBiopsy >= 300) { // if comply
+                                    NumComplianceGastroOGDPlusGastroOGDWithBiopsy++
+                            }
+
+                            else { // prevents chart.js from inserting data into wrong position
+                                nonCompliantResidents.push(value)
+                            }
+
+                        }
+
+                        if (NumComplianceGastroOGDPlusGastroOGDWithBiopsy != 0) {
+                            this.ChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusGastroOGDWithBiopsy/CountGastroOGDPlusGastroOGDWithBiopsy*100).toFixed(3))
+                            this.ChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusGastroOGDWithBiopsy/CountGastroOGDPlusGastroOGDWithBiopsy*100).toFixed(3))
+                        }
+                        else {
+                            this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                            this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                        }
+                        
+
+                        // grouped2 contains GastroOGD plus Colon records, split into different residents
+                        let grouped2 = {};
+                        for (let i=0; i<GastroOGDPlusColon.length; i++) {
+                            let p = GastroOGDPlusColon[i]['MCR_No'];
+                            if (!grouped2[p]) { grouped2[p] = []; }
+                            grouped2[p].push(GastroOGDPlusColon[i]);
+                        }
+
+                        CountGastroOGDPlusColon = Object.keys(grouped2).length
+
+                        // for each resident in grouped2,
+                        for (const key in grouped2) {
+                            const value = grouped2[key] // the [?]array containing the resident's procedure info
+                            console.log(value)
+
+                            TotalDoneGastroOGDPlusColon = 0 //continue from below here
+                            GastroOGDPlusColonAdditionalReqNum = 0
+
+                            for (let i = 0; i < value.length; i++) {
+                                let procedure_obj = value[i] // the object containing the resident's procedure info
+                                TotalDoneGastroOGDPlusColon = TotalDoneGastroOGDPlusColon + parseInt(procedure_obj['Performed']) // total done for specific resident
+                            }
+
+                            for (let i = 0; i < value.length; i++) { // preparation for checking additional requirement
+                                let procedure_obj = value[i] // the object containing the resident's procedure info
+                                if (value[i]['Procedure_Name'] == "Gastroscopy (OGD) with non-variceal hemostasis; actively bleeding" || value[i]['Procedure_Name'] == "Colonoscopy with non-variceal hemostasis; actively bleeding") {
+                                    GastroOGDPlusColonAdditionalReqNum = GastroOGDPlusColonAdditionalReqNum + parseInt(procedure_obj['Performed'])
+                                }
+                            }
+
+                            if (TotalDoneGastroOGDPlusColon >= 20 && GastroOGDPlusColonAdditionalReqNum >= 10) { // if comply
+                                    console.log("triggered here")
+                                    NumComplianceGastroOGDPlusColon++
+                            }
+
+                            else {
+                                nonCompliantResidents.push(value)
+                            }
+
+                        }      
+                        
+                        if (NumComplianceGastroOGDPlusColon != 0) {
+                            this.ChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusColon/CountGastroOGDPlusColon*100).toFixed(3))
+                            this.ChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusColon/CountGastroOGDPlusColon*100).toFixed(3))
+                            this.ChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusColon/CountGastroOGDPlusColon*100).toFixed(3))
+                            this.ChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusColon/CountGastroOGDPlusColon*100).toFixed(3))
+                        }
+                        else { // prevents chart.js from inserting data into wrong position
+                            this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                            this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                            this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                            this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                        }
+                        
+
+                        // grouped3 contains Colonoscopy plus ColonoscopyWithBiopsy records, split into different residents
+                        let grouped3 = {};
+                        for (let i=0; i<ColonoscopyPlusColonoscopyWithBiopsy.length; i++) {
+                            let p = ColonoscopyPlusColonoscopyWithBiopsy[i]['MCR_No'];
+                            if (!grouped3[p]) { grouped3[p] = []; }
+                            grouped3[p].push(ColonoscopyPlusColonoscopyWithBiopsy[i]);
+                        }
+
+                        // grouped4 contains Colonoscopy with Polypectomy records, split into different residents
+                        let grouped4 = {};
+                        for (let i=0; i<ColonoscopyWithPolypectomy.length; i++) {
+                            let p = ColonoscopyWithPolypectomy[i]['MCR_No'];
+                            if (!grouped4[p]) { grouped4[p] = []; }
+                            grouped4[p].push(ColonoscopyWithPolypectomy[i]);
+                        }
+
+                        // grouped5 contains Abdominal Paracentesis records, split into different residents
+                        let grouped5 = {};
+                        for (let i=0; i<AbdominalParacentesis.length; i++) {
+                            let p = AbdominalParacentesis[i]['MCR_No'];
+                            if (!grouped5[p]) { grouped5[p] = []; }
+                            grouped5[p].push(AbdominalParacentesis[i]);
+                        }
+
+                        // grouped6 contains Capsule Endoscopy records, split into different residents
+                        let grouped6 = {};
+                        for (let i=0; i<CapsuleEndoscopy.length; i++) {
+                            let p = CapsuleEndoscopy[i]['MCR_No'];
+                            if (!grouped6[p]) { grouped6[p] = []; }
+                            grouped6[p].push(CapsuleEndoscopy[i]);
+                        }
+
+                        // grouped7 contains Peg records, split into different residents
+                        let grouped7 = {};
+                        for (let i=0; i<Peg.length; i++) {
+                            let p = Peg[i]['MCR_No'];
+                            if (!grouped7[p]) { grouped7[p] = []; }
+                            grouped7[p].push(Peg[i]);
+                        }
+
+                        // grouped8 contains Gastro Variceal Hemo plus Ligation records, split into different residents
+                        let grouped8 = {};
+                        for (let i=0; i<GastroVaricealHemoPlusLigation.length; i++) {
+                            let p = GastroVaricealHemoPlusLigation[i]['MCR_No'];
+                            if (!grouped8[p]) { grouped8[p] = []; }
+                            grouped8[p].push(GastroVaricealHemoPlusLigation[i]);
+                        }
+
+                        // grouped9 contains Liver Biopsy records, split into different residents
+                        let grouped9 = {};
+                        for (let i=0; i<LiverBiopsy.length; i++) {
+                            let p = LiverBiopsy[i]['MCR_No'];
+                            if (!grouped9[p]) { grouped9[p] = []; }
+                            grouped9[p].push(LiverBiopsy[i]);
+                        }
+                        
+                        // grouped10 contains Esophageal Dilatation plus Luminal Stenting records, split into different residents
+                        let grouped10 = {};
+                        for (let i=0; i<EsophagealDilatationPlusLuminalStenting.length; i++) {
+                            let p = EsophagealDilatationPlusLuminalStenting[i]['MCR_No'];
+                            if (!grouped10[p]) { grouped10[p] = []; }
+                            grouped10[p].push(EsophagealDilatationPlusLuminalStenting[i]);
+                        }
+                        
+                        // grouped11 contains Emr plus Esd records, split into different residents
+                        let grouped11 = {};
+                        for (let i=0; i<EmrPlusEsd.length; i++) {
+                            let p = EmrPlusEsd[i]['MCR_No'];
+                            if (!grouped11[p]) { grouped11[p] = []; }
+                            grouped11[p].push(EmrPlusEsd[i]);
+                        }
+
+                        // grouped12 contains Ercp records, split into different residents
+                        let grouped12 = {};
+                        for (let i=0; i<Ercp.length; i++) {
+                            let p = Ercp[i]['MCR_No'];
+                            if (!grouped12[p]) { grouped12[p] = []; }
+                            grouped12[p].push(Ercp[i]);
+                        }
+
+                        // grouped13 contains EndoscopicUltrasound records, split into different residents
+                        let grouped13 = {};
+                        for (let i=0; i<EndoscopicUltrasound.length; i++) {
+                            let p = EndoscopicUltrasound[i]['MCR_No'];
+                            if (!grouped13[p]) { grouped13[p] = []; }
+                            grouped13[p].push(EndoscopicUltrasound[i]);
+                        }
+
+                        // grouped14 contains EsophagealMotility plus Ph records, split into different residents
+                        let grouped14 = {};
+                        for (let i=0; i<EsophagealMotilityPlusPh.length; i++) {
+                            let p = EsophagealMotilityPlusPh[i]['MCR_No'];
+                            if (!grouped14[p]) { grouped14[p] = []; }
+                            grouped14[p].push(EsophagealMotilityPlusPh[i]);
+                        }
 
 
 
