@@ -128,8 +128,16 @@
                     MCR No:
                 </label>
                 <input v-model="mcr_no" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input MCR No Here">
-                <button @click="retrievePostings()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+                <button @click="activateSecondStep()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
                     Next
+                </button> 
+
+                <label v-if="second_step" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 pt-3" for="grid-first-name">
+                    Academic Year (AY):
+                </label>
+                <input v-if="second_step" v-model="year" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Year Here">
+                <button v-if="second_step" @click="getSpecificDidacticAttendanceData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+                    Get Resident's Info
                 </button> 
                 <br>
                 <br>
@@ -156,14 +164,17 @@
     <script>
         
     new Vue({
-        el: '#app',
-            data: {
-            mcr_no: "",
-            months_to_show: [],
-            posting_histories: [],
-            info_to_show: [],
-            clicked: false
-
+        el: "#app",
+        vuetify: new Vuetify(),
+            data() {
+                return {
+                    mcr_no: "",
+                    months_to_show: [],
+                    posting_histories: [],
+                    info_to_show: [],
+                    second_step: false,
+                    clicked: false
+                }
         },
         methods: {
             retrievePostings: async function () {
@@ -286,6 +297,9 @@
                     console.log(error);
                 });            
             }
+        },
+            activateSecondStep: function () {
+                        this.second_step = true;
         }
       })
         

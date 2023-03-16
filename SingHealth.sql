@@ -560,13 +560,12 @@ CREATE TABLE `posting_history` (
 --
 
 INSERT INTO `posting_history` (`id`, `MCR_No`, `Posting_Institution`, `Posting_Department`, `Posting_StartDate`, `Posting_EndDate`) VALUES
-(1, 'M11367A', 'CGH', 'GasHep', '01-Apr-2022', '05-Apr-2022'),
-(2, 'M11367A', 'CGH', 'GasHep', '06-May-2022', '27-May-2022'),
-(3, 'M11367A', 'CGH', 'GasHep', '01-June-2022', '05-July-2022'),
-(4, 'M11367A', 'CGH', 'GeriMed', '06-Aug-2022', '02-Sept-2022'),
-(5, 'M11367A', 'CGH', 'GenMed', '03-Oct-2022', '28-Oct-2022'),
-(6, 'M11367A', 'SKH', 'GenMed', '01-Nov-2022', '31-Nov-2022'),
-(7, 'M11367A', 'SGH', 'GasHep', '01-Dec-2022', '04-Mar-2023');
+(1, 'M11367A', 'CGH', 'GasHep', '06-May-2022', '27-May-2022'),
+(2, 'M11367A', 'CGH', 'GasHep', '01-June-2022', '05-July-2022'),
+(3, 'M11367A', 'CGH', 'GeriMed', '06-Aug-2022', '02-Sept-2022'),
+(4, 'M11367A', 'CGH', 'GenMed', '03-Oct-2022', '28-Oct-2022'),
+(5, 'M11367A', 'SKH', 'GenMed', '01-Nov-2022', '31-Nov-2022'),
+(6, 'M11367A', 'SGH', 'GasHep', '01-Dec-2022', '04-Mar-2023');
 
 -- --------------------------------------------------------
 
