@@ -137,7 +137,7 @@
                 <input v-model="programme" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Programme Name Here">
 
                 <button @click="getProcedureLogData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
-                    Get Resident's Info
+                    Get Programme's Info
                 </button> 
 
                 <v-row dense>
@@ -1008,7 +1008,7 @@
                         
                         const Renal = ["Insertion of non-tunneled haemodialysis catheter - Femoral (C)", "Insertion of non-tunneled haemodialysis catheter - Internal Jugular (C)", "Insertion of non-tunneled haemodialysis catheter - Femoral", "Insertion of non-tunneled haemodialysis catheter - Internal Jugular", "Native Kidney Biopsy (C)", "Transplant Kidney Biopsy (C)", "Native Kidney Biopsy", "Transplant Kidney Biopsy"]
                         this.ChartConfig.labels = Renal
-                        this.options.title.text = "Procedure Log (Renal Resident)"
+                        this.options.title.text = "Procedure Log (Renal Programme)"
 
                         nonCompliantResidentsRenal = []
 
@@ -1411,7 +1411,7 @@
 
                         const Internal = ["Abdominal Tap", "Arterial Line Placement", "Central Line Placement", "Thoracentesis / Chest tube", "Lumbar Puncture", "Endotracheal Intubation", "Ventilator Management", "Arthrocentesis", "Hemodialysis Catheter Insertion", "ABG", "Vene", "IV Plug", "Ecg"]
                         this.ChartConfig.labels = Internal
-                        this.options.title.text = "Procedure Log (Internal Resident)"
+                        this.options.title.text = "Procedure Log (Internal Programme)"
 
                         nonCompliantResidentsInternal = []
 
