@@ -191,7 +191,7 @@
                 </div>
                 <button data-modal-target="import-modal" data-modal-toggle="import-modal" type="button"
                     class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">
-                    <label class="ml-2">Import</label>
+                    <label class="ml-2">Duty Hour Import</label>
                 </button>
             </div>
         </div>
@@ -491,7 +491,6 @@
                     document.getElementById('submit').disabled = true;
                     return
                 }
-                this.isDisabled();
 
                 var file_error = false;
                 const wb = new Excel.Workbook();
@@ -505,6 +504,7 @@
                             const rowsWithValues = sheet.actualRowCount - 7;
                             var user_count = 0
                             sheet.eachRow((row, rowIndex) => {
+                                console.log(row.values[1])
                                 var same_error = false;
                                 var name_error = false;
                                 var user_error = false;

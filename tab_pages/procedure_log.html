@@ -575,7 +575,7 @@
                 var fileVal = document.getElementById("UploadFile");
                 this.file = fileVal.files[0]
 
-                if (!this.file.name.toLowerCase().includes("procedure log")) {
+                if (!this.file.name.toLowerCase().includes("procedure")) {
                     this.file_error = true;
                     this.error_message = "<li>- Invalid File Uploaded</li>";
                     document.getElementById('submit').disabled = true;
@@ -648,7 +648,6 @@
                                                         each
                                                     ]; //setting it to MCR_No
                                                 var new_name = each;
-                                                break
                                             }
                                         }
 
@@ -727,7 +726,6 @@
                                                 same_error = true;
                                                 console.log('case log duplicate')
                                                 this.duplicate_count += 1
-                                                break
                                             }
                                         }
                                         console.log(same_error)
@@ -758,7 +756,7 @@
                                             "other procedures")) &&
                                         !(row.values[1].toLowerCase().includes(
                                             "report generated:")) &&
-                                        !(row.values[2].toLowerCase().includes(
+                                        !(row.values[1].toLowerCase().includes(
                                             "cpt"))) {
                                         this.value_row_count += 1
                                         // console.log(this.MCR_No_import)
@@ -790,7 +788,6 @@
                                                 console.log(
                                                     'procedure log duplicate')
                                                 this.duplicate_count += 1
-                                                break
                                             }
                                         }
                                         console.log(same_error)
@@ -819,6 +816,7 @@
                                         "<li> - Row " + rowIndex +
                                                 ": Name cannot be Empty</li>";
                                 } else if (user_error == true) {
+                                    console.log("aldkjfhaljskdfhasd")
                                     if (!(this.error_message.includes("<li> - " +
                                             name +
                                             " does not exist in the Database</li>"
