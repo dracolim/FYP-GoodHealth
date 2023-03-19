@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Links -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    <!doctype html>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<script src="https://cdn.jsdelivr.net/npm/xlsx@0.14.3/dist/xlsx.full.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datasource@0.1.0"></script>
+
+    <!-- VUE 3 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Testing Mon Method -->
+    <script src="https://cdn.jsdelivr.net/npm/babel-regenerator-runtime@6.5.0/runtime.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/babel-polyfill/dist/polyfill.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.0.10/dist/vuetify.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    <script src="https://unpkg.com/vue-chartjs@3.4.0/dist/vue-chartjs.js"></script>
+
+
+    <title>SingHealth</title>
+</head>
+
+<body >
+
+    <div id="main-container">
+
+        <!-- header -->
+        <div class="bg-stone-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded ">
+            <div class="container flex flex-wrap items-center justify-between mx-auto" style="width: 100%; overflow: hidden;">
+                <img src="../images/SingHealth_Logo.png" class="mr-3 sm:h-15 ml-3 mt-2 mb-2"
+                    style="height: 80px ; width: 100px;" alt="Flowbite Logo" />
+
+                <div class="flex md:order-2">
+                    <a href="homepage.html" style="margin-right: 10px;">
+                        <iconify-icon icon="ic:round-home" style="color: #ff6b00;" width="40" height="40"></iconify-icon>
+                    </a>
+                    <a>
+                        <iconify-icon icon="healthicons:ui-user-profile" style="color: #ff6b00;" width="40" height="40">
+                        </iconify-icon>
+                    </a>
+
+                    <button data-collapse-toggle="navbar-sticky" type="button"
+                        class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
+                        aria-controls="navbar-cta" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navbar -->
+        <nav class="bg-white">
+            <div class="items-center justify-between hidden w-full md:flex md:width-auto  md:order-1" id="navbar-sticky" style="width: 100%; overflow: hidden;">
+                <ul class="md:divide-x md:divide-slate-200 flex flex-col p-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row  md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
+                    <li>
+                        <a href="#"
+                            class="lg:text-sm md:text-xs mr-2 ml-4 lg:ml-10 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0 dark:text-white"
+                            aria-current="page">Resident Profiles</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                            History</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                            Involvement</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="lg:text-sm md:text-xs  ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                            Grants</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="lg:text-sm md:text-xs  ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                            Publications</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Presentations</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                            Awards</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="lg:text-sm md:text-xs  ml-6 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Projects</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Orange Divider -->
+        <div class='row' style='height: 8px; background-color: #ff6b00;'></div>
+
+        <!-- Graph Goes Here -->
+        <div class="container mx-auto pt-4" >
+
+            <div id="app">
+
+              
+
+                
+                <v-row dense>
+                  <v-col cols="sm">
+                    <v-card  class="pa-2" outlined tile raised>
+                        <div style="display:flex;">
+                            <my-bar-chart style="width:25%;height:30vh" v-if="loaded" :bar-data="didacticChartConfig" :chart-options="didacticOptions"></my-bar-chart>
+                            <my-donut-chart  style="width:25%;height:30vh" v-if="loaded" :donut-data="scholarlyChartConfig" :chart-options="scholarlyOptions"></my-donut-chart>
+                            <my-donut-chart  style="width:25%;height:30vh" v-if="loaded" :donut-data="IHIchartConfig" :chart-options="IHIoptions"></my-donut-chart>
+                            <my-donut-chart style="width:25%;height:30vh" v-if="loaded" :donut-data="projectChartConfig" :chart-options="projectOptions"></my-donut-chart>
+                            
+                        </div>
+                            <my-line-chart style="width:100%;height:30vh" v-if="loaded" :line-data="dutyChartConfig" :chart-options="dutyHourOptions"></my-line-chart>
+                        
+                      <!-- <my-line-chart v-if="loaded" :line-data="dutyChartConfig" :chart-options="dutyHourOptions"></my-line-chart>
+                      <my-donut-chart v-if="loaded" :donut-data="IHIchartConfig" :chart-options="IHIoptions"></my-donut-chart>
+                      <my-donut-chart v-if="loaded" :donut-data="scholarlyChartConfig" :chart-options="scholarlyOptions"></my-donut-chart>
+                      <my-donut-chart v-if="loaded" :donut-data="projectChartConfig" :chart-options="projectOptions"></my-donut-chart>
+                      <my-bar-chart v-if="loaded" :bar-data="didacticChartConfig" :chart-options="didacticOptions"></my-bar-chart> -->
+
+
+                    </v-card>
+                  </v-col>
+                </v-row>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+
+
+    <!--- JAVASCRIPT -->
+    <script>
+
+        Vue.component('my-line-chart', {
+            extends: VueChartJs.Line,
+            props: ['lineData', 'chartOptions'],
+            mounted() {
+            this.renderChart(this.lineData, this.chartOptions);
+            },
+        }, {
+            responsive: true,
+            maintainAspectRatio: false
+        })
+        Vue.component('my-donut-chart', {
+            extends: VueChartJs.Doughnut,
+            props: ['donutData', 'chartOptions'],
+            mounted() {
+            this.renderChart(this.donutData, this.chartOptions);
+            },
+        }, {
+            responsive: true,
+            maintainAspectRatio: false
+        })
+        Vue.component('my-bar-chart', {
+            extends: VueChartJs.Bar,
+            props: ['barData', 'chartOptions'],
+            mounted() {
+            this.renderChart(this.barData, this.chartOptions);
+            },
+        }, {
+            responsive: true,
+            maintainAspectRatio: false
+        })
+        
+        
+    </script>
+    <script src="overviewDashboard.js"></script>
+</body>
+
+</html>
