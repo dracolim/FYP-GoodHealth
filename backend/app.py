@@ -8,6 +8,7 @@ import pandas as pd
 import traceback
 import werkzeug.exceptions as ex
 from sqlalchemy.sql import exists
+from datetime import datetime
 # from flask_login import login_required, current_user
 
 app = Flask(__name__)
@@ -19,17 +20,17 @@ app = Flask(__name__)
 app.app_context().push()
 
 if __name__ == '__main__':
-#     # Mac user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-                                        '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+# #     # Mac user -------------------------------------------------------------------
+#     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+#                                         '@localhost:3306/SingHealth'
+#     engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
-    # --------------------------------------------------------------------------------
+#     # --------------------------------------------------------------------------------
 
 #     # Windows user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
-    #                                         '@localhost:3306/SingHealth'
-    # engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
+                                            '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
 
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -3504,12 +3505,16 @@ def generatepdf(id):
 @app.route("/batch_cv_pdf/<ids>")
 def generate_cv_batch(ids):
     items = ids.split(",")
-    folder = "bulk"
+    now = datetime.now()
+    dt_string = now.strftime("%d-%m-%y_%H-%M")
+    print("date and time =", dt_string)
+    folder = "pdf-bulk-"+dt_string
     import os
-    foldername = "bulk"
+    foldername = "pdf-bulk-"+dt_string
     foldername = os.getcwd() + "/" + foldername
     path = os.path.join(os.getcwd(), foldername)
-    
+    if not os.path.exists(foldername):
+        os.makedirs(path)
     if os.path.exists(foldername):
         itemspath = os.listdir(foldername)
         for myfile in itemspath:
@@ -3530,7 +3535,18 @@ def generate_cv_batch(ids):
         import pdfkit
         from pathlib import Path
         input = Path(html_file_name)
-        pdfkit.from_file(html_file_name, path +"/" + id + '.pdf')
+        import platform
+        print(platform.system())
+        if platform.system() != "Darwin":
+            path_wkhtmltopdf = "../wkhtmltopdf/bin/wkhtmltopdf.exe"
+            config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+            pdfkit.from_file(html_file_name, path +"/" + id + '.pdf',configuration=config)
+            
+        else:
+            error_msg = "Please install wkhtmltopdf in your mac computer"
+            pdfkit.from_file(html_file_name,  path +"/" + id + '.pdf')
+        os.remove(path +"/" + id+'.html')
+        
         
     import shutil
     zip_name = 'bulk'
@@ -3538,6 +3554,65 @@ def generate_cv_batch(ids):
     shutil.make_archive(zip_name, 'zip', directory_name)
     import time
     return send_file("./" + zip_name + ".zip", as_attachment=True)
+
+# Generate CV pdf:
+@app.route("/batch_cv_word/<ids>")
+def generate_word_batch(ids):
+    items = ids.split(",")
+    now = datetime.now()
+    dt_string = now.strftime("%d-%m-%y_%H-%M")
+    print("date and time =", dt_string)
+    folder = "word-bulk-"+dt_string
+    import os
+    foldername = "word-bulk-"+dt_string
+    foldername = os.getcwd() + "/" + foldername
+    path = os.path.join(os.getcwd(), foldername)
+    if not os.path.exists(foldername):
+        os.makedirs(path)
+    if os.path.exists(foldername):
+        itemspath = os.listdir(foldername)
+        for myfile in itemspath:
+            if os.path.isfile(path + "/" + myfile):
+                currpath = path + "/" + myfile
+                os.remove(currpath)
+    import shutil
+
+    from pdf2docx import parse
+    parentdir = os.getcwd()
+    path = os.path.join(parentdir, folder)
+    for id in items:
+        Personal_Details.query.get_or_404(id)
+        page = getCompletePage(id)
+        html_file_name = path +"/"+ id + ".html"
+        Func = open(html_file_name,"w")
+        Func.write(page)
+        Func.close()
+        import pdfkit
+        from pathlib import Path
+        input = Path(html_file_name)
+        import platform
+        print(platform.system())
+        if platform.system() != "Darwin":
+            path_wkhtmltopdf = "../wkhtmltopdf/bin/wkhtmltopdf.exe"
+            config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+            pdfkit.from_file(html_file_name, path +"/" + id + '.pdf',configuration=config)
+            
+        else:
+            error_msg = "Please install wkhtmltopdf in your mac computer"
+            pdfkit.from_file(html_file_name,  path +"/" + id + '.pdf')
+        docx= path +"/" + id + '.docx'
+        parse(path +"/" + id + '.pdf', docx)
+        os.remove(path +"/" + id+'.html')
+        os.remove(path +"/" + id+'.pdf')
+        
+        
+    import shutil
+    zip_name = 'bulk'
+    directory_name = path
+    shutil.make_archive(zip_name, 'zip', directory_name)
+    import time
+    return send_file("./" + zip_name + ".zip", as_attachment=True)
+
 
 
 db.create_all()
