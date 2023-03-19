@@ -11,9 +11,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
 
-	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-	<script src="https://cdn.jsdelivr.net/npm/xlsx@0.14.3/dist/xlsx.full.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datasource@0.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.14.3/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datasource@0.1.0"></script>
 
     <!-- VUE 3 -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
@@ -38,16 +38,18 @@
 <body>
 
     <div id="main-container">
-        
+
         <!-- header -->
         <div class="bg-stone-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded ">
-            <div class="container flex flex-wrap items-center justify-between mx-auto" style="width: 100%; overflow: hidden;">
+            <div class="container flex flex-wrap items-center justify-between mx-auto"
+                style="width: 100%; overflow: hidden;">
                 <img src="../images/SingHealth_Logo.png" class="mr-3 sm:h-15 ml-3 mt-2 mb-2"
                     style="height: 80px ; width: 100px;" alt="Flowbite Logo" />
 
                 <div class="flex md:order-2">
                     <a href="homepage.html" style="margin-right: 10px;">
-                        <iconify-icon icon="ic:round-home" style="color: #ff6b00;" width="40" height="40"></iconify-icon>
+                        <iconify-icon icon="ic:round-home" style="color: #ff6b00;" width="40"
+                            height="40"></iconify-icon>
                     </a>
                     <a>
                         <iconify-icon icon="healthicons:ui-user-profile" style="color: #ff6b00;" width="40" height="40">
@@ -71,8 +73,10 @@
 
         <!-- Navbar -->
         <nav class="bg-white">
-            <div class="items-center justify-between hidden w-full md:flex md:width-auto  md:order-1" id="navbar-sticky" style="width: 100%; overflow: hidden;">
-                <ul class="md:divide-x md:divide-slate-200 flex flex-col p-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row  md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
+            <div class="items-center justify-between hidden w-full md:flex md:width-auto  md:order-1" id="navbar-sticky"
+                style="width: 100%; overflow: hidden;">
+                <ul
+                    class="md:divide-x md:divide-slate-200 flex flex-col p-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row  md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
                     <li>
                         <a href="#"
                             class="lg:text-sm md:text-xs mr-2 ml-4 lg:ml-10 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0 dark:text-white"
@@ -120,36 +124,67 @@
 
         <!-- Graph Goes Here -->
 
-        <div class="container mx-auto pt-4" >
+        <div class="container mx-auto pt-4">
 
             <div id="app">
 
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                     MCR No:
                 </label>
-                <input v-model="mcr_no" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input MCR No Here">
-                <button @click="retrieveLOA()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+                <input v-model="mcr_no"
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                    id="grid-first-name" type="text" placeholder="Input MCR No Here">
+                <button @click="retrieveLOA()"
+                    class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
                     Get Resident's Info
-                </button> 
+                </button>
                 <br>
                 <br>
-                <table class="table-auto">
-                    <thead v-if="this.clicked">
-                        <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" v-if="this.clicked">Leave of Absence/PIP:</p>
-                        <tr>
-                            <th class="border px-4 py-2 bg-orange-600">Remarks</th>
-                            <th class="border px-4 py-2 bg-orange-600">Start Date</th>
-                            <th class="border px-4 py-2 bg-orange-600">End Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="loa in loa_records">
-                        <td class="border px-4 py-2 bg-gray-300">{{ loa.LOAPIP }}</td>
-                        <td class="border px-4 py-2 bg-gray-300">{{ loa.StartDate }}</td>
-                        <td class="border px-4 py-2 bg-gray-300">{{ loa.EndDate }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
+
+                <div v-if="this.clicked">
+                    <table class="table-auto">
+                        <thead>
+                            <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                >Leave of Absence/PIP:</p>
+                            <tr>
+                                <th class="border px-4 py-2 bg-orange-600">Remarks</th>
+                                <th class="border px-4 py-2 bg-orange-600">Start Date</th>
+                                <th class="border px-4 py-2 bg-orange-600">End Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="loa in loa_records">
+                                <td class="border px-4 py-2 bg-gray-300">{{ loa.LOAPIP }}</td>
+                                <td class="border px-4 py-2 bg-gray-300">{{ loa.StartDate }}</td>
+                                <td class="border px-4 py-2 bg-gray-300">{{ loa.EndDate }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <br>
+    
+                    <table class="table-auto">
+                        <thead >
+                            <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                >Postings Information:</p>
+                            <tr>
+                                <!-- <th class="border px-4 py-2 bg-orange-600">Posting Department</th> -->
+                                <th class="border px-4 py-2 bg-orange-600">Start Date</th>
+                                <th class="border px-4 py-2 bg-orange-600">Projected Graduation End Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border px-4 py-2 bg-gray-300">{{ history_posting_records[0].Posting_StartDate }}</td>
+                                <td class="border px-4 py-2 bg-gray-300">{{ history_posting_records[history_posting_records.length - 1].Posting_EndDate }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                
+
+
             </div>
 
         </div>
@@ -158,35 +193,61 @@
 
     <!--- JAVASCRIPT -->
     <script>
-        
-    new Vue({
-        el: '#app',
+
+        new Vue({
+            el: '#app',
             data: {
-            mcr_no: "",
-            loa_records: [],
-            clicked: false
-        },
-        methods: {
-            retrieveLOA: async function () {
-                this.status = "getting data..."
-                this.clicked = true
+                localhost: "http://localhost:5011/",
+                mcr_no: "M11367A",
+                loa_records: [],
+                history_posting_records: [],
+                clicked: false
+            },
+            async mounted() {
+            },
+            methods: {
+                retrieveLOA: async function () {
+                    this.status = "getting data..."
+                    this.clicked = true
 
-                specificURL = "http://localhost:5011/profile/" + this.mcr_no
-                await axios.get(specificURL).then((response) => {
+                    specificURL = this.localhost + "profile/" + this.mcr_no
+                    await axios.get(specificURL).then((response) => {
 
-                console.log("This is responseData")
-                console.log(response.data.data['trgExtRem_Histories'])
+                        console.log("This is responseData")
+                        console.log(response.data.data['trgExtRem_Histories'])
 
-                this.loa_records = response.data.data['trgExtRem_Histories']
+                        this.loa_records = response.data.data['trgExtRem_Histories']
+                        this.retrievePostingHistory()
+                    })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
 
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });            
+                retrievePostingHistory: async function () {
+
+                    specificURL = this.localhost + "history_posting/" + this.mcr_no
+                    await axios.get(specificURL).then((response) => {
+
+                        console.log("This is responseData of History Posting")
+
+                        this.history_posting_records = response.data.data
+                        console.log(this.history_posting_records)
+
+                    })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
+
+
+
+
+
+
             }
-        }
-      })
-        
+        })
+
     </script>
 </body>
 
