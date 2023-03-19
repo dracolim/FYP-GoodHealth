@@ -8,6 +8,8 @@
     "iconify": "^1.4.0",
     "tabulator-tables": "^5.4.3",
     "vue": "^2.7.14",
+    "vue-chartjs": "^5.2.0",
+    "vuetify": "^2.6.14",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
