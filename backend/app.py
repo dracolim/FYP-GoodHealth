@@ -2276,7 +2276,7 @@ def delete_awards(id):
 # ============================
 # AKA didactic_attendance table routes:
 
-# Read Awards field/column name (R)
+# Read didactic attendance field/column name (R)
 @app.route('/didactic_attendance', methods=['GET'])
 def get_didactic_attendances():
     daList = Didactic_Attendance.query.all()
@@ -2287,7 +2287,7 @@ def get_didactic_attendances():
         }
     ), 200
 
-# Update Evaluation
+# Update didactic attendance
 @app.route('/didactic_attendance/<int:id>', methods=['PUT'])
 def update_didactic_attendance(id):
     user = Didactic_Attendance.query.get(id)
@@ -2308,7 +2308,7 @@ def update_didactic_attendance(id):
     db.session.commit()
     return 'didactic_attendance updated', 200
 
-# Delete Evaluation
+# Delete didactic attendance
 @app.route('/didactic_attendance/<int:id>', methods=['DELETE'])
 def delete_didactic_attendance(id):
     row = Didactic_Attendance.query.get(id)
@@ -2318,6 +2318,29 @@ def delete_didactic_attendance(id):
     db.session.delete(row)
     db.session.commit()
     return 'didactic_attendance deleted', 200
+
+# add didactic attendance
+@app.route('/add_didactic_attendance', methods=['POST'])
+def create_didactic_attendance():
+    print("lakdjfhadf")
+    data = request.get_json()
+    if not all(key in data.keys() for key in ('MCR_No' , 'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended' , 'Percentage_of_sessions_attended',
+                                              'MmYyyy' , 'Compliance_or_Not' , 'Posting_institution' , 'Posting_department'
+                                            )):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+    didactic_attendance = Didactic_Attendance(**data)
+    print(data)
+    try:
+        db.session.add(didactic_attendance)
+        db.session.commit()
+        return jsonify(didactic_attendance.to_dict()), 201
+    except Exception as e:
+        print("An error occurred:", e)
+        print("Stack trace:")
+        traceback.print_exc()
+        return 
 
 # ============================
 # █▀▀ █▄░█ █▀▄

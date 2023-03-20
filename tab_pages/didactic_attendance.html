@@ -110,11 +110,12 @@
                     </li>
                     <li>
                         <a data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500" data-dropdown-trigger="click">
-                            <div class = "md:flex">
+                            <div class="md:flex">
                                 <span
-                                class="lg:text-sm md:text-sm ml-5 mr-1 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
-                                History</span>
-                                <iconify-icon icon="gridicons:dropdown" width = "20px" class = "hidden md:flex mr-1"></iconify-icon>
+                                    class="lg:text-sm md:text-sm ml-5 mr-1 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                                    History</span>
+                                <iconify-icon icon="gridicons:dropdown" width="20px" class="hidden md:flex mr-1">
+                                </iconify-icon>
                             </div>
                         </a>
                     </li>
@@ -278,7 +279,7 @@
             <table id="example-table"></table>
         </div>
 
-        
+
     </div>
 </body>
 
@@ -298,9 +299,20 @@
             mmYYYY: "",
             table_error_message: "",
             tableData: "",
-            didactic_attendance_data: ""
+            didactic_attendance_data: "",
+            Existing_MCR_Nos : []
         },
         mounted() {
+            axios.get(this.local_host_url + "personaldetail")
+                .then(response => {
+                    let result = response.data.data;
+                    for (each of result) {
+                        if (!(this.Existing_MCR_Nos.includes(each["MCR_No"]))) {
+                            this.Existing_MCR_Nos.push(each["MCR_No"])
+                        }
+                    }
+                    console.log(this.MCR_name)
+                }),
             axios.get(this.local_host_url + this.currentPage)
                 .then(response => {
                     this.tableData = response.data.data
@@ -321,174 +333,176 @@
                         data: this.tableData,
                         index: "MCR_No",
                         columns: [{
-                            title: "MCR No",
-                            field: "MCR_No",
-                            sorter: "string",
-                            headerHozAlign: "center",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                autocomplete: true,
-                                valuesLookup: true,
-                                clearable: true,
+                                title: "MCR No",
+                                field: "MCR_No",
+                                sorter: "string",
+                                headerHozAlign: "center",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    autocomplete: true,
+                                    valuesLookup: true,
+                                    clearable: true,
+
+                                },
+                            },
+                            {
+                                title: "Month",
+                                field: "Month",
+                                sorter: "string",
+                                editor: true,
+                                editorParams: {
+                                    min: 0,
+                                    autocomplete: true,
+                                },
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true
+                                },
 
                             },
-                        },
-                        {
-                            title: "Month",
-                            field: "Month",
-                            sorter: "string",
-                            editor: true,
-                            editorParams: {
-                                min: 0,
-                                autocomplete: true,
+                            {
+                                title: "Total Tracked Sessions",
+                                field: "Total_tracked_sessions",
+                                sorter: "number",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: "input",
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
                             },
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true
+                            {
+                                title: "Number Of Sessions Attended",
+                                field: "Number_of_sessions_attended",
+                                sorter: "number",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: "input",
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
+                            },
+                            {
+                                title: "Percentage Of Sessions Attended",
+                                field: "Percentage_of_sessions_attended",
+                                sorter: "number",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: "input",
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
+                            },
+                            {
+                                title: "MmYyyy",
+                                field: "MmYyyy",
+                                sorter: "string",
+                                headerHozAlign: "center",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    autocomplete: true,
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: true,
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
+                            },
+                            {
+                                title: "Compliance or Not",
+                                field: "Compliance_or_Not",
+                                sorter: "string",
+                                headerHozAlign: "center",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    autocomplete: true,
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: true,
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
+                            },
+                            {
+                                title: "Posting Institution",
+                                field: "Posting_institution",
+                                sorter: "string",
+                                headerHozAlign: "center",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    autocomplete: true,
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: true,
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
+                            },
+                            {
+                                title: "Posting Department",
+                                field: "Posting_department",
+                                sorter: "string",
+                                headerHozAlign: "center",
+                                headerFilter: true,
+                                headerFilterParams: {
+                                    autocomplete: true,
+                                    valuesLookup: true,
+                                    clearable: true,
+                                },
+                                editor: true,
+                                editorParams: {
+                                    allowEmpty: true,
+                                    listOnEmpty: true,
+                                    valuesLookup: true,
+                                },
                             },
 
-                        },
-                        {
-                            title: "Total Tracked Sessions",
-                            field: "Total_tracked_sessions",
-                            sorter: "number",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true,
-                            },
-                            editor: "input",
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
-                            },
-                        },
-                        {
-                            title: "Number Of Sessions Attended",
-                            field: "Number_of_sessions_attended",
-                            sorter: "number",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true,
-                            },
-                            editor: "input",
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
-                            },
-                        },
-                        {
-                            title: "Percentage Of Sessions Attended",
-                            field: "Percentage_of_sessions_attended",
-                            sorter: "number",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                valuesLookup: true,
-                                clearable: true,
-                            },
-                            editor: "input",
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
-                            },
-                        },
-                        {
-                            title: "MmYyyy",
-                            field: "MmYyyy",
-                            sorter: "string",
-                            headerHozAlign: "center",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                autocomplete: true,
-                                valuesLookup: true,
-                                clearable: true,
-                            },
-                            editor: true,
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
-                            },
-                        },
-                        {
-                            title: "Compliance or Not",
-                            field: "Compliance_or_Not",
-                            sorter: "string",
-                            headerHozAlign: "center",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                autocomplete: true,
-                                valuesLookup: true,
-                                clearable: true,
-                            },
-                            editor: true,
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
-                            },
-                        },
-                        {
-                            title: "Posting Institution",
-                            field: "Posting_institution",
-                            sorter: "string",
-                            headerHozAlign: "center",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                autocomplete: true,
-                                valuesLookup: true,
-                                clearable: true,
-                            },
-                            editor: true,
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
-                            },
-                        },
-                        {
-                            title: "Posting Department",
-                            field: "Posting_department",
-                            sorter: "string",
-                            headerHozAlign: "center",
-                            headerFilter: true,
-                            headerFilterParams: {
-                                autocomplete: true,
-                                valuesLookup: true,
-                                clearable: true,
-                            },
-                            editor: true,
-                            editorParams: {
-                                allowEmpty: true,
-                                listOnEmpty: true,
-                                valuesLookup: true,
-                            },
-                        },
 
-
-                        {
-                            title: "Action",
-                            formatter: printRemoveButton,
-                            hozAlign: "center",
-                            cellClick: function (e, cell) {
-                                axios.delete(local_host_url + "didactic_attendance" + "/" + cell
-                                    .getRow().getData().id)
-                                    .then(function (response) {
-                                        console.log(response.data);
-                                        cell.getRow().delete();
-                                    })
-                                    .catch(function (error) {
-                                        console.log(error);
-                                        if (alert("Failed to remove row MCR No: " + row.getData().MCR_No)) { }
-                                        else window.location.reload();
-                                    });
+                            {
+                                title: "Action",
+                                formatter: printRemoveButton,
+                                hozAlign: "center",
+                                cellClick: function (e, cell) {
+                                    axios.delete(local_host_url + "didactic_attendance" +
+                                            "/" + cell
+                                            .getRow().getData().id)
+                                        .then(function (response) {
+                                            console.log(response.data);
+                                            cell.getRow().delete();
+                                        })
+                                        .catch(function (error) {
+                                            console.log(error);
+                                            if (alert("Failed to remove row MCR No: " +
+                                                    row.getData().MCR_No)) {} else
+                                                window.location.reload();
+                                        });
+                                },
                             },
-                        },
                         ],
                     });
                     // update data in the database after a cell is edited
@@ -497,24 +511,26 @@
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
                         axios.put(local_host_url + "didactic_attendance" + "/" + thisrow.id, {
-                            "MCR_No": thisrow.MCR_No,
-                            "Month": thisrow.Month,
-                            "Total_tracked_sessions": thisrow.Total_tracked_sessions,
-                            "Number_of_sessions_attended": thisrow.Number_of_sessions_attended,
-                            "Percentage_of_sessions_attended": thisrow.Percentage_of_sessions_attended,
-                            "MmYyyy": thisrow.MmYyyy,
-                            "Compliance_or_Not": thisrow.Compliance_or_Not,
-                            "Posting_institution":thisrow.Posting_institution,
-                            "Posting_department":thisrow.Posting_department
-                        })
+                                "MCR_No": thisrow.MCR_No,
+                                "Month": thisrow.Month,
+                                "Total_tracked_sessions": thisrow.Total_tracked_sessions,
+                                "Number_of_sessions_attended": thisrow
+                                    .Number_of_sessions_attended,
+                                "Percentage_of_sessions_attended": thisrow
+                                    .Percentage_of_sessions_attended,
+                                "MmYyyy": thisrow.MmYyyy,
+                                "Compliance_or_Not": thisrow.Compliance_or_Not,
+                                "Posting_institution": thisrow.Posting_institution,
+                                "Posting_department": thisrow.Posting_department
+                            })
                             .then(response => {
                                 console.log('didactic_attendance ID {' + row.getData().id +
                                     '} updated.')
                             })
                             .catch(error => {
                                 console.log(error)
-                                if (alert("Failed to update row MCR No: " + row.getData().MCR_No)) { }
-                                else window.location.reload();		
+                                if (alert("Failed to update row MCR No: " + row.getData()
+                                        .MCR_No)) {} else window.location.reload();
                             })
                     });
                 })
@@ -525,6 +541,20 @@
 
         },
         methods: {
+            getMonthName(monthNumber) {
+                const date = new Date();
+                date.setMonth(monthNumber - 1);
+
+                return date.toLocaleString('en-US', {
+                    month: 'long'
+                });
+            },
+            convert(str) {
+                var date = new Date(str),
+                    mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+                    day = ("0" + date.getDate()).slice(-2);
+                return [mnth, date.getFullYear()].join("/");
+            },
             importExcel() {
                 var fileVal = document.getElementById("UploadFile");
                 this.file = fileVal.files[0]
@@ -548,70 +578,104 @@
                             var user_count = 0
                             var duplicate_count = 0
                             sheet.eachRow((row, rowIndex) => {
-                                console.log(row.values[1])
                                 var same_error = false;
                                 var name_error = false;
                                 var user_error = false;
 
-                                var url = this.local_host_url + 'add_duty_hour';
+                                var url = this.local_host_url +
+                                    'add_didactic_attendance';
                                 var data = {};
-                                var loggded_for_months = "";
-                                if (rowIndex == 3) {
-                                    //mm/dd/yyyy
-                                    var first_slash_idx = row.values[1].indexOf("/")
-                                    var second_slash_idx = row.values[1].indexOf("/" , first_slash_idx + 1)
-                                    var month = row.values[1].slice(18, first_slash_idx)
-                                    var day = row.values[1].slice(first_slash_idx + 1 , second_slash_idx)
-                                    var year = row.values[1].slice(second_slash_idx + 1 , second_slash_idx + 5)
-                                    this.mmYYYY = month + "/" + year || "";
-                                } else if (rowIndex >= 8 && !(row.values[1].includes("Resident:"))) {
-                                    if (row.values[1] == undefined) {
+                                if (rowIndex >= 2) {
+                                    //MCR NO
+                                    data.MCR_No = row.values[1] || ""
+                                    if (data.MCR_No == "") {
                                         name_error = true;
+                                    } else if (!(this.Existing_MCR_Nos.includes(data.MCR_No))){
+                                        user_error = true;
+                                        new_name = data.MCR_No
+                                    }
+                                    else {
+                                        user_count += 1
+                                    }
+                                    //MmYyyy , Month
+                                    var date = this.convert(row.values[3])
+                                    data.MmYyyy = date || ""
+                                    if (data.MmYyyy != "") {
+                                        var first_slash_idx = date.indexOf("/")
+                                        var month = date.slice(0, first_slash_idx)
+                                        data.Month = this.getMonthName(month)
                                     } else {
-                                        if (row.values[1] in this.MCR_name) {
-                                            data.MCR_No = this.MCR_name[row.values[
-                                                1]]
-                                            user_count += 1;
-                                        } else {
-                                            for (each in this.MCR_name) {
-                                                let name_list = row.values[1].trim()
-                                                    .split(
-                                                        ',')
-                                                var new_name = name_list.reverse()
-                                                    .join(
-                                                        " ")
-                                                    .trim()
-                                                if (new_name == each) {
-                                                    data.MCR_No = this.MCR_name[
-                                                            each] ||
-                                                        "";
-                                                }
+                                        data.Month = ""
+                                    }
+                                    // posting_institution
+                                    if (typeof row.values[4] === 'object') {
+                                        data.Posting_institution = row.values[4]
+                                            .result || ""
+                                    } else {
+                                        data.Posting_institution = row.values[4] ||
+                                            ""
+                                    }
+                                    // posting_department
+                                    data.Posting_department = row.values[5] || ""
+                                    // total_tracked_sessions
+                                    data.Total_tracked_sessions = row.values[7].toString() ||
+                                        ""
+                                    // number_of_sessions_attended
+                                    data.Number_of_sessions_attended = row.values[
+                                        6].toString() || ""
+                                    // percentage_of_sessions_attended , Compliance_or_not
+                                    if (typeof row.values[8] === 'object') {
+                                        data.Percentage_of_sessions_attended = row
+                                            .values[8].result.toString() || ""
+                                        if (row.values[8].result <= 1) {
+                                            if (row.values[8].result > 0.7) {
+                                                data.Compliance_or_Not = "Yes"
+                                            } else {
+                                                data.Compliance_or_Not = "No"
                                             }
-                                            user_count += 1;
+                                        } else if (row.values[8].result > 1) {
+                                            if (row.values[8].result > 70) {
+                                                data.Compliance_or_Not = "Yes"
+                                            } else {
+                                                data.Compliance_or_Not = "No"
+                                            }
                                         }
-                                        if (data.MCR_No == undefined) {
-                                            user_error = true;
+                                    } else {
+                                        data.Percentage_of_sessions_attended = row
+                                            .values[8].toString() || ""
+                                        if (row.values[8] <= 1) {
+                                            if (row.values[8] > 0.7) {
+                                                data.Compliance_or_Not = "Yes"
+                                            } else {
+                                                data.Compliance_or_Not = "No"
+                                            }
+                                        } else if (row.values[8] > 1) {
+                                            if (row.values[8] > 70) {
+                                                data.Compliance_or_Not = "Yes"
+                                            } else {
+                                                data.Compliance_or_Not = "No"
+                                            }
                                         }
                                     }
 
-                                    data.Level = row.values[2] || '';
-                                    data.Logged_for_month = "Yes";
-                                    data.Submitted = row.values[3] || '';
-                                    if (row.values[4] <= 1){
-                                        data.Submitted_Proportion = row.values[4] || ""
-                                    }else{
-                                        data.Submitted_Proportion = parseInt(row.values[4]) / 100 || '';
-                                    }
-                                    data.MMYYYY = this.mmYYYY;
+                                    console.log(data)
 
                                     // check if EXISTS already
                                     for (each of this.didactic_attendance_data) {
-                                        if (data.Level == each.Level && data
-                                            .Logged_for_month == each
-                                            .Logged_for_month && data.MCR_No == each
-                                            .MCR_No && data.Submitted_Proportion ==
-                                            each.Submitted_Proportion && data.Submitted == each.Submitted &&
-                                            data.MMYYYY == each.MMYYYY) {
+                                        if (data.MCR_No == each.MCR_No && data
+                                            .MmYyyy == each
+                                            .MmYyyy && data.Posting_department ==
+                                            each
+                                            .Posting_department && data
+                                            .Posting_institution ==
+                                            each.Posting_institution && data
+                                            .Total_tracked_sessions == each
+                                            .Total_tracked_sessions &&
+                                            data.Number_of_sessions_attended == each
+                                            .Number_of_sessions_attended &&
+                                            data.Percentage_of_sessions_attended ==
+                                            each.Percentage_of_sessions_attended &&
+                                            data.Compliance_or_Not == each.Compliance_or_Not) {
                                             same_error = true;
                                             duplicate_count += 1
                                         }
@@ -623,38 +687,37 @@
                                         user_error == false) {
                                         axios.post(url, data)
                                             .then(response => {
-                                                // console.log(response.data)
-                                                this.mmYYYY = "";
+                                                console.log(response.data)
                                             })
                                             .catch(error => {
-                                                this.error = error.response
-                                                    .data
-                                                    .message
+                                                this.error = error.message
                                             });
-                                    } 
+                                    }
 
                                     //produce error message
                                     if (name_error == true) {
                                         if (!(this.error_message.includes(
                                                 "<li> - Row " + rowIndex +
-                                                ": Name cannot be Empty</li>"))) {
+                                                ": MCR No cannot be Empty</li>"
+                                            ))) {
                                             this.error_message +=
                                                 "<li> - Row " + rowIndex +
-                                                ": Name cannot be Empty</li>";
+                                                ": MCR No cannot be Empty</li>";
                                         }
                                     } else if (user_error == true) {
                                         if (!(this.error_message.includes(
                                                 "<li> - " + new_name +
                                                 " does not exist in the Database</li>"
-                                                ))) {
+                                            ))) {
                                             this.error_message +=
                                                 "<li> - " + new_name +
                                                 " does not exist in the Database</li>"
                                         }
-                                    } else if (user_count == duplicate_count && user_count != 0) {
+                                    } else if (user_count == duplicate_count &&
+                                        user_count != 0) {
                                         if (!(this.error_message.includes(
                                                 "<li> - All Rows already exist in Database</li>"
-                                                ))) {
+                                            ))) {
                                             this.error_message +=
                                                 "<li> - All Rows already exist in Database</li>";
                                         }
@@ -699,4 +762,5 @@
     });
 </script>
 <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
+
 </html>
