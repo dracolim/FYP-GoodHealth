@@ -300,7 +300,7 @@
             table_error_message: "",
             tableData: "",
             didactic_attendance_data: "",
-            Existing_MCR_Nos : []
+            Existing_MCR_Nos: []
         },
         mounted() {
             axios.get(this.local_host_url + "personaldetail")
@@ -313,7 +313,7 @@
                     }
                     console.log(this.MCR_name)
                 }),
-            axios.get(this.local_host_url + this.currentPage)
+                axios.get(this.local_host_url + this.currentPage)
                 .then(response => {
                     this.tableData = response.data.data
                     this.didactic_attendance_data = response.data.data
@@ -590,11 +590,11 @@
                                     data.MCR_No = row.values[1] || ""
                                     if (data.MCR_No == "") {
                                         name_error = true;
-                                    } else if (!(this.Existing_MCR_Nos.includes(data.MCR_No))){
+                                    } else if (!(this.Existing_MCR_Nos.includes(data
+                                            .MCR_No))) {
                                         user_error = true;
                                         new_name = data.MCR_No
-                                    }
-                                    else {
+                                    } else {
                                         user_count += 1
                                     }
                                     //MmYyyy , Month
@@ -618,7 +618,8 @@
                                     // posting_department
                                     data.Posting_department = row.values[5] || ""
                                     // total_tracked_sessions
-                                    data.Total_tracked_sessions = row.values[7].toString() ||
+                                    data.Total_tracked_sessions = row.values[7]
+                                        .toString() ||
                                         ""
                                     // number_of_sessions_attended
                                     data.Number_of_sessions_attended = row.values[
@@ -675,7 +676,8 @@
                                             .Number_of_sessions_attended &&
                                             data.Percentage_of_sessions_attended ==
                                             each.Percentage_of_sessions_attended &&
-                                            data.Compliance_or_Not == each.Compliance_or_Not) {
+                                            data.Compliance_or_Not == each
+                                            .Compliance_or_Not) {
                                             same_error = true;
                                             duplicate_count += 1
                                         }
@@ -716,10 +718,14 @@
                                     } else if (user_count == duplicate_count &&
                                         user_count != 0) {
                                         if (!(this.error_message.includes(
-                                                "<li> - All Rows already exist in Database</li>"
-                                            ))) {
+                                                "<li> - All Rows for " + data
+                                                .MCR_No +
+                                                " already exist in the database</li>"
+                                            )) && data.MCR_No != "") {
                                             this.error_message +=
-                                                "<li> - All Rows already exist in Database</li>";
+                                                "<li> - All Rows for " + data
+                                                .MCR_No +
+                                                " already exist in the database</li>";
                                         }
                                     }
 

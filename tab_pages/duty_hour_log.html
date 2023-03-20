@@ -515,12 +515,18 @@
                                 if (rowIndex == 3) {
                                     //mm/dd/yyyy
                                     var first_slash_idx = row.values[1].indexOf("/")
-                                    var second_slash_idx = row.values[1].indexOf("/" , first_slash_idx + 1)
-                                    var month = row.values[1].slice(18, first_slash_idx)
-                                    var day = row.values[1].slice(first_slash_idx + 1 , second_slash_idx)
-                                    var year = row.values[1].slice(second_slash_idx + 1 , second_slash_idx + 5)
+                                    var second_slash_idx = row.values[1].indexOf(
+                                        "/", first_slash_idx + 1)
+                                    var month = row.values[1].slice(18,
+                                        first_slash_idx)
+                                    var day = row.values[1].slice(first_slash_idx +
+                                        1, second_slash_idx)
+                                    var year = row.values[1].slice(
+                                        second_slash_idx + 1, second_slash_idx +
+                                        5)
                                     this.mmYYYY = month + "/" + year || "";
-                                } else if (rowIndex >= 8 && !(row.values[1].includes("Resident:"))) {
+                                } else if (rowIndex >= 8 && !(row.values[1]
+                                        .includes("Resident:"))) {
                                     if (row.values[1] == undefined) {
                                         name_error = true;
                                     } else {
@@ -553,10 +559,12 @@
                                     data.Level = row.values[2] || '';
                                     data.Logged_for_month = "Yes";
                                     data.Submitted = row.values[3] || '';
-                                    if (row.values[4] <= 1){
-                                        data.Submitted_Proportion = row.values[4] || ""
-                                    }else{
-                                        data.Submitted_Proportion = parseInt(row.values[4]) / 100 || '';
+                                    if (row.values[4] <= 1) {
+                                        data.Submitted_Proportion = row.values[4] ||
+                                            ""
+                                    } else {
+                                        data.Submitted_Proportion = parseInt(row
+                                            .values[4]) / 100 || '';
                                     }
                                     data.MMYYYY = this.mmYYYY;
 
@@ -566,7 +574,8 @@
                                             .Logged_for_month == each
                                             .Logged_for_month && data.MCR_No == each
                                             .MCR_No && data.Submitted_Proportion ==
-                                            each.Submitted_Proportion && data.Submitted == each.Submitted &&
+                                            each.Submitted_Proportion && data
+                                            .Submitted == each.Submitted &&
                                             data.MMYYYY == each.MMYYYY) {
                                             same_error = true;
                                             duplicate_count += 1
@@ -587,7 +596,7 @@
                                                     .data
                                                     .message
                                             });
-                                    } 
+                                    }
 
                                     //produce error message
                                     if (name_error == true) {
@@ -602,18 +611,21 @@
                                         if (!(this.error_message.includes(
                                                 "<li> - " + new_name +
                                                 " does not exist in the Database</li>"
-                                                ))) {
+                                            ))) {
                                             this.error_message +=
                                                 "<li> - " + new_name +
                                                 " does not exist in the Database</li>"
                                         }
-                                    } else if (user_count == duplicate_count && user_count != 0) {
+                                    } else if (user_count == duplicate_count &&
+                                        user_count != 0) {
                                         if (!(this.error_message.includes(
-                                                "<li> - All Rows already exist in Database</li>"
-                                                ))) {
+                                                "<li> - All Rows for " + data
+                                                .MCR_No +
+                                                " already exist in the database</li>"
+                                            )) && data.MCR_No != ""){
                                             this.error_message +=
-                                                "<li> - All Rows already exist in Database</li>";
-                                        }
+                                            "<li> - All Rows for " + data.MCR_No +
+                                            " already exist in the database</li>";}
                                     }
 
                                     if (this.error_message != "") {
