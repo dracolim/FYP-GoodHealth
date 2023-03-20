@@ -21,16 +21,16 @@ app.app_context().push()
 
 if __name__ == '__main__':
 # #     # Mac user -------------------------------------------------------------------
-#     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-#                                         '@localhost:3306/SingHealth'
-#     engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+                                        '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
 #     # --------------------------------------------------------------------------------
 
 #     # Windows user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
-                                            '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
+    #                                         '@localhost:3306/SingHealth'
+    # engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
 
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -675,746 +675,1032 @@ def view():
 
     file = request.files['file']
     file.save(file.filename)
+
+    # READ EXCEL FILE
+    df = pd.ExcelFile(file)
+    sheetNames_list = list(map(lambda x: x.lower(), df.sheet_names))
+    print(sheetNames_list)
+
+    list_of_existing_sheetNames = {}
+
     # personal details
-    personalDetails = pd.read_excel(
-        file, sheet_name="Personal Details", dtype=str)
-    personalDetails.columns = ['Employee_ID', 'MCR_No', 'Staff_Name', 'Designation',
-                            'Programme', 'Year_of_Training', 'Academic_Year', 'Department',
-                            'Institution', 'Academic_Clinical_Programme', 'Employment_Status',
-                            'Nationality', 'Date_of_Birth', 'Gender', 'Registration_Type',
-                            'House_Blk_No', 'Street', 'Building_Name', 'Unit_No', 'Postal_Code',
-                            'Contact_No_Work', 'Contact_No_Personal', 'Email_Official',
-                            'Email_Personal', 'BCLS_Expiry_Date', 'ACLS_Expiry_Date',
-                            'Covid_19_Vaccination_Status', 'Date_of_First_Dose',
-                            'Date_of_Second_Dose', 'Vaccination_Remarks']
+    if ("personal details" in sheetNames_list):
+        personalDetails = pd.read_excel(
+            file, sheet_name="Personal Details", dtype=str)
+        personalDetails.columns = ['Employee_ID', 'MCR_No', 'Staff_Name', 'Designation',
+                                'Programme', 'Year_of_Training', 'Academic_Year', 'Department',
+                                'Institution', 'Academic_Clinical_Programme', 'Employment_Status',
+                                'Nationality', 'Date_of_Birth', 'Gender', 'Registration_Type',
+                                'House_Blk_No', 'Street', 'Building_Name', 'Unit_No', 'Postal_Code',
+                                'Contact_No_Work', 'Contact_No_Personal', 'Email_Official',
+                                'Email_Personal', 'BCLS_Expiry_Date', 'ACLS_Expiry_Date',
+                                'Covid_19_Vaccination_Status', 'Date_of_First_Dose',
+                                'Date_of_Second_Dose', 'Vaccination_Remarks']
+        list_of_existing_sheetNames["personal details"] = personalDetails
+    
     # Involvement
-    involvement = pd.read_excel(
-        file, sheet_name="Involvement", dtype=str)
-    involvement.columns = ['Involvement_Type', 'MCR_No',
-                        'Event', 'Role', 'Start_Date', 'End_Date']
+    if ("involvement" in sheetNames_list):
+        involvement = pd.read_excel(
+            file, sheet_name="Involvement", dtype=str)
+        involvement.columns = ['Involvement_Type', 'MCR_No',
+                            'Event', 'Role', 'Start_Date', 'End_Date']
+        list_of_existing_sheetNames["involvement"] = involvement
     
     #history-education
-    history_education = pd.read_excel(
-        file, sheet_name="History - Education", dtype=str)
-    history_education.columns = ['MCR_No' , 'Year_of_Graduation' , 'Date_of_Graduation' , 'Basic_Qualification' , 'Medical_School' , 'Country_of_Graduation' , 'IM_Residency_Start_Date' , 
-    'IM_Residency_End_Date', 'SR_Residency_Programme', 'SR_Residency_Start_Date', 'SR_Residency_End_Date','PG_Year']
+    if ("history - education" in sheetNames_list):
+        history_education = pd.read_excel(
+            file, sheet_name="History - Education", dtype=str)
+        history_education.columns = ['MCR_No' , 'Year_of_Graduation' , 'Date_of_Graduation' , 'Basic_Qualification' , 'Medical_School' , 'Country_of_Graduation' , 'IM_Residency_Start_Date' , 
+        'IM_Residency_End_Date', 'SR_Residency_Programme', 'SR_Residency_Start_Date', 'SR_Residency_End_Date','PG_Year']
+        list_of_existing_sheetNames["history - eduction"] = history_education
 
     #history-posting
-    history_posting = pd.read_excel(
-        file, sheet_name="History - Posting", dtype=str)
-    history_posting.columns = [ 'MCR_No', 'Posting_Institution' , 'Posting_Department' , 'Posting_StartDate' , 'Posting_EndDate']
+    if ("history - posting" in sheetNames_list):
+        history_posting = pd.read_excel(
+            file, sheet_name="History - Posting", dtype=str)
+        history_posting.columns = [ 'MCR_No', 'Posting_Institution' , 'Posting_Department' , 'Posting_StartDate' , 'Posting_EndDate']
+        list_of_existing_sheetNames["history - posting"] = history_posting
 
     #history-exam
-    history_exam = pd.read_excel(
-        file, sheet_name="History - Exam", dtype=str)
-    history_exam.columns = [ 'MCR_No', 'Name_of_Exam' , 'Date_of_Attempt' , 'Exam_Status']
+    if ("history - exam" in sheetNames_list):
+        history_exam = pd.read_excel(
+            file, sheet_name="History - Exam", dtype=str)
+        history_exam.columns = [ 'MCR_No', 'Name_of_Exam' , 'Date_of_Attempt' , 'Exam_Status']
+        list_of_existing_sheetNames["history - exam"] = history_exam
 
     #histroy-trg
-    history_trg = pd.read_excel(
-        file, sheet_name="History - Trg Ext.&Remediation", dtype=str)
-    history_trg.columns = [ 'MCR_No', 'LOAPIP' , 'StartDate' , 'EndDate']
+    if ("history - trg ext.&remediation" in sheetNames_list):
+        history_trg = pd.read_excel(
+            file, sheet_name="History - Trg Ext.&Remediation", dtype=str)
+        history_trg.columns = [ 'MCR_No', 'LOAPIP' , 'StartDate' , 'EndDate']
+        list_of_existing_sheetNames["history - trg ext.&remediation"] = history_trg
 
     #grants
-    grants = pd.read_excel(
-        file, sheet_name="Grants", dtype=str)
-    grants.columns = [ 'MCR_No', 'Name_of_Grant' , 'Project_Title' , 'Project_ID' , 'Grant_End_Date' , 'Grant_Start_Date']
+    if ("grants" in sheetNames_list):
+        grants = pd.read_excel(
+            file, sheet_name="Grants", dtype=str)
+        grants.columns = [ 'MCR_No', 'Name_of_Grant' , 'Project_Title' , 'Project_ID' , 'Grant_End_Date' , 'Grant_Start_Date']
+        list_of_existing_sheetNames["grants"] = grants
 
     #awards
-    awards = pd.read_excel(
-        file, sheet_name="Awards", dtype=str)
-    awards.columns = [ 'MCR_No', 'Award_Category' , 'Name_of_Award' , 'FY_of_Award_Received' , 'Date_of_Award_Received' , 'Project_ID']
+    if ("awards" in sheetNames_list):
+        awards = pd.read_excel(
+            file, sheet_name="Awards", dtype=str)
+        awards.columns = [ 'MCR_No', 'Award_Category' , 'Name_of_Award' , 'FY_of_Award_Received' , 'Date_of_Award_Received' , 'Project_ID']
+        list_of_existing_sheetNames["awards"] = awards
 
     #publications
-    publlications = pd.read_excel(
-        file, sheet_name="Publications", dtype=str)
-    publlications.columns = [ 'MCR_No', 'Publication_Title' , 'Journal_Title' , 'PMID' , 'Publication_Date' ]
+    if ("publications" in sheetNames_list):
+        publications = pd.read_excel(
+            file, sheet_name="Publications", dtype=str)
+        publications.columns = [ 'MCR_No', 'Publication_Title' , 'Journal_Title' , 'PMID' , 'Publication_Date' ]
+        list_of_existing_sheetNames["publications"] = publications
 
     #presentations
-    presentations = pd.read_excel(
-        file, sheet_name="Presentations", dtype=str)
-    presentations.columns = [ 'MCR_No', 'Title' , 'Type' , 'Project_ID' , 'Conference_Name' , 'Country' , 'Presentation_Date' ]
+    if ("presentations" in sheetNames_list):
+        presentations = pd.read_excel(
+            file, sheet_name="Presentations", dtype=str)
+        presentations.columns = [ 'MCR_No', 'Title' , 'Type' , 'Project_ID' , 'Conference_Name' , 'Country' , 'Presentation_Date' ]
+        list_of_existing_sheetNames["presentations"] = presentations
 
     #project
-    project = pd.read_excel(
-        file, sheet_name="Projects", dtype=str)
-    project.columns = [ 'MCR_No', 'Project_Type' ,'Project_Title' ,'Project_ID' ,'Start_Date' , 'End_Date' , 'Date_of_QI_Certification' , 'PMID' ]
+    if ("projects" in sheetNames_list):
+        projects = pd.read_excel(
+            file, sheet_name="Projects", dtype=str)
+        projects.columns = [ 'MCR_No', 'Project_Type' ,'Project_Title' ,'Project_ID' ,'Start_Date' , 'End_Date' , 'Date_of_QI_Certification' , 'PMID' ]
+        list_of_existing_sheetNames["projects"] = projects
 
     #IHI
-    ihi = pd.read_excel(
-        file, sheet_name="IHI", dtype=str)
-    ihi.columns = [ 'MCR_No', 'Completion_of_Emodules' , 'Date' ]
+    if ("ihi" in sheetNames_list):
+        ihi = pd.read_excel(
+            file, sheet_name="IHI", dtype=str)
+        ihi.columns = [ 'MCR_No', 'Completion_of_Emodules' , 'Date' ]
+        list_of_existing_sheetNames["ihi"] = ihi
 
     #didatic attendance
-    didatic_attendance = pd.read_excel(
-        file, sheet_name="Didactic Attendance", dtype=str)
-    didatic_attendance.columns = [ 'MCR_No', 'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended'  , 'MmYyyy' , 'Posting_Institution' , 'Posting_Department' , 'Scheduled_Teachings' 'Compliance_or_Not' , "Percentage_of_sessions_attended"]
+    if ("didactic attendance" in sheetNames_list):
+        didatic_attendance = pd.read_excel(
+            file, sheet_name="Didactic Attendance", dtype=str)
+        didatic_attendance.columns = [ 'MCR_No', 'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended'  , 'MmYyyy' , 'Posting_Institution' , 'Posting_Department' , 'Scheduled_Teachings' 'Compliance_or_Not' , "Percentage_of_sessions_attended"]
+        list_of_existing_sheetNames["didactic attendance"] = didatic_attendance
 
-    if didatic_attendance.duplicated().any() or didatic_attendance['MCR_No'].isnull().sum() > 0 or ihi['MCR_No'].isnull().sum() > 0 or ihi.duplicated().any() or project['MCR_No'].isnull().sum() > 0 or project.duplicated().any() or presentations['MCR_No'].isnull().sum() > 0 or presentations.duplicated().any() or publlications['MCR_No'].isnull().sum() > 0 or publlications.duplicated().any() or awards['MCR_No'].isnull().sum() > 0 or awards.duplicated().any() or grants['MCR_No'].isnull().sum() > 0 or grants.duplicated().any() or personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or personalDetails.duplicated().any() or involvement['MCR_No'].isnull().sum() > 0 or (involvement.duplicated().any()) or history_education['MCR_No'].isnull().sum() > 0 or (history_education.duplicated().any()) or history_posting['MCR_No'].isnull().sum() > 0 or history_posting.duplicated().any() or history_exam['MCR_No'].isnull().sum() > 0 or history_exam.duplicated().any() or history_trg['MCR_No'].isnull().sum() > 0 or history_trg.duplicated().any():
-        writer = pd.ExcelWriter("nulk_import_error.xlsx", engine='xlsxwriter')
-        workbook = writer.book
-        format1 = workbook.add_format({'bg_color': '#FF8080'})
-
-        ## personal_DETAILS
-        if personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or personalDetails.duplicated().any():
-            personalDetails.to_excel(writer, sheet_name='Personal_Details_error')
-            worksheet = writer.sheets['Personal_Details_error']
-            nullrows_mcr_no = personalDetails[personalDetails[[
+    ### CHECK FOR ERRORS
+    writer_exist = False
+    print(type(list_of_existing_sheetNames))
+    for each_tab in sheetNames_list:
+        if each_tab == "personal details":
+            if personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or personalDetails.duplicated().any():
+                if writer_exist == False:
+                    writer = pd.ExcelWriter("bulk_import_error.xlsx", engine='xlsxwriter')
+                    workbook = writer.book
+                    format1 = workbook.add_format({'bg_color': '#FF8080'})
+                    writer_exist = True
+                ## personal_DETAILS
+                personalDetails.to_excel(writer, sheet_name='Personal_Details_error')
+                worksheet = writer.sheets['Personal_Details_error']
+                nullrows_mcr_no = personalDetails[personalDetails[[
+                        "MCR_No"]].isnull().any(axis=1)]
+                nullrows_ID = personalDetails[personalDetails[[
+                        "Employee_ID"]].isnull().any(axis=1)]
+                duplicate_row_bool = personalDetails.duplicated()
+                for i in range(len(duplicate_row_bool)):
+                    if (duplicate_row_bool[i] == True):
+                        ran = "A" + str(i+2) + ":BA" + str(i+2)
+                        worksheet.conditional_format(ran,
+                                                    {'type':     'cell',
+                                                    'criteria': 'not equal to',
+                                                    'value': '"o1"',
+                                                    'format':   format1})
+                    
+                for row in nullrows_mcr_no.index:
+                    ran = "A" + str(row+2) + ":BA" + str(row+2)
+                    worksheet.conditional_format(ran,
+                                                    {'type':     'cell',
+                                                    'criteria': 'not equal to',
+                                                    'value': '"o1"',
+                                                    'format':   format1})
+                for row in nullrows_ID.index:
+                    ran = "A" + str(row+2) + ":BA" + str(row+2)
+                    worksheet.conditional_format(ran,
+                                                    {'type':     'cell',
+                                                    'criteria': 'not equal to',
+                                                    'value': '"o1"',
+                                                    'format':   format1})
+        elif each_tab == "history - education":
+            if history_education['MCR_No'].isnull().sum() > 0 or history_education.duplicated().any():
+                if writer_exist == False:
+                    writer = pd.ExcelWriter("bulk_import_error.xlsx", engine='xlsxwriter')
+                    workbook = writer.book
+                    format1 = workbook.add_format({'bg_color': '#FF8080'})
+                    writer_exist = True
+                history_education.to_excel(
+                    writer, sheet_name='history_education_error')
+                workbook = writer.book
+                worksheet = writer.sheets['history_education_error']
+                format1 = workbook.add_format({'bg_color': '#FF8080'})
+                nullrows = history_education[history_education[[
                 "MCR_No"]].isnull().any(axis=1)]
-            nullrows_ID = personalDetails[personalDetails[[
-                "Employee_ID"]].isnull().any(axis=1)]
-            duplicate_row_bool = personalDetails.duplicated()
-            for i in range(len(duplicate_row_bool)):
-                if (duplicate_row_bool[i] == True):
-                    ran = "A" + str(i+2) + ":BA" + str(i+2)
-                    worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-            
-            for row in nullrows_mcr_no.index:
-                ran = "A" + str(row+2) + ":BA" + str(row+2)
-                worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-            for row in nullrows_ID.index:
-                ran = "A" + str(row+2) + ":BA" + str(row+2)
-                worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-        ## involvement
-        if involvement['MCR_No'].isnull().sum() > 0 or involvement.duplicated().any():
-            involvement.to_excel(writer, sheet_name='involvement_error')
-            workbook = writer.book
-            worksheet = writer.sheets['involvement_error']
-            format1 = workbook.add_format({'bg_color': '#FF8080'})
-            nullrows = involvement[involvement[[
-            "MCR_No"]].isnull().any(axis=1)]
-            duplicate_row_bool = involvement.duplicated()
-            for i in range(len(duplicate_row_bool)):
-                if (duplicate_row_bool[i] == True):
-                    ran = "A" + str(i+2) + ":BA" + str(i+2)
-                    worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
+                duplicate_row_bool = history_education.duplicated()
+                for i in range(len(duplicate_row_bool)):
+                    if (duplicate_row_bool[i] == True):
+                        ran = "A" + str(i+2) + ":BA" + str(i+2)
+                        worksheet.conditional_format(ran,
+                                                {'type':     'cell',
+                                                'criteria': 'not equal to',
+                                                'value': '"o1"',
+                                                'format':   format1})
 
-            for row in nullrows.index:
-                ran = "A" + str(row+2) + ":BA" + str(row+2)
-                worksheet.conditional_format(ran,
-                                                {'type':     'cell',
-                                                'criteria': 'not equal to',
-                                                'value': '"o1"',
-                                                'format':   format1})
-        ## history_education
-        if history_education['MCR_No'].isnull().sum() > 0 or history_education.duplicated().any():
-            history_education.to_excel(
-                writer, sheet_name='history_education_error')
-            workbook = writer.book
-            worksheet = writer.sheets['history_education_error']
-            format1 = workbook.add_format({'bg_color': '#FF8080'})
-            nullrows = history_education[history_education[[
-            "MCR_No"]].isnull().any(axis=1)]
-            duplicate_row_bool = history_education.duplicated()
-            for i in range(len(duplicate_row_bool)):
-                if (duplicate_row_bool[i] == True):
-                    ran = "A" + str(i+2) + ":BA" + str(i+2)
+                for row in nullrows.index:
+                    ran = "A" + str(row+2) + ":BA" + str(row+2)
                     worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
+                                                    {'type':     'cell',
+                                                    'criteria': 'not equal to',
+                                                    'value': '"o1"',
+                                                    'format':   format1})    
+        elif each_tab == "history - exam":
+            if history_exam['MCR_No'].isnull().sum() > 0 or history_exam.duplicated().any():
+                if writer_exist == False:
+                    writer = pd.ExcelWriter("bulk_import_error.xlsx", engine='xlsxwriter')
+                    workbook = writer.book
+                    format1 = workbook.add_format({'bg_color': '#FF8080'})
+                    writer_exist = True
 
-            for row in nullrows.index:
-                ran = "A" + str(row+2) + ":BA" + str(row+2)
-                worksheet.conditional_format(ran,
+                history_exam.to_excel(
+                    writer, sheet_name='history_exam_error')
+                workbook = writer.book
+                worksheet = writer.sheets['history_exam_error']
+                format1 = workbook.add_format({'bg_color': '#FF8080'})
+                nullrows = history_exam[history_exam[[
+                "MCR_No"]].isnull().any(axis=1)]
+                duplicate_row_bool = history_exam.duplicated()
+                for i in range(len(duplicate_row_bool)):
+                    if (duplicate_row_bool[i] == True):
+                        ran = "A" + str(i+2) + ":BA" + str(i+2)
+                        worksheet.conditional_format(ran,
                                                 {'type':     'cell',
                                                 'criteria': 'not equal to',
                                                 'value': '"o1"',
                                                 'format':   format1})
-            
-        ## history_posting 
-        if history_posting['MCR_No'].isnull().sum() > 0 or history_posting.duplicated().any():
-            history_posting.to_excel(
-                writer, sheet_name='history_posting_error')
-            workbook = writer.book
-            worksheet = writer.sheets['history_posting_error']
-            format1 = workbook.add_format({'bg_color': '#FF8080'})
-            nullrows = history_posting[history_posting[[
-            "MCR_No"]].isnull().any(axis=1)]
-            duplicate_row_bool = history_posting.duplicated()
-            for i in range(len(duplicate_row_bool)):
-                if (duplicate_row_bool[i] == True):
-                    ran = "A" + str(i+2) + ":BA" + str(i+2)
+                for row in nullrows.index:
+                    ran = "A" + str(row+2) + ":BA" + str(row+2)
                     worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-            for row in nullrows.index:
-                ran = "A" + str(row+2) + ":BA" + str(row+2)
-                worksheet.conditional_format(ran,
+                                                    {'type':     'cell',
+                                                    'criteria': 'not equal to',
+                                                    'value': '"o1"',
+                                                    'format':   format1})
+        elif each_tab == "history - posting":
+            if history_posting['MCR_No'].isnull().sum() > 0 or history_posting.duplicated().any():
+                if writer_exist == False:
+                    writer = pd.ExcelWriter("bulk_import_error.xlsx", engine='xlsxwriter')
+                    workbook = writer.book
+                    format1 = workbook.add_format({'bg_color': '#FF8080'})
+                    writer_exist = True
+
+                history_posting.to_excel(
+                    writer, sheet_name='history_posting_error')
+                workbook = writer.book
+                worksheet = writer.sheets['history_posting_error']
+                format1 = workbook.add_format({'bg_color': '#FF8080'})
+                nullrows = history_posting[history_posting[[
+                "MCR_No"]].isnull().any(axis=1)]
+                duplicate_row_bool = history_posting.duplicated()
+                for i in range(len(duplicate_row_bool)):
+                    if (duplicate_row_bool[i] == True):
+                        ran = "A" + str(i+2) + ":BA" + str(i+2)
+                        worksheet.conditional_format(ran,
                                                 {'type':     'cell',
                                                 'criteria': 'not equal to',
                                                 'value': '"o1"',
                                                 'format':   format1})
-            
-        ## history exam
-        if history_exam['MCR_No'].isnull().sum() > 0 or history_exam.duplicated().any():
-            history_exam.to_excel(
-                writer, sheet_name='history_exam_error')
-            workbook = writer.book
-            worksheet = writer.sheets['history_exam_error']
-            format1 = workbook.add_format({'bg_color': '#FF8080'})
-            nullrows = history_exam[history_exam[[
-            "MCR_No"]].isnull().any(axis=1)]
-            duplicate_row_bool = history_exam.duplicated()
-            for i in range(len(duplicate_row_bool)):
-                if (duplicate_row_bool[i] == True):
-                    ran = "A" + str(i+2) + ":BA" + str(i+2)
+                for row in nullrows.index:
+                    ran = "A" + str(row+2) + ":BA" + str(row+2)
                     worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-            for row in nullrows.index:
-                ran = "A" + str(row+2) + ":BA" + str(row+2)
-                worksheet.conditional_format(ran,
+                                                    {'type':     'cell',
+                                                    'criteria': 'not equal to',
+                                                    'value': '"o1"',
+                                                    'format':   format1})
+        elif each_tab == "history - trg ext.&remediation":
+            if history_trg['MCR_No'].isnull().sum() > 0 or history_trg.duplicated().any():
+                if writer_exist == False:
+                    writer = pd.ExcelWriter("bulk_import_error.xlsx", engine='xlsxwriter')
+                    workbook = writer.book
+                    format1 = workbook.add_format({'bg_color': '#FF8080'})
+                    writer_exist = True
+
+                history_trg.to_excel(
+                    writer, sheet_name='history_trg_error')
+                workbook = writer.book
+                worksheet = writer.sheets['history_trg_error']
+                format1 = workbook.add_format({'bg_color': '#FF8080'})
+                nullrows = history_trg[history_trg[[
+                "MCR_No"]].isnull().any(axis=1)]
+                duplicate_row_bool = history_trg.duplicated()
+                for i in range(len(duplicate_row_bool)):
+                    if (duplicate_row_bool[i] == True):
+                        ran = "A" + str(i+2) + ":BA" + str(i+2)
+                        worksheet.conditional_format(ran,
                                                 {'type':     'cell',
                                                 'criteria': 'not equal to',
                                                 'value': '"o1"',
                                                 'format':   format1})
-        
-        ## history trg
-        if history_trg['MCR_No'].isnull().sum() > 0 or history_trg.duplicated().any():
-            history_trg.to_excel(
-                writer, sheet_name='history_trg_error')
-            workbook = writer.book
-            worksheet = writer.sheets['history_trg_error']
-            format1 = workbook.add_format({'bg_color': '#FF8080'})
-            nullrows = history_trg[history_trg[[
-            "MCR_No"]].isnull().any(axis=1)]
-            duplicate_row_bool = history_trg.duplicated()
-            for i in range(len(duplicate_row_bool)):
-                if (duplicate_row_bool[i] == True):
-                    ran = "A" + str(i+2) + ":BA" + str(i+2)
+                for row in nullrows.index:
+                    ran = "A" + str(row+2) + ":BA" + str(row+2)
                     worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-            for row in nullrows.index:
-                ran = "A" + str(row+2) + ":BA" + str(row+2)
-                worksheet.conditional_format(ran,
+                                                    {'type':     'cell',
+                                                    'criteria': 'not equal to',
+                                                    'value': '"o1"',
+                                                    'format':   format1})
+        elif each_tab == "didactic attendance":
+            if didatic_attendance.duplicated().any() or didatic_attendance['MCR_No'].isnull().sum() > 0:
+                if writer_exist == False:
+                    writer = pd.ExcelWriter("bulk_import_error.xlsx", engine='xlsxwriter')
+                    workbook = writer.book
+                    format1 = workbook.add_format({'bg_color': '#FF8080'})
+                    writer_exist = True
+
+                didatic_attendance.to_excel(
+                    writer, sheet_name='didatic_attendance_error')
+                workbook = writer.book
+                worksheet = writer.sheets['didatic_attendance_error']
+                format1 = workbook.add_format({'bg_color': '#FF8080'})
+                nullrows = awards[awards[[
+                "MCR_No"]].isnull().any(axis=1)]
+                duplicate_row_bool = didatic_attendance.duplicated()
+                for i in range(len(duplicate_row_bool)):
+                    if (duplicate_row_bool[i] == True):
+                        ran = "A" + str(i+2) + ":BA" + str(i+2)
+                        worksheet.conditional_format(ran,
                                                 {'type':     'cell',
                                                 'criteria': 'not equal to',
                                                 'value': '"o1"',
                                                 'format':   format1})
-        
-        ## grants
-        if grants['MCR_No'].isnull().sum() > 0 or grants.duplicated().any():
-            grants.to_excel(
-                writer, sheet_name='grants_error')
-            workbook = writer.book
-            worksheet = writer.sheets['grants_error']
-            format1 = workbook.add_format({'bg_color': '#FF8080'})
-            nullrows = grants[grants[[
-            "MCR_No"]].isnull().any(axis=1)]
-            duplicate_row_bool = grants.duplicated()
-            for i in range(len(duplicate_row_bool)):
-                if (duplicate_row_bool[i] == True):
-                    ran = "A" + str(i+2) + ":BA" + str(i+2)
+                for row in nullrows.index:
+                    ran = "A" + str(row+2) + ":BA" + str(row+2)
                     worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-            for row in nullrows.index:
-                ran = "A" + str(row+2) + ":BA" + str(row+2)
-                worksheet.conditional_format(ran,
-                                                {'type':     'cell',
-                                                'criteria': 'not equal to',
-                                                'value': '"o1"',
-                                                'format':   format1})
-            
-        ## awards
-        if awards['MCR_No'].isnull().sum() > 0 or awards.duplicated().any():
-            awards.to_excel(
-                writer, sheet_name='awards_error')
-            workbook = writer.book
-            worksheet = writer.sheets['awards_error']
-            format1 = workbook.add_format({'bg_color': '#FF8080'})
-            nullrows = awards[awards[[
-            "MCR_No"]].isnull().any(axis=1)]
-            duplicate_row_bool = awards.duplicated()
-            for i in range(len(duplicate_row_bool)):
-                if (duplicate_row_bool[i] == True):
-                    ran = "A" + str(i+2) + ":BA" + str(i+2)
+                                                    {'type':     'cell',
+                                                    'criteria': 'not equal to',
+                                                    'value': '"o1"',
+                                                    'format':   format1})
+        else:
+            df = list_of_existing_sheetNames[each_tab]
+            if df.duplicated().any() or df['MCR_No'].isnull().sum() > 0:
+                if writer_exist == False:
+                    writer = pd.ExcelWriter("bulk_import_error.xlsx", engine='xlsxwriter')
+                    workbook = writer.book
+                    format1 = workbook.add_format({'bg_color': '#FF8080'})
+                    writer_exist = True
+
+                df.to_excel(writer, sheet_name= each_tab + '_error')
+                workbook = writer.book
+                worksheet = writer.sheets[each_tab + '_error']
+                format1 = workbook.add_format({'bg_color': '#FF8080'})
+                nullrows = df[df[[
+                    "MCR_No"]].isnull().any(axis=1)]
+                duplicate_row_bool = df.duplicated()
+                for i in range(len(duplicate_row_bool)):
+                    if (duplicate_row_bool[i] == True):
+                        ran = "A" + str(i+2) + ":BA" + str(i+2)
+                        worksheet.conditional_format(ran,
+                                                    {'type':     'cell',
+                                                    'criteria': 'not equal to',
+                                                    'value': '"o1"',
+                                                    'format':   format1})
+
+                for row in nullrows.index:
+                    ran = "A" + str(row+2) + ":BA" + str(row+2)
                     worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-            for row in nullrows.index:
-                ran = "A" + str(row+2) + ":BA" + str(row+2)
-                worksheet.conditional_format(ran,
-                                                {'type':     'cell',
-                                                'criteria': 'not equal to',
-                                                'value': '"o1"',
-                                                'format':   format1})
-        
-        ## publications
-        if publlications['MCR_No'].isnull().sum() > 0 or publlications.duplicated().any():
-            publlications.to_excel(
-                writer, sheet_name='publlications_error')
-            workbook = writer.book
-            worksheet = writer.sheets['publlications_error']
-            format1 = workbook.add_format({'bg_color': '#FF8080'})
-            nullrows = publlications[publlications[[
-            "MCR_No"]].isnull().any(axis=1)]
-            duplicate_row_bool = publlications.duplicated()
-            for i in range(len(duplicate_row_bool)):
-                if (duplicate_row_bool[i] == True):
-                    ran = "A" + str(i+2) + ":BA" + str(i+2)
-                    worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-            for row in nullrows.index:
-                ran = "A" + str(row+2) + ":BA" + str(row+2)
-                worksheet.conditional_format(ran,
-                                                {'type':     'cell',
-                                                'criteria': 'not equal to',
-                                                'value': '"o1"',
-                                                'format':   format1})
-        
-        ## presentations
-        if presentations['MCR_No'].isnull().sum() > 0 or presentations.duplicated().any():
-            presentations.to_excel(
-                writer, sheet_name='presentations_error')
-            workbook = writer.book
-            worksheet = writer.sheets['presentations_error']
-            format1 = workbook.add_format({'bg_color': '#FF8080'})
-            nullrows = presentations[presentations[[
-            "MCR_No"]].isnull().any(axis=1)]
-            duplicate_row_bool = presentations.duplicated()
-            for i in range(len(duplicate_row_bool)):
-                if (duplicate_row_bool[i] == True):
-                    ran = "A" + str(i+2) + ":BA" + str(i+2)
-                    worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-            for row in nullrows.index:
-                ran = "A" + str(row+2) + ":BA" + str(row+2)
-                worksheet.conditional_format(ran,
-                                                {'type':     'cell',
-                                                'criteria': 'not equal to',
-                                                'value': '"o1"',
-                                                'format':   format1})
-            
-        ## project
-        if project['MCR_No'].isnull().sum() > 0 or project.duplicated().any():
-            project.to_excel(
-                writer, sheet_name='project_error')
-            workbook = writer.book
-            worksheet = writer.sheets['project_error']
-            format1 = workbook.add_format({'bg_color': '#FF8080'})
-            nullrows = project[project[[
-            "MCR_No"]].isnull().any(axis=1)]
-            duplicate_row_bool = project.duplicated()
-            for i in range(len(duplicate_row_bool)):
-                if (duplicate_row_bool[i] == True):
-                    ran = "A" + str(i+2) + ":BA" + str(i+2)
-                    worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-            for row in nullrows.index:
-                ran = "A" + str(row+2) + ":BA" + str(row+2)
-                worksheet.conditional_format(ran,
-                                                {'type':     'cell',
-                                                'criteria': 'not equal to',
-                                                'value': '"o1"',
-                                                'format':   format1})
-        
-        ## ihi
-        if ihi.duplicated().any() or ihi['MCR_No'].isnull().sum() > 0:
-            ihi.to_excel(
-                writer, sheet_name='ihi_error')
-            workbook = writer.book
-            worksheet = writer.sheets['ihi_error']
-            format1 = workbook.add_format({'bg_color': '#FF8080'})
-            nullrows = ihi[ihi[[
-            "MCR_No"]].isnull().any(axis=1)]
-            duplicate_row_bool = ihi.duplicated()
-            for i in range(len(duplicate_row_bool)):
-                if (duplicate_row_bool[i] == True):
-                    ran = "A" + str(i+2) + ":BA" + str(i+2)
-                    worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-            for row in nullrows.index:
-                ran = "A" + str(row+2) + ":BA" + str(row+2)
-                worksheet.conditional_format(ran,
-                                                {'type':     'cell',
-                                                'criteria': 'not equal to',
-                                                'value': '"o1"',
-                                                'format':   format1})
-            
-        ## didactic attendance 
-        if didatic_attendance.duplicated().any() or didatic_attendance['MCR_No'].isnull().sum() > 0:
-            didatic_attendance.to_excel(
-                writer, sheet_name='didatic_attendance_error')
-            workbook = writer.book
-            worksheet = writer.sheets['didatic_attendance_error']
-            format1 = workbook.add_format({'bg_color': '#FF8080'})
-            nullrows = awards[awards[[
-            "MCR_No"]].isnull().any(axis=1)]
-            duplicate_row_bool = didatic_attendance.duplicated()
-            for i in range(len(duplicate_row_bool)):
-                if (duplicate_row_bool[i] == True):
-                    ran = "A" + str(i+2) + ":BA" + str(i+2)
-                    worksheet.conditional_format(ran,
-                                            {'type':     'cell',
-                                            'criteria': 'not equal to',
-                                            'value': '"o1"',
-                                            'format':   format1})
-            for row in nullrows.index:
-                ran = "A" + str(row+2) + ":BA" + str(row+2)
-                worksheet.conditional_format(ran,
-                                                {'type':     'cell',
-                                                'criteria': 'not equal to',
-                                                'value': '"o1"',
-                                                'format':   format1})
-                
+                                                        {'type':     'cell',
+                                                        'criteria': 'not equal to',
+                                                        'value': '"o1"',
+                                                        'format':   format1})
+    if (writer_exist == True):
         writer.save()
-
         return redirect("http://localhost/FYP-GoodHealth/tab_pages/bulk_import_error.html", code=302)
 
+
+    # if didatic_attendance.duplicated().any() or didatic_attendance['MCR_No'].isnull().sum() > 0 or ihi['MCR_No'].isnull().sum() > 0 or ihi.duplicated().any() or project['MCR_No'].isnull().sum() > 0 or project.duplicated().any() or presentations['MCR_No'].isnull().sum() > 0 or presentations.duplicated().any() or publlications['MCR_No'].isnull().sum() > 0 or publlications.duplicated().any() or awards['MCR_No'].isnull().sum() > 0 or awards.duplicated().any() or grants['MCR_No'].isnull().sum() > 0 or grants.duplicated().any() or personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or personalDetails.duplicated().any() or involvement['MCR_No'].isnull().sum() > 0 or (involvement.duplicated().any()) or history_education['MCR_No'].isnull().sum() > 0 or (history_education.duplicated().any()) or history_posting['MCR_No'].isnull().sum() > 0 or history_posting.duplicated().any() or history_exam['MCR_No'].isnull().sum() > 0 or history_exam.duplicated().any() or history_trg['MCR_No'].isnull().sum() > 0 or history_trg.duplicated().any():
+    #     writer = pd.ExcelWriter("bulk_import_error.xlsx", engine='xlsxwriter')
+    #     workbook = writer.book
+    #     format1 = workbook.add_format({'bg_color': '#FF8080'})
+
+    #     ## personal_DETAILS
+    #     if personalDetails['MCR_No'].isnull().sum() > 0 or personalDetails['Employee_ID'].isnull().sum() > 0 or personalDetails.duplicated().any():
+    #         personalDetails.to_excel(writer, sheet_name='Personal_Details_error')
+    #         worksheet = writer.sheets['Personal_Details_error']
+    #         nullrows_mcr_no = personalDetails[personalDetails[[
+    #             "MCR_No"]].isnull().any(axis=1)]
+    #         nullrows_ID = personalDetails[personalDetails[[
+    #             "Employee_ID"]].isnull().any(axis=1)]
+    #         duplicate_row_bool = personalDetails.duplicated()
+    #         for i in range(len(duplicate_row_bool)):
+    #             if (duplicate_row_bool[i] == True):
+    #                 ran = "A" + str(i+2) + ":BA" + str(i+2)
+    #                 worksheet.conditional_format(ran,
+    #                                         {'type':     'cell',
+    #                                         'criteria': 'not equal to',
+    #                                         'value': '"o1"',
+    #                                         'format':   format1})
+            
+    #         for row in nullrows_mcr_no.index:
+    #             ran = "A" + str(row+2) + ":BA" + str(row+2)
+    #             worksheet.conditional_format(ran,
+    #                                         {'type':     'cell',
+    #                                         'criteria': 'not equal to',
+    #                                         'value': '"o1"',
+    #                                         'format':   format1})
+    #         for row in nullrows_ID.index:
+    #             ran = "A" + str(row+2) + ":BA" + str(row+2)
+    #             worksheet.conditional_format(ran,
+    #                                         {'type':     'cell',
+    #                                         'criteria': 'not equal to',
+    #                                         'value': '"o1"',
+    #                                         'format':   format1})
+    #     ## involvement
+    #     if involvement['MCR_No'].isnull().sum() > 0 or involvement.duplicated().any():
+    #         involvement.to_excel(writer, sheet_name='involvement_error')
+    #         workbook = writer.book
+    #         worksheet = writer.sheets['involvement_error']
+    #         format1 = workbook.add_format({'bg_color': '#FF8080'})
+    #         nullrows = involvement[involvement[[
+    #         "MCR_No"]].isnull().any(axis=1)]
+    #         duplicate_row_bool = involvement.duplicated()
+    #         for i in range(len(duplicate_row_bool)):
+    #             if (duplicate_row_bool[i] == True):
+    #                 ran = "A" + str(i+2) + ":BA" + str(i+2)
+    #                 worksheet.conditional_format(ran,
+    #                                         {'type':     'cell',
+    #                                         'criteria': 'not equal to',
+    #                                         'value': '"o1"',
+    #                                         'format':   format1})
+
+    #         for row in nullrows.index:
+    #             ran = "A" + str(row+2) + ":BA" + str(row+2)
+    #             worksheet.conditional_format(ran,
+    #                                             {'type':     'cell',
+    #                                             'criteria': 'not equal to',
+    #                                             'value': '"o1"',
+    #                                             'format':   format1})
+    #     ## history_education
+    #     if history_education['MCR_No'].isnull().sum() > 0 or history_education.duplicated().any():
+    #         history_education.to_excel(
+    #             writer, sheet_name='history_education_error')
+    #         workbook = writer.book
+    #         worksheet = writer.sheets['history_education_error']
+    #         format1 = workbook.add_format({'bg_color': '#FF8080'})
+    #         nullrows = history_education[history_education[[
+    #         "MCR_No"]].isnull().any(axis=1)]
+    #         duplicate_row_bool = history_education.duplicated()
+    #         for i in range(len(duplicate_row_bool)):
+    #             if (duplicate_row_bool[i] == True):
+    #                 ran = "A" + str(i+2) + ":BA" + str(i+2)
+    #                 worksheet.conditional_format(ran,
+    #                                         {'type':     'cell',
+    #                                         'criteria': 'not equal to',
+    #                                         'value': '"o1"',
+    #                                         'format':   format1})
+
+    #         for row in nullrows.index:
+    #             ran = "A" + str(row+2) + ":BA" + str(row+2)
+    #             worksheet.conditional_format(ran,
+    #                                             {'type':     'cell',
+    #                                             'criteria': 'not equal to',
+    #                                             'value': '"o1"',
+    #                                             'format':   format1})
+            
+    #     ## history_posting 
+    #     if history_posting['MCR_No'].isnull().sum() > 0 or history_posting.duplicated().any():
+    #         history_posting.to_excel(
+    #             writer, sheet_name='history_posting_error')
+    #         workbook = writer.book
+    #         worksheet = writer.sheets['history_posting_error']
+    #         format1 = workbook.add_format({'bg_color': '#FF8080'})
+    #         nullrows = history_posting[history_posting[[
+    #         "MCR_No"]].isnull().any(axis=1)]
+    #         duplicate_row_bool = history_posting.duplicated()
+    #         for i in range(len(duplicate_row_bool)):
+    #             if (duplicate_row_bool[i] == True):
+    #                 ran = "A" + str(i+2) + ":BA" + str(i+2)
+    #                 worksheet.conditional_format(ran,
+    #                                         {'type':     'cell',
+    #                                         'criteria': 'not equal to',
+    #                                         'value': '"o1"',
+    #                                         'format':   format1})
+    #         for row in nullrows.index:
+    #             ran = "A" + str(row+2) + ":BA" + str(row+2)
+    #             worksheet.conditional_format(ran,
+    #                                             {'type':     'cell',
+    #                                             'criteria': 'not equal to',
+    #                                             'value': '"o1"',
+    #                                             'format':   format1})
+            
+    #     ## history exam
+    #     if history_exam['MCR_No'].isnull().sum() > 0 or history_exam.duplicated().any():
+    #         history_exam.to_excel(
+    #             writer, sheet_name='history_exam_error')
+    #         workbook = writer.book
+    #         worksheet = writer.sheets['history_exam_error']
+    #         format1 = workbook.add_format({'bg_color': '#FF8080'})
+    #         nullrows = history_exam[history_exam[[
+    #         "MCR_No"]].isnull().any(axis=1)]
+    #         duplicate_row_bool = history_exam.duplicated()
+    #         for i in range(len(duplicate_row_bool)):
+    #             if (duplicate_row_bool[i] == True):
+    #                 ran = "A" + str(i+2) + ":BA" + str(i+2)
+    #                 worksheet.conditional_format(ran,
+    #                                         {'type':     'cell',
+    #                                         'criteria': 'not equal to',
+    #                                         'value': '"o1"',
+    #                                         'format':   format1})
+    #         for row in nullrows.index:
+    #             ran = "A" + str(row+2) + ":BA" + str(row+2)
+    #             worksheet.conditional_format(ran,
+    #                                             {'type':     'cell',
+    #                                             'criteria': 'not equal to',
+    #                                             'value': '"o1"',
+    #                                             'format':   format1})
+        
+    #     ## history trg
+    #     if history_trg['MCR_No'].isnull().sum() > 0 or history_trg.duplicated().any():
+    #         history_trg.to_excel(
+    #             writer, sheet_name='history_trg_error')
+    #         workbook = writer.book
+    #         worksheet = writer.sheets['history_trg_error']
+    #         format1 = workbook.add_format({'bg_color': '#FF8080'})
+    #         nullrows = history_trg[history_trg[[
+    #         "MCR_No"]].isnull().any(axis=1)]
+    #         duplicate_row_bool = history_trg.duplicated()
+    #         for i in range(len(duplicate_row_bool)):
+    #             if (duplicate_row_bool[i] == True):
+    #                 ran = "A" + str(i+2) + ":BA" + str(i+2)
+    #                 worksheet.conditional_format(ran,
+    #                                         {'type':     'cell',
+    #                                         'criteria': 'not equal to',
+    #                                         'value': '"o1"',
+    #                                         'format':   format1})
+    #         for row in nullrows.index:
+    #             ran = "A" + str(row+2) + ":BA" + str(row+2)
+    #             worksheet.conditional_format(ran,
+    #                                             {'type':     'cell',
+    #                                             'criteria': 'not equal to',
+    #                                             'value': '"o1"',
+    #                                             'format':   format1})
+        
+    #     ## grants
+    #     if grants['MCR_No'].isnull().sum() > 0 or grants.duplicated().any():
+    #         grants.to_excel(
+    #             writer, sheet_name='grants_error')
+    #         workbook = writer.book
+    #         worksheet = writer.sheets['grants_error']
+    #         format1 = workbook.add_format({'bg_color': '#FF8080'})
+    #         nullrows = grants[grants[[
+    #         "MCR_No"]].isnull().any(axis=1)]
+    #         duplicate_row_bool = grants.duplicated()
+    #         for i in range(len(duplicate_row_bool)):
+    #             if (duplicate_row_bool[i] == True):
+    #                 ran = "A" + str(i+2) + ":BA" + str(i+2)
+    #                 worksheet.conditional_format(ran,
+    #                                         {'type':     'cell',
+    #                                         'criteria': 'not equal to',
+    #                                         'value': '"o1"',
+    #                                         'format':   format1})
+    #         for row in nullrows.index:
+    #             ran = "A" + str(row+2) + ":BA" + str(row+2)
+    #             worksheet.conditional_format(ran,
+    #                                             {'type':     'cell',
+    #                                             'criteria': 'not equal to',
+    #                                             'value': '"o1"',
+    #                                             'format':   format1})
+            
+    #     ## awards
+    #     if awards['MCR_No'].isnull().sum() > 0 or awards.duplicated().any():
+    #         awards.to_excel(
+    #             writer, sheet_name='awards_error')
+    #         workbook = writer.book
+    #         worksheet = writer.sheets['awards_error']
+    #         format1 = workbook.add_format({'bg_color': '#FF8080'})
+    #         nullrows = awards[awards[[
+    #         "MCR_No"]].isnull().any(axis=1)]
+    #         duplicate_row_bool = awards.duplicated()
+    #         for i in range(len(duplicate_row_bool)):
+    #             if (duplicate_row_bool[i] == True):
+    #                 ran = "A" + str(i+2) + ":BA" + str(i+2)
+    #                 worksheet.conditional_format(ran,
+    #                                         {'type':     'cell',
+    #                                         'criteria': 'not equal to',
+    #                                         'value': '"o1"',
+    #                                         'format':   format1})
+    #         for row in nullrows.index:
+    #             ran = "A" + str(row+2) + ":BA" + str(row+2)
+    #             worksheet.conditional_format(ran,
+    #                                             {'type':     'cell',
+    #                                             'criteria': 'not equal to',
+    #                                             'value': '"o1"',
+    #                                             'format':   format1})
+        
+    #     ## publications
+    #     if publlications['MCR_No'].isnull().sum() > 0 or publlications.duplicated().any():
+    #         publlications.to_excel(
+    #             writer, sheet_name='publlications_error')
+    #         workbook = writer.book
+    #         worksheet = writer.sheets['publlications_error']
+    #         format1 = workbook.add_format({'bg_color': '#FF8080'})
+    #         nullrows = publlications[publlications[[
+    #         "MCR_No"]].isnull().any(axis=1)]
+    #         duplicate_row_bool = publlications.duplicated()
+    #         for i in range(len(duplicate_row_bool)):
+    #             if (duplicate_row_bool[i] == True):
+    #                 ran = "A" + str(i+2) + ":BA" + str(i+2)
+    #                 worksheet.conditional_format(ran,
+    #                                         {'type':     'cell',
+    #                                         'criteria': 'not equal to',
+    #                                         'value': '"o1"',
+    #                                         'format':   format1})
+    #         for row in nullrows.index:
+    #             ran = "A" + str(row+2) + ":BA" + str(row+2)
+    #             worksheet.conditional_format(ran,
+    #                                             {'type':     'cell',
+    #                                             'criteria': 'not equal to',
+    #                                             'value': '"o1"',
+    #                                             'format':   format1})
+        
+    #     ## presentations
+    #     if presentations['MCR_No'].isnull().sum() > 0 or presentations.duplicated().any():
+    #         presentations.to_excel(
+    #             writer, sheet_name='presentations_error')
+    #         workbook = writer.book
+    #         worksheet = writer.sheets['presentations_error']
+    #         format1 = workbook.add_format({'bg_color': '#FF8080'})
+    #         nullrows = presentations[presentations[[
+    #         "MCR_No"]].isnull().any(axis=1)]
+    #         duplicate_row_bool = presentations.duplicated()
+    #         for i in range(len(duplicate_row_bool)):
+    #             if (duplicate_row_bool[i] == True):
+    #                 ran = "A" + str(i+2) + ":BA" + str(i+2)
+    #                 worksheet.conditional_format(ran,
+    #                                         {'type':     'cell',
+    #                                         'criteria': 'not equal to',
+    #                                         'value': '"o1"',
+    #                                         'format':   format1})
+    #         for row in nullrows.index:
+    #             ran = "A" + str(row+2) + ":BA" + str(row+2)
+    #             worksheet.conditional_format(ran,
+    #                                             {'type':     'cell',
+    #                                             'criteria': 'not equal to',
+    #                                             'value': '"o1"',
+    #                                             'format':   format1})
+            
+    #     ## project
+    #     if project['MCR_No'].isnull().sum() > 0 or project.duplicated().any():
+    #         project.to_excel(
+    #             writer, sheet_name='project_error')
+    #         workbook = writer.book
+    #         worksheet = writer.sheets['project_error']
+    #         format1 = workbook.add_format({'bg_color': '#FF8080'})
+    #         nullrows = project[project[[
+    #         "MCR_No"]].isnull().any(axis=1)]
+    #         duplicate_row_bool = project.duplicated()
+    #         for i in range(len(duplicate_row_bool)):
+    #             if (duplicate_row_bool[i] == True):
+    #                 ran = "A" + str(i+2) + ":BA" + str(i+2)
+    #                 worksheet.conditional_format(ran,
+    #                                         {'type':     'cell',
+    #                                         'criteria': 'not equal to',
+    #                                         'value': '"o1"',
+    #                                         'format':   format1})
+    #         for row in nullrows.index:
+    #             ran = "A" + str(row+2) + ":BA" + str(row+2)
+    #             worksheet.conditional_format(ran,
+    #                                             {'type':     'cell',
+    #                                             'criteria': 'not equal to',
+    #                                             'value': '"o1"',
+    #                                             'format':   format1})
+        
+    #     ## ihi
+    #     if ihi.duplicated().any() or ihi['MCR_No'].isnull().sum() > 0:
+    #         ihi.to_excel(
+    #             writer, sheet_name='ihi_error')
+    #         workbook = writer.book
+    #         worksheet = writer.sheets['ihi_error']
+    #         format1 = workbook.add_format({'bg_color': '#FF8080'})
+    #         nullrows = ihi[ihi[[
+    #         "MCR_No"]].isnull().any(axis=1)]
+    #         duplicate_row_bool = ihi.duplicated()
+    #         for i in range(len(duplicate_row_bool)):
+    #             if (duplicate_row_bool[i] == True):
+    #                 ran = "A" + str(i+2) + ":BA" + str(i+2)
+    #                 worksheet.conditional_format(ran,
+    #                                         {'type':     'cell',
+    #                                         'criteria': 'not equal to',
+    #                                         'value': '"o1"',
+    #                                         'format':   format1})
+    #         for row in nullrows.index:
+    #             ran = "A" + str(row+2) + ":BA" + str(row+2)
+    #             worksheet.conditional_format(ran,
+    #                                             {'type':     'cell',
+    #                                             'criteria': 'not equal to',
+    #                                             'value': '"o1"',
+    #                                             'format':   format1})
+            
+    #     ## didactic attendance 
+    #     if didatic_attendance.duplicated().any() or didatic_attendance['MCR_No'].isnull().sum() > 0:
+    #         didatic_attendance.to_excel(
+    #             writer, sheet_name='didatic_attendance_error')
+    #         workbook = writer.book
+    #         worksheet = writer.sheets['didatic_attendance_error']
+    #         format1 = workbook.add_format({'bg_color': '#FF8080'})
+    #         nullrows = awards[awards[[
+    #         "MCR_No"]].isnull().any(axis=1)]
+    #         duplicate_row_bool = didatic_attendance.duplicated()
+    #         for i in range(len(duplicate_row_bool)):
+    #             if (duplicate_row_bool[i] == True):
+    #                 ran = "A" + str(i+2) + ":BA" + str(i+2)
+    #                 worksheet.conditional_format(ran,
+    #                                         {'type':     'cell',
+    #                                         'criteria': 'not equal to',
+    #                                         'value': '"o1"',
+    #                                         'format':   format1})
+    #         for row in nullrows.index:
+    #             ran = "A" + str(row+2) + ":BA" + str(row+2)
+    #             worksheet.conditional_format(ran,
+    #                                             {'type':     'cell',
+    #                                             'criteria': 'not equal to',
+    #                                             'value': '"o1"',
+    #                                             'format':   format1})
+                
+        # writer.save()
+
+        # return redirect("http://localhost/FYP-GoodHealth/tab_pages/bulk_import_error.html", code=302)
+
     ### personal details
-    personalDetails = personalDetails.fillna('')
-    pd_count = 0
-    total_pd = len(personalDetails)
-    for i in range(len(personalDetails)):
-        data = dict(personalDetails.iloc[i])
-        presentation = Personal_Details(**data)
-        try:
-            exist = db.session.query(exists().where(Personal_Details.MCR_No == data['MCR_No'] , Personal_Details.Employee_ID == data['Employee_ID'])).scalar()
-            if exist == False:
-                db.session.add(presentation)
-                db.session.commit()
-            else: #it exist in the database 
-                pd_count += 1
-            # if Personal_Details.query.filter_by(MCR_No=data["MCR_No"]).first() != None:
-            #     Personal_Details.query.filter_by(
-            #         MCR_No=data["MCR_No"]).update(data)
-            # else:
-            #     db.session.add(presentation)
-            #     db.session.commit()
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()
-    if pd_count == total_pd:
-        count += 1
-    print('pd' + str(count))
+    if ("personal details" in sheetNames_list):
+        personalDetails = personalDetails.fillna('')
+        pd_count = 0
+        total_pd = len(personalDetails)
+        for i in range(len(personalDetails)):
+            data = dict(personalDetails.iloc[i])
+            print(data)
+            presentation = Personal_Details(**data)
+            try:
+                exist = db.session.query(exists().where(Personal_Details.MCR_No == data['MCR_No'] , Personal_Details.Employee_ID == data['Employee_ID'])).scalar()
+                if exist == False:
+                    db.session.add(presentation)
+                    db.session.commit()
+                else: #it exist in the database 
+                    pd_count += 1
+                # if Personal_Details.query.filter_by(MCR_No=data["MCR_No"]).first() != None:
+                #     Personal_Details.query.filter_by(
+                #         MCR_No=data["MCR_No"]).update(data)
+                # else:
+                #     db.session.add(presentation)
+                #     db.session.commit()
+            except Exception as e:
+                print("An error occurred:", e)
+                print("Stack trace:")
+                traceback.print_exc()
+        if pd_count == total_pd:
+            count += 1
+        print('pd' + str(count))
 
     ### involvement
-    involvement = involvement.fillna('')
-    involvement_count = 0
-    total_involvement = len(involvement)
-    for i in range(len(involvement)):
-        data = dict(involvement.iloc[i])
-        presentation2 = Involvement(**data)
-        try:
-            exist = db.session.query(exists().where(Involvement.MCR_No == data['MCR_No'] , Involvement.Event == data['Event'],Involvement.Start_Date == data['Start_Date'])).scalar()
-            if exist == False:
-                db.session.add(presentation2)
-                db.session.commit()
-            else: #it exist in the database 
-                involvement_count += 1
+    if ("involvement" in sheetNames_list):
+        involvement = involvement.fillna('')
+        involvement_count = 0
+        total_involvement = len(involvement)
+        for i in range(len(involvement)):
+            data = dict(involvement.iloc[i])
+            presentation2 = Involvement(**data)
+            try:
+                exist = db.session.query(exists().where(Involvement.MCR_No == data['MCR_No'] , Involvement.Event == data['Event'],Involvement.Start_Date == data['Start_Date'])).scalar()
+                if exist == False:
+                    db.session.add(presentation2)
+                    db.session.commit()
+                else: #it exist in the database 
+                    involvement_count += 1
 
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()
-    if involvement_count == total_involvement:
-        count += 1
-    print('involvement' + str(count))
+            except Exception as e:
+                print("An error occurred:", e)
+                print("Stack trace:")
+                traceback.print_exc()
+        if involvement_count == total_involvement:
+            count += 1
+        print('involvement' + str(count))
 
     ### history_education
-    history_education = history_education.fillna('')
-    history_education_count = 0
-    total_history_education = len(history_education)
-    for i in range(len(history_education)):
-        data = dict(history_education.iloc[i])
-        presentation3 = Education_History(**data)
-        try:
-            exist = db.session.query(exists().where(Education_History.MCR_No == data['MCR_No'] , Education_History.Medical_School == data['Medical_School'],Education_History.Year_of_Graduation == data['Year_of_Graduation'])).scalar()
-            if exist == False:
-                db.session.add(presentation3)
-                db.session.commit()
-            else:
-                history_education_count += 1
+    if ("history - education" in sheetNames_list):
+        history_education = history_education.fillna('')
+        history_education_count = 0
+        total_history_education = len(history_education)
+        for i in range(len(history_education)):
+            data = dict(history_education.iloc[i])
+            presentation3 = Education_History(**data)
+            try:
+                exist = db.session.query(exists().where(Education_History.MCR_No == data['MCR_No'] , Education_History.Medical_School == data['Medical_School'],Education_History.Year_of_Graduation == data['Year_of_Graduation'])).scalar()
+                if exist == False:
+                    db.session.add(presentation3)
+                    db.session.commit()
+                else:
+                    history_education_count += 1
 
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()
-    if history_education_count == total_history_education:
-        count += 1
-    print('history_education' + str(count))
+            except Exception as e:
+                print("An error occurred:", e)
+                print("Stack trace:")
+                traceback.print_exc()
+        if history_education_count == total_history_education:
+            count += 1
+        print('history_education' + str(count))
 
     ### history_posting
-    history_posting= history_posting.fillna('')
-    history_posting_count = 0
-    total_history_posting = len(history_posting)
-    for i in range(len(history_posting)):
-        data = dict(history_posting.iloc[i])
-        presentation4 = Posting_History(**data)
-        try:
-            exist = db.session.query(exists().where(Posting_History.MCR_No == data['MCR_No'] , Posting_History.Posting_Department == data['Posting_Department'],Posting_History.Posting_StartDate == data['Posting_StartDate'])).scalar()
-            if exist == False:
-                db.session.add(presentation4)
-                db.session.commit()
-            else:
-                history_posting_count += 1
+    if ("history - posting" in sheetNames_list):
+        history_posting= history_posting.fillna('')
+        history_posting_count = 0
+        total_history_posting = len(history_posting)
+        for i in range(len(history_posting)):
+            data = dict(history_posting.iloc[i])
+            presentation4 = Posting_History(**data)
+            try:
+                exist = db.session.query(exists().where(Posting_History.MCR_No == data['MCR_No'] , Posting_History.Posting_Department == data['Posting_Department'],Posting_History.Posting_StartDate == data['Posting_StartDate'])).scalar()
+                if exist == False:
+                    db.session.add(presentation4)
+                    db.session.commit()
+                else:
+                    history_posting_count += 1
 
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()
-    if history_posting_count == total_history_posting:
-        count += 1
-    print('hist_posting' + str(count))
+            except Exception as e:
+                print("An error occurred:", e)
+                print("Stack trace:")
+                traceback.print_exc()
+        if history_posting_count == total_history_posting:
+            count += 1
+        print('hist_posting' + str(count))
 
     ### history-exam
-    history_exam= history_exam.fillna('')
-    history_exam_count = 0
-    total_history_exam = len(history_exam)
-    for i in range(len(history_exam)):
-        data = dict(history_exam.iloc[i])
-        presentation5 = Exam_History(**data)
-        try:
-            exist = db.session.query(exists().where(Exam_History.MCR_No == data['MCR_No'] , Exam_History.Name_of_Exam == data['Name_of_Exam'],Exam_History.Date_of_Attempt == data['Date_of_Attempt'])).scalar()
-            if exist == False:
-                db.session.add(presentation5)
-                db.session.commit()
-            else:
-                history_exam_count += 1
+    if ("history - exam" in sheetNames_list):
+        history_exam= history_exam.fillna('')
+        history_exam_count = 0
+        total_history_exam = len(history_exam)
+        for i in range(len(history_exam)):
+            data = dict(history_exam.iloc[i])
+            presentation5 = Exam_History(**data)
+            try:
+                exist = db.session.query(exists().where(Exam_History.MCR_No == data['MCR_No'] , Exam_History.Name_of_Exam == data['Name_of_Exam'],Exam_History.Date_of_Attempt == data['Date_of_Attempt'])).scalar()
+                if exist == False:
+                    db.session.add(presentation5)
+                    db.session.commit()
+                else:
+                    history_exam_count += 1
 
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()
-    if history_exam_count == total_history_exam:
-        count += 1
-    print('hist_exam' + str(count))
+            except Exception as e:
+                print("An error occurred:", e)
+                print("Stack trace:")
+                traceback.print_exc()
+        if history_exam_count == total_history_exam:
+            count += 1
+        print('hist_exam' + str(count))
 
     ### history trg
-    history_trg= history_trg.fillna('')
-    history_trg_count = 0
-    total_history_trg = len(history_trg)
-    for i in range(len(history_trg)):
-        data = dict(history_trg.iloc[i])
-        presentation6 = TrgExtRem_History(**data)
-        try:
-            exist = db.session.query(exists().where(TrgExtRem_History.MCR_No == data['MCR_No'] , TrgExtRem_History.StartDate == data['StartDate'],TrgExtRem_History.EndDate == data['EndDate'] ,TrgExtRem_History.LOAPIP == data['LOAPIP'] )).scalar()
-            if exist == False:
-                db.session.add(presentation6)
-                db.session.commit()
-            else:
-                history_trg_count += 1
+    if ("history - trg ext.&remediation" in sheetNames_list):
+        history_trg= history_trg.fillna('')
+        history_trg_count = 0
+        total_history_trg = len(history_trg)
+        for i in range(len(history_trg)):
+            data = dict(history_trg.iloc[i])
+            presentation6 = TrgExtRem_History(**data)
+            try:
+                exist = db.session.query(exists().where(TrgExtRem_History.MCR_No == data['MCR_No'] , TrgExtRem_History.StartDate == data['StartDate'],TrgExtRem_History.EndDate == data['EndDate'] ,TrgExtRem_History.LOAPIP == data['LOAPIP'] )).scalar()
+                if exist == False:
+                    db.session.add(presentation6)
+                    db.session.commit()
+                else:
+                    history_trg_count += 1
 
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()
-    if history_trg_count == total_history_trg:
-        count += 1
-    print('hist_trg' + str(count))
+            except Exception as e:
+                print("An error occurred:", e)
+                print("Stack trace:")
+                traceback.print_exc()
+        if history_trg_count == total_history_trg:
+            count += 1
+        print('hist_trg' + str(count))
 
     ### grants
-    grants= grants.fillna('')
-    grants_count = 0
-    total_grants = len(grants)
-    for i in range(len(grants)):
-        data = dict(grants.iloc[i])
-        presentation7 = Grants(**data)
-        try:
-            exist = db.session.query(exists().where(Grants.MCR_No == data['MCR_No'] , Grants.Name_of_Grant == data['Name_of_Grant'],Grants.Grant_Start_Date == data['Grant_Start_Date'] ,Grants.Project_Title == data['Project_Title'] )).scalar()
-            if exist == False:
-                db.session.add(presentation7)
-                db.session.commit()
-            else:
-                grants_count += 1
+    if ("grants" in sheetNames_list):
+        grants= grants.fillna('')
+        grants_count = 0
+        total_grants = len(grants)
+        for i in range(len(grants)):
+            data = dict(grants.iloc[i])
+            presentation7 = Grants(**data)
+            try:
+                exist = db.session.query(exists().where(Grants.MCR_No == data['MCR_No'] , Grants.Name_of_Grant == data['Name_of_Grant'],Grants.Grant_Start_Date == data['Grant_Start_Date'] ,Grants.Project_Title == data['Project_Title'] )).scalar()
+                if exist == False:
+                    db.session.add(presentation7)
+                    db.session.commit()
+                else:
+                    grants_count += 1
 
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()
-    if grants_count == total_grants:
-        count += 1
-    print('hist_grants' + str(count))
+            except Exception as e:
+                print("An error occurred:", e)
+                print("Stack trace:")
+                traceback.print_exc()
+        if grants_count == total_grants:
+            count += 1
+        print('hist_grants' + str(count))
 
     ### Awards
-    awards= awards.fillna('')
-    awards_count = 0
-    total_awards = len(awards)
-    for i in range(len(awards)):
-        data = dict(awards.iloc[i])
-        presentation8 = Awards(**data)
-        try:
-            exist = db.session.query(exists().where(Awards.MCR_No == data['MCR_No'] , Awards.Date_of_Award_Received == data['Date_of_Award_Received'])).scalar()
-            if exist == False:
-                db.session.add(presentation8)
-                db.session.commit()
-            else:
-                awards_count += 1
+    if ("awards" in sheetNames_list):
+        awards= awards.fillna('')
+        awards_count = 0
+        total_awards = len(awards)
+        for i in range(len(awards)):
+            data = dict(awards.iloc[i])
+            presentation8 = Awards(**data)
+            try:
+                exist = db.session.query(exists().where(Awards.MCR_No == data['MCR_No'] , Awards.Date_of_Award_Received == data['Date_of_Award_Received'])).scalar()
+                if exist == False:
+                    db.session.add(presentation8)
+                    db.session.commit()
+                else:
+                    awards_count += 1
 
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()   
-    if awards_count == total_awards:
-        count += 1  
-    print('awards' + str(count))
+            except Exception as e:
+                print("An error occurred:", e)
+                print("Stack trace:")
+                traceback.print_exc()   
+        if awards_count == total_awards:
+            count += 1  
+        print('awards' + str(count))
 
     ### publications
-    publlications= publlications.fillna('')
-    publications_count = 0
-    total_publications = len(publlications)
-    for i in range(len(publlications)):
-        data = dict(publlications.iloc[i])
-        presentation10 = Publications(**data)
-        try:
-            exist = db.session.query(exists().where(Publications.MCR_No == data['MCR_No'] , Publications.Publication_Title == data['Publication_Title'])).scalar()
-            if exist == False:
-                db.session.add(presentation10)
-                db.session.commit()
-            else:
-                publications_count += 1
+    if ("publications" in sheetNames_list):
+        publications= publications.fillna('')
+        publications_count = 0
+        total_publications = len(publications)
+        for i in range(len(publications)):
+            data = dict(publications.iloc[i])
+            presentation10 = Publications(**data)
+            try:
+                exist = db.session.query(exists().where(Publications.MCR_No == data['MCR_No'] , Publications.Publication_Title == data['Publication_Title'])).scalar()
+                if exist == False:
+                    db.session.add(presentation10)
+                    db.session.commit()
+                else:
+                    publications_count += 1
 
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()  
-    if publications_count == total_publications:
-        count += 1
-    print('publications' + str(count))
+            except Exception as e:
+                print("An error occurred:", e)
+                print("Stack trace:")
+                traceback.print_exc()  
+        if publications_count == total_publications:
+            count += 1
+        print('publications' + str(count))
 
 
     ### presentations
-    presentations= presentations.fillna('')
-    presentations_count = 0
-    total_presentations = len(presentations)
-    for i in range(len(presentations)):
-        data = dict(presentations.iloc[i])
-        presentation11 = Presentations(**data)
-        try:
-            exist = db.session.query(exists().where(Presentations.MCR_No == data['MCR_No'] , Presentations.Title == data['Title'], Presentations.Conference_Name == data['Conference_Name'] ,Presentations.Presentation_Date == data['Presentation_Date'])).scalar()
-            if exist == False:
-                db.session.add(presentation11)
-                db.session.commit()
-            else: 
-                presentations_count += 1
+    if ("presentations" in sheetNames_list):
+        presentations= presentations.fillna('')
+        presentations_count = 0
+        total_presentations = len(presentations)
+        for i in range(len(presentations)):
+            data = dict(presentations.iloc[i])
+            presentation11 = Presentations(**data)
+            try:
+                exist = db.session.query(exists().where(Presentations.MCR_No == data['MCR_No'] , Presentations.Title == data['Title'], Presentations.Conference_Name == data['Conference_Name'] ,Presentations.Presentation_Date == data['Presentation_Date'])).scalar()
+                if exist == False:
+                    db.session.add(presentation11)
+                    db.session.commit()
+                else: 
+                    presentations_count += 1
 
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()    
-    if presentations_count == total_presentations:
-        count += 1 
-    print('presentation' + str(count))
+            except Exception as e:
+                print("An error occurred:", e)
+                print("Stack trace:")
+                traceback.print_exc()    
+        if presentations_count == total_presentations:
+            count += 1 
+        print('presentation' + str(count))
 
     ###project
-    project= project.fillna('')
-    project_count = 0
-    total_projects = len(project)
-    for i in range(len(project)):
-        data = dict(project.iloc[i])
-        presentation12 = Projects(**data)
-        try:
-            exist = db.session.query(exists().where(Projects.MCR_No == data['MCR_No'] , Projects.Project_Title == data['Project_Title'], Projects.Start_Date == data['Start_Date'] ,Projects.End_Date == data['End_Date'])).scalar()
-            if exist == False:
-                db.session.add(presentation12)
-                db.session.commit()
-            else:
-                project_count += 1
+    if ("projects" in sheetNames_list):
+        projects= projects.fillna('')
+        project_count = 0
+        total_projects = len(projects)
+        
+        for i in range(len(projects)):
+            data = dict(projects.iloc[i])
+            presentation12 = Projects(**data)
+            try:
+                exist = db.session.query(exists().where(Projects.MCR_No == data['MCR_No'] , Projects.Project_Title == data['Project_Title'], Projects.Start_Date == data['Start_Date'] ,Projects.End_Date == data['End_Date'])).scalar()
+                if exist == False:
+                    db.session.add(presentation12)
+                    db.session.commit()
+                else:
+                    project_count += 1
 
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()    
-    if project_count == total_projects:
-        count += 1
-    print("project" + str(count))
+            except Exception as e:
+                print("An error occurred:", e)
+                print("Stack trace:")
+                traceback.print_exc()    
+        if project_count == total_projects:
+            count += 1
+        print("project" + str(count))
     
     ### ihi
-    ihi= ihi.fillna('')
-    ihi_count = 0
-    total_ihi = len(ihi)
-    for i in range(len(ihi)):
-        data = dict(ihi.iloc[i])
-        presentation13 = IHI(**data)
-        try:
-            exist = db.session.query(exists().where(IHI.MCR_No == data['MCR_No'] ,IHI.Completion_of_Emodules== data['Completion_of_Emodules'], IHI.Date == data['Date'])).scalar()
-            if exist == False:
-                db.session.add(presentation13)
-                db.session.commit()
-            else:
-                ihi_count += 1
+    if ("ihi" in sheetNames_list):
+        ihi= ihi.fillna('')
+        ihi_count = 0
+        total_ihi = len(ihi)
+        for i in range(len(ihi)):
+            data = dict(ihi.iloc[i])
+            presentation13 = IHI(**data)
+            try:
+                exist = db.session.query(exists().where(IHI.MCR_No == data['MCR_No'] ,IHI.Completion_of_Emodules== data['Completion_of_Emodules'], IHI.Date == data['Date'])).scalar()
+                if exist == False:
+                    db.session.add(presentation13)
+                    db.session.commit()
+                else:
+                    ihi_count += 1
 
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()   
-    if ihi_count == total_ihi:
-        count += 1
-    print("ihi" + str(count))
+            except Exception as e:
+                print("An error occurred:", e)
+                print("Stack trace:")
+                traceback.print_exc()   
+        if ihi_count == total_ihi:
+            count += 1
+        print("ihi" + str(count))
 
     ### didatic attendance 
-    didatic_attendance= didatic_attendance.fillna('')
-    didatic_attendance_count = 0
-    total_didactic_attendance = len(didatic_attendance)
-    for i in range(len(didatic_attendance)):
-        data = dict(didatic_attendance.iloc[i])
-        presentation9 = Didactic_Attendance(**data)
-        try:
-            exist = db.session.query(exists().where(Didactic_Attendance.MCR_No == data['MCR_No'] ,Didactic_Attendance.MmYyyy == data['MmYyyy'], Didactic_Attendance.Percentage_of_sessions_attended == data['Percentage_of_sessions_attended'] , Didactic_Attendance.Number_of_sessions_attended == data['Number_of_sessions_attended'])).scalar()
-            if exist == False:
-                db.session.add(presentation9)
-                db.session.commit()
-            else:
-                didatic_attendance_count += 1
+    if ("didactic attendance" in sheetNames_list):
+        didatic_attendance= didatic_attendance.fillna('')
+        didatic_attendance_count = 0
+        total_didactic_attendance = len(didatic_attendance)
+        for i in range(len(didatic_attendance)):
+            data = dict(didatic_attendance.iloc[i])
+            presentation9 = Didactic_Attendance(**data)
+            try:
+                exist = db.session.query(exists().where(Didactic_Attendance.MCR_No == data['MCR_No'] ,Didactic_Attendance.MmYyyy == data['MmYyyy'], Didactic_Attendance.Percentage_of_sessions_attended == data['Percentage_of_sessions_attended'] , Didactic_Attendance.Number_of_sessions_attended == data['Number_of_sessions_attended'])).scalar()
+                if exist == False:
+                    db.session.add(presentation9)
+                    db.session.commit()
+                else:
+                    didatic_attendance_count += 1
 
-        except Exception as e:
-            print("An error occurred:", e)
-            print("Stack trace:")
-            traceback.print_exc()   
-    if didatic_attendance_count == total_didactic_attendance:
-        count += 1
-    print("didactic" + str(count))
+            except Exception as e:
+                print("An error occurred:", e)
+                print("Stack trace:")
+                traceback.print_exc()   
+        if didatic_attendance_count == total_didactic_attendance:
+            count += 1
+        print("didactic" + str(count))
 
-    if count == 13:
+    print(len(sheetNames_list))
+    print(count)
+    if count == len(sheetNames_list):
         return redirect("http://localhost/FYP-GoodHealth/tab_pages/bulk_import_same_error.html", code=302)
     else:
         return redirect("http://localhost/FYP-GoodHealth/tab_pages/personal_details.html", code=302)
 
 @app.route("/bulk_error_excel")
 def give_error_excel():
-    return send_file("error.xlsx", as_attachment=True)
+    return send_file("bulk_import_error.xlsx", as_attachment=True)
 
 def getList(items):
     list_ = []
