@@ -172,40 +172,42 @@ CREATE TABLE `didactic_attendance` (
   `Number_of_sessions_attended` varchar(300) NOT NULL,
   `Percentage_of_sessions_attended` varchar(300) NOT NULL,
   `MmYyyy` varchar(300) NOT NULL,
-  `Compliance_or_Not` varchar(300) NOT NULL
+  `Compliance_or_Not` varchar(300) NOT NULL,
+  `Posting_institution` varchar(300) NOT NULL,
+  `Posting_department`varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `didactic_attendance`
 --
 
-INSERT INTO `didactic_attendance` (`id`, `MCR_No`, `Month`, `Total_tracked_sessions`, `Number_of_sessions_attended`, `Percentage_of_sessions_attended`, `MmYyyy`,`Compliance_or_Not`) VALUES
-(1, 'M11367A', 'July', '14', '14', '1', '07/2022','Yes'),
-(2, 'M16782H', 'July', '20', '20', '1', '07/2022','Yes'),
-(3, 'M65889A', 'July', '14', '12', '0.8571428571428571', '07/2022', 'Yes'),
-(4, 'M54354E', 'July', '12', '9', '0.75', '07/2023', 'Yes'),
-(5, 'M88791Z', 'July', '12', '12', '1', '07/2023', 'Yes'),
-(6, 'M11367A', 'August', '14', '10', '0.7142857142857143', '08/2022', 'Yes'),
-(7, 'M16782H', 'August', '20', '20', '1', '08/2022', 'Yes'),
-(8, 'M65889A', 'August', '14', '14', '1', '08/2022', 'Yes'),
-(9, 'M54354E', 'August', '12', '10', '0.8333333333333334', '08/2023', 'Yes'),
-(10, 'M88791Z', 'August', '12', '10', '0.8333333333333334', '08/2023', 'Yes'),
-(11, 'M11367A', 'October', '12', '8', '0.6666666666666666', '10/2022', 'No'),
-(12, 'M16782H', 'October', '19', '19', '1', '10/2022', 'Yes'),
-(13, 'M65889A', 'October', '12', '12', '1', '10/2022', 'Yes'),
-(14, 'M54354E', 'October', '14', '11', '0.7857142857142857', '10/2023', 'Yes'),
-(15, 'M88791Z', 'October', '14', '12', '0.8571428571428571', '10/2023', 'Yes'),
-(16, 'M11367A', 'November', '12', '11', '0.9166666666666666', '11/2022', 'Yes'),
-(17, 'M16782H', 'November', '20', '20', '1', '11/2022', 'Yes'),
-(18, 'M65889A', 'November', '12', '11', '0.9166666666666666', '11/2022', 'Yes'),
-(19, 'M54354E', 'November', '14', '11', '0.7857142857142857', '11/2023', 'Yes'),
-(20, 'M88791Z', 'November', '12', '10', '0.8333333333333334', '11/2023', 'Yes'),
-(21, 'M11367A', 'January', '12', '10', '0.8333333333333334', '01/2023', 'Yes'),
-(22, 'M16782H', 'December', '13', '13', '1', '12/2022', 'Yes'),
-(23, 'M65889A', 'December', '12', '11', '0.9166666666666666', '12/2022', 'Yes'),
-(24, 'M54354E', 'December', '14', '13', '0.9285714285714286', '12/2023', 'Yes'),
-(25, 'M16782H', 'January', '12', '10', '0.8333333333333334', '01/2023', 'Yes'),
-(26, 'M88791Z', 'December', '12', '10', '0.8333333333333334', '12/2023', 'Yes');
+INSERT INTO `didactic_attendance` (`id`, `MCR_No`, `Month`, `Total_tracked_sessions`, `Number_of_sessions_attended`, `Percentage_of_sessions_attended`, `MmYyyy`,`Compliance_or_Not`, `Posting_institution` , `Posting_department`) VALUES
+(1, 'M11367A', 'July', '14', '14', '1', '07/2022','Yes' , "SGH" , "SGHGasEnt"),
+(2, 'M16782H', 'July', '20', '20', '1', '07/2022','Yes' ,"SGH" , "SGHGasEnt"),
+(3, 'M65889A', 'July', '14', '12', '0.8571428571428571', '07/2022', 'Yes',"SGH", "SGHGasEnt"),
+(4, 'M54354E', 'July', '12', '9', '0.75', '07/2023', 'Yes',"SGH", "SGHGasEnt"),
+(5, 'M88791Z', 'July', '12', '12', '1', '07/2023', 'Yes',"SGH", "SGHGasEnt"),
+(6, 'M11367A', 'August', '14', '10', '0.7142857142857143', '08/2022', 'Yes',"SGH","SGHGasEnt" ),
+(7, 'M16782H', 'August', '20', '20', '1', '08/2022', 'Yes',"SGH", "SGHGasEnt"),
+(8, 'M65889A', 'August', '14', '14', '1', '08/2022', 'Yes',"SGH", "SGHGasEnt"),
+(9, 'M54354E', 'August', '12', '10', '0.8333333333333334', '08/2023', 'Yes',"CGH", "SGHGasEnt"),
+(10, 'M88791Z', 'August', '12', '10', '0.8333333333333334', '08/2023', 'Yes',"SGH", "SGHGasEnt"),
+(11, 'M11367A', 'October', '12', '8', '0.6666666666666666', '10/2022', 'No',"SGH", "SGHGasEnt"),
+(12, 'M16782H', 'October', '19', '19', '1', '10/2022', 'Yes', "CGH" , "SGHGasEnt"),
+(13, 'M65889A', 'October', '12', '12', '1', '10/2022', 'Yes',"CGH","CGHGerMed"),
+(14, 'M54354E', 'October', '14', '11', '0.7857142857142857', '10/2023', 'Yes',"CGH","CGHGerMed"),
+(15, 'M88791Z', 'October', '14', '12', '0.8571428571428571', '10/2023', 'Yes',"CGH","CGHGerMed"),
+(16, 'M11367A', 'November', '12', '11', '0.9166666666666666', '11/2022', 'Yes',"CGH","CGHGerMed"),
+(17, 'M16782H', 'November', '20', '20', '1', '11/2022', 'Yes',"CGH","CGHGerMed"),
+(18, 'M65889A', 'November', '12', '11', '0.9166666666666666', '11/2022', 'Yes',"CGH","CGHGerMed"),
+(19, 'M54354E', 'November', '14', '11', '0.7857142857142857', '11/2023', 'Yes',"CGH","CGHGerMed"),
+(20, 'M88791Z', 'November', '12', '10', '0.8333333333333334', '11/2023', 'Yes',"SGH","CGHGerMed"),
+(21, 'M11367A', 'January', '12', '10', '0.8333333333333334', '01/2023', 'Yes',"CGH","CGHGerMed"),
+(22, 'M16782H', 'December', '13', '13', '1', '12/2022', 'Yes', "SGH" , "CGHGerMed"),
+(23, 'M65889A', 'December', '12', '11', '0.9166666666666666', '12/2022', 'Yes',"CGH","CGHGerMed"),
+(24, 'M54354E', 'December', '14', '13', '0.9285714285714286', '12/2023', 'Yes',"CGH","CGHGerMed"),
+(25, 'M16782H', 'January', '12', '10', '0.8333333333333334', '01/2023', 'Yes',"SGH","CGHGerMed"),
+(26, 'M88791Z', 'December', '12', '10', '0.8333333333333334', '12/2023', 'Yes',"CGH","CGHGerMed");
 
 -- (1, 'M11367A', 'July', '14', '14', '1', '07/2022', 'Residency', 'MOHH', '','Yes'),
 -- (2, 'M16782H', 'July', '20', '20', '1', '07/2022', 'Residency', 'MOHH', '','Yes'),

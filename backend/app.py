@@ -547,7 +547,9 @@ class Didactic_Attendance(db.Model):
     Number_of_sessions_attended = db.Column(db.String(100))
     MmYyyy = db.Column(db.String(100))
     Percentage_of_sessions_attended= db.Column(db.String(100))
-    Compliance_or_Not = db.Column(db.String(100))
+    Compliance_or_Not = db.Column(db.String(300))
+    Posting_institution = db.Column(db.String(300))
+    Posting_department = db.Column(db.String(300))
 
     __mapper_args__ = {
         'polymorphic_identity': 'Didactic_Attendance'
@@ -2300,6 +2302,8 @@ def update_didactic_attendance(id):
     user.Percentage_of_sessions_attended = data['Percentage_of_sessions_attended']
     user.MmYyyy = data['MmYyyy']
     user.Compliance_or_Not = data['Compliance_or_Not']
+    user.Posting_institution = data["Posting_institution"]
+    user.Posting_department = data["Posting_department"]
 
     db.session.commit()
     return 'didactic_attendance updated', 200
