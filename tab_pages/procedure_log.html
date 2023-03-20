@@ -109,10 +109,13 @@
                             Details</a>
                     </li>
                     <li>
-                        <a data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500" data-dropdown-trigger="hover">
-                            <span
-                                class="lg:text-sm md:text-sm ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                        <a data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500" data-dropdown-trigger="click">
+                            <div class = "md:flex">
+                                <span
+                                class="lg:text-sm md:text-sm ml-5 mr-1 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
                                 History</span>
+                                <iconify-icon icon="gridicons:dropdown" width = "20px" class = "hidden md:flex mr-1"></iconify-icon>
+                            </div>
                         </a>
                     </li>
                     <li>
@@ -623,6 +626,10 @@
                                         if (name == ""){
                                             name_error = true;
                                         }
+                                        else if (name in this.MCR_name)
+                                        {
+                                            this.MCR_No_import = this.MCR_name[name];
+                                        }
                                         else{
                                             var name_list = name.trim().split(',')
                                             for (i in name_list) {
@@ -636,7 +643,6 @@
                                                 }
                                             }
                                         }
-
 
                                         for (each in this.MCR_name) {
                                             let name_list2 = each.trim().split(
@@ -706,6 +712,7 @@
                                         data.Observed = row.values[5] || ""
                                         data.Verified = row.values[6] || ""
                                         data.Certified = row.values[7] || ""
+                                        console.log(data)
 
                                         this.all_data[this.idx] = data
                                         this.idx += 1
@@ -749,7 +756,7 @@
 
                                     // Procedure Log
                                     else if (!(row.values[1].toLowerCase().includes(
-                                            "total")) &&
+                                            "total:")) &&
                                         !(row.values[1].toLowerCase().includes(
                                             "procedures summary by resident")) &&
                                         !(row.values[1].toLowerCase().includes(
@@ -757,7 +764,7 @@
                                         !(row.values[1].toLowerCase().includes(
                                             "report generated:")) &&
                                         !(row.values[1].toLowerCase().includes(
-                                            "cpt"))) {
+                                            "cpt:"))) {
                                         this.value_row_count += 1
                                         // console.log(this.MCR_No_import)
                                         data.MCR_No = this.MCR_No_import
@@ -769,7 +776,7 @@
                                         data.Observed = row.values[5] || ""
                                         data.Verified = row.values[6] || ""
                                         data.Certified = row.values[7] || ""
-                                        // console.log(data)
+                                        console.log(data)
                                         this.all_data[this.idx] = data
                                         this.idx += 1
 
