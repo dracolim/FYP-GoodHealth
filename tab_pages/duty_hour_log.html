@@ -23,6 +23,25 @@
     <script src="../node_modules/xlsx/dist/xlsx.full.min.js"></script>
     <!-- LOCAL Axios -->
     <script src="../node_modules/axios/dist/axios.min.js"></script>
+    <!-- TAILWIND ELEMENTS CDN (NEED TO CHANGE)-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
+    <script src="https://cdn.tailwindcss.com/3.2.4"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                fontFamily: {
+                    sans: ["Roboto", "sans-serif"],
+                    body: ["Roboto", "sans-serif"],
+                    mono: ["ui-monospace", "monospace"],
+                },
+            },
+            corePlugins: {
+                preflight: false,
+            },
+        };
+    </script>
 
 
     <style type="text/tailwindcss">
@@ -186,8 +205,8 @@
         <div class="md:hidden sm:visible">
             <h2 class="text-3xl font-bold  ml-8 mt-4 text-gray-700">Duty Hour Log</h2>
         </div>
-        <!-- filter rows -->
-        <div class="flex items-center justify-between  mt-6 mx-8">
+        <!-- OLD -->
+        <!-- <div class="flex items-center justify-between  mt-6 mx-8">
             <div class="relative">
                 <div class="absolute inset-y-0 left-0 right-12 bottom-2 flex items-center pl-3 pointer-events-none">
                     <iconify-icon icon="mingcute:file-import-line" style="color: white;" width="20" height="20">
@@ -198,14 +217,27 @@
                     <label class="ml-2">Duty Hour Import</label>
                 </button>
             </div>
+        </div> -->
+        <!-- NEW -->
+        <div class="flex items-center justify-between mt-6 mx-8">
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 right-12 bottom-2 flex items-center pl-3 pointer-events-none">
+                    <iconify-icon icon="mingcute:file-import-line" style="color: white;" width="20" height="20">
+                    </iconify-icon>
+                </div>
+                <button type="button" data-te-toggle="modal" data-te-target="#exampleModalScrollable"
+                    class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">
+                    <label class="ml-2">Duty hour Import</label>
+                </button>
+            </div>
         </div>
 
-        <!-- Import modal -->
-        <div id="import-modal" tabindex="-1" aria-hidden="true"
+        <!-- OLD Import modal -->
+        <!-- <div id="import-modal" tabindex="-1" aria-hidden="true"
             class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
-            <div class="relative w-full h-full max-w-md md:h-auto">
+            <div class="relative w-full h-full max-w-md md:h-auto"> -->
                 <!-- Modal content -->
-                <div class="relative bg-white rounded-lg shadow ">
+                <!-- <div class="relative bg-white rounded-lg shadow ">
                     <button type="button" @click="removeErrorMsg"
                         class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                         data-modal-hide="import-modal">
@@ -219,6 +251,60 @@
                     </button>
                     <div class="px-6 py-6 lg:px-8">
                         <h3 class="mb-4 text-xl font-medium text-gray-900 ">Upload Excel Sheet</h3>
+                        <form class="space-y-6" method="post" enctype="multipart/form-data"> -->
+                            <!-- input form -->
+                            <!-- <input id="UploadFile" @change="importExcel"
+                                class="block w-full text-md text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+                                type="file" name="file" ref="UploadFile"> -->
+                            <!-- error -->
+                            <!-- <div v-if="error_message != ''"
+                                class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+                                <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor"
+                                    viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="sr-only">Info</span>
+                                <div>
+                                    <span class="font-bold">Error!</span> -->
+                                    <!-- show the list of errors -->
+                                    <!-- <ul v-html="error_message"></ul>
+                                </div>
+                            </div>
+
+                            <button type="submit" value="Submit" id='submit' @click="isDisabled()"
+                                class="w-full text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- NEW IMPORT MODAL -->
+        <div data-te-modal-init
+            class="fixed top-0 left-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
+            id="exampleModalScrollable" tabindex="-1" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true">
+            <div data-te-modal-dialog-ref
+                class="pointer-events-none relative h-[calc(100%-1rem)] w-auto translate-y-[-50px] opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:h-[calc(100%-3.5rem)] min-[576px]:max-w-[500px]">
+                <div
+                    class="pointer-events-auto relative flex max-h-[100%] w-full flex-col overflow-hidden rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600">
+                    <div
+                        class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+                        <h5 class="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200"
+                            id="exampleModalScrollableLabel">
+                            Upload Excel Sheet
+                        </h5>
+                        <button type="button" @click="removeErrorMsg"
+                            class="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+                            data-te-modal-dismiss aria-label="Close">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="h-6 w-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="relative overflow-y-auto p-4">
                         <form class="space-y-6" method="post" enctype="multipart/form-data">
                             <!-- input form -->
                             <input id="UploadFile" @change="importExcel"
@@ -248,6 +334,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- TABLE START -->
         <div class="overflow-x-auto sm:rounded-lg mx-8 mb-10">
@@ -622,10 +709,12 @@
                                                 "<li> - All Rows for " + data
                                                 .MCR_No +
                                                 " already exist in the database</li>"
-                                            )) && data.MCR_No != ""){
+                                            )) && data.MCR_No != "") {
                                             this.error_message +=
-                                            "<li> - All Rows for " + data.MCR_No +
-                                            " already exist in the database</li>";}
+                                                "<li> - All Rows for " + data
+                                                .MCR_No +
+                                                " already exist in the database</li>";
+                                        }
                                     }
 
                                     if (this.error_message != "") {
@@ -667,6 +756,7 @@
     });
 </script>
 <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
 
 
 </html>
