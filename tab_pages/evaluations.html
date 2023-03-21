@@ -416,6 +416,7 @@
             duplicate_count: 0,
             user_error_count: 0,
             importSuccess: false,
+            one_step_before: false,
             question_count: 1,
             found_count: 1,
         },
@@ -765,8 +766,8 @@
                                                 .Score == each.Score) {
                                                 same_error = true;
                                                 this.duplicate_count += 1;
-                                                break
                                                 this.found_count += 1
+                                                break
                                             }
                                         }
 
@@ -799,9 +800,7 @@
                                         }
                                     }
                                     // check whether each section of questions got duplicates
-                                    console.log(this.question_count)
-                                    console.log(this.found_count)
-                                    if (this.question_count == this.found_count && this.question_name != ""){
+                                    if (this.question_count == this.found_count && this.question_name != "" && this.found_count > 1){
                                         if (!(this.error_message.includes(
                                                 "<li> - All rows for Question: " + this.question_name +
                                                 " already exist in database</li>"
@@ -847,6 +846,10 @@
                             document.getElementById('submit')
                                 .disabled = true;
                         }
+                        else{
+                            this.one_step_before = true;
+                            this.successPopUp()
+                        }
 
                     })
                 }
@@ -856,6 +859,12 @@
                 this.error_message = "";
                 this.file = "";
                 document.getElementById('submit').disabled = false;
+            },
+            successPopUp(){
+                if (this.one_step_before == true){
+                    this.importSuccess = true;
+                }
+                console.log("adf,kjahdfljkahd")
             },
             isDisabled() {
                 // evaluate whatever you need to determine disabled here... 
