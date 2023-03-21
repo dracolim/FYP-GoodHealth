@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- INSTALLATIONS -->
+    <!-- INSTALLATIONS -->
     <!-- flowbite -->
     <link href="../node_modules/flowbite/dist/flowbite.min.css" rel="stylesheet" />
     <!-- Tailwind -->
@@ -23,6 +23,25 @@
     <script src="../node_modules/xlsx/dist/xlsx.full.min.js"></script>
     <!-- LOCAL Axios -->
     <script src="../node_modules/axios/dist/axios.min.js"></script>
+    <!-- TAILWIND ELEMENTS CDN (NEED TO CHANGE)-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
+    <script src="https://cdn.tailwindcss.com/3.2.4"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                fontFamily: {
+                    sans: ["Roboto", "sans-serif"],
+                    body: ["Roboto", "sans-serif"],
+                    mono: ["ui-monospace", "monospace"],
+                },
+            },
+            corePlugins: {
+                preflight: false,
+            },
+        };
+    </script>
 
 
     <style type="text/tailwindcss">
@@ -112,11 +131,12 @@
                     </li>
                     <li>
                         <a data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500" data-dropdown-trigger="click">
-                            <div class = "md:flex">
+                            <div class="md:flex">
                                 <span
-                                class="lg:text-sm md:text-sm ml-5 mr-1 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
-                                History</span>
-                                <iconify-icon icon="gridicons:dropdown" width = "20px" class = "hidden md:flex mr-1"></iconify-icon>
+                                    class="lg:text-sm md:text-sm ml-5 mr-1 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                                    History</span>
+                                <iconify-icon icon="gridicons:dropdown" width="20px" class="hidden md:flex mr-1">
+                                </iconify-icon>
                             </div>
                         </a>
                     </li>
@@ -213,53 +233,57 @@
                     <iconify-icon icon="mingcute:file-import-line" style="color: white;" width="20" height="20">
                     </iconify-icon>
                 </div>
-                <button data-modal-target="import-modal" data-modal-toggle="import-modal" type="button"
-                    class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2 mb-2">
+                <button type="button" data-te-toggle="modal" data-te-target="#exampleModalScrollable"
+                    class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">
                     <label class="ml-2">Bulk Import</label>
                 </button>
 
-                
-            <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 
+
+                <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 
             text-white transition duration-150 ease-in-out bg-blue-500 rounded-md shadow 
-            hover:bg-blue-400" v-if="mcr_no.length != 0"
-                :href="currpage[1] + '' + mcr_no" target="_blank"  
-                style="margin-right: 5px;">
-                <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
-                <span></span>
-                Export PDF
-            </a>
-            <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 
+            hover:bg-blue-400" v-if="mcr_no.length != 0" :href="currpage[1] + '' + mcr_no" target="_blank"
+                    style="margin-right: 5px;">
+                    <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" /></svg>
+                    <span></span>
+                    Export PDF
+                </a>
+                <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 
             text-white transition duration-150 ease-in-out bg-blue-500 rounded-md shadow 
-            hover:bg-blue-400" v-if="mcr_no.length != 0"
-                :href="currpage[2] + '' + mcr_no" target="_blank"  
-                style="margin-right: 5px;">
-                <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
-                <span></span>
-                Export Word
-            </a>
+            hover:bg-blue-400" v-if="mcr_no.length != 0" :href="currpage[2] + '' + mcr_no" target="_blank"
+                    style="margin-right: 5px;">
+                    <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" /></svg>
+                    <span></span>
+                    Export Word
+                </a>
             </div>
         </div>
 
-        <!-- Import modal -->
-        <div id="import-modal" tabindex="-1" aria-hidden="true"
-            class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
-            <div class="relative w-full h-full max-w-md md:h-auto">
-                <!-- Modal content -->
-                <div class="relative bg-white rounded-lg shadow ">
-                    <button type="button" @click="removeErrorMsg"
-                        class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                        data-modal-hide="import-modal">
-                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                    <!-- IMPORT -->
-                    <div class="px-6 py-6 lg:px-8">
-                        <h3 class="mb-4 text-xl font-medium text-gray-900 ">Upload Excel Sheet</h3>
+        <!-- NEW Import modal -->
+        <div data-te-modal-init
+            class="fixed top-0 left-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
+            id="exampleModalScrollable" tabindex="-1" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true">
+            <div data-te-modal-dialog-ref
+                class="pointer-events-none relative h-[calc(100%-1rem)] w-auto translate-y-[-50px] opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:h-[calc(100%-3.5rem)] min-[576px]:max-w-[500px]">
+                <div
+                    class="pointer-events-auto relative flex max-h-[100%] w-full flex-col overflow-hidden rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600">
+                    <div
+                        class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+                        <h5 class="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200"
+                            id="exampleModalScrollableLabel">
+                            Upload Excel Sheet
+                        </h5>
+                        <button type="button" @click="removeErrorMsg"
+                            class="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+                            data-te-modal-dismiss aria-label="Close">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="h-6 w-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="relative overflow-y-auto p-4">
                         <form class="space-y-6" method="post" enctype="multipart/form-data"
                             action="http://localhost:5011/import">
                             <!-- input file -->
@@ -289,6 +313,82 @@
                 </div>
             </div>
         </div>
+        <!-- OLD import modal -->
+        <!-- <div id="import-modal" tabindex="-1" aria-hidden="true"
+            class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
+            <div class="relative w-full h-full max-w-md md:h-auto"> -->
+                <!-- Modal content -->
+                <!-- <div class="relative bg-white rounded-lg shadow ">
+                    <button type="button" @click="removeErrorMsg"
+                        class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                        data-modal-hide="import-modal">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button> -->
+                    <!-- IMPORT -->
+                    <!-- <div class="px-6 py-6 lg:px-8">
+                        <h3 class="mb-4 text-xl font-medium text-gray-900 ">Upload Excel Sheet</h3>
+                        <form class="space-y-6" method="post" enctype="multipart/form-data"
+                            action="http://localhost:5011/import"> -->
+                            <!-- input file -->
+                            <!-- <input @change="validateFile"
+                                class="block w-full text-md text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+                                id="UploadFile" type="file" name="file" ref="UploadFile"> -->
+                            <!-- error-->
+                            <!-- <div v-if="error_message != ''"
+                                class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+                                <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor"
+                                    viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="sr-only">Info</span>
+                                <div>
+                                    <span class="font-medium">Error!</span>
+                                    {{error_message}}
+                                </div>
+                            </div>
+
+                            <button type="submit" value="Upload" @click="isDisabled()" id='submit'
+                                class="w-full text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Upload</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- SUCCESS ALERT FOR IMPORT -->
+        <div id="alert-3" v-if="importSuccess == true"
+            class="flex mx-8 mt-4 p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+            role="alert">
+            <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                    clip-rule="evenodd"></path>
+            </svg>
+            <span class="sr-only">Info</span>
+            <div class="ml-3 text-sm font-medium">
+                Bulk Import Succssful !
+            </div>
+            <button type="button"
+                class="ml-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700"
+                data-dismiss-target="#alert-3" aria-label="Close">
+                <span class="sr-only">Close</span>
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd"></path>
+                </svg>
+            </button>
+        </div>
 
         <!-- TABLE START (tabulator)-->
         <div class="relative overflow-x-auto shadow-lg sm:rounded-lg mx-8 mb-10">
@@ -316,15 +416,18 @@
             file: "",
             error_message: "",
             disabled: false,
-            currpage: ["http://127.0.0.1:5011/cv_pdf/", "http://127.0.0.1:5011/batch_cv_pdf/", "http://127.0.0.1:5011/batch_cv_word/","http://127.0.0.1:5011/preview/"],
+            currpage: ["http://127.0.0.1:5011/cv_pdf/", "http://127.0.0.1:5011/batch_cv_pdf/",
+                "http://127.0.0.1:5011/batch_cv_word/", "http://127.0.0.1:5011/preview/"
+            ],
             mcr_no: [],
+            importSuccess: false,
 
         },
         methods: {
             trigger() {
                 console.log("hellooo")
             },
-            export_batch(){
+            export_batch() {
                 console.log("export clicked")
             }
         },
@@ -338,14 +441,17 @@
                         onRendered) {
                         return "<a class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Remove</a>"
                     };
+
                     function link(cell, formatterParams) {
                         var url = cell.getValue();
                         // return "<a href='/tab_pages/resident_profiles_new.html?mcr_no="+url+"'>"+url+"</a>";
                         // return "<a href='/tab_pages/resident_profiles_new.html?mcr_no="+url+"'>"+url+"</a>";
                         if (url.length < 7) {
-                            return "<a disabled class='text-black bg-gray-100 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400'> <span class='relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0' href='/tab_pages/resident_profiles_new.html?mcr_no=" + url + "'>" + "Unavailable" + "</span></a>"
+                            return "<a disabled class='text-black bg-gray-100 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400'> <span class='relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0' href='/tab_pages/resident_profiles_new.html?mcr_no=" +
+                                url + "'>" + "Unavailable" + "</span></a>"
                         }
-                        return "<a class='px-2 py-2 text-black bg-gray-100 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-orange-100 via-orange-500 to-orange-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 focus:ring-4 focus:outline-none focus:ring-red-100' href='../tab_pages/resident_profiles_new.html?mcr_no=" + url + "'>" + url + "</a>"
+                        return "<a class='px-2 py-2 text-black bg-gray-100 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-orange-100 via-orange-500 to-orange-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 focus:ring-4 focus:outline-none focus:ring-red-100' href='../tab_pages/resident_profiles_new.html?mcr_no=" +
+                            url + "'>" + url + "</a>"
                     }
 
                     function link2(cell, formatterParams) {
@@ -354,7 +460,8 @@
                         // return "<a href='/tab_pages/resident_profiles_new.html?mcr_no="+url+"'>"+url+"</a>";
                         // return "<a href='/tab_pages/resident_profiles_new.html?mcr_no="+url+"'>"+url+"</a>";
                         if (url.length < 7) {
-                            return "<a disabled class='text-black bg-gray-100 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400'> <span class='relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0' href='/tab_pages/resident_profiles_new.html?mcr_no=" + url + "'>" + "Unavailable" + "</span></a>"
+                            return "<a disabled class='text-black bg-gray-100 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400'> <span class='relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0' href='/tab_pages/resident_profiles_new.html?mcr_no=" +
+                                url + "'>" + "Unavailable" + "</span></a>"
                         }
                         return "<input v-on='trigger' id='checked-checkbox' type='checkbox' value='' class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2'>"
                     }
@@ -369,9 +476,13 @@
                         movableColumns: true,
                         data: response.data.data,
                         index: "MCR_No",
-                        columns: [
-                            {
-                                formatter: "rowSelection", titleFormatter: "rowSelection", hozAlign: "center", headerSort: false, editable: true, cellClick: function (e, cell) {
+                        columns: [{
+                                formatter: "rowSelection",
+                                titleFormatter: "rowSelection",
+                                hozAlign: "center",
+                                headerSort: false,
+                                editable: true,
+                                cellClick: function (e, cell) {
                                     cell.getRow().toggleSelect();
                                     console.log(table.getSelectedData());
                                 }
@@ -739,45 +850,48 @@
                         ],
                     });
 
-                    
+
 
                     table.on("cellEdited", function (row) {
                         // connect to database and execute update statement
                         let thisrow = row.getData()
-                        axios.put("http://localhost:5011/" + "personaldetail/" + thisrow.MCR_No, {
+                        axios.put("http://localhost:5011/" + "personaldetail/" + thisrow
+                                .MCR_No, {
 
-                            "Employee_ID": thisrow.Employee_ID,
-                            "Staff_Name": thisrow.Staff_Name,
-                            "Designation": thisrow.Designation,
-                            "Programme": thisrow.Programme,
-                            "Year_of_Training": thisrow.Year_of_Training,
-                            "Academic_Year": thisrow.Academic_Year,
-                            "Department": thisrow.Department,
-                            "Institution": thisrow.Institution,
-                            "Academic_Clinical_Programme": thisrow.Academic_Clinical_Programme,
-                            "Employment_Status": thisrow.Employment_Status,
-                            "Nationality": thisrow.Nationality,
-                            "Date_of_Birth": thisrow.Date_of_Birth,
-                            "Gender": thisrow.Gender,
-                            "Registration_Type": thisrow.Registration_Type,
-                            "House_Blk_No": thisrow.House_Blk_No,
-                            "Street": thisrow.Street,
-                            "Building_Name": thisrow.Building_Name,
-                            "Unit_No": thisrow.Unit_No,
-                            "Postal_Code": thisrow.Postal_Code,
-                            "Contact_No_Work": thisrow.Contact_No_Work,
-                            "Contact_No_Personal": thisrow.Contact_No_Personal,
-                            "Email_Official": thisrow.Email_Official,
-                            "Email_Personal": thisrow.Email_Personal,
-                            "BCLS_Expiry_Date": thisrow.BCLS_Expiry_Date,
-                            "ACLS_Expiry_Date": thisrow.ACLS_Expiry_Date,
-                            "Covid_19_Vaccination_Status": thisrow.Covid_19_Vaccination_Status,
-                            "Date_of_First_Dose": thisrow.Date_of_First_Dose,
-                            "Date_of_Second_Dose": thisrow.Date_of_Second_Dose,
-                            "Vaccination_Remarks": thisrow.Vaccination_Remarks,
-                            // "xx": thisrow.xx,
+                                    "Employee_ID": thisrow.Employee_ID,
+                                    "Staff_Name": thisrow.Staff_Name,
+                                    "Designation": thisrow.Designation,
+                                    "Programme": thisrow.Programme,
+                                    "Year_of_Training": thisrow.Year_of_Training,
+                                    "Academic_Year": thisrow.Academic_Year,
+                                    "Department": thisrow.Department,
+                                    "Institution": thisrow.Institution,
+                                    "Academic_Clinical_Programme": thisrow
+                                        .Academic_Clinical_Programme,
+                                    "Employment_Status": thisrow.Employment_Status,
+                                    "Nationality": thisrow.Nationality,
+                                    "Date_of_Birth": thisrow.Date_of_Birth,
+                                    "Gender": thisrow.Gender,
+                                    "Registration_Type": thisrow.Registration_Type,
+                                    "House_Blk_No": thisrow.House_Blk_No,
+                                    "Street": thisrow.Street,
+                                    "Building_Name": thisrow.Building_Name,
+                                    "Unit_No": thisrow.Unit_No,
+                                    "Postal_Code": thisrow.Postal_Code,
+                                    "Contact_No_Work": thisrow.Contact_No_Work,
+                                    "Contact_No_Personal": thisrow.Contact_No_Personal,
+                                    "Email_Official": thisrow.Email_Official,
+                                    "Email_Personal": thisrow.Email_Personal,
+                                    "BCLS_Expiry_Date": thisrow.BCLS_Expiry_Date,
+                                    "ACLS_Expiry_Date": thisrow.ACLS_Expiry_Date,
+                                    "Covid_19_Vaccination_Status": thisrow
+                                        .Covid_19_Vaccination_Status,
+                                    "Date_of_First_Dose": thisrow.Date_of_First_Dose,
+                                    "Date_of_Second_Dose": thisrow.Date_of_Second_Dose,
+                                    "Vaccination_Remarks": thisrow.Vaccination_Remarks,
+                                    // "xx": thisrow.xx,
 
-                        })
+                                })
                             .then(response => {
                                 console.log('Duty Hour Log ID {' + row.getData().MCR_No +
                                     '} updated.')
@@ -786,26 +900,23 @@
                             .catch(error => {
                                 console.log(row.getData().MCR_No)
                                 console.log(error)
-                                if (alert("Failed to update row MCR No: " + row.getData().MCR_No)) { }
-                                else window.location.reload();
+                                if (alert("Failed to update row MCR No: " + row.getData()
+                                        .MCR_No)) {} else window.location.reload();
                             })
                     });
                     newdata = []
                     this.mcr_no = newdata
-                    table.on("rowSelectionChanged", function(data, rows){
-                    // newdata = []
-                    for (i of data){
-                        newdata.push(i["MCR_No"])
-                        // this.mcr_no.push(i["MCR_No"])
-                    }
-                    // // this.mcr_no.pop();
-                    // this.mcr_no.push(newdata);
-                    console.log(this.mcr_no)
-                document.getElementById("select-stats").innerHTML = JSON.stringify(newdata);
-                });
-                // this.mcr_no = newdata;
-                // console.log(this.mcr_no)
-                
+                    table.on("rowSelectionChanged", function (data, rows) {
+                        // newdata = []
+                        for (i of data) {
+                            newdata.push(i["MCR_No"])
+                            // this.mcr_no.push(i["MCR_No"])
+                        }
+                        console.log(this.mcr_no)
+                        document.getElementById("select-stats").innerHTML = JSON.stringify(
+                            newdata);
+                    });
+
                 })
                 .catch(error => {
                     console.error(error);
@@ -840,13 +951,13 @@
             }
         }
     })
-    
-    
+
+
     ;
 </script>
 
 <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
 
 
 </html>

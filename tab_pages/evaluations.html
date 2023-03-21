@@ -333,7 +333,33 @@
                 </div>
             </div>
         </div>
-
+        
+        <!-- SUCCESS ALERT FOR IMPORT -->
+        <div id="alert-3" v-if="importSuccess == true"
+            class="flex mx-8 mt-4 p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+            role="alert">
+            <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                    clip-rule="evenodd"></path>
+            </svg>
+            <span class="sr-only">Info</span>
+            <div class="ml-3 text-sm font-medium">
+                Bulk Import Succssful !
+            </div>
+            <button type="button"
+                class="ml-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700"
+                data-dismiss-target="#alert-3" aria-label="Close">
+                <span class="sr-only">Close</span>
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd"></path>
+                </svg>
+            </button>
+        </div>
 
         <!-- TABLE START -->
         <div class="overflow-x-auto sm:rounded-lg mx-8 mb-10">
@@ -389,6 +415,9 @@
             row_count: 0,
             duplicate_count: 0,
             user_error_count: 0,
+            importSuccess: false,
+            question_count: 1,
+            found_count: 1,
         },
         mounted() {
             axios.get(this.local_host_url + "personaldetail")
@@ -663,14 +692,17 @@
                                         this.question_name = row.values[1]
                                             .substring(colonidx2 + 1, ).trim();
                                         this.minus_from_target = 1;
+
+                                        this.question_count = 1
+                                        this.found_count = 1
                                     }
                                     // data body
-                                    //._cells[0]._value.value == "Target:"
                                     else if (sheet.getRow(rowIndex - this
                                             .minus_from_target)._cells.length >=
                                         5 && sheet.getRow(rowIndex - this
                                             .minus_from_target)._cells[0]._value
                                         .value == "Target:") {
+                                        this.question_count += 1
                                         // MCR_NO (target)
                                         var name = row.values[1]
                                         // case 1: name literally in list
@@ -718,7 +750,6 @@
                                         data.Service = row.values[4] || "";
                                         data.Score = row.values[5] || "";
                                         this.row_count += 1
-                                        // console.log(data)
 
                                         // check if EXISTS already
                                         for (each of this.all_evaluations) {
@@ -735,6 +766,7 @@
                                                 same_error = true;
                                                 this.duplicate_count += 1;
                                                 break
+                                                this.found_count += 1
                                             }
                                         }
 
@@ -766,6 +798,19 @@
                                                 " does not exist in the Database</li>"
                                         }
                                     }
+                                    // check whether each section of questions got duplicates
+                                    console.log(this.question_count)
+                                    console.log(this.found_count)
+                                    if (this.question_count == this.found_count && this.question_name != ""){
+                                        if (!(this.error_message.includes(
+                                                "<li> - All rows for Question: " + this.question_name +
+                                                " already exist in database</li>"
+                                            ))) {
+                                            this.error_message +=
+                                            "<li> - All rows for Question: " + this.question_name +
+                                                " already exist in database</li>"
+                                        }
+                                    }
                                     if (this.error_message != "") {
                                         document.getElementById('submit')
                                             .disabled = true;
@@ -777,7 +822,6 @@
                                             rowIndex)._cells[1]._value.value != null
                                     ) {
                                         name_error = true;
-                                        // console.log(this.error_message)
                                         if (!(this.error_message.includes(
                                                 "<li> - Row " + rowIndex +
                                                 ": Name cannot be Empty</li>"))) {
@@ -793,12 +837,12 @@
                         if ((this.row_count == this.duplicate_count || (this.row_count - this
                                 .user_error_count == this.duplicate_count)) && this.row_count > 0) {
                             this.error_message +=
-                                "<li> - All Rows already exist in the Database"
-                        } else if (this.duplicate_count > 0 && this.duplicate_count < this
-                            .row_count) {
-                            this.error_message +=
-                                "<li> - There are duplicates in the Excel sheet"
-                        }
+                                "<li> - All Rows already exist in the Database"}
+                        // else if (this.duplicate_count > 0 && this.duplicate_count < this
+                        //     .row_count) {
+                        //     this.error_message +=
+                        //         "<li> - There are duplicates in the Excel sheet"
+                        // }
                         if (this.error_message != "") {
                             document.getElementById('submit')
                                 .disabled = true;
