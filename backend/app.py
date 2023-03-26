@@ -604,6 +604,7 @@ def update_personal_detail(MCR_No):
 
     data = request.get_json()
     user.Employee_ID = data['Employee_ID']
+    user.Employee_Image = data['Employee_Image']
     user.Staff_Name = data['Staff_Name']
     user.Designation = data['Designation']
     user.Programme = data['Programme']
