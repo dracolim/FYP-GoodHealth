@@ -443,6 +443,25 @@
                         return "<a class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Remove</a>"
                     };
 
+                    function openFileInput(callback) {
+                        let fileInput = document.createElement('input');
+                        fileInput.setAttribute('type', 'file');
+                        fileInput.setAttribute('id', 'Employee_image');
+                        fileInput.setAttribute('name', 'Employee_image');
+                        fileInput.setAttribute('accept', 'image/png, image/jpeg');
+                        fileInput.style.display = 'none';
+
+                        fileInput.addEventListener('change', function () {
+                            let file = this.files[0];
+                            callback(file);
+                        });
+
+                        document.body.appendChild(fileInput);
+                        fileInput.click();
+                        document.body.removeChild(fileInput);
+                        console.log(fileInput)
+                    }
+
                     function link(cell, formatterParams) {
                         var url = cell.getValue();
                         // return "<a href='/tab_pages/resident_profiles_new.html?mcr_no="+url+"'>"+url+"</a>";
@@ -454,6 +473,8 @@
                         return "<a class='px-2 py-2 text-black bg-gray-100 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-orange-100 via-orange-500 to-orange-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 focus:ring-4 focus:outline-none focus:ring-red-100' href='../tab_pages/resident_profiles_new.html?mcr_no=" +
                             url + "'>" + url + "</a>"
                     }
+
+
 
                     function link2(cell, formatterParams) {
                         var url = cell.getValue();
@@ -478,15 +499,88 @@
                         data: response.data.data,
                         index: "MCR_No",
                         columns: [{
-                                formatter: "rowSelection",
-                                titleFormatter: "rowSelection",
-                                hozAlign: "center",
-                                headerSort: false,
-                                editable: true,
-                                cellClick: function (e, cell) {
-                                    cell.getRow().toggleSelect();
-                                    console.log(table.getSelectedData());
-                                }
+                            formatter: "rowSelection",
+                            titleFormatter: "rowSelection",
+                            hozAlign: "center",
+                            headerSort: false,
+                            editable: true,
+                            cellClick: function (e, cell) {
+                                cell.getRow().toggleSelect();
+                                console.log(table.getSelectedData());
+                            }
+                        },
+
+                        // {
+                        //     title: "Batch Export CVs",
+                        //     field: "MCR_No",
+                        //     sorter: "string",
+                        //     headerFilter: "input",
+                        //     headerFilter: true,
+                        //     headerFilterParams: {
+                        //         valuesLookup: true,
+                        //         clearable: true
+                        //     },
+                        //     editor: true,
+                        //     formatter: link2
+
+                        // },
+                        {
+                            title: "MCR No",
+                            field: "MCR_No",
+                            sorter: "string",
+                            headerFilter: "input",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
+                            editor: true,
+                            formatter: link
+
+                        },
+                        {
+                            title: "Employee Image",
+                            field: "Employee_Image",
+                            // formatter: imageFormatter,
+                            formatter: "image",
+                            formatterParams: {
+                                height: "50px",
+                                width: "50px",
+                                urlPrefix: "../profileimg/",
+                            },
+                            hozAlign: "center",
+                            // editor: true,
+                            cellClick: (e, cell) => {
+                                openFileInput((file) => {
+                                    let newImageName = file.name
+                                    
+                                    cell.getRow().update({ Employee_Image: newImageName })
+                                    console.log(newImageName)
+                                    updateRow(cell.getRow())
+                                });
+                            },
+                        },
+                        {
+                            title: "Employee ID",
+                            field: "Employee_ID",
+                            sorter: "string",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
+                            },
+                            editor: true,
+
+                        },
+                        {
+                            title: "Staff Name",
+                            field: "Staff_Name",
+                            sorter: "string",
+                            editor: true,
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true
                             },
 
                             // {
@@ -864,57 +958,44 @@
                         ],
                     });
 
-                    // Custom formatter function to generate image URLs with relative paths
-                    // function imageFormatter(cell, formatterParams) {
-                    //     var imagePath = cell.getValue();
-                    //     var imageSrc = "";
-                    //     if (imagePath) {
-                    //         // Generate the image URL relative to the HTML file that contains the Tabulator code
-                    //         var currentUrl = window.location.href;
-                    //         var currentPath = currentUrl.substr(0, currentUrl.lastIndexOf('/') + 1);
-                    //         imageSrc = currentPath + imagePath;
-                    //     }
-                    //     return "<img src='" + imageSrc + "' />";
-                    // }
-
-                    table.on("cellEdited", function (row) {
-                        // connect to database and execute update statement
+                    function updateRow(row) {
                         let thisrow = row.getData()
                         axios.put("http://localhost:5011/" + "personaldetail/" + thisrow
                                 .MCR_No, {
 
-                                    "Employee_ID": thisrow.Employee_ID,
-                                    "Staff_Name": thisrow.Staff_Name,
-                                    "Designation": thisrow.Designation,
-                                    "Programme": thisrow.Programme,
-                                    "Year_of_Training": thisrow.Year_of_Training,
-                                    "Academic_Year": thisrow.Academic_Year,
-                                    "Department": thisrow.Department,
-                                    "Institution": thisrow.Institution,
-                                    "Academic_Clinical_Programme": thisrow
-                                        .Academic_Clinical_Programme,
-                                    "Employment_Status": thisrow.Employment_Status,
-                                    "Nationality": thisrow.Nationality,
-                                    "Date_of_Birth": thisrow.Date_of_Birth,
-                                    "Gender": thisrow.Gender,
-                                    "Registration_Type": thisrow.Registration_Type,
-                                    "House_Blk_No": thisrow.House_Blk_No,
-                                    "Street": thisrow.Street,
-                                    "Building_Name": thisrow.Building_Name,
-                                    "Unit_No": thisrow.Unit_No,
-                                    "Postal_Code": thisrow.Postal_Code,
-                                    "Contact_No_Work": thisrow.Contact_No_Work,
-                                    "Contact_No_Personal": thisrow.Contact_No_Personal,
-                                    "Email_Official": thisrow.Email_Official,
-                                    "Email_Personal": thisrow.Email_Personal,
-                                    "BCLS_Expiry_Date": thisrow.BCLS_Expiry_Date,
-                                    "ACLS_Expiry_Date": thisrow.ACLS_Expiry_Date,
-                                    "Covid_19_Vaccination_Status": thisrow
-                                        .Covid_19_Vaccination_Status,
-                                    "Date_of_First_Dose": thisrow.Date_of_First_Dose,
-                                    "Date_of_Second_Dose": thisrow.Date_of_Second_Dose,
-                                    "Vaccination_Remarks": thisrow.Vaccination_Remarks,
-                                    // "xx": thisrow.xx,
+                            "Employee_ID": thisrow.Employee_ID,
+                            "Employee_Image": thisrow.Employee_Image,
+                            "Staff_Name": thisrow.Staff_Name,
+                            "Designation": thisrow.Designation,
+                            "Programme": thisrow.Programme,
+                            "Year_of_Training": thisrow.Year_of_Training,
+                            "Academic_Year": thisrow.Academic_Year,
+                            "Department": thisrow.Department,
+                            "Institution": thisrow.Institution,
+                            "Academic_Clinical_Programme": thisrow
+                                .Academic_Clinical_Programme,
+                            "Employment_Status": thisrow.Employment_Status,
+                            "Nationality": thisrow.Nationality,
+                            "Date_of_Birth": thisrow.Date_of_Birth,
+                            "Gender": thisrow.Gender,
+                            "Registration_Type": thisrow.Registration_Type,
+                            "House_Blk_No": thisrow.House_Blk_No,
+                            "Street": thisrow.Street,
+                            "Building_Name": thisrow.Building_Name,
+                            "Unit_No": thisrow.Unit_No,
+                            "Postal_Code": thisrow.Postal_Code,
+                            "Contact_No_Work": thisrow.Contact_No_Work,
+                            "Contact_No_Personal": thisrow.Contact_No_Personal,
+                            "Email_Official": thisrow.Email_Official,
+                            "Email_Personal": thisrow.Email_Personal,
+                            "BCLS_Expiry_Date": thisrow.BCLS_Expiry_Date,
+                            "ACLS_Expiry_Date": thisrow.ACLS_Expiry_Date,
+                            "Covid_19_Vaccination_Status": thisrow
+                                .Covid_19_Vaccination_Status,
+                            "Date_of_First_Dose": thisrow.Date_of_First_Dose,
+                            "Date_of_Second_Dose": thisrow.Date_of_Second_Dose,
+                            "Vaccination_Remarks": thisrow.Vaccination_Remarks,
+                            // "xx": thisrow.xx,
 
                                 })
                             .then(response => {
@@ -928,7 +1009,12 @@
                                 if (alert("Failed to update row MCR No: " + row.getData()
                                         .MCR_No)) {} else window.location.reload();
                             })
+                    }
+
+                    table.on("cellEdited", function (cell) {
+                        updateRow(cell.getRow());
                     });
+                    
                     newdata = []
                     this.mcr_no = newdata
                     table.on("rowSelectionChanged", function (data, rows) {
