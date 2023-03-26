@@ -474,23 +474,7 @@
                             url + "'>" + url + "</a>"
                     }
 
-                    function imageFormatter(cell, formatterParams) {
-                        let imageName = cell.getValue();
-                        let imageUrl = '../profileimg/' + imageName; // Change this to the actual URL path for your images
-                        let img = document.createElement('img');
-                        img.src = imageUrl;
-                        img.style.width = formatterParams.width;
-                        img.style.height = formatterParams.height;
-                        img.style.display = 'block';
-                        img.style.marginLeft = 'auto';
-                        img.style.marginRight = 'auto';
 
-                        let container = document.createElement('div');
-                        container.style.width = '100%';
-                        container.appendChild(img);
-
-                        return container;
-                    }
 
                     function link2(cell, formatterParams) {
                         var url = cell.getValue();
@@ -557,19 +541,19 @@
                         {
                             title: "Employee Image",
                             field: "Employee_Image",
-                            formatter: imageFormatter,
-                            // formatter: "image",
+                            // formatter: imageFormatter,
+                            formatter: "image",
                             formatterParams: {
-                                height: "60px",
-                                width: "60px",
-                                // urlPrefix: "../profileimg/",
+                                height: "50px",
+                                width: "50px",
+                                urlPrefix: "../profileimg/",
                             },
-                            // hozAlign: "center",
+                            hozAlign: "center",
                             // editor: true,
                             cellClick: (e, cell) => {
                                 openFileInput((file) => {
                                     let newImageName = file.name
-
+                                    
                                     cell.getRow().update({ Employee_Image: newImageName })
                                     console.log(newImageName)
                                     updateRow(cell.getRow())
@@ -1030,7 +1014,7 @@
                     table.on("cellEdited", function (cell) {
                         updateRow(cell.getRow());
                     });
-
+                    
                     newdata = []
                     this.mcr_no = newdata
                     table.on("rowSelectionChanged", function (data, rows) {
