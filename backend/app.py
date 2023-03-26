@@ -3927,6 +3927,36 @@ def generate_word_batch(ids):
     import time
     return send_file("./" + zip_name + ".zip", as_attachment=True)
 
+@app.route('/')
+def index():
+    return 'OK'
+
+import pika
+@app.route('/create-job/<cmd>')
+def add(cmd):
+    try:
+        # connection = pika.BlockingConnection(pika.ConnectionParameters(host="rabbitmq"))
+        url = 'amqp://guest:guest@localhost:5672'
+        params = pika.URLParameters(url)
+        params.socket_timeout = 5
+        connection = pika.BlockingConnection(params)
+    except pika.exceptions.AMQPConnectionError as exc:
+        print("Failed to connect to RabbitMQ service. Message wont be sent.")
+        return
+
+    channel = connection.channel()
+    channel.queue_declare(queue='task_queue', durable=True)
+    channel.basic_publish(
+        exchange='',
+        routing_key='task_queue',
+        body=cmd,
+        properties=pika.BasicProperties(
+            delivery_mode=2,  # make message persistent
+        ))
+   
+    connection.close()
+    return " ___ Sent: %s" % cmd
+
 
 
 db.create_all()

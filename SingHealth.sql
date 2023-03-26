@@ -1681,3 +1681,9 @@ insert into publications (id, MCR_No, Publication_Title, Journal_Title, PMID, Pu
 insert into publications (id, MCR_No, Publication_Title, Journal_Title, PMID, Publication_Date) values (515, 'M11367A', 'Poseidon', 'Action|Adventure|Thriller|IMAX', 47862987, '14-01-2021');
 insert into publications (id, MCR_No, Publication_Title, Journal_Title, PMID, Publication_Date) values (516, 'M65889A', 'Taras Bulba', 'Action|Adventure|Drama|Romance|War', 31318427, '01-06-2021');
 insert into publications (id, MCR_No, Publication_Title, Journal_Title, PMID, Publication_Date) values (517, 'M66630D', 'The Lego Movie', 'Action|Adventure|Animation|Children|Comedy|Fantasy', 37405712, '17-04-2018');
+
+
+CREATE TABLE `user_account` (
+  `time` varchar(50) NOT NULL,
+  `message` varchar(300) NOT NULL,
+  `queue` varchar(300) NOT NULL);
