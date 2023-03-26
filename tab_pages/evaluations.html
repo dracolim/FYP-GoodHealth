@@ -204,19 +204,6 @@
         <div class="md:hidden sm:visible">
             <h2 class="text-3xl font-bold  ml-8 mt-4 text-gray-700">Evaluation</h2>
         </div>
-        <!-- OLD -->
-        <!-- <div class="flex items-center justify-between mt-6 mx-8">
-            <div class="relative">
-                <div class="absolute inset-y-0 left-0 right-12 bottom-2 flex items-center pl-3 pointer-events-none">
-                    <iconify-icon icon="mingcute:file-import-line" style="color: white;" width="20" height="20">
-                    </iconify-icon>
-                </div>
-                <button data-modal-target="import-modal" data-modal-toggle="import-modal" type="button"
-                    class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">
-                    <label class="ml-2">Evaluations Import</label>
-                </button>
-            </div>
-        </div> -->
         <!-- NEW -->
         <div class="flex items-center justify-between mt-6 mx-8">
             <div class="relative">
@@ -231,55 +218,6 @@
             </div>
         </div>
 
-        <!-- OLD Import modal -->
-        <!-- <div id="import-modal" tabindex="-1" aria-hidden="true"
-            class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
-            <div class="relative w-full h-full max-w-md md:h-auto"> -->
-        <!-- Modal content -->
-        <!-- <div class="relative bg-white rounded-lg shadow ">
-                    <button type="button" @click="removeErrorMsg"
-                        class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                        data-modal-hide="import-modal">
-                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                    <div class="px-6 py-6 lg:px-8">
-                        <h3 class="mb-4 text-xl font-medium text-gray-900 ">Upload Excel Sheet</h3>
-                        <form class="space-y-6" method="post" enctype="multipart/form-data"> -->
-        <!-- input form -->
-        <!-- <input id="UploadFile" @change="importExcel"
-                                class="block w-full text-md text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                                type="file" name="file" ref="UploadFile"> -->
-        <!-- error -->
-        <!-- <div v-if="error_message != ''"
-                                class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
-                                <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor"
-                                    viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                                        clip-rule="evenodd"></path>
-                                </svg>
-                                <span class="sr-only">Info</span>
-                                <div>
-                                    <span class="font-bold">Error!</span> -->
-        <!-- show the list of errors -->
-        <!-- <ul v-html="error_message"></ul>
-                                </div>
-                            </div>
-                            <button type="submit" value="Submit" id='submit' @click="isDisabled()"
-                                class="w-full text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-        
-        
         <!-- NEW IMPORT MODAL -->
         <div data-te-modal-init
             class="fixed top-0 left-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
@@ -325,15 +263,17 @@
                                     <ul v-html="error_message"></ul>
                                 </div>
                             </div>
-
-                            <button type="submit" value="Submit" id='submit' @click="isDisabled()"
+                            <button v-if = "importSuccess == true" type="button" value="Submit" id='submit' @click="isDisabled()" data-te-modal-dismiss
+                                data-te-ripple-init
+                                class="w-full text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                            <button v-else type="button" value="Submit" id='submit' @click="isDisabled()" 
                                 class="w-full text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <!-- SUCCESS ALERT FOR IMPORT -->
         <div id="alert-3" v-if="importSuccess == true"
             class="flex mx-8 mt-4 p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
@@ -348,7 +288,7 @@
             <div class="ml-3 text-sm font-medium">
                 Bulk Import Succssful !
             </div>
-            <button type="button"
+            <button type="button" @click = "importSuccess = false"
                 class="ml-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700"
                 data-dismiss-target="#alert-3" aria-label="Close">
                 <span class="sr-only">Close</span>
@@ -419,6 +359,7 @@
             one_step_before: false,
             question_count: 1,
             found_count: 1,
+            importSuccess: false,
         },
         mounted() {
             axios.get(this.local_host_url + "personaldetail")
@@ -645,6 +586,10 @@
 
         },
         methods: {
+            successPopUp() {
+                this.importSuccess = true
+                this.$forceUpdate();
+            },
             importExcel() {
                 var fileVal = document.getElementById("UploadFile");
                 this.file = fileVal.files[0]
@@ -800,13 +745,17 @@
                                         }
                                     }
                                     // check whether each section of questions got duplicates
-                                    if (this.question_count == this.found_count && this.question_name != "" && this.found_count > 1){
+                                    if (this.question_count == this.found_count &&
+                                        this.question_name != "" && this
+                                        .found_count > 1) {
                                         if (!(this.error_message.includes(
-                                                "<li> - All rows for Question: " + this.question_name +
+                                                "<li> - All rows for Question: " +
+                                                this.question_name +
                                                 " already exist in database</li>"
                                             ))) {
                                             this.error_message +=
-                                            "<li> - All rows for Question: " + this.question_name +
+                                                "<li> - All rows for Question: " +
+                                                this.question_name +
                                                 " already exist in database</li>"
                                         }
                                     }
@@ -836,7 +785,8 @@
                         if ((this.row_count == this.duplicate_count || (this.row_count - this
                                 .user_error_count == this.duplicate_count)) && this.row_count > 0) {
                             this.error_message +=
-                                "<li> - All Rows already exist in the Database"}
+                                "<li> - All Rows already exist in the Database"
+                        }
                         // else if (this.duplicate_count > 0 && this.duplicate_count < this
                         //     .row_count) {
                         //     this.error_message +=
@@ -847,7 +797,6 @@
                                 .disabled = true;
                         }
                         else{
-                            this.one_step_before = true;
                             this.successPopUp()
                         }
 
@@ -859,12 +808,6 @@
                 this.error_message = "";
                 this.file = "";
                 document.getElementById('submit').disabled = false;
-            },
-            successPopUp(){
-                if (this.one_step_before == true){
-                    this.importSuccess = true;
-                }
-                console.log("adf,kjahdfljkahd")
             },
             isDisabled() {
                 // evaluate whatever you need to determine disabled here... 
@@ -887,4 +830,5 @@
 </script>
 <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
+
 </html>

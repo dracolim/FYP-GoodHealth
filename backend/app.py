@@ -690,7 +690,7 @@ def view():
     if ("personal details" in sheetNames_list):
         personalDetails = pd.read_excel(
             file, sheet_name="Personal Details", dtype=str)
-        personalDetails.columns = ['Employee_ID', 'MCR_No', 'Staff_Name', 'Designation',
+        personalDetails.columns = ['Employee_ID', 'Employee_Image', 'MCR_No', 'Staff_Name', 'Designation',
                                 'Programme', 'Year_of_Training', 'Academic_Year', 'Department',
                                 'Institution', 'Academic_Clinical_Programme', 'Employment_Status',
                                 'Nationality', 'Date_of_Birth', 'Gender', 'Registration_Type',
