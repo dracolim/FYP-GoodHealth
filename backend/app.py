@@ -49,6 +49,7 @@ CORS(app)
 class Personal_Details(db.Model):
     __tablename__ = 'Personal_Details'
     Employee_ID = db.Column(db.String(50))
+    Employee_Image = db.Column(db.String(100))
     MCR_No = db.Column(db.String(50), primary_key=True)
     Staff_Name = db.Column(db.String(50))
     Designation = db.Column(db.String(50))
