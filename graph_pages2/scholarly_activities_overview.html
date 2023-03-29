@@ -209,7 +209,7 @@
                 this.loaded = false
                 this.getScholarlyActivitiesData();
                 // this.getChartData();
-                this.getResidentData();
+                // this.getResidentData();
                 this.total = 0;
                 this.passed = 0;
                 this.chartArray = [];
@@ -217,7 +217,6 @@
                 },
             methods: {
                 getScholarlyActivitiesData: async function () {
-
                     this.status = "getting data...";
                     // get all residents
                     specificURL = "http://localhost:5011/personaldetail" 
@@ -230,7 +229,8 @@
                     for (let i = 0; i < response.data.data.length; i++) {
                         mcr = response.data.data[i].MCR_No
                         // check compliance for each resident
-                        console.log(this.getResidentData(mcr))
+                        // console.log(mcr)
+                        // console.log(this.getResidentData(mcr))
                         if (this.getResidentData(mcr) == true){
                             this.passed += 1
                             console.log('added')
@@ -251,7 +251,9 @@
                 },
 
                 getResidentData: function(mcr) {
+                    console.log("it is called" + " " + mcr)
                     specificURL = "http://localhost:5011/profile/"  + mcr
+                    console.log(specificURL)
                     axios.get(specificURL).then((response) => {
                     console.log("This is responseDataResident")
                     console.log(response.data.data.personaldetails.MCR_No)
