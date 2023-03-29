@@ -269,9 +269,9 @@ def getQIPatientSafetyRows(projects):
         return "<i>No Records Found</i>"
 
 
-def getPage(name, mcrno, awardsRows, projectRows, educationalInvolvements, communityInvolvements,
-leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentationRows,teachingPresentationRows,\
-    publicationsRows,patientSafetyQIRows):
+def getPage(name, mcrno, profileimg, awardsRows, projectRows, educationalInvolvements, communityInvolvements,
+        leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentationRows,teachingPresentationRows,
+        publicationRows,patientSafetyQIRows):
 
     page = """<!DOCTYPE html>
     <html lang="en">
@@ -295,9 +295,9 @@ leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentati
 </div>
 <hr>
 <p><br></p>
-<div align="left" >
-    <table>
-        <tbody>
+<div style="display: flex; justify-content: space-between;">
+    <div>
+        <table>
             <tr>
                 <td>
                     <p><span style="font-size: 24px;">Name&nbsp;</span></p>
@@ -305,7 +305,6 @@ leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentati
                 <td>
                     <p><span style="font-size: 24px;">:&nbsp;""" + name + """&nbsp;</span></p>
                 </td>
-                <td rowspan="2"><span style="font-size: 24px;"><br></span></td>
             </tr>
             <tr>
                 <td>
@@ -315,8 +314,11 @@ leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentati
                     <p><span style="font-size: 24px;">: """ + mcrno + """</span></p>
                 </td>
             </tr>
-        </tbody>
-    </table>
+        </table>
+    </div>
+    <div style="text-align: right;">
+        <img src="test" style="border-radius: 50%; border: 2px solid black; width: 50px; height: 50px;">
+    </div>
 </div>
 <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>EMPLOYMENT HISTORY</b></span></p>
 <p><br></p>
@@ -681,7 +683,7 @@ leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentati
                 </td>
                 
             </tr>
-            """+ publicationsRows + """
+            """+ publicationRows + """
             
             
         </tbody>

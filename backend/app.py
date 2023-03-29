@@ -3257,6 +3257,7 @@ def getCompletePage(id):
     involvements = person.involvements
     mcrno = person.MCR_No
     name = person.Staff_Name
+    profileimg = person.Employee_Image
     education_histories = person.education_history
     # just the table and attributes u want 
     awardsRows = getAwardsRows(awards)
@@ -3272,7 +3273,7 @@ def getCompletePage(id):
     publicationRows=getPublications(publications)
     patientSafetyQIRows=getQIPatientSafetyRows(projects)
     
-    page = getPage(name, mcrno, awardsRows, projectRows, educationalInvolvements, communityInvolvements,
+    page = getPage(name, mcrno, profileimg, awardsRows, projectRows, educationalInvolvements, communityInvolvements,
         leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentationRows,teachingPresentationRows,
         publicationRows,patientSafetyQIRows)
     return page
@@ -3396,6 +3397,7 @@ class Builder(DocumentBuilder):
     def buildPage(self):
         self.page = getPage(self.person.Staff_Name, 
                             self.person.MCR_No, 
+                            self.person.Employee_Image,
                             self.awardsRows, 
                             self.projectRows, 
                             self.educationalInvolvements, 
