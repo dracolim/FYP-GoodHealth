@@ -266,7 +266,7 @@
             <div class="flex relative width-full mx-8 justify-center ">
                 <!-- h-60 w-96 ml-40 -->
                 <!-- rounded-lg vs rounded-full -->
-                <img class="object-cover w-1/3 shadow-md rounded-full" src="../profileimg/mr101.jpeg">
+                <img class="object-cover w-1/3 shadow-md rounded-full" v-bind:src="profile_image_prefix_url + profile_image_src">
                 
               </div>
 
@@ -891,6 +891,7 @@
     const vm = new Vue({
         el: '#app',
         data: {
+            
             count: 0,
             personal_details_fields: [],
             fields_display: [],
@@ -900,6 +901,8 @@
             file: "",
             profile_data_original: [],
             profile_data: [],
+            profile_image_prefix_url: "../profileimg/",
+            profile_image_src: "mr101.jpeg",
             val: " ",
             contact_details: [],
             employer_details: [],
@@ -937,6 +940,8 @@
                     console.log("object:", object)
                     currpage = currpage + responses[0].data.data.personaldetails.MCR_No
                     this.mcr_no = responses[0].data.data.personaldetails.MCR_No;
+
+                    this.profile_image_src=object.Employee_Image
 
                     picked = (({ Staff_Name, Nationality, Date_of_Birth, Gender, BCLS_Expiry_Date, ACLS_Expiry_Date }) => 
                     ({ Staff_Name, Nationality, Date_of_Birth, Gender, BCLS_Expiry_Date, ACLS_Expiry_Date }))(object);
