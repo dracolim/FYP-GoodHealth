@@ -205,44 +205,43 @@
                         },
                         scales: {}
                     },
+                    mcr_arr: [],
+                    chartData: "",
                 }
             },
             mounted: function () {
                 this.loaded = false
-                this.getScholarlyActivitiesData();
-                this.total = 0;
-                this.passed = 0;
-                this.chartArray = [];
-                this.missing = 0;
+
+                specificURL = "http://localhost:5011/personaldetail"
+                axios.get(specificURL)
+                    .then(response => {
+                        this.total = response.data.data.length
+                        for (i = 0; i < response.data.data.length; i++) {
+                            this.mcr_arr.push(response.data.data[i].MCR_No)
+                        }
+                        this.getScholarlyActivitiesData();
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        this.missing += 1
+                    });
             },
             methods: {
                 getScholarlyActivitiesData: async function () {
-                    this.status = "getting data...";
                     // get all residents
-                    specificURL = "http://localhost:5011/personaldetail"
-                    await axios.get(specificURL)
-                        .then((response) => {
-                            console.log("This is responseData")
-                            console.log(response.data)
-                            console.log(response.data.data.length)
-
-                            this.total = response.data.data.length
-                            for (let i = 0; i < response.data.data.length; i++) { // go through resident
-                                mcr = response.data.data[i].MCR_No
-                                // check compliance for each resident
-                                if (this.getResidentData(mcr) == true) {
-                                    this.passed += 1 // if compliant
-                                }
-                            }
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                            this.missing += 1
-                        });
+                    for (each of this.mcr_arr) {
+                        console.log(this.getResidentData(each))
+                        if (await this.getResidentData(each) == true) {
+                            this.passed += 1 // if compliant
+                        }
+                    }
 
                     console.log(this.passed)
+
                     // need to wait for the getResidentData to add to the this.passed first before calling the this.getChartData
-                    chartArray = [this.passed, this.total, this.missing]; //getChartdata will use to show visualisation
+                    chartArray = [this.passed, this.total, this
+                    .missing]; //getChartdata will use to show visualisation
+
                     console.log('this is chartArray')
                     console.log(chartArray)
 
@@ -250,93 +249,89 @@
                     this.loaded = true
                 },
 
-                getResidentData: function (mcr) {
+                getResidentData: async function (mcr) {
                     specificURL = "http://localhost:5011/profile/" + mcr
                     console.log(specificURL)
-                    axios.get(specificURL).then((response) => {
-                            // console.log("This is responseDataResident")
-                            // console.log(response.data.data.personaldetails.MCR_No)
-                            // console.log(response.data)
-                            chartData = response.data
-                            // check compliance for resident
-                            percentageCompletion = 0
-                            count = 0
-                            hasTeachingPresentation = false
-                            hasAbstractPresentation = false
-                            hasPublication = false
-                            const d = new Date();
-                            let year = d.getFullYear();
-                            var toAdd = false;
+                    var toAdd = false;
 
-                            if (chartData.data.publications.length > 0) {
-                                publicationArray = chartData.data.publications
-                                for (let i = 0; i < publicationArray.length; i++) {
-                                    year1 = parseInt(publicationArray[i]['Publication_Date'].slice(-2))
-                                    if ((year1 == year - 2000) && hasPublication == false) {
-                                        count += 1
-                                        hasPublication = true
-                                        console.log('publication')
-                                    }
-                                }
-                            }
-                            if (chartData.data.presentations.length > 0) {
-                                presentationArray = chartData.data.presentations
-                                // console.log(presentationArray)
-                                if (presentationArray.length == 1) {
-                                    if (parseInt(presentationArray[0]['Presentation_Date'].slice(-4)) ==
-                                        year) {
-                                        count += 1
-
-                                    }
-                                } else {
-                                    for (let i = 0; i < presentationArray.length; i++) {
-                                        if (parseInt(presentationArray[i]['Presentation_Date'].slice(-
-                                                4)) == year) {
-                                            if (presentationArray[i]['Type'].length == 0 &&
-                                                hasTeachingPresentation == false) {
-                                                count += 1
-                                                console.log('teaching')
-                                                hasTeachingPresentation = true
-                                            }
-                                            if (presentationArray[i]['Type'].length > 0 &&
-                                                hasAbstractPresentation == false) {
-                                                count += 1
-                                                console.log('abstract')
-                                                hasAbstractPresentation = true
-                                            }
-                                            // console.log(count)
-                                            if (hasAbstractPresentation == true &&
-                                                hasTeachingPresentation == true) {
-                                                break
-                                            }
-                                            // console.log(count)
-                                        }
-                                    }
-                                }
-                                console.log(count)
-                            }
-                            if (count != 0) {
-                                percentageCompletion = count / 3
-                                console.log('percentageCompletion1')
-                                console.log(percentageCompletion)
-                            }
-                            console.log('percentageCompletion2')
-                            console.log(percentageCompletion)
-                            if (percentageCompletion == 1) {
-                                console.log('true')
-                                toAdd = true
-                            }
-                            return toAdd
+                    await axios.get(specificURL).then((response) => {
+                            this.chartData = response.data
                         })
                         .catch(function (error) {
                             console.log(error);
                             this.missing += 0
                         });
+                    
+                    console.log(this.chartData)
+                    // check compliance for resident
+                    percentageCompletion = 0
+                    count = 0
+                    hasTeachingPresentation = false
+                    hasAbstractPresentation = false
+                    hasPublication = false
+                    const d = new Date();
+                    let year = d.getFullYear();
+                    // var toAdd = false;
+
+                    if (this.chartData.data.publications.length > 0) {
+                        publicationArray = this.chartData.data.publications
+                        for (let i = 0; i < publicationArray.length; i++) {
+                            year1 = parseInt(publicationArray[i]['Publication_Date'].slice(-2))
+                            if ((year1 == year - 2000) && hasPublication == false) {
+                                count += 1
+                                hasPublication = true
+                                // console.log('publication')
+                            }
+                        }
+                    }
+                    if (this.chartData.data.presentations.length > 0) {
+                        presentationArray = this.chartData.data.presentations
+                        // console.log(presentationArray)
+                        if (presentationArray.length == 1) {
+                            if (parseInt(presentationArray[0]['Presentation_Date'].slice(-4)) ==
+                                year) {
+                                count += 1
+
+                            }
+                        } else {
+                            for (let i = 0; i < presentationArray.length; i++) {
+                                if (parseInt(presentationArray[i]['Presentation_Date'].slice(-
+                                        4)) == year) {
+                                    if (presentationArray[i]['Type'].length == 0 &&
+                                        hasTeachingPresentation == false) {
+                                        count += 1
+                                        console.log('teaching')
+                                        hasTeachingPresentation = true
+                                    }
+                                    if (presentationArray[i]['Type'].length > 0 &&
+                                        hasAbstractPresentation == false) {
+                                        count += 1
+                                        hasAbstractPresentation = true
+                                    }
+                                    if (hasAbstractPresentation == true &&
+                                        hasTeachingPresentation == true) {
+                                        break
+                                    }
+                                }
+                            }
+                        }
+                        console.log(count) 
+                    }
+                    if (count != 0) {
+                        percentageCompletion = count / 3
+                        console.log('percentageCompletion1')
+                        console.log(percentageCompletion)
+                    }
+                    console.log('percentageCompletion2')
+                    console.log(percentageCompletion)
+                    if (percentageCompletion == 1) {
+                        console.log('true')
+                        toAdd = true;
+                    }
+                    return toAdd;
                 },
 
                 getChartData: function (chartData) {
-                    // console.log("This is chartData")
-                    // console.log(chartData);
                     passedResident = 0
                     totalResident = 0
                     percentageCompletion = 0.0
