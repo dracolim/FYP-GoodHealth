@@ -269,6 +269,17 @@ def getQIPatientSafetyRows(projects):
         return "<i>No Records Found</i>"
 
 
+import base64
+
+def get_image_file_as_base64_data():
+    FILEPATH = "./static/profile1.jpeg"
+    # with open(FILEPATH, 'rb') as image_file:
+    #     reading = str(base64.b64encode(image_file.read()))
+    #     print(reading)
+    #     return reading
+    with open(FILEPATH, 'rb') as f:
+        return base64.b64encode(f.read()).decode()
+
 def getPage(name, mcrno, profileimg, awardsRows, projectRows, educationalInvolvements, communityInvolvements,
         leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentationRows,teachingPresentationRows,
         publicationRows,patientSafetyQIRows):
@@ -317,7 +328,7 @@ def getPage(name, mcrno, profileimg, awardsRows, projectRows, educationalInvolve
         </table>
     </div>
     <div style="text-align: right;">
-        <img src="test" style="border-radius: 50%; border: 2px solid black; width: 50px; height: 50px;">
+        <img src="data:image/png;base64,""" +get_image_file_as_base64_data()+ """" style="border-radius: 50%; border: 2px solid black; width: 150px; height: 100px;">
     </div>
 </div>
 <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>EMPLOYMENT HISTORY</b></span></p>
