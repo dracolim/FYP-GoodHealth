@@ -208,8 +208,6 @@
             mounted: function () {
                 this.loaded = false
                 this.getScholarlyActivitiesData();
-                // this.getChartData();
-                // this.getResidentData();
                 this.total = 0;
                 this.passed = 0;
                 this.chartArray = [];
@@ -226,22 +224,22 @@
                     console.log(response.data.data.length)
 
                     this.total = response.data.data.length
-                    for (let i = 0; i < response.data.data.length; i++) {
+                    for (let i = 0; i < response.data.data.length; i++) { // go through resident
                         mcr = response.data.data[i].MCR_No
                         // check compliance for each resident
                         // console.log(mcr)
                         // console.log(this.getResidentData(mcr))
-                        if (this.getResidentData(mcr) == true){
-                            this.passed += 1
+                        if (this.getResidentData(mcr) == true){ //to check if they comply a not 
+                            this.passed += 1 // if compliant
                             console.log('added')
                         }
                     }
 
-                    chartArray = [this.passed , this.total, this.missing];
+                    chartArray = [this.passed , this.total, this.missing]; //getChartdata will use to show visualisation
                     console.log('this is chartArray')
                     console.log(chartArray)
 
-                    this.getChartData(chartArray);
+                    this.getChartData(chartArray); // it works
                     this.loaded = true
                     })
                     .catch(function (error) {
