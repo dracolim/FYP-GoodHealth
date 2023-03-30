@@ -271,8 +271,10 @@ def getQIPatientSafetyRows(projects):
 
 import base64
 
-def get_image_file_as_base64_data():
-    FILEPATH = "./static/profile1.jpeg"
+def get_image_file_as_base64_data(profileimg_input):
+    FILEPATH = "../profileimg/" + profileimg_input
+    # FILEPATH = "./static/profile1.jpeg"
+
     # with open(FILEPATH, 'rb') as image_file:
     #     reading = str(base64.b64encode(image_file.read()))
     #     print(reading)
@@ -327,8 +329,8 @@ def getPage(name, mcrno, profileimg, awardsRows, projectRows, educationalInvolve
             </tr>
         </table>
     </div>
-    <div style="text-align: right;">
-        <img src="data:image/png;base64,""" +get_image_file_as_base64_data()+ """" style="border-radius: 50%; border: 2px solid black; width: 150px; height: 100px;">
+    <div style="text-align: center;">
+        <img src="data:image/png;base64,""" +get_image_file_as_base64_data(profileimg)+ """" style="border: 2px solid black; width: 250px; height: 250px;">
     </div>
 </div>
 <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>EMPLOYMENT HISTORY</b></span></p>
