@@ -586,11 +586,10 @@ INSERT INTO `posting_history` (`id`, `MCR_No`, `Posting_Institution`, `Posting_D
 (3, 'M11367A', 'CGH', 'PostingInt3', '03-Sep-2022', '28-Nov-2022'),
 (4, 'M11367A', 'CGH', 'PostingInt4', '03-Dec-2022', '28-Dec-2022'),
 (5, 'M11367A', 'SKH', 'PostingInt5', '01-Jan-2023', '31-Jan-2023'),
-(6, 'M11367A', 'SGH', 'PostingInt6', '01-Feb-2023', '28-Feb-2023'),
-(7, 'M11367A', 'SGH', 'PostingInt7', '01-Mar-2023', '04-Mar-2023'),
-(8, 'M11367A', 'SGH', 'PostingInt8', '05-Apr-2023', '29-Apr-2023'),
-(9, 'M11367A', 'SGH', 'PostingInt9', '05-May-2023', '26-May-2023'),
-(10, 'M11367A', 'SGH', 'PostingInt10', '02-Jun-2023', '26-Jun-2023');
+(6, 'M11367A', 'SGH', 'PostingInt7', '01-Mar-2023', '04-Mar-2023'),
+(7, 'M11367A', 'SGH', 'PostingInt8', '05-Apr-2023', '29-Apr-2023'),
+(8, 'M11367A', 'SGH', 'PostingInt9', '05-May-2023', '26-May-2023'),
+(9, 'M11367A', 'SGH', 'PostingInt10', '02-Jun-2023', '26-Jun-2023');
 
 
 
