@@ -7,7 +7,6 @@ new Vue({
         mcr_no: "",
         loaded: false,
 
-
         IHIchartConfig: {
             labels: ["% of Completion"],
             datasets: [
@@ -19,6 +18,7 @@ new Vue({
                 }
             ]
             },
+
         IHIoptions: {
             responsive: true,
             maintainAspectRatio: false,
@@ -36,10 +36,7 @@ new Vue({
             },
             scales: {
             }
-            },
-
-
-
+        },
 
         dutyChartConfig: {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -53,6 +50,7 @@ new Vue({
                 }
             ]
         },
+
         dutyHourOptions: {
             responsive: true,
             maintainAspectRatio: false,
@@ -91,7 +89,6 @@ new Vue({
             }
         },
 
-
         scholarlyChartConfig: {
             labels: ["% of Completion", "% of Non-Completioin"],
             datasets: [
@@ -102,59 +99,57 @@ new Vue({
                 label: ["Compliant", "Non-Compliant"]
                 }
             ]
+        },
+
+        scholarlyOptions: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'Scholarly Activity (Resident)'
             },
-            scholarlyOptions: {
-                responsive: true,
-                maintainAspectRatio: false,
-                title: {
-                    display: true,
-                    text: 'Scholarly Activity (Resident)'
-                },
-                tooltips: {
-                    mode: 'index',
-                    intersect: false,
-                },
-                hover: {
-                    mode: 'nearest',
-                    intersect: true
-                },
-                scales: {
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            scales: {
+            }
+        },
+
+        projectChartConfig: {
+            labels: ["% of Completion"],
+            datasets: [
+                {
+                data: [],
+                backgroundColor: ['#ff6b00','#ffedd5'],
+                borderColor: 'rgba(136,136,136,0.5)',
+                label: "Compliant"
                 }
+            ]
+        },
+
+        projectOptions: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'Project (Resident)'
             },
-
-
-            projectChartConfig: {
-                labels: ["% of Completion"],
-                datasets: [
-                    {
-                    data: [],
-                    backgroundColor: ['#ff6b00','#ffedd5'],
-                    borderColor: 'rgba(136,136,136,0.5)',
-                    label: "Compliant"
-                    }
-                ]
+            tooltips: {
+                mode: 'index',
+                intersect: false,
             },
-            projectOptions: {
-                responsive: true,
-                maintainAspectRatio: false,
-                title: {
-                    display: true,
-                    text: 'Project (Resident)'
-                },
-                tooltips: {
-                    mode: 'index',
-                    intersect: false,
-                },
-                hover: {
-                    mode: 'nearest',
-                    intersect: true
-                },
-                scales: {
-                }
+            hover: {
+                mode: 'nearest',
+                intersect: true
             },
-
-
-
+            scales: {
+            }
+        },
 
         didacticChartConfig: {
                 labels: ["Jul-Dec", "Jan-Jun"],
@@ -167,6 +162,7 @@ new Vue({
                     }
                 ]
         },
+
         didacticOptions: {
                 responsive: true,
                 maintainAspectRatio: false,
@@ -206,10 +202,11 @@ new Vue({
         },
     }
     },
+
     mounted: function () {
         this.loaded = false
-        // this.getSpecificDidacticAttendanceData();
-        },
+    },
+
     methods: {
         
         getData: async function () {
@@ -218,13 +215,11 @@ new Vue({
 
             specificURL = "http://localhost:5011/profile/" + this.mcr_no
             await axios.get(specificURL).then((response) => {
-            // console.log("This is responseData")
-            // console.log(response.data)
-
             this.getIHIchartData(response.data);
             this.getDutyHourData(response.data);
             this.getScholarlyChartData(response.data);
             this.getProjectData(response.data);
+            this.getDidacticData(response.data);
             this.loaded = true
             })
             .catch(function (error) {
@@ -232,17 +227,16 @@ new Vue({
             });
         },
         
-
         reset: function (){
             this.dutyChartConfig.datasets[0].data.length = 0
+            this.IHIchartConfig.datasets[0].data.length = 0
+            this.scholarlyChartConfig.datasets[0].data.length = 0
+            this.projectChartConfig.datasets[0].data.length = 0
+            this.didacticChartConfig.datasets[0].data.length = 0
             this.loaded = false
-            },
-
+        },
 
         getIHIchartData: function (chartData) {
-            // console.log("This is chartData")
-            // console.log(chartData);
-            console.log('function is called')
             didResidentComplete = chartData.data.ihis[0]['Completion_of_Emodules']
             percentageCompletion = 0
 
@@ -256,16 +250,9 @@ new Vue({
             this.IHIchartConfig.datasets[0].data.push(percentageCompletion)
             percentageCompletion = 0
             this.loaded = false
-
         },
         
         getDutyHourData: function (chartData) {
-            // console.log("This is chartData")
-            // console.log(chartData);
-
-            console.log(chartData.data);
-            console.log('break1')
-
             percentCompliantJan = ''
 
             percentCompliantFeb = ''
@@ -289,7 +276,6 @@ new Vue({
             percentCompliantNov = ''
 
             percentCompliantDec = ''
-            console.log(chartData.data.duty_hour_logs.length)
             for (var i = 0; i < chartData.data.duty_hour_logs.length; i++) {
 
                 if(('01'.includes(chartData.data.duty_hour_logs[i]['MMYYYY'].substr(0,2)))){
@@ -330,7 +316,6 @@ new Vue({
                 }
             }
 
-
             this.dutyChartConfig.datasets[0].data.push(percentCompliantJan)
 
             this.dutyChartConfig.datasets[0].data.push(percentCompliantFeb)
@@ -354,16 +339,9 @@ new Vue({
             this.dutyChartConfig.datasets[0].data.push(percentCompliantNov)
 
             this.dutyChartConfig.datasets[0].data.push(percentCompliantDec)
-
-            console.log(this.dutyChartConfig);
-            console.log('break 2')
         },
 
         getScholarlyChartData: function (chartData) {
-            console.log("This is chartData")
-            console.log(chartData);
-
-            // didResidentCompletePublication = chartData.data.publications[0]['Completion_of_Emodules']
             percentageCompletion = 0
             percentageNonCompletion = 1
             count = 0
@@ -381,6 +359,7 @@ new Vue({
                     }
                 }
             }
+
             if (chartData.data.presentations.length > 0){
                 presentationArray = chartData.data.presentations
                 if (presentationArray.length == 1){
@@ -406,12 +385,12 @@ new Vue({
                     }
                 }
             }
+
             if (count != 0){
                 percentageCompletion = count/3
                 percentageNonCompletion = 1 - percentageCompletion
             }
-            console.log(percentageCompletion)
-            console.log(percentageNonCompletion)
+
             this.scholarlyChartConfig.datasets[0].data.push(percentageCompletion.toFixed(3))
             this.scholarlyChartConfig.datasets[0].data.push(percentageNonCompletion.toFixed(3))
             percentageCompletion = 0
@@ -419,12 +398,9 @@ new Vue({
             hasAbstractPresentation = false
             hasTeachingPresentation = false
             this.loaded = false
-
         },
-        getProjectData: function (chartData) {
-            // console.log("This is chartData")
-            // console.log(chartData)
 
+        getProjectData: function (chartData) {
             didResidentComplete = null;
             percentageCompletion = 0
 
@@ -445,12 +421,9 @@ new Vue({
             this.projectChartConfig.datasets[0].data.push(percentageCompletion)
             percentageCompletion = 0
             this.loaded = false
-            
         },
-        getDidacticData: function (chartData) {
-            console.log("This is chartData")
-            console.log(chartData);
 
+        getDidacticData: function (chartData) {
             this.didacticChartConfig.datasets[0].data = []
 
             counterCompliantJulDec = 0
@@ -480,30 +453,11 @@ new Vue({
 
             }
 
-            // console.log("checking total percent attended jul dec")
-            // console.log(totalPercentAttendedJulDec)
-
-            // console.log("checking total percent attended jan june")
-            // console.log(totalPercentAttendedJanJune)
-
-            // console.log("checking num jul dec entries")
-            // console.log(numofJulDecEntries)
-
-            // console.log("checking num jan june entries")
-            // console.log(numOfJanJuneEntries)
-
-            // console.log("checking percentCompliantJulDec")
-            // console.log(percentCompliantJulDec)
-
-            // console.log("checking percentCompliantJanJune")
-            // console.log(percentCompliantJanJune)
-
             percentCompliantJulDec = (totalPercentAttendedJulDec/numofJulDecEntries)
             percentCompliantJanJune = (totalPercentAttendedJanJune/numOfJanJuneEntries)
 
             this.didacticChartConfig.datasets[0].data.push((percentCompliantJulDec * 100).toFixed(3))
             this.didacticChartConfig.datasets[0].data.push((percentCompliantJanJune * 100).toFixed(3))
-            
         },
     }
 });
