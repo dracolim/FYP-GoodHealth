@@ -2111,7 +2111,7 @@ def update_project(id):
     user.id = data['id']
 
     db.session.commit()
-    return 'Project ', id, ' updated', 200
+    return f'Project {id} updated', 200
 
 # Delete project
 @app.route('/project/<int:id>', methods=['DELETE'])
