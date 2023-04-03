@@ -3,10 +3,9 @@ new Vue({
     vuetify: new Vuetify(),
     data() {
     return {
-        year: 2023,
+        year: null,
         mcr_no: "",
         // loaded: false,
-
 
         ihiLoaded:false,
         IHIchartConfig: {
@@ -20,12 +19,46 @@ new Vue({
                 }
             ]
             },
-            IHIoptions: {
+
+        IHIoptions: {
+        responsive: true,
+        maintainAspectRatio: false,
+        title: {
+            display: true,
+            text: 'IHI (Overview)'
+        },
+        tooltips: {
+            mode: 'index',
+            intersect: false,
+        },
+        hover: {
+            mode: 'nearest',
+            intersect: true
+        },
+        scales: {
+        }
+        },
+
+        dutyLoaded:false,
+        dutyChartConfig: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [
+                {
+                data: [],
+                fill: false,
+                backgroundColor: ['#ff6b00'],
+                borderColor: 'rgba(136,136,136,0.5)',
+                label: "Compliant"
+                }
+            ]
+            },
+
+        dutyHourOptions: {
             responsive: true,
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'IHI (Overview)'
+                text: 'Duty Hours Logs (Overview)'
             },
             tooltips: {
                 mode: 'index',
@@ -36,63 +69,27 @@ new Vue({
                 intersect: true
             },
             scales: {
+                xAxes: [{
+                display: true,
+                categoryPercentage: 0.5,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Month'
+                }
+                }],
+                yAxes: [{
+                ticks : {
+                max : 1,    
+                min : 0
+                },
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: '% Residents Submitted'
+                }
+                }]
             }
             },
-
-
-
-            dutyLoaded:false,
-            dutyChartConfig: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                datasets: [
-                    {
-                    data: [],
-                    fill: false,
-                    backgroundColor: ['#ff6b00'],
-                    borderColor: 'rgba(136,136,136,0.5)',
-                    label: "Compliant"
-                    }
-                ]
-                },
-            dutyHourOptions: {
-                responsive: true,
-                maintainAspectRatio: false,
-                title: {
-                    display: true,
-                    text: 'Duty Hours Logs (Overview)'
-                },
-                tooltips: {
-                    mode: 'index',
-                    intersect: false,
-                },
-                hover: {
-                    mode: 'nearest',
-                    intersect: true
-                },
-                scales: {
-                    xAxes: [{
-                    display: true,
-                    categoryPercentage: 0.5,
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Month'
-                    }
-                    }],
-                    yAxes: [{
-                    ticks : {
-                    max : 1,    
-                    min : 0
-                    },
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: '% Residents Submitted'
-                    }
-                    }]
-                }
-                },
-
-
 
             total: 0,
             scholarlyPassed: 0,
@@ -109,6 +106,7 @@ new Vue({
                     label: ["Compliant", "Non-Compliant"]
                 }]
             },
+
             scholarlyOptions: {
                 responsive: true,
                 maintainAspectRatio: false,
@@ -129,7 +127,6 @@ new Vue({
             mcr_arr: [],
             scholarlyChartData: "",
 
-
             projectsLoaded:false,
             projectChartConfig: {
                 labels: ["Completed (%)", "Not Completed (%)"],
@@ -142,6 +139,7 @@ new Vue({
                     }
                 ]
                 },
+
             projectOptions: {
                 responsive: true,
                 maintainAspectRatio: false,
@@ -161,8 +159,6 @@ new Vue({
                 }
                 },
 
-
-
             didacticLoaded:false,
             didacticChartConfig: {
                 labels: ["Jul-Dec", "Jan-Jun"],
@@ -175,6 +171,7 @@ new Vue({
                     }
                 ]
             },
+
             didacticOptions: {
                 responsive: true,
                 maintainAspectRatio: false,
@@ -354,8 +351,6 @@ new Vue({
             
         },
 
-
-
         getIhiData: async function () {
 
             this.status = "getting data...";
@@ -371,6 +366,7 @@ new Vue({
                 console.log(error);
             });
         },
+
         getIHIchartData: function (chartData) {
             // console.log("This is chartData")
             // console.log(chartData);
@@ -397,6 +393,7 @@ new Vue({
             this.IHIchartConfig.datasets[0].data.push(percentageNotCompleted * 100)
 
         },
+
         getDutyHourLogData: async function () {
 
             this.status = "getting data...";
@@ -409,7 +406,8 @@ new Vue({
             .catch(function (error) {
                 console.log(error);
             });
-            },
+        },
+
         getDutyHourChartData: function (chartData) {
             console.log(chartData.data);
             console.log('break1')
@@ -611,8 +609,6 @@ new Vue({
             console.log(this.dutyChartConfig);
         },
 
-
-        
         getProjectsData: async function () {
 
             this.status = "getting data...";
@@ -628,6 +624,7 @@ new Vue({
                 console.log(error);
             });
         },
+
         getProjectChartData: function (chartData) {
             // console.log("This is chartData")
             // console.log(chartData)
@@ -655,11 +652,6 @@ new Vue({
 
         },
 
-
-
-
-
-
         getDidacticAttendanceData: async function () {
 
             this.status = "getting data...";
@@ -676,6 +668,7 @@ new Vue({
                 console.log(error);
             });
         },
+        
         getDidacticChartData: function (chartData) {
             // console.log("This is chartData")
             // console.log(chartData);
