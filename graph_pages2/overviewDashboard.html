@@ -125,9 +125,14 @@
                 <v-row>
 
                     <label  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 pt-3" for="grid-first-name">
-                        Year:
+                        Academic Year (AY):
                     </label>
                     <input  v-model="year" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Year Here">
+                    <label  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 pt-3" for="grid-first-name">
+                        Programme for Procedure Logs:
+                    </label>
+                    <input  v-model="programme" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Programme Here">
+                    
                     <button  @click="getAllData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
                         Get Residents' Info
                     </button> 
@@ -152,9 +157,18 @@
                             <my-donut-chart style="width:25%;height:30vh" v-if="projectsLoaded" :donut-data="projectChartConfig" :chart-options="projectOptions"></my-donut-chart>
                             
                         </div>
-                        <div  style="width:25%;height:30vh" v-if="dutyLoaded==false">LOADING DUTY HOUR LOGS...</div>
+                        <div style="display:flex;">
+                            <div  style="width:25%;height:30vh" v-if="dutyLoaded==false">LOADING DUTY HOUR LOGS...</div>
                             <my-line-chart style="width:100%;height:30vh" v-if="dutyLoaded" :line-data="dutyChartConfig" :chart-options="dutyHourOptions"></my-line-chart>
-                        
+
+                            <div  style="width:25%;height:30vh" v-if="caseLoaded==false">LOADING CASE LOGS DATA...</div>
+                            <my-donut-chart  style="width:25%;height:30vh" v-if="caseLoaded" :donut-data="caseChartConfig" :chart-options="caseOptions"></my-donut-chart>
+                        </div>
+                        <div style="display:flex;">
+                            <div  style="width:25%;height:30vh" v-if="procedureLoaded==false">LOADING PROCEDURE LOGS DATA...</div>
+                            <my-bar-chart style="width:25%;height:30vh" v-if="procedureLoaded" :bar-data="procedureChartConfig" :chart-options="procedureOptions"></my-bar-chart>
+
+                        </div>
                       <!-- <my-line-chart v-if="loaded" :line-data="dutyChartConfig" :chart-options="dutyHourOptions"></my-line-chart>
                       <my-donut-chart v-if="loaded" :donut-data="IHIchartConfig" :chart-options="IHIoptions"></my-donut-chart>
                       <my-donut-chart v-if="loaded" :donut-data="scholarlyChartConfig" :chart-options="scholarlyOptions"></my-donut-chart>
