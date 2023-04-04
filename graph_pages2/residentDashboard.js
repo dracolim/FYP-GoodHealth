@@ -211,6 +211,7 @@ new Vue({
         
         getData: async function () {
 
+            this.reset()
             this.status = "getting data...";
 
             specificURL = "http://localhost:5011/profile/" + this.mcr_no
