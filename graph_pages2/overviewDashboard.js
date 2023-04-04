@@ -94,11 +94,12 @@ new Vue({
             total: 0,
             scholarlyPassed: 0,
             scholarlyMissing: 0,
+            chartArray: [],
             //scholarlyChartArray: [],
             scholarlyLoaded: false,
             mcr_no: null,
             scholarlyChartConfig: {
-                labels: ["% of Completion", "% of Non-Completioin"],
+                labels: ["% of Completed", "% of Not Completed"],
                 datasets: [{
                     data: [],
                     backgroundColor: ['#ff6b00', '#ffedd5'],
@@ -214,12 +215,7 @@ new Vue({
     },
     mounted: function () {
         // this.loaded = false
-        // this.getSpecificDidacticAttendanceData();
-        this.getIhiData();
-        this.getDutyHourLogData()
-        this.getProjectsData()
-        this.getDidacticAttendanceData()
-        
+
         specificURL = "http://localhost:5011/personaldetail"
         axios.get(specificURL)
             .then(response => {
@@ -227,7 +223,7 @@ new Vue({
                 for (i = 0; i < response.data.data.length; i++) {
                     this.mcr_arr.push(response.data.data[i].MCR_No)
                 }
-                this.getScholarlyActivitiesData();
+                // this.getScholarlyActivitiesData();
             })
             .catch(function (error) {
                 console.log(error);
@@ -235,10 +231,34 @@ new Vue({
             });
         },
     methods: {
+        getAllData: function(){
+            this.getIhiData();
+            this.getDutyHourLogData()
+            this.getProjectsData()
+            this.getDidacticAttendanceData()
+            this.getScholarlyActivitiesData();
+            // this.loaded = true
+        },
+        reset: function (){
+            this.didacticLoaded = false
+            this.scholarlyLoaded = false
+            this.ihiLoaded = false
+            this.projectsLoaded = false
+            this.dutyLoaded = false
+            this.dutyChartConfig.datasets[0].data.length = 0
+            this.IHIchartConfig.datasets[0].data.length = 0
+            this.scholarlyChartConfig.datasets[0].data.length = 0
+            this.projectChartConfig.datasets[0].data.length = 0
+            this.didacticChartConfig.datasets[0].data.length = 0
+            // this.chartArray.length = 0
+            this.scholarlyPassed = 0
+
+            // this.loaded = false
+        },
         getScholarlyActivitiesData: async function () {
             // get all residents
             for (each of this.mcr_arr) {
-                console.log(this.getResidentData(each))
+                // console.log(this.getResidentData(each))
                 if (await this.getResidentData(each) == true) {
                     this.scholarlyPassed += 1 // if compliant
                 }
@@ -246,12 +266,12 @@ new Vue({
 
 
             // need to wait for the getResidentData to add to the this.scholarlyPassed first before calling the this.getScholarlyChartData
-            chartArray = [this.scholarlyPassed, this.total, this.missing]; //getScholarlyChartData will use to show visualisation
+            this.chartArray = [this.scholarlyPassed, this.total, this.missing]; //getScholarlyChartData will use to show visualisation
 
             console.log('this is chartArray')
-            console.log(chartArray)
+            console.log(this.chartArray)
 
-            this.getScholarlyChartData(chartArray); // it works
+            this.getScholarlyChartData(this.chartArray); // it works
             this.scholarlyLoaded = true
         },
 
@@ -274,18 +294,20 @@ new Vue({
             hasTeachingPresentation = false
             hasAbstractPresentation = false
             hasPublication = false
-            const d = new Date();
-            let year = d.getFullYear();
+            // const d = new Date();
+            // let year = d.getFullYear();
             // var toAdd = false;
 
             if (this.scholarlyChartData.data.publications.length > 0) {
                 publicationArray = this.scholarlyChartData.data.publications
+                console.log(publicationArray,'==============')
                 for (let i = 0; i < publicationArray.length; i++) {
                     year1 = parseInt(publicationArray[i]['Publication_Date'].slice(-2))
-                    if ((year1 == year - 2000) && hasPublication == false) {
+                    year2 = parseInt(this.year) - 2000
+                    if ((year1 == year2 ) && hasPublication == false) {
                         count += 1
                         hasPublication = true
-                        // console.log('publication')
+                        console.log('publication')
                     }
                 }
             }
@@ -294,14 +316,14 @@ new Vue({
                 // console.log(presentationArray)
                 if (presentationArray.length == 1) {
                     if (parseInt(presentationArray[0]['Presentation_Date'].slice(-4)) ==
-                        year) {
+                        year2) {
                         count += 1
 
                     }
                 } else {
                     for (let i = 0; i < presentationArray.length; i++) {
                         if (parseInt(presentationArray[i]['Presentation_Date'].slice(-
-                                4)) == year) {
+                                2)) == year2) {
                             if (presentationArray[i]['Type'].length == 0 &&
                                 hasTeachingPresentation == false) {
                                 count += 1
@@ -311,6 +333,7 @@ new Vue({
                             if (presentationArray[i]['Type'].length > 0 &&
                                 hasAbstractPresentation == false) {
                                 count += 1
+                                console.log('abstract')
                                 hasAbstractPresentation = true
                             }
                             if (hasAbstractPresentation == true &&
@@ -328,7 +351,7 @@ new Vue({
             }
             console.log('percentageCompletion2')
             console.log(percentageCompletion)
-            if (count == 1) {
+            if (percentageCompletion == 1) {
                 console.log('true')
                 toAdd = true;
             }
@@ -407,18 +430,22 @@ new Vue({
                 console.log(error);
             });
         },
-
+        
         getDutyHourChartData: function (chartData) {
+            // this.year = "2022"
+            // console.log(this.year)
             console.log(chartData.data);
-            console.log('break1')
+            // console.log('break1')
 
             numLogsJan = 0.0
             countCompliantJan = 0.0
             percentCompliantJan = 0.0
+            console.log('1')
 
             numLogsFeb = 0.0
             countCompliantFeb = 0.0
             percentCompliantFeb = 0.0
+            console.log('2')
 
             numLogsMar = 0.0
             countCompliantMar = 0.0
@@ -460,10 +487,8 @@ new Vue({
             countCompliantDec = 0.0
             percentCompliantDec = 0.0
 
-            // NEED TO CALCULATE % OF RESIDENTS WITH FULL SUBMISSION FOR EACH MONTH
-            // 
-            // console.log(this.year.substr(2,4))
-            // console.log(chartData.data.length)
+            console.log('alsdjkf')
+
             for (let i = 0; i < chartData.data.length; i++) {
                 // console.log('ye')
                 // console.log(chartData.data[i])
@@ -606,6 +631,7 @@ new Vue({
             // console.log(percentCompliantDec)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantDec)
 
+            console.log('this is dutyChartConfig')
             console.log(this.dutyChartConfig);
         },
 
@@ -672,6 +698,7 @@ new Vue({
         getDidacticChartData: function (chartData) {
             // console.log("This is chartData")
             // console.log(chartData);
+            console.log(this.year)
 
             counterCompliantJulDec = 0
             counterCompliantJanJune = 0
