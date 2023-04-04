@@ -1001,6 +1001,7 @@ new Vue({
         
             this.getProcedureChartData(response);
             this.procedureLoaded = true
+            
             })
             .catch(function (error) {
                 console.log(error);
@@ -1769,7 +1770,7 @@ new Vue({
                 
                 const Renal = ["Insertion of non-tunneled haemodialysis catheter - Femoral (C)", "Insertion of non-tunneled haemodialysis catheter - Internal Jugular (C)", "Insertion of non-tunneled haemodialysis catheter - Femoral", "Insertion of non-tunneled haemodialysis catheter - Internal Jugular", "Native Kidney Biopsy (C)", "Transplant Kidney Biopsy (C)", "Native Kidney Biopsy", "Transplant Kidney Biopsy"]
                 this.procedureChartConfig.labels = Renal
-                this.options.title.text = "Procedure Log (Renal Programme)"
+                this.procedureOptions.title.text = "Procedure Log (Renal Programme)"
 
                 nonCompliantResidentsRenal = []
 
@@ -2172,7 +2173,7 @@ new Vue({
 
                 const Internal = ["Abdominal Tap", "Arterial Line Placement", "Central Line Placement", "Thoracentesis / Chest tube", "Lumbar Puncture", "Endotracheal Intubation", "Ventilator Management", "Arthrocentesis", "Hemodialysis Catheter Insertion", "ABG", "Vene", "IV Plug", "Ecg"]
                 this.procedureChartConfig.labels = Internal
-                this.options.title.text = "Procedure Log (Internal Programme)"
+                this.procedureOptions.title.text = "Procedure Log (Internal Programme)"
 
                 nonCompliantResidentsInternal = []
 

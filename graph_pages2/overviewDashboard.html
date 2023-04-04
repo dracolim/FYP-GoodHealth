@@ -145,7 +145,7 @@
                     <v-card  class="pa-2" outlined tile raised>
                         <div style="display:flex;">
                             <div  style="width:25%;height:30vh" v-if="didacticLoaded==false">LOADING DIDACTIC ATTENDANCE DATA...</div>
-                            <my-bar-chart style="width:25%;height:30vh" v-if="didacticLoaded" :bar-data="didacticChartConfig" :chart-options="didacticOptions"></my-bar-chart>
+                            <my-bar-chart1 style="width:25%;height:30vh" v-if="didacticLoaded" :bar-data="didacticChartConfig" :chart-options="didacticOptions"></my-bar-chart1>
 
                             <div  style="width:25%;height:30vh" v-if="scholarlyLoaded==false">LOADING SCHOLARLY ACTIVITIES DATA...</div>
                             <my-donut-chart  style="width:25%;height:30vh" v-if="scholarlyLoaded" :donut-data="scholarlyChartConfig" :chart-options="scholarlyOptions"></my-donut-chart>
@@ -166,7 +166,7 @@
                         </div>
                         <div style="display:flex;">
                             <div  style="width:25%;height:30vh" v-if="procedureLoaded==false">LOADING PROCEDURE LOGS DATA...</div>
-                            <my-bar-chart style="width:25%;height:30vh" v-if="procedureLoaded" :bar-data="procedureChartConfig" :chart-options="procedureOptions"></my-bar-chart>
+                            <my-bar-chart style="width:100%;" v-if="procedureLoaded" :bar-data="procedureChartConfig" :chart-options="procedureOptions"></my-bar-chart>
 
                         </div>
                       <!-- <my-line-chart v-if="loaded" :line-data="dutyChartConfig" :chart-options="dutyHourOptions"></my-line-chart>
@@ -210,8 +210,18 @@
             responsive: true,
             maintainAspectRatio: false
         })
-        Vue.component('my-bar-chart', {
+        Vue.component('my-bar-chart1', {
             extends: VueChartJs.Bar,
+            props: ['barData', 'chartOptions'],
+            mounted() {
+            this.renderChart(this.barData, this.chartOptions);
+            },
+        }, {
+            responsive: true,
+            maintainAspectRatio: false
+        })
+        Vue.component('my-bar-chart', {
+            extends: VueChartJs.HorizontalBar,
             props: ['barData', 'chartOptions'],
             mounted() {
             this.renderChart(this.barData, this.chartOptions);
