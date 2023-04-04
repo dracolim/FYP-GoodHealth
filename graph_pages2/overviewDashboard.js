@@ -1213,12 +1213,12 @@ new Vue({
                 }
 
                 if (NumComplianceGastroOGDPlusGastroOGDWithBiopsy != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusGastroOGDWithBiopsy/CountGastroOGDPlusGastroOGDWithBiopsy*100).toFixed(3))
-                    this.ChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusGastroOGDWithBiopsy/CountGastroOGDPlusGastroOGDWithBiopsy*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusGastroOGDWithBiopsy/CountGastroOGDPlusGastroOGDWithBiopsy*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusGastroOGDWithBiopsy/CountGastroOGDPlusGastroOGDWithBiopsy*100).toFixed(3))
                 }
                 else {
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
                 
 
@@ -1264,16 +1264,16 @@ new Vue({
                 }      
                 
                 if (NumComplianceGastroOGDPlusColon != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusColon/CountGastroOGDPlusColon*100).toFixed(3))
-                    this.ChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusColon/CountGastroOGDPlusColon*100).toFixed(3))
-                    this.ChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusColon/CountGastroOGDPlusColon*100).toFixed(3))
-                    this.ChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusColon/CountGastroOGDPlusColon*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusColon/CountGastroOGDPlusColon*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusColon/CountGastroOGDPlusColon*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusColon/CountGastroOGDPlusColon*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusColon/CountGastroOGDPlusColon*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
                 
 
@@ -1309,12 +1309,12 @@ new Vue({
                 }
 
                 if (NumComplianceColonoscopyPlusColonoscopyWithBiopsy != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceColonoscopyPlusColonoscopyWithBiopsy/CountColonoscopyPlusColonoscopyWithBiopsy*100).toFixed(3))
-                    this.ChartConfig.datasets[0].data.push((NumComplianceColonoscopyPlusColonoscopyWithBiopsy/CountColonoscopyPlusColonoscopyWithBiopsy*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceColonoscopyPlusColonoscopyWithBiopsy/CountColonoscopyPlusColonoscopyWithBiopsy*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceColonoscopyPlusColonoscopyWithBiopsy/CountColonoscopyPlusColonoscopyWithBiopsy*100).toFixed(3))
                 }
                 else {
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
 
@@ -1350,10 +1350,10 @@ new Vue({
                 }
 
                 if (NumComplianceColonoscopyWithPolypectomy != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceColonoscopyWithPolypectomy/CountColonoscopyWithPolypectomy*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceColonoscopyWithPolypectomy/CountColonoscopyWithPolypectomy*100).toFixed(3))
                 }
                 else {
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
 
@@ -1389,10 +1389,10 @@ new Vue({
                 }
 
                 if (NumComplianceAbdominalParacentesis != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceAbdominalParacentesis/CountAbdominalParacentesis*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceAbdominalParacentesis/CountAbdominalParacentesis*100).toFixed(3))
                 }
                 else {
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
 
@@ -1428,10 +1428,10 @@ new Vue({
                 }
 
                 if (NumComplianceCapsuleEndoscopy != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceCapsuleEndoscopy/CountCapsuleEndoscopy*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceCapsuleEndoscopy/CountCapsuleEndoscopy*100).toFixed(3))
                 }
                 else {
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }                        
 
 
@@ -1467,10 +1467,10 @@ new Vue({
                 }
 
                 if (NumCompliancePeg != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumCompliancePeg/CountPeg*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumCompliancePeg/CountPeg*100).toFixed(3))
                 }
                 else {
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }                           
 
 
@@ -1514,14 +1514,14 @@ new Vue({
                 }
 
                 if (NumComplianceGastroVaricealHemoPlusLigation != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceGastroVaricealHemoPlusLigation/CountGastroVaricealHemoPlusLigation*100).toFixed(3))
-                    this.ChartConfig.datasets[0].data.push((NumComplianceGastroVaricealHemoPlusLigation/CountGastroVaricealHemoPlusLigation*100).toFixed(3))
-                    this.ChartConfig.datasets[0].data.push((NumComplianceGastroVaricealHemoPlusLigation/CountGastroVaricealHemoPlusLigation*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceGastroVaricealHemoPlusLigation/CountGastroVaricealHemoPlusLigation*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceGastroVaricealHemoPlusLigation/CountGastroVaricealHemoPlusLigation*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceGastroVaricealHemoPlusLigation/CountGastroVaricealHemoPlusLigation*100).toFixed(3))
                 }
                 else {
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))                            
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))                            
                 }
 
 
@@ -1557,10 +1557,10 @@ new Vue({
                 }
 
                 if (NumComplianceLiverBiopsy != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceLiverBiopsy/CountLiverBiopsy*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceLiverBiopsy/CountLiverBiopsy*100).toFixed(3))
                 }
                 else {
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }                          
                 
 
@@ -1596,12 +1596,12 @@ new Vue({
                 }
 
                 if (NumComplianceEsophagealDilatationPlusLuminalStenting != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceEsophagealDilatationPlusLuminalStenting/CountEsophagealDilatationPlusLuminalStenting*100).toFixed(3))
-                    this.ChartConfig.datasets[0].data.push((NumComplianceEsophagealDilatationPlusLuminalStenting/CountEsophagealDilatationPlusLuminalStenting*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceEsophagealDilatationPlusLuminalStenting/CountEsophagealDilatationPlusLuminalStenting*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceEsophagealDilatationPlusLuminalStenting/CountEsophagealDilatationPlusLuminalStenting*100).toFixed(3))
                 }
                 else {
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }                             
                 
 
@@ -1637,10 +1637,10 @@ new Vue({
                 }
 
                 if (NumComplianceEmrPlusEsd != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceEmrPlusEsd/CountEmrPlusEsd*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceEmrPlusEsd/CountEmrPlusEsd*100).toFixed(3))
                 }
                 else {
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }                             
 
 
@@ -1676,10 +1676,10 @@ new Vue({
                 }
 
                 if (NumComplianceErcp != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceErcp/CountErcp*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceErcp/CountErcp*100).toFixed(3))
                 }
                 else {
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }                           
 
 
@@ -1715,10 +1715,10 @@ new Vue({
                 }
 
                 if (NumComplianceEndoscopicUltrasound != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceEndoscopicUltrasound/CountEndoscopicUltrasound*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceEndoscopicUltrasound/CountEndoscopicUltrasound*100).toFixed(3))
                 }
                 else {
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 } 
 
                 
@@ -1754,10 +1754,10 @@ new Vue({
                 }
 
                 if (NumComplianceEsophagealMotilityPlusPh != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceEsophagealMotilityPlusPh/CountEsophagealMotilityPlusPh*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceEsophagealMotilityPlusPh/CountEsophagealMotilityPlusPh*100).toFixed(3))
                 }
                 else {
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 } 
 
 
@@ -1768,7 +1768,7 @@ new Vue({
             else if (this.programme == "Renal Medicine") {
                 
                 const Renal = ["Insertion of non-tunneled haemodialysis catheter - Femoral (C)", "Insertion of non-tunneled haemodialysis catheter - Internal Jugular (C)", "Insertion of non-tunneled haemodialysis catheter - Femoral", "Insertion of non-tunneled haemodialysis catheter - Internal Jugular", "Native Kidney Biopsy (C)", "Transplant Kidney Biopsy (C)", "Native Kidney Biopsy", "Transplant Kidney Biopsy"]
-                this.ChartConfig.labels = Renal
+                this.procedureChartConfig.labels = Renal
                 this.options.title.text = "Procedure Log (Renal Programme)"
 
                 nonCompliantResidentsRenal = []
@@ -1887,10 +1887,10 @@ new Vue({
                 }
 
                 if (NumComplianceInsertionFemoralC != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceInsertionFemoralC/CountInsertionFemoralC*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceInsertionFemoralC/CountInsertionFemoralC*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
 
@@ -1926,10 +1926,10 @@ new Vue({
                 }
 
                 if (NumComplianceInsertionJugularC != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceInsertionJugularC/CountInsertionJugularC*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceInsertionJugularC/CountInsertionJugularC*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
 
@@ -1965,10 +1965,10 @@ new Vue({
                 }
 
                 if (NumComplianceInsertionFemoral != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceInsertionFemoral/CountInsertionFemoral*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceInsertionFemoral/CountInsertionFemoral*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
 
@@ -2004,10 +2004,10 @@ new Vue({
                 }
 
                 if (NumComplianceInsertionJugular != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceInsertionJugular/CountInsertionJugular*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceInsertionJugular/CountInsertionJugular*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
                 // grouped5 contains NativeKidneyBiopsyC records, split into different residents
@@ -2042,10 +2042,10 @@ new Vue({
                 }
 
                 if (NumComplianceNativeKidneyBiopsyC != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceNativeKidneyBiopsyC/CountNativeKidneyBiopsyC*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceNativeKidneyBiopsyC/CountNativeKidneyBiopsyC*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }           
 
 
@@ -2081,10 +2081,10 @@ new Vue({
                 }
 
                 if (NumComplianceTransplantKidneyBiopsyC != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceTransplantKidneyBiopsyC/CountTransplantKidneyBiopsyC*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceTransplantKidneyBiopsyC/CountTransplantKidneyBiopsyC*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }         
 
 
@@ -2120,10 +2120,10 @@ new Vue({
                 }
 
                 if (NumComplianceNativeKidneyBiopsy != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceNativeKidneyBiopsy/CountNativeKidneyBiopsy*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceNativeKidneyBiopsy/CountNativeKidneyBiopsy*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }  
 
 
@@ -2159,10 +2159,10 @@ new Vue({
                 }
 
                 if (NumComplianceTransplantKidneyBiopsy != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceTransplantKidneyBiopsy/CountTransplantKidneyBiopsy*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceTransplantKidneyBiopsy/CountTransplantKidneyBiopsy*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }  
 
             }
@@ -2171,7 +2171,7 @@ new Vue({
             else if (this.programme == "Internal Medicine") {
 
                 const Internal = ["Abdominal Tap", "Arterial Line Placement", "Central Line Placement", "Thoracentesis / Chest tube", "Lumbar Puncture", "Endotracheal Intubation", "Ventilator Management", "Arthrocentesis", "Hemodialysis Catheter Insertion", "ABG", "Vene", "IV Plug", "Ecg"]
-                this.ChartConfig.labels = Internal
+                this.procedureChartConfig.labels = Internal
                 this.options.title.text = "Procedure Log (Internal Programme)"
 
                 nonCompliantResidentsInternal = []
@@ -2335,10 +2335,10 @@ new Vue({
                 }
 
                 if (NumComplianceAbdominalTap != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceAbdominalTap/CountAbdominalTap*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceAbdominalTap/CountAbdominalTap*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
 
@@ -2374,10 +2374,10 @@ new Vue({
                 }
 
                 if (NumComplianceArterialLinePlacement != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceArterialLinePlacement/CountArterialLinePlacement*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceArterialLinePlacement/CountArterialLinePlacement*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
 
@@ -2413,10 +2413,10 @@ new Vue({
                 }
 
                 if (NumComplianceCentralLinePlacement != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceCentralLinePlacement/CountCentralLinePlacement*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceCentralLinePlacement/CountCentralLinePlacement*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
 
@@ -2452,10 +2452,10 @@ new Vue({
                 }
 
                 if (NumComplianceThoracentesisChestTube != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceThoracentesisChestTube/CountThoracentesisChestTube*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceThoracentesisChestTube/CountThoracentesisChestTube*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
 
@@ -2491,10 +2491,10 @@ new Vue({
                 }
 
                 if (NumComplianceLumbarPuncture != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceLumbarPuncture/CountLumbarPuncture*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceLumbarPuncture/CountLumbarPuncture*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
 
@@ -2530,10 +2530,10 @@ new Vue({
                 }
 
                 if (NumComplianceEndotrachealIntubation != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceEndotrachealIntubation/CountEndotrachealIntubation*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceEndotrachealIntubation/CountEndotrachealIntubation*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
 
@@ -2569,10 +2569,10 @@ new Vue({
                 }
 
                 if (NumComplianceVentilatorManagement != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceVentilatorManagement/CountVentilatorManagement*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceVentilatorManagement/CountVentilatorManagement*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
 
@@ -2608,10 +2608,10 @@ new Vue({
                 }
 
                 if (NumComplianceArthrocentesis != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceArthrocentesis/CountArthrocentesis*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceArthrocentesis/CountArthrocentesis*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
 
@@ -2647,10 +2647,10 @@ new Vue({
                 }
 
                 if (NumComplianceHemodialysisCatheterInsertion != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceHemodialysisCatheterInsertion/CountHemodialysisCatheterInsertion*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceHemodialysisCatheterInsertion/CountHemodialysisCatheterInsertion*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
 
@@ -2686,10 +2686,10 @@ new Vue({
                 }
 
                 if (NumComplianceAbg != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceAbg/CountAbg*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceAbg/CountAbg*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
 
@@ -2725,10 +2725,10 @@ new Vue({
                 }
 
                 if (NumComplianceVene != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceVene/CountVene*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceVene/CountVene*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
 
@@ -2764,10 +2764,10 @@ new Vue({
                 }
 
                 if (NumComplianceIVPlug != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceIVPlug/CountIVPlug*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceIVPlug/CountIVPlug*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
 
@@ -2803,10 +2803,10 @@ new Vue({
                 }
 
                 if (NumComplianceEcg != 0) {
-                    this.ChartConfig.datasets[0].data.push((NumComplianceEcg/CountEcg*100).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((NumComplianceEcg/CountEcg*100).toFixed(3))
                 }
                 else { // prevents chart.js from inserting data into wrong position
-                    this.ChartConfig.datasets[0].data.push((0).toFixed(3))
+                    this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
             }
