@@ -205,10 +205,15 @@ new Vue({
 
     mounted: function () {
         this.loaded = false
+
+        var query = window.location.search.substring(4);
+        this.mcr_no = query;
     },
 
     methods: {
-        
+        goToSinglePage(){
+            window.location.assign("../tab_pages/personal_details.html")
+        },
         getData: async function () {
 
             this.reset()
