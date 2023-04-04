@@ -41,16 +41,13 @@
         <div class="bg-stone-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded ">
             <div class="container flex flex-wrap items-center justify-between mx-auto"
                 style="width: 100%; overflow: hidden;">
-                <img src="images/SingHealth_Logo.png" class="mr-3 sm:h-15 ml-3 mt-2 mb-2"
-                    style="height: 80px ; width: 100px;" alt="Flowbite Logo" />
-
+                <a href="../FYP-GoodHealth/homepage.html">
+                    <img src="images/SingHealth_Logo.png" class="mr-3 sm:h-15 ml-3 mt-2 mb-2"
+                        style="height: 80px; width: 100px;" alt="Flowbite Logo" />
+                </a>
                 <div class="flex md:order-2">
                     <a href="../FYP-GoodHealth/homepage.html" style="margin-right: 10px;">
                         <iconify-icon icon="ic:round-home" style="color: #ff6b00;" width="40" height="40">
-                        </iconify-icon>
-                    </a>
-                    <a>
-                        <iconify-icon icon="healthicons:ui-user-profile" style="color: #ff6b00;" width="40" height="40">
                         </iconify-icon>
                     </a>
 
@@ -77,22 +74,26 @@
                     class="md:divide-x md:divide-slate-200 flex flex-col p-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row  md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
                     <li>
                         <a href="./homepage.html"
-                        class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0 dark:text-white"
-                        aria-current="page">
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0 dark:text-white"
+                            aria-current="page">
                             Home</a>
                     </li>
                     <li>
                         <a href="./tab_pages/personal_details.html"
-                        class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                            class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
                             Personal Details</a>
                     </li>
+                    
                     <li>
-                        <button data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500"
-                            data-dropdown-trigger="hover">
-                            <span
-                                class="lg:text-sm md:text-xs ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
-                                History</span>
-                        </button>
+                        <a data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500" data-dropdown-trigger="click">
+                            <div class="md:flex">
+                                <span
+                                    class="lg:text-sm md:text-sm ml-5 mr-1 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                                    History</span>
+                                <iconify-icon icon="gridicons:dropdown" width="20px" class="hidden md:flex mr-1">
+                                </iconify-icon>
+                            </div>
+                        </a>
                     </li>
                     <li>
                         <a href="./tab_pages/involvement.html"
@@ -158,20 +159,19 @@
         <div class='row' style='height: 8px; background-color: #ff6b00;'></div>
 
         <!-- History menu -->
-        <div id="dropdownDelay"
-            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow sm:w-full md:w-44 ">
-            <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDelayButton">
+        <div id="dropdownDelay" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
+            <ul class="py-2 text-sm text-gray-500" aria-labelledby="dropdownDelayButton">
                 <li>
-                    <a href="./history_education.html" class="block px-4 py-2 hover:bg-gray-100 ">Education</a>
+                    <a href="./tab_pages/history_education.html" class="block px-4 py-2 hover:bg-gray-100 ">Education</a>
                 </li>
                 <li>
-                    <a href="./history_posting.html" class="block px-4 py-2 hover:bg-gray-100 ">Posting</a>
+                    <a href="./tab_pages/history_posting.html" class="block px-4 py-2 hover:bg-gray-100 ">Posting</a>
                 </li>
                 <li>
-                    <a href="./history_exam.html" class="block px-4 py-2 hover:bg-gray-100 ">Exam</a>
+                    <a href="./tab_pages/history_exam.html" class="block px-4 py-2 hover:bg-gray-100 ">Exam</a>
                 </li>
                 <li>
-                    <a href="./history_trg_ext_remediation.html" class="block px-4 py-2 hover:bg-gray-100 ">Trg Ext. &
+                    <a href="./tab_pages/history_trg_ext_remediation.html" class="block px-4 py-2 hover:bg-gray-100 ">Trg Ext. &
                         Remediation</a>
                 </li>
             </ul>

@@ -25,20 +25,21 @@
     <!-- LOCAL Axios -->
     <script src="../node_modules/axios/dist/axios.min.js"></script>
     <!-- Local ChartJS -->
-    <script src="../node_modules/chart.js/dist/chart.js"></script>
-    <script src="../backend/static/Chart.min.js"></script>
-    <script src="../backend/static/vue-chartjs.js"></script>
+    <!-- <script src="../node_modules/chart.js/dist/chart.js"></script> -->
+    <script src="../node_modules/Chart.js/dist/Chart.min.js"></script>
     <!-- Vue-Chartjs -->
+    <script src="../node_modules/vue-chartjs/dist/vue-chartjs.js"></script>
     <!-- Vuetify -->
     <script src="../node_modules/vuetify/dist/vuetify.min.js"></script>
+   
 
     <!-- Testing Mon Method -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/babel-regenerator-runtime@6.5.0/runtime.js"></script> -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/babel-polyfill/dist/polyfill.min.js"></script> -->
     <!-- I need these three, thanks yinyao -->
-    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.0.10/dist/vuetify.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-    <script src="https://unpkg.com/vue-chartjs@3.4.0/dist/vue-chartjs.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vuetify@2.0.10/dist/vuetify.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script> -->
+    <!-- <script src="https://unpkg.com/vue-chartjs@3.4.0/dist/vue-chartjs.js"></script> -->
 
     <title>SingHealth</title>
 </head>
@@ -51,18 +52,17 @@
         <div class="bg-stone-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded ">
             <div class="container flex flex-wrap items-center justify-between mx-auto"
                 style="width: 100%; overflow: hidden;">
-                <img src="../images/SingHealth_Logo.png" class="mr-3 sm:h-15 ml-3 mt-2 mb-2"
-                    style="height: 80px ; width: 100px;" alt="Flowbite Logo" />
+                <a href="../homepage.html">
+                    <img src="../images/SingHealth_Logo.png" class="mr-3 sm:h-15 ml-3 mt-2 mb-2"
+                        style="height: 80px; width: 100px;" alt="Flowbite Logo" />
+                </a>
 
                 <div class="flex md:order-2">
-                    <a href="homepage.html" style="margin-right: 10px;">
-                        <iconify-icon icon="ic:round-home" style="color: #ff6b00;" width="40"
-                            height="40"></iconify-icon>
-                    </a>
-                    <a>
-                        <iconify-icon icon="healthicons:ui-user-profile" style="color: #ff6b00;" width="40" height="40">
+                    <a href="../homepage.html" style="margin-right: 10px;">
+                        <iconify-icon icon="ic:round-home" style="color: #ff6b00;" width="40" height="40">
                         </iconify-icon>
                     </a>
+
 
                     <button data-collapse-toggle="navbar-sticky" type="button"
                         class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
@@ -331,10 +331,6 @@
                                     this.dates_to_show[index] = responseStartDate + " > " +responseEndDate
                                     this.postings_to_show[index] = postingDepartment
                                 }
-                                // if can't find inside months_to_show
-                                else {
-
-                                }
                             }
 
                             // else if start date and end date different month (meaning more than 1 month)
@@ -349,18 +345,14 @@
                                         this.postings_to_show[startIndex] = postingDepartment
                                     }
                                 }
-                                // if can't find inside months_to_show
-                                else {
-
-                                }
                             }
 
 
 
                         }
 
-                        console.log(this.dates_to_show)
-                        console.log(this.postings_to_show)
+                        // console.log(this.dates_to_show)
+                        // console.log(this.postings_to_show)
 
 
                     })
