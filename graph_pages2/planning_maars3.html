@@ -50,12 +50,12 @@
     <script src="https://cdn.jsdelivr.net/npm/babel-polyfill/dist/polyfill.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.0.10/dist/vuetify.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-    <!-- <script src="https://unpkg.com/vue-chartjs@3.4.0/dist/vue-chartjs.js"></script> -->
+    <script src="https://unpkg.com/vue-chartjs@3.4.0/dist/vue-chartjs.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"></script> -->
 
     <title>SingHealth</title>
 </head>
@@ -164,8 +164,10 @@
 
 
                 <div>
+                    <button @click="addOne">Add 1</button>
+                    <p>Count is: {{ count }}</p>
                     <button @click="updateChart"
-                    class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 ring-2 ring-red-100 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Comment or Score</button>
+                    class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>one</button>
                     <!-- <canvas id="mycanvas"></canvas> -->
 
                     <canvas id="mycanvas2"></canvas>
@@ -203,16 +205,16 @@
     <!--- JAVASCRIPT -->
     <script>
 
-        // Vue.component('my-line-chart', {
-        //     extends: VueChartJs.Line,
-        //     props: ['lineData', 'chartOptions'],
-        //     mounted() {
-        //     this.renderChart(this.lineData, this.chartOptions);
-        //     },
-        // }, {
-        //     responsive: true,
-        //     maintainAspectRatio: false
-        // })
+        Vue.component('my-line-chart', {
+            extends: VueChartJs.Line,
+            props: ['lineData', 'chartOptions'],
+            mounted() {
+            this.renderChart(this.lineData, this.chartOptions);
+            },
+        }, {
+            responsive: true,
+            maintainAspectRatio: false
+        })
 
         new Vue({
             el: "#app",
@@ -233,7 +235,7 @@
                     {
                     data: [],
                     fill: false,
-                    // backgroundColor: ['#ff6b00'],
+                    backgroundColor: ['#ff6b00'],
                     borderColor: 'rgba(136,136,136,0.5)',
                     label: "Compliant"
                     }
@@ -282,43 +284,6 @@
                 this.loaded = false
                 // this.getSpecificDidacticAttendanceData();
 
-                function minValue(ctx) {
-  const dataset = ctx.chart.data.datasets[0];
-  const min = dataset.data.reduce((max, point) => Math.min(point, max), Infinity);
-  return isFinite(min) ? min : 0;
-}
-
-function maxValue(ctx) {
-  const datasets = ctx.chart.data.datasets;
-  const count = datasets[0].data.length;
-  let max = 0;
-  for (let i = 0; i < count; i++) {
-    let sum = 0;
-    for (const dataset of datasets) {
-      sum += dataset.data[i];
-    }
-    max = Math.max(max, sum);
-  }
-  return max;
-}
-
-const annotation1 = {
-  type: 'line',
-  borderColor: 'black',
-  borderWidth: 3,
-  label: {
-    enabled: true,
-    backgroundColor: 'black',
-    borderColor: 'black',
-    borderRadius: 10,
-    borderWidth: 2,
-    content: (ctx) => 'Lower bound: ' + minValue(ctx).toFixed(3),
-    rotation: 'auto'
-  },
-  scaleID: 'y',
-  value: minValue
-};
-
 
 
         // create initial empty chart
@@ -334,32 +299,23 @@ var myChart = new Chart(ctx_live, {
       borderColor:'#00c0ef',
       label: 'Temperature',
       fill: {target: 'origin',
-                            above: 'rgb(200, 0, 0)',   // Area will be red above the origin
+                            // above: 'rgb(255, 0, 0)',   // Area will be red above the origin
                             // below: 'rgb(0, 0, 255)'
                         },
                 backgroundColor: [
-                // 'rgba(0, 0, 0, 0.5)',
-                // 'rgba(red, 0.5)',
-                // 'rgba(pink, 0.5)',
+                'rgba(0, 0, 0, 0.5)',
+                'rgba(black, 0.5)',
                 ],
 
                 annotation: {
-                annotations: {
-                    line1: {
-                    // type: 'line',
-                    // mode: 'horizontal',
-                    // scaleID: 'y-axis-0',
-                    // value: '5',
-                    // borderColor: 'tomato',
-                    // borderWidth: 1
+                annotations: [{
                     type: 'line',
-                    yMin: 60,
-                    yMax: 60,
-                    borderColor: 'rgb(255, 99, 132)',
-                    borderWidth: 2,
-                },
-                annotation1
-                },
+                    mode: 'horizontal',
+                    scaleID: 'y-axis-0',
+                    value: '5',
+                    borderColor: 'tomato',
+                    borderWidth: 1
+                }],
                 drawTime: "afterDraw" // (default)
             }
                 },
@@ -372,17 +328,16 @@ var myChart = new Chart(ctx_live, {
                             // above: 'rgb(255, 0, 0)',   // Area will be red above the origin
                             // below: 'rgb(0, 0, 255)'
                         },
-                // backgroundColor: [
-                // // 'rgba(0, 0, 0, 0.5)',
-                // 'rgba(pink, 0.5)',
-                // ]
-            }]
+                backgroundColor: [
+                'rgba(0, 0, 0, 0.5)',
+                'rgba(black, 0.5)',
+                ]}]
             },
             options: {
                 responsive: true,
                 title: {
                 display: true,
-                text: "Latest Sentiment Analysis for Evaluations over Time",
+                text: "Second chart",
                 },
                 legend: {
                 display: false
@@ -393,20 +348,7 @@ var myChart = new Chart(ctx_live, {
                     beginAtZero: true,
                     }
                 }]
-                },
-                plugins: {
-                annotation: {
-                annotations: {
-                    line1: {
-                    type: 'line',
-                    yMin: 5,
-                    yMax: 5,
-                    borderColor: 'rgb(255, 99, 132)',
-                    borderWidth: 2,
-                    }
                 }
-                }
-            }
             }
             });
 
