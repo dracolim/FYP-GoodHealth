@@ -9,6 +9,9 @@ import traceback
 import werkzeug.exceptions as ex
 from sqlalchemy.sql import exists
 from datetime import datetime
+
+
+
 # from flask_login import login_required, current_user
 
 app = Flask(__name__)
@@ -3607,6 +3610,84 @@ def add(cmd):
    
     connection.close()
     return " ___ Sent: %s" % cmd
+
+@app.route('/evaluation_sentiment/<id>')
+def read_evaluation_sentiment(id):
+        
+    from transformers import AutoModelForSequenceClassification,TFAutoModelForSequenceClassification,AutoTokenizer,pipeline
+    import numpy as np
+    from scipy.special import softmax
+    import csv
+    import urllib.request
+    import pandas as pd
+    import yake
+    import nltk
+    
+    person = Personal_Details.query.get_or_404(id)
+    evaluations_of_person = person.evaluations
+    arr=[pd.to_dict()
+                     for pd in evaluations_of_person]
+    df = pd.DataFrame(arr)
+    task='sentiment'
+    MODEL = f"cardiffnlp/twitter-roberta-base-{task}"
+    # SELF_TRAINED_MODEL= f"self-labelled-trained"
+    tokenizer = AutoTokenizer.from_pretrained(MODEL)
+    df = pd.read_excel("evaluations_overall_comments.xlsx")
+    # download label mapping
+    # labels=[]
+    # mapping_link = f"https://raw.githubusercontent.com/cardiffnlp/tweeteval/main/datasets/{task}/mapping.txt"
+    # with urllib.request.urlopen(mapping_link) as f:
+    #     html = f.read().decode('utf-8').split("\n")
+    #     csvreader = csv.reader(html, delimiter='\t')
+    # labels = [row[1] for row in csvreader if len(row) > 1]
+
+    # PT
+    model = AutoModelForSequenceClassification.from_pretrained(MODEL)
+    model.save_pretrained(MODEL)
+    tokenizer.save_pretrained(MODEL)
+
+    df['encoded']=df['Answer:'].apply(lambda x:tokenizer(x,return_tensors='pt'))
+    df['output']=df['encoded'].apply(lambda x:model(**x))
+    df['scores']=df['output'].apply(lambda x:softmax(x[0][0].detach().numpy()))
+
+    df['neu']=df['scores'].apply(lambda x: x[1])
+    df['neg']=df['scores'].apply(lambda x: x[0])
+    df['pos']=df['scores'].apply(lambda x: x[2])
+    df=df.drop(['encoded','output','scores'], axis=1)
+
+    # Load the RoBERTa-base Squad2 model and tokenizer
+    roberta_model = "deepset/roberta-base-squad2"
+    roberta_tokenizer = AutoTokenizer.from_pretrained(roberta_model)
+    roberta_pipeline = pipeline("question-answering", model=roberta_model, tokenizer=roberta_tokenizer)
+
+
+    # Define the question to ask
+    what_was_bad = "what was bad?"
+
+    # Extract multiple answers for each comment in the DataFrame
+    df["bad_roberta"] = df.apply(lambda x: roberta_pipeline(question=what_was_bad, context=x['Answer:'])["answer"] if x['neg']>= 0.1 else '',axis=1)
+
+    nltk.download('averaged_perceptron_tagger')
+
+    # Define the YAKE keyword extractor with desired settings
+    kw_extractor = yake.KeywordExtractor(n=2, top=5, dedupLim=0.8, windowsSize=1, features=None)
+
+    # Define a function to extract keywords from text, ignoring names and proper nouns
+    def extract_keywords(text):
+        # Use NLTK to tag words with part-of-speech (POS) tags
+        tagged_words = nltk.pos_tag(nltk.word_tokenize(text))
+        # Exclude words that are proper nouns or start with a capital letter
+        words = [word for word, tag in tagged_words if tag != 'NNP' and not word.istitle()]
+        # Use YAKE to extract keywords from the remaining words
+        keywords = [kw for kw, score in kw_extractor.extract_keywords(" ".join(words))]
+        # Join keywords into a string separated by commas
+        return ", ".join(keywords)
+
+    # Apply the extract_keywords function to "text_column" and store results in new column "keywords_column"
+    df["yake"] = df["Answer:"].apply(lambda x: extract_keywords(x))
+    print(df)
+
+    return df.to_json(orient='records')
 
 
 
