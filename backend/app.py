@@ -3020,6 +3020,41 @@ def read_evaluation():
         }
     ), 200
 
+
+# Read Existing evaluations (R)
+@app.route("/evaluation2")
+def read_evaluation2():
+    import pandas as pd
+
+    res = Evaluations.query.all()
+    # ["MCR_No", "Rotation_Period", "Score"]
+    keys = ['id', 'MCR_No', 'Rotation_Period', 'Name_of_Evaluation_Form', 'Question', 'Score', 'Evaluator', 'Service']
+    res2 = [list(r.to_dict().values())
+                     for r in res]
+    
+    items = {}
+    for i in res2:
+        print(i)
+        items[i[1]] = i
+        
+    # print(items)
+    
+    items = pd.DataFrame.from_dict(items, orient='index', columns = keys)
+    def getMonth(el):
+        month = el.split("-")[0].split("/")[1]
+        return int(month)
+    items["month"] = items["Rotation_Period"].apply(getMonth)
+    items["score_num"] = items["Score"].apply(lambda x: float(x.split(" ")[0]))
+
+    df2 = items.groupby("month").mean()
+    df2 = df2.reset_index()
+    df3 = df2.to_dict('records')
+    print("df3:", df3)
+    return jsonify({
+       "data": df3
+    }), 200
+
+
 # Update Evaluation
 @app.route('/evaluation/<int:id>', methods=['PUT'])
 def update_evaluation(id):

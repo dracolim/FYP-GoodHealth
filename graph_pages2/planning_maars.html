@@ -26,12 +26,7 @@
     <script src="../node_modules/axios/dist/axios.min.js"></script>
     <!-- Local ChartJS -->
     <script src="../node_modules/chart.js/dist/chart.js"></script>
-    <!-- <script src="../chartjs_offline/chartjs-plugin-datasource.js"></script> -->
-<!-- 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"></script> -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"></script>
+    <script src="../chartjs_offline/chartjs-plugin-datasource.js"></script>
 
     <!-- Links -->
     <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
@@ -57,10 +52,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
     <script src="https://unpkg.com/vue-chartjs@3.4.0/dist/vue-chartjs.js"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
     <title>SingHealth</title>
 </head>
 
 <body>
+
+
+   
 
     <div id="main-container">
 
@@ -149,6 +149,11 @@
 
             <div id="app">
 
+                <button @click="getData">press meee</button>
+                <canvas id="mycanvas"></canvas>
+
+
+
                 <label  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 pt-3" for="grid-first-name">
                     Year:
                 </label>
@@ -167,14 +172,6 @@
                     </v-card>
                   </v-col>
                 </v-row>
-
-
-
-                <h1>HELLOOOOO</h1>
-
-                <div class="ccc">
-                    <canvas id="mycanvas4"></canvas>
-                  </div>
             </div>
 
         </div>
@@ -204,7 +201,7 @@
             data() {
             return {
                 year: null,
-                chart4: null,
+                myChart: null,
                 // second_step: false,
                 mcr_no: "",
                 loaded: false,
@@ -263,122 +260,106 @@
                 this.loaded = false
                 // this.getSpecificDidacticAttendanceData();
 
+                // create initial empty chart
+        var ctx_live = document.getElementById("mycanvas");
+        this.myChart = new Chart(ctx_live, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+            data: [],
+            borderWidth: 2,
+            borderColor:'#00c0ef',
+            label: 'Temperature',
+            fill: {target: 'origin',
+                        // above: 'rgb(255, 0, 0)',   // Area will be red above the origin
+                        // below: 'rgb(0, 0, 255)'
+                    },
+            //   backgroundColor: [
+            //   'rgba(0, 0, 0, 0.5)',
+            //   'rgba(255, 159, 64, 0.2)',
+            //   'rgba(black, 0.5)',
+            //   'rgba(75, 192, 192, 0.2)',
+            //   'rgba(54, 162, 235, 0.2)',
+            //   'rgba(153, 102, 255, 0.2)',
+            //   'rgba(201, 203, 207, 0.2)'
+            // ],
+            backgroundColor: [
+            'rgba(0, 0, 0, 0.5)',
+            'rgba(black, 0.5)',
+            ],
 
-                const annotation1 = {
+            annotation: {
+            annotations: [{
                 type: 'line',
-                borderColor: 'rgb(100,149,237)',
-                borderDash: [6, 6],
-                borderDashOffset: 0,
-                borderWidth: 3,
-                label: {
-                    enabled: true,
-                    backgroundColor: 'rgba(100,149,237)',
-                    content: (ctx5) => 'Average: ' + this.average(ctx5).toFixed(3)
-                },
-                scaleID: 'y',
-                value: (ctx5) => this.average(ctx5)
-                };
-
-                console.log("Date.parse('2021-11-01'): ", Date.parse('2021-11-01'))
-                const day = [
-                // 00:00:00 GMT+0800
-
-                {x: Date.parse('2021-11-01'), y: 21},
-                {x: Date.parse("2021-11-02"), y: 3},
-                {x: Date.parse("2021-11-04"), y: 5},
-                {x: Date.parse("2021-11-05"), y: 10},
-                {x: Date.parse("2021-11-08"), y: 14},
-                {x: Date.parse("2021-11-10"), y: 21}]
-
-                
-                labels = []
-                ylabels = []
-                for (i of day){
-                    labels.push(i.x)
-                    ylabels.push(i.y)
+                mode: 'horizontal',
+                scaleID: 'y-axis-0',
+                value: '5',
+                borderColor: 'tomato',
+                borderWidth: 1
+            }],
+            drawTime: "afterDraw" // (default)
+        }
+            }]
+        },
+        options: {
+            responsive: true,
+            title: {
+            display: true,
+            text: "Chart.js - Dynamically Update Chart Via Ajax Requests",
+            },
+            legend: {
+            display: false
+            },
+            scales: {
+            yAxes: [{
+                ticks: {
+                beginAtZero: true,
                 }
-            const data2 =  {
-                labels: labels,
-                datasets: [{
-                label: 'Summary over Time',
-                data: ylabels,
-                // data: day,
-                // borderWidth: 1
-                borderColor: '#36A2EB',
-                backgroundColor: '#9BD0F5',
-                }]
+            }]
             }
-
-
-            const annotation2 = {
-                    type: 'line',
-                    borderColor: 'rgba(102,102,102,0.5)',
-                    borderDash: [6, 6],
-                    borderDashOffset: 0,
-                    borderWidth: 3,
-                    label: {
-                        enabled: true,
-                        backgroundColor: 'rgba(102,102,102,0.5)',
-                        color: 'black',
-                        content: (ctx) => (average(ctx) + standardDeviation(ctx)).toFixed(2),
-                        position: 'start',
-                        rotation: -90,
-                        yAdjust: -28
-                    },
-                    scaleID: 'y',
-                    value: (ctx) => average(ctx) + standardDeviation(ctx)
-                    };
-
-
-
-                const config = {
-                type: 'bar',
-                data:data2,
-                borderWidth: 1,
-                options: {
-                    plugins:{
-                        scheme: 'brewer.Paired12'
-                    },
-                    scale: {
-                    y: {
-                        beginAtZero: true,
-                    },
-                    x:{
-                        type: 'timeseries' ,
-                        reverse: true
-                    }
-                    },
-                    plugins: {
-                    annotation: {
-                        annotations: {
-                        annotation1,
-                        annotation2,
-                        // annotation3,
-                        }
-                    }
-                    }
-                }
-                };
-
-                //   console.log("canvas4 labels: ", labels, ylabels)
-                const ctx5 = document.getElementById('mycanvas4').getContext("2d");
-                this.chart4 = new Chart(ctx5, config);
-
-
-
+        }
+        });
                 },
             methods: {
-                average: function(ctx) {
-                const values = ctx.chart.data.datasets[0].data;
-                return values.reduce((a, b) => a + b, 0) / values.length;
-                },
 
-                standardDeviation: function(ctx) {
-                const values = ctx.chart.data.datasets[0].data;
-                const n = values.length;
-                const mean = average(ctx);
-                return Math.sqrt(values.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n);
-                },
+                // logic to get new data
+            getData: function() {
+            $.ajax({
+                url: 'https://jsonplaceholder.typicode.com/posts/' + postId + '/comments',
+                success: function(data) {
+                    console.log("data: ", data)
+                // process your data to pull out what you plan to use to update the chart
+                // e.g. new label and a new data point
+
+                                    // used for example purposes
+                    function getRandomIntInclusive(min, max) {
+                    min = Math.ceil(min);
+                    max = Math.floor(max);
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                    }
+
+
+                
+                // add new label and data point to chart's underlying data structures
+                this.myChart.data.labels.push("Day " + postId++);
+                this.myChart.data.datasets[0].data.push(getRandomIntInclusive(1, 25));
+                // if (myChart.data.labels.length < 3){
+                //   // myChart.data.labels.pop()
+                //   myChart.data.labels.push("Post " + postId++);
+                // }
+                if (this.myChart.data.labels.length > 3){
+                    // myChart.data.labels.pop()
+                    this.myChart.data.labels.shift()
+                }
+                if (this.myChart.data.datasets[0].data.length > 3){
+                    this.myChart.data.datasets[0].data.shift()
+                }
+                // re-render the chart
+                this.myChart.update();
+                }
+            });
+            },
                 reset: function (){
                     this.ChartConfig.datasets[0].data.length = 0
                     this.loaded = false
@@ -601,6 +582,111 @@
                 // }
             }
         });
+
+
+// // used for example purposes
+// function getRandomIntInclusive(min, max) {
+//   min = Math.ceil(min);
+//   max = Math.floor(max);
+//   return Math.floor(Math.random() * (max - min + 1)) + min;
+// }
+
+
+//         // create initial empty chart
+// var ctx_live = document.getElementById("mycanvas");
+// var myChart = new Chart(ctx_live, {
+//   type: 'line',
+//   data: {
+//     labels: [],
+//     datasets: [{
+//       data: [],
+//       borderWidth: 2,
+//       borderColor:'#00c0ef',
+//       label: 'Temperature',
+//       fill: {target: 'origin',
+//                 // above: 'rgb(255, 0, 0)',   // Area will be red above the origin
+//                 // below: 'rgb(0, 0, 255)'
+//               },
+//     //   backgroundColor: [
+//     //   'rgba(0, 0, 0, 0.5)',
+//     //   'rgba(255, 159, 64, 0.2)',
+//     //   'rgba(black, 0.5)',
+//     //   'rgba(75, 192, 192, 0.2)',
+//     //   'rgba(54, 162, 235, 0.2)',
+//     //   'rgba(153, 102, 255, 0.2)',
+//     //   'rgba(201, 203, 207, 0.2)'
+//     // ],
+//     backgroundColor: [
+//       'rgba(0, 0, 0, 0.5)',
+//       'rgba(black, 0.5)',
+//     ],
+
+//     annotation: {
+//     annotations: [{
+//         type: 'line',
+//         mode: 'horizontal',
+//         scaleID: 'y-axis-0',
+//         value: '5',
+//         borderColor: 'tomato',
+//         borderWidth: 1
+//     }],
+//     drawTime: "afterDraw" // (default)
+// }
+//     }]
+//   },
+//   options: {
+//     responsive: true,
+//     title: {
+//       display: true,
+//       text: "Chart.js - Dynamically Update Chart Via Ajax Requests",
+//     },
+//     legend: {
+//       display: false
+//     },
+//     scales: {
+//       yAxes: [{
+//         ticks: {
+//           beginAtZero: true,
+//         }
+//       }]
+//     }
+//   }
+// });
+
+
+// this post id drives the example data
+var postId = 1;
+
+// // logic to get new data
+// var getData = function() {
+//   $.ajax({
+//     url: 'https://jsonplaceholder.typicode.com/posts/' + postId + '/comments',
+//     success: function(data) {
+//       // process your data to pull out what you plan to use to update the chart
+//       // e.g. new label and a new data point
+      
+//       // add new label and data point to chart's underlying data structures
+//       myChart.data.labels.push("Day " + postId++);
+//       myChart.data.datasets[0].data.push(getRandomIntInclusive(1, 25));
+//       // if (myChart.data.labels.length < 3){
+//       //   // myChart.data.labels.pop()
+//       //   myChart.data.labels.push("Post " + postId++);
+//       // }
+//       if (myChart.data.labels.length > 3){
+//         // myChart.data.labels.pop()
+//         myChart.data.labels.shift()
+//       }
+//       if (myChart.data.datasets[0].data.length > 3){
+//         myChart.data.datasets[0].data.shift()
+//       }
+//       // re-render the chart
+//       myChart.update();
+//     }
+//   });
+// };
+
+// // get new data every 3 seconds
+// setInterval(getData, 3000);
         
     </script>
 </body>
