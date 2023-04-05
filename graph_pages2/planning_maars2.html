@@ -54,8 +54,8 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"></script> -->
 
     <title>SingHealth</title>
 </head>
@@ -168,7 +168,7 @@
                     <p>Count is: {{ count }}</p>
                     <button @click="updateChart"
                     class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>one</button>
-                    <canvas id="mycanvas"></canvas>
+                    <!-- <canvas id="mycanvas"></canvas> -->
 
                     <canvas id="mycanvas2"></canvas>
                 </div>
@@ -302,15 +302,6 @@ var myChart = new Chart(ctx_live, {
                             // above: 'rgb(255, 0, 0)',   // Area will be red above the origin
                             // below: 'rgb(0, 0, 255)'
                         },
-                //   backgroundColor: [
-                //   'rgba(0, 0, 0, 0.5)',
-                //   'rgba(255, 159, 64, 0.2)',
-                //   'rgba(black, 0.5)',
-                //   'rgba(75, 192, 192, 0.2)',
-                //   'rgba(54, 162, 235, 0.2)',
-                //   'rgba(153, 102, 255, 0.2)',
-                //   'rgba(201, 203, 207, 0.2)'
-                // ],
                 backgroundColor: [
                 'rgba(0, 0, 0, 0.5)',
                 'rgba(black, 0.5)',
@@ -327,13 +318,26 @@ var myChart = new Chart(ctx_live, {
                 }],
                 drawTime: "afterDraw" // (default)
             }
-                }]
+                },
+                // second dataset:
+            {      data: [],
+      borderWidth: 2,
+      borderColor:'#0000ff',
+      label: 'Dataset 2',
+      fill: {target: 'origin',
+                            // above: 'rgb(255, 0, 0)',   // Area will be red above the origin
+                            // below: 'rgb(0, 0, 255)'
+                        },
+                backgroundColor: [
+                'rgba(0, 0, 0, 0.5)',
+                'rgba(black, 0.5)',
+                ]}]
             },
             options: {
                 responsive: true,
                 title: {
                 display: true,
-                text: "Chart.js - Dynamically Update Chart Via Ajax Requests",
+                text: "Second chart",
                 },
                 legend: {
                 display: false
@@ -383,6 +387,10 @@ var myChart = new Chart(ctx_live, {
                             data = {"data":[{"id":2.5,"month":3,"score_num":11.75},
                             {"id":2.5,"month":4,"score_num":9.75},
                             {"id":2.5,"month":5,"score_num":8.75}] }
+
+                            data2 = {"data":[{"id":2.5,"month":2,"score_num":15.75},
+                            {"id":2.5,"month":7,"score_num":13.75},
+                            {"id":2.5,"month":9,"score_num":16.75}] }
                             commentsOrScore = true;
                         
                         console.log("dataaa: ", data.data)
@@ -395,6 +403,16 @@ var myChart = new Chart(ctx_live, {
                         }
                         myChart.data.labels = Xs
                         myChart.data.datasets[0].data = Ys
+
+                        Xs = []
+                        Ys = []
+                        for (i of data2.data){
+                            Xs.push(i["month"])
+                            Ys.push(i["score_num"])
+                        }
+                        myChart.data.labels = Xs
+                        myChart.data.datasets[1].data = Ys
+
                         // re-render the chart
                         myChart.update();
                         }
@@ -413,6 +431,10 @@ var myChart = new Chart(ctx_live, {
                             {"id":2.5,"month":3,"score_num":7.75},
                             {"id":2.5,"month":2,"score_num":4.75}] }
 
+                            data2 = {"data":[{"id":2.5,"month":3,"score_num":11.75},
+                            {"id":2.5,"month":4,"score_num":9.75},
+                            {"id":2.5,"month":5,"score_num":8.75}] }
+
                         Xs = []
                         Ys = []
                         for (i of data.data){
@@ -421,6 +443,16 @@ var myChart = new Chart(ctx_live, {
                         }
                         myChart.data.labels = Xs
                         myChart.data.datasets[0].data = Ys
+
+
+                        Xs = []
+                        Ys = []
+                        for (i of data2.data){
+                            Xs.push(i["month"])
+                            Ys.push(i["score_num"])
+                        }
+                        myChart.data.labels = Xs
+                        myChart.data.datasets[1].data = Ys
                         // re-render the chart
                         myChart.update();
                         }
