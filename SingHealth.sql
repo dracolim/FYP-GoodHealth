@@ -1191,7 +1191,19 @@ INSERT INTO `trgextrem_history` (`id`, `MCR_No`, `LOAPIP`, `StartDate`, `EndDate
 --
 -- Indexes for dumped tables
 --
+-- CREATE TABLE `mock_data_sentimental` (
+--   `id` int(11) NOT NULL,
+--   `MCR_No` varchar(50) NOT NULL,
+--   `Staff_Name` varchar(300) DEFAULT NULL,
+--   `Comment` varchar(300) DEFAULT NULL,
+--   `Positive` varchar(300) DEFAULT NULL,
+--   `Neutral` varchar(300) DEFAULT NULL,
+--   `Negative` varchar(300) DEFAULT NULL,
+--   `Keywords` varchar(300) DEFAULT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+-- INSERT INTO `mock_data_sentimental` (`id`, `MCR_No`, `Staff_Name`, `Comment`, `Positive`,`Neutral`, `Negative`, `Keywords`) VALUES
+-- (1, 'M11367A', 'Roo', 'this employee is good', '40', '30','30', 'good');
 
 -- Indexes for table `personal_details`
 --
