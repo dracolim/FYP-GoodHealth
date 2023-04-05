@@ -302,27 +302,56 @@ function maxValue(ctx) {
   return max;
 }
 
-const annotation1 = {
-  type: 'line',
-  borderColor: 'black',
-  borderWidth: 3,
-  label: {
-    enabled: true,
-    backgroundColor: 'black',
-    borderColor: 'black',
-    borderRadius: 10,
-    borderWidth: 2,
-    content: (ctx) => 'Lower bound: ' + minValue(ctx).toFixed(3),
-    rotation: 'auto'
-  },
-  scaleID: 'y',
-  value: minValue
-};
+// const annotation1 = {
+//   type: 'line',
+//   borderColor: 'black',
+//   borderWidth: 3,
+//   label: {
+//     enabled: true,
+//     backgroundColor: 'black',
+//     borderColor: 'black',
+//     borderRadius: 10,
+//     borderWidth: 2,
+//     content: (ctx) => 'Lower bound: ' + minValue(ctx).toFixed(3),
+//     rotation: 'auto'
+//   },
+//   scaleID: 'y',
+//   value: minValue
+// };
+
+// const annotation2 = {
+//   type: 'line',
+//   borderWidth: 3,
+//   borderColor: 'black',
+//   label: {
+//     enabled: true,
+//     backgroundColor: 'black',
+//     borderColor: 'black',
+//     borderRadius: 10,
+//     borderWidth: 2,
+//     content: (ctx) => 'Upper bound: ' + maxValue(ctx).toFixed(3),
+//     rotation: 'auto'
+//   },
+//   scaleID: 'y',
+//   value: maxValue
+// };
 
 
+
+// calculate minimum here:
+
+function minVal(data){
+    array1 = [1,2,3,4,5]
+    return Math.min(...array1)
+}
+
+function maxVal(data){
+    array1 = [1,2,3,4,5]
+    return Math.max(...array1)
+}
 
         // create initial empty chart
-var ctx_live = document.getElementById("mycanvas2");
+var ctx_live = document.getElementById("mycanvas2").getContext('2d');;
 this.ctx_live = ctx_live;
 var myChart = new Chart(ctx_live, {
   type: 'line',
@@ -332,7 +361,7 @@ var myChart = new Chart(ctx_live, {
       data: [],
       borderWidth: 2,
       borderColor:'#00c0ef',
-      label: 'Temperature',
+      label: 'chart 1',
       fill: {target: 'origin',
                             above: 'rgb(200, 0, 0)',   // Area will be red above the origin
                             // below: 'rgb(0, 0, 255)'
@@ -357,10 +386,21 @@ var myChart = new Chart(ctx_live, {
                     yMax: 60,
                     borderColor: 'rgb(255, 99, 132)',
                     borderWidth: 2,
+                    // content: "hello",
+                    label: {
+                    enabled: true,
+                    backgroundColor: 'rgba(255, 68, 255, 1)',
+                    // backgroundColor:'rgba(68, 223, 146, 0.6)',
+                    color: 'black',
+                    // content:  "Minimum - " + (35).toString(),
+                    // position: (counter + 35).toString() + '%',
+                    // rotation: 0,
+                    yAdjust: 20
                 },
-                annotation1
                 },
-                drawTime: "afterDraw" // (default)
+                // annotation1,
+                // annotation2
+                },
             }
                 },
                 // second dataset:
@@ -399,10 +439,37 @@ var myChart = new Chart(ctx_live, {
                 annotations: {
                     line1: {
                     type: 'line',
-                    yMin: 5,
-                    yMax: 5,
+                    yMin: minVal("somedata"),
+                    yMax: minVal("somedata"),
                     borderColor: 'rgb(255, 99, 132)',
                     borderWidth: 2,
+                    label: {
+                    enabled: true,
+                    backgroundColor: 'rgba(255, 68, 255, 1)',
+                    // backgroundColor:'rgba(68, 223, 146, 0.6)',
+                    color: 'black',
+                    content:  "Minimum - " + (minVal("somedata")).toString(),
+                    position: (25).toString() + '%',
+                    // rotation: 0,
+                    yAdjust: 20
+                },
+                    },
+                    line2: {
+                    type: 'line',
+                    yMin: maxVal("somedata"),
+                    yMax: maxVal("somedata"),
+                    borderColor: 'rgb(137, 146, 0)',
+                    borderWidth: 2,
+                    label: {
+                    enabled: true,
+                    backgroundColor: 'rgb(137, 146, 0)',
+                    // backgroundColor:'rgba(68, 223, 146, 0.6)',
+                    color: 'black',
+                    content:  "Max - " + (maxVal("somedata")).toString(),
+                    position: (75).toString() + '%',
+                    // rotation: 0,
+                    yAdjust: 20
+                },
                     }
                 }
                 }
@@ -411,6 +478,22 @@ var myChart = new Chart(ctx_live, {
             });
 
             this.myChart = myChart;
+
+            this.myChart.options.plugins.annotation.annotations['dangerRange2'] = {
+                    type:'box',
+                    xMin: 2,
+                    xMax: 4,
+                    yMin: 0,
+                    yMax: 35,
+                    backgroundColor: 'rgba(255, 99, 132, 0.25)',
+                    borderWidth: 2,
+                    borderColor: 'rgba(255, 68, 255, 1)',
+                    borderDash: [6, 6],
+                    borderDashOffset: 0,
+                    borderWidth: 3,
+                }
+
+                this.myChart.update()
 
 
 
@@ -451,7 +534,7 @@ var myChart = new Chart(ctx_live, {
                             {"id":2.5,"month":9,"score_num":16.75}] }
                             commentsOrScore = true;
                         
-                        console.log("dataaa: ", data.data)
+                        console.log("dataaa2: ", data.data)
 
                         Xs = []
                         Ys = []
