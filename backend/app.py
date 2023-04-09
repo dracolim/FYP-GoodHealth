@@ -25,16 +25,16 @@ app.secret_key = b'a secret key'
 
 if __name__ == '__main__':
 # #     # Mac user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-    #                                     '@localhost:3306/SingHealth'
-    # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+                                        '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
-#     # --------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------
 
-    # Windows user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
-                                            '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+    # # Windows user -------------------------------------------------------------------
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
+    #                                         '@localhost:3306/SingHealth'
+    # engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
 
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -3101,7 +3101,7 @@ def overview_evaluations():
     eval_data = Evaluations.query.all()
     eval_data = [r.to_dict()
                      for r in eval_data]
-    # print("eval_data:", eval_data)
+    print("eval_data:", eval_data)
     eval_cols = list(eval_data[0].keys())
     data = pd.DataFrame.from_records(eval_data, columns = eval_cols )
     data["Score_processed"] = data["Score"].apply(lambda x: int(x[0]))
@@ -3112,6 +3112,48 @@ def overview_evaluations():
     return jsonify({
        "data": data_response
     }), 200
+
+# Read Existing evaluations (R)
+@app.route("/evaluation_overview/<programme>")
+def overview_evaluations_by_programme(programme):
+    eval_data = Evaluations.query.all()
+    eval_data = [r.to_dict()
+                     for r in eval_data]
+    print("eval_data:", eval_data)
+    eval_cols = list(eval_data[0].keys())
+    data = pd.DataFrame.from_records(eval_data, columns = eval_cols )
+    data = data[data['Service'] == programme]
+    data["Score_processed"] = data["Score"].apply(lambda x: int(x[0]))
+    data_response = data.groupby("Name_of_Evaluation_Form").mean()
+    maximum = 9
+    data_response["Score_Percentage"] = data_response["Score_processed"].apply(lambda x: x/maximum * 100)
+    data_response = data_response["Score_Percentage"].to_dict()
+    return jsonify({
+       "data": data_response
+    }), 200
+
+# (data['Service'].unique())
+# (data['Rotation_Period'].unique())
+
+# Read Existing evaluations (R)
+@app.route("/evaluation_filters")
+def overview_evaluations_filters():
+    eval_data = Evaluations.query.all()
+    eval_data = [r.to_dict()
+                     for r in eval_data]
+    print("eval_data:", eval_data)
+    eval_cols = list(eval_data[0].keys())
+    data = pd.DataFrame.from_records(eval_data, columns = eval_cols )
+    programme_types = list(data['Service'].unique())
+    rotation_period = list(data['Rotation_Period'].unique())
+    return jsonify({
+       "data": {
+        "programme_types": programme_types,
+        "rotation_period": rotation_period
+       }
+    }), 200
+
+
 
 
 # Update Evaluation
