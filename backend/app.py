@@ -3059,6 +3059,28 @@ def read_evaluation2():
     }), 200
 
 
+# Read Existing evaluations (R)
+@app.route("/evaluation_overview")
+def overview_evaluations():
+    import pandas as pd
+
+    eval_data = Evaluations.query.all()
+    eval_data = [r.to_dict()
+                     for r in eval_data]
+    # print("eval_data:", eval_data)
+    eval_cols = list(eval_data[0].keys())
+    import pandas as pd
+    data = pd.DataFrame.from_records(eval_data, columns = eval_cols )
+    data["Score_processed"] = data["Score"].apply(lambda x: int(x[0]))
+    data_response = data.groupby("Name_of_Evaluation_Form").mean()
+    maximum = 9
+    data_response["Score_Percentage"] = data_response["Score_processed"].apply(lambda x: x/maximum * 100)
+    data_response = data_response["Score_Percentage"].to_dict()
+    return jsonify({
+       "data": data_response
+    }), 200
+
+
 # Update Evaluation
 @app.route('/evaluation/<int:id>', methods=['PUT'])
 def update_evaluation(id):

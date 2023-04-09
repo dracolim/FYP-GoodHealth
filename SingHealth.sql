@@ -328,10 +328,12 @@ CREATE TABLE `evaluations` (
 --
 
 INSERT INTO `evaluations` (`id`, `MCR_No`, `Rotation_Period`, `Name_of_Evaluation_Form`, `Question`,  `Evaluator`, `Service`, `Score`) VALUES
-(1, 'M11367A', '7/1/2022-7/31/2022', 'ABC', 'PROFESSIONALISM', 'Dr. Chan, Webber Pak Wo', 'SHS-GASTRO:BASIC ENDO-SGH', '5 (5)'),
-(2, 'M65889A', '11/1/2022-11/30/2022', 'DEF', 'PROFESSIONALISM', 'Dr. Chang, Jason Pik Eu', 'SHS-GRM:GERI-CGH', '7 (7)'),
-(3, 'M54354E', '11/1/2022-11/30/2022', 'GHI', 'INTERPERSONAL & COMMUNICATION', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH', '8 (8)'),
-(4, 'M88791Z', '12/1/2022-1/3/2023', 'JKL', 'MEDICAL KNOWLEDGE', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', '7 (7)');
+(1, 'M11367A', '7/1/2022-7/31/2022', '360', 'PROFESSIONALISM', 'Dr. Chan, Webber Pak Wo', 'SHS-GASTRO:BASIC ENDO-SGH', '5 (5)'),
+(2, 'M65889A', '11/1/2022-11/30/2022', 'REF', 'PROFESSIONALISM', 'Dr. Chang, Jason Pik Eu', 'SHS-GRM:GERI-CGH', '7 (7)'),
+(3, 'M54354E', '11/1/2022-11/30/2022', 'SPAM', 'INTERPERSONAL & COMMUNICATION', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH', '8 (8)'),
+(4, 'M88791Z', '12/1/2022-1/3/2023', 'C1', 'MEDICAL KNOWLEDGE', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', '7 (7)'),
+(5, 'M54354E', '12/1/2022-1/3/2023', 'Mini-CEX', 'MEDICAL KNOWLEDGE', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', '7 (7)'),
+(6, 'M54354E', '11/1/2022-11/30/2022', 'SPAM', 'INTERPERSONAL & COMMUNICATION', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH', '6 (8)');
 
 -- --------------------------------------------------------
 

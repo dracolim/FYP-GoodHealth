@@ -164,9 +164,15 @@
 
 
                 <div>
-                    <button @click="updateChart"
-                    class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 ring-2 ring-red-100 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Comment or Score</button>
-                    <!-- <canvas id="mycanvas"></canvas> -->
+                    <!-- <button @click="updateChart"
+                    class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 ring-2 ring-red-100 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Comment or Score</button> -->
+                        <!-- <div>selection : {{progSelected}}, {{evalData}}</div> -->
+                    <div class="xl:w-96 hidden">
+                        <select @change="onChangeProgramme($event)"
+                        class=" font-sm mb-3 xl:w-96 rounded-full text-sm px-3 py-1 text-center" v-model="progSelected">
+                          <option v-for="prog in programmes" :value="prog">{{prog}}</option>
+                        </select>
+                      </div>
                     <div style="display: flex;">
                         <div style="width: 33%;">
                             <canvas id="mycanvas1"></canvas>
@@ -246,6 +252,9 @@
             vuetify: new Vuetify(),
             data() {
             return {
+                programmes: [1,2,3,4, 5],
+                evalData: [],
+                progSelected: null,
                 commentsOrScore: true,
                 ctx_live: null,
                 myChart: null,
@@ -313,9 +322,13 @@
                 },
             }
             },
-            mounted: function () {
+            mounted: async function () {
                 this.loaded = false
                 // this.getSpecificDidacticAttendanceData();
+
+
+                // "http://127.0.0.1:5011/evaluation_overview"
+                await this.getEvalOverview()
 
                 this.fetchChart1();
                 this.fetchChart2();
@@ -325,32 +338,52 @@
 
                     
 
-
-
-
-
                     
                 },
             methods: {
+                getEvalOverview: async function () {
+                    this.status = "getting data...";
+
+                    specificURL = "http://127.0.0.1:5011/evaluation_overview"
+                    data = []
+                    await axios.get(specificURL).then((response) => {
+                    console.log("This is responseData")
+                    console.log(response.data)
+                    data = response.data.data
+
+                    // this.getChartData(response.data);
+                    // this.loaded = true
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+                    this.evalData = data
+                    },
+                onChangeProgramme(event) {
+            console.log(event.target.value, "do sth")
+        },
                 fetchChart1: function(){
                     // create initial empty chart
             var ctx_live = document.getElementById("mycanvas1");
             this.ctx_live = ctx_live;
+
+            data_360 = 10
+
+            if (this.evalData.hasOwnProperty('360')){
+                data_360 = this.evalData['360']
+            }else{
+                data_360 = 100
+            }
             var myChart = new Chart(ctx_live, {
             type: 'doughnut',
             data: {
-            labels: [
-                'Red',
-                'Blue',
-                'Yellow'
-            ],
             datasets: [{
                 label: 'My First Dataset',
-                data: [300, 50, 100],
+                data: [data_360, 100-data_360],
                 backgroundColor: [
                 'rgb(255, 99, 132)',
                 'rgb(54, 162, 235)',
-                'rgb(255, 205, 86)'
                 ],
                 hoverOffset: 4
             }]
@@ -372,6 +405,22 @@
                 }]
                 },
                 plugins: {
+            title: {
+                display: true,
+                text: '360 Form',
+                padding: 20,
+                font: {
+                        size: 20
+                    },
+                    color: "black"
+            },
+            subtitle: {
+                display: true,
+                text: data_360.toFixed(2).toString() + '%',
+                font: {
+                        size: 20
+                    },
+            },
                 annotation: {
                 annotations: {
                     line1: {
@@ -393,21 +442,24 @@
                     // create initial empty chart
                     var ctx_live2 = document.getElementById("mycanvas2");
             this.ctx_live2 = ctx_live2;
+
+            data_c1 = 10
+            if (this.evalData.hasOwnProperty('C1')){
+                data_c1 = this.evalData['C1']
+            }else{
+                data_c1 = 100
+            }
+
             var myChart2 = new Chart(ctx_live2, {
             type: 'doughnut',
             data: {
-            labels: [
-                'Red',
-                'Blue',
-                'Yellow'
-            ],
             datasets: [{
                 label: 'My First Dataset',
-                data: [300, 50, 100],
+                data: [data_c1, 100 - data_c1],
                 backgroundColor: [
                 'rgb(255, 99, 132)',
                 'rgb(54, 162, 235)',
-                'rgb(255, 205, 86)'
+                // 'rgb(255, 205, 86)'
                 ],
                 hoverOffset: 4
             }]
@@ -429,6 +481,22 @@
                 }]
                 },
                 plugins: {
+                    title: {
+                display: true,
+                text: 'C1 Form',
+                padding: 20,
+                font: {
+                        size: 20
+                    },
+                    color: "black"
+            },
+            subtitle: {
+                display: true,
+                text: data_c1.toFixed(2).toString() + '%',
+                font: {
+                        size: 20
+                    },
+            },
                 annotation: {
                 annotations: {
                     line1: {
@@ -451,17 +519,21 @@
                     // create initial empty chart
             var ctx_live3 = document.getElementById("mycanvas3");
             this.ctx_live3 = ctx_live3;
+
+            data_ref = 10
+            if (this.evalData.hasOwnProperty('REF')){
+                data_ref = this.evalData['REF']
+            }else{
+                data_ref = 100
+            }
+
+
             var myChart3 = new Chart(ctx_live3, {
             type: 'doughnut',
             data: {
-            labels: [
-                'Red',
-                'Blue',
-                'Yellow'
-            ],
             datasets: [{
                 label: 'My First Dataset',
-                data: [300, 50, 100],
+                data: [data_ref, 100-data_ref],
                 backgroundColor: [
                 'rgb(255, 99, 132)',
                 'rgb(54, 162, 235)',
@@ -487,6 +559,23 @@
                 }]
                 },
                 plugins: {
+                    title: {
+                display: true,
+                text: 'Ref Form',
+                padding: 20,
+                font: {
+                        size: 20
+                    },
+                    color: "black"
+            },
+            subtitle: {
+                display: true,
+                text: data_ref.toFixed(2).toString() + '%',
+                font: {
+                        size: 20
+                    },
+            },
+
                 annotation: {
                 annotations: {
                     line1: {
@@ -509,17 +598,20 @@
                     // create initial empty chart
             var ctx_live4 = document.getElementById("mycanvas4");
             this.ctx_live4 = ctx_live4;
+
+            data_mini = 10
+            if (this.evalData.hasOwnProperty('Mini-CEX')){
+                data_mini = this.evalData['Mini-CEX']
+            }else{
+                data_mini = 100
+            }
+
             var myChart4 = new Chart(ctx_live4, {
             type: 'doughnut',
             data: {
-            labels: [
-                'Red',
-                'Blue',
-                'Yellow'
-            ],
             datasets: [{
                 label: 'My First Dataset',
-                data: [300, 50, 100],
+                data: [data_mini, 100-data_mini],
                 backgroundColor: [
                 'rgb(255, 99, 132)',
                 'rgb(54, 162, 235)',
@@ -545,6 +637,23 @@
                 }]
                 },
                 plugins: {
+                    title: {
+                display: true,
+                text: 'Mini-CEX Form',
+                padding: 20,
+                font: {
+                        size: 20
+                    },
+                    color: "black"
+            },
+            subtitle: {
+                display: true,
+                text: data_mini.toFixed(2).toString() + '%',
+                font: {
+                        size: 20
+                    },
+            },
+
                 annotation: {
                 annotations: {
                     line1: {
@@ -567,17 +676,20 @@
                     // create initial empty chart
             var ctx_live5 = document.getElementById("mycanvas5");
             this.ctx_live5 = ctx_live5;
+
+            data_spam = 10
+            if (this.evalData.hasOwnProperty('SPAM')){
+                data_spam = this.evalData['SPAM']
+            }else{
+                data_spam = 100
+            }
+
             var myChart5 = new Chart(ctx_live5, {
             type: 'doughnut',
             data: {
-            labels: [
-                'Red',
-                'Blue',
-                'Yellow'
-            ],
             datasets: [{
                 label: 'My First Dataset',
-                data: [300, 50, 100],
+                data: [data_spam, 100-data_spam],
                 backgroundColor: [
                 'rgb(255, 99, 132)',
                 'rgb(54, 162, 235)',
@@ -603,6 +715,25 @@
                 }]
                 },
                 plugins: {
+
+                    title: {
+                display: true,
+                text: 'SPAM Form',
+                padding: 20,
+                font: {
+                        size: 20
+                    },
+                    color: "black"
+            },
+            subtitle: {
+                display: true,
+                text: data_spam.toFixed(2).toString() + '%',
+                font: {
+                        size: 20
+                    },
+            },
+
+
                 annotation: {
                 annotations: {
                     line1: {
