@@ -17,6 +17,7 @@ new Vue({
         nonCompliantResidentIHIArray: [],
         nonCompliantResidentProjectsArray: [],
         nonCompliantResidentProcedureLogsArray: [],
+        showNonCompliantResidentsInput: false,
 
         programmes2: ["Gastroenterology", 'Renal Medicine', 'Internal Medicine'],
 
@@ -329,6 +330,8 @@ new Vue({
         },
     methods: {
         getAllData: function(){
+            this.showNonCompliantResidentsInput = false
+            this.showNonCompliantResidentsInput = true
             this.getIhiData();
             this.getDutyHourLogData()
             this.getProjectsData()
