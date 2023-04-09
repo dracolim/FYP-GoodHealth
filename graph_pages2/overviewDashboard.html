@@ -128,6 +128,7 @@
                         Academic Year (AY):
                     </label>
                     <input  v-model="year" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Year Here">
+
                     <label  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 pt-3" for="grid-first-name">
                         Programme for Procedure Logs:
                     </label>
@@ -139,6 +140,10 @@
                     <button  @click="reset()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
                         Reset
                     </button> 
+
+                    <br>
+                    <br>
+
                 </v-row>
                 <v-row dense>
                   <v-col cols="sm">
@@ -177,6 +182,107 @@
 
                     </v-card>
                   </v-col>
+                </v-row>
+                <v-row>
+                    <label  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 pt-3" for="grid-first-name">
+                        Non-Compliant Residents For:
+                    </label>
+                    <input  v-model="nonCompliantResident" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Graph Name Here">
+
+                    <button  @click="getNonCompliantTable()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+                        Get Graph's Info
+                    </button> 
+
+                    <br>
+                    <br>
+                    
+                    <!-- table to show noncompliance for didactic attendance -->
+                    <div v-if="nonCompliantResidentDidacticArray.length > 0 && showDidacticTable">
+                        <table class="table-auto">
+                            <thead>
+                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                    >Non-Compliant Residents for Didactic Attendance</p>
+                                <tr>
+                                    <th class="border px-4 py-2 bg-orange-600">Index</th>
+                                    <th class="border px-4 py-2 bg-orange-600">MCR No.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(resident, index) in nonCompliantResidentDidacticArray" :key="resident.MCR_No">
+                                    <td class="border px-4 py-2 bg-gray-300">{{ index + 1 }}</td>
+                                    <td class="border px-4 py-2 bg-gray-300">{{ resident.MCR_No }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <br>
+                    </div>
+
+                    <!-- table to show noncompliance for IHI-->
+                    <div v-if="nonCompliantResidentIHIArray.length > 0 && showIHITable">
+                        <table class="table-auto">
+                            <thead>
+                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                    >Non-Compliant Residents for IHI</p>
+                                <tr>
+                                    <th class="border px-4 py-2 bg-orange-600">Index</th>
+                                    <th class="border px-4 py-2 bg-orange-600">MCR No.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(resident, index) in nonCompliantResidentIHIArray" :key="resident.MCR_No">
+                                    <td class="border px-4 py-2 bg-gray-300">{{ index + 1 }}</td>
+                                    <td class="border px-4 py-2 bg-gray-300">{{ resident.MCR_No }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <br>
+                    </div>
+
+                    <!-- table to show noncompliance for Projects-->
+                    <div v-if="nonCompliantResidentProjectsArray.length > 0 && showProjectsTable">
+                        <table class="table-auto">
+                            <thead>
+                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                    >Non-Compliant Residents for Projects</p>
+                                <tr>
+                                    <th class="border px-4 py-2 bg-orange-600">Index</th>
+                                    <th class="border px-4 py-2 bg-orange-600">MCR No.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(resident, index) in nonCompliantResidentProjectsArray" :key="resident.MCR_No">
+                                    <td class="border px-4 py-2 bg-gray-300">{{ index + 1 }}</td>
+                                    <td class="border px-4 py-2 bg-gray-300">{{ resident.MCR_No }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <br>
+                    </div>     
+
+                    <!-- table to show noncompliance for Procedure Logs-->
+                    <div v-if="nonCompliantResidentProcedureLogsArray.length > 0 && showProcedureLogsTable">
+                        <table class="table-auto">
+                            <thead>
+                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                    >Non-Compliant Residents for Procedure Logs</p>
+                                <tr>
+                                    <th class="border px-4 py-2 bg-orange-600">Index</th>
+                                    <th class="border px-4 py-2 bg-orange-600">MCR No.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(resident, index) in nonCompliantResidentProcedureLogsArray[0]" :key="resident.MCR_No">
+                                    <td class="border px-4 py-2 bg-gray-300">{{ index + 1 }}</td>
+                                    <td class="border px-4 py-2 bg-gray-300">{{ resident.MCR_No }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <br>
+                    </div>         
                 </v-row>
             </div>
 
