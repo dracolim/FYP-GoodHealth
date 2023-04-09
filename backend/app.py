@@ -579,9 +579,7 @@ class Evaluation_Comments(db.Model):
     Evaluator = db.Column(db.String(300))
     Service = db.Column(db.String(300))
     Comment = db.Column(db.String(300))
-    Positive= db.Column(db.String(300))
-    Negative = db.Column(db.String(300))
-    Neutral = db.Column(db.String(300))
+    Score= db.Column(db.String(300))
     Keywords = db.Column(db.String(300))
     Weakness = db.Column(db.String(300))
 

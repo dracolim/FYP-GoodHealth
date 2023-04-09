@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 09, 2023 at 11:22 AM
+-- Generation Time: Apr 09, 2023 at 12:14 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -283,9 +283,7 @@ CREATE TABLE `evaluation_comments` (
   `Evaluator` varchar(500) NOT NULL,
   `Service` varchar(500) NOT NULL,
   `Comment` varchar(2000) NOT NULL,
-  `Positive` varchar(30) NOT NULL,
-  `Negative` varchar(30) NOT NULL,
-  `Neutral` varchar(30) NOT NULL,
+  `Score` varchar(30) NOT NULL,
   `Keywords` varchar(1000) NOT NULL,
   `Weakness` varchar(1000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -294,10 +292,10 @@ CREATE TABLE `evaluation_comments` (
 -- Dumping data for table `evaluation_comments`
 --
 
-INSERT INTO `evaluation_comments` (`id`, `MCR_No`, `Name`, `Evaluator`, `Service`, `Comment`, `Positive`, `Negative`, `Neutral`, `Keywords`, `Weakness`) VALUES
-(1, 'M11367A', 'Daniel Tyler', 'Dr. Chang, Jason Pik Eu', 'SHS-GRM:GERI-CGH', 'She is meeting expectation of a presenter. i am confident it will get better with time', '0.65', '0.2', '0.15', 'presenter, meeting expectation', ''),
-(2, 'M54354E', 'Eliza Chen', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH', 'Needed minor changes to the flow and content on slides to engage audience. otherwise well done with good effort put into content.', '0.2', '0.1', '0.7', 'flow, content on slides, good effort', 'flow and content'),
-(3, 'M88791Z', 'Betty Li', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', 'Andre would need to show more dedication to learning', '0.1', '0.8', '0.1', 'dedication', 'dedication to learning');
+INSERT INTO `evaluation_comments` (`id`, `MCR_No`, `Name`, `Evaluator`, `Service`, `Comment`, `Score`, `Keywords`, `Weakness`) VALUES
+(1, 'M11367A', 'Daniel Tyler', 'Dr. Chang, Jason Pik Eu', 'SHS-GRM:GERI-CGH', 'She is meeting expectation of a presenter. i am confident it will get better with time', '0.15', 'presenter, meeting expectation', ''),
+(2, 'M54354E', 'Eliza Chen', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH', 'Needed minor changes to the flow and content on slides to engage audience. otherwise well done with good effort put into content.', '0.7', 'flow, content on slides, good effort', 'flow and content'),
+(3, 'M88791Z', 'Betty Li', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', 'Andre would need to show more dedication to learning', '0.1', 'dedication', 'dedication to learning');
 
 -- --------------------------------------------------------
 
