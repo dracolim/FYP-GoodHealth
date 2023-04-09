@@ -3099,7 +3099,7 @@ def overview_evaluations():
     eval_data = Evaluations.query.all()
     eval_data = [r.to_dict()
                      for r in eval_data]
-    print("eval_data:", eval_data)
+    # print("eval_data:", eval_data)
     eval_cols = list(eval_data[0].keys())
     data = pd.DataFrame.from_records(eval_data, columns = eval_cols )
     data["Score_processed"] = data["Score"].apply(lambda x: int(x[0]))
