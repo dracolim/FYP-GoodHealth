@@ -25,16 +25,16 @@ app.secret_key = b'a secret key'
 
 if __name__ == '__main__':
 # #     # Mac user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-                                        '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+    #                                     '@localhost:3306/SingHealth'
+    # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
 #     # --------------------------------------------------------------------------------
 
-#     # Windows user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
-    #                                         '@localhost:3306/SingHealth'
-    # engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+    # Windows user -------------------------------------------------------------------
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
+                                            '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
 
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -571,6 +571,45 @@ class Didactic_Attendance(db.Model):
             result[column] = getattr(self, column)
         return result
 
+class Evaluation_Comments(db.Model):
+    __tablename__ = 'Evaluation_Comments'
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    MCR_No = db.Column(db.String(100),  db.ForeignKey('Personal_Details.MCR_No'))
+    Name = db.Column(db.String(300))
+    Evaluator = db.Column(db.String(300))
+    Service = db.Column(db.String(300))
+    Comment = db.Column(db.String(300))
+    Positive= db.Column(db.String(300))
+    Negative = db.Column(db.String(300))
+    Neutral = db.Column(db.String(300))
+    Keywords = db.Column(db.String(300))
+    Weakness = db.Column(db.String(300))
+
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'Didactic_Attendance'
+    }
+
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
+# Read Existing involvement (R)
+@app.route("/evaluation_comments")
+def read_evaluation_comments():
+    evaluationCommentList = Evaluation_Comments.query.all()
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                     for pd in evaluationCommentList]
+        }
+    ), 200
 
 # https://fsymbols.com/generators/tarty/
 # ============================
