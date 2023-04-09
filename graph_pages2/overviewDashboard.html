@@ -129,10 +129,10 @@
                     </label>
                     <input  v-model="year" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Year Here">
 
-                    <label  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 pt-3" for="grid-first-name">
-                        Programme for Procedure Logs:
-                    </label>
-                    <input  v-model="programme" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Programme Here">
+                    <label for="hs-select-label" class="block text-sm font-medium mb-2 dark:text-black">Programme:</label>
+                    <select v-model="programme" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" >
+                      <option v-for="programme in programmes2">{{programme}}</option>
+                    </select>
                     
                     <button  @click="getAllData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
                         Get Residents' Info
@@ -140,7 +140,6 @@
                     <button  @click="reset()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
                         Reset
                     </button> 
-
                     <br>
                     <br>
 
@@ -184,15 +183,14 @@
                   </v-col>
                 </v-row>
                 <v-row>
-                    <label  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 pt-3" for="grid-first-name">
-                        Non-Compliant Residents For:
-                    </label>
-                    <input  v-model="nonCompliantResident" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Graph Name Here">
+                    <label for="hs-select-label" class="block text-sm font-medium mb-2 dark:text-black">Non-Compliant Residents For:</label>
+                    <select v-model="nonCompliantResident" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" >
+                      <option v-for="chart in charts">{{chart}}</option>
+                    </select>
 
                     <button  @click="getNonCompliantTable()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
                         Get Graph's Info
                     </button> 
-
                     <br>
                     <br>
                     

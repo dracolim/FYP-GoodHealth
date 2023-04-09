@@ -18,6 +18,10 @@ new Vue({
         nonCompliantResidentProjectsArray: [],
         nonCompliantResidentProcedureLogsArray: [],
 
+        programmes2: ["Gastroenterology", 'Renal Medicine', 'Internal Medicine'],
+
+        charts: ['Didactic Attendance', 'Scholary Activities', 'IHI', 'Projects', 'Duty Hour Logs', 'Case Logs', 'Procedure Logs'],
+
         // loaded: false,
 
         ihiLoaded:false,
@@ -895,12 +899,23 @@ new Vue({
             nonCompliantResidents = []
 
             for (var i = 0; i < chartData.data.length; i++) {
-                numOfEntries++
-                if (chartData.data[i]['End_Date'] != 'Ongoing') {
-                    counterCompletionQI++
+                var currentData = chartData.data[i];
+                if (currentData['End_Date'] === 'Ongoing') {
+                    var mcrNo = currentData['MCR_No'];
+                    var isMcrNoPresent = false;
+                    for (var j = 0; j < nonCompliantResidents.length; j++) {
+                        if (nonCompliantResidents[j]['MCR_No'] === mcrNo) {
+                            isMcrNoPresent = true;
+                            break;
+                        }
+                    }
+                    if (!isMcrNoPresent) {
+                        nonCompliantResidents.push(currentData);
+                    }
                 }
-                else {
-                    nonCompliantResidents.push(chartData.data[i])
+                numOfEntries++;
+                if (currentData['End_Date'] !== 'Ongoing') {
+                    counterCompletionQI++;
                 }
             }
 
