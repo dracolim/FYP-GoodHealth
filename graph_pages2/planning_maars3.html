@@ -167,7 +167,7 @@
                     <!-- <button @click="updateChart"
                     class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 ring-2 ring-red-100 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Comment or Score</button> -->
                         <!-- <div>selection : {{progSelected}}, {{evalData}}</div> -->
-                    <div class="xl:w-96 hidden">
+                    <div class="xl:w-96">
                         <select @change="onChangeProgramme($event)"
                         class=" font-sm mb-3 xl:w-96 rounded-full text-sm px-3 py-1 text-center" v-model="progSelected">
                           <option v-for="prog in programmes" :value="prog">{{prog}}</option>

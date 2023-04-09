@@ -213,6 +213,49 @@
         <div id="profiletables" class="" v-else>
 
 
+            <div class="flex items-right justify-end mt-10 mr-10 bg-gray-200">
+
+                <div class="block">
+                    <span class="text-gray-700">Checkboxes</span>
+                    <div class="mt-2">
+                        Presentation: {{one}}, PROCEDURES CREDENTIALING: {{two}}, LEADERSHIP INVOLVEMENT:{{three}}
+                      <div>
+                        <label class="inline-flex items-center">
+                        <input type="checkbox" class="form-checkbox" checked
+                        true-value="yes"
+                        false-value="no"
+                        v-model="one">
+                          <span class="ml-2">Presentation</span>
+                        </label>
+                      </div>
+
+                      <div>
+                        <label class="inline-flex items-center">
+                        <input type="checkbox" class="form-checkbox" checked
+                        true-value="yes"
+                        false-value="no"
+                        v-model="two">
+                          <span class="ml-2">PROCEDURES CREDENTIALING</span>
+                        </label>
+                      </div>
+
+                      <div>
+                        <label class="inline-flex items-center">
+                        <input type="checkbox" class="form-checkbox" checked
+                        true-value="yes"
+                        false-value="no"
+                        v-model="three">
+                          <span class="ml-2">LEADERSHIP INVOLVEMENT</span>
+                        </label>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  
+            </div>
+
+
             <div class="flex items-right justify-end mt-10 mr-10" id="one">
                 <!-- <button type="button" id="loading"
                     class="hidden inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 text-white transition duration-150 ease-in-out bg-indigo-500 rounded-md shadow cursor-not-allowed hover:bg-indigo-400"
@@ -226,10 +269,13 @@
                     </svg>
                     Loading...
                 </button> -->
+
+
+
                 <!-- <p class="text-5xl ml-10">Resident's Profile</p> -->
                 <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold 
                 leading-6 text-gray-700 transition duration-150 ease-in-out bg-gray-300 
-                rounded-md shadow hover:bg-grey-100" :href="currpage[2] + '/' + mcr_no" target="_blank"
+                rounded-md shadow hover:bg-grey-100" :href="currpage[5] + '/' + mcr_no" target="_blank"
                     style="margin-right: 5px;">
                     <!-- <svg class=" fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg> -->
                     <span></span> Preview
@@ -256,6 +302,59 @@
                     Word CV
                 </a>
             </div>
+
+
+
+            <div class="flex items-right justify-end mt-10 mr-10" id="one">
+                <!-- <button type="button" id="loading"
+                    class="hidden inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 text-white transition duration-150 ease-in-out bg-indigo-500 rounded-md shadow cursor-not-allowed hover:bg-indigo-400"
+                    disabled="">
+                    <svg class="w-5 h-5 mr-3 -ml-1 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                    </svg>
+                    Loading...
+                </button> -->
+
+
+
+                <!-- <p class="text-5xl ml-10">Resident's Profile</p> -->
+                <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold 
+                leading-6 text-gray-700 transition duration-150 ease-in-out bg-gray-300 
+                rounded-md shadow hover:bg-grey-100" :href="currpage[5] + '/' + mcr_no" target="_blank"
+                    style="margin-right: 5px;">
+                    <!-- <svg class=" fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg> -->
+                    <span></span> Full Preview
+                </a>
+
+                <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold 
+                leading-6 text-white transition duration-150 ease-in-out bg-red-500 
+                rounded-md shadow hover:bg-red-400" :href="currpage[0] + '/' + mcr_no" target="_blank"
+                    style="margin-right: 5px;">
+                    <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
+                    </svg>
+                    <span></span> Full PDF CV
+                </a>
+
+                <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 
+            text-white transition duration-150 ease-in-out bg-blue-500 rounded-md shadow 
+            hover:bg-blue-400" :href="currpage[1] + '/' + mcr_no" target="_blank" style="margin-right: 5px;">
+                    <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
+                    </svg>
+                    <span></span>
+                    </button>
+                    Full Word CV
+                </a>
+            </div>
+
+
+
+            
 
 
             <div id="smallertables">
@@ -908,7 +1007,10 @@
     const vm = new Vue({
         el: '#app',
         data: {
-
+            sections: ["one", "two", "three"],
+            one: "yes",
+            two: "yes",
+            three: "yes",
             count: 0,
             personal_details_fields: [],
             fields_display: [],
@@ -925,7 +1027,12 @@
             employer_details: [],
             error: false,
             mcr_no: [""],
-            currpage: ["http://127.0.0.1:5011/cv_pdf/", "http://127.0.0.1:5011/cv_word/", "http://127.0.0.1:5011/preview/"],
+            currpage: ["http://127.0.0.1:5011/cv_pdf/", 
+            "http://127.0.0.1:5011/cv_word/", 
+            "http://127.0.0.1:5011/preview/",
+            "http://127.0.0.1:5011/cv_pdf2/", 
+            "http://127.0.0.1:5011/cv_word2/", 
+            "http://127.0.0.1:5011/preview2/"],
             mockTableData: [
                 {
                     id: 1,

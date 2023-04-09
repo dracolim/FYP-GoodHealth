@@ -3035,14 +3035,11 @@ def read_evaluation2():
     keys = ['id', 'MCR_No', 'Rotation_Period', 'Name_of_Evaluation_Form', 'Question', 'Score', 'Evaluator', 'Service']
     res2 = [list(r.to_dict().values())
                      for r in res]
-    
     items = {}
     for i in res2:
-        print(i)
+        # print(i)
         items[i[1]] = i
-        
     # print(items)
-    
     items = pd.DataFrame.from_dict(items, orient='index', columns = keys)
     def getMonth(el):
         month = el.split("-")[0].split("/")[1]
@@ -3062,14 +3059,11 @@ def read_evaluation2():
 # Read Existing evaluations (R)
 @app.route("/evaluation_overview")
 def overview_evaluations():
-    import pandas as pd
-
     eval_data = Evaluations.query.all()
     eval_data = [r.to_dict()
                      for r in eval_data]
     # print("eval_data:", eval_data)
     eval_cols = list(eval_data[0].keys())
-    import pandas as pd
     data = pd.DataFrame.from_records(eval_data, columns = eval_cols )
     data["Score_processed"] = data["Score"].apply(lambda x: int(x[0]))
     data_response = data.groupby("Name_of_Evaluation_Form").mean()
@@ -3456,21 +3450,44 @@ class Builder(DocumentBuilder):
         self.patientSafetyQIRows=getQIPatientSafetyRows(self.person.projects)
 
     def buildPage(self):
-        self.page = getPage(self.person.Staff_Name, 
-                            self.person.MCR_No, 
-                            self.person.Employee_Image,
-                            self.awardsRows, 
-                            self.projectRows, 
-                            self.educationalInvolvements, 
-                            self.communityInvolvements,
-                            self.leadershipInvolvements, 
-                            self.procedureLogsRows, 
-                            self.postingRows, 
-                            self.educationRows,
-                            self.presentationRows,
-                            self.teachingPresentationRows,
-                            self.publicationRows,
-                            self.patientSafetyQIRows)
+        # self.page = getPage(self.person.Staff_Name, 
+        #                     self.person.MCR_No, 
+        #                     self.person.Employee_Image,
+        #                     self.awardsRows, 
+        #                     self.projectRows, 
+        #                     self.educationalInvolvements, 
+        #                     self.communityInvolvements,
+        #                     self.leadershipInvolvements, 
+        #                     self.procedureLogsRows, 
+        #                     self.postingRows, 
+        #                     self.educationRows,
+        #                     self.presentationRows,
+        #                     self.teachingPresentationRows,
+        #                     self.publicationRows,
+        #                     self.patientSafetyQIRows)
+
+        from helper2 import getPage3
+
+
+        self.page = getPage3(self.person.Staff_Name, 
+                self.person.MCR_No, 
+                self.person.Employee_Image,
+                self.awardsRows, 
+                self.projectRows, 
+                self.educationalInvolvements, 
+
+                self.communityInvolvements,
+                self.leadershipInvolvements, 
+                self.procedureLogsRows, 
+                self.postingRows, 
+                self.educationRows,
+                self.presentationRows,
+
+                self.teachingPresentationRows,
+                self.publicationRows,
+                self.patientSafetyQIRows, 
+                presentationInclude = False)
+        
         
         return self
     
