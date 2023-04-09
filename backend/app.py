@@ -581,8 +581,12 @@ class Evaluation_Comments(db.Model):
     Comment = db.Column(db.String(300))
     Score= db.Column(db.String(300))
     Keywords = db.Column(db.String(300))
+    # db.Column(db.DateTime),/
     Weakness = db.Column(db.String(300))
-
+    # created_time = db.Column(db.DateTime)
+    # updated_time = db.Column(db.DateTime)
+    created_time = db.Column(db.DateTime)
+    updated_time = db.Column(db.DateTime)
 
     __mapper_args__ = {
         'polymorphic_identity': 'Didactic_Attendance'
@@ -606,6 +610,27 @@ def read_evaluation_comments():
         {
             "data": [pd.to_dict()
                      for pd in evaluationCommentList]
+        }
+    ), 200
+
+# Read Existing involvement (R)
+@app.route("/evaluation_comments_by_month/<mcr_no>")
+def read_evaluation_comments_by_month(mcr_no):
+    evaluationCommentList = Evaluation_Comments.query.all()
+    for pd in evaluationCommentList:
+        print(pd.to_dict()['created_time'].year)
+        print(pd.to_dict()['created_time'].month)
+    
+    completedEvaluationCommentList = []
+    for pd in evaluationCommentList:
+        completedEvaluationCommentList["year"] = pd.to_dict()['created_time'].year
+        print(pd.to_dict()['created_time'].year)
+        print(pd.to_dict()['created_time'].month)
+
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                    for pd in evaluationCommentList]
         }
     ), 200
 
@@ -3117,7 +3142,7 @@ def overview_evaluations_by_programme(programme):
     eval_data = Evaluations.query.all()
     eval_data = [r.to_dict()
                      for r in eval_data]
-    print("eval_data:", eval_data)
+    # print("eval_data:", eval_data)
     eval_cols = list(eval_data[0].keys())
     data = pd.DataFrame.from_records(eval_data, columns = eval_cols )
     data = data[data['Service'] == programme]
@@ -3139,7 +3164,6 @@ def overview_evaluations_filters():
     eval_data = Evaluations.query.all()
     eval_data = [r.to_dict()
                      for r in eval_data]
-    print("eval_data:", eval_data)
     eval_cols = list(eval_data[0].keys())
     data = pd.DataFrame.from_records(eval_data, columns = eval_cols )
     programme_types = list(data['Service'].unique())
