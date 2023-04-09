@@ -272,15 +272,14 @@ def getQIPatientSafetyRows(projects):
 import base64
 
 def get_image_file_as_base64_data(profileimg_input):
-    FILEPATH = "../profileimg/" + profileimg_input
-    # FILEPATH = "./static/profile1.jpeg"
+    if not profileimg_input:
+        profileimg_input = "default_img.png"
 
-    # with open(FILEPATH, 'rb') as image_file:
-    #     reading = str(base64.b64encode(image_file.read()))
-    #     print(reading)
-    #     return reading
+    FILEPATH = "../profileimg/" + profileimg_input
+
     with open(FILEPATH, 'rb') as f:
         return base64.b64encode(f.read()).decode()
+
 
 def getPage(name, mcrno, profileimg, awardsRows, projectRows, educationalInvolvements, communityInvolvements,
         leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentationRows,teachingPresentationRows,

@@ -365,8 +365,15 @@
                         <div class="flex relative width-full mx-8 justify-center ">
                             <!-- h-60 w-96 ml-40 -->
                             <!-- rounded-lg vs rounded-full -->
+                           
                             <img class="object-cover w-1/3 shadow-md rounded-full"
-                                v-bind:src="profile_image_prefix_url + profile_image_src">
+                            v-if="profile_image_src"
+                            v-bind:src="profile_image_prefix_url + profile_image_src">
+                        
+                            <img class="object-cover w-1/3 shadow-md rounded-full"
+                                v-else
+                                v-bind:src="profile_image_prefix_url + 'default_img.png'">
+                        
 
                         </div>
 
