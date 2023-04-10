@@ -2390,13 +2390,18 @@ def read_procedure_logs():
         .paginate(1, 50, True)
 
     combinedProcedureLogs = []
+    procedurelogIds = []
     for i in userList.iter_pages():
+        print(i)
         for item in userList.items:
             procedurelog = item[0].to_dict()
             procedurelog["Programme"] = item[1]
             procedurelog["Year_of_Training"] = item[2]
-            combinedProcedureLogs.append(procedurelog)
-
+            if procedurelog['id'] not in procedurelogIds:
+                combinedProcedureLogs.append(procedurelog)
+                procedurelogIds.append(procedurelog['id'])
+                
+    print(combinedProcedureLogs)
     return jsonify(
         {
             "data": combinedProcedureLogs
