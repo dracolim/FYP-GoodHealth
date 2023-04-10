@@ -612,20 +612,37 @@ def read_evaluation_comments():
                      for pd in evaluationCommentList]
         }
     ), 200
-
+# asol
 # Read Existing involvement (R)
 @app.route("/evaluation_comments_by_month/<mcr_no>")
 def read_evaluation_comments_by_month(mcr_no):
     evaluationCommentList = Evaluation_Comments.query.all()
+
+    keys = ['id', 'MCR_No', 'Name', 'Evaluator', 'Service', 'Comment', 'Score', 'Keywords', 'Weakness', 'created_time', 'updated_time']
+    res2 = [list(r.to_dict().values())
+                     for r in evaluationCommentList]
+    items = {}
+    for i in res2:
+        # print(i)
+        items[i[1]] = i
+    # print(items)
+    import pandas as pd
+    items = pd.DataFrame.from_dict(items, orient='index', columns=keys)
+
+
     for pd in evaluationCommentList:
         print(pd.to_dict()['created_time'].year)
         print(pd.to_dict()['created_time'].month)
-    
-    completedEvaluationCommentList = []
-    for pd in evaluationCommentList:
-        completedEvaluationCommentList["year"] = pd.to_dict()['created_time'].year
-        print(pd.to_dict()['created_time'].year)
-        print(pd.to_dict()['created_time'].month)
+
+   
+    # items.to_csv("items.csv")
+    # print(keys)
+    items['Score'] = items['Score'].astype("float")
+    print(items.info())
+    print(items)
+    df3 = items.groupby('created_time', as_index=True)[[ 'Score']].mean()
+    print("df3:", df3)
+    df3.to_csv("df3.csv")
 
     return jsonify(
         {
@@ -3086,7 +3103,7 @@ def read_evaluation():
     ), 200
 
 
-
+# asol
 # Read Existing evaluations (R)
 @app.route("/evaluation2")
 def read_evaluation2():
