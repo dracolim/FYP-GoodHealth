@@ -3364,17 +3364,21 @@ def delete_presentation(id):
 # Generate CV word
 @app.route("/cv_word/<id>")
 def pdf_to_doc(id):
-    generatepdf(id)
-    from pdf2docx import parse
-    folder = "../cv/"
-    pdf_file = folder + 'cv.pdf'
-    docx_file = folder + 'cv.docx'
+    # generatepdf(id)
+    # from pdf2docx import parse
+    # folder = "../cv/"
+    # pdf_file = folder + 'cv.pdf'
+    # docx_file = folder + 'cv.docx'
 
-    # convert pdf to docx
-    parse(pdf_file, docx_file)
-    import os
-    path=os.path.join(os.getcwd(),'../cv/cv.docx')
-    return send_file(path, as_attachment=True)
+    # # convert pdf to docx
+    # parse(pdf_file, docx_file)
+    # import os
+    # path=os.path.join(os.getcwd(),'../cv/cv.docx')
+    # return send_file(path, as_attachment=True)
+
+    person = Personal_Details.query.get_or_404(id)
+    buildobj = Builder1(person)
+    return buildobj.generateDoc()
 
 from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
     getCommunityInvolvement, getLeadershipInvolvment, getProcedureLogs, getPostingRows,\
@@ -3384,16 +3388,24 @@ from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
 # Generate CV pdf:
 @app.route("/cv_pdf/<id>")
 def generate_cv(id):
-    generatepdf(id)
-    import os
-    path=os.path.join(os.getcwd(),'../cv/cv.pdf')
-    return send_file(path, as_attachment=True)
+    # generatepdf(id)
+    # import os
+    # path=os.path.join(os.getcwd(),'../cv/cv.pdf')
+    # return send_file(path, as_attachment=True)
+
+    person = Personal_Details.query.get_or_404(id)
+    buildobj = Builder1(person)
+    return buildobj.generatePdfResponse()
 
 
 # Preview CV pdf:
 @app.route("/preview/<id>")
 def preview(id):
-    page = getCompletePage(id)
+    # page = getCompletePage(id)
+    person = Personal_Details.query.get_or_404(id)
+    buildobj = Builder1(person)
+    buildobj.buildPage()
+    page = buildobj.getPage()
     return page
 
 def getCompletePage(id):
@@ -3512,8 +3524,8 @@ class DocumentBuilder(metaclass=ABCMeta):
         return send_file(self.docx_path, as_attachment=True)
 
 
-class Builder(DocumentBuilder):
-    "The Concrete Builder."
+class Builder1(DocumentBuilder):
+    "First Concrete Builder."
 
     def __init__(self, person):
         import os
@@ -3553,22 +3565,72 @@ class Builder(DocumentBuilder):
         self.patientSafetyQIRows=getQIPatientSafetyRows(self.person.projects)
 
     def buildPage(self):
-        # self.page = getPage(self.person.Staff_Name, 
-        #                     self.person.MCR_No, 
-        #                     self.person.Employee_Image,
-        #                     self.awardsRows, 
-        #                     self.projectRows, 
-        #                     self.educationalInvolvements, 
-        #                     self.communityInvolvements,
-        #                     self.leadershipInvolvements, 
-        #                     self.procedureLogsRows, 
-        #                     self.postingRows, 
-        #                     self.educationRows,
-        #                     self.presentationRows,
-        #                     self.teachingPresentationRows,
-        #                     self.publicationRows,
-        #                     self.patientSafetyQIRows)
+        self.page = getPage(self.person.Staff_Name, 
+                            self.person.MCR_No, 
+                            self.person.Employee_Image,
+                            self.awardsRows, 
+                            self.projectRows, 
+                            self.educationalInvolvements, 
+                            self.communityInvolvements,
+                            self.leadershipInvolvements, 
+                            self.procedureLogsRows, 
+                            self.postingRows, 
+                            self.educationRows,
+                            self.presentationRows,
+                            self.teachingPresentationRows,
+                            self.publicationRows,
+                            self.patientSafetyQIRows)
+        return self
+    
+    def getPage(self):
+        self.assembleRows()
+        self.buildPage()
+        return self.page
+    
 
+class Builder2(DocumentBuilder):
+    "Second Concrete Builder."
+
+    def __init__(self, person, toInclude):
+        import os
+        self.person = person
+        self.toInclude = toInclude
+        self.awardsRows = ""
+        self.projectRows = ""
+        self.educationalInvolvements = ""
+        self.communityInvolvements = ""
+        self.leadershipInvolvements = ""
+        self.procedureLogsRows = ""
+        self.postingRows = ""
+        self.educationRows = ""
+        self.teachingPresentationRows= ""
+        self.presentationRows= ""
+        self.publicationRows= ""
+        self.patientSafetyQIRows= ""
+        self.page = ""
+        # procedureInclude, presentationInclude, leadershipInclude
+        # self.folder='../cv/'
+        # self.html_file_name = "cv.html"
+        # self.path_wkhtmltopdf = "../wkhtmltopdf/bin/wkhtmltopdf.exe"
+        # self.pdf_file = self.folder + 'cv.pdf'
+        # self.docx_file = self.folder + 'cv.docx'
+        # self.docx_path = os.path.join(os.getcwd(),'../cv/cv.docx')
+
+    def assembleRows(self):
+        self.awardsRows = getAwardsRows(self.person.awards)
+        self.projectRows = getProjectRows(self.person.projects)
+        self.educationalInvolvements = getEducationalInvolvement(self.person.involvements)
+        self.communityInvolvements = getCommunityInvolvement(self.person.involvements)
+        self.leadershipInvolvements =  getLeadershipInvolvment(self.person.involvements)
+        self.procedureLogsRows = getProcedureLogs(self.person.procedure_logs)
+        self.postingRows = getPostingRows(self.person.posting_histories)
+        self.educationRows = getEducationRows(self.person.exam_histories)
+        self.teachingPresentationRows=getTeachingPresentationRows(self.person.presentations)
+        self.presentationRows=getPresentationRows(self.person.presentations)
+        self.publicationRows=getPublications(self.person.publications)
+        self.patientSafetyQIRows=getQIPatientSafetyRows(self.person.projects)
+
+    def buildPage(self):
         from helper2 import getPage3
 
 
@@ -3589,7 +3651,18 @@ class Builder(DocumentBuilder):
                 self.teachingPresentationRows,
                 self.publicationRows,
                 self.patientSafetyQIRows, 
-                presentationInclude = False)
+                
+                employmentHistoryInclude = self.toInclude["employmentHistoryInclude"],
+                educationQualificationInclude = self.toInclude["educationQualificationInclude"],
+                procedureLogsInclude =self.toInclude["procedureLogsInclude"],
+                leadershipInclude = self.toInclude["leadershipInclude"],
+                communityInclude = self.toInclude["communityInclude"],
+                educationInclude = self.toInclude["educationInclude"],
+                AwardsInclude = self.toInclude["AwardsInclude"],
+                researchProjectsInclude = self.toInclude["researchProjectsInclude"],
+                teachingPresentationsInclude = self.toInclude["teachingPresentationsInclude"],
+                presentationInclude = self.toInclude["presentationInclude"],
+                publicationsInclude = self.toInclude["publicationsInclude"],)
         
         
         return self
@@ -3599,12 +3672,11 @@ class Builder(DocumentBuilder):
         self.buildPage()
         return self.page
     
-
 # Generate CV word
 @app.route("/cv_word2/<id>")
 def pdf_to_doc2(id):
     person = Personal_Details.query.get_or_404(id)
-    buildobj = Builder(person)
+    buildobj = Builder2(person)
     return buildobj.generateDoc()
 
 from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
@@ -3616,14 +3688,30 @@ from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
 @app.route("/cv_pdf2/<id>")
 def generate_cv2(id):
     person = Personal_Details.query.get_or_404(id)
-    buildobj = Builder(person)
+    buildobj = Builder2(person)
     return buildobj.generatePdfResponse()
 
 # Preview CV pdf:
-@app.route("/preview2/<id>")
-def preview2(id):
+@app.route("/preview2/<id>&<second>")
+def preview2(id, second):
+    page = id +  second
+    includedItems = second[:-1]
+    toInclude = { 
+        "employmentHistoryInclude": "employmentHistory" in includedItems,
+        "educationQualificationInclude": "educationQualification" in includedItems,
+        "procedureLogsInclude": "procedureLogs" in includedItems,
+        "leadershipInclude":"leadership" in includedItems,
+        "communityInclude":"community" in includedItems,
+        "educationInclude": "education" in includedItems,
+        "AwardsInclude": "awards" in includedItems,
+        "researchProjectsInclude": "researchProjects" in includedItems,
+        "teachingPresentationsInclude": "teachingPresentations" in includedItems,
+        "presentationInclude": "presentation" in includedItems,
+        "publicationsInclude": "publications" in includedItems,
+        }
+
     person = Personal_Details.query.get_or_404(id)
-    buildobj = Builder(person)
+    buildobj = Builder2(person, toInclude)
     buildobj.buildPage()
     page = buildobj.getPage()
     return page

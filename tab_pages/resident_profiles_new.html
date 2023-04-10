@@ -216,38 +216,132 @@
             <div class="flex items-right justify-end mt-10 mr-10 bg-gray-200">
 
                 <div class="block">
-                    <span class="text-gray-700">Checkboxes</span>
-                    <div class="mt-2">
-                        Presentation: {{one}}, PROCEDURES CREDENTIALING: {{two}}, LEADERSHIP INVOLVEMENT:{{three}}
-                      <div>
-                        <label class="inline-flex items-center">
-                        <input type="checkbox" class="form-checkbox" checked
-                        true-value="yes"
-                        false-value="no"
-                        v-model="one">
-                          <span class="ml-2">Presentation</span>
-                        </label>
-                      </div>
+                    <span class="text-gray-700">Please select which sections to include:</span>
+                    <div class="mt-2 flex overflow-scroll">
 
-                      <div>
-                        <label class="inline-flex items-center">
-                        <input type="checkbox" class="form-checkbox" checked
-                        true-value="yes"
-                        false-value="no"
-                        v-model="two">
-                          <span class="ml-2">PROCEDURES CREDENTIALING</span>
-                        </label>
-                      </div>
+                        <div class="mr-2">
+                            <label class="inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox" checked
+                            true-value="yes"
+                            false-value="no"
+                            v-model="fieldsSelected.employmentHistory">
+                            <span class="ml-2">employmentHistory</span>
+                            </label>
+                        </div>
 
-                      <div>
-                        <label class="inline-flex items-center">
-                        <input type="checkbox" class="form-checkbox" checked
-                        true-value="yes"
-                        false-value="no"
-                        v-model="three">
-                          <span class="ml-2">LEADERSHIP INVOLVEMENT</span>
-                        </label>
-                      </div>
+
+                        <div class="mr-2">
+                            <label class="inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox" checked
+                            true-value="yes"
+                            false-value="no"
+                            v-model="fieldsSelected.educationQualification">
+                            <span class="ml-2">educationQualification</span>
+                            </label>
+                        </div>
+
+
+                        <div class="mr-2">
+                            <label class="inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox" checked
+                            true-value="yes"
+                            false-value="no"
+                            v-model="fieldsSelected.procedureLogs">
+                            <span class="ml-2">procedureLogs</span>
+                            </label>
+                        </div>
+
+
+                        <div class="mr-2">
+                            <label class="inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox" checked
+                            true-value="yes"
+                            false-value="no"
+                            v-model="fieldsSelected.leadership">
+                            <span class="ml-2">leadership</span>
+                            </label>
+                        </div>
+
+
+                        <div class="mr-2">
+                            <label class="inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox" checked
+                            true-value="yes"
+                            false-value="no"
+                            v-model="fieldsSelected.community">
+                            <span class="ml-2">community</span>
+                            </label>
+                        </div >
+
+
+
+                        <div class="mr-2">
+                            <label class="inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox" checked
+                            true-value="yes"
+                            false-value="no"
+                            v-model="fieldsSelected.education">
+                            <span class="ml-2">education</span>
+                            </label>
+                        </div>
+
+
+                    </div>
+
+                    <div class="flex">
+
+                        <div class="mr-2">
+                            <label class="inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox" checked
+                            true-value="yes"
+                            false-value="no"
+                            v-model="fieldsSelected.awards">
+                            <span class="ml-2">awards</span>
+                            </label>
+                        </div>
+
+                        <div class="mr-2">
+                            <label class="inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox" checked
+                            true-value="yes"
+                            false-value="no"
+                            v-model="fieldsSelected.researchProjects">
+                            <span class="ml-2">researchProjects</span>
+                            </label>
+                        </div>
+
+                        <div class="mr-2">
+                            <label class="inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox" checked
+                            true-value="yes"
+                            false-value="no"
+                            v-model="fieldsSelected.teachingPresentations">
+                            <span class="ml-2">teachingPresentations</span>
+                            </label>
+                        </div>
+
+
+                        <div class="mr-2">
+                            <label class="inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox" checked
+                            true-value="yes"
+                            false-value="no"
+                            v-model="fieldsSelected.presentation">
+                            <span class="ml-2">presentation</span>
+                            </label>
+                        </div>
+
+
+                        <div class="mr-2">
+                            <label class="inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox" checked
+                            true-value="yes"
+                            false-value="no"
+                            v-model="fieldsSelected.publications">
+                            <span class="ml-2">publications</span>
+                            </label>
+                        </div>
+
 
                     </div>
                   </div>
@@ -273,13 +367,19 @@
 
 
                 <!-- <p class="text-5xl ml-10">Resident's Profile</p> -->
-                <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold 
+                <a id="hiddenpreview" class="hidden ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold 
                 leading-6 text-gray-700 transition duration-150 ease-in-out bg-gray-300 
                 rounded-md shadow hover:bg-grey-100" :href="currpage[5] + '/' + mcr_no" target="_blank"
                     style="margin-right: 5px;">
-                    <!-- <svg class=" fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg> -->
                     <span></span> Preview
                 </a>
+
+                <button class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold 
+                leading-6 text-gray-700 transition duration-150 ease-in-out bg-gray-300 
+                rounded-md shadow hover:bg-grey-100" @click="normalPreview" target="_blank"
+                    style="margin-right: 5px;">
+                    <span></span> Preview
+            </button>
 
                 <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold 
                 leading-6 text-white transition duration-150 ease-in-out bg-red-500 
@@ -324,7 +424,7 @@
                 <!-- <p class="text-5xl ml-10">Resident's Profile</p> -->
                 <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold 
                 leading-6 text-gray-700 transition duration-150 ease-in-out bg-gray-300 
-                rounded-md shadow hover:bg-grey-100" :href="currpage[5] + '/' + mcr_no" target="_blank"
+                rounded-md shadow hover:bg-grey-100" :href="currpage[2] + '/' + mcr_no" target="_blank"
                     style="margin-right: 5px;">
                     <!-- <svg class=" fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg> -->
                     <span></span> Full Preview
@@ -1014,10 +1114,28 @@
     const vm = new Vue({
         el: '#app',
         data: {
-            sections: ["one", "two", "three"],
-            one: "yes",
-            two: "yes",
-            three: "yes",
+            // sections: ["one", "two", "three"],
+            // one: "yes",
+            // two: "yes",
+            // three: "yes",
+            fieldsSelected: {procedure:"yes",
+            presentation: "yes",
+            leadership: "yes",
+            employmentHistory: "yes",
+            educationQualification: "yes",
+            procedureLogs: "yes",
+            leadership: "yes",
+            community: "yes",
+            education: "yes",
+            awards: "yes",
+            researchProjects: "yes",
+            teachingPresentations: "yes", 
+            presentation: "yes",
+            publications: "yes",
+
+        }, 
+            leadership: "leadership",
+            // combinedVals: presentation + " " + procedure + " " + leadership,
             count: 0,
             personal_details_fields: [],
             fields_display: [],
@@ -1117,6 +1235,19 @@
         },
 
         methods: {
+            normalPreview: function(){
+                console.log("go to normal preivew")
+                previewBtn = document.getElementById('hiddenpreview')
+                selections = ""
+                for (const [key, value] of Object.entries(this.fieldsSelected)) {
+                    // console.log(`${key}: ${value}`);
+                    if (value == "yes")
+                    selections += key + "|"
+                    }
+                previewBtn.href = this.currpage[5] + '/' + this.mcr_no + "&" + selections
+                console.log(previewBtn.href)
+                previewBtn.click()
+            }
         }
     });
 </script>
