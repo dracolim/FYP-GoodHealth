@@ -319,6 +319,16 @@
                         return "<a class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Remove</a>"
                     };
                     const local_host_url = this.local_host_url
+
+                    function wrapTextFormatter(cell) {
+                        let cellValue = cell.getValue();
+                        let cellElement = document.createElement("div");
+                        cellElement.style.whiteSpace = "normal";
+                        cellElement.style.wordWrap = "break-word";
+                        cellElement.innerText = cellValue;
+                        return cellElement;
+                    }
+
                     var table = new Tabulator("#example-table", {
                         layout: "fitDataStretch",
                         placeholder: "No Data Available in " + this.page_name,
@@ -366,7 +376,6 @@
                             sorter: "string",
                             headerHozAlign: "center",
                             headerFilter: true,
-
                             headerFilterParams: {
                                 valuesLookup: true,
                                 clearable: true,
@@ -378,6 +387,8 @@
                                 listOnEmpty: true,
                                 valuesLookup: true,
                             },
+                            width: 600,
+                            formatter: wrapTextFormatter,
                         },
                         {
                             title: "Start Date",
