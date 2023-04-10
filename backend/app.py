@@ -3471,17 +3471,18 @@ def getCompletePage(id):
     return page
 
 from abc import ABCMeta, abstractmethod
+from dotenv import dotenv_values
+config = dotenv_values(".env")
 
 class DocumentBuilder(metaclass=ABCMeta):
     import os
-    folder='../cv/'
-    html_file_name = "cv.html"
-    path_wkhtmltopdf = "../wkhtmltopdf/bin/wkhtmltopdf.exe"
-    pdf_file = folder + 'cv.pdf'
-    docx_file = folder + 'cv.docx'
-    docx_path = os.path.join(os.getcwd(),'../cv/cv.docx')
+    folder=config['folder']
+    html_file_name = config['html_file_name']
+    path_wkhtmltopdf = config['path_wkhtmltopdf']
+    pdf_file = folder + config['pdf_file_name']
+    docx_file = folder + config['docx_file_name']
+    docx_path = os.path.join(os.getcwd(),config['docx_path_relative'])
     page = ""
-
 
     @staticmethod
     @abstractmethod
