@@ -17,8 +17,12 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
+DROP DATABASE IF EXISTS singhealth;
+CREATE DATABASE singhealth;
+USE singhealth;
+
 --
--- Database: `singhealth`
+-- Database: `singhealth` 
 --
 
 -- --------------------------------------------------------
@@ -1302,13 +1306,13 @@ INSERT INTO `procedure_log` (`id`, `MCR_No`, `Procedure_Name`, `CPT`, `Date_of_C
 (33, 'M11166J', 'Vene', '', '01/01/2022', '-', '-', '-', '1', '-'),
 (34, 'M11166J', 'IV Plug', '', '01/01/2022', '-', '-', '-', '1', '-'),
 (35, 'M11166J', 'Ecg', '', '01/01/2022', '-', '-', '-', '1', '-'),
-(36, 'M11166U', 'Insertion of non-tunneled haemodialysis catheter - Femoral (C)', '', '01/01/2022', '-', '4', '-', '-', '-'),
+(36, 'M11166U', 'Insertion of non-tunneled haemodialysis catheter - Femoral (C)', '', '01/01/2022', '-', '5', '-', '-', '-'),
 (37, 'M11166U', 'Insertion of non-tunneled haemodialysis catheter - Internal Jugular (C)', '', '01/01/2022', '-', '5', '-', '-', '-'),
 (38, 'M11166U', 'Insertion of non-tunneled haemodialysis catheter - Femoral', '', '01/01/2022', '-', '4', '-', '-', '-'),
 (39, 'M11166U', 'Insertion of non-tunneled haemodialysis catheter - Internal Jugular', '', '01/01/2022', '-', '5', '-', '-', '-'),
 (40, 'M11166U', 'Native Kidney Biopsy (C)', '', '01/01/2022', '-', '10', '-', '-', '-'),
 (41, 'M11166U', 'Transplant Kidney Biopsy (C)', '', '01/01/2022', '-', '3', '-', '-', '-'),
-(42, 'M11166U', 'Native Kidney Biopsy', '', '01/01/2022', '-', '5', '-', '-', '-'),
+(42, 'M11166U', 'Native Kidney Biopsy', '', '01/01/2022', '-', '0', '-', '-', '-'),
 (43, 'M11166U', 'Transplant Kidney Biopsy', '', '01/01/2022', '-', '2', '-', '-', '-'),
 (44, 'M16782H', 'Gastroscopy (OGD)', '', '01/01/2022', '-', '150', '-', '-', '-'),
 (45, 'M16782H', 'Gastroscopy (OGD) with biopsy', '', '01/01/2022', '-', '150', '-', '-', '-'),

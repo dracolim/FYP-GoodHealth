@@ -169,7 +169,7 @@
                         <label for="hs-select-label" class="block text-sm font-medium mb-2 dark:text-white">Programme:</label>
                         <select v-model="progSelected"
                         @change="onChangeProgramme($event)" 
-                        class="py-2 px-3 pr-9 block w-1/3 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 " >
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" >
                           <option v-for="(prog, val) in programmes2" :value="val">{{prog}}</option>
                         </select>
                       </div>

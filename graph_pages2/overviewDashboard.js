@@ -6,6 +6,23 @@ new Vue({
         year: null,
         programme: null,
         mcr_no: "",
+        nonCompliantResident: "",
+
+        showDidacticTable: false,
+        showIHITable: false,
+        showProjectsTable: false,
+        showProcedureLogsTable: false,
+
+        nonCompliantResidentDidacticArray: [],
+        nonCompliantResidentIHIArray: [],
+        nonCompliantResidentProjectsArray: [],
+        nonCompliantResidentProcedureLogsArray: [],
+        showNonCompliantResidentsInput: false,
+
+        programmes2: ["Gastroenterology", 'Renal Medicine', 'Internal Medicine'],
+
+        charts: ['Didactic Attendance', 'Scholary Activities', 'IHI', 'Projects', 'Duty Hour Logs', 'Case Logs', 'Procedure Logs'],
+
         // loaded: false,
 
         ihiLoaded:false,
@@ -20,7 +37,6 @@ new Vue({
                 }
             ]
             },
-
         IHIoptions: {
         responsive: true,
         maintainAspectRatio: false,
@@ -53,7 +69,6 @@ new Vue({
                 }
             ]
             },
-
         dutyHourOptions: {
             responsive: true,
             maintainAspectRatio: false,
@@ -92,29 +107,144 @@ new Vue({
             }
             },
 
-            total: 0,
-            scholarlyPassed: 0,
-            scholarlyMissing: 0,
-            chartArray: [],
-            //scholarlyChartArray: [],
-            scholarlyLoaded: false,
-            mcr_no: null,
-            scholarlyChartConfig: {
-                labels: ["% of Completed", "% of Not Completed"],
-                datasets: [{
-                    data: [],
-                    backgroundColor: ['#ff6b00', '#ffedd5'],
-                    borderColor: 'rgba(136,136,136,0.5)',
-                    label: ["Compliant", "Non-Compliant"]
-                }]
+        total: 0,
+        scholarlyPassed: 0,
+        scholarlyMissing: 0,
+        chartArray: [],
+        mcr_arr: [],
+        scholarlyChartData: "",
+        //scholarlyChartArray: [],
+        scholarlyLoaded: false,
+        mcr_no: null,
+        scholarlyChartConfig: {
+            labels: ["% of Completed", "% of Not Completed"],
+            datasets: [{
+                data: [],
+                backgroundColor: ['#ff6b00', '#ffedd5'],
+                borderColor: 'rgba(136,136,136,0.5)',
+                label: ["Compliant", "Non-Compliant"]
+            }]
+        },
+        scholarlyOptions: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'Scholarly Activity (Overview)'
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            scales: {}
+        },
+
+        projectsLoaded:false,
+        projectChartConfig: {
+            labels: ["Completed (%)", "Not Completed (%)"],
+            datasets: [
+                {
+                data: [],
+                backgroundColor: ['#ff6b00','#ffedd5'],
+                borderColor: 'rgba(136,136,136,0.5)',
+                label: "Compliant"
+                }
+            ]
+            },
+        projectOptions: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'Projects (Overview)'
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            scales: {
+            }
             },
 
-            scholarlyOptions: {
+        didacticLoaded:false,
+        didacticChartConfig: {
+            labels: ["Jul-Dec", "Jan-Jun"],
+            datasets: [
+                {
+                data: [],
+                backgroundColor: '#ff6b00',
+                borderColor: 'rgba(136,136,136,0.5)',
+                label: "Compliant (%)"
+                }
+            ]
+        },
+        didacticOptions: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'Didactic Attendance (Overview)'
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            scales: {
+                xAxes: [{
+                display: true,
+                categoryPercentage: 0.5,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Month'
+                }
+                }],
+                yAxes: [{
+                ticks : {
+                max : 100,    
+                min : 0
+                },
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Percentage'
+                    
+                }
+                }]
+            }
+        },
+
+        caseLoaded: false,
+        caseChartData: "",
+        casePassed: 0,
+        caseChartArray: [],
+        caseMcr_no: null,
+        caseChartConfig: {
+            labels: ["% of Completion", "% of Non-Completioin"],
+            datasets: [{
+                data: [],
+                backgroundColor: ['#ff6b00','#ffedd5'],
+                borderColor: 'rgba(136,136,136,0.5)',
+                label: ["Compliant", "Non-Compliant"]
+                }]
+        },
+        caseOptions: {
                 responsive: true,
                 maintainAspectRatio: false,
                 title: {
                     display: true,
-                    text: 'Scholarly Activity (Overview)'
+                    text: 'Case Logs (Overview)'
                 },
                 tooltips: {
                     mode: 'index',
@@ -125,180 +255,58 @@ new Vue({
                     intersect: true
                 },
                 scales: {}
-            },
-            mcr_arr: [],
-            scholarlyChartData: "",
+        },
 
-            projectsLoaded:false,
-            projectChartConfig: {
-                labels: ["Completed (%)", "Not Completed (%)"],
-                datasets: [
-                    {
-                    data: [],
-                    backgroundColor: ['#ff6b00','#ffedd5'],
-                    borderColor: 'rgba(136,136,136,0.5)',
-                    label: "Compliant"
-                    }
-                ]
-                },
-
-            projectOptions: {
-                responsive: true,
-                maintainAspectRatio: false,
-                title: {
-                    display: true,
-                    text: 'Projects (Overview)'
-                },
-                tooltips: {
-                    mode: 'index',
-                    intersect: false,
-                },
-                hover: {
-                    mode: 'nearest',
-                    intersect: true
-                },
-                scales: {
+        procedureLoaded: false,
+        procedureChartConfig: {
+            labels: ["Jan-Jun", "Jul-Dec"],
+            datasets: [
+                {
+                data: [],
+                backgroundColor: '#ff6b00',
+                borderColor: 'rgba(136,136,136,0.5)',
+                label: "Compliance Level (%)"
                 }
-                },
-
-            didacticLoaded:false,
-            didacticChartConfig: {
-                labels: ["Jul-Dec", "Jan-Jun"],
-                datasets: [
-                    {
-                    data: [],
-                    backgroundColor: '#ff6b00',
-                    borderColor: 'rgba(136,136,136,0.5)',
-                    label: "Compliant (%)"
-                    }
-                ]
+            ]
             },
-
-            didacticOptions: {
-                responsive: true,
-                maintainAspectRatio: false,
-                title: {
-                    display: true,
-                    text: 'Didactic Attendance (Overview)'
+        procedureOptions: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'Procedure Log (Overview)'
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            scales: {
+                xAxes: [{
+                ticks : {
+                max : 100,    
+                min : 0
                 },
-                tooltips: {
-                    mode: 'index',
-                    intersect: false,
-                },
-                hover: {
-                    mode: 'nearest',
-                    intersect: true
-                },
-                scales: {
-                    xAxes: [{
+                display: true,
+                categoryPercentage: 0.5,
+                scaleLabel: {
                     display: true,
-                    categoryPercentage: 0.5,
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Month'
-                    }
-                    }],
-                    yAxes: [{
-                    ticks : {
-                    max : 100,    
-                    min : 0
-                    },
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Percentage'
-                        
-                    }
-                    }]
+                    labelString: 'Percentage of Compliance'
                 }
-            },
-
-            caseLoaded: false,
-            caseChartData: "",
-            // caseTotal: 0,
-            casePassed: 0,
-            // caseMissing: 0,
-            caseChartArray: [],
-            // caseloaded: false,
-            caseMcr_no: null,
-            caseChartConfig: {
-                labels: ["% of Completion", "% of Non-Completioin"],
-                datasets: [{
-                    data: [],
-                    backgroundColor: ['#ff6b00','#ffedd5'],
-                    borderColor: 'rgba(136,136,136,0.5)',
-                    label: ["Compliant", "Non-Compliant"]
-                    }]
-                },
-            caseOptions: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    title: {
-                        display: true,
-                        text: 'Case Logs (Overview)'
-                    },
-                    tooltips: {
-                        mode: 'index',
-                        intersect: false,
-                    },
-                    hover: {
-                        mode: 'nearest',
-                        intersect: true
-                    },
-                    scales: {}
-                },
-
-
-                procedureLoaded: false,
-                procedureChartConfig: {
-                    labels: ["Jan-Jun", "Jul-Dec"],
-                    datasets: [
-                        {
-                        data: [],
-                        backgroundColor: '#ff6b00',
-                        borderColor: 'rgba(136,136,136,0.5)',
-                        label: "Compliance Level (%)"
-                        }
-                    ]
-                    },
-                procedureOptions: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    title: {
-                        display: true,
-                        text: 'Procedure Log (Overview)'
-                    },
-                    tooltips: {
-                        mode: 'index',
-                        intersect: false,
-                    },
-                    hover: {
-                        mode: 'nearest',
-                        intersect: true
-                    },
-                    scales: {
-                        xAxes: [{
-                        ticks : {
-                        max : 100,    
-                        min : 0
-                        },
-                        display: true,
-                        categoryPercentage: 0.5,
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Percentage of Compliance'
-                        }
-                        }],
-                        yAxes: [{
-                        display: true,
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Procedure Name'
-                            
-                        }
-                        }]
-                    }
-                },
+                }],
+                yAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Procedure Name'
+                    
+                }
+                }]
+            }
+        },
 
             
     }
@@ -322,6 +330,8 @@ new Vue({
         },
     methods: {
         getAllData: function(){
+            this.showNonCompliantResidentsInput = false
+            this.showNonCompliantResidentsInput = true
             this.getIhiData();
             this.getDutyHourLogData()
             this.getProjectsData()
@@ -349,6 +359,7 @@ new Vue({
 
             // this.loaded = false
         },
+
         getCaseLogsData: async function () {
             // get all residents
             for (each of this.mcr_arr) {
@@ -370,6 +381,7 @@ new Vue({
             this.getCaseChartData(caseChartArray); // it works
             this.caseLoaded = true
         },
+
         getResidentCaseData: async function(mcr) {
             specificURL = "http://localhost:5011/profile/"  + mcr
             toAdd = false
@@ -464,6 +476,7 @@ new Vue({
             console.log("toAdd:" + toAdd)
             return toAdd    
         },
+
         getCaseChartData: function (chartData) {
             // console.log("This is chartData")
             // console.log(chartData);
@@ -480,6 +493,7 @@ new Vue({
             this.caseChartConfig.datasets[0].data.push(percentageNonCompletion.toFixed(3))
             this.caseLoaded = false
         },
+
         getScholarlyActivitiesData: async function () {
             // get all residents
             for (each of this.mcr_arr) {
@@ -616,29 +630,31 @@ new Vue({
         },
 
         getIHIchartData: function (chartData) {
-            // console.log("This is chartData")
-            // console.log(chartData);
 
             counterCompletionEmodules = 0
             numOfEntries = 0
             percentageCompleted = 0
             percentageNotCompleted = 0
 
+            nonCompliantResidents = []
+
             for (var i = 0; i < chartData.data.length; i++) {
                 numOfEntries++
                 if (chartData.data[i]['Completion_of_Emodules'] == 'Yes') {
                     counterCompletionEmodules++
                 }
+                else {
+                    nonCompliantResidents.push(chartData.data[i])
+                }
             }
-
-            // console.log(counterCompletionEmodules)
-            // console.log(numOfEntries)
 
             percentageCompleted = counterCompletionEmodules/numOfEntries
             percentageNotCompleted = 1 - percentageCompleted
 
             this.IHIchartConfig.datasets[0].data.push(percentageCompleted * 100)
             this.IHIchartConfig.datasets[0].data.push(percentageNotCompleted * 100)
+
+            this.nonCompliantResidentIHIArray = nonCompliantResidents
 
         },
 
@@ -877,29 +893,42 @@ new Vue({
         },
 
         getProjectChartData: function (chartData) {
-            // console.log("This is chartData")
-            // console.log(chartData)
 
             counterCompletionQI = 0
             numOfEntries = 0
             percentageCompleted = 0
             percentageNotCompleted = 0
 
+            nonCompliantResidents = []
+
             for (var i = 0; i < chartData.data.length; i++) {
-                numOfEntries++
-                if (chartData.data[i]['End_Date'] != 'Ongoing') {
-                    counterCompletionQI++
+                var currentData = chartData.data[i];
+                if (currentData['End_Date'] === 'Ongoing') {
+                    var mcrNo = currentData['MCR_No'];
+                    var isMcrNoPresent = false;
+                    for (var j = 0; j < nonCompliantResidents.length; j++) {
+                        if (nonCompliantResidents[j]['MCR_No'] === mcrNo) {
+                            isMcrNoPresent = true;
+                            break;
+                        }
+                    }
+                    if (!isMcrNoPresent) {
+                        nonCompliantResidents.push(currentData);
+                    }
+                }
+                numOfEntries++;
+                if (currentData['End_Date'] !== 'Ongoing') {
+                    counterCompletionQI++;
                 }
             }
-
-            // console.log(counterCompletionQI)
-            // console.log(numOfEntries)
 
             percentageCompleted = counterCompletionQI/numOfEntries
             percentageNotCompleted = 1 - percentageCompleted
 
             this.projectChartConfig.datasets[0].data.push((percentageCompleted * 100).toFixed(3))
             this.projectChartConfig.datasets[0].data.push((percentageNotCompleted * 100).toFixed(3))
+
+            this.nonCompliantResidentProjectsArray = nonCompliantResidents
 
         },
 
@@ -975,22 +1004,13 @@ new Vue({
                 percentCompliantJanJune = counterCompliantJanJune/numOfJanJuneEntries 
             }
 
-            // console.log("counter compliant")
-            // console.log(counterCompliantJulDec)
-            // console.log(counterCompliantJanJune)
-
-            // console.log("num entries")
-            // console.log(numofJulDecEntries)
-            // console.log(numOfJanJuneEntries)
-
-            // console.log("percentages")
-            // console.log(percentCompliantJulDec)
-            // console.log(percentCompliantJanJune)
-
             this.didacticChartConfig.datasets[0].data.push((percentCompliantJulDec * 100).toFixed(3))
             this.didacticChartConfig.datasets[0].data.push((percentCompliantJanJune * 100).toFixed(3))
 
+            this.nonCompliantResidentDidacticArray = nonCompliantResidents
+
         }, 
+
         getProcedureLogData: async function () {
 
             this.status = "getting data...";
@@ -1007,6 +1027,7 @@ new Vue({
                 console.log(error);
             });
         },
+
         getProcedureChartData: function (chartData) {
             // console.log("This is chartData")
             // console.log(chartData);
@@ -1761,7 +1782,7 @@ new Vue({
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 } 
 
-
+                this.nonCompliantResidentProcedureLogsArray = nonCompliantResidentsGastro
 
             }
 
@@ -2166,6 +2187,8 @@ new Vue({
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }  
 
+                this.nonCompliantResidentProcedureLogsArray = nonCompliantResidentsRenal
+
             }
 
             // if user chose Internal Medicine 
@@ -2330,7 +2353,7 @@ new Vue({
                     }
 
                     else { 
-                        nonCompliantResidentsRenal.push(value)
+                        nonCompliantResidentsInternal.push(value)
                     }
 
                 }
@@ -2369,7 +2392,7 @@ new Vue({
                     }
 
                     else { 
-                        nonCompliantResidentsRenal.push(value)
+                        nonCompliantResidentsInternal.push(value)
                     }
 
                 }
@@ -2408,7 +2431,7 @@ new Vue({
                     }
 
                     else { 
-                        nonCompliantResidentsRenal.push(value)
+                        nonCompliantResidentsInternal.push(value)
                     }
 
                 }
@@ -2447,7 +2470,7 @@ new Vue({
                     }
 
                     else { 
-                        nonCompliantResidentsRenal.push(value)
+                        nonCompliantResidentsInternal.push(value)
                     }
 
                 }
@@ -2486,7 +2509,7 @@ new Vue({
                     }
 
                     else { 
-                        nonCompliantResidentsRenal.push(value)
+                        nonCompliantResidentsInternal.push(value)
                     }
 
                 }
@@ -2525,7 +2548,7 @@ new Vue({
                     }
 
                     else { 
-                        nonCompliantResidentsRenal.push(value)
+                        nonCompliantResidentsInternal.push(value)
                     }
 
                 }
@@ -2564,7 +2587,7 @@ new Vue({
                     }
 
                     else { 
-                        nonCompliantResidentsRenal.push(value)
+                        nonCompliantResidentsInternal.push(value)
                     }
 
                 }
@@ -2603,7 +2626,7 @@ new Vue({
                     }
 
                     else { 
-                        nonCompliantResidentsRenal.push(value)
+                        nonCompliantResidentsInternal.push(value)
                     }
 
                 }
@@ -2642,7 +2665,7 @@ new Vue({
                     }
 
                     else { 
-                        nonCompliantResidentsRenal.push(value)
+                        nonCompliantResidentsInternal.push(value)
                     }
 
                 }
@@ -2681,7 +2704,7 @@ new Vue({
                     }
 
                     else { 
-                        nonCompliantResidentsRenal.push(value)
+                        nonCompliantResidentsInternal.push(value)
                     }
 
                 }
@@ -2720,7 +2743,7 @@ new Vue({
                     }
 
                     else { 
-                        nonCompliantResidentsRenal.push(value)
+                        nonCompliantResidentsInternal.push(value)
                     }
 
                 }
@@ -2759,7 +2782,7 @@ new Vue({
                     }
 
                     else { 
-                        nonCompliantResidentsRenal.push(value)
+                        nonCompliantResidentsInternal.push(value)
                     }
 
                 }
@@ -2798,7 +2821,7 @@ new Vue({
                     }
 
                     else { 
-                        nonCompliantResidentsRenal.push(value)
+                        nonCompliantResidentsInternal.push(value)
                     }
 
                 }
@@ -2812,8 +2835,39 @@ new Vue({
 
             }
 
+        },
+
+        getNonCompliantTable: function () {
+            this.showDidacticTable = false
+            this.showIHITable = false
+            this.showProjectsTable = false
+            this.showProcedureLogsTable = false
+
+            if (this.nonCompliantResident == "Didactic Attendance") {
+
+                this.showDidacticTable = true
+
+            }
+
+            else if (this.nonCompliantResident == "IHI") {
+
+                this.showIHITable = true
+
+            }
+
+            else if (this.nonCompliantResident == "Projects") {
+
+                this.showProjectsTable = true
+
+            }
+
+            else if (this.nonCompliantResident == "Procedure Logs") {
+
+                this.showProcedureLogsTable = true
+
+            }
+
         }
-        
         
     }
 });
