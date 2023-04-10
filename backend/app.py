@@ -614,7 +614,7 @@ def read_evaluation_comments():
     ), 200
 # asol
 # Read Existing involvement (R)
-@app.route("/evaluation_comments_by_month/<mcr_no>")
+@app.route("/evaluation_comments_mon/<mcr_no>")
 def read_evaluation_comments_by_month(mcr_no):
     evaluationCommentList = Evaluation_Comments.query.all()
 
@@ -624,30 +624,35 @@ def read_evaluation_comments_by_month(mcr_no):
     items = {}
     for i in res2:
         # print(i)
-        items[i[1]] = i
+        items[i[0]] = i
     # print(items)
     import pandas as pd
     items = pd.DataFrame.from_dict(items, orient='index', columns=keys)
 
 
-    for pd in evaluationCommentList:
-        print(pd.to_dict()['created_time'].year)
-        print(pd.to_dict()['created_time'].month)
+    # for pd in evaluationCommentList:
+    #     print(pd.to_dict()['created_time'].year)
+    #     print(pd.to_dict()['created_time'].month)
 
    
     # items.to_csv("items.csv")
     # print(keys)
     items['Score'] = items['Score'].astype("float")
-    print(items.info())
-    print(items)
+    # print(items.info())
+    # print(items)
     df3 = items.groupby('created_time', as_index=True)[[ 'Score']].mean()
-    print("df3:", df3)
+    df3 = df3.Score.resample("M").mean()
+    # print("df3:", df3)
     df3.to_csv("df3.csv")
+    df3 = df3.reset_index()
+    df3['month'] = df3['created_time'].apply(lambda x: x.month)
+    df3 = df3.drop(columns = ['created_time'])
+    # print(df3)
+    df3 = df3.to_dict('records')
 
     return jsonify(
         {
-            "data": [pd.to_dict()
-                    for pd in evaluationCommentList]
+            "data": df3
         }
     ), 200
 

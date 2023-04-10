@@ -437,40 +437,40 @@ var myChart = new Chart(ctx_live, {
                 plugins: {
                 annotation: {
                 annotations: {
-                    line1: {
-                    type: 'line',
-                    yMin: minVal("somedata"),
-                    yMax: minVal("somedata"),
-                    borderColor: 'rgb(255, 99, 132)',
-                    borderWidth: 2,
-                    label: {
-                    enabled: true,
-                    backgroundColor: 'rgba(255, 68, 255, 1)',
-                    // backgroundColor:'rgba(68, 223, 146, 0.6)',
-                    color: 'black',
-                    content:  "Minimum - " + (minVal("somedata")).toString(),
-                    position: (25).toString() + '%',
-                    // rotation: 0,
-                    yAdjust: 20
-                },
-                    },
-                    line2: {
-                    type: 'line',
-                    yMin: maxVal("somedata"),
-                    yMax: maxVal("somedata"),
-                    borderColor: 'rgb(137, 146, 0)',
-                    borderWidth: 2,
-                    label: {
-                    enabled: true,
-                    backgroundColor: 'rgb(137, 146, 0)',
-                    // backgroundColor:'rgba(68, 223, 146, 0.6)',
-                    color: 'black',
-                    content:  "Max - " + (maxVal("somedata")).toString(),
-                    position: (75).toString() + '%',
-                    // rotation: 0,
-                    yAdjust: 20
-                },
-                    }
+                //     line1: {
+                //     type: 'line',
+                //     yMin: minVal("somedata"),
+                //     yMax: minVal("somedata"),
+                //     borderColor: 'rgb(255, 99, 132)',
+                //     borderWidth: 2,
+                //     label: {
+                //     enabled: true,
+                //     backgroundColor: 'rgba(255, 68, 255, 1)',
+                //     // backgroundColor:'rgba(68, 223, 146, 0.6)',
+                //     color: 'black',
+                //     content:  "Minimum - " + (minVal("somedata")).toString(),
+                //     position: (25).toString() + '%',
+                //     // rotation: 0,
+                //     yAdjust: 20
+                // },
+                //     },
+                //     line2: {
+                //     type: 'line',
+                //     yMin: maxVal("somedata"),
+                //     yMax: maxVal("somedata"),
+                //     borderColor: 'rgb(137, 146, 0)',
+                //     borderWidth: 2,
+                //     label: {
+                //     enabled: true,
+                //     backgroundColor: 'rgb(137, 146, 0)',
+                //     // backgroundColor:'rgba(68, 223, 146, 0.6)',
+                //     color: 'black',
+                //     content:  "Max - " + (maxVal("somedata")).toString(),
+                //     position: (75).toString() + '%',
+                //     // rotation: 0,
+                //     yAdjust: 20
+                // },
+                //     }
                 }
                 }
             }
@@ -479,21 +479,21 @@ var myChart = new Chart(ctx_live, {
 
             this.myChart = myChart;
 
-            this.myChart.options.plugins.annotation.annotations['dangerRange2'] = {
-                    type:'box',
-                    xMin: 2,
-                    xMax: 4,
-                    yMin: 0,
-                    yMax: 35,
-                    backgroundColor: 'rgba(255, 99, 132, 0.25)',
-                    borderWidth: 2,
-                    borderColor: 'rgba(255, 68, 255, 1)',
-                    borderDash: [6, 6],
-                    borderDashOffset: 0,
-                    borderWidth: 3,
-                }
+            // this.myChart.options.plugins.annotation.annotations['dangerRange2'] = {
+            //         type:'box',
+            //         xMin: 2,
+            //         xMax: 4,
+            //         yMin: 0,
+            //         yMax: 35,
+            //         backgroundColor: 'rgba(255, 99, 132, 0.25)',
+            //         borderWidth: 2,
+            //         borderColor: 'rgba(255, 68, 255, 1)',
+            //         borderDash: [6, 6],
+            //         borderDashOffset: 0,
+            //         borderWidth: 3,
+            //     }
 
-                this.myChart.update()
+            //     this.myChart.update()
 
 
 
@@ -506,7 +506,7 @@ var myChart = new Chart(ctx_live, {
                 },
                 updateChart: function (){
                     console.log("updating chart here!")
-                    // this.getData();
+                    this.getData();
                     if (this.commentsOrScore == true){
                         this.getData();
                         this.commentsOrScore = false
@@ -519,12 +519,13 @@ var myChart = new Chart(ctx_live, {
                     myChart = this.myChart;
                     $.ajax({
                         // url: 'https://jsonplaceholder.typicode.com/posts/' + postId + '/comments',
+                        // url: "http://127.0.0.1:5011/evaluation_comments_mon/sdf",
                         url: "http://127.0.0.1:5011/evaluation2",
-                        success: function(data) {
+                        success: function(data3) {
                         // process your data to pull out what you plan to use to update the chart
                         // e.g. new label and a new data point
                         
-                            console.log("thattt")
+                            console.log("thattt", data3)
                             data = {"data":[{"id":2.5,"month":3,"score_num":11.75},
                             {"id":2.5,"month":4,"score_num":9.75},
                             {"id":2.5,"month":5,"score_num":8.75}] }
