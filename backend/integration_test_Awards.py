@@ -20,7 +20,6 @@ from integration_test_PersonalDetails import TestApp
 #         db.session.remove()
 #         db.drop_all()
 
-
 # Read Personal_Details:
 class TestReadPresentation(TestApp):
 
@@ -197,9 +196,6 @@ class TestReadPresentation(TestApp):
             "id": 1
         }
     ]})
-
-
-
 
     def test_read_presentation_by_person(self):
 
