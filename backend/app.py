@@ -1800,7 +1800,7 @@ def read_historytrg_by_person(id):
     return jsonify(
         {
             "data": [pd.to_dict()
-                    for pd in examhistory_of_person]
+                    for pd in history_of_person]
         }
     ), 200
 
