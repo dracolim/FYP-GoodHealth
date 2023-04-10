@@ -330,6 +330,8 @@ new Vue({
         },
     methods: {
         getAllData: function(){
+
+            this.reset()
             this.showNonCompliantResidentsInput = false
             this.showNonCompliantResidentsInput = true
             this.getIhiData();
