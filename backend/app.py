@@ -25,16 +25,16 @@ app.secret_key = b'a secret key'
 
 if __name__ == '__main__':
 # #     # Mac user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-    #                                     '@localhost:3306/SingHealth'
-    # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+                                        '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
     # --------------------------------------------------------------------------------
 
-    # # Windows user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
-                                            '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+    # # # Windows user -------------------------------------------------------------------
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
+    #                                         '@localhost:3306/SingHealth'
+    # engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
 
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -3673,10 +3673,24 @@ class Builder2(DocumentBuilder):
         return self.page
     
 # Generate CV word
-@app.route("/cv_word2/<id>")
-def pdf_to_doc2(id):
+@app.route("/cv_word2/<id>&<sections>")
+def pdf_to_doc2(id,sections):
+    includedItems = sections[:-1]
+    toInclude = { 
+        "employmentHistoryInclude": "employmentHistory" in includedItems,
+        "educationQualificationInclude": "educationQualification" in includedItems,
+        "procedureLogsInclude": "procedureLogs" in includedItems,
+        "leadershipInclude":"leadership" in includedItems,
+        "communityInclude":"community" in includedItems,
+        "educationInclude": "education" in includedItems,
+        "AwardsInclude": "awards" in includedItems,
+        "researchProjectsInclude": "researchProjects" in includedItems,
+        "teachingPresentationsInclude": "teachingPresentations" in includedItems,
+        "presentationInclude": "presentation" in includedItems,
+        "publicationsInclude": "publications" in includedItems,
+        }
     person = Personal_Details.query.get_or_404(id)
-    buildobj = Builder2(person)
+    buildobj = Builder2(person, toInclude)
     return buildobj.generateDoc()
 
 from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
@@ -3685,17 +3699,32 @@ from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
     getPage, getPage2
 
 # Generate CV pdf:
-@app.route("/cv_pdf2/<id>")
-def generate_cv2(id):
+@app.route("/cv_pdf2/<id>&<sections>")
+def generate_cv2(id, sections):
+    includedItems = sections[:-1]
+    toInclude = { 
+        "employmentHistoryInclude": "employmentHistory" in includedItems,
+        "educationQualificationInclude": "educationQualification" in includedItems,
+        "procedureLogsInclude": "procedureLogs" in includedItems,
+        "leadershipInclude":"leadership" in includedItems,
+        "communityInclude":"community" in includedItems,
+        "educationInclude": "education" in includedItems,
+        "AwardsInclude": "awards" in includedItems,
+        "researchProjectsInclude": "researchProjects" in includedItems,
+        "teachingPresentationsInclude": "teachingPresentations" in includedItems,
+        "presentationInclude": "presentation" in includedItems,
+        "publicationsInclude": "publications" in includedItems,
+        }
+
+
     person = Personal_Details.query.get_or_404(id)
-    buildobj = Builder2(person)
+    buildobj = Builder2(person, toInclude)
     return buildobj.generatePdfResponse()
 
 # Preview CV pdf:
-@app.route("/preview2/<id>&<second>")
-def preview2(id, second):
-    page = id +  second
-    includedItems = second[:-1]
+@app.route("/preview2/<id>&<sections>")
+def preview2(id, sections):
+    includedItems = sections[:-1]
     toInclude = { 
         "employmentHistoryInclude": "employmentHistory" in includedItems,
         "educationQualificationInclude": "educationQualification" in includedItems,
