@@ -334,6 +334,7 @@
                         columns: [{
                             title: "MCR No",
                             field: "MCR_No",
+                            width: 400,
                             sorter: "string",
                             headerHozAlign: "center",
                             headerFilter: true,
@@ -347,6 +348,7 @@
                         {
                             title: "Date",
                             field: "Date",
+                            width: 400,
                             headerFilter: true,
                             headerFilterParams: {
                                 valuesLookup: true,
@@ -364,6 +366,7 @@
                             title: "Completion_of_Emodules",
                             field: "Completion_of_Emodules",
                             sorter: "string",
+                            width: 400,
                             headerFilter: true,
                             headerFilterParams: {
                                 valuesLookup: true,
@@ -380,6 +383,7 @@
                         {
                             title: "Action",
                             formatter: printRemoveButton,
+                            maxWidth: 200,
                             hozAlign: "center",
                             cellClick: function (e, cell) {
                                 axios.delete(local_host_url + "ihi" + "/" + cell
