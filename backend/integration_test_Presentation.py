@@ -316,7 +316,6 @@ class TestReadPresentation(TestApp):
 
 
     def test_cannot_create_presentation_if_mcr_not_present(self):
-        # 1234o17 does not exist as mcr:
 
         all_presentations_data = [
         {
@@ -333,8 +332,6 @@ class TestReadPresentation(TestApp):
         response = self.client.post("/presentation", data=all_presentations_data[0])
         self.assertEqual(response.status_code, 404)
 
-
-    
 
 if __name__ == '__main__':
     unittest.main()
