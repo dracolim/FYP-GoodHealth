@@ -36,7 +36,7 @@
 </head>
 
 <body>
-    <div id="app">
+    <div id="app" class="w-screen">
         <!-- header -->
         <div class="bg-stone-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded ">
             <div class="container flex flex-wrap items-center justify-between mx-auto"
@@ -603,22 +603,18 @@
                                         <h1></h1>
                                     </td>
                                 </tr>
-                                <tr class="border border-black" v-for="item in profile_data_original">
+                                <!-- <tr class="border border-black" v-for="item in profile_data_original">
                                     <td
                                         class="w-2/5 text-center bg-orange-300 border-slate-700 px-1 py-4 font-medium text-black">
-                                        <!-- got only one programme but why example got so many:?? -->
                                         <p>{{item.personaldetails.Programme}}</p>
                                     </td>
-                                    <!-- bg-orange-100 -->
                                     <td class=" border-slate-700 flex text-black items-center px-6 py-4">
-                                        <!-- where to get start and end date?? -->
                                         <h1></h1>
                                     </td>
                                     <td class=" border-slate-700 flex text-black items-center px-6 py-4">
-                                        <!-- where to get start and end date?? -->
                                         <h1></h1>
                                     </td>
-                                </tr>
+                                </tr> -->
                             </tbody>
                         </table>
 
@@ -1070,9 +1066,9 @@
                         </tbody>
                     </table>
 
-                    <p class="underline underline-offset-8 font-bold text-lg mt-10">Education History</p>
-                    <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100 my-5">
-                        <!-- COLUMN NAMES -->
+                    <!-- <p class="underline underline-offset-8 font-bold text-lg mt-10">Education History</p>
+                    <div class='overflow-auto w-full'>
+                    <table class="table-auto overflow-scroll w-full text-sm text-left text-blue-100 dark:text-blue-100 my-5" style="width: 100%; overflow: hidden;">
                         <thead class="text-xs text-white bg-orange-500">
                             <th scope="col" class="px-6 py-3" v-for="title in [
                 'Year_of_Graduation', 'Date_of_Graduation', 'Basic_Qualification',
@@ -1085,7 +1081,6 @@
                             </th>
                         </thead>
                         <tbody>
-                            <!-- 1 row = 1 reisdent = 1 key -->
                             <tr class="border" v-for="item in profile_data_original[0].education_history">
 
                                 <td class="bg-orange-100 text-center px-1 py-4 font-medium text-black" v-for="title in [
@@ -1100,6 +1095,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    </div> -->
 
 
 
