@@ -9,6 +9,8 @@ import traceback
 import werkzeug.exceptions as ex
 from sqlalchemy.sql import exists
 from datetime import datetime
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 
 
@@ -22,6 +24,13 @@ app = Flask(__name__)
 app = Flask(__name__)
 app.app_context().push()
 app.secret_key = b'a secret key'
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["5000 per day", "5000 per hour"],
+    storage_uri="memory://",
+)
+
 
 if __name__ == '__main__':
 # #     # Mac user -------------------------------------------------------------------
@@ -3396,12 +3405,19 @@ def delete_presentation(id):
 # wkhtml_path = pdfkit.configuration(wkhtmltopdf = r"C:\Users\feryo\OneDrive\Documents\GitHub\wkhtmltopdf\bin\wkhtmltopdf.exe")  #by using configuration you can add path value.
 
 
+@app.route("/slow")
+@limiter.limit("1 per day")
+def slow():
+    return ":("
+
 
 # ============================
 # CV TEMPLATE SECTION
 # ============================
 # Generate CV word
 @app.route("/cv_word/<id>")
+@limiter.limit("55 per minute")
+# @limiter.limit("1/minute", override_defaults=False)
 def pdf_to_doc(id):
     # generatepdf(id)
     # from pdf2docx import parse
