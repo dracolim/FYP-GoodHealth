@@ -180,11 +180,6 @@
         </div>
 
 
-
-        <!-- <select id="projectfilter" name="projectfilter" class="table-filter form-control" data-col="2">
-            <option value=""  v-for = "program in programme_values">{{program}}</option>
-        </select> -->
-
         <div id="errorpage" v-if="error">
             <main class="h-screen w-full flex flex-col justify-center items-center bg-[#1A2238]">
                 <h1 class="text-9xl font-extrabold text-white tracking-widest">404</h1>
@@ -211,10 +206,7 @@
             </main>
         </div>
         <div id="profiletables" class="" v-else>
-
-
             <div class="flex items-right justify-end mt-10 mr-10">
-
                 <div class="block text-right">
                     <span class="text-gray-700">Please select which sections to include:</span>
                     <div class="mt-2 flex overflow-scroll items-right">
@@ -273,7 +265,6 @@
                             </label>
                         </div>
 
-
                     </div>
 
                     <div class="flex items-right text-right">
@@ -323,8 +314,6 @@
 
                     </div>
                 </div>
-
-
             </div>
 
 
@@ -404,8 +393,6 @@
 
             </div>
 
-
-
             <div class="flex items-right justify-end mr-10" id="one">
                 <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold 
                 leading-6 text-gray-700 transition duration-150 ease-in-out bg-gray-300 
@@ -433,7 +420,7 @@
                     </svg>
                     <span></span>
                     </button>
-                    Full Word CV
+                    Selected Word CV
                 </a>
             </div>
 
@@ -535,13 +522,13 @@
 
                         <table class="w-full text-left text-blue-100 my-5">
                             <!-- COLUMN NAMES -->
-                            <!-- <thead class="text-md text-white bg-orange-500">
+                            <thead class="text-md text-white bg-orange-500">
                                 <tr>
-                                    <th>Specialty Programme</th>
+                                    <th class="ml-4">Specialty Programme</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
                                 </tr>
-                            </thead> -->
+                            </thead>
                             <tbody>
                                 <tr class="border border-black" v-for="item in profile_data_original">
                                     <td
@@ -633,8 +620,8 @@
 
                     <!-- <p class="underline underline-offset-8 font-bold text-lg mt-10">Sentiment Analysis</p>
                     <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100 my-5"> -->
-                        <!-- COLUMN NAMES -->
-                        <!-- <thead class="text-xs text-white bg-orange-500">
+                    <!-- COLUMN NAMES -->
+                    <!-- <thead class="text-xs text-white bg-orange-500">
                             <th scope="col" class="px-6 py-3 text-center align-middle"
                                 v-for="title in ['Comment', 'Positive', 'Neutral', 'Negative', 'Keywords']">
                                 <span
@@ -643,8 +630,8 @@
                             </th>
                         </thead>
                         <tbody> -->
-                            <!-- 1 row = 1 reisdent = 1 key -->
-                            <!-- <tr class="border" v-for="posting in mockTableData">
+                    <!-- 1 row = 1 reisdent = 1 key -->
+                    <!-- <tr class="border" v-for="posting in mockTableData">
                                 <td class="bg-orange-100 text-center px-1 py-4 font-medium text-black align-middle"
                                     v-for="title in ['Comment', 'Positive', 'Neutral', 'Negative', 'Keywords']">
                                     <p>{{posting[title]}}</p>
@@ -1076,6 +1063,7 @@
 
                 </div>
             </div>
+
 
         </div>
 
