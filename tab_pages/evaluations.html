@@ -457,6 +457,8 @@
             query: '',
             queryObj: {},
             selectedResident: '',
+            suggestions:[],
+            suggestionsWithNames:[],
 
             local_host_url: "http://localhost:5011/",
             evaluation_table: "evaluation",
@@ -487,7 +489,7 @@
         computed: {
             filteredSuggestions: function () {
                 var self = this;
-                return this.commentTableData.filter(function (suggestion) {
+                return this.suggestionsWithNames.filter(function (suggestion) {
                     var suggestionText = suggestion.Name + ' (' + suggestion.MCR_No + ')';
                     return suggestionText.toLowerCase().indexOf(self.query.toLowerCase()) >= 0;
                 });
@@ -904,6 +906,21 @@
                             this.selectedComment = row.getData()['Comment']
                         }
                     })
+                    for (var i of this.commentTableData){
+                        if (!this.suggestions.includes(i.MCR_No)){
+                            this.suggestions.push(i.MCR_No)
+                        }
+                    }
+                    for (var i of this.suggestions){
+                        var result=this.commentTableData.filter(obj=>{
+                            return obj.MCR_No==i
+                        })
+                        obj2=result[0]
+                        this.suggestionsWithNames.push({Name:obj2.Name,MCR_No:obj2.MCR_No})
+                    }
+                    console.log(this.suggestionsWithNames,'with name')
+
+
                 })
                 .catch(error => {
                     this.table_error_message = error.message
