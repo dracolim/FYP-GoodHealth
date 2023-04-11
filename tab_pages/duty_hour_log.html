@@ -211,9 +211,9 @@
                     <iconify-icon icon="mingcute:file-import-line" style="color: white;" width="20" height="20">
                     </iconify-icon>
                 </div>
-                <button type="button" data-te-toggle="modal" data-te-target="#exampleModalScrollable"
+                <button type="button" data-te-toggle="modal" data-te-target="#exampleModalScrollable" @click ="importSuccess = false"
                     class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">
-                    <label class="ml-2">Duty hour Import</label>
+                    <label class="ml-2">Duty Hour Import</label>
                 </button>
             </div>
         </div>
@@ -558,6 +558,8 @@
                             var user_count = 0
                             var duplicate_count = 0
                             sheet.eachRow((row, rowIndex) => {
+                                console.log(row.values[1]);
+
                                 var same_error = false;
                                 var name_error = false;
                                 var user_error = false;
@@ -578,7 +580,8 @@
                                         second_slash_idx + 1, second_slash_idx +
                                         5)
                                     this.mmYYYY = month + "/" + year || "";
-                                } else if (rowIndex >= 8 && !(row.values[1]
+                                } 
+                                else if (rowIndex >= 8 && !(row.values[1].toString().trim()
                                         .includes("Resident:"))) {
                                     if (row.values[1] == undefined) {
                                         name_error = true;
@@ -717,7 +720,8 @@
                 } else {
                     this.error_message = "";
                     document.getElementById('submit').disabled = false;
-                    this.successPopUp()
+                    this.successPopUp();
+                    this.$refs.UploadFile.value = null;
                 }
             },
             removeErrorMsg() {

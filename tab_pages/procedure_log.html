@@ -210,7 +210,7 @@
                     <iconify-icon icon="mingcute:file-import-line" style="color: white;" width="20" height="20">
                     </iconify-icon>
                 </div>
-                <button type="button" data-te-toggle="modal" data-te-target="#exampleModalScrollable"
+                <button type="button" data-te-toggle="modal" data-te-target="#exampleModalScrollable" @click = "importSuccess = false"
                     class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">
                     <label class="ml-2">Procedure & Case Log Import</label>
                 </button>
@@ -683,7 +683,7 @@
                                         this.value_row_count = 0
                                     }
                                     // MCR_No (for both case log and proceure log)
-                                    else if (row.values[1].includes("Resident: ")) {
+                                    else if (row.values[1].toString().trim().includes("Resident:")) {
                                         var name = row.values[1].substring(10, )
                                         if (name == "") {
                                             name_error = true;
@@ -724,7 +724,7 @@
 
                                     }
                                     // Date of Completeion / Date of Log
-                                    else if (row.values[1].includes(
+                                    else if (row.values[1].toString().trim().includes(
                                             "Date Range:")) {
                                         var dash_idx = row.values[1].indexOf("-")
                                         var complete_date = row.values[1].substring(
@@ -733,31 +733,31 @@
                                     }
 
                                     // CASE LOG 
-                                    else if (row.values[1].toLowerCase().includes(
+                                    else if (row.values[1].toString().trim().toLowerCase().includes(
                                             "case log")) {
                                         this.value_row_count += 1
                                         data.MCR_No = this.MCR_No_import
                                         //(TYPE_OF_CASE_LOG) + (CASE_NAME)
-                                        if (row.values[1].toLowerCase()
+                                        if (row.values[1].toString().toLowerCase()
                                             .includes("inpatient")) {
                                             data.Type_of_Case_Log = "inpatient"
-                                            var index = row.values[1].toLowerCase()
+                                            var index = row.values[1].toString().toLowerCase()
                                                 .indexOf(
                                                     "inpatient")
                                             data.Case_Name = row.values[1].slice(0,
                                                 index - 1)
-                                        } else if (row.values[1].toLowerCase()
+                                        } else if (row.values[1].toString().toLowerCase()
                                             .includes("outpatient")) {
                                             data.Type_of_Case_Log = "outpatient"
-                                            var index = row.values[1].toLowerCase()
+                                            var index = row.values[1].toString().toLowerCase()
                                                 .indexOf(
                                                     "outpatient")
                                             data.Case_Name = row.values[1].slice(0,
                                                 index - 1)
-                                        } else if (row.values[1].toLowerCase()
+                                        } else if (row.values[1].toString().toLowerCase()
                                             .includes("blue letter")) {
                                             data.Type_of_Case_Log = "blue letter"
-                                            var index = row.values[1].toLowerCase()
+                                            var index = row.values[1].toString().toLowerCase()
                                                 .indexOf(
                                                     "blue letter" - 1)
                                             data.Case_Name = row.values[1].slice(0,
@@ -816,15 +816,15 @@
                                     }
 
                                     // Procedure Log
-                                    else if (!(row.values[1].toLowerCase().includes(
+                                    else if (!(row.values[1].toString().toLowerCase().includes(
                                             "total:")) &&
-                                        !(row.values[1].toLowerCase().includes(
+                                        !(row.values[1].toString().toLowerCase().includes(
                                             "procedures summary by resident")) &&
-                                        !(row.values[1].toLowerCase().includes(
+                                        !(row.values[1].toString().toLowerCase().includes(
                                             "other procedures")) &&
-                                        !(row.values[1].toLowerCase().includes(
+                                        !(row.values[1].toString().toLowerCase().includes(
                                             "report generated:")) &&
-                                        !(row.values[1].toLowerCase().includes(
+                                        !(row.values[1].toString().toLowerCase().includes(
                                             "cpt:"))) {
                                         this.value_row_count += 1
                                         // console.log(this.MCR_No_import)
@@ -938,6 +938,7 @@
                     this.error_message = "";
                     document.getElementById('submit').disabled = false;
                     this.successPopUp();
+                    this.$refs.UploadFile.value = null;
                 }
             },
             removeErrorMsg() {

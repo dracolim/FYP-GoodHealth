@@ -25,16 +25,16 @@ app.secret_key = b'a secret key'
 
 if __name__ == '__main__':
 # #     # Mac user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-    #                                     '@localhost:3306/SingHealth'
-    # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+                                        '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
     # --------------------------------------------------------------------------------
 
     # # # Windows user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
-                                            '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
+    #                                         '@localhost:3306/SingHealth'
+    # engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
 
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -2711,12 +2711,14 @@ def read_colour_procedure_logs():
             for i in range(len(procedure_list)):
                 if procedure_list[i] == "Abdominal Tap".lower():
                     verified = dict_of_procedures[each_item]['Verified'][i]
-                    total += int(verified)
+                    if (verified != ""):
+                        total += int(verified)
                     color_list.append("#FFFFFF")
                     all_idx.append(i)
                 elif procedure_list[i] =="Arterial Line Placement".lower():
                     verified = dict_of_procedures[each_item]['Verified'][i]
-                    total += int(verified)
+                    if (verified != ""):
+                        total += int(verified)
                     color_list.append("#FFFFFF")
                     all_idx.append(i)
                 elif procedure_list[i] =="Central Line Placement".lower():
@@ -2726,52 +2728,62 @@ def read_colour_procedure_logs():
                     all_idx.append(i)
                 elif procedure_list[i] =="Thoracentesis / Chest tube".lower():
                     verified = dict_of_procedures[each_item]['Verified'][i]
-                    total += int(verified)
+                    if (verified != ""):
+                        total += int(verified)
                     color_list.append("#FFFFFF")
                     all_idx.append(i)
                 elif procedure_list[i] =="Lumbar Puncture".lower():
                     verified = dict_of_procedures[each_item]['Verified'][i]
-                    total += int(verified)
+                    if (verified != ""):
+                        total += int(verified)
                     color_list.append("#FFFFFF")
                     all_idx.append(i)
                 elif procedure_list[i] == "Endotracheal Intubation".lower():
                     verified = dict_of_procedures[each_item]['Verified'][i]
-                    total += int(verified)
+                    if (verified != ""):
+                        total += int(verified)
                     color_list.append("#FFFFFF")
                     all_idx.append(i)
                 elif procedure_list[i] == "Ventilator Management".lower():
                     verified = dict_of_procedures[each_item]['Verified'][i]
-                    total += int(verified)
+                    if (verified != ""):
+                        total += int(verified)
                     color_list.append("#FFFFFF")
                     all_idx.append(i)
                 elif procedure_list[i] =="Arthrocentesis".lower():
                     verified = dict_of_procedures[each_item]['Verified'][i]
-                    total += int(verified)
+                    if (verified != ""):
+                        total += int(verified)
                     color_list.append("#FFFFFF")
                     all_idx.append(i)
                 elif procedure_list[i] == "Hemodialysis Catheter Insertion".lower():
                     verified = dict_of_procedures[each_item]['Verified'][i]
-                    total += int(verified)
+                    if (verified != ""):
+                        total += int(verified)
                     color_list.append("#FFFFFF")
                     all_idx.append(i)
                 elif procedure_list[i] == "ABG".lower():
                     verified = dict_of_procedures[each_item]['Verified'][i]
-                    total += int(verified)
+                    if (verified != ""):
+                        total += int(verified)
                     color_list.append("#FFFFFF")
                     all_idx.append(i)
                 elif procedure_list[i] == "Vene".lower():
                     verified = dict_of_procedures[each_item]['Verified'][i]
-                    total += int(verified)
+                    if (verified != ""):
+                        total += int(verified)
                     color_list.append("#FFFFFF")
                     all_idx.append(i)
                 elif procedure_list[i] == "IV Plug".lower():
                     verified = dict_of_procedures[each_item]['Verified'][i]
-                    total += int(verified)
+                    if (verified != ""):
+                        total += int(verified)
                     color_list.append("#FFFFFF")
                     all_idx.append(i)
                 elif procedure_list[i] == "ECG".lower():
                     verified = dict_of_procedures[each_item]['Verified'][i]
-                    total += int(verified)
+                    if (verified != ""):
+                        total += int(verified)
                     color_list.append("#FFFFFF")
                     all_idx.append(i)
                 else:
