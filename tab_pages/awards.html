@@ -181,6 +181,18 @@
         <!-- Orange Divider -->
         <div class='row' style='height: 8px; background-color: #ff6b00;'></div>
 
+        <div class="flex items-center justify-between mt-4 mx-8">
+            <div class="relative">
+
+                <button id="history-undo"
+                    class="hidden text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">Undo
+                    Edit</button>
+                <button id="history-redo"
+                    class="hidden text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">Redo
+                    Edit</button>
+            </div>
+        </div>
+
         <!-- TABLE START -->
         <div class="md:hidden sm:visible">
             <h2 class="text-3xl font-bold  ml-8 mt-4 text-gray-700">Awards</h2>
@@ -274,6 +286,7 @@
                     }
 
                     var table = new Tabulator("#example-table", {
+                        history: true,
                         layout: "fitDataStretch",
                         placeholder: "No Data Available in " + this.page_name,
                         history: true,
@@ -398,6 +411,15 @@
                         },
                         ],
                     });
+                    //undo button
+                    document.getElementById("history-undo").addEventListener("click", function () {
+                        table.undo();
+                    });
+
+                    //redo button
+                    document.getElementById("history-redo").addEventListener("click", function () {
+                        table.redo();
+                    });
                     // update data in the database after a cell is edited
                     table.on("cellEdited", function (row) {
                         // connect to database and execute update statement
@@ -420,6 +442,18 @@
                                 if (alert("Failed to update row MCR No: " + row.getData().MCR_No)) { }
                                 else window.location.reload();
                             })
+                    });
+
+                    table.on("historyUndo", function (action, component, data) {
+                        if (typeof component.getData === 'function') {
+                            updateRow(component);
+                        }
+                    });
+
+                    table.on("historyRedo", function (action, component, data) {
+                        if (typeof component.getData === 'function') {
+                            updateRow(component);
+                        }
                     });
                 })
                 .catch(error => {

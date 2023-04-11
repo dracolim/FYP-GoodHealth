@@ -237,6 +237,13 @@
                     <label class="ml-2">Bulk Import</label>
                 </button>
 
+                <button id="history-undo"
+                    class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">Undo
+                    Edit</button>
+                <button id="history-redo"
+                    class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">Redo
+                    Edit</button>
+
 
                 <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 
             text-white transition duration-150 ease-in-out bg-blue-500 rounded-md shadow 
@@ -344,6 +351,7 @@
         </div>
 
         <!-- TABLE START (tabulator)-->
+
         <div class="relative overflow-x-auto shadow-lg sm:rounded-lg mx-8 mb-10">
             <table id="example-table"></table>
         </div>
@@ -474,6 +482,7 @@
 
                     //console.log(response.data,'response data')
                     var table = new Tabulator("#example-table", {
+                        history: true,
                         layout: "fitDataStretch",
                         placeholder: "No Data Available in Personal Details",
                         history: true,
@@ -864,26 +873,35 @@
                                 clearable: true
                             }
                         },
-                        {
-                            title: "Action",
-                            formatter: printRemoveButton,
-                            hozAlign: "center",
-                            cellClick: function (e, cell) {
-                                axios.delete("http://localhost:5011/" + 'personaldetail/' + cell
-                                    .getRow().getData().MCR_No)
-                                    .then(function (response) {
-                                        console.log(response.data);
-                                        cell.getRow().delete();
-                                    })
-                                    .catch(function (error) {
-                                        console.log(error);
-                                        if (alert("Failed to remove row MCR No: " + row.getData().MCR_No)) { }
-                                        else window.location.reload();
-                                    });
-                            },
-                            minWidth: 150,
-                        },
+                        // {
+                        //     title: "Action",
+                        //     formatter: printRemoveButton,
+                        //     hozAlign: "center",
+                        //     cellClick: function (e, cell) {
+                        //         axios.delete("http://localhost:5011/" + 'personaldetail/' + cell
+                        //             .getRow().getData().MCR_No)
+                        //             .then(function (response) {
+                        //                 console.log(response.data);
+                        //                 cell.getRow().delete();
+                        //             })
+                        //             .catch(function (error) {
+                        //                 console.log(error);
+                        //                 if (alert("Failed to remove row MCR No: " + row.getData().MCR_No)) { }
+                        //                 else window.location.reload();
+                        //             });
+                        //     },
+                        //     minWidth: 150,
+                        // },
                         ],
+                    });
+                    //undo button
+                    document.getElementById("history-undo").addEventListener("click", function () {
+                        table.undo();
+                    });
+
+                    //redo button
+                    document.getElementById("history-redo").addEventListener("click", function () {
+                        table.redo();
                     });
 
                     function updateRow(row) {
@@ -942,6 +960,19 @@
                     table.on("cellEdited", function (cell) {
                         updateRow(cell.getRow());
                     });
+
+                    table.on("historyUndo", function (action, component, data) {
+                        if (typeof component.getData === 'function') {
+                            updateRow(component);
+                        }
+                    });
+
+                    table.on("historyRedo", function (action, component, data) {
+                        if (typeof component.getData === 'function') {
+                            updateRow(component);
+                        }
+                    });
+
                     newdata = []
                     this.mcr_no = newdata
                     table.on("rowSelectionChanged", function (data, rows) {
@@ -954,6 +985,7 @@
                         document.getElementById("select-stats").innerHTML = JSON.stringify(
                             newdata);
                     });
+
 
                 })
                 .catch(error => {
