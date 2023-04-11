@@ -55,7 +55,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"></script> -->
 
     <title>SingHealth</title>
 </head>
@@ -165,8 +165,8 @@
 
                 <div>
                     <button @click="updateChart"
-                    class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 ring-2 ring-red-100 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Comment or Score</button>
-                    <!-- <canvas id="mycanvas"></canvas> -->
+                    class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 ring-2 ring-red-100 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>
+                    Comment or Score</button>
 
                     <canvas id="mycanvas2"></canvas>
                 </div>
@@ -219,6 +219,7 @@
             vuetify: new Vuetify(),
             data() {
             return {
+                monthlyData: [],
                 commentsOrScore: true,
                 ctx_live: null,
                 myChart: null,
@@ -278,262 +279,89 @@
                 },
             }
             },
-            mounted: function () {
+            mounted: async function () {
                 this.loaded = false
                 // this.getSpecificDidacticAttendanceData();
-
-                function minValue(ctx) {
-  const dataset = ctx.chart.data.datasets[0];
-  const min = dataset.data.reduce((max, point) => Math.min(point, max), Infinity);
-  return isFinite(min) ? min : 0;
-}
-
-function maxValue(ctx) {
-  const datasets = ctx.chart.data.datasets;
-  const count = datasets[0].data.length;
-  let max = 0;
-  for (let i = 0; i < count; i++) {
-    let sum = 0;
-    for (const dataset of datasets) {
-      sum += dataset.data[i];
-    }
-    max = Math.max(max, sum);
-  }
-  return max;
-}
-
-// const annotation1 = {
-//   type: 'line',
-//   borderColor: 'black',
-//   borderWidth: 3,
-//   label: {
-//     enabled: true,
-//     backgroundColor: 'black',
-//     borderColor: 'black',
-//     borderRadius: 10,
-//     borderWidth: 2,
-//     content: (ctx) => 'Lower bound: ' + minValue(ctx).toFixed(3),
-//     rotation: 'auto'
-//   },
-//   scaleID: 'y',
-//   value: minValue
-// };
-
-// const annotation2 = {
-//   type: 'line',
-//   borderWidth: 3,
-//   borderColor: 'black',
-//   label: {
-//     enabled: true,
-//     backgroundColor: 'black',
-//     borderColor: 'black',
-//     borderRadius: 10,
-//     borderWidth: 2,
-//     content: (ctx) => 'Upper bound: ' + maxValue(ctx).toFixed(3),
-//     rotation: 'auto'
-//   },
-//   scaleID: 'y',
-//   value: maxValue
-// };
-
-
-
-// calculate minimum here:
-
-function minVal(data){
-    array1 = [1,2,3,4,5]
-    return Math.min(...array1)
-}
-
-function maxVal(data){
-    array1 = [1,2,3,4,5]
-    return Math.max(...array1)
-}
-
-        // create initial empty chart
-var ctx_live = document.getElementById("mycanvas2").getContext('2d');;
-this.ctx_live = ctx_live;
-var myChart = new Chart(ctx_live, {
-  type: 'line',
-  data: {
-    labels: [],
-    datasets: [{
-      data: [],
-      borderWidth: 2,
-      borderColor:'#00c0ef',
-      label: 'chart 1',
-      fill: {target: 'origin',
-                            above: 'rgb(200, 0, 0)',   // Area will be red above the origin
-                            // below: 'rgb(0, 0, 255)'
-                        },
-                backgroundColor: [
-                // 'rgba(0, 0, 0, 0.5)',
-                // 'rgba(red, 0.5)',
-                // 'rgba(pink, 0.5)',
-                ],
-
-                annotation: {
-                annotations: {
-                    line1: {
-                    // type: 'line',
-                    // mode: 'horizontal',
-                    // scaleID: 'y-axis-0',
-                    // value: '5',
-                    // borderColor: 'tomato',
-                    // borderWidth: 1
-                    type: 'line',
-                    yMin: 60,
-                    yMax: 60,
-                    borderColor: 'rgb(255, 99, 132)',
-                    borderWidth: 2,
-                    // content: "hello",
-                    label: {
-                    enabled: true,
-                    backgroundColor: 'rgba(255, 68, 255, 1)',
-                    // backgroundColor:'rgba(68, 223, 146, 0.6)',
-                    color: 'black',
-                    // content:  "Minimum - " + (35).toString(),
-                    // position: (counter + 35).toString() + '%',
-                    // rotation: 0,
-                    yAdjust: 20
-                },
-                },
-                // annotation1,
-                // annotation2
-                },
-            }
-                },
-                // second dataset:
-            {      data: [],
-      borderWidth: 2,
-      borderColor:'#0000ff',
-      label: 'Dataset 2',
-      fill: {target: 'origin',
-                            // above: 'rgb(255, 0, 0)',   // Area will be red above the origin
-                            // below: 'rgb(0, 0, 255)'
-                        },
-                // backgroundColor: [
-                // // 'rgba(0, 0, 0, 0.5)',
-                // 'rgba(pink, 0.5)',
-                // ]
-            }]
-            },
-            options: {
-                responsive: true,
-                title: {
-                display: true,
-                text: "Latest Sentiment Analysis for Evaluations over Time",
-                },
-                legend: {
-                display: false
-                },
-                scales: {
-                yAxes: [{
-                    ticks: {
-                    beginAtZero: true,
-                    }
-                }]
-                },
-                plugins: {
-                annotation: {
-                annotations: {
-                //     line1: {
-                //     type: 'line',
-                //     yMin: minVal("somedata"),
-                //     yMax: minVal("somedata"),
-                //     borderColor: 'rgb(255, 99, 132)',
-                //     borderWidth: 2,
-                //     label: {
-                //     enabled: true,
-                //     backgroundColor: 'rgba(255, 68, 255, 1)',
-                //     // backgroundColor:'rgba(68, 223, 146, 0.6)',
-                //     color: 'black',
-                //     content:  "Minimum - " + (minVal("somedata")).toString(),
-                //     position: (25).toString() + '%',
-                //     // rotation: 0,
-                //     yAdjust: 20
-                // },
-                //     },
-                //     line2: {
-                //     type: 'line',
-                //     yMin: maxVal("somedata"),
-                //     yMax: maxVal("somedata"),
-                //     borderColor: 'rgb(137, 146, 0)',
-                //     borderWidth: 2,
-                //     label: {
-                //     enabled: true,
-                //     backgroundColor: 'rgb(137, 146, 0)',
-                //     // backgroundColor:'rgba(68, 223, 146, 0.6)',
-                //     color: 'black',
-                //     content:  "Max - " + (maxVal("somedata")).toString(),
-                //     position: (75).toString() + '%',
-                //     // rotation: 0,
-                //     yAdjust: 20
-                // },
-                //     }
-                }
-                }
-            }
-            }
-            });
-
-            this.myChart = myChart;
-
-            // this.myChart.options.plugins.annotation.annotations['dangerRange2'] = {
-            //         type:'box',
-            //         xMin: 2,
-            //         xMax: 4,
-            //         yMin: 0,
-            //         yMax: 35,
-            //         backgroundColor: 'rgba(255, 99, 132, 0.25)',
-            //         borderWidth: 2,
-            //         borderColor: 'rgba(255, 68, 255, 1)',
-            //         borderDash: [6, 6],
-            //         borderDashOffset: 0,
-            //         borderWidth: 3,
-            //     }
-
-            //     this.myChart.update()
-
-
-
-
+            // await this.getData();
+            await this.getEvalOverview()
+            // this.fetchchart1();
                 },
             methods: {
-
-                addOne: function (){
-                    this.count++;
-                },
-                updateChart: async function (){
-                    console.log("updating chart here!")
-                    await this.getData();
-                    // if (this.commentsOrScore == true){
-                    //     this.getData();
-                    //     this.commentsOrScore = false
-                    // }else{
-                    //     this.getData2();
-                    //     this.commentsOrScore = true
-                    // }
-                },
-                getData: async function () {
+                getEvalOverview: async function () {
                     this.status = "getting data...";
-                    specificURL = "http://127.0.0.1:5011/evaluation_comments_mon/sdf"
+                    specificURL = "http://127.0.0.1:5011/evaluation_overview"
                     data = []
                     await axios.get(specificURL).then((response) => {
-                    console.log("evaluation_comments_mon",response.data)
+                    console.log("overview",response.data)
                     data = response.data.data
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
 
+                    this.evalData = data
+                    },
+
+
+                fetchchart1: async function (){
+                        // create initial empty chart
+                var ctx_live = document.getElementById("mycanvas2").getContext('2d');;
+                this.ctx_live = ctx_live;
+
+                const labels = [65, 59, 80, 81, 56, 55, 40]
+                const data = {
+                labels: labels,
+                datasets: [{
+                    label: 'My First Dataset',
+                    data: [65, 59, 80, 81, 56, 55, 40],
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+                };
+
+                const config = {
+                type: 'line',
+                data: data,
+                };
+
+
+                var myChart = new Chart(ctx_live, config)
+
+                this.myChart = myChart;
+                },
+
+                addOne: function (){
+                    this.count++;
+                },
+                updateChart: async function (){
+                    console.log("updating chart here!")
+                    // await this.getEvalOverview();
+                    await this.getData();
+                    // this.renderData()
+                },
+
+                    getData: async function () {
+                    this.status = "getting data...";
+                    collectedData = []
+                    specificURL = "http://localhost:5011/evaluation_comments_mon/asdfa"
+                    data = []
+                    await axios.get(specificURL).then((response) => {
+                    console.log("overview2",response.data)
+                    collectedData = response.data.data
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
                     // this.evalData = data
+                    this.monthlyData = collectedData
                     },
 
                 renderData: async function() {
                     myChart = this.myChart;
 
-                    console.log("thattt", data3)
+                    // console.log("thattt", data3)
                             data = {"data":[{"id":2.5,"month":3,"score_num":11.75},
                             {"id":2.5,"month":4,"score_num":9.75},
                             {"id":2.5,"month":5,"score_num":8.75}] }
@@ -566,49 +394,6 @@ var myChart = new Chart(ctx_live, {
                         // re-render the chart
                         myChart.update();
 
-
-                    // $.ajax({
-                    //     // url: 'https://jsonplaceholder.typicode.com/posts/' + postId + '/comments',
-                    //     url: "http://127.0.0.1:5011/evaluation_comments_mon/sdf",
-                    //     // url: "http://127.0.0.1:5011/evaluation2",
-                    //     success: function(data3) {
-                    //     // process your data to pull out what you plan to use to update the chart
-                    //     // e.g. new label and a new data point
-                        
-                    //         console.log("thattt", data3)
-                    //         data = {"data":[{"id":2.5,"month":3,"score_num":11.75},
-                    //         {"id":2.5,"month":4,"score_num":9.75},
-                    //         {"id":2.5,"month":5,"score_num":8.75}] }
-
-                    //         data2 = {"data":[{"id":2.5,"month":2,"score_num":15.75},
-                    //         {"id":2.5,"month":7,"score_num":13.75},
-                    //         {"id":2.5,"month":9,"score_num":16.75}] }
-                    //         commentsOrScore = true;
-                        
-                    //     console.log("dataaa2: ", data.data)
-
-                    //     Xs = []
-                    //     Ys = []
-                    //     for (i of data.data){
-                    //         Xs.push(i["month"])
-                    //         Ys.push(i["score_num"])
-                    //     }
-                    //     myChart.data.labels = Xs
-                    //     myChart.data.datasets[0].data = Ys
-
-                    //     Xs = []
-                    //     Ys = []
-                    //     for (i of data2.data){
-                    //         Xs.push(i["month"])
-                    //         Ys.push(i["score_num"])
-                    //     }
-                    //     myChart.data.labels = Xs
-                    //     myChart.data.datasets[1].data = Ys
-
-                    //     // re-render the chart
-                    //     myChart.update();
-                    //     }
-                    // });
                     },
                     getData2: function() {
                     myChart = this.myChart;
@@ -631,7 +416,7 @@ var myChart = new Chart(ctx_live, {
                         Ys = []
                         for (i of data.data){
                             Xs.push(i["month"])
-                            Ys.push(i["score_num"])
+                            Ys.push(i["Score"])
                         }
                         myChart.data.labels = Xs
                         myChart.data.datasets[0].data = Ys
