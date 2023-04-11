@@ -19,9 +19,17 @@ new Vue({
         nonCompliantResidentProcedureLogsArray: [],
         showNonCompliantResidentsInput: false,
 
+        showDutyTable: false,
+        showScholarlyTable: false,
+        showCaseTable: false,
+
+        nonCompliantResidentDutyArray: [],
+        nonCompliantResidentScholarlyArray: [],
+        nonCompliantResidentCaseArray: [],
+
         programmes2: ["Gastroenterology", 'Renal Medicine', 'Internal Medicine'],
 
-        charts: ['Didactic Attendance', 'Scholary Activities', 'IHI', 'Projects', 'Duty Hour Logs', 'Case Logs', 'Procedure Logs'],
+        charts: ['Didactic Attendance', 'Scholarly Activities', 'IHI', 'Projects', 'Duty Hour Logs', 'Case Logs', 'Procedure Logs'],
 
         // loaded: false,
 
@@ -110,10 +118,10 @@ new Vue({
         total: 0,
         scholarlyPassed: 0,
         scholarlyMissing: 0,
-        chartArray: [],
+        // chartArray: [],
         mcr_arr: [],
         scholarlyChartData: "",
-        //scholarlyChartArray: [],
+        scholarlyChartArray: [],
         scholarlyLoaded: false,
         mcr_no: null,
         scholarlyChartConfig: {
@@ -366,12 +374,22 @@ new Vue({
 
         getCaseLogsData: async function () {
             // get all residents
+
+            nonCompliantResidentsCase = []
+            result1 = false
             for (each of this.mcr_arr) {
                 // console.log(this.getResidentData(each))
-                if (await this.getResidentCaseData(each) == true) {
+                result1 = await this.getResidentCaseData(each)
+                if ( result1 == true) {
                     this.casePassed += 1 // if compliant
                 }
+                else if (result1 == false){
+                    nonCompliantResidentsCase.push(each)
+                }
             }
+
+            this.nonCompliantResidentCaseArray = nonCompliantResidentsCase
+            console.log("non-compliant resident case array:" + this.nonCompliantResidentCaseArray)
 
             console.log(this.casePassed)
 
@@ -502,28 +520,36 @@ new Vue({
 
         getScholarlyActivitiesData: async function () {
             // get all residents
+            nonCompliantResidentsScholarly = []
+            result2 = false
+            console.log('mcr_arr length: ' + this.mcr_arr.length)
             for (each of this.mcr_arr) {
                 // console.log(this.getResidentData(each))
-                if (await this.getResidentData(each) == true) {
+                result2 = await this.getResidentScholarlyData(each)
+                if (result2 == true) {
                     this.scholarlyPassed += 1 // if compliant
                 }
+                else if (result2 == false){
+                    nonCompliantResidentsScholarly.push(each)
+                }
             }
+            this.nonCompliantResidentScholarlyArray = nonCompliantResidentsScholarly
 
 
             // need to wait for the getResidentData to add to the this.scholarlyPassed first before calling the this.getScholarlyChartData
-            this.chartArray = [this.scholarlyPassed, this.total, this.missing]; //getScholarlyChartData will use to show visualisation
+            this.scholarlyChartArray = [this.scholarlyPassed, this.total, this.missing]; //getScholarlyChartData will use to show visualisation
 
             console.log('this is chartArray')
-            console.log(this.chartArray)
+            console.log(this.scholarlyChartArray)
 
-            this.getScholarlyChartData(this.chartArray); // it works
+            this.getScholarlyChartData(this.scholarlyChartArray); // it works
             this.scholarlyLoaded = true
         },
 
-        getResidentData: async function (mcr) {
+        getResidentScholarlyData: async function (mcr) {
             specificURL = "http://localhost:5011/profile/" + mcr
             console.log(specificURL)
-            var toAdd = false;
+            toAdd = false;
 
             await axios.get(specificURL).then((response) => {
                     this.scholarlyChartData = response.data
@@ -683,6 +709,7 @@ new Vue({
             // console.log(this.year)
             console.log(chartData.data);
             // console.log('break1')
+            nonCompliantResidents = []
 
             numLogsJan = 0.0
             countCompliantJan = 0.0
@@ -734,11 +761,12 @@ new Vue({
             countCompliantDec = 0.0
             percentCompliantDec = 0.0
 
-            console.log('alsdjkf')
+            // console.log('alsdjkf')
 
             for (let i = 0; i < chartData.data.length; i++) {
                 // console.log('ye')
                 // console.log(chartData.data[i])
+                totalCount = 0.0
                 if(this.year == chartData.data[i]['MMYYYY'].substr(3,7) ){
                     // console.log('yea')
                     if(('01'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
@@ -746,11 +774,17 @@ new Vue({
                         if(chartData.data[i]['Submitted_Proportion'] == '1'){
                             countCompliantJan += 1.0
                         }
+                        else {                            
+                            totalCount += 1.0
+                        }
                     }
                     else if (('02'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
                         numLogsFeb = numLogsFeb + 1.0
                         if(chartData.data[i]['Submitted_Proportion'] == '1'){
                             countCompliantFeb += 1.0
+                        }
+                        else {                            
+                            totalCount += 1.0
                         }
                     }
                     else if (('03'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
@@ -758,11 +792,17 @@ new Vue({
                         if(chartData.data[i]['Submitted_Proportion'] == '1'){
                             countCompliantMar += 1.0
                         }
+                        else {                            
+                            totalCount += 1.0
+                        }
                     }
                     else if (('04'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
                         numLogsApr = numLogsApr + 1.0
                         if(chartData.data[i]['Submitted_Proportion'] == '1'){
                             countCompliantApr += 1.0
+                        }
+                        else {                            
+                            totalCount += 1.0
                         }
                     }
                     else if (('05'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
@@ -770,11 +810,17 @@ new Vue({
                         if(chartData.data[i]['Submitted_Proportion'] == '1'){
                             countCompliantMay += 1.0
                         }
+                        else {                            
+                            totalCount += 1.0
+                        }
                     }
                     else if (('06'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
                         numLogsJun = numLogsJun + 1.0
                         if(chartData.data[i]['Submitted_Proportion'] == '1'){
                             countCompliantJun += 1.0
+                        }
+                        else {                            
+                            totalCount += 1.0
                         }
                     }
                     else if (('07'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
@@ -782,11 +828,17 @@ new Vue({
                         if(chartData.data[i]['Submitted_Proportion'] == '1'){
                             countCompliantJul += 1.0
                         }
+                        else {                            
+                            totalCount += 1.0
+                        }
                     }
                     else if (('08'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
                         numLogsAug = numLogsAug + 1.0
                         if(chartData.data[i]['Submitted_Proportion'] == '1'){
                             countCompliantAug += 1.0
+                        }
+                        else {                            
+                            totalCount += 1.0
                         }
                     }
                     else if (('09'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
@@ -794,11 +846,17 @@ new Vue({
                         if(chartData.data[i]['Submitted_Proportion'] == '1'){
                             countCompliantSep += 1.0
                         }
+                        else {                            
+                            totalCount += 1.0
+                        }
                     }
                     else if (('10'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
                         numLogsOct = numLogsOct + 1.0
                         if(chartData.data[i]['Submitted_Proportion'] == '1'){
                             countCompliantOct += 1.0
+                        }
+                        else {                            
+                            totalCount += 1.0
                         }
                     }
                     else if (('11'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
@@ -806,14 +864,23 @@ new Vue({
                         if(chartData.data[i]['Submitted_Proportion'] == '1'){
                             countCompliantNov += 1.0
                         }
+                        else {                            
+                            totalCount += 1.0
+                        }
                     }
                     else if (('12'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
                         numLogsDec = numLogsDec + 1.0
                         if(chartData.data[i]['Submitted_Proportion'] == '1'){
                             countCompliantDec += 1.0
-                            console.log('yes')
+                            // console.log('yes')
+                        }
+                        else {                            
+                            totalCount += 1.0
                         }
                     }
+                }
+                if (totalCount > 0.0){
+                    nonCompliantResidents.push(chartData.data[i])
                 }
             }
                 
@@ -878,6 +945,8 @@ new Vue({
             // console.log(percentCompliantDec)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantDec)
 
+            this.nonCompliantResidentDutyArray = nonCompliantResidents
+            console.log('noncompliant resident duty:' + this.nonCompliantResidentDutyArray)
             console.log('this is dutyChartConfig')
             console.log(this.dutyChartConfig);
         },
@@ -2849,6 +2918,10 @@ new Vue({
             this.showProjectsTable = false
             this.showProcedureLogsTable = false
 
+            this.showDutyTable = false
+            this.showScholarlyTable = false
+            this.showCaseTable = false
+
             if (this.nonCompliantResident == "Didactic Attendance") {
 
                 this.showDidacticTable = true
@@ -2870,6 +2943,24 @@ new Vue({
             else if (this.nonCompliantResident == "Procedure Logs") {
 
                 this.showProcedureLogsTable = true
+
+            }
+
+            else if (this.nonCompliantResident == "Duty Hour Logs") {
+
+                this.showDutyTable = true
+
+            }
+
+            else if (this.nonCompliantResident == "Case Logs") {
+
+                this.showCaseTable = true
+
+            }
+
+            else if (this.nonCompliantResident == "Scholarly Activities") {
+
+                this.showScholarlyTable = true
 
             }
 

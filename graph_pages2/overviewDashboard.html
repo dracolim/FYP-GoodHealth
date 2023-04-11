@@ -336,8 +336,68 @@
                     </div> 
                     
                     <!-- table to show noncompliance for Duty Logs -->
+                    <div v-if="nonCompliantResidentDutyArray.length > 0 && showDutyTable">
+                        <table class="table-auto">
+                            <thead>
+                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                    >Non-Compliant Residents for Duty Hour Logs</p>
+                                <tr>
+                                    <th class="border px-4 py-2 bg-orange-600">Index</th>
+                                    <th class="border px-4 py-2 bg-orange-600">MCR No.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(resident, index) in nonCompliantResidentDutyArray" :key="resident.MCR_No">
+                                    <td class="border px-4 py-2 bg-gray-300">{{ index + 1 }}</td>
+                                    <td class="border px-4 py-2 bg-gray-300">{{ resident.MCR_No }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <br>
+                    </div> 
                     <!-- table to show noncompliance for Scholarly Activities -->
+                    <div v-if="nonCompliantResidentScholarlyArray.length > 0 && showScholarlyTable">
+                        <table class="table-auto">
+                            <thead>
+                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                    >Non-Compliant Residents for Scholarly Activities Logs</p>
+                                <tr>
+                                    <th class="border px-4 py-2 bg-orange-600">Index</th>
+                                    <th class="border px-4 py-2 bg-orange-600">MCR No.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(resident, index) in nonCompliantResidentScholarlyArray" :key="resident">
+                                    <td class="border px-4 py-2 bg-gray-300">{{ index + 1 }}</td>
+                                    <td class="border px-4 py-2 bg-gray-300">{{ resident }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <br>
+                    </div>
                     <!-- table to show noncompliance for Case Logs -->
+                    <div v-if="nonCompliantResidentCaseArray.length > 0 && showCaseTable">
+                        <table class="table-auto">
+                            <thead>
+                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                    >Non-Compliant Residents for Case Logs</p>
+                                <tr>
+                                    <th class="border px-4 py-2 bg-orange-600">Index</th>
+                                    <th class="border px-4 py-2 bg-orange-600">MCR No.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(resident, index) in nonCompliantResidentCaseArray" :key="resident">
+                                    <td class="border px-4 py-2 bg-gray-300">{{ index + 1 }}</td>
+                                    <td class="border px-4 py-2 bg-gray-300">{{ resident }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <br>
+                    </div>
                 </v-row>
             </div>
 
