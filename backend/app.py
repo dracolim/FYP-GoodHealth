@@ -3256,7 +3256,7 @@ def delete_evaluation(id):
     db.session.commit()
     return 'evaluation deleted', 200
 
-# add case log
+# add evaluations
 @app.route('/add_evaluation', methods=['POST'])
 def create_evaluation():
     data = request.get_json()
