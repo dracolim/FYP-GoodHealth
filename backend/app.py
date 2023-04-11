@@ -11,8 +11,7 @@ from sqlalchemy.sql import exists
 from datetime import datetime
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-
-
+from dotenv import dotenv_values
 
 # from flask_login import login_required, current_user
 
@@ -31,19 +30,24 @@ limiter = Limiter(
     storage_uri="memory://",
 )
 
+config = dotenv_values(".env")
+requests_documents_permin=config['requests_documents_permin'] + " per minute"
+batch_export_permin=config['batch_export_permin'] + " per minute"
+
+
 
 if __name__ == '__main__':
 # #     # Mac user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-    #                                     '@localhost:3306/SingHealth'
-    # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+                                        '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
     # --------------------------------------------------------------------------------
 
-    # # # Windows user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
-                                            '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+    # # # # Windows user -------------------------------------------------------------------
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
+    #                                         '@localhost:3306/SingHealth'
+    # engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
 
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -632,31 +636,15 @@ def read_evaluation_comments_by_month(mcr_no):
                      for r in evaluationCommentList]
     items = {}
     for i in res2:
-        # print(i)
         items[i[0]] = i
-    # print(items)
     import pandas as pd
     items = pd.DataFrame.from_dict(items, orient='index', columns=keys)
-
-
-    # for pd in evaluationCommentList:
-    #     print(pd.to_dict()['created_time'].year)
-    #     print(pd.to_dict()['created_time'].month)
-
-   
-    # items.to_csv("items.csv")
-    # print(keys)
     items['Score'] = items['Score'].astype("float")
-    # print(items.info())
-    # print(items)
     df3 = items.groupby('created_time', as_index=True)[[ 'Score']].mean()
     df3 = df3.Score.resample("M").mean()
-    # print("df3:", df3)
-    df3.to_csv("df3.csv")
     df3 = df3.reset_index()
     df3['month'] = df3['created_time'].apply(lambda x: x.month)
     df3 = df3.drop(columns = ['created_time'])
-    # print(df3)
     df3 = df3.to_dict('records')
 
     return jsonify(
@@ -3393,18 +3381,12 @@ def delete_presentation(id):
 # wkhtml_path = pdfkit.configuration(wkhtmltopdf = r"C:\Users\feryo\OneDrive\Documents\GitHub\wkhtmltopdf\bin\wkhtmltopdf.exe")  #by using configuration you can add path value.
 
 
-@app.route("/slow")
-@limiter.limit("1 per day")
-def slow():
-    return ":("
-
-
 # ============================
 # CV TEMPLATE SECTION
 # ============================
 # Generate CV word
 @app.route("/cv_word/<id>")
-@limiter.limit("55 per minute")
+@limiter.limit(requests_documents_permin)
 # @limiter.limit("1/minute", override_defaults=False)
 def pdf_to_doc(id):
     # generatepdf(id)
@@ -3430,6 +3412,7 @@ from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
 
 # Generate CV pdf:
 @app.route("/cv_pdf/<id>")
+@limiter.limit(requests_documents_permin)
 def generate_cv(id):
     # generatepdf(id)
     # import os
@@ -3492,8 +3475,6 @@ def getCompletePage(id):
     return page
 
 from abc import ABCMeta, abstractmethod
-from dotenv import dotenv_values
-config = dotenv_values(".env")
 
 class DocumentBuilder(metaclass=ABCMeta):
     import os
@@ -3587,12 +3568,6 @@ class Builder1(DocumentBuilder):
         self.publicationRows= ""
         self.patientSafetyQIRows= ""
         self.page = ""
-        # self.folder='../cv/'
-        # self.html_file_name = "cv.html"
-        # self.path_wkhtmltopdf = "../wkhtmltopdf/bin/wkhtmltopdf.exe"
-        # self.pdf_file = self.folder + 'cv.pdf'
-        # self.docx_file = self.folder + 'cv.docx'
-        # self.docx_path = os.path.join(os.getcwd(),'../cv/cv.docx')
 
     def assembleRows(self):
         self.awardsRows = getAwardsRows(self.person.awards)
@@ -3652,14 +3627,7 @@ class Builder2(DocumentBuilder):
         self.publicationRows= ""
         self.patientSafetyQIRows= ""
         self.page = ""
-        # procedureInclude, presentationInclude, leadershipInclude
-        # self.folder='../cv/'
-        # self.html_file_name = "cv.html"
-        # self.path_wkhtmltopdf = "../wkhtmltopdf/bin/wkhtmltopdf.exe"
-        # self.pdf_file = self.folder + 'cv.pdf'
-        # self.docx_file = self.folder + 'cv.docx'
-        # self.docx_path = os.path.join(os.getcwd(),'../cv/cv.docx')
-
+        
     def assembleRows(self):
         self.awardsRows = getAwardsRows(self.person.awards)
         self.projectRows = getProjectRows(self.person.projects)
@@ -3718,6 +3686,7 @@ class Builder2(DocumentBuilder):
     
 # Generate CV word
 @app.route("/cv_word2/<id>&<sections>")
+@limiter.limit(requests_documents_permin)
 def pdf_to_doc2(id,sections):
     includedItems = sections[:-1]
     toInclude = { 
@@ -3744,6 +3713,7 @@ from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
 
 # Generate CV pdf:
 @app.route("/cv_pdf2/<id>&<sections>")
+@limiter.limit(requests_documents_permin)
 def generate_cv2(id, sections):
     includedItems = sections[:-1]
     toInclude = { 
@@ -3810,6 +3780,7 @@ def generatepdf(id):
 
 # Generate CV pdf:
 @app.route("/batch_cv_pdf/<ids>")
+@limiter.limit(batch_export_permin)
 def generate_cv_batch(ids):
     items = ids.split(",")
     now = datetime.now()
@@ -3864,6 +3835,7 @@ def generate_cv_batch(ids):
 
 # Generate CV pdf:
 @app.route("/batch_cv_word/<ids>")
+@limiter.limit(batch_export_permin)
 def generate_word_batch(ids):
     items = ids.split(",")
     now = datetime.now()
