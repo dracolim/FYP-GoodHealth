@@ -291,7 +291,8 @@
                         <iconify-icon icon="mingcute:file-import-line" style="color: white;" width="20" height="20">
                         </iconify-icon>
                     </div>
-                    <button type="button" data-te-toggle="modal" data-te-target="#exampleModalScrollable" @click = "importSuccess = false"
+                    <button type="button" data-te-toggle="modal" data-te-target="#exampleModalScrollable"
+                        @click="importSuccess = false"
                         class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">
                         <label class="ml-2">Evaluations Import</label>
                     </button>
@@ -998,18 +999,22 @@
                                 var user_error = false;
 
                                 var url = this.local_host_url + 'add_evaluation';
+                                var url2 = this.local_host_url +
+                                    'evaluation_sentiment';
                                 var data = {};
 
                                 if (row.values[1] != undefined) {
                                     // one time variable 
-                                    if (row.values[1].toString().toLowerCase().includes(
+                                    if (row.values[1].toString().toLowerCase()
+                                        .includes(
                                             "evaluation:")) {
                                         var colonidx = row.values[1].indexOf(":")
                                         this.form_name = row.values[1].substring(
                                             colonidx + 1, ).trim();
                                     }
                                     // BLOCK (question_name)
-                                    else if (row.values[1].toString().toLowerCase().includes(
+                                    else if (row.values[1].toString().toLowerCase()
+                                        .includes(
                                             "question:")) {
                                         var colonidx2 = row.values[1].indexOf(":")
                                         this.question_name = row.values[1]
@@ -1097,9 +1102,24 @@
                                         if (same_error == false && name_error ==
                                             false && this.error_message == "" &&
                                             user_error == false) {
-                                            axios.post(url, data)
+                                            var data_to_post = data;
+                                            axios.post(url, data_to_post)
                                                 .then(response => {
-                                                    console.log(response.data)
+                                                    console.log(response.data);
+
+                                                    axios.post(url2, data_to_post)
+                                                        .then(response => {
+                                                            console.log(
+                                                                response
+                                                                .data)
+                                                        })
+                                                        .catch(error => {
+                                                            this.error =
+                                                                error
+                                                                .response
+                                                                .data
+                                                                .message
+                                                        });
                                                 })
                                                 .catch(error => {
                                                     this.error = error.response
