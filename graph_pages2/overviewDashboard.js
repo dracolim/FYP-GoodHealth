@@ -330,6 +330,8 @@ new Vue({
         },
     methods: {
         getAllData: function(){
+
+            this.reset()
             this.showNonCompliantResidentsInput = false
             this.showNonCompliantResidentsInput = true
             this.getIhiData();
@@ -348,11 +350,13 @@ new Vue({
             this.projectsLoaded = false
             this.dutyLoaded = false
             this.procedureLoaded = false
+            this.caseLoaded = false
             this.dutyChartConfig.datasets[0].data.length = 0
             this.IHIchartConfig.datasets[0].data.length = 0
             this.scholarlyChartConfig.datasets[0].data.length = 0
             this.projectChartConfig.datasets[0].data.length = 0
             this.didacticChartConfig.datasets[0].data.length = 0
+            this.caseChartConfig.datasets[0].data.length = 0
             // this.chartArray.length = 0 
             this.scholarlyPassed = 0
             this.casePassed = 0
@@ -372,13 +376,13 @@ new Vue({
             console.log(this.casePassed)
 
             // need to wait for the getResidentData to add to the this.passed first before calling the this.getChartData
-            caseChartArray = [this.casePassed, this.total, this
+            this.caseChartArray = [this.casePassed, this.total, this
             .missing]; //getChartdata will use to show visualisation
 
             console.log('this is chartArray')
-            console.log(caseChartArray)
+            console.log(this.caseChartArray)
 
-            this.getCaseChartData(caseChartArray); // it works
+            this.getCaseChartData(this.caseChartArray); // it works
             this.caseLoaded = true
         },
 
@@ -394,7 +398,7 @@ new Vue({
                     this.caseMissing += 0
                 });
 
-            console.log('caseChartData' + this.caseChartData)
+            // console.log('caseChartData' + this.caseChartData)
 
             // check compliance for resident
             percentageCompletion = 0
@@ -414,57 +418,59 @@ new Vue({
                 // 1. check programme under personal details
                 // console.log(chartData.data.personaldetails['Programme'])
                 // console.log(i)
-                if (this.caseChartData.data.personaldetails['Programme'] == 'Renal Medicine'){
-                    // 2. if renal, check 10 transplant credit type by SR 2
-                    console.log('renal')
-                    if(this.caseChartData.data.case_logs[i]['Type_of_Case_Log'] == 'transplant credit'){
-                        console.log('transplant credit')
-                        countIntR = parseInt(this.caseChartData.data.case_logs[0]['Observed'])
-                        if(countIntR > 0 && countIntR < 10){
-                            percentageCompletion = countIntR / 10
-                            percentageNonCompletion = 1 - percentageCompletion
-                            }
-                        else if (countIntR >= 10){
-                            percentageCompletionInpatient = 1
-                            percentageNonCompletionInpatient = 0
-                            }
-                        }
-                    }
-                else if (this.caseChartData.data.personaldetails.Programme == 'Internal Medicine'){
-                    // console.log('yes')
-                    // 3. if internal medicine, check 3 inpatient and 3 outpatient each year
-                    if(this.caseChartData.data.case_logs[i]['Type_of_Case_Log'] == 'inpatient'){
-                        console.log('inpatient')
-                        countIntI = parseInt(this.caseChartData.data.case_logs[0]['Observed'])
-                        if(countIntI > 0 && countIntI < 3){
-                            percentageCompletionI = countIntI / 9
-                            }
-                        else if (countIntI >= 3){
-                            percentageCompletionI = 1/3
+                if(this.caseChartData.data.case_logs[i]['Date_of_Log'].substr(-4,4) == this.year){
+                    if (this.caseChartData.data.personaldetails['Programme'] == 'Renal Medicine'){
+                        // 2. if renal, check 10 transplant credit type by SR 2
+                        console.log('renal')
+                        if(this.caseChartData.data.case_logs[i]['Type_of_Case_Log'] == 'transplant credit'){
+                            console.log('transplant credit')
+                            countIntR = parseInt(this.caseChartData.data.case_logs[0]['Observed'])
+                            if(countIntR > 0 && countIntR < 10){
+                                percentageCompletion = countIntR / 10
+                                percentageNonCompletion = 1 - percentageCompletion
+                                }
+                            else if (countIntR >= 10){
+                                percentageCompletionInpatient = 1
+                                percentageNonCompletionInpatient = 0
+                                }
                             }
                         }
-                    if(this.caseChartData.data.case_logs[i]['Type_of_Case_Log'] == 'outpatient'){
-                        console.log('outpatient')
-                        countIntO = parseInt(this.caseChartData.data.case_logs[0]['Observed'])
-                        if(countIntO > 0 && countIntO < 3){
-                            percentageCompletionO = countIntO / 9
+                    else if (this.caseChartData.data.personaldetails.Programme == 'Internal Medicine'){
+                        // console.log('yes')
+                        // 3. if internal medicine, check 3 inpatient and 3 outpatient each year
+                        if(this.caseChartData.data.case_logs[i]['Type_of_Case_Log'] == 'inpatient'){
+                            console.log('inpatient')
+                            countIntI = parseInt(this.caseChartData.data.case_logs[0]['Observed'])
+                            if(countIntI > 0 && countIntI < 3){
+                                percentageCompletionI = countIntI / 9
+                                }
+                            else if (countIntI >= 3){
+                                percentageCompletionI = 1/3
+                                }
                             }
-                        else if (countIntO >= 3){
-                            percentageCompletionO = 1/3
+                        if(this.caseChartData.data.case_logs[i]['Type_of_Case_Log'] == 'outpatient'){
+                            console.log('outpatient')
+                            countIntO = parseInt(this.caseChartData.data.case_logs[0]['Observed'])
+                            if(countIntO > 0 && countIntO < 3){
+                                percentageCompletionO = countIntO / 9
+                                }
+                            else if (countIntO >= 3){
+                                percentageCompletionO = 1/3
+                                }
                             }
-                        }
-                    if(this.caseChartData.data.case_logs[i]['Type_of_Case_Log'] == 'blue letter'){
-                        console.log('blue letter')
-                        countIntB = parseInt(this.caseChartData.data.case_logs[0]['Observed'])
-                        if(countIntR > 0 && countIntB < 3){
-                            percentageCompletionB = countIntB / 9
+                        if(this.caseChartData.data.case_logs[i]['Type_of_Case_Log'] == 'blue letter'){
+                            console.log('blue letter')
+                            countIntB = parseInt(this.caseChartData.data.case_logs[0]['Observed'])
+                            if(countIntR > 0 && countIntB < 3){
+                                percentageCompletionB = countIntB / 9
+                                }
+                            else if (countIntB >= 3){
+                                percentageCompletionB = 1/3
+                                }
                             }
-                        else if (countIntB >= 3){
-                            percentageCompletionB = 1/3
-                            }
-                        }
-                    percentageCompletion = percentageCompletionI + percentageCompletionO + percentageCompletionB
+                        percentageCompletion = percentageCompletionI + percentageCompletionO + percentageCompletionB
                     // percentageNonCompletion = 1 - percentageCompletion
+                        }
                     }
                 }
 

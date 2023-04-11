@@ -156,6 +156,7 @@
                 </ul>
             </div>
         </nav>
+
         <!-- History menu -->
         <div id="dropdownDelay"
             class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow sm:w-full md:w-44 ">
@@ -194,7 +195,7 @@
                 <input v-model="mcr_no" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input MCR No Here">
 
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
-                    Academic Year (AY) for Didactic Attendance:
+                    Academic Year (AY):
                 </label>
 
                 <input v-model="year" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Year for Didactic Attendance Here">
@@ -207,14 +208,21 @@
                 <v-row dense>
                   <v-col cols="sm">
                     <v-card  class="pa-2" outlined tile raised>
+                        <br>
                         <div style="display:flex;">
                             <my-bar-chart style="width:25%;height:30vh" v-if="loaded" :bar-data="didacticChartConfig" :chart-options="didacticOptions"></my-bar-chart>
                             <my-donut-chart  style="width:25%;height:30vh" v-if="loaded" :donut-data="scholarlyChartConfig" :chart-options="scholarlyOptions"></my-donut-chart>
                             <my-donut-chart  style="width:25%;height:30vh" v-if="loaded" :donut-data="IHIchartConfig" :chart-options="IHIoptions"></my-donut-chart>
                             <my-donut-chart style="width:25%;height:30vh" v-if="loaded" :donut-data="projectChartConfig" :chart-options="projectOptions"></my-donut-chart>
-                            
                         </div>
-                            <my-line-chart style="width:100%;height:30vh" v-if="loaded" :line-data="dutyChartConfig" :chart-options="dutyHourOptions"></my-line-chart>
+
+                        <br>
+                        <my-line-chart style="width:100%;height:30vh" v-if="loaded" :line-data="dutyChartConfig" :chart-options="dutyHourOptions"></my-line-chart>
+
+                        <br>
+                        <div style="display:flex;">
+                            <my-bar-chart2 style="width:100%;" v-if="loaded" :bar-data="procedureChartConfig" :chart-options="procedureOptions"></my-bar-chart2>
+                        </div>
                     </v-card>
                   </v-col>
                 </v-row>
@@ -254,6 +262,16 @@
         })
         Vue.component('my-bar-chart', {
             extends: VueChartJs.Bar,
+            props: ['barData', 'chartOptions'],
+            mounted() {
+            this.renderChart(this.barData, this.chartOptions);
+            },
+        }, {
+            responsive: true,
+            maintainAspectRatio: false
+        })
+        Vue.component('my-bar-chart2', {
+            extends: VueChartJs.HorizontalBar,
             props: ['barData', 'chartOptions'],
             mounted() {
             this.renderChart(this.barData, this.chartOptions);

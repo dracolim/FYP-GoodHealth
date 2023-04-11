@@ -117,7 +117,7 @@
                 <ul
                     class="overflow-x-auto md:divide-x md:divide-slate-200 flex flex-col p-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row  md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
                     <li>
-                        <a href="../homepage.html"
+                        <a href="../graph_pages2/overviewDashboard.html"
                             class="lg:text-sm md:text-sm ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
                             Home</a>
                     </li>
@@ -401,6 +401,16 @@
                         return "<a class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Remove</a>"
                     };
                     const local_host_url = this.local_host_url
+
+                    function wrapTextFormatter(cell) {
+                        let cellValue = cell.getValue();
+                        let cellElement = document.createElement("div");
+                        cellElement.style.whiteSpace = "normal";
+                        cellElement.style.wordWrap = "break-word";
+                        cellElement.innerText = cellValue;
+                        return cellElement;
+                    }
+
                     var table = new Tabulator("#example-table", {
                         layout: "fitDataStretch",
                         placeholder: "No Data Available in " + this.page_name,
@@ -434,6 +444,7 @@
                             {
                                 title: "Procedure Name",
                                 field: "Procedure_Name",
+                                
                                 sorter: "string",
                                 headerFilter: true,
                                 headerFilterParams: {
@@ -446,6 +457,8 @@
                                     listOnEmpty: true,
                                     valuesLookup: true,
                                 },
+                                width: 500,
+                                formatter: wrapTextFormatter,
 
                             },
 
