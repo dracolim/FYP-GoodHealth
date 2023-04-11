@@ -3957,9 +3957,31 @@ def add(cmd):
     connection.close()
     return " ___ Sent: %s" % cmd
 
-@app.route('/evaluation_sentiment/<id>')
-def read_evaluation_sentiment(id):
+# @app.route('/evaluation_sentiment/<id>')
+# def read_evaluation_sentiment(id):
         
+    # from transformers import AutoModelForSequenceClassification,TFAutoModelForSequenceClassification,AutoTokenizer,pipeline
+    # import numpy as np
+    # from scipy.special import softmax
+    # import csv
+    # import urllib.request
+    # import pandas as pd
+    # import yake
+    # import nltk
+    
+    # person = Personal_Details.query.get_or_404(id)
+    # evaluations_of_person = person.evaluations
+    # arr=[pd.to_dict()
+    #                  for pd in evaluations_of_person]
+    # df = pd.DataFrame(arr)
+    # task='sentiment'
+    # MODEL = f"cardiffnlp/twitter-roberta-base-{task}"
+    # # SELF_TRAINED_MODEL= f"self-labelled-trained"
+    # tokenizer = AutoTokenizer.from_pretrained(MODEL)
+@app.route('/evaluation_sentiment',methods=['POST'])
+def read_evaluation_sentiment():
+    data = request.get_json()
+    print(data)
     from transformers import AutoModelForSequenceClassification,TFAutoModelForSequenceClassification,AutoTokenizer,pipeline
     import numpy as np
     from scipy.special import softmax
@@ -3969,16 +3991,11 @@ def read_evaluation_sentiment(id):
     import yake
     import nltk
     
-    person = Personal_Details.query.get_or_404(id)
-    evaluations_of_person = person.evaluations
-    arr=[pd.to_dict()
-                     for pd in evaluations_of_person]
-    df = pd.DataFrame(arr)
     task='sentiment'
     MODEL = f"cardiffnlp/twitter-roberta-base-{task}"
     # SELF_TRAINED_MODEL= f"self-labelled-trained"
     tokenizer = AutoTokenizer.from_pretrained(MODEL)
-    df = pd.read_excel("evaluations_overall_comments.xlsx")
+    df = pd.read_excel("evaluations_overall_comments.xlsx") ## replaced by json object of all imported rows
     # download label mapping
     # labels=[]
     # mapping_link = f"https://raw.githubusercontent.com/cardiffnlp/tweeteval/main/datasets/{task}/mapping.txt"
