@@ -181,15 +181,15 @@ CREATE TABLE `duty_hour_log` (
 INSERT INTO `duty_hour_log` (`id`, `MCR_No`, `Level`, `Submitted`, `Submitted_Proportion`, `MMYYYY`, `Logged_for_month`) VALUES
 (1, 'M11367A', '2', '3', '0.5', '01/2022', 'Yes'),
 (2, 'M11367A', '3', '4', '0.3', '02/2022', 'Yes'),
-(3, 'M11367A', '4', '0', '0', '03/2022', 'Yes'),
+(3, 'M11367A', '4', '0', '0.7', '03/2022', 'Yes'),
 (4, 'M11367A', '1', '3', '1', '04/2022', 'Yes'),
 (5, 'M11367A', '2', '3', '0.7', '05/2022', 'Yes'),
 (6, 'M11367A', '3', '4', '0.6', '06/2022', 'Yes'),
-(7, 'M11367A', '4', '0', '0', '07/2022', 'Yes'),
+(7, 'M11367A', '4', '0', '0.8', '07/2022', 'Yes'),
 (8, 'M11367A', '1', '3', '1', '08/2022', 'Yes'),
 (9, 'M11367A', '2', '3', '0.5', '09/2022', 'Yes'),
 (10, 'M11367A', '3', '4', '0.3', '10/2022', 'Yes'),
-(11, 'M11367A', '4', '0', '0', '11/2022', 'Yes'),
+(11, 'M11367A', '4', '0', '0.6', '11/2022', 'Yes'),
 (12, 'M11367A', '1', '3', '1', '12/2022', 'Yes');
 
 -- --------------------------------------------------------
@@ -219,7 +219,7 @@ CREATE TABLE `education_history` (
 --
 
 INSERT INTO `education_history` (`id`, `MCR_No`, `Year_of_Graduation`, `Date_of_Graduation`, `Basic_Qualification`, `Medical_School`, `Country_of_Graduation`, `IM_Residency_Start_Date`, `IM_Residency_End_Date`, `SR_Residency_Programme`, `SR_Residency_Start_Date`, `SR_Residency_End_Date`, `PG_Year`) VALUES
-(1, 'M11367A', '2014', 'July', 'MBBS', 'Imperial College', 'United Kingdom', '3/7/2017', '1/7/2020', 'Gastroenterology', '2-Jul-20', '6-Oct-23', '8'),
+(1, 'M11367A', '2014', 'July', 'MBBS', 'Imperial College', 'United Kingdom', '3/7/2017', '1/7/2020', 'Internal Medicine', '2-Jul-20', '6-Oct-23', '8'),
 (2, 'M16782H', '2014', 'July', 'MBBS', 'Imperial College', 'United Kingdom', '3/7/2017', '1/7/2020', 'Gastroenterology', '2-Jul-20', '5-Nov-23', '8'),
 (3, 'M65889A', '2017', 'April', 'MBBS', 'YLLSOM', 'Singapore', '2/5/2017', '30/6/2020', 'Gastroenterology', '2-Jul-20', '1-Jul-23', '5'),
 (4, 'M54354E', '2015', 'April', 'MBBS', 'YLLSOM', 'Singapore', '4/5/2015', '1/7/2020', 'Gastroenterology', '2-Jul-20', '8-Aug-23', '7'),
