@@ -98,9 +98,9 @@ CREATE TABLE `case_log` (
 --
 
 INSERT INTO `case_log` (`id`, `MCR_No`, `Case_Name`, `Type_of_Case_Log`, `Date_of_Log`, `CPT`, `Total`, `Performed`, `Observed`, `Verified`, `Certified`) VALUES
-(1, 'M11367A', 'AKI - Case Log', 'inpatient', '3/2/2022', 'Null', '10', '2', '8', '', 'No'),
-(2, 'M16782H', 'CKD - Case Log', 'outpatient', '3/2/2022', 'Null', '36', '1', '4', '', 'No'),
-(3, 'M65889A', 'GN - Case Log', 'blue letter', '3/2/2022', 'Null', '37', '13', '24', '', 'Yes');
+(1, 'M11367A', 'AKI - Case Log', 'inpatient', '3/2/2022', 'Null', '10', '2', '8', '', 'Yes'),
+(2, 'M11367A', 'AKI - Case Log', 'outpatient', '17/2/2022', 'Null', '36', '1', '4', '', 'Yes'),
+(3, 'M11367A', 'AKI - Case Log', 'blue letter', '23/4/2022', 'Null', '37', '13', '24', '', 'Yes'),;
 
 -- --------------------------------------------------------
 
@@ -181,10 +181,18 @@ CREATE TABLE `duty_hour_log` (
 --
 
 INSERT INTO `duty_hour_log` (`id`, `MCR_No`, `Level`, `Submitted`, `Submitted_Proportion`, `MMYYYY`, `Logged_for_month`) VALUES
-(1, 'M54354E', '2', '3', '0.5', '12/2022', 'Yes'),
-(2, 'M11367A', '3', '4', '0.3', '12/2022', 'No'),
-(3, 'M88791Z', '4', '0', '0', '12/2022', 'Yes'),
-(4, 'M65889A', '1', '3', '1', '12/2022', 'No');
+(1, 'M11367A', '2', '3', '0.5', '01/2022', 'Yes'),
+(2, 'M11367A', '3', '4', '0.3', '02/2022', 'Yes'),
+(3, 'M11367A', '4', '0', '0', '03/2022', 'Yes'),
+(4, 'M11367A', '1', '3', '1', '04/2022', 'Yes')
+(5, 'M11367A', '2', '3', '0.7', '05/2022', 'Yes'),
+(6, 'M11367A', '3', '4', '0.6', '06/2022', 'Yes'),
+(7, 'M11367A', '4', '0', '0', '07/2022', 'Yes'),
+(8, 'M11367A', '1', '3', '1', '08/2022', 'Yes')
+(9, 'M11367A', '2', '3', '0.5', '09/2022', 'Yes'),
+(10, 'M11367A', '3', '4', '0.3', '10/2022', 'Yes'),
+(11, 'M11367A', '4', '0', '0', '11/2022', 'Yes'),
+(12, 'M11367A', '1', '3', '1', '12/2022', 'Yes'),
 
 -- --------------------------------------------------------
 
@@ -400,8 +408,10 @@ CREATE TABLE `grants` (
 --
 
 INSERT INTO `grants` (`id`, `MCR_No`, `Name_of_Grant`, `Project_Title`, `Project_ID`, `Grant_End_Date`, `Grant_Start_Date`) VALUES
-(1, 'M65659J', 'grant1', 'project1', '1234', '1/1/2022', '1/2/2022'),
-(2, 'M88791Z', 'grant2', 'project12', '5667', '4/5/2022', '4/6/2022');
+(1, 'M11367A', 'NIH Grant: AREA Grant', 'Infection Control', '1234', '1/1/2022', '1/2/2022'),
+(2, 'M11367A', 'NIH Grant: Research Project Grant', 'Measuring Blood Pressure Noninvasively in Children.', '5667', '4/5/2022', '4/6/2022'),
+(3, 'M11367A', 'Louisa Burns Research Committee and the Grant Program: Residents', 'Oxygen Use in Patients with COPD', '4321', '1/1/2022', '1/2/2022'),
+(4, 'M11367A', 'MDA: Clinical Research Training Grant (CRTG): Residents', 'Intravenous Catheter Size and Blood Administration', '7556', '4/5/2022', '4/6/2022');
 
 -- --------------------------------------------------------
 
@@ -984,12 +994,12 @@ CREATE TABLE `presentations` (
 --
 
 INSERT INTO `presentations` (`id`, `MCR_No`, `Title`, `Type`, `Project_ID`, `Conference_Name`, `Country`, `Presentation_Date`) VALUES
-(1, 'M54354E', '', '', '', '', '', ''),
-(2, 'M16782H', '‘Dementia Care in UK: Patient’s Journey’.', ' ', 'Nil', 'Asian Medical Student Conference, Indonesia, 2012 ', 'Indonesia', '2021'),
-(3, 'M16782H', '', '', '', '', '', ''),
-(4, 'M65889A', 'The Changing Profile of Helicobacter Pylori Primary Antibiotic Resistance in Singapore over the last two decades ', ' Abstract', ' NIL', 'Digestive Diseases Week 2021 ', 'United States ', ' 23 May 2021'),
-(5, 'M54354E', 'Influence of Age on long term prognoses over 9 years after ischemic stroke', ' ', 'Nil', 'European Stroke Organization Conference 2017', 'Prague', 'Jun-17'),
-(6, 'M54354E', '', '', '', '', '', ''),
+(1, 'M11367A', 'Granulomatous Lung Disease with Concomitant Sarcoidosis and Tuberculosis: A Case Report', 'Abstract', 'Nil', 'RFG 2022', 'Malaysia', '31-Jan-2022'),
+(2, 'M11367A', 'Dementia Care in UK: Patients Journey.', ' ', 'Nil', 'Asian Medical Student Conference, Indonesia, 2012 ', 'Indonesia', '24-Feb-2022'),
+(3, 'M11367A', 'Clot Waveform Analysis in Acute VTE in Patients with/without cancers', 'Oral', 'Nil', 'RFG 2022', 'Malaysia', '31-Jan-2022'),
+(4, 'M11367A', 'The Changing Profile of Helicobacter Pylori Primary Antibiotic Resistance in Singapore over the last two decades ', ' Abstract', ' NIL', 'Digestive Diseases Week 2021 ', 'United States ', ' 23-May-2022'),
+(5, 'M11367A', 'Influence of Age on long term prognoses over 9 years after ischemic stroke', ' ', 'Nil', 'European Stroke Organization Conference 2017', 'Prague', '3-Jun-2022'),
+(6, 'M11367A', 'Prevalence and Predictors of Positional Obstructive Sleep Apnea in a Southeast Asian Population ', 'Poster', 'Nil', 'CHEST Congress 2019', 'Thailand', '11-Apr-2022'),
 (7, 'M88791Z', 'Malignant Large Bowel Obstruction & Colonic Stenting as safe bridge to surgery – A clinical audit of efficacy and safety in a tertiary centre', 'Oral', ' NIL', 'Digestive Diseases Week 2021 ', 'United States ', '21-May-2021'),
 (8, 'M56829J', '', '', '', '', '', ''),
 (9, 'M83162D', '', '', '', '', '', ''),
@@ -1183,11 +1193,11 @@ CREATE TABLE `publications` (
 --
 
 INSERT INTO `publications` (`id`, `MCR_No`, `Publication_Title`, `Journal_Title`, `PMID`, `Publication_Date`) VALUES
-(1, 'M54354E', '', '', '', ''),
-(2, 'M16782H', '', '', '', ''),
-(3, 'M65889A', '', '', '', ''),
-(4, 'M54354E', 'A novel heart rate variability based riskprediction model for septic patient presenting to the emergency department', ' ', '29879021', ''),
-(5, 'M54354E', '', '', '', ''),
+(1, 'M11367A', 'Non-responsive breast cellulitis after hyaluronic acid filler injection', 'International Journal of Infectious Diseases', '29501834', '23-Mar-2022'),
+(2, 'M11367A', 'Medical and Surgical Emergencies: The ABCDE Approach – Oncological Emergencies', 'International Journal of Infectious Diseases', '29501834', '23-Mar-2022'),
+(3, 'M11367A', 'CHEST Pearls: A 78-Year-Old Man With Recurrent Hemoptysis and Persistent Pulmonary Nodule', 'CHEST', '32145821', '28-Mar-2022'),
+(4, 'M11367A', 'Elevated activated partial thromboplastin time-based clot waveform analysis markers have strong positive association with acute venous thromboembolism', 'Singapore Medical Journal', '31223264', '28-May-2022'),
+(5, 'M54354E', 'A novel heart rate variability based riskprediction model for septic patient presenting to the emergency department', ' ', '29879021', ''),
 (6, 'M88791Z', '', '', '', ''),
 (7, 'M56829J', '', '', '', ''),
 (8, 'M83162D', '', '', '', ''),
