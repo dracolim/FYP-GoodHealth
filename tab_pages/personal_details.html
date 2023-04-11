@@ -244,8 +244,17 @@
                     class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">Redo
                     Edit</button>
 
+                <span id="export-pdf">
+                    <button  type="button"  :href="currpage[1] + '' + mcr_no" target="_blank"
+                    class="text-white bg-blue-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">
+                    <label class="ml-2">Export PDF</label>
+                </button>
+                <button type="button"  :href="currpage[2] + '' + mcr_no"  target="_blank"
+                    class="text-white bg-blue-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">
+                    <label class="ml-2">Export Word</label>
+                </button></span>
 
-                <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 
+                <!-- <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 
             text-white transition duration-150 ease-in-out bg-blue-500 rounded-md shadow 
             hover:bg-blue-400" v-if="mcr_no.length != 0" :href="currpage[1] + '' + mcr_no" target="_blank"
                     style="margin-right: 5px;">
@@ -264,7 +273,7 @@
                     </svg>
                     <span></span>
                     Export Word
-                </a>
+                </a> -->
             </div>
         </div>
 
@@ -977,13 +986,20 @@
                     this.mcr_no = newdata
                     table.on("rowSelectionChanged", function (data, rows) {
                         // newdata = []
-                        for (i of data) {
-                            newdata.push(i["MCR_No"])
+                        console.log(data,'DDATA')
+                        this.mcr_no=data
+                        //for (i of data) {
+                        //    newdata.push(i["MCR_No"])
                             // this.mcr_no.push(i["MCR_No"])
-                        }
-                        console.log(this.mcr_no)
+                        //}
+                        console.log(this.mcr_no,'this mcr no')
                         document.getElementById("select-stats").innerHTML = JSON.stringify(
                             newdata);
+                            if (this.mcr_no.length > 0) {
+                                document.getElementById("export-pdf").style.display='inline-block'
+                            } else {
+                                document.getElementById("export-pdf").style.display='none'
+                            }
                     });
 
 
