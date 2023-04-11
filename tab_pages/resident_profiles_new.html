@@ -533,15 +533,15 @@
 
                         <p class="underline underline-offset-8 font-bold text-lg mt-10">Residency Details</p>
 
-                        <table class="w-full text-left text-blue-100 dark:text-blue-100 my-5">
+                        <table class="w-full text-left text-blue-100 my-5">
                             <!-- COLUMN NAMES -->
-                            <thead class="text-md text-white bg-orange-500">
+                            <!-- <thead class="text-md text-white bg-orange-500">
                                 <tr>
                                     <th>Specialty Programme</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
                                 </tr>
-                            </thead>
+                            </thead> -->
                             <tbody>
                                 <tr class="border border-black" v-for="item in profile_data_original">
                                     <td
@@ -631,10 +631,10 @@
                 <div id="biggerTables" class="mx-5">
 
 
-                    <p class="underline underline-offset-8 font-bold text-lg mt-10">Sentiment Analysis</p>
-                    <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100 my-5">
+                    <!-- <p class="underline underline-offset-8 font-bold text-lg mt-10">Sentiment Analysis</p>
+                    <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100 my-5"> -->
                         <!-- COLUMN NAMES -->
-                        <thead class="text-xs text-white bg-orange-500">
+                        <!-- <thead class="text-xs text-white bg-orange-500">
                             <th scope="col" class="px-6 py-3 text-center align-middle"
                                 v-for="title in ['Comment', 'Positive', 'Neutral', 'Negative', 'Keywords']">
                                 <span
@@ -642,16 +642,16 @@
                                     {{title}}</span>
                             </th>
                         </thead>
-                        <tbody>
+                        <tbody> -->
                             <!-- 1 row = 1 reisdent = 1 key -->
-                            <tr class="border" v-for="posting in mockTableData">
+                            <!-- <tr class="border" v-for="posting in mockTableData">
                                 <td class="bg-orange-100 text-center px-1 py-4 font-medium text-black align-middle"
                                     v-for="title in ['Comment', 'Positive', 'Neutral', 'Negative', 'Keywords']">
                                     <p>{{posting[title]}}</p>
                                 </td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table> -->
 
 
 
