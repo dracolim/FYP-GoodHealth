@@ -46,7 +46,7 @@ CREATE TABLE `awards` (
 --
 
 INSERT INTO `awards` (`id`, `MCR_No`, `Award_Category`, `Name_of_Award`, `FY_of_Award_Received`, `Date_of_Award_Received`, `Project_ID`) VALUES
-(1, 'M11367A', '', '', '', '', ''),
+(1, 'M54354E', '', '', '', '', ''),
 (2, 'M16782H', '', 'Antibiotic stewardship award', '', '2016', ''),
 (3, 'M16782H', '', 'Medicine ACP Education Award (Team Education)', '', 'May-19', ''),
 (4, 'M16782H', '', '', '', '', ''),
@@ -70,7 +70,8 @@ INSERT INTO `awards` (`id`, `MCR_No`, `Award_Category`, `Name_of_Award`, `FY_of_
 (22, 'M45528I', '', 'Outstanding Resident Award', '', 'Jun-19', ''),
 (23, 'M45528I', 'Oustanding Resident', 'RISE awards ', '2019', '', ''),
 (24, 'M45528I', 'Oustanding Resident', 'RISE awards ', '2020', '', ''),
-(25, 'M65659J', 'QI award ', 'CGH QI Festival Silver Award', '2021', '', 'Shortening Wait Time and Implementing Faster Triage (SWIFT) - evaluating and reducing delay to diagnosis and management of lung cancer');
+(25, 'M65659J', 'QI award ', 'CGH QI Festival Silver Award', '2021', '', 'Shortening Wait Time and Implementing Faster Triage (SWIFT) - evaluating and reducing delay to diagnosis and management of lung cancer'),
+(26, 'M11367A', 'QI award ', 'CGH QI Festival Silver Award', '2021', '', 'Shortening Wait Time and Implementing Faster Triage (SWIFT) - evaluating and reducing delay to diagnosis and management of lung cancer');
 
 -- --------------------------------------------------------
 
@@ -97,9 +98,9 @@ CREATE TABLE `case_log` (
 --
 
 INSERT INTO `case_log` (`id`, `MCR_No`, `Case_Name`, `Type_of_Case_Log`, `Date_of_Log`, `CPT`, `Total`, `Performed`, `Observed`, `Verified`, `Certified`) VALUES
-(1, 'M11367A', 'AKI - Case Log', 'inpatient', '3/2/2022', 'Null', '10', '2', '8', '', 'No'),
-(2, 'M16782H', 'CKD - Case Log', 'outpatient', '3/2/2022', 'Null', '36', '1', '4', '', 'No'),
-(3, 'M65889A', 'GN - Case Log', 'blue letter', '3/2/2022', 'Null', '37', '13', '24', '', 'Yes');
+(1, 'M11367A', 'AKI - Case Log', 'inpatient', '3/2/2022', 'Null', '10', '2', '8', '', 'Yes'),
+(2, 'M11367A', 'AKI - Case Log', 'outpatient', '17/2/2022', 'Null', '36', '1', '4', '', 'Yes'),
+(3, 'M11367A', 'AKI - Case Log', 'blue letter', '23/4/2022', 'Null', '37', '13', '24', '', 'Yes');
 
 -- --------------------------------------------------------
 
@@ -157,8 +158,6 @@ INSERT INTO `didactic_attendance` (`id`, `MCR_No`, `Month`, `Total_tracked_sessi
 (30, 'M54354E', 'March', '12', '11', '0.9166666666666666', '03/2024', 'Yes', 'CGH', 'CGHGerMed'),
 (31, 'M54354E', 'April', '4', '4', '1', '04/2024', 'Yes', 'CGH', 'CGHGerMed');
 
--- remember to end with ;
-
 -- --------------------------------------------------------
 
 --
@@ -180,10 +179,18 @@ CREATE TABLE `duty_hour_log` (
 --
 
 INSERT INTO `duty_hour_log` (`id`, `MCR_No`, `Level`, `Submitted`, `Submitted_Proportion`, `MMYYYY`, `Logged_for_month`) VALUES
-(1, 'M54354E', '2', '3', '0.5', '12/2022', 'Yes'),
-(2, 'M11367A', '3', '4', '0.3', '12/2022', 'No'),
-(3, 'M88791Z', '4', '0', '0', '12/2022', 'Yes'),
-(4, 'M65889A', '1', '3', '1', '12/2022', 'No');
+(1, 'M11367A', '2', '3', '0.5', '01/2022', 'Yes'),
+(2, 'M11367A', '3', '4', '0.3', '02/2022', 'Yes'),
+(3, 'M11367A', '4', '0', '0.7', '03/2022', 'Yes'),
+(4, 'M11367A', '1', '3', '1', '04/2022', 'Yes'),
+(5, 'M11367A', '2', '3', '0.7', '05/2022', 'Yes'),
+(6, 'M11367A', '3', '4', '0.6', '06/2022', 'Yes'),
+(7, 'M11367A', '4', '0', '0.8', '07/2022', 'Yes'),
+(8, 'M11367A', '1', '3', '1', '08/2022', 'Yes'),
+(9, 'M11367A', '2', '3', '0.5', '09/2022', 'Yes'),
+(10, 'M11367A', '3', '4', '0.3', '10/2022', 'Yes'),
+(11, 'M11367A', '4', '0', '0.6', '11/2022', 'Yes'),
+(12, 'M11367A', '1', '3', '1', '12/2022', 'Yes');
 
 -- --------------------------------------------------------
 
@@ -212,7 +219,7 @@ CREATE TABLE `education_history` (
 --
 
 INSERT INTO `education_history` (`id`, `MCR_No`, `Year_of_Graduation`, `Date_of_Graduation`, `Basic_Qualification`, `Medical_School`, `Country_of_Graduation`, `IM_Residency_Start_Date`, `IM_Residency_End_Date`, `SR_Residency_Programme`, `SR_Residency_Start_Date`, `SR_Residency_End_Date`, `PG_Year`) VALUES
-(1, 'M11367A', '2014', 'July', 'MBBS', 'Imperial College', 'United Kingdom', '3/7/2017', '1/7/2020', 'Gastroenterology', '2-Jul-20', '6-Oct-23', '8'),
+(1, 'M11367A', '2014', 'July', 'MBBS', 'Imperial College', 'United Kingdom', '3/7/2017', '1/7/2020', 'Internal Medicine', '2-Jul-20', '6-Oct-23', '8'),
 (2, 'M16782H', '2014', 'July', 'MBBS', 'Imperial College', 'United Kingdom', '3/7/2017', '1/7/2020', 'Gastroenterology', '2-Jul-20', '5-Nov-23', '8'),
 (3, 'M65889A', '2017', 'April', 'MBBS', 'YLLSOM', 'Singapore', '2/5/2017', '30/6/2020', 'Gastroenterology', '2-Jul-20', '1-Jul-23', '5'),
 (4, 'M54354E', '2015', 'April', 'MBBS', 'YLLSOM', 'Singapore', '4/5/2015', '1/7/2020', 'Gastroenterology', '2-Jul-20', '8-Aug-23', '7'),
@@ -264,7 +271,8 @@ INSERT INTO `evaluations` (`id`, `MCR_No`, `Rotation_Period`, `Name_of_Evaluatio
 (14, 'M54354E', '11/1/2022-11/30/2022', 'SPAM', 'INTERPERSONAL & COMMUNICATION', '8 (8)', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH'),
 (15, 'M88791Z', '12/1/2022-1/3/2023', 'C1', 'MEDICAL KNOWLEDGE', '7 (7)', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH'),
 (16, 'M54354E', '12/1/2022-1/3/2023', 'Mini-CEX', 'MEDICAL KNOWLEDGE', '7 (7)', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH'),
-(17, 'M54354E', '11/1/2022-11/30/2022', 'SPAM', 'INTERPERSONAL & COMMUNICATION', '6 (8)', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH');
+(17, 'M54354E', '11/1/2022-11/30/2022', 'SPAM', 'INTERPERSONAL & COMMUNICATION', '6 (8)', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH'),
+(18, 'M11367A', '11/1/2022-11/30/2022', 'SPAM', 'INTERPERSONAL & COMMUNICATION', '6 (8)', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH');
 
 -- --------------------------------------------------------
 
@@ -301,7 +309,8 @@ INSERT INTO `evaluation_comments` (`id`, `MCR_No`, `Name`, `Evaluator`, `Service
 (8, 'M88791Z', 'Betty Li', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', 'Andre would need to show more dedication to learning', '0.46', 'dedication', 'dedication to learning', '2022-06-22 10:34:53.44', '2022-04-22 10:34:53.44'),
 (9, 'M88791Z', 'Betty Li', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', 'Andre would need to show more dedication to learning', '0.57', 'dedication', 'dedication to learning', '2022-07-22 10:34:53.44', '2022-04-22 10:34:53.44'),
 (10, 'M88791Z', 'Betty Li', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', 'Andre would need to show more dedication to learning', '0.68', 'dedication', 'dedication to learning', '2022-08-22 10:34:53.44', '2022-04-22 10:34:53.44'),
-(11, 'M88791Z', 'Betty Li', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', 'Andre would need to show more dedication to learning', '0.1', 'dedication', 'dedication to learning', '2022-05-22 10:34:53.44', '2022-04-22 10:34:53.44');
+(11, 'M88791Z', 'Betty Li', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', 'Andre would need to show more dedication to learning', '0.1', 'dedication', 'dedication to learning', '2022-05-22 10:34:53.44', '2022-04-22 10:34:53.44'),
+(12, 'M11367A', 'Daniel Tyler', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', 'Andre would need to show more dedication to learning', '0.1', 'dedication', 'dedication to learning', '2022-05-22 10:34:53.44', '2022-04-22 10:34:53.44');
 
 -- --------------------------------------------------------
 
@@ -325,7 +334,7 @@ INSERT INTO `exam_history` (`id`, `MCR_No`, `Name_of_Exam`, `Date_of_Attempt`, `
 (1, 'M11367A', 'MRCP Part 1 ', 'Sep-16', 'Pass'),
 (2, 'M11367A', 'MRCP Part 2a', 'May-17', 'Pass'),
 (3, 'M11367A', 'PACES', 'Apr-18', 'Pass'),
-(4, 'M11367A', '', '', ''),
+(4, 'M54354E', '', '', ''),
 (5, 'M16782H', 'MRCP Part 1 ', 'Jan-16', 'Pass'),
 (6, 'M16782H', 'MRCP Part 2a', 'Jun-16', 'Pass'),
 (7, 'M16782H', 'PACES', 'Feb-18', 'Pass'),
@@ -373,7 +382,8 @@ INSERT INTO `exam_history` (`id`, `MCR_No`, `Name_of_Exam`, `Date_of_Attempt`, `
 (49, 'M65659J', 'MRCP Part 1 ', 'May-18', 'Pass'),
 (50, 'M65659J', 'MRCP Part 2 ', 'Mar-19', 'Pass'),
 (51, 'M65659J', 'PACES', 'Nov-18', 'Pass'),
-(52, 'M65659J', '', '', '');
+(52, 'M65659J', '', '', ''),
+(53, 'M11367A', 'PACES', 'Nov-18', 'Pass');
 
 -- --------------------------------------------------------
 
@@ -396,8 +406,10 @@ CREATE TABLE `grants` (
 --
 
 INSERT INTO `grants` (`id`, `MCR_No`, `Name_of_Grant`, `Project_Title`, `Project_ID`, `Grant_End_Date`, `Grant_Start_Date`) VALUES
-(1, 'M65659J', 'grant1', 'project1', '1234', '1/1/2022', '1/2/2022'),
-(2, 'M88791Z', 'grant2', 'project12', '5667', '4/5/2022', '4/6/2022');
+(1, 'M11367A', 'NIH Grant: AREA Grant', 'Infection Control', '1234', '1/1/2022', '1/2/2022'),
+(2, 'M11367A', 'NIH Grant: Research Project Grant', 'Measuring Blood Pressure Noninvasively in Children.', '5667', '4/5/2022', '4/6/2022'),
+(3, 'M11367A', 'Louisa Burns Research Committee and the Grant Program: Residents', 'Oxygen Use in Patients with COPD', '4321', '1/1/2022', '1/2/2022'),
+(4, 'M11367A', 'MDA: Clinical Research Training Grant (CRTG): Residents', 'Intravenous Catheter Size and Blood Administration', '7556', '4/5/2022', '4/6/2022');
 
 -- --------------------------------------------------------
 
@@ -541,8 +553,8 @@ INSERT INTO `involvement` (`id`, `Involvement_Type`, `MCR_No`, `Event`, `Role`, 
 (90, 'Community', 'M65659J', 'Neighbourhood health service ', '', 'Oct-17', 'Oct-17'),
 (91, 'Teaching', 'M65659J', 'SingHealth PGY1 Programme', 'Physician Faculty', 'Oct-20', 'Dec-23'),
 (92, 'Teaching', 'M65659J', 'CGH ICU Procedure Course for Junior Residents', 'Simulation Centre Teachings', 'Jul-20', 'Dec-20'),
-(93, 'Leadership', 'M54354E', 'Social/Welfare Committee', 'Chief Resident', 'May-22', 'Dec-22'),
-(94, 'Leadership', 'M54354E', 'SR Committee', 'Administrative Sub-Committee', 'May-22', 'Present');
+(93, 'Leadership', 'M11367A', 'Social/Welfare Committee', 'Chief Resident', 'May-22', 'Dec-22'),
+(94, 'Leadership', 'M11367A', 'SR Committee', 'Administrative Sub-Committee', 'May-22', 'Present');
 
 -- --------------------------------------------------------
 
@@ -591,7 +603,7 @@ CREATE TABLE `personal_details` (
 INSERT INTO `personal_details` (`Employee_ID`, `Employee_Image`, `MCR_No`, `Staff_Name`, `Designation`, `Programme`, `Year_of_Training`, `Academic_Year`, `Department`, `Institution`, `Academic_Clinical_Programme`, `Employment_Status`, `Nationality`, `Date_of_Birth`, `Gender`, `Registration_Type`, `House_Blk_No`, `Street`, `Building_Name`, `Unit_No`, `Postal_Code`, `Contact_No_Work`, `Contact_No_Personal`, `Email_Official`, `Email_Personal`, `BCLS_Expiry_Date`, `ACLS_Expiry_Date`, `Covid_19_Vaccination_Status`, `Date_of_First_Dose`, `Date_of_Second_Dose`, `Vaccination_Remarks`) VALUES
 ('MOM11116', '', 'M11166J', 'Noob Doc', 'Junior Resident', 'Internal Medicine', 'R1', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-11-11 00:00:00', 'Male', 'Full', '', '11A Lalalala Hill', '', '', '243400', '92767980', '95351470', 'noob_doc@mohh.com.sg', '', '2019-07-20 00:00:00', '2019-08-29 00:00:00', 'Yes', '2021-03-30 00:00:00', '2021-04-20 00:00:00', ''),
 ('MOM11117', '', 'M11166U', 'Pro Doc', 'Senior Resident', 'Renal Medicine', 'SR1', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1999-11-11 00:00:00', 'Male', 'Full', '', '11A Lolololo Hill', '', '', '244400', '92467980', '95341470', 'pro_doc@mohh.com.sg', '', '2019-07-20 00:00:00', '2019-08-29 00:00:00', 'Yes', '2021-03-30 00:00:00', '2021-04-20 00:00:00', ''),
-('MOM12390', '', 'M11367A', 'Daniel Tyler', 'Senior Resident', 'Gastroenterology', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-11-11 00:00:00', 'Male', 'Full', '', '11A Tanglin Hill', '', '', '248000', '92343980', '91391470', 'daniel.tyler@mohh.com.sg', '', '2019-07-20 00:00:00', '2019-08-29 00:00:00', 'Yes', '2021-03-30 00:00:00', '2021-04-20 00:00:00', ''),
+('MOM12390', '', 'M11367A', 'Daniel Tyler', 'Senior Resident', 'Internal Medicine', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1989-11-11 00:00:00', 'Male', 'Full', '', '11A Tanglin Hill', '', '', '248000', '92343980', '91391470', 'daniel.tyler@mohh.com.sg', '', '2019-07-20 00:00:00', '2019-08-29 00:00:00', 'Yes', '2021-03-30 00:00:00', '2021-04-20 00:00:00', ''),
 ('MOM05233', '', 'M16782H', 'Betty Li', 'Senior Resident', 'Gastroenterology', 'SR2', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singapore PR', '1987-09-02 00:00:00', 'Female', 'Full', '', '44B Jalan Anggerek', '', '', '369000', '', '81838980', 'betty.li@mohh.com.sg', '', '2019-03-23 00:00:00', '2019-04-11 00:00:00', 'Yes', '2021-03-31 00:00:00', '2021-04-21 00:00:00', ''),
 ('MOM05601', '', 'M33571G', 'Koh Zheng Tang', 'Senior Resident', 'Renal Medicine', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1991-08-21 00:00:00', 'Male', 'Full', '', '111 Duchess Road', '', '', '269000', '88692800', '98290530', 'zhengtang.koh@mohh.com.sg', '', '', '2021-07-25 00:00:00', 'Yes', '2021-01-14 00:00:00', '2021-02-04 00:00:00', ''),
 ('MOM06313', '', 'M35589A', 'Koh Xiaojia Lynette', 'Senior Resident', 'Gastroenterology', 'SR3', '2022', 'Residency', 'MOHH', 'Medicine', 'Active', 'Singaporean', '1992-07-23 00:00:00', 'Female', 'Full', '', '700 Tampines Street 71 ', '', '#16-60 ', '520000', '97980650', '', 'lynette.koh@mohh.com.sg', '', '2022-08-31 00:00:00', '2022-10-15 00:00:00', 'Yes', '2021-01-15 00:00:00', '2021-02-10 00:00:00', ''),
@@ -954,7 +966,9 @@ INSERT INTO `posting_history` (`id`, `MCR_No`, `Posting_Institution`, `Posting_D
 (327, 'M65659J', 'SGH', 'RespMed', '06-Jul-2021', '17-Oct-2021'),
 (328, 'M65659J', 'CGH', 'RespMed', '01-Mar-2022', '31-Mar-2022'),
 (329, 'M65659J', 'CGH', 'CriticalCare', '01-Apr-2022', '03-May-2022'),
-(330, 'M65659J', 'CGH', 'IntMed', '04-May-2022', '04-Jul-2022');
+(330, 'M65659J', 'CGH', 'IntMed', '04-May-2022', '04-Jul-2022'),
+(331, 'M11367A', 'CGH', 'IntMed', '04-May-2022', '04-Jul-2022');
+
 
 -- --------------------------------------------------------
 
@@ -978,12 +992,12 @@ CREATE TABLE `presentations` (
 --
 
 INSERT INTO `presentations` (`id`, `MCR_No`, `Title`, `Type`, `Project_ID`, `Conference_Name`, `Country`, `Presentation_Date`) VALUES
-(1, 'M11367A', '', '', '', '', '', ''),
-(2, 'M16782H', '‘Dementia Care in UK: Patient’s Journey’.', ' ', 'Nil', 'Asian Medical Student Conference, Indonesia, 2012 ', 'Indonesia', '2021'),
-(3, 'M16782H', '', '', '', '', '', ''),
-(4, 'M65889A', 'The Changing Profile of Helicobacter Pylori Primary Antibiotic Resistance in Singapore over the last two decades ', ' Abstract', ' NIL', 'Digestive Diseases Week 2021 ', 'United States ', ' 23 May 2021'),
-(5, 'M54354E', 'Influence of Age on long term prognoses over 9 years after ischemic stroke', ' ', 'Nil', 'European Stroke Organization Conference 2017', 'Prague', 'Jun-17'),
-(6, 'M54354E', '', '', '', '', '', ''),
+(1, 'M11367A', 'Granulomatous Lung Disease with Concomitant Sarcoidosis and Tuberculosis: A Case Report', 'Abstract', 'Nil', 'RFG 2022', 'Malaysia', '31-Jan-2022'),
+(2, 'M11367A', 'Dementia Care in UK: Patients Journey.', ' ', 'Nil', 'Asian Medical Student Conference, Indonesia, 2012 ', 'Indonesia', '24-Feb-2022'),
+(3, 'M11367A', 'Clot Waveform Analysis in Acute VTE in Patients with/without cancers', 'Oral', 'Nil', 'RFG 2022', 'Malaysia', '31-Jan-2022'),
+(4, 'M11367A', 'The Changing Profile of Helicobacter Pylori Primary Antibiotic Resistance in Singapore over the last two decades ', ' Abstract', ' NIL', 'Digestive Diseases Week 2021 ', 'United States ', ' 23-May-2022'),
+(5, 'M11367A', 'Influence of Age on long term prognoses over 9 years after ischemic stroke', ' ', 'Nil', 'European Stroke Organization Conference 2017', 'Prague', '3-Jun-2022'),
+(6, 'M11367A', 'Prevalence and Predictors of Positional Obstructive Sleep Apnea in a Southeast Asian Population ', 'Poster', 'Nil', 'CHEST Congress 2019', 'Thailand', '11-Apr-2022'),
 (7, 'M88791Z', 'Malignant Large Bowel Obstruction & Colonic Stenting as safe bridge to surgery – A clinical audit of efficacy and safety in a tertiary centre', 'Oral', ' NIL', 'Digestive Diseases Week 2021 ', 'United States ', '21-May-2021'),
 (8, 'M56829J', '', '', '', '', '', ''),
 (9, 'M83162D', '', '', '', '', '', ''),
@@ -1019,28 +1033,28 @@ CREATE TABLE `procedure_log` (
 --
 
 INSERT INTO `procedure_log` (`id`, `MCR_No`, `Procedure_Name`, `CPT`, `Date_of_Completion`, `Total`, `Performed`, `Observed`, `Verified`, `Certified`) VALUES
-(1, 'M11367A', 'Gastroscopy (OGD)', '', '01/01/2022', '-', '150', '-', '-', '-'),
-(2, 'M11367A', 'Gastroscopy (OGD) with biopsy', '', '01/01/2022', '-', '100', '-', '-', '-'),
-(3, 'M11367A', 'Gastroscopy (OGD) with non-variceal hemostasis; not actively bleeding', '', '01/01/2022', '-', '5', '-', '-', '-'),
-(4, 'M11367A', 'Gastroscopy (OGD) with non-variceal hemostasis; actively bleeding', '', '01/01/2022', '-', '3', '-', '-', '-'),
-(5, 'M11367A', 'Colonoscopy with non-variceal hemostasis; not actively bleeding', '', '01/01/2022', '-', '5', '-', '-', '-'),
-(6, 'M11367A', 'Colonoscopy with non-variceal hemostasis; actively bleeding', '', '01/01/2022', '-', '5', '-', '-', '-'),
-(7, 'M11367A', 'Colonoscopy', '', '01/01/2022', '-', '90', '-', '-', '-'),
-(8, 'M11367A', 'Colonoscopy with biopsy', '', '01/01/2022', '-', '90', '-', '-', '-'),
-(9, 'M11367A', 'Colonoscopy with polypectomy', '', '01/01/2022', '-', '20', '-', '-', '-'),
-(10, 'M11367A', 'Abdominal paracentesis', '', '01/01/2022', '-', '10', '-', '-', '-'),
-(11, 'M11367A', 'Capsule endoscopy', '', '01/01/2022', '-', '10', '-', '-', '-'),
-(12, 'M11367A', 'Percutaneous Endoscopic Gastrostomy (PEG)', '', '01/01/2022', '-', '5', '-', '-', '-'),
-(13, 'M11367A', 'Gastroscopy with variceal hemostasis; active bleeding', '', '01/01/2022', '-', '5', '-', '-', '-'),
-(14, 'M11367A', 'Gastroscopy with variceal hemostasis; not actively bleeding', '', '01/01/2022', '-', '10', '-', '-', '-'),
-(15, 'M11367A', 'Gastroscopy with variceal ligation; elective eradication', '', '01/01/2022', '-', '5', '-', '-', '-'),
-(16, 'M11367A', 'Liver biopsy', '', '01/01/2022', '-', '5', '-', '-', '-'),
-(17, 'M11367A', 'Esophageal dilatation', '', '01/01/2022', '-', '5', '-', '-', '-'),
-(18, 'M11367A', 'Luminal Stenting', '', '01/01/2022', '-', '5', '-', '-', '-'),
-(19, 'M11367A', 'Endoscopic mucosal resection (EMR) / Endoscopic submucosal dissection (ESD)', '', '01/01/2022', '-', '5', '-', '-', '-'),
-(20, 'M11367A', 'Endoscopic Retrograde and Cholangiocpancreatography (ERCP)', '', '01/01/2022', '-', '5', '-', '-', '-'),
-(21, 'M11367A', 'Endoscopic ultrasound', '', '01/01/2022', '-', '5', '-', '-', '-'),
-(22, 'M11367A', 'Esophageal motility / pH studies', '', '01/01/2022', '-', '5', '-', '-', '-'),
+(1, 'M11166J', 'Gastroscopy (OGD)', '', '01/01/2022', '-', '150', '-', '-', '-'),
+(2, 'M11166J', 'Gastroscopy (OGD) with biopsy', '', '01/01/2022', '-', '100', '-', '-', '-'),
+(3, 'M11166J', 'Gastroscopy (OGD) with non-variceal hemostasis; not actively bleeding', '', '01/01/2022', '-', '5', '-', '-', '-'),
+(4, 'M11166J', 'Gastroscopy (OGD) with non-variceal hemostasis; actively bleeding', '', '01/01/2022', '-', '3', '-', '-', '-'),
+(5, 'M11166J', 'Colonoscopy with non-variceal hemostasis; not actively bleeding', '', '01/01/2022', '-', '5', '-', '-', '-'),
+(6, 'M11166J', 'Colonoscopy with non-variceal hemostasis; actively bleeding', '', '01/01/2022', '-', '5', '-', '-', '-'),
+(7, 'M11166J', 'Colonoscopy', '', '01/01/2022', '-', '90', '-', '-', '-'),
+(8, 'M11166J', 'Colonoscopy with biopsy', '', '01/01/2022', '-', '85', '-', '-', '-'),
+(9, 'M11166J', 'Colonoscopy with polypectomy', '', '01/01/2022', '-', '20', '-', '-', '-'),
+(10, 'M11166J', 'Abdominal paracentesis', '', '01/01/2022', '-', '9', '-', '-', '-'),
+(11, 'M11166J', 'Capsule endoscopy', '', '01/01/2022', '-', '8', '-', '-', '-'),
+(12, 'M11166J', 'Percutaneous Endoscopic Gastrostomy (PEG)', '', '01/01/2022', '-', '5', '-', '-', '-'),
+(13, 'M11166J', 'Gastroscopy with variceal hemostasis; active bleeding', '', '01/01/2022', '-', '5', '-', '-', '-'),
+(14, 'M11166J', 'Gastroscopy with variceal hemostasis; not actively bleeding', '', '01/01/2022', '-', '8', '-', '-', '-'),
+(15, 'M11166J', 'Gastroscopy with variceal ligation; elective eradication', '', '01/01/2022', '-', '5', '-', '-', '-'),
+(16, 'M11166J', 'Liver biopsy', '', '01/01/2022', '-', '3', '-', '-', '-'),
+(17, 'M11166J', 'Esophageal dilatation', '', '01/01/2022', '-', '3', '-', '-', '-'),
+(18, 'M11166J', 'Luminal Stenting', '', '01/01/2022', '-', '3', '-', '-', '-'),
+(19, 'M11166J', 'Endoscopic mucosal resection (EMR) / Endoscopic submucosal dissection (ESD)', '', '01/01/2022', '-', '3', '-', '-', '-'),
+(20, 'M11166J', 'Endoscopic Retrograde and Cholangiocpancreatography (ERCP)', '', '01/01/2022', '-', '3', '-', '-', '-'),
+(21, 'M11166J', 'Endoscopic ultrasound', '', '01/01/2022', '-', '5', '-', '-', '-'),
+(22, 'M11166J', 'Esophageal motility / pH studies', '', '01/01/2022', '-', '5', '-', '-', '-'),
 (23, 'M11166J', 'Abdominal Tap', '', '01/01/2022', '-', '-', '-', '3', '-'),
 (24, 'M11166J', 'Arterial Line Placement', '', '01/01/2022', '-', '-', '-', '5', '-'),
 (25, 'M11166J', 'Central Line Placement', '', '01/01/2022', '-', '-', '-', '5', '-'),
@@ -1064,19 +1078,19 @@ INSERT INTO `procedure_log` (`id`, `MCR_No`, `Procedure_Name`, `CPT`, `Date_of_C
 (43, 'M11166U', 'Transplant Kidney Biopsy', '', '01/01/2022', '-', '2', '-', '-', '-'),
 (44, 'M16782H', 'Gastroscopy (OGD)', '', '01/01/2022', '-', '150', '-', '-', '-'),
 (45, 'M16782H', 'Gastroscopy (OGD) with biopsy', '', '01/01/2022', '-', '150', '-', '-', '-'),
-(46, 'M11166J', 'Abdominal Tap', '', '01/01/2022', '-', '-', '-', '3', '-'),
-(47, 'M11166J', 'Arterial Line Placement', '', '01/01/2022', '-', '-', '-', '5', '-'),
-(48, 'M11166J', 'Central Line Placement', '', '01/01/2022', '-', '-', '-', '5', '-'),
-(49, 'M11166J', 'Thoracentesis / Chest tube', '', '01/01/2022', '-', '-', '-', '3', '-'),
-(50, 'M11166J', 'Lumbar Puncture', '', '01/01/2022', '-', '-', '-', '5', '-'),
-(51, 'M11166J', 'Endotracheal Intubation', '', '01/01/2022', '-', '-', '-', '5', '-'),
-(52, 'M11166J', 'Ventilator Management', '', '01/01/2022', '-', '-', '-', '5', '-'),
-(53, 'M11166J', 'Arthrocentesis', '', '01/01/2022', '-', '-', '-', '2', '-'),
-(54, 'M11166J', 'Hemodialysis Catheter Insertion', '', '01/01/2022', '-', '-', '-', '3', '-'),
-(55, 'M11166J', 'ABG', '', '01/01/2022', '-', '-', '-', '1', '-'),
-(56, 'M11166J', 'Vene', '', '01/01/2022', '-', '-', '-', '1', '-'),
-(57, 'M11166J', 'IV Plug', '', '01/01/2022', '-', '-', '-', '1', '-'),
-(58, 'M11166J', 'ECG', '', '01/01/2022', '-', '-', '-', '1', '-'),
+(46, 'M11367A', 'Abdominal Tap', '', '01/01/2022', '-', '-', '-', '3', '-'),
+(47, 'M11367A', 'Arterial Line Placement', '', '01/01/2022', '-', '-', '-', '4', '-'),
+(48, 'M11367A', 'Central Line Placement', '', '01/01/2022', '-', '-', '-', '4', '-'),
+(49, 'M11367A', 'Thoracentesis / Chest tube', '', '01/01/2022', '-', '-', '-', '2', '-'),
+(50, 'M11367A', 'Lumbar Puncture', '', '01/01/2022', '-', '-', '-', '4', '-'),
+(51, 'M11367A', 'Endotracheal Intubation', '', '01/01/2022', '-', '-', '-', '4', '-'),
+(52, 'M11367A', 'Ventilator Management', '', '01/01/2022', '-', '-', '-', '4', '-'),
+(53, 'M11367A', 'Arthrocentesis', '', '01/01/2022', '-', '-', '-', '2', '-'),
+(54, 'M11367A', 'Hemodialysis Catheter Insertion', '', '01/01/2022', '-', '-', '-', '3', '-'),
+(55, 'M11367A', 'ABG', '', '01/01/2022', '-', '-', '-', '1', '-'),
+(56, 'M11367A', 'Vene', '', '01/01/2022', '-', '-', '-', '1', '-'),
+(57, 'M11367A', 'IV Plug', '', '01/01/2022', '-', '-', '-', '1', '-'),
+(58, 'M11367A', 'ECG', '', '01/01/2022', '-', '-', '-', '1', '-'),
 (59, 'M54354E', 'Gastroscopy (OGD)', '', '01/01/2022', '-', '150', '-', '-', '-'),
 (60, 'M54354E', 'Gastroscopy (OGD) with biopsy', '', '01/01/2022', '-', '100', '-', '-', '-'),
 (61, 'M54354E', 'Gastroscopy (OGD) with non-variceal hemostasis; not actively bleeding', '', '01/01/2022', '-', '5', '-', '-', '-'),
@@ -1155,7 +1169,12 @@ INSERT INTO `projects` (`id`, `MCR_No`, `Project_Type`, `Project_Title`, `Projec
 (30, 'M65659J', '', 'SGH Bronchiectasis Database', '', 'Jun-18', 'Ongoing', '', ''),
 (31, 'M65659J', 'QI', 'Shortening Wait Time and Implementing Faster Triage (SWIFT) - evaluating and reducing delay to diagnosis and management of lung cancer', '', 'Jun-19', 'Dec-18', '', ''),
 (32, 'M65659J', '', 'Evaluation Of Concomitant Lung Parenchymal Involvement In Patients With Tuberculous Pleural Effusion In An Endemic Population', '', 'Jan-20', 'Ongoing', '', ''),
-(33, 'M65659J', '', 'MDI Spacer instead of wet nebulizer during acute inpatient admissions for asthma/ COPD exacerbations', '', 'Oct-20', 'Ongoing', '', '');
+(33, 'M65659J', '', 'MDI Spacer instead of wet nebulizer during acute inpatient admissions for asthma/ COPD exacerbations', '', 'Oct-20', 'Ongoing', '', ''),
+(34, 'M11367A', 'QI', 'Working on ways to identify patients from ACC clinic lists who are potential candidates for switching to novel anticoagulants', ' ', 'Nov-17', 'Apr-19', '', ''),
+(35, 'M11367A', '', 'SGH Bronchiectasis Database', '', 'Jun-18', 'Ongoing', '', ''),
+(36, 'M11367A', 'QI', 'Shortening Wait Time and Implementing Faster Triage (SWIFT) - evaluating and reducing delay to diagnosis and management of lung cancer', '', 'Jun-19', 'Dec-18', '', ''),
+(37, 'M11367A', '', 'Evaluation Of Concomitant Lung Parenchymal Involvement In Patients With Tuberculous Pleural Effusion In An Endemic Population', '', 'Jan-20', 'Ongoing', '', ''),
+(38, 'M11367A', '', 'MDI Spacer instead of wet nebulizer during acute inpatient admissions for asthma/ COPD exacerbations', '', 'Oct-20', 'Ongoing', '', '');
 
 -- --------------------------------------------------------
 
@@ -1177,11 +1196,11 @@ CREATE TABLE `publications` (
 --
 
 INSERT INTO `publications` (`id`, `MCR_No`, `Publication_Title`, `Journal_Title`, `PMID`, `Publication_Date`) VALUES
-(1, 'M11367A', '', '', '', ''),
-(2, 'M16782H', '', '', '', ''),
-(3, 'M65889A', '', '', '', ''),
-(4, 'M54354E', 'A novel heart rate variability based riskprediction model for septic patient presenting to the emergency department', ' ', '29879021', ''),
-(5, 'M54354E', '', '', '', ''),
+(1, 'M11367A', 'Non-responsive breast cellulitis after hyaluronic acid filler injection', 'International Journal of Infectious Diseases', '29501834', '23-Mar-2022'),
+(2, 'M11367A', 'Medical and Surgical Emergencies: The ABCDE Approach – Oncological Emergencies', 'International Journal of Infectious Diseases', '29501834', '23-Mar-2022'),
+(3, 'M11367A', 'CHEST Pearls: A 78-Year-Old Man With Recurrent Hemoptysis and Persistent Pulmonary Nodule', 'CHEST', '32145821', '28-Mar-2022'),
+(4, 'M11367A', 'Elevated activated partial thromboplastin time-based clot waveform analysis markers have strong positive association with acute venous thromboembolism', 'Singapore Medical Journal', '31223264', '28-May-2022'),
+(5, 'M54354E', 'A novel heart rate variability based riskprediction model for septic patient presenting to the emergency department', ' ', '29879021', ''),
 (6, 'M88791Z', '', '', '', ''),
 (7, 'M56829J', '', '', '', ''),
 (8, 'M83162D', '', '', '', ''),
@@ -1238,7 +1257,8 @@ INSERT INTO `trgextrem_history` (`id`, `MCR_No`, `LOAPIP`, `StartDate`, `EndDate
 (22, 'M66630D', '', '', ''),
 (23, 'M45528I', '', '', ''),
 (24, 'M65659J', 'LOA', '30-Apr-2021', '30-May-2021'),
-(25, 'M65659J', 'LOA', '18-Oct-2021', '28-Feb-2022');
+(25, 'M65659J', 'LOA', '18-Oct-2021', '28-Feb-2022'),
+(26, 'M11367A', 'LOA', '18-Oct-2021', '28-Feb-2022');
 
 -- --------------------------------------------------------
 

@@ -365,8 +365,11 @@ def getPage(name, mcrno, profileimg, awardsRows, projectRows, educationalInvolve
         </tbody>
     </table>
 <p><br></p>
+<p><br></p>
+
 
 <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>EDUCATION & QUALIFICATIONS</b></span></p>
+<p><br></p>
 <p><br></p>
 <div align="left" >
     <table style="width: 100%;" >
@@ -425,7 +428,7 @@ def getPage(name, mcrno, profileimg, awardsRows, projectRows, educationalInvolve
 
 
         <!-- Leadership Involvement SECTION: -->
-
+<p><br></p>
 <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>LEADERSHIP INVOLVEMENT</b></span></p>
 <p><br></p>
 <p>Examples: RISE Award, best HO/MO during a particular posting, best oral speaker</p>
@@ -462,7 +465,7 @@ def getPage(name, mcrno, profileimg, awardsRows, projectRows, educationalInvolve
 
 
     <!-- Community Involvement SECTION: -->
-
+<p><br></p>
 <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>COMMUNITY INVOLVEMENT</b></span></p>
 <p><br></p>
 <p>Examples: RISE Award, best HO/MO during a particular posting, best oral speaker</p>
@@ -497,6 +500,7 @@ def getPage(name, mcrno, profileimg, awardsRows, projectRows, educationalInvolve
 
 
     <!-- Educational Involvement SECTION: -->
+<p><br></p>
     <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>EDUCATIONAL INVOLVEMENT</b></span></p>
 <p><br></p>
 <p>Examples: RISE Award, best HO/MO during a particular posting, best oral speaker</p>
@@ -540,7 +544,7 @@ def getPage(name, mcrno, profileimg, awardsRows, projectRows, educationalInvolve
 
 
     <!-- AWARD SECTION: -->
-
+<p><br></p>
     <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>AWARDS &amp; RECOGNITION&nbsp;</b></span></p>
 <p><br></p>
 <p>Examples: RISE Award, best HO/MO during a particular posting, best oral speaker</p>
@@ -572,9 +576,8 @@ def getPage(name, mcrno, profileimg, awardsRows, projectRows, educationalInvolve
 
 
 <!-- Projects SECTION: -->
-
-<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">RESEARCH PROJECTS</span></p>
-
+<p><br></p>
+<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>RESEARCH PROJECTS</b></span></p>
 <p><br></p>
 <p>Examples: RISE Award, best HO/MO during a particular posting, best oral speaker</p>
 <p><br></p>
@@ -616,8 +619,8 @@ def getPage(name, mcrno, profileimg, awardsRows, projectRows, educationalInvolve
 </div>
 
 <!-- Teaching Presentations SECTION: -->
-
-<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">TEACHING PRESENTATIONS</span></p>
+<p><br></p>
+<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>TEACHING PRESENTATIONS</b></span></p>
 
 <p><br></p>
 <p>Examples: To list Lecture, or presentation (such as grand rounds or case presentations) of at least 30 minute duration within the sponsoring institution or program. Includes teaching presentations in the various postings (Journal Club, Resident Rounds etc)</p>
@@ -643,9 +646,8 @@ def getPage(name, mcrno, profileimg, awardsRows, projectRows, educationalInvolve
     </table>
 </div>
 <!-- Other Presentations SECTION: -->
-
-<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">ABSTRACT, POSTER & ORAL PRESENTATIONS</span></p>
-
+<p><br></p>
+<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>ABSTRACT, POSTER & ORAL PRESENTATIONS</b></span></p>
 <p><br></p>
 <p>Includes Presentation given at international, national, or regional meetings</p>
 <p><br></p>
@@ -677,9 +679,8 @@ def getPage(name, mcrno, profileimg, awardsRows, projectRows, educationalInvolve
 </div>
 
 <!-- Publications SECTION: -->
-
-<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">PUBLICATIONS (Articles)</span></p>
-
+<p><br></p>
+<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>PUBLICATIONS (Articles)</b></span></p>
 <p><br></p>
 <p>Examples: To include articles that has been published. For articles published in PubMed, pls include PubMed ID (8 character numeric number). Publications not limited to PubMed.</p>
 <p><br></p>
@@ -703,8 +704,8 @@ def getPage(name, mcrno, profileimg, awardsRows, projectRows, educationalInvolve
 </div>
 
 <!-- QI and Patient Safety SECTION: -->
-
-<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">QUALITY IMPROVEMENT & PATIENT SAFETY PROJECTS</span></p>
+<p><br></p>
+<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>QUALITY IMPROVEMENT & PATIENT SAFETY PROJECTS</b></span></p>
 
 <p><br></p>
 <div align="left">
@@ -845,7 +846,9 @@ leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentati
     </table>
 <p><br></p>
 
+
 <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>EDUCATION & QUALIFICATIONS</b></span></p>
+<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>PROCEDURES CREDENTIALING</b></span></p>
 <p><br></p>
 <div align="left" >
     <table style="width: 100%;" >
@@ -1052,8 +1055,7 @@ leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentati
 
 <!-- Projects SECTION: -->
 
-<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">RESEARCH PROJECTS</span></p>
-
+    <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>RESEARCH PROJECTS</b></span></p>
 <p><br></p>
 <p>Examples: RISE Award, best HO/MO during a particular posting, best oral speaker</p>
 <p><br></p>
@@ -1096,8 +1098,8 @@ leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentati
 
 <!-- Teaching Presentations SECTION: -->
 
-<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">TEACHING PRESENTATIONS</span></p>
 
+    <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>TEACHING PRESENTATIONS</b></span></p>
 <p><br></p>
 <p>Examples: To list Lecture, or presentation (such as grand rounds or case presentations) of at least 30 minute duration within the sponsoring institution or program. Includes teaching presentations in the various postings (Journal Club, Resident Rounds etc)</p>
 <p><br></p>
@@ -1123,8 +1125,8 @@ leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentati
 </div>
 <!-- Other Presentations SECTION: -->
 
-<p style="text-align: center; background-color: rgb(0, 0, 0); width:100%"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%">ABSTRACT, POSTER & ORAL PRESENTATIONS</span></p>
 
+    <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>ABSTRACT, POSTER & ORAL PRESENTATIONS</b></span></p>
 <p><br></p>
 <p>Includes Presentation given at international, national, or regional meetings</p>
 <p><br></p>

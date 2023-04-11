@@ -3422,20 +3422,7 @@ def delete_presentation(id):
 # Generate CV word
 @app.route("/cv_word/<id>")
 @limiter.limit(requests_documents_permin)
-# @limiter.limit("1/minute", override_defaults=False)
 def pdf_to_doc(id):
-    # generatepdf(id)
-    # from pdf2docx import parse
-    # folder = "../cv/"
-    # pdf_file = folder + 'cv.pdf'
-    # docx_file = folder + 'cv.docx'
-
-    # # convert pdf to docx
-    # parse(pdf_file, docx_file)
-    # import os
-    # path=os.path.join(os.getcwd(),'../cv/cv.docx')
-    # return send_file(path, as_attachment=True)
-
     person = Personal_Details.query.get_or_404(id)
     buildobj = Builder1(person)
     return buildobj.generateDoc()
@@ -3449,11 +3436,6 @@ from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
 @app.route("/cv_pdf/<id>")
 @limiter.limit(requests_documents_permin)
 def generate_cv(id):
-    # generatepdf(id)
-    # import os
-    # path=os.path.join(os.getcwd(),'../cv/cv.pdf')
-    # return send_file(path, as_attachment=True)
-
     person = Personal_Details.query.get_or_404(id)
     buildobj = Builder1(person)
     return buildobj.generatePdfResponse()
@@ -3462,7 +3444,6 @@ def generate_cv(id):
 # Preview CV pdf:
 @app.route("/preview/<id>")
 def preview(id):
-    # page = getCompletePage(id)
     person = Personal_Details.query.get_or_404(id)
     buildobj = Builder1(person)
     buildobj.buildPage()
@@ -3490,7 +3471,6 @@ def getCompletePage(id):
     name = person.Staff_Name
     profileimg = person.Employee_Image
     education_histories = person.education_history
-    # just the table and attributes u want 
     awardsRows = getAwardsRows(awards)
     projectRows = getProjectRows(projects)
     educationalInvolvements = getEducationalInvolvement(involvements)
@@ -3531,25 +3511,25 @@ class DocumentBuilder(metaclass=ABCMeta):
     def buildPage():
         "Builds pages from details of that person"
         
-    @staticmethod
-    @abstractmethod
-    def getPage():
-        "Retrieves"
+    # @staticmethod
+    # @abstractmethod
+    # def getPage():
+    #     "Retrieves complete HTML page for preview"
 
-    @staticmethod
-    @abstractmethod
-    def generatePdf(self):
-        "Generates pdf"
+    # @staticmethod
+    # @abstractmethod
+    # def generatePdf(self):
+    #     "Generates PDF"
 
-    @staticmethod
-    @abstractmethod
-    def generatePdfResponse(self):
-        "Generates pdf response for flask app"
+    # @staticmethod
+    # @abstractmethod
+    # def generatePdfResponse(self):
+    #     "Generates PDF response for flask app"
 
-    @staticmethod
-    @abstractmethod
-    def generateDoc(self):
-        "Generates word document and corresponding word file response for flask app"
+    # @staticmethod
+    # @abstractmethod
+    # def generateDoc(self):
+    #     "Generates Word document and corresponding word file response for flask app"
 
     def generatePdf(self):
         self.assembleRows()
@@ -3585,7 +3565,7 @@ class DocumentBuilder(metaclass=ABCMeta):
 
 
 class Builder1(DocumentBuilder):
-    "First Concrete Builder."
+    "First Concrete Builder"
 
     def __init__(self, person):
         import os
@@ -3643,7 +3623,7 @@ class Builder1(DocumentBuilder):
     
 
 class Builder2(DocumentBuilder):
-    "Second Concrete Builder."
+    "Second Concrete Builder"
 
     def __init__(self, person, toInclude):
         import os
@@ -3679,8 +3659,6 @@ class Builder2(DocumentBuilder):
 
     def buildPage(self):
         from helper2 import getPage3
-
-
         self.page = getPage3(self.person.Staff_Name, 
                 self.person.MCR_No, 
                 self.person.Employee_Image,
@@ -3710,7 +3688,6 @@ class Builder2(DocumentBuilder):
                 teachingPresentationsInclude = self.toInclude["teachingPresentationsInclude"],
                 presentationInclude = self.toInclude["presentationInclude"],
                 publicationsInclude = self.toInclude["publicationsInclude"],)
-        
         
         return self
     
