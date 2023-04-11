@@ -383,7 +383,7 @@ new Vue({
                 if ( result1 == true) {
                     this.casePassed += 1 // if compliant
                 }
-                else if (result1 == false){
+                else {
                     nonCompliantResidentsCase.push(each)
                 }
             }
@@ -529,7 +529,7 @@ new Vue({
                 if (result2 == true) {
                     this.scholarlyPassed += 1 // if compliant
                 }
-                else if (result2 == false){
+                else{
                     nonCompliantResidentsScholarly.push(each)
                 }
             }
