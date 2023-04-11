@@ -150,7 +150,14 @@ INSERT INTO `didactic_attendance` (`id`, `MCR_No`, `Month`, `Total_tracked_sessi
 (23, 'M65889A', 'December', '12', '11', '0.9166666666666666', '12/2022', 'Yes', 'CGH', 'CGHGerMed'),
 (24, 'M54354E', 'December', '14', '13', '0.9285714285714286', '12/2023', 'Yes', 'CGH', 'CGHGerMed'),
 (25, 'M16782H', 'January', '12', '10', '0.8333333333333334', '01/2023', 'Yes', 'SGH', 'CGHGerMed'),
-(26, 'M88791Z', 'December', '12', '10', '0.8333333333333334', '12/2023', 'Yes', 'CGH', 'CGHGerMed');
+(26, 'M88791Z', 'December', '12', '10', '0.8333333333333334', '12/2023', 'Yes', 'CGH', 'CGHGerMed'),
+(27, 'M54354E', 'December', '12', '10', '0.8333333333333334', '12/2023', 'Yes', 'CGH', 'CGHGerMed'),
+(28, 'M54354E', 'January', '12', '10', '0.8333333333333334', '01/2024', 'Yes', 'CGH', 'CGHGerMed'),
+(29, 'M54354E', 'February', '14', '12', '0.8571428571428571', '02/2024', 'Yes', 'CGH', 'CGHGerMed'),
+(30, 'M54354E', 'March', '12', '11', '0.9166666666666666', '03/2024', 'Yes', 'CGH', 'CGHGerMed'),
+(31, 'M54354E', 'April', '4', '4', '1', '04/2024', 'Yes', 'CGH', 'CGHGerMed');
+
+-- remember to end with ;
 
 -- --------------------------------------------------------
 
@@ -533,7 +540,9 @@ INSERT INTO `involvement` (`id`, `Involvement_Type`, `MCR_No`, `Event`, `Role`, 
 (89, 'Teaching', 'M65659J', 'Project Inspire', 'Tutor', 'Dec-18', 'Dec-18'),
 (90, 'Community', 'M65659J', 'Neighbourhood health service ', '', 'Oct-17', 'Oct-17'),
 (91, 'Teaching', 'M65659J', 'SingHealth PGY1 Programme', 'Physician Faculty', 'Oct-20', 'Dec-23'),
-(92, 'Teaching', 'M65659J', 'CGH ICU Procedure Course for Junior Residents', 'Simulation Centre Teachings', 'Jul-20', 'Dec-20');
+(92, 'Teaching', 'M65659J', 'CGH ICU Procedure Course for Junior Residents', 'Simulation Centre Teachings', 'Jul-20', 'Dec-20'),
+(93, 'Leadership', 'M54354E', 'Social/Welfare Committee', 'Chief Resident', 'May-22', 'Dec-22'),
+(94, 'Leadership', 'M54354E', 'SR Committee', 'Administrative Sub-Committee', 'May-22', 'Present');
 
 -- --------------------------------------------------------
 
@@ -1067,7 +1076,29 @@ INSERT INTO `procedure_log` (`id`, `MCR_No`, `Procedure_Name`, `CPT`, `Date_of_C
 (55, 'M11166J', 'ABG', '', '01/01/2022', '-', '-', '-', '1', '-'),
 (56, 'M11166J', 'Vene', '', '01/01/2022', '-', '-', '-', '1', '-'),
 (57, 'M11166J', 'IV Plug', '', '01/01/2022', '-', '-', '-', '1', '-'),
-(58, 'M11166J', 'ECG', '', '01/01/2022', '-', '-', '-', '1', '-');
+(58, 'M11166J', 'ECG', '', '01/01/2022', '-', '-', '-', '1', '-'),
+(59, 'M54354E', 'Gastroscopy (OGD)', '', '01/01/2022', '-', '150', '-', '-', '-'),
+(60, 'M54354E', 'Gastroscopy (OGD) with biopsy', '', '01/01/2022', '-', '100', '-', '-', '-'),
+(61, 'M54354E', 'Gastroscopy (OGD) with non-variceal hemostasis; not actively bleeding', '', '01/01/2022', '-', '5', '-', '-', '-'),
+(62, 'M54354E', 'Gastroscopy (OGD) with non-variceal hemostasis; actively bleeding', '', '01/01/2022', '-', '3', '-', '-', '-'),
+(63, 'M54354E', 'Colonoscopy with non-variceal hemostasis; not actively bleeding', '', '01/01/2022', '-', '5', '-', '-', '-'),
+(64, 'M54354E', 'Colonoscopy with non-variceal hemostasis; actively bleeding', '', '01/01/2022', '-', '5', '-', '-', '-'),
+(65, 'M54354E', 'Colonoscopy', '', '01/01/2022', '-', '90', '-', '-', '-'),
+(66, 'M54354E', 'Colonoscopy with biopsy', '', '01/01/2022', '-', '80', '-', '-', '-'),
+(67, 'M54354E', 'Colonoscopy with polypectomy', '', '01/01/2022', '-', '17', '-', '-', '-'),
+(68, 'M54354E', 'Abdominal paracentesis', '', '01/01/2022', '-', '9', '-', '-', '-'),
+(69, 'M54354E', 'Capsule endoscopy', '', '01/01/2022', '-', '7', '-', '-', '-'),
+(70, 'M54354E', 'Percutaneous Endoscopic Gastrostomy (PEG)', '', '01/01/2022', '-', '3', '-', '-', '-'),
+(71, 'M54354E', 'Gastroscopy with variceal hemostasis; active bleeding', '', '01/01/2022', '-', '3', '-', '-', '-'),
+(72, 'M54354E', 'Gastroscopy with variceal hemostasis; not actively bleeding', '', '01/01/2022', '-', '10', '-', '-', '-'),
+(73, 'M54354E', 'Gastroscopy with variceal ligation; elective eradication', '', '01/01/2022', '-', '3', '-', '-', '-'),
+(74, 'M54354E', 'Liver biopsy', '', '01/01/2022', '-', '1', '-', '-', '-'),
+(75, 'M54354E', 'Esophageal dilatation', '', '01/01/2022', '-', '1', '-', '-', '-'),
+(76, 'M54354E', 'Luminal Stenting', '', '01/01/2022', '-', '2', '-', '-', '-'),
+(77, 'M54354E', 'Endoscopic mucosal resection (EMR) / Endoscopic submucosal dissection (ESD)', '', '01/01/2022', '-', '2', '-', '-', '-'),
+(78, 'M54354E', 'Endoscopic Retrograde and Cholangiocpancreatography (ERCP)', '', '01/01/2022', '-', '2', '-', '-', '-'),
+(79, 'M54354E', 'Endoscopic ultrasound', '', '01/01/2022', '-', '3', '-', '-', '-'),
+(80, 'M54354E', 'Esophageal motility / pH studies', '', '01/01/2022', '-', '3', '-', '-', '-');
 
 -- --------------------------------------------------------
 

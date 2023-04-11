@@ -158,7 +158,7 @@ new Vue({
                     data: [],
                     backgroundColor: '#ff6b00',
                     borderColor: 'rgba(136,136,136,0.5)',
-                    label: "Average Compliance (%)"
+                    label: "Average Attendance (%)"
                     }
                 ]
         },
