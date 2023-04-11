@@ -336,11 +336,17 @@ new Vue({
                     this.mcr_arr.push(response.data.data[i].MCR_No)
                 }
                 // this.getScholarlyActivitiesData();
+                // this.getAllData()
+
             })
             .catch(function (error) {
                 console.log(error);
                 this.scholarlyMissing += 1
             });
+
+            setTimeout(() => {
+                this.getAllData();
+            }, 500); // 5000 milliseconds (5 seconds)
         },
     methods: {
         getAllData: function(){
@@ -590,6 +596,7 @@ new Vue({
             }
             if (this.scholarlyChartData.data.presentations.length > 0) {
                 presentationArray = this.scholarlyChartData.data.presentations
+                console.log("presentationArray" + presentationArray.data,'==============')
                 // console.log(presentationArray)
                 if (presentationArray.length == 1) {
                     if (parseInt(presentationArray[0]['Presentation_Date'].slice(-4)) ==

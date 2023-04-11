@@ -993,10 +993,10 @@ CREATE TABLE `presentations` (
 
 INSERT INTO `presentations` (`id`, `MCR_No`, `Title`, `Type`, `Project_ID`, `Conference_Name`, `Country`, `Presentation_Date`) VALUES
 (1, 'M11367A', 'Granulomatous Lung Disease with Concomitant Sarcoidosis and Tuberculosis: A Case Report', 'Abstract', 'Nil', 'RFG 2022', 'Malaysia', '31-Jan-2022'),
-(2, 'M11367A', 'Dementia Care in UK: Patients Journey.', ' ', 'Nil', 'Asian Medical Student Conference, Indonesia, 2012 ', 'Indonesia', '24-Feb-2022'),
+(2, 'M11367A', 'Dementia Care in UK: Patients Journey.', '', 'Nil', 'Asian Medical Student Conference, Indonesia, 2012 ', 'Indonesia', '24-Feb-2022'),
 (3, 'M11367A', 'Clot Waveform Analysis in Acute VTE in Patients with/without cancers', 'Oral', 'Nil', 'RFG 2022', 'Malaysia', '31-Jan-2022'),
 (4, 'M11367A', 'The Changing Profile of Helicobacter Pylori Primary Antibiotic Resistance in Singapore over the last two decades ', ' Abstract', ' NIL', 'Digestive Diseases Week 2021 ', 'United States ', ' 23-May-2022'),
-(5, 'M11367A', 'Influence of Age on long term prognoses over 9 years after ischemic stroke', ' ', 'Nil', 'European Stroke Organization Conference 2017', 'Prague', '3-Jun-2022'),
+(5, 'M11367A', 'Influence of Age on long term prognoses over 9 years after ischemic stroke', '', 'Nil', 'European Stroke Organization Conference 2017', 'Prague', '3-Jun-2022'),
 (6, 'M11367A', 'Prevalence and Predictors of Positional Obstructive Sleep Apnea in a Southeast Asian Population ', 'Poster', 'Nil', 'CHEST Congress 2019', 'Thailand', '11-Apr-2022'),
 (7, 'M88791Z', 'Malignant Large Bowel Obstruction & Colonic Stenting as safe bridge to surgery – A clinical audit of efficacy and safety in a tertiary centre', 'Oral', ' NIL', 'Digestive Diseases Week 2021 ', 'United States ', '21-May-2021'),
 (8, 'M56829J', '', '', '', '', '', ''),
