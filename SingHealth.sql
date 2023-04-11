@@ -241,12 +241,23 @@ CREATE TABLE `evaluations` (
 --
 
 INSERT INTO `evaluations` (`id`, `MCR_No`, `Rotation_Period`, `Name_of_Evaluation_Form`, `Question`, `Score`, `Evaluator`, `Service`) VALUES
-(1, 'M11367A', '7/1/2022-7/31/2022', '360', 'PROFESSIONALISM', '5 (5)', 'Dr. Chan, Webber Pak Wo', 'SHS-GASTRO:BASIC ENDO-SGH'),
-(2, 'M65889A', '11/1/2022-11/30/2022', 'REF', 'PROFESSIONALISM', '7 (7)', 'Dr. Chang, Jason Pik Eu', 'SHS-GRM:GERI-CGH'),
-(3, 'M54354E', '11/1/2022-11/30/2022', 'SPAM', 'INTERPERSONAL & COMMUNICATION', '8 (8)', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH'),
-(4, 'M88791Z', '12/1/2022-1/3/2023', 'C1', 'MEDICAL KNOWLEDGE', '7 (7)', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH'),
-(5, 'M54354E', '12/1/2022-1/3/2023', 'Mini-CEX', 'MEDICAL KNOWLEDGE', '7 (7)', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH'),
-(6, 'M54354E', '11/1/2022-11/30/2022', 'SPAM', 'INTERPERSONAL & COMMUNICATION', '6 (8)', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH');
+(1, 'M11367A', '1/1/2022-7/31/2022', '360', 'PROFESSIONALISM', '5 (5)', 'Dr. Chan, Webber Pak Wo', 'SHS-GASTRO:BASIC ENDO-SGH'),
+(2, 'M11367A', '2/1/2022-7/31/2022', '360', 'PROFESSIONALISM', '4 (4)', 'Dr. Chan, Webber Pak Wo', 'SHS-GASTRO:BASIC ENDO-SGH'),
+(3, 'M11367A', '3/1/2022-7/31/2022', '360', 'PROFESSIONALISM', '3 (3)', 'Dr. Chan, Webber Pak Wo', 'SHS-GASTRO:BASIC ENDO-SGH'),
+(4, 'M11367A', '4/1/2022-7/31/2022', '360', 'PROFESSIONALISM', '5 (5)', 'Dr. Chan, Webber Pak Wo', 'SHS-GASTRO:BASIC ENDO-SGH'),
+(5, 'M11367A', '5/1/2022-7/31/2022', '360', 'PROFESSIONALISM', '6 (6)', 'Dr. Chan, Webber Pak Wo', 'SHS-GASTRO:BASIC ENDO-SGH'),
+(6, 'M11367A', '6/1/2022-7/31/2022', '360', 'PROFESSIONALISM', '7 (7)', 'Dr. Chan, Webber Pak Wo', 'SHS-GASTRO:BASIC ENDO-SGH'),
+(7, 'M11367A', '7/1/2022-7/31/2022', '360', 'PROFESSIONALISM', '7 (7)', 'Dr. Chan, Webber Pak Wo', 'SHS-GASTRO:BASIC ENDO-SGH'),
+(8, 'M11367A', '8/1/2022-7/31/2022', '360', 'PROFESSIONALISM', '8 (8)', 'Dr. Chan, Webber Pak Wo', 'SHS-GASTRO:BASIC ENDO-SGH'),
+(9, 'M11367A', '9/1/2022-7/31/2022', '360', 'PROFESSIONALISM', '7 (7)', 'Dr. Chan, Webber Pak Wo', 'SHS-GASTRO:BASIC ENDO-SGH'),
+(10, 'M11367A', '10/1/2022-7/31/2022', '360', 'PROFESSIONALISM', '9 (9)', 'Dr. Chan, Webber Pak Wo', 'SHS-GASTRO:BASIC ENDO-SGH'),
+(11, 'M11367A', '11/1/2022-7/31/2022', '360', 'PROFESSIONALISM', '4 (4)', 'Dr. Chan, Webber Pak Wo', 'SHS-GASTRO:BASIC ENDO-SGH'),
+(12, 'M11367A', '12/1/2022-7/31/2022', '360', 'PROFESSIONALISM', '6 (6)', 'Dr. Chan, Webber Pak Wo', 'SHS-GASTRO:BASIC ENDO-SGH'),
+(13, 'M65889A', '11/1/2022-11/30/2022', 'REF', 'PROFESSIONALISM', '6 (6)', 'Dr. Chang, Jason Pik Eu', 'SHS-GRM:GERI-CGH'),
+(14, 'M54354E', '11/1/2022-11/30/2022', 'SPAM', 'INTERPERSONAL & COMMUNICATION', '8 (8)', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH'),
+(15, 'M88791Z', '12/1/2022-1/3/2023', 'C1', 'MEDICAL KNOWLEDGE', '7 (7)', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH'),
+(16, 'M54354E', '12/1/2022-1/3/2023', 'Mini-CEX', 'MEDICAL KNOWLEDGE', '7 (7)', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH'),
+(17, 'M54354E', '11/1/2022-11/30/2022', 'SPAM', 'INTERPERSONAL & COMMUNICATION', '6 (8)', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH');
 
 -- --------------------------------------------------------
 
@@ -274,9 +285,16 @@ CREATE TABLE `evaluation_comments` (
 
 INSERT INTO `evaluation_comments` (`id`, `MCR_No`, `Name`, `Evaluator`, `Service`, `Comment`, `Score`, `Keywords`, `Weakness`, `created_time`, `updated_time`) VALUES
 (1, 'M11367A', 'Daniel Tyler', 'Dr. Chang, Jason Pik Eu', 'SHS-GRM:GERI-CGH', 'She is meeting expectation of a presenter. i am confident it will get better with time', '0.15', 'presenter, meeting expectation', '', '2022-04-22 10:34:53.44', '2022-04-22 10:34:53.44'),
-(2, 'M54354E', 'Eliza Chen', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH', 'Needed minor changes to the flow and content on slides to engage audience. otherwise well done with good effort put into content.', '0.7', 'flow, content on slides, good effort', 'flow and content', '2022-05-22 10:34:53.44', '2022-04-22 10:34:53.44'),
-(3, 'M88791Z', 'Betty Li', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', 'Andre would need to show more dedication to learning', '0.1', 'dedication', 'dedication to learning', '2022-06-22 10:34:53.44', '2022-04-22 10:34:53.44'),
-(4, 'M88791Z', 'Betty Li', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', 'Andre would need to show more dedication to learning', '0.1', 'dedication', 'dedication to learning', '2022-05-22 10:34:53.44', '2022-04-22 10:34:53.44');
+(2, 'M11367A', 'Daniel Tyler', 'Dr. Chang, Jason Pik Eu', 'SHS-GRM:GERI-CGH', 'She is meeting expectation of a presenter. i am confident it will get better with time', '0.22', 'presenter, meeting expectation', '', '2022-05-22 10:34:53.44', '2022-04-22 10:34:53.44'),
+(3, 'M11367A', 'Daniel Tyler', 'Dr. Chang, Jason Pik Eu', 'SHS-GRM:GERI-CGH', 'She is meeting expectation of a presenter. i am confident it will get better with time', '0.34', 'presenter, meeting expectation', '', '2022-06-22 10:34:53.44', '2022-04-22 10:34:53.44'),
+(4, 'M54354E', 'Eliza Chen', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH', 'Needed minor changes to the flow and content on slides to engage audience. otherwise well done with good effort put into content.', '0.7', 'flow, content on slides, good effort', 'flow and content', '2022-05-22 10:34:53.44', '2022-04-22 10:34:53.44'),
+(5, 'M54354E', 'Eliza Chen', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH', 'Needed minor changes to the flow and content on slides to engage audience. otherwise well done with good effort put into content.', '0.65', 'flow, content on slides, good effort', 'flow and content', '2022-06-22 10:34:53.44', '2022-04-22 10:34:53.44'),
+(6, 'M54354E', 'Eliza Chen', 'Dr. Tan, Chee Kiat', 'SHS-IM:GEN MED-CGH', 'Needed minor changes to the flow and content on slides to engage audience. otherwise well done with good effort put into content.', '0.91', 'flow, content on slides, good effort', 'flow and content', '2022-07-22 10:34:53.44', '2022-04-22 10:34:53.44'),
+(7, 'M88791Z', 'Betty Li', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', 'Andre would need to show more dedication to learning', '0.24', 'dedication', 'dedication to learning', '2022-05-22 10:34:53.44', '2022-04-22 10:34:53.44'),
+(8, 'M88791Z', 'Betty Li', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', 'Andre would need to show more dedication to learning', '0.46', 'dedication', 'dedication to learning', '2022-06-22 10:34:53.44', '2022-04-22 10:34:53.44'),
+(9, 'M88791Z', 'Betty Li', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', 'Andre would need to show more dedication to learning', '0.57', 'dedication', 'dedication to learning', '2022-07-22 10:34:53.44', '2022-04-22 10:34:53.44'),
+(10, 'M88791Z', 'Betty Li', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', 'Andre would need to show more dedication to learning', '0.68', 'dedication', 'dedication to learning', '2022-08-22 10:34:53.44', '2022-04-22 10:34:53.44'),
+(11, 'M88791Z', 'Betty Li', 'Dr. Ooi, Chun How', 'SHS-GASTRO:GEN GASTROHEP-CGH', 'Andre would need to show more dedication to learning', '0.1', 'dedication', 'dedication to learning', '2022-05-22 10:34:53.44', '2022-04-22 10:34:53.44');
 
 -- --------------------------------------------------------
 

@@ -281,41 +281,42 @@
             },
             mounted: async function () {
                 this.loaded = false
-                // this.getSpecificDidacticAttendanceData();
-            // await this.getData();
-            await this.getEvalOverview()
-            // this.fetchchart1();
+                await this.getData();
+                await this.getData3()
+                this.fetchchart1();
+
                 },
             methods: {
-                getEvalOverview: async function () {
-                    this.status = "getting data...";
-                    specificURL = "http://127.0.0.1:5011/evaluation_overview"
-                    data = []
-                    await axios.get(specificURL).then((response) => {
-                    console.log("overview",response.data)
-                    data = response.data.data
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-
-                    this.evalData = data
-                    },
-
-
                 fetchchart1: async function (){
                         // create initial empty chart
                 var ctx_live = document.getElementById("mycanvas2").getContext('2d');;
                 this.ctx_live = ctx_live;
 
-                const labels = [65, 59, 80, 81, 56, 55, 40]
+                const labels = [1,2,3,4,5,6,7,8,9,10,11,12]
                 const data = {
                 labels: labels,
+                //                         serviceedd SHS-GRM:GERI-CGH
+// planning_maars4.html:346 serviceedd SHS-IM:GEN MED-CGH
+// planning_maars4.html:346 serviceedd SHS-GASTRO:GEN GASTROHEP-CGH
                 datasets: [{
-                    label: 'My First Dataset',
-                    data: [65, 59, 80, 81, 56, 55, 40],
+                    label: 'Gastro',
+                    data: [0,0,0,0 ,0,0,0,0 ,0,0,0, 0],
                     fill: false,
-                    borderColor: 'rgb(75, 192, 192)',
+                    borderColor: 'rgb(75, 220, 192)',
+                    tension: 0.1
+                },
+                {
+                    label: 'SHS-IM:GEN MED-CGH',
+                    data: [0,0,0,0 ,0,0,0,0 ,0,0,0, 0],
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 220)',
+                    tension: 0.1
+                },
+                {
+                    label: 'SHS-GASTRO:GEN GASTROHEP-CGH',
+                    data: [0,0,0,0 ,0,0,0,0 ,0,0,0, 0],
+                    fill: false,
+                    borderColor: 'rgb(220, 192, 192)',
                     tension: 0.1
                 }]
                 };
@@ -334,11 +335,56 @@
                 addOne: function (){
                     this.count++;
                 },
+
                 updateChart: async function (){
+                    if (this.commentsOrScore == true){
+                        await this.updateToSentiments()
+                        this.commentsOrScore = false
+                    }else{
+                        Ys = [null,null,null,null, null,null,null,null, null,null,null,null]
+                        this.myChart.data.datasets[0].data = Ys
+                        this.myChart.data.datasets[1].data = Ys
+                        this.myChart.data.datasets[2].data = Ys
+                        this.myChart.update()
+                        this.commentsOrScore = true
+                    }
+                },
+                updateToSentiments: async function (){
                     console.log("updating chart here!")
                     // await this.getEvalOverview();
                     await this.getData();
+                    await this.getData3()
                     // this.renderData()
+
+                    for (service of this.monthlyData){
+
+                    Xs = [null,null,null,null, null,null,null,null, null,null,null,null]
+                    Ys = [null,null,null,null, null,null,null,null, null,null,null,null]
+                    // Ys = [0,0,0,0, 0,0,0,0, 0,0,0,0]
+                        console.log("serviceedd", service.Service)
+                        for (i of service.data){
+                            // Xs.push(i["month"])
+                            // Ys.push(i["Score"])
+                            Ys[i["month"]] = i["Score"]
+                        }
+
+//                         serviceedd SHS-GRM:GERI-CGH
+// planning_maars4.html:346 serviceedd SHS-IM:GEN MED-CGH
+// planning_maars4.html:346 serviceedd SHS-GASTRO:GEN GASTROHEP-CGH
+                        if (service.Service == "SHS-GASTRO:GEN GASTROHEP-CGH"){
+                            // this.myChart.data.labels = Xs
+                            this.myChart.data.datasets[0].data = Ys
+                        }else if(service.Service == "SHS-IM:GEN MED-CGH"){
+                            // this.myChart.data.labels = Xs
+                            this.myChart.data.datasets[1].data = Ys
+                        }else if(service.Service == "SHS-GRM:GERI-CGH"){
+                            // this.myChart.data.labels = Xs
+                            this.myChart.data.datasets[2].data = Ys
+                        }
+                    }
+                    
+                    this.myChart.update()
+                    
                 },
 
                     getData: async function () {
@@ -357,6 +403,24 @@
                     // this.evalData = data
                     this.monthlyData = collectedData
                     },
+
+                    getData3: async function () {
+                    this.status = "getting data...";
+                    collectedData = []
+                    specificURL = "http://127.0.0.1:5011/evaluation2"
+                    data = []
+                    await axios.get(specificURL).then((response) => {
+                    console.log("raw score",response.data)
+                    collectedData = response.data.data
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+                    // this.evalData = data
+                    // this.existingScore = collectedData
+                    },
+
 
                 renderData: async function() {
                     myChart = this.myChart;
@@ -439,219 +503,7 @@
                     this.ChartConfig.datasets[0].data.length = 0
                     this.loaded = false
                     },
-                getDutyHourLogData: async function () {
 
-                    this.status = "getting data...";
-
-                    await axios.get("http://localhost:5011/duty_hour_log").then((response) => {
-                    // console.log(response.data)
-                    this.getChartData(response.data);
-                    this.loaded = true
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-                    },
-                getChartData: function (chartData) {
-                    console.log(chartData.data);
-                    console.log('break1')
-
-                    numLogsJan = 0.0
-                    countCompliantJan = 0.0
-                    percentCompliantJan = 0.0
-
-                    numLogsFeb = 0.0
-                    countCompliantFeb = 0.0
-                    percentCompliantFeb = 0.0
-
-                    numLogsMar = 0.0
-                    countCompliantMar = 0.0
-                    percentCompliantMar = 0.0
-
-                    numLogsApr = 0.0
-                    countCompliantApr = 0.0
-                    percentCompliantApr = 0.0
-
-                    numLogsMay = 0.0
-                    countCompliantMay = 0.0
-                    percentCompliantMay = 0.0
-
-                    numLogsJun = 0.0
-                    countCompliantJun = 0.0
-                    percentCompliantJun = 0.0
-
-                    numLogsJul = 0.0
-                    countCompliantJul = 0.0
-                    percentCompliantJul = 0.0
-
-                    numLogsAug = 0.0
-                    countCompliantAug = 0.0
-                    percentCompliantAug = 0.0
-
-                    numLogsSep = 0.0
-                    countCompliantSep = 0.0
-                    percentCompliantSep = 0.0
-
-                    numLogsOct = 0.0
-                    countCompliantOct = 0.0
-                    percentCompliantOct = 0.0
-
-                    numLogsNov = 0.0
-                    countCompliantNov = 0.0
-                    percentCompliantNov = 0.0
-
-                    numLogsDec = 0.0
-                    countCompliantDec = 0.0
-                    percentCompliantDec = 0.0
-
-                    // NEED TO CALCULATE % OF RESIDENTS WITH FULL SUBMISSION FOR EACH MONTH
-                    // 
-                    // console.log(this.year.substr(2,4))
-                    // console.log(chartData.data.length)
-                    for (let i = 0; i < chartData.data.length; i++) {
-                        // console.log('ye')
-                        // console.log(chartData.data[i])
-                        if(this.year == chartData.data[i]['MMYYYY'].substr(3,7) ){
-                            // console.log('yea')
-                            if(('01'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
-                            numLogsJan = numLogsJan + 1.0
-                                if(chartData.data[i]['Submitted_Proportion'] == '1'){
-                                    countCompliantJan += 1.0
-                                }
-                            }
-                            else if (('02'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
-                                numLogsFeb = numLogsFeb + 1.0
-                                if(chartData.data[i]['Submitted_Proportion'] == '1'){
-                                    countCompliantFeb += 1.0
-                                }
-                            }
-                            else if (('03'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
-                                numLogsMar = numLogsMar + 1.0
-                                if(chartData.data[i]['Submitted_Proportion'] == '1'){
-                                    countCompliantMar += 1.0
-                                }
-                            }
-                            else if (('04'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
-                                numLogsApr = numLogsApr + 1.0
-                                if(chartData.data[i]['Submitted_Proportion'] == '1'){
-                                    countCompliantApr += 1.0
-                                }
-                            }
-                            else if (('05'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
-                                numLogsMay = numLogsMay + 1.0
-                                if(chartData.data[i]['Submitted_Proportion'] == '1'){
-                                    countCompliantMay += 1.0
-                                }
-                            }
-                            else if (('06'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
-                                numLogsJun = numLogsJun + 1.0
-                                if(chartData.data[i]['Submitted_Proportion'] == '1'){
-                                    countCompliantJun += 1.0
-                                }
-                            }
-                            else if (('07'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
-                                numLogsJul = numLogsJul + 1.0
-                                if(chartData.data[i]['Submitted_Proportion'] == '1'){
-                                    countCompliantJul += 1.0
-                                }
-                            }
-                            else if (('08'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
-                                numLogsAug = numLogsAug + 1.0
-                                if(chartData.data[i]['Submitted_Proportion'] == '1'){
-                                    countCompliantAug += 1.0
-                                }
-                            }
-                            else if (('09'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
-                                numLogsSep = numLogsSep + 1.0
-                                if(chartData.data[i]['Submitted_Proportion'] == '1'){
-                                    countCompliantSep += 1.0
-                                }
-                            }
-                            else if (('10'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
-                                numLogsOct = numLogsOct + 1.0
-                                if(chartData.data[i]['Submitted_Proportion'] == '1'){
-                                    countCompliantOct += 1.0
-                                }
-                            }
-                            else if (('11'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
-                                numLogsNov = numLogsNov + 1.0
-                                if(chartData.data[i]['Submitted_Proportion'] == '1'){
-                                    countCompliantNov += 1.0
-                                }
-                            }
-                            else if (('12'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
-                                numLogsDec = numLogsDec + 1.0
-                                if(chartData.data[i]['Submitted_Proportion'] == '1'){
-                                    countCompliantDec += 1.0
-                                    console.log('yes')
-                                }
-                            }
-                        }
-                    }
-                        
-
-                    if(countCompliantJan != 0 && numLogsJan != 0){
-                        percentCompliantJan = countCompliantJan/numLogsJan}
-                    // console.log(percentCompliantJan)
-                    this.ChartConfig.datasets[0].data.push(percentCompliantJan)
-
-                    if(countCompliantFeb != 0 && numLogsFeb != 0){
-                        percentCompliantFeb = countCompliantFeb/numLogsFeb}
-                    // console.log(percentCompliantFeb)
-                    this.ChartConfig.datasets[0].data.push(percentCompliantFeb)
-                    
-                    if(countCompliantMar != 0 && numLogsMar != 0){
-                        percentCompliantMar = countCompliantMar/numLogsMar}
-                    // console.log(percentCompliantJan)
-                    this.ChartConfig.datasets[0].data.push(percentCompliantMar)
-
-                    if(countCompliantApr != 0 && numLogsApr != 0){
-                        percentCompliantApr = countCompliantApr/numLogsApr}
-                    // console.log(percentCompliantApr)
-                    this.ChartConfig.datasets[0].data.push(percentCompliantApr)
-
-                    if(countCompliantMay != 0 && numLogsMay != 0){
-                        percentCompliantMay = countCompliantMay/numLogsMay}
-                    // console.log(percentCompliantMay)
-                    this.ChartConfig.datasets[0].data.push(percentCompliantMay)
-
-                    if(countCompliantJun != 0 && numLogsJun != 0){
-                        percentCompliantJun = countCompliantJun/numLogsJun}
-                    // console.log(percentCompliantJun)
-                    this.ChartConfig.datasets[0].data.push(percentCompliantJun)
-
-                    if(countCompliantJul != 0 && numLogsJul != 0){
-                        percentCompliantJul = countCompliantJul/numLogsJul}
-                    // console.log(percentCompliantJul)
-                    this.ChartConfig.datasets[0].data.push(percentCompliantJul)
-
-                    if(countCompliantAug != 0 && numLogsAug != 0){
-                        percentCompliantAug = countCompliantAug/numLogsAug}
-                    // console.log(percentCompliantAug)
-                    this.ChartConfig.datasets[0].data.push(percentCompliantAug)
-
-                    if(countCompliantSep != 0 && numLogsSep != 0){
-                        percentCompliantSep = countCompliantSep/numLogsSep}
-                    // console.log(percentCompliantSep)
-                    this.ChartConfig.datasets[0].data.push(percentCompliantSep)
-
-                    if(countCompliantOct != 0 && numLogsOct != 0){
-                        percentCompliantOct = countCompliantOct/numLogsOct}
-                    // console.log(percentCompliantOct)
-                    this.ChartConfig.datasets[0].data.push(percentCompliantOct)
-
-                    if(countCompliantNov != 0 && numLogsNov != 0){
-                        percentCompliantNov = countCompliantNov/numLogsNov}
-                    // console.log(percentCompliantNov)
-                    this.ChartConfig.datasets[0].data.push(percentCompliantNov)
-
-                    if(countCompliantDec!= 0 && numLogsDec != 0){
-                        percentCompliantDec = countCompliantDec/numLogsDec}
-                    // console.log(percentCompliantDec)
-                    this.ChartConfig.datasets[0].data.push(percentCompliantDec)
-
-                    console.log(this.ChartConfig);
-                },
                 // activateSecondStep: function () {
                 //     this.second_step = true;
                 // }

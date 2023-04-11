@@ -640,16 +640,39 @@ def read_evaluation_comments_by_month(mcr_no):
     import pandas as pd
     items = pd.DataFrame.from_dict(items, orient='index', columns=keys)
     items['Score'] = items['Score'].astype("float")
-    df3 = items.groupby('created_time', as_index=True)[[ 'Score']].mean()
-    df3 = df3.Score.resample("M").mean()
-    df3 = df3.reset_index()
-    df3['month'] = df3['created_time'].apply(lambda x: x.month)
-    df3 = df3.drop(columns = ['created_time'])
-    df3 = df3.to_dict('records')
+    # list of services:
+    services = []
+    endResults_services = []
+    unique_services = list(items['Service'].unique())
+
+    print("unique services", unique_services)
+    for service in unique_services:
+        df = items[items["Service"] == service]
+        services.append(df)
+
+        df3 = df.groupby('created_time', as_index=True)[[ 'Score']].mean()
+        df3 = df3.Score.resample("M").mean()
+        df3 = df3.reset_index()
+        df3['month'] = df3['created_time'].apply(lambda x: x.month)
+        df3 = df3.drop(columns = ['created_time'])
+        df3 = df3.to_dict('records')
+        service_df = {"Service": service,
+         "data": df3}
+        endResults_services.append(service_df)
+
+
+    print("collated services", services)
+    print("endResults_services", endResults_services)
+    # df3 = items.groupby('created_time', as_index=True)[[ 'Score']].mean()
+    # df3 = df3.Score.resample("M").mean()
+    # df3 = df3.reset_index()
+    # df3['month'] = df3['created_time'].apply(lambda x: x.month)
+    # df3 = df3.drop(columns = ['created_time'])
+    # df3 = df3.to_dict('records')
 
     return jsonify(
         {
-            "data": df3
+            "data": endResults_services
         }
     ), 200
 
