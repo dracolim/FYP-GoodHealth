@@ -520,14 +520,14 @@ new Vue({
             count = 0
             hasTeachingPresentation = false
             hasAbstractPresentation = false
-            const d = new Date();
-            let year = d.getFullYear();
+            // const d = new Date();
+            // let year = d.getFullYear();
 
             if (chartData.data.publications.length > 0) {
                 publicationArray = chartData.data.publications
                 for (let i = 0; i < publicationArray.length; i++){
                     year1 = publicationArray[i]['Publication_Date'].slice(-2)
-                    if (year1 == year - 2000){
+                    if (year1 == this.year - 2000){
                         count += 1
                     }
                 }
@@ -536,13 +536,13 @@ new Vue({
             if (chartData.data.presentations.length > 0){
                 presentationArray = chartData.data.presentations
                 if (presentationArray.length == 1){
-                    if (presentationArray[0]['Presentation_Date'].slice(-4) == year){
+                    if (presentationArray[0]['Presentation_Date'].slice(-4) == this.year){
                         count += 1
                     }
                 }
                 else {
                     for (let i = 0; i < presentationArray.length; i++){
-                        if (presentationArray[i]['Presentation_Date'].slice(-4) == year){
+                        if (presentationArray[i]['Presentation_Date'].slice(-4) == this.year){
                             if (presentationArray[i]['Type'].length == 0 && hasTeachingPresentation == false){
                                 count += 1
                                 hasTeachingPresentation = true
