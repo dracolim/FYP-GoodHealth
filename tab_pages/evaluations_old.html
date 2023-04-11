@@ -210,7 +210,7 @@
                     <iconify-icon icon="mingcute:file-import-line" style="color: white;" width="20" height="20">
                     </iconify-icon>
                 </div>
-                <button type="button" data-te-toggle="modal" data-te-target="#exampleModalScrollable"
+                <button type="button" data-te-toggle="modal" data-te-target="#exampleModalScrollable" @click = "importSuccess = false"
                     class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">
                     <label class="ml-2">Evaluations Import</label>
                 </button>
@@ -805,7 +805,8 @@
                 } else {
                     this.error_message = "";
                     document.getElementById('submit').disabled = false;
-                    this.successPopUp()
+                    this.successPopUp();
+                    this.$refs.UploadFile.value = null;
                 }
             },
             removeErrorMsg() {
