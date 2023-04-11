@@ -3,8 +3,8 @@ new Vue({
     vuetify: new Vuetify(),
     data() {
     return {
-        year: null,
-        programme: null,
+        year: 2022,
+        programme: "Gastroenterology",
         mcr_no: "",
         nonCompliantResident: "",
 
@@ -320,7 +320,13 @@ new Vue({
     }
     },
     mounted: function () {
-        // this.loaded = false
+        this.getIhiData();
+        this.getDutyHourLogData()
+        this.getProjectsData()
+        this.getDidacticAttendanceData()
+        this.getScholarlyActivitiesData();
+        this.getCaseLogsData();
+        this.getProcedureLogData();
 
         specificURL = "http://localhost:5011/personaldetail"
         axios.get(specificURL)
