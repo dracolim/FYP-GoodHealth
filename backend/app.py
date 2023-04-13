@@ -1,6 +1,6 @@
 from sqlalchemy import insert, text, create_engine,inspect, select
 from flask import abort
-from flask import Flask, request, jsonify, render_template, send_file, redirect, send_from_directory, flash
+from flask import Flask, request, jsonify, render_template, send_file, redirect, send_from_directory, flash, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import json
@@ -9,7 +9,7 @@ import traceback
 import werkzeug.exceptions as ex
 from sqlalchemy.sql import exists
 from datetime import datetime
-from flask_limiter import Limiter
+from flask_limiter import Limiter, RequestLimit
 from flask_limiter.util import get_remote_address
 from dotenv import dotenv_values
 
@@ -23,11 +23,21 @@ app = Flask(__name__)
 app = Flask(__name__)
 app.app_context().push()
 app.secret_key = b'a secret key'
+
+
+def default_error_responder(request_limit: RequestLimit):
+    return make_response(
+        render_template("error.html", request_limit=request_limit),
+        429
+    )
+
+
 limiter = Limiter(
     get_remote_address,
     app=app,
     default_limits=["5000 per day", "5000 per hour"],
     storage_uri="memory://",
+    on_breach=default_error_responder
 )
 
 config = dotenv_values(".env")
@@ -3414,6 +3424,13 @@ def delete_presentation(id):
 # from pdfkit.api import configuration
 
 # wkhtml_path = pdfkit.configuration(wkhtmltopdf = r"C:\Users\feryo\OneDrive\Documents\GitHub\wkhtmltopdf\bin\wkhtmltopdf.exe")  #by using configuration you can add path value.
+
+# @app.errorhandler(429)
+# def ratelimit_handler(e):
+#     return make_response(
+#             jsonify(error=f"ratelimit exceeded {e.description}")
+#             , 429
+#     )
 
 
 # ============================
