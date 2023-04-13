@@ -1117,9 +1117,14 @@ new Vue({
         },
 
         getProcedureChartData: function (chartData) {
-            // console.log("This is chartData")
-            // console.log(chartData);
+            console.log("LOOK HERE NUMBER 11111111111111111111111111")
+            console.log("This is chartData")
+            console.log(chartData);
+
+            console.log("LOOK HERE NUMBER 22222222222222222222222222")
+            
             let array_of_logs = chartData.data.data
+            console.log(array_of_logs);
 
             let gastro_array = []
             let renal_array = []

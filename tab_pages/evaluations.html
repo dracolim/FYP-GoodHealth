@@ -302,7 +302,7 @@
                         <iconify-icon icon="mingcute:file-import-line" style="color: white;" width="20" height="20">
                         </iconify-icon>
                     </div>
-                    <button type="button" @click="toggleQuickView"
+                    <button hidden type="button" @click="toggleQuickView"
                         class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">
                         <label class="ml-2">Toggle Quick View</label>
                     </button>
@@ -316,7 +316,7 @@
 
 
             </div>
-            <div class="relative mx-8" id="resident-analysis" style="display:none">
+            <div hidden class="relative mx-8" id="resident-analysis" style="display:none">
                 <input type="text" placeholder="Enter Resident Name..." v-model="query">
                 <ul id='suggestion-list' v-if="query.length > 0">
                     <li id='suggestion-list-item' v-for="suggestion in filteredSuggestions"
@@ -863,13 +863,23 @@
                                     valuesLookup: true,
                                 },
 
+                                formatter:function(cell, formatterParams){
+                                    var value = cell.getValue();
+                                     if(value!=null && value !=''){
+                                        cell.getElement().style.backgroundColor = "#e56666";
+                                        return value
+                                     }else{
+                                        cell.getElement().style.backgroundColor = "transparent";
+                                        return value
+                                     }
+                                 }
                             },
                             {
                                 title: "Action",
                                 formatter: printRemoveButton,
                                 hozAlign: "center",
                                 cellClick: function (e, cell) {
-                                    axios.delete(local_host_url + "evaluation" + "/" + cell
+                                    axios.delete(local_host_url + "evaluation_comment" + "/" + cell
                                             .getRow().getData().id)
                                         .then(function (response) {
                                             console.log(response.data);
@@ -885,27 +895,10 @@
                                 width: 100,
                             },
                         ],
+                        //define print formatter
+
                     });
-                    this.table2.on('rowClick', (e, row) => {
-                        console.log(row.getData()['Comment'], 'COMMENT')
 
-
-                        var tableContainerElement = document.querySelector("#table-container");
-                        if (this.isSelected) {
-                            this.isSelected = false
-                            row.deselect()
-                            tableContainerElement.style.width = "100%"
-                        } else {
-
-                            tableContainerElement.style.width = "100%"
-                            tableContainerElement.style.width = "10%"
-                            this.isSelected = true
-                            // no rows are currently selected, so select the clicked row
-                            this.table2.deselectRow(); // clear the selection of all other rows
-                            row.toggleSelect(); // select the clicked row
-                            this.selectedComment = row.getData()['Comment']
-                        }
-                    })
                     for (var i of this.commentTableData){
                         if (!this.suggestions.includes(i.MCR_No)){
                             this.suggestions.push(i.MCR_No)
@@ -920,7 +913,30 @@
                     }
                     console.log(this.suggestionsWithNames,'with name')
 
-
+                    this.table2.on("cellEdited", function (row) {
+                        // connect to database and execute update statement
+                        let thisrow = row.getData()
+                        // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
+                        axios.put(local_host_url + "evaluation_comment", {
+                                "MCR_No": thisrow.MCR_No,
+                                'Name':thisrow.Name,
+                                "Evaluator": thisrow.Evaluator,
+                                "Name_of_Evaluation_Form": thisrow.Name_of_Evaluation_Form,
+                                "Question": thisrow.Question,
+                                "Rotation_Period": thisrow.Rotation_Period,
+                                "Weakness": thisrow.Score,
+                                "Service": thisrow.Service,
+                            })
+                            .then(response => {
+                                console.log('Project ID {' + row.getData().id +
+                                    '} updated.')
+                            })
+                            .catch(error => {
+                                console.log(error)
+                                if (alert("Failed to update row MCR No: " + row.getData()
+                                        .MCR_No)) {} else window.location.reload();
+                            })
+                    });
                 })
                 .catch(error => {
                     this.table_error_message = error.message
@@ -970,7 +986,7 @@
                     // Show the current table and hide the other table
                     document.getElementById('comments-table-container').style.display = 'flex';
                     document.getElementById('toggle-quickview').style.display = 'block';
-                    document.getElementById('resident-analysis').style.display = 'block';
+                    //document.getElementById('resident-analysis').style.display = 'block';
 
                     document.getElementById('all-comments-container').style.display = 'none';
                     document.getElementById('import-button').style.display = 'none';
@@ -983,7 +999,7 @@
 
                     document.getElementById('comments-table-container').style.display = 'none';
                     document.getElementById('toggle-quickview').style.display = 'none';
-                    document.getElementById('resident-analysis').style.display = 'none';
+                   // document.getElementById('resident-analysis').style.display = 'none';
                 }
             },
 
@@ -1128,7 +1144,7 @@
                                                         .then(response => {
                                                             console.log(
                                                                 response
-                                                                .data)
+                                                                .data,'dataaaaa god morning')
                                                         })
                                                         .catch(error => {
                                                             this.error =
