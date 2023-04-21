@@ -245,9 +245,9 @@
                     Edit
                 </button>
 
-                <button id="history-redo"
+                <!-- <button id="history-redo"
                     class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">Redo
-                    Edit</button>
+                    Edit</button> -->
 
 
                 <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 
@@ -911,9 +911,9 @@
                     });
 
                     //redo button
-                    document.getElementById("history-redo").addEventListener("click", function () {
-                        table.redo();
-                    });
+                    // document.getElementById("history-redo").addEventListener("click", function () {
+                    //     table.redo();
+                    // });
 
                     function updateRow(row) {
                         let thisrow = row.getData()
@@ -978,11 +978,11 @@
                         }
                     });
 
-                    table.on("historyRedo", function (action, component, data) {
-                        if (typeof component.getData === 'function') {
-                            updateRow(component);
-                        }
-                    });
+                    // table.on("historyRedo", function (action, component, data) {
+                    //     if (typeof component.getData === 'function') {
+                    //         updateRow(component);
+                    //     }
+                    // });
 
                     newdata = []
                     this.mcr_no = newdata

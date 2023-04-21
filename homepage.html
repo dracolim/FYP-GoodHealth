@@ -35,20 +35,22 @@
     <title>SingHealth</title>
 </head>
 
-<body >
+<body>
 
     <div id="main-container">
 
         <!-- header -->
         <div class="bg-stone-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded ">
-            <div class="container flex flex-wrap items-center justify-between mx-auto" style="width: 100%; overflow: hidden;">
-                <a href="../homepage.html">
+            <div class="container flex flex-wrap items-center justify-between mx-auto"
+                style="width: 100%; overflow: hidden;">
+                <a href="#" onclick="location.reload();">
                     <img src="images/SingHealth_Logo.png" class="mr-3 sm:h-15 ml-3 mt-2 mb-2"
                         style="height: 80px; width: 100px;" alt="Flowbite Logo" />
                 </a>
 
+
                 <div class="flex md:order-2">
-                    <a href="../homepage.html" style="margin-right: 10px;">
+                    <a href="#" onclick="location.reload();" style="margin-right: 10px;">
                         <iconify-icon icon="ic:round-home" style="color: #ff6b00;" width="40" height="40">
                         </iconify-icon>
                     </a>
@@ -82,7 +84,7 @@
                     </li>
                     <li>
                         <a href="tab_pages/personal_details.html"
-                        class="lg:text-sm md:text-sm ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Personal
+                            class="lg:text-sm md:text-sm ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">Personal
                             Details</a>
                     </li>
                     <li>
@@ -122,7 +124,7 @@
                     </li>
                     <li>
                         <a href="tab_pages/didactic_attendance.html"
-                        class="lg:text-sm md:text-sm ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0"
+                            class="lg:text-sm md:text-sm ml-5 mr-4 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0"
                             aria-current="page">
                             Didactic Attendance</a>
                     </li>
@@ -171,7 +173,8 @@
                     <a href="tab_pages/history_exam.html" class="block px-4 py-2 hover:bg-gray-100 ">Exam</a>
                 </li>
                 <li>
-                    <a href="tab_pages/history_trg_ext_remediation.html" class="block px-4 py-2 hover:bg-gray-100 ">Trg Ext. &
+                    <a href="tab_pages/history_trg_ext_remediation.html" class="block px-4 py-2 hover:bg-gray-100 ">Trg
+                        Ext. &
                         Remediation</a>
                 </li>
             </ul>
@@ -181,90 +184,110 @@
         <div class='row' style='height: 8px; background-color: #ff6b00;'></div>
 
         <!-- Graph Goes Here -->
-        <div class="container mx-auto pt-4" >
+        <div class="container mx-auto pt-4">
 
             <div id="app">
                 <v-row>
-                    <label  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 pt-3 text-right " for="grid-first-name">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 pt-3 text-right "
+                        for="grid-first-name">
                         Resident count: {{total}}
                     </label>
                 </v-row>
                 <v-row>
 
-                    <label  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 pt-3" for="grid-first-name">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 pt-3"
+                        for="grid-first-name">
                         ACADEMIC YEAR (AY):
                     </label>
-                    <input  v-model="year" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Year Here">
+                    <input v-model="year"
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        id="grid-first-name" type="text" placeholder="Input Year Here">
 
-                    <label for="hs-select-label" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 pt-3">PROGRAMME FOR PROCEDURE LOGS</label>
-                    <select v-model="programme" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" >
-                      <option v-for="programme in programmes2">{{programme}}</option>
+                    <label for="hs-select-label"
+                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 pt-3">PROGRAMME FOR
+                        PROCEDURE LOGS</label>
+                    <select v-model="programme"
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
+                        <option v-for="programme in programmes2">{{programme}}</option>
                     </select>
-                    
-                    <button  @click="getAllData()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+
+                    <button @click="getAllData()"
+                        class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
                         Get Overview Info
-                    </button> 
+                    </button>
                     <br>
                     <br>
 
                 </v-row>
                 <v-row dense>
-                  <v-col cols="sm">
-                    <v-card  class="pa-2" outlined tile raised>
-                        <br>
-                        <div style="display:flex;">
-                            <my-bar-chart1 style="width:25%;height:30vh" v-if="didacticLoaded" :bar-data="didacticChartConfig" :chart-options="didacticOptions"></my-bar-chart1>
-                            <my-donut-chart  style="width:25%;height:30vh" v-if="scholarlyLoaded" :donut-data="scholarlyChartConfig" :chart-options="scholarlyOptions"></my-donut-chart>
-                            <my-donut-chart  style="width:25%;height:30vh" v-if="ihiLoaded" :donut-data="IHIchartConfig" :chart-options="IHIoptions"></my-donut-chart>
-                            <my-donut-chart style="width:25%;height:30vh" v-if="projectsLoaded" :donut-data="projectChartConfig" :chart-options="projectOptions"></my-donut-chart>
-                        </div>
+                    <v-col cols="sm">
+                        <v-card class="pa-2" outlined tile raised>
+                            <br>
+                            <div style="display:flex;">
+                                <my-bar-chart1 style="width:25%;height:30vh" v-if="didacticLoaded"
+                                    :bar-data="didacticChartConfig" :chart-options="didacticOptions"></my-bar-chart1>
+                                <my-donut-chart style="width:25%;height:30vh" v-if="scholarlyLoaded"
+                                    :donut-data="scholarlyChartConfig"
+                                    :chart-options="scholarlyOptions"></my-donut-chart>
+                                <my-donut-chart style="width:25%;height:30vh" v-if="ihiLoaded"
+                                    :donut-data="IHIchartConfig" :chart-options="IHIoptions"></my-donut-chart>
+                                <my-donut-chart style="width:25%;height:30vh" v-if="projectsLoaded"
+                                    :donut-data="projectChartConfig" :chart-options="projectOptions"></my-donut-chart>
+                            </div>
 
-                        <br>
-                        <div style="display:flex;">
-                            <my-line-chart style="width:75%;height:30vh" v-if="dutyLoaded" :line-data="dutyChartConfig" :chart-options="dutyHourOptions"></my-line-chart>
-                            <my-donut-chart  style="width:25%;height:30vh" v-if="caseLoaded" :donut-data="caseChartConfig" :chart-options="caseOptions"></my-donut-chart>
-                        </div>
+                            <br>
+                            <div style="display:flex;">
+                                <my-line-chart style="width:75%;height:30vh" v-if="dutyLoaded"
+                                    :line-data="dutyChartConfig" :chart-options="dutyHourOptions"></my-line-chart>
+                                <my-donut-chart style="width:25%;height:30vh" v-if="caseLoaded"
+                                    :donut-data="caseChartConfig" :chart-options="caseOptions"></my-donut-chart>
+                            </div>
 
-                        <br>
-                        <div style="display:flex;">
-                            <my-bar-chart style="width:100%;" v-if="procedureLoaded" :bar-data="procedureChartConfig" :chart-options="procedureOptions"></my-bar-chart>
-                        </div>
-                      <!-- <my-line-chart v-if="loaded" :line-data="dutyChartConfig" :chart-options="dutyHourOptions"></my-line-chart>
+                            <br>
+                            <div style="display:flex;">
+                                <my-bar-chart style="width:100%;" v-if="procedureLoaded"
+                                    :bar-data="procedureChartConfig" :chart-options="procedureOptions"></my-bar-chart>
+                            </div>
+                            <!-- <my-line-chart v-if="loaded" :line-data="dutyChartConfig" :chart-options="dutyHourOptions"></my-line-chart>
                       <my-donut-chart v-if="loaded" :donut-data="IHIchartConfig" :chart-options="IHIoptions"></my-donut-chart>
                       <my-donut-chart v-if="loaded" :donut-data="scholarlyChartConfig" :chart-options="scholarlyOptions"></my-donut-chart>
                       <my-donut-chart v-if="loaded" :donut-data="projectChartConfig" :chart-options="projectOptions"></my-donut-chart>
                       <my-bar-chart v-if="loaded" :bar-data="didacticChartConfig" :chart-options="didacticOptions"></my-bar-chart> -->
 
-                    </v-card>
-                  </v-col>
+                        </v-card>
+                    </v-col>
                 </v-row>
 
                 <br>
                 <v-row v-if="showNonCompliantResidentsInput">
-                    <label for="hs-select-label" class="block text-sm font-medium mb-2 dark:text-black">Non-Compliant Residents For:</label>
-                    <select v-model="nonCompliantResident" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" >
-                      <option v-for="chart in charts">{{chart}}</option>
+                    <label for="hs-select-label" class="block text-sm font-medium mb-2 dark:text-black">Non-Compliant
+                        Residents For:</label>
+                    <select v-model="nonCompliantResident"
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
+                        <option v-for="chart in charts">{{chart}}</option>
                     </select>
 
-                    <button  @click="getNonCompliantTable()" class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
+                    <button @click="getNonCompliantTable()"
+                        class="bg-[#ea580c] hover:bg-[#292524] text-white font-bold py-2 px-4 rounded">
                         Get Non-Compliant Residents
-                    </button> 
+                    </button>
                     <br>
                     <br>
-                    
+
                     <!-- table to show noncompliance for didactic attendance -->
                     <div v-if="nonCompliantResidentDidacticArray.length > 0 && showDidacticTable">
                         <table class="table-auto">
                             <thead>
-                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                    >Non-Compliant Residents for Didactic Attendance</p>
+                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                    Non-Compliant Residents for Didactic Attendance</p>
                                 <tr>
                                     <th class="border px-4 py-2 bg-orange-600 text-white font-bold">Index</th>
                                     <th class="border px-4 py-2 bg-orange-600 text-white font-bold">MCR No.</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(resident, index) in nonCompliantResidentDidacticArray" :key="resident.MCR_No">
+                                <tr v-for="(resident, index) in nonCompliantResidentDidacticArray"
+                                    :key="resident.MCR_No">
                                     <td class="border px-4 py-2 bg-gray-300">{{ index + 1 }}</td>
                                     <td class="border px-4 py-2 bg-gray-300">{{ resident.MCR_No }}</td>
                                 </tr>
@@ -278,8 +301,8 @@
                     <div v-if="nonCompliantResidentIHIArray.length > 0 && showIHITable">
                         <table class="table-auto">
                             <thead>
-                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                    >Non-Compliant Residents for IHI</p>
+                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                    Non-Compliant Residents for IHI</p>
                                 <tr>
                                     <th class="border px-4 py-2 bg-orange-600 text-white font-bold">Index</th>
                                     <th class="border px-4 py-2 bg-orange-600 text-white font-bold">MCR No.</th>
@@ -300,15 +323,16 @@
                     <div v-if="nonCompliantResidentProjectsArray.length > 0 && showProjectsTable">
                         <table class="table-auto">
                             <thead>
-                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                    >Non-Compliant Residents for Projects</p>
+                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                    Non-Compliant Residents for Projects</p>
                                 <tr>
                                     <th class="border px-4 py-2 bg-orange-600 text-white font-bold">Index</th>
                                     <th class="border px-4 py-2 bg-orange-600 text-white font-bold">MCR No.</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(resident, index) in nonCompliantResidentProjectsArray" :key="resident.MCR_No">
+                                <tr v-for="(resident, index) in nonCompliantResidentProjectsArray"
+                                    :key="resident.MCR_No">
                                     <td class="border px-4 py-2 bg-gray-300">{{ index + 1 }}</td>
                                     <td class="border px-4 py-2 bg-gray-300">{{ resident.MCR_No }}</td>
                                 </tr>
@@ -316,21 +340,22 @@
                         </table>
                         <br>
                         <br>
-                    </div>     
+                    </div>
 
                     <!-- table to show noncompliance for Procedure Logs-->
                     <div v-if="nonCompliantResidentProcedureLogsArray.length > 0 && showProcedureLogsTable">
                         <table class="table-auto">
                             <thead>
-                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                    >Non-Compliant Residents for Procedure Logs</p>
+                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                    Non-Compliant Residents for Procedure Logs</p>
                                 <tr>
                                     <th class="border px-4 py-2 bg-orange-600 text-white font-bold">Index</th>
                                     <th class="border px-4 py-2 bg-orange-600 text-white font-bold">MCR No.</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(resident, index) in nonCompliantResidentProcedureLogsArray[0]" :key="resident.MCR_No">
+                                <tr v-for="(resident, index) in nonCompliantResidentProcedureLogsArray[0]"
+                                    :key="resident.MCR_No">
                                     <td class="border px-4 py-2 bg-gray-300">{{ index + 1 }}</td>
                                     <td class="border px-4 py-2 bg-gray-300">{{ resident.MCR_No }}</td>
                                 </tr>
@@ -338,14 +363,14 @@
                         </table>
                         <br>
                         <br>
-                    </div> 
-                    
+                    </div>
+
                     <!-- table to show noncompliance for Duty Logs -->
                     <div v-if="nonCompliantResidentDutyArray.length > 0 && showDutyTable">
                         <table class="table-auto">
                             <thead>
-                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                    >Non-Compliant Residents for Duty Hour Logs</p>
+                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                    Non-Compliant Residents for Duty Hour Logs</p>
                                 <tr>
                                     <th class="border px-4 py-2 bg-orange-600 text-white font-bold">Index</th>
                                     <th class="border px-4 py-2 bg-orange-600 text-white font-bold">MCR No.</th>
@@ -360,13 +385,13 @@
                         </table>
                         <br>
                         <br>
-                    </div> 
+                    </div>
                     <!-- table to show noncompliance for Scholarly Activities -->
                     <div v-if="nonCompliantResidentScholarlyArray.length > 0 && showScholarlyTable">
                         <table class="table-auto">
                             <thead>
-                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                    >Non-Compliant Residents for Scholarly Activities Logs</p>
+                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                    Non-Compliant Residents for Scholarly Activities Logs</p>
                                 <tr>
                                     <th class="border px-4 py-2 bg-orange-600 text-white font-bold">Index</th>
                                     <th class="border px-4 py-2 bg-orange-600 text-white font-bold">MCR No.</th>
@@ -386,8 +411,8 @@
                     <div v-if="nonCompliantResidentCaseArray.length > 0 && showCaseTable">
                         <table class="table-auto">
                             <thead>
-                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                    >Non-Compliant Residents for Case Logs</p>
+                                <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                    Non-Compliant Residents for Case Logs</p>
                                 <tr>
                                     <th class="border px-4 py-2 bg-orange-600 text-white font-bold">Index</th>
                                     <th class="border px-4 py-2 bg-orange-600 text-white font-bold">MCR No.</th>
@@ -420,7 +445,7 @@
             extends: VueChartJs.Line,
             props: ['lineData', 'chartOptions'],
             mounted() {
-            this.renderChart(this.lineData, this.chartOptions);
+                this.renderChart(this.lineData, this.chartOptions);
             },
         }, {
             responsive: true,
@@ -430,7 +455,7 @@
             extends: VueChartJs.Doughnut,
             props: ['donutData', 'chartOptions'],
             mounted() {
-            this.renderChart(this.donutData, this.chartOptions);
+                this.renderChart(this.donutData, this.chartOptions);
             },
         }, {
             responsive: true,
@@ -440,7 +465,7 @@
             extends: VueChartJs.Bar,
             props: ['barData', 'chartOptions'],
             mounted() {
-            this.renderChart(this.barData, this.chartOptions);
+                this.renderChart(this.barData, this.chartOptions);
             },
         }, {
             responsive: true,
@@ -450,14 +475,14 @@
             extends: VueChartJs.HorizontalBar,
             props: ['barData', 'chartOptions'],
             mounted() {
-            this.renderChart(this.barData, this.chartOptions);
+                this.renderChart(this.barData, this.chartOptions);
             },
         }, {
             responsive: true,
             maintainAspectRatio: false
         })
-        
-        
+
+
     </script>
     <script src="./overviewDashboard.js"></script>
 </body>
