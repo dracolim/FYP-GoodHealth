@@ -684,12 +684,14 @@ new Vue({
             nonCompliantResidents = []
 
             for (var i = 0; i < chartData.data.length; i++) {
-                numOfEntries++
-                if (chartData.data[i]['Completion_of_Emodules'] == 'Yes') {
-                    counterCompletionEmodules++
-                }
-                else {
-                    nonCompliantResidents.push(chartData.data[i])
+                if (chartData.data[i]['Date'].substr(-4,4) == this.year) {
+                    numOfEntries++
+                    if (chartData.data[i]['Completion_of_Emodules'] == 'Yes' ) {
+                        counterCompletionEmodules++
+                    }
+                    else {
+                        nonCompliantResidents.push(chartData.data[i])
+                    }
                 }
             }
 
@@ -991,23 +993,26 @@ new Vue({
 
             for (var i = 0; i < chartData.data.length; i++) {
                 var currentData = chartData.data[i];
-                if (currentData['End_Date'] === 'Ongoing') {
-                    var mcrNo = currentData['MCR_No'];
-                    var isMcrNoPresent = false;
-                    for (var j = 0; j < nonCompliantResidents.length; j++) {
-                        if (nonCompliantResidents[j]['MCR_No'] === mcrNo) {
-                            isMcrNoPresent = true;
-                            break;
+                if (currentData['Start_Date'].substr(-4,4) == this.year) {
+                    if (currentData['End_Date'] === 'Ongoing') {
+                        var mcrNo = currentData['MCR_No'];
+                        var isMcrNoPresent = false;
+                        for (var j = 0; j < nonCompliantResidents.length; j++) {
+                            if (nonCompliantResidents[j]['MCR_No'] === mcrNo) {
+                                isMcrNoPresent = true;
+                                break;
+                            }
+                        }
+                        if (!isMcrNoPresent) {
+                            nonCompliantResidents.push(currentData);
                         }
                     }
-                    if (!isMcrNoPresent) {
-                        nonCompliantResidents.push(currentData);
+                    numOfEntries++;
+                    if (currentData['End_Date'] !== 'Ongoing') {
+                        counterCompletionQI++;
                     }
                 }
-                numOfEntries++;
-                if (currentData['End_Date'] !== 'Ongoing') {
-                    counterCompletionQI++;
-                }
+
             }
 
             percentageCompleted = counterCompletionQI/numOfEntries
