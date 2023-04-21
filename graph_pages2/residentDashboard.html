@@ -198,7 +198,7 @@
                     Academic Year (AY):
                 </label>
 
-                <input v-model="year" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Year for Didactic Attendance Here">
+                <input v-model="year" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Input Academic Year Here">
                 
                 <button @click="getData()" class="bg-orange-500 hover:bg-orange-800  mb-4 text-white  py-2 px-4 rounded">
                     Get Resident's Info
@@ -229,6 +229,75 @@
                     </v-card>
                   </v-col>
                 </v-row>
+
+                <br>
+                <br>
+                <div v-if="this.clicked">
+                    <!-- table for LOA/PIP -->
+                    <table class="table-auto">
+                        <thead>
+                            <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                >Leave of Absence/PIP:</p>
+                            <tr>
+                                <th class="border px-4 py-2 bg-orange-600">Remarks</th>
+                                <th class="border px-4 py-2 bg-orange-600">Start Date</th>
+                                <th class="border px-4 py-2 bg-orange-600">End Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="loa in loa_records">
+                                <td class="border px-4 py-2 bg-gray-300">{{ loa.LOAPIP }}</td>
+                                <td class="border px-4 py-2 bg-gray-300">{{ loa.StartDate }}</td>
+                                <td class="border px-4 py-2 bg-gray-300">{{ loa.EndDate }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <br>
+    
+                    <!-- table for projected grad date -->
+                    <table class="table-auto">
+                        <thead >
+                            <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                >Postings Information:</p>
+                            <tr>
+                                <!-- <th class="border px-4 py-2 bg-orange-600">Posting Department</th> -->
+                                <th class="border px-4 py-2 bg-orange-600">Start Date</th>
+                                <th class="border px-4 py-2 bg-orange-600">Projected Graduation End Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border px-4 py-2 bg-gray-300">{{ history_posting_records[0].Posting_StartDate }}</td>
+                                <td class="border px-4 py-2 bg-gray-300">{{ history_posting_records[history_posting_records.length - 1].Posting_EndDate }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <br>
+
+                    <!-- table for posting by month -->
+                    <table class="table-auto">
+                        <thead>
+                            <p class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                >Postings by Month:</p>
+                            <tr>
+                                <th v-for="month in months_to_show" class="border px-4 py-2 bg-orange-600">{{month}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td v-for="date in dates_to_show" class="border px-4 py-2 bg-gray-300">{{date}}</td>
+                            </tr>
+                            <tr>
+                                <td v-for="posting in postings_to_show" class="border px-4 py-2 bg-gray-300">{{posting}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <br>
+
+                </div>
             </div>
         </div>
 

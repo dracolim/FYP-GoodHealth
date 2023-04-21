@@ -3,9 +3,17 @@ new Vue({
     vuetify: new Vuetify(),
     data() {
     return {
+        localhost: "http://localhost:5011/",
         year: null,
         mcr_no: "",
         loaded: false,
+        clicked: false,
+        months_to_show: [],
+        dates_to_show: [],
+        postings_to_show: [],
+        posting_histories: [],
+        loa_records: [],
+        history_posting_records: [],
 
         IHIchartConfig: {
             labels: ["% of Completion"],
@@ -309,7 +317,11 @@ new Vue({
             this.getProjectData(response.data);
             this.getDidacticData(response.data);
             this.getProcedureLogsData(response.data);
-            this.getCaseLogsData(response.data)
+            this.getCaseLogsData(response.data);
+            this.retrieveLOA();
+            this.retrievePostingHistory();
+            this.retrievePostingsByMonth();
+            this.clicked = true
             this.loaded = true
             })
             .catch(function (error) {
@@ -324,8 +336,15 @@ new Vue({
             this.projectChartConfig.datasets[0].data.length = 0
             this.didacticChartConfig.datasets[0].data.length = 0
             this.caseChartConfig.datasets[0].data.length = 0
+            this.months_to_show = [],
+            this.dates_to_show = [],
+            this.postings_to_show = [],
+            this.posting_histories = [],
+            this.loa_records = [],
+            this.history_posting_records = [],
             //add for procedure logs here
             this.loaded = false
+            this.clicked = false
         },
 
         getCaseLogsData: async function(chartData){
@@ -1377,7 +1396,131 @@ new Vue({
             }
 
                     
-        }
+        },
+
+        retrieveLOA: async function () {
+            this.status = "getting data..."
+            this.clicked = true
+
+            specificURL = this.localhost + "profile/" + this.mcr_no
+            await axios.get(specificURL).then((response) => {
+
+                // console.log("This is responseData")
+                // console.log(response.data.data['trgExtRem_Histories'])
+
+                this.loa_records = response.data.data['trgExtRem_Histories']
+                this.retrievePostingHistory()
+            })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
+
+        retrievePostingHistory: async function () {
+
+            specificURL = this.localhost + "history_posting/" + this.mcr_no
+            await axios.get(specificURL).then((response) => {
+
+                // console.log("This is responseData of History Posting")
+
+                this.history_posting_records = response.data.data
+                // console.log(this.history_posting_records)
+
+            })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
+
+        retrievePostingsByMonth: async function () {
+            const monthNames = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+            let chosenYear = parseInt(this.year)
+            let nextYear = parseInt(this.year) + 1
+
+            for (let i = 0; i < monthNames.length; i++) {
+                // if month lies within the year chosen (jul-dec)
+                if (i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5) {
+                    this.months_to_show.push(monthNames[i] + "-" + chosenYear)
+                }
+                else {
+                    this.months_to_show.push(monthNames[i] + "-" + nextYear)
+                }
+            }
+
+            this.status = "getting data..."
+            this.clicked = true
+
+            specificURL = "http://localhost:5011/profile/" + this.mcr_no
+            await axios.get(specificURL).then((response) => {
+            
+                // array of objects, each object is 1 posting record associated to the MCR no
+                this.posting_histories = response.data.data['posting_histories'] 
+
+                for (let i = 0; i < this.posting_histories.length; i++) {
+                    //format of 01-Apr-2022
+                    let responseStartDate = response.data.data['posting_histories'][i]['Posting_StartDate'] 
+                    let responseEndDate = response.data.data['posting_histories'][i]['Posting_EndDate']
+
+                    let postingDepartment = response.data.data['posting_histories'][i]['Posting_Department']
+
+                    //format of Apr-2022
+                    let formattedStartDate = responseStartDate.split("-")[1] + "-" + responseStartDate.split("-")[2]
+                    let formattedEndDate = responseEndDate.split("-")[1] + "-" + responseEndDate.split("-")[2]
+
+                    // if start date and end date same month
+                    if (formattedStartDate == formattedEndDate) {
+                        //compare formattedStartDate with months_to_show array and get the index position of where it is in months_to_show
+                        
+                        // if can find inside months_to_show
+                        if (this.months_to_show.includes(formattedStartDate)) {
+                            let index = this.months_to_show.indexOf(formattedStartDate)
+                            this.dates_to_show[index] = responseStartDate + " > " +responseEndDate
+                            this.postings_to_show[index] = postingDepartment
+                        }
+                    }
+
+                    // else if start date and end date different month (meaning more than 1 month)
+                    else if (formattedStartDate != formattedEndDate) {
+                        // if can find inside months_to_show
+                        if (this.months_to_show.includes(formattedStartDate)) {
+                            let startIndex = this.months_to_show.indexOf(formattedStartDate)
+                            let endIndex = this.months_to_show.indexOf(formattedEndDate)
+
+                            for (startIndex; startIndex <= endIndex; startIndex++) {
+                                this.dates_to_show[startIndex] = responseStartDate + " > " +responseEndDate
+                                this.postings_to_show[startIndex] = postingDepartment
+                            }
+                        }
+                    }
+
+
+
+                }
+
+                if (this.dates_to_show.length != this.months_to_show.length) {
+                    let difference = this.months_to_show.length - this.dates_to_show.length
+                    console.log("difference")
+                    console.log(difference)
+
+                    for (let i = 0; i < difference; i++) {
+                        this.dates_to_show.push("") 
+                        this.postings_to_show.push("") 
+                    }
+                }
+
+                // console.log(this.dates_to_show)
+                // console.log(this.postings_to_show)
+
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });       
+
+
+
+
+        },
 
     }
 });

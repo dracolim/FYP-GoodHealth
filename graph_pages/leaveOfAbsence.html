@@ -351,6 +351,17 @@
 
                         }
 
+                        if (this.dates_to_show.length != this.months_to_show.length) {
+                            let difference = this.months_to_show.length - this.dates_to_show.length
+                            console.log("difference")
+                            console.log(difference)
+
+                            for (let i = 0; i < difference; i++) {
+                                this.dates_to_show.push("") 
+                                this.postings_to_show.push("") 
+                            }
+                        }
+
                         // console.log(this.dates_to_show)
                         // console.log(this.postings_to_show)
 
