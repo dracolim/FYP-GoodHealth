@@ -103,7 +103,7 @@ new Vue({
                 }],
                 yAxes: [{
                 ticks : {
-                max : 1,    
+                max : 100,    
                 min : 0
                 },
                 display: true,
@@ -894,62 +894,62 @@ new Vue({
                 
 
             if(countCompliantJan != 0 && numLogsJan != 0){
-                percentCompliantJan = countCompliantJan/numLogsJan}
+                percentCompliantJan = (countCompliantJan/numLogsJan) * 100}
             // console.log(percentCompliantJan)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantJan)
 
             if(countCompliantFeb != 0 && numLogsFeb != 0){
-                percentCompliantFeb = countCompliantFeb/numLogsFeb}
+                percentCompliantFeb = (countCompliantFeb/numLogsFeb) * 100}
             // console.log(percentCompliantFeb)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantFeb)
             
             if(countCompliantMar != 0 && numLogsMar != 0){
-                percentCompliantMar = countCompliantMar/numLogsMar}
+                percentCompliantMar = (countCompliantMar/numLogsMar * 100)}
             // console.log(percentCompliantJan)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantMar)
 
             if(countCompliantApr != 0 && numLogsApr != 0){
-                percentCompliantApr = countCompliantApr/numLogsApr}
+                percentCompliantApr = (countCompliantApr/numLogsApr * 100)}
             // console.log(percentCompliantApr)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantApr)
 
             if(countCompliantMay != 0 && numLogsMay != 0){
-                percentCompliantMay = countCompliantMay/numLogsMay}
+                percentCompliantMay = (countCompliantMay/numLogsMay) * 100}
             // console.log(percentCompliantMay)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantMay)
 
             if(countCompliantJun != 0 && numLogsJun != 0){
-                percentCompliantJun = countCompliantJun/numLogsJun}
+                percentCompliantJun = (countCompliantJun/numLogsJun * 100)}
             // console.log(percentCompliantJun)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantJun)
 
             if(countCompliantJul != 0 && numLogsJul != 0){
-                percentCompliantJul = countCompliantJul/numLogsJul}
+                percentCompliantJul = (countCompliantJul/numLogsJul) * 100}
             // console.log(percentCompliantJul)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantJul)
 
             if(countCompliantAug != 0 && numLogsAug != 0){
-                percentCompliantAug = countCompliantAug/numLogsAug}
+                percentCompliantAug = (countCompliantAug/numLogsAug) * 100}
             // console.log(percentCompliantAug)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantAug)
 
             if(countCompliantSep != 0 && numLogsSep != 0){
-                percentCompliantSep = countCompliantSep/numLogsSep}
+                percentCompliantSep = (countCompliantSep/numLogsSep) * 100}
             // console.log(percentCompliantSep)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantSep)
 
             if(countCompliantOct != 0 && numLogsOct != 0){
-                percentCompliantOct = countCompliantOct/numLogsOct}
+                percentCompliantOct = (countCompliantOct/numLogsOct * 100)}
             // console.log(percentCompliantOct)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantOct)
 
             if(countCompliantNov != 0 && numLogsNov != 0){
-                percentCompliantNov = countCompliantNov/numLogsNov}
+                percentCompliantNov = (countCompliantNov/numLogsNov) * 100}
             // console.log(percentCompliantNov)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantNov)
 
             if(countCompliantDec!= 0 && numLogsDec != 0){
-                percentCompliantDec = countCompliantDec/numLogsDec}
+                percentCompliantDec = (countCompliantDec/numLogsDec) * 100}
             // console.log(percentCompliantDec)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantDec)
 
