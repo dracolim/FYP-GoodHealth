@@ -109,11 +109,12 @@
                     </li>
                     <li>
                         <a data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500" data-dropdown-trigger="click">
-                            <div class = "md:flex">
+                            <div class="md:flex">
                                 <span
-                                class="lg:text-sm md:text-sm ml-5 mr-1 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
-                                History</span>
-                                <iconify-icon icon="gridicons:dropdown" width = "20px" class = "hidden md:flex mr-1"></iconify-icon>
+                                    class="lg:text-sm md:text-sm ml-5 mr-1 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                                    History</span>
+                                <iconify-icon icon="gridicons:dropdown" width="20px"
+                                    class="hidden md:flex mr-1"></iconify-icon>
                             </div>
                         </a>
                     </li>
@@ -314,8 +315,12 @@
                                 listOnEmpty: true,
                                 valuesLookup: true,
                             },
-
+                            formatter: function (cell) {
+                                let cellValue = cell.getValue();
+                                return cellValue.toUpperCase();
+                            },
                         },
+
                         {
                             title: "Project Title",
                             field: "Project_Title",
@@ -445,7 +450,7 @@
                             "PMID": thisrow.PMID,
                             "Project_ID": thisrow.Project_ID,
                             "Project_Title": thisrow.Project_Title,
-                            "Project_Type": thisrow.Project_Type,
+                            "Project_Type": thisrow.Project_Type.toUpperCase(),
                             "Start_Date": thisrow.Start_Date,
                             "id": thisrow.id
                         })
@@ -473,4 +478,5 @@
     });
 </script>
 <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
+
 </html>

@@ -266,7 +266,8 @@
                             </div>
                             <div
                                 class="justify-center flex items-center pt-4 space-x-2 border-t border-gray-200 rounded-b">
-                                <button type="button" value="submit" @click="isDisabled()" id='submit' data-modal-hide="top-left-modal" disabled
+                                <button type="button" value="submit" @click="isDisabled()" id='submit'
+                                    data-modal-hide="top-left-modal" disabled
                                     class="w-8/12 text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Upload</button>
                             </div>
                         </form>
@@ -387,122 +388,125 @@
                         data: response.data.data,
                         index: "MCR_No",
                         columns: [{
-                                title: "MCR No",
-                                field: "MCR_No",
-                                sorter: "string",
-                                headerHozAlign: "center",
-                                headerFilter: true,
+                            title: "MCR No",
+                            field: "MCR_No",
+                            sorter: "string",
+                            headerHozAlign: "center",
+                            headerFilter: true,
 
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-
-                                },
-                            },
-
-                            {
-                                title: "Level",
-                                field: "Level",
-                                width: 400,
-                                sorter: "alphanum",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                },
-                            },
-                            {
-                                title: "Submitted",
-                                field: "Submitted",
-                                width: 400,
-                                sorter: "alphanum",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                },
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
 
                             },
-                            {
-                                title: "Submitted Proportion",
-                                field: "Submitted_Proportion",
-                                sorter: "alphanum",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                },
-                            },
-                            {
-                                title: "MMYYYY",
-                                field: "MMYYYY",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                },
+                        },
 
+                        {
+                            title: "Level",
+                            field: "Level",
+                            width: 400,
+                            sorter: "alphanum",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
                             },
-                            {
-                                title: "Logged for Month",
-                                field: "Logged_for_month",
-                                sorter: "string",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                },
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                            },
+                        },
+                        {
+                            title: "Submitted",
+                            field: "Submitted",
+                            width: 400,
+                            sorter: "alphanum",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
+                            },
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                            },
 
+                        },
+                        {
+                            title: "Submitted Proportion",
+                            field: "Submitted_Proportion",
+                            sorter: "alphanum",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
                             },
-                            {
-                                title: "Action",
-                                formatter: printRemoveButton,
-                                hozAlign: "center",
-                                cellClick: function (e, cell) {
-                                    axios.delete(local_host_url + 'duty_hour_log/' + cell
-                                            .getRow().getData().id)
-                                        .then(function (response) {
-                                            console.log(response.data);
-                                            cell.getRow().delete();
-                                        })
-                                        .catch(function (error) {
-                                            console.log(error);
-                                            if (alert("Failed to remove row MCR No: " +
-                                                    row.getData().MCR_No)) {} else
-                                                window.location.reload();
-                                        });
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                            },
+                        },
+                        {
+                            title: "MMYYYY",
+                            field: "MMYYYY",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
+                            },
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                            },
+
+                        },
+                        {
+                            title: "Logged for Month",
+                            field: "Logged_for_month",
+                            sorter: "string",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
+                            },
+                            editor: "list",
+                            editorParams: {
+                                values: {
+                                    "yes": "yes",
+                                    "no": "no",
+                                    "n/a": "n/a"
                                 },
                             },
+                        },
+
+
+                        {
+                            title: "Action",
+                            formatter: printRemoveButton,
+                            hozAlign: "center",
+                            cellClick: function (e, cell) {
+                                axios.delete(local_host_url + 'duty_hour_log/' + cell
+                                    .getRow().getData().id)
+                                    .then(function (response) {
+                                        console.log(response.data);
+                                        cell.getRow().delete();
+                                    })
+                                    .catch(function (error) {
+                                        console.log(error);
+                                        if (alert("Failed to remove row MCR No: " +
+                                            row.getData().MCR_No)) { } else
+                                            window.location.reload();
+                                    });
+                            },
+                        },
                         ],
                     });
                     // update data in the database after a cell is edited
@@ -511,13 +515,13 @@
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
                         axios.put(local_host_url + "duty_hour_log/" + thisrow.id, {
-                                "Level": thisrow.Level,
-                                "Logged_for_month": thisrow.Logged_for_month,
-                                "MCR_No": thisrow.MCR_No,
-                                "MMYYYY": thisrow.MMYYYY,
-                                "Submitted": thisrow.Submitted,
-                                "Submitted_Proportion": thisrow.Submitted_Proportion
-                            })
+                            "Level": thisrow.Level,
+                            "Logged_for_month": thisrow.Logged_for_month,
+                            "MCR_No": thisrow.MCR_No,
+                            "MMYYYY": thisrow.MMYYYY,
+                            "Submitted": thisrow.Submitted,
+                            "Submitted_Proportion": thisrow.Submitted_Proportion
+                        })
                             .then(response => {
                                 console.log('Duty Hour Log ID {' + row.getData().id +
                                     '} updated.')
@@ -525,7 +529,7 @@
                             .catch(error => {
                                 console.log(error)
                                 if (alert("Failed to update row MCR No: " + row.getData()
-                                        .MCR_No)) {} else window.location.reload();
+                                    .MCR_No)) { } else window.location.reload();
 
                             })
                     });
@@ -580,11 +584,11 @@
                                         1, second_slash_idx)
                                     var year = row.values[1].slice(
                                         second_slash_idx + 1, second_slash_idx +
-                                        5)
+                                    5)
                                     this.mmYYYY = month + "/" + year || "";
                                 } else if (rowIndex >= 8 && !(row.values[1]
-                                        .toString().trim()
-                                        .includes("Resident:"))) {
+                                    .toString().trim()
+                                    .includes("Resident:"))) {
                                     if (row.values[1] == undefined) {
                                         name_error = true;
                                     } else {
@@ -603,7 +607,7 @@
                                                     .trim()
                                                 if (new_name == each) {
                                                     data.MCR_No = this.MCR_name[
-                                                            each] ||
+                                                        each] ||
                                                         "";
                                                 }
                                             }
@@ -630,10 +634,10 @@
                                     for (each of this.duty_hour_logs) {
                                         if (data.Level == each.Level && data
                                             .Logged_for_month == each
-                                            .Logged_for_month && data.MCR_No == each
-                                            .MCR_No && data.Submitted_Proportion ==
+                                                .Logged_for_month && data.MCR_No == each
+                                                    .MCR_No && data.Submitted_Proportion ==
                                             each.Submitted_Proportion && data
-                                            .Submitted == each.Submitted &&
+                                                .Submitted == each.Submitted &&
                                             data.MMYYYY == each.MMYYYY) {
                                             same_error = true;
                                             duplicate_count += 1
@@ -659,17 +663,17 @@
                                     //produce error message
                                     if (name_error == true) {
                                         if (!(this.error_message.includes(
-                                                "<li> - Row " + rowIndex +
-                                                ": Name cannot be Empty</li>"))) {
+                                            "<li> - Row " + rowIndex +
+                                            ": Name cannot be Empty</li>"))) {
                                             this.error_message +=
                                                 "<li> - Row " + rowIndex +
                                                 ": Name cannot be Empty</li>";
                                         }
                                     } else if (user_error == true) {
                                         if (!(this.error_message.includes(
-                                                "<li> - " + new_name +
-                                                " does not exist in the Database</li>"
-                                            ))) {
+                                            "<li> - " + new_name +
+                                            " does not exist in the Database</li>"
+                                        ))) {
                                             this.error_message +=
                                                 "<li> - " + new_name +
                                                 " does not exist in the Database</li>"
@@ -677,13 +681,13 @@
                                     } else if (user_count == duplicate_count &&
                                         user_count != 0) {
                                         if (!(this.error_message.includes(
-                                                "<li> - All Rows for " + data
+                                            "<li> - All Rows for " + data
                                                 .MCR_No +
-                                                " already exist in the database</li>"
-                                            )) && data.MCR_No != "") {
+                                            " already exist in the database</li>"
+                                        )) && data.MCR_No != "") {
                                             this.error_message +=
                                                 "<li> - All Rows for " + data
-                                                .MCR_No +
+                                                    .MCR_No +
                                                 " already exist in the database</li>";
                                         }
                                     }
