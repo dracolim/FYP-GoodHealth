@@ -657,8 +657,6 @@ new Vue({
         },
 
         getProcedureLogsData: function (chartData) {
-            console.log("This is PROCEDURE LOGS DATA")
-            // console.log(chartData.data['procedure_logs']); //array of objects of that particular resident
 
             year_of_training = chartData.data['personaldetails']['Year_of_Training'] // somehow need to make use of this to mark resident as compliant or not to reflect on front end if needed
 
@@ -1493,14 +1491,10 @@ new Vue({
                         }
                     }
 
-
-
                 }
 
                 if (this.dates_to_show.length != this.months_to_show.length) {
                     let difference = this.months_to_show.length - this.dates_to_show.length
-                    console.log("difference")
-                    console.log(difference)
 
                     for (let i = 0; i < difference; i++) {
                         this.dates_to_show.push("") 
@@ -1508,17 +1502,10 @@ new Vue({
                     }
                 }
 
-                // console.log(this.dates_to_show)
-                // console.log(this.postings_to_show)
-
-
             })
             .catch(function (error) {
                 console.log(error);
             });       
-
-
-
 
         },
 

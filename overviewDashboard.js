@@ -350,7 +350,6 @@ new Vue({
         },
     methods: {
         getAllData: function(){
-
             this.reset()
             this.showNonCompliantResidentsInput = false
             this.showNonCompliantResidentsInput = true
@@ -361,7 +360,6 @@ new Vue({
             this.getScholarlyActivitiesData();
             this.getCaseLogsData();
             this.getProcedureLogData();
-            // this.loaded = true
         },
         reset: function (){
             this.didacticLoaded = false
@@ -377,11 +375,8 @@ new Vue({
             this.projectChartConfig.datasets[0].data.length = 0
             this.didacticChartConfig.datasets[0].data.length = 0
             this.caseChartConfig.datasets[0].data.length = 0
-            // this.chartArray.length = 0 
             this.scholarlyPassed = 0
             this.casePassed = 0
-
-            // this.loaded = false
         },
 
         getCaseLogsData: async function () {
@@ -663,8 +658,6 @@ new Vue({
             this.status = "getting data...";
 
             await axios.get("http://localhost:5011/ihi").then((response) => {
-            // console.log("This is responseData")
-            // console.log(response.data)
 
             this.getIHIchartData(response.data);
             this.ihiLoaded = true
@@ -971,8 +964,6 @@ new Vue({
             this.status = "getting data...";
 
             await axios.get("http://localhost:5011/project").then((response) => {
-            // console.log("This is responseData")
-            // console.log(response.data)
 
             this.getProjectChartData(response.data);
             this.projectsLoaded = true
@@ -1030,11 +1021,8 @@ new Vue({
             this.status = "getting data...";
 
             await axios.get("http://localhost:5011/didactic_attendance").then((response) => {
-            // console.log("This is responseData")
-            console.log(response.data,'===================')
-            
+
             this.getDidacticChartData(response);
-            // this.loaded = false
             this.didacticLoaded = true
             })
             .catch(function (error) {
@@ -1043,8 +1031,6 @@ new Vue({
         },
         
         getDidacticChartData: function (chartData) {
-            // console.log("This is chartData")
-            // console.log(chartData);
             console.log(this.year)
 
             counterCompliantJulDec = 0
@@ -1109,9 +1095,7 @@ new Vue({
             this.status = "getting data...";
 
             await axios.get("http://localhost:5011/procedure_log_data").then((response) => {
-            // console.log("This is responseData")
-            // console.log(response.data)
-        
+
             this.getProcedureChartData(response);
             this.procedureLoaded = true
             
@@ -1121,15 +1105,8 @@ new Vue({
             });
         },
 
-        getProcedureChartData: function (chartData) {
-            console.log("LOOK HERE NUMBER 11111111111111111111111111")
-            console.log("This is chartData")
-            console.log(chartData);
-
-            console.log("LOOK HERE NUMBER 22222222222222222222222222")
-            
+        getProcedureChartData: function (chartData) {      
             let array_of_logs = chartData.data.data
-            console.log(array_of_logs);
 
             let gastro_array = []
             let renal_array = []
@@ -1326,7 +1303,7 @@ new Vue({
                             NumComplianceGastroOGDPlusGastroOGDWithBiopsy++
                     }
 
-                    else { // prevents chart.js from inserting data into wrong position
+                    else { 
                         nonCompliantResidentsGastro.push(value)
                     }
 
@@ -1389,7 +1366,7 @@ new Vue({
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusColon/CountGastroOGDPlusColon*100).toFixed(3))
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceGastroOGDPlusColon/CountGastroOGDPlusColon*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
@@ -1422,7 +1399,7 @@ new Vue({
                         NumComplianceColonoscopyPlusColonoscopyWithBiopsy++
                     }
 
-                    else { // prevents chart.js from inserting data into wrong position
+                    else { 
                         nonCompliantResidentsGastro.push(value)
                     }
 
@@ -1463,7 +1440,7 @@ new Vue({
                         NumComplianceColonoscopyWithPolypectomy++
                     }
 
-                    else { // prevents chart.js from inserting data into wrong position
+                    else { 
                         nonCompliantResidentsGastro.push(value)
                     }
 
@@ -1502,7 +1479,7 @@ new Vue({
                         NumComplianceAbdominalParacentesis++
                     }
 
-                    else { // prevents chart.js from inserting data into wrong position
+                    else { 
                         nonCompliantResidentsGastro.push(value)
                     }
 
@@ -1541,7 +1518,7 @@ new Vue({
                         NumComplianceCapsuleEndoscopy++
                     }
 
-                    else { // prevents chart.js from inserting data into wrong position
+                    else { 
                         nonCompliantResidentsGastro.push(value)
                     }
 
@@ -1580,7 +1557,7 @@ new Vue({
                         NumCompliancePeg++
                     }
 
-                    else { // prevents chart.js from inserting data into wrong position
+                    else { 
                         nonCompliantResidentsGastro.push(value)
                     }
 
@@ -1627,7 +1604,7 @@ new Vue({
                         NumComplianceGastroVaricealHemoPlusLigation++
                     }
 
-                    else { // prevents chart.js from inserting data into wrong position
+                    else { 
                         nonCompliantResidentsGastro.push(value)
                     }
 
@@ -1670,7 +1647,7 @@ new Vue({
                         NumComplianceLiverBiopsy++
                     }
 
-                    else { // prevents chart.js from inserting data into wrong position
+                    else { 
                         nonCompliantResidentsGastro.push(value)
                     }
 
@@ -1709,7 +1686,7 @@ new Vue({
                         NumComplianceEsophagealDilatationPlusLuminalStenting++
                     }
 
-                    else { // prevents chart.js from inserting data into wrong position
+                    else { 
                         nonCompliantResidentsGastro.push(value)
                     }
 
@@ -1750,7 +1727,7 @@ new Vue({
                         NumComplianceEmrPlusEsd++
                     }
 
-                    else { // prevents chart.js from inserting data into wrong position
+                    else { 
                         nonCompliantResidentsGastro.push(value)
                     }
 
@@ -1789,7 +1766,7 @@ new Vue({
                         NumComplianceErcp++
                     }
 
-                    else { // prevents chart.js from inserting data into wrong position
+                    else { 
                         nonCompliantResidentsGastro.push(value)
                     }
 
@@ -1828,7 +1805,7 @@ new Vue({
                         NumComplianceEndoscopicUltrasound++
                     }
 
-                    else { // prevents chart.js from inserting data into wrong position
+                    else { 
                         nonCompliantResidentsGastro.push(value)
                     }
 
@@ -1867,7 +1844,7 @@ new Vue({
                         NumComplianceEsophagealMotilityPlusPh++
                     }
 
-                    else { // prevents chart.js from inserting data into wrong position
+                    else { 
                         nonCompliantResidentsGastro.push(value)
                     }
 
@@ -2009,7 +1986,7 @@ new Vue({
                 if (NumComplianceInsertionFemoralC != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceInsertionFemoralC/CountInsertionFemoralC*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
@@ -2048,7 +2025,7 @@ new Vue({
                 if (NumComplianceInsertionJugularC != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceInsertionJugularC/CountInsertionJugularC*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
@@ -2087,7 +2064,7 @@ new Vue({
                 if (NumComplianceInsertionFemoral != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceInsertionFemoral/CountInsertionFemoral*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
@@ -2126,7 +2103,7 @@ new Vue({
                 if (NumComplianceInsertionJugular != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceInsertionJugular/CountInsertionJugular*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
@@ -2164,7 +2141,7 @@ new Vue({
                 if (NumComplianceNativeKidneyBiopsyC != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceNativeKidneyBiopsyC/CountNativeKidneyBiopsyC*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }           
 
@@ -2203,7 +2180,7 @@ new Vue({
                 if (NumComplianceTransplantKidneyBiopsyC != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceTransplantKidneyBiopsyC/CountTransplantKidneyBiopsyC*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }         
 
@@ -2242,7 +2219,7 @@ new Vue({
                 if (NumComplianceNativeKidneyBiopsy != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceNativeKidneyBiopsy/CountNativeKidneyBiopsy*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }  
 
@@ -2281,7 +2258,7 @@ new Vue({
                 if (NumComplianceTransplantKidneyBiopsy != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceTransplantKidneyBiopsy/CountTransplantKidneyBiopsy*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }  
 
@@ -2459,7 +2436,7 @@ new Vue({
                 if (NumComplianceAbdominalTap != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceAbdominalTap/CountAbdominalTap*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
@@ -2498,7 +2475,7 @@ new Vue({
                 if (NumComplianceArterialLinePlacement != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceArterialLinePlacement/CountArterialLinePlacement*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
@@ -2537,7 +2514,7 @@ new Vue({
                 if (NumComplianceCentralLinePlacement != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceCentralLinePlacement/CountCentralLinePlacement*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else {
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
@@ -2576,7 +2553,7 @@ new Vue({
                 if (NumComplianceThoracentesisChestTube != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceThoracentesisChestTube/CountThoracentesisChestTube*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
@@ -2615,7 +2592,7 @@ new Vue({
                 if (NumComplianceLumbarPuncture != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceLumbarPuncture/CountLumbarPuncture*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
@@ -2654,7 +2631,7 @@ new Vue({
                 if (NumComplianceEndotrachealIntubation != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceEndotrachealIntubation/CountEndotrachealIntubation*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
@@ -2693,7 +2670,7 @@ new Vue({
                 if (NumComplianceVentilatorManagement != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceVentilatorManagement/CountVentilatorManagement*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
@@ -2732,7 +2709,7 @@ new Vue({
                 if (NumComplianceArthrocentesis != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceArthrocentesis/CountArthrocentesis*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
@@ -2771,7 +2748,7 @@ new Vue({
                 if (NumComplianceHemodialysisCatheterInsertion != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceHemodialysisCatheterInsertion/CountHemodialysisCatheterInsertion*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
@@ -2810,7 +2787,7 @@ new Vue({
                 if (NumComplianceAbg != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceAbg/CountAbg*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
@@ -2849,7 +2826,7 @@ new Vue({
                 if (NumComplianceVene != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceVene/CountVene*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
@@ -2888,7 +2865,7 @@ new Vue({
                 if (NumComplianceIVPlug != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceIVPlug/CountIVPlug*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
@@ -2927,7 +2904,7 @@ new Vue({
                 if (NumComplianceEcg != 0) {
                     this.procedureChartConfig.datasets[0].data.push((NumComplianceEcg/CountEcg*100).toFixed(3))
                 }
-                else { // prevents chart.js from inserting data into wrong position
+                else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
 
