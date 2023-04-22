@@ -55,7 +55,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"></script>
 
     <title>SingHealth</title>
 </head>
@@ -320,10 +320,33 @@
                     tension: 0.1
                 }]
                 };
+                const options = {
+                    plugins: {
+                        annotation: {
+                        annotations: {
+                            line1: {
+                            type: 'line',
+                            yMin: 1,
+                            yMax: 1,
+                            borderColor: 'rgb(255, 99, 132)',
+                            borderWidth: 2,
+                            },
+                            // line2: {
+                            // type: 'line',
+                            // yMin: 0.22,
+                            // yMax: 0.22,
+                            // borderColor: 'rgb(255, 94, 132)',
+                            // borderWidth: 2,
+                            // }
+                        }
+                        }
+                    }
+                    };
 
                 const config = {
                 type: 'line',
                 data: data,
+                options
                 };
 
 
@@ -365,7 +388,7 @@
                         for (i of service.data){
                             // Xs.push(i["month"])
                             // Ys.push(i["Score"])
-                            Ys[i["month"]] = i["Score"]
+                            Ys[i["month"]-1] = i["Score"]
                         }
 
 //                         serviceedd SHS-GRM:GERI-CGH
@@ -382,6 +405,63 @@
                             this.myChart.data.datasets[2].data = Ys
                         }
                     }
+
+                    this.myChart.options.plugins.annotation.annotations['dangerRange2'] = {
+                            type: 'line',
+                            yMin: 0.22,
+                            yMax: 0.22,
+                            borderColor: 'rgb(255, 94, 132)',
+                            borderWidth: 2,
+                            label: {
+                                enabled: true,
+                                backgroundColor: 'rgba(255, 68, 255, 1)',
+                                // backgroundColor:'rgba(68, 223, 146, 0.6)',
+                                color: 'black',
+                                content:  "25th percentile",
+                                position: (35).toString() + '%',
+                                rotation: 0,
+                                yAdjust: 20
+                            },
+                            }
+
+                    this.myChart.options.plugins.annotation.annotations['dangerRange4'] = {
+                            type: 'line',
+                            yMin: 0.52,
+                            yMax: 0.52,
+                            borderColor: 'rgb(255, 100, 132)',
+                            borderWidth: 2,
+                            label: {
+                                enabled: true,
+                                backgroundColor: 'rgba(255, 100, 132, 1)',
+                                // backgroundColor:'rgba(68, 223, 146, 0.6)',
+                                color: 'black',
+                                content:  "50th percentile",
+                                position: (55).toString() + '%',
+                                rotation: 0,
+                                yAdjust: 20
+                            },
+                            }
+
+                            this.myChart.options.plugins.annotation.annotations['dangerRange3'] = {
+                            type: 'line',
+                            yMin: 0.82,
+                            yMax: 0.82,
+                            borderColor: 'rgb(255, 94, 132)',
+                            borderWidth: 2,
+                            label: {
+                                enabled: true,
+                                backgroundColor: 'rgba(255, 100, 200, 1)',
+                                // backgroundColor:'rgba(68, 223, 146, 0.6)',
+                                color: 'black',
+                                content:  "75th percentile",
+                                position: (85).toString() + '%',
+                                rotation: 0,
+                                yAdjust: 20
+                            },
+                            }
+
+                            
+
                     
                     this.myChart.update()
                     
@@ -456,6 +536,15 @@
                         myChart.data.datasets[1].data = Ys
 
                         // re-render the chart
+
+                        myChart.options.plugins.annotation.annotations['dangerRange2'] = {
+                            type: 'line',
+                            yMin: 0.22,
+                            yMax: 0.22,
+                            borderColor: 'rgb(255, 99, 132)',
+                            borderWidth: 2,
+                            }
+
                         myChart.update();
 
                     },

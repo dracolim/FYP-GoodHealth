@@ -49,22 +49,7 @@ else:
 if "batch_export_permin" not in config:
     batch_export_permin="2 per minute"
 else:
-    requests_documents_permin=config['requests_documents_permin'] + " per minute"
-
-# folder='../cv/'
-# html_file_name="cv.html"
-# path_wkhtmltopdf="../wkhtmltopdf/bin/wkhtmltopdf.exe"
-# pdf_file_name='cv.pdf'
-# docx_file_name='cv.docx'
-# docx_path_relative='../cv/cv.docx'
-# requests_documents_permin=5
-# batch_export_permin=1
-
-
-
-
-print("this is the config",config)
-
+    batch_export_permin=config['requests_documents_permin'] + " per minute"
 
 if __name__ == '__main__':
 # #     # Mac user -------------------------------------------------------------------
@@ -624,10 +609,7 @@ class Evaluation_Comments(db.Model):
     Comment = db.Column(db.String(300))
     Score= db.Column(db.String(300))
     Keywords = db.Column(db.String(300))
-    # db.Column(db.DateTime),/
     Weakness = db.Column(db.String(300))
-    # created_time = db.Column(db.DateTime)
-    # updated_time = db.Column(db.DateTime)
     created_time = db.Column(db.DateTime)
     updated_time = db.Column(db.DateTime)
 
@@ -675,7 +657,7 @@ def read_evaluation_comments_by_month(mcr_no):
     endResults_services = []
     unique_services = list(items['Service'].unique())
 
-    print("unique services", unique_services)
+    # print("unique services", unique_services)
     for service in unique_services:
         df = items[items["Service"] == service]
         services.append(df)
