@@ -41,9 +41,29 @@ limiter = Limiter(
 )
 
 config = dotenv_values(".env")
-requests_documents_permin=config['requests_documents_permin'] + " per minute"
-batch_export_permin=config['batch_export_permin'] + " per minute"
+if "requests_documents_permin" not in config:
+    requests_documents_permin="55 per minute"
+else:
+    requests_documents_permin=config['requests_documents_permin'] + " per minute"
 
+if "batch_export_permin" not in config:
+    batch_export_permin="2 per minute"
+else:
+    requests_documents_permin=config['requests_documents_permin'] + " per minute"
+
+# folder='../cv/'
+# html_file_name="cv.html"
+# path_wkhtmltopdf="../wkhtmltopdf/bin/wkhtmltopdf.exe"
+# pdf_file_name='cv.pdf'
+# docx_file_name='cv.docx'
+# docx_path_relative='../cv/cv.docx'
+# requests_documents_permin=5
+# batch_export_permin=1
+
+
+
+
+print("this is the config",config)
 
 
 if __name__ == '__main__':
@@ -3449,12 +3469,21 @@ from abc import ABCMeta, abstractmethod
 
 class DocumentBuilder(metaclass=ABCMeta):
     import os
-    folder=config['folder']
-    html_file_name = config['html_file_name']
-    path_wkhtmltopdf = config['path_wkhtmltopdf']
-    pdf_file = folder + config['pdf_file_name']
-    docx_file = folder + config['docx_file_name']
-    docx_path = os.path.join(os.getcwd(),config['docx_path_relative'])
+    if "folder" not in config:
+        import os
+        folder='../cv/'
+        html_file_name = "cv.html"
+        path_wkhtmltopdf = "../wkhtmltopdf/bin/wkhtmltopdf.exe"
+        pdf_file = folder + 'cv.pdf'
+        docx_file = folder + 'cv.docx'
+        docx_path = os.path.join(os.getcwd(),'../cv/cv.docx')
+    else:
+        folder=config['folder']
+        html_file_name = config['html_file_name']
+        path_wkhtmltopdf = config['path_wkhtmltopdf']
+        pdf_file = folder + config['pdf_file_name']
+        docx_file = folder + config['docx_file_name']
+        docx_path = os.path.join(os.getcwd(),config['docx_path_relative'])
     page = ""
 
     @staticmethod

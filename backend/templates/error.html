@@ -8,23 +8,23 @@
 
         <!-- INSTALLATIONS -->
     <!-- flowbite -->
-    <link href="../node_modules/flowbite/dist/flowbite.min.css" rel="stylesheet" />
+    <!-- <link href="../node_modules/flowbite/dist/flowbite.min.css" rel="stylesheet" /> -->
     <!-- Tailwind -->
     <!-- <link rel="stylesheet" href="../css/tailwind.css"> -->
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <script src="{{url_for('static', filename='tailwindcss.4')}}" ></script>
     <!-- ICONIFY -->
-    <script src="../css/iconify-icon.min.js"></script>
+    <!-- <script src="../css/iconify-icon.min.js"></script> -->
     <!-- LOCAL VUE 2.7.14 -->
-    <script src="../node_modules/vue/dist/vue.js"></script>
+    <!-- <script src="../node_modules/vue/dist/vue.js"></script> -->
     <!-- LOCAL Tabulator  -->
-    <link href="../node_modules/tabulator-tables/dist/css/tabulator_semanticui.css" rel="stylesheet">
-    <script type="text/javascript" src="../node_modules/tabulator-tables/dist/js/tabulator.js"></script>
+    <!-- <link href="../node_modules/tabulator-tables/dist/css/tabulator_semanticui.css" rel="stylesheet"> -->
+    <!-- <script type="text/javascript" src="../node_modules/tabulator-tables/dist/js/tabulator.js"></script> -->
     <!-- ExcelJS -->
-    <script src="../node_modules/exceljs/dist/exceljs.min.js"></script>
-    <script src="../node_modules/xlsx/dist/xlsx.full.min.js"></script>
+    <!-- <script src="../node_modules/exceljs/dist/exceljs.min.js"></script> -->
+    <!-- <script src="../node_modules/xlsx/dist/xlsx.full.min.js"></script> -->
     <!-- LOCAL Axios -->
-    <script src="../node_modules/axios/dist/axios.min.js"></script>
+    <!-- <script src="../node_modules/axios/dist/axios.min.js"></script> -->
 
     <style type="text/tailwindcss">
         @layer utilities {
@@ -43,23 +43,8 @@
             <div class="bg-[#FF6A3D] px-2 text-lg rounded rotate-12 absolute">
                 Too Many Requests
             </div>
-            <!-- <a class="mt-5">
-          <a
-            class="relative inline-block text-sm font-medium text-[#FF6A3D] group active:text-orange-500 focus:outline-none focus:ring"
-          >
-            <span
-              class="absolute inset-0 transition-transform translate-x-0.5 translate-y-0.5 bg-[#FF6A3D] group-hover:translate-y-0 group-hover:translate-x-0"
-            ></span>
-    
-            <span class="relative block px-8 py-3 bg-[#1A2238] border border-current">
-
-              <a class="bg-orange-200" href="../tab_pages/personal_details.html">Go Home</a>
-            </span>
-          </a>
-        </a> -->
             <div class=" bg-orange-500 hover:bg-orange-700 text-white py-2 px-4 rounded">
-                <!-- <a class="hidden" href="../tab_pages/personal_details.html">Go Home</a> -->
-                <p>Only a few requests per minute.</p>
+                <p>Number of requests allowed: {{request_limit.limit}}</p>
                 <p>Please check and modify .env file</p>
             </div>
         </main>
