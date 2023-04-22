@@ -239,7 +239,7 @@ new Vue({
         caseChartArray: [],
         caseMcr_no: null,
         caseChartConfig: {
-            labels: ["% of Completion", "% of Non-Completioin"],
+            labels: ["% of Completion", "% of Non-Completion"],
             datasets: [{
                 data: [],
                 backgroundColor: ['#ff6b00','#ffedd5'],
