@@ -98,9 +98,9 @@ CREATE TABLE `case_log` (
 --
 
 INSERT INTO `case_log` (`id`, `MCR_No`, `Case_Name`, `Type_of_Case_Log`, `Date_of_Log`, `CPT`, `Total`, `Performed`, `Observed`, `Verified`, `Certified`) VALUES
-(1, 'M11367A', 'AKI - Case Log', 'inpatient', '3/2/2022', 'Null', '10', '2', '8', '', 'Yes'),
-(2, 'M11367A', 'AKI - Case Log', 'outpatient', '17/2/2022', 'Null', '36', '1', '4', '', 'Yes'),
-(3, 'M11367A', 'AKI - Case Log', 'blue letter', '23/4/2022', 'Null', '37', '13', '24', '', 'Yes');
+(1, 'M11166J', 'AKI - Case Log', 'inpatient', '3/2/2022', 'Null', '10', '2', '8', '', 'Yes'),
+(2, 'M11166J', 'AKI - Case Log', 'outpatient', '17/2/2022', 'Null', '36', '1', '4', '', 'Yes'),
+(3, 'M11166J', 'AKI - Case Log', 'blue letter', '23/4/2022', 'Null', '37', '13', '24', '', 'Yes');
 
 -- --------------------------------------------------------
 
@@ -190,7 +190,19 @@ INSERT INTO `duty_hour_log` (`id`, `MCR_No`, `Level`, `Submitted`, `Submitted_Pr
 (9, 'M11367A', '2', '3', '0.5', '09/2022', 'Yes'),
 (10, 'M11367A', '3', '4', '0.3', '10/2022', 'Yes'),
 (11, 'M11367A', '4', '0', '0.6', '11/2022', 'Yes'),
-(12, 'M11367A', '1', '3', '1', '12/2022', 'Yes');
+(12, 'M11367A', '1', '3', '1', '12/2022', 'Yes'),
+(13, 'M65889A', '2', '3', '1', '01/2022', 'Yes'),
+(14, 'M65889A', '3', '4', '1', '02/2022', 'Yes'),
+(15, 'M65889A', '4', '0', '1', '03/2022', 'Yes'),
+(16, 'M65889A', '1', '3', '1', '04/2022', 'Yes'),
+(17, 'M65889A', '2', '3', '1', '05/2022', 'Yes'),
+(18, 'M65889A', '3', '4', '1', '06/2022', 'Yes'),
+(19, 'M65889A', '4', '0', '1', '07/2022', 'Yes'),
+(20, 'M65889A', '1', '3', '1', '08/2022', 'Yes'),
+(21, 'M65889A', '2', '3', '1', '09/2022', 'Yes'),
+(22, 'M65889A', '3', '4', '1', '10/2022', 'Yes'),
+(23, 'M65889A', '4', '0', '1', '11/2022', 'Yes'),
+(24, 'M65889A', '1', '3', '1', '12/2022', 'Yes');
 
 -- --------------------------------------------------------
 
@@ -1025,15 +1037,15 @@ INSERT INTO `presentations` (`id`, `MCR_No`, `Title`, `Type`, `Project_ID`, `Con
 (4, 'M11367A', 'The Changing Profile of Helicobacter Pylori Primary Antibiotic Resistance in Singapore over the last two decades ', ' Abstract', ' NIL', 'Digestive Diseases Week 2021 ', 'United States ', ' 23-May-2022'),
 (5, 'M11367A', 'Influence of Age on long term prognoses over 9 years after ischemic stroke', '', 'Nil', 'European Stroke Organization Conference 2017', 'Prague', '3-Jun-2022'),
 (6, 'M11367A', 'Prevalence and Predictors of Positional Obstructive Sleep Apnea in a Southeast Asian Population ', 'Poster', 'Nil', 'CHEST Congress 2019', 'Thailand', '11-Apr-2022'),
-(7, 'M88791Z', 'Malignant Large Bowel Obstruction & Colonic Stenting as safe bridge to surgery – A clinical audit of efficacy and safety in a tertiary centre', 'Oral', ' NIL', 'Digestive Diseases Week 2021 ', 'United States ', '21-May-2021'),
-(8, 'M56829J', '', '', '', '', '', ''),
-(9, 'M83162D', '', '', '', '', '', ''),
-(10, 'M33571G', '', '', '', '', '', ''),
-(11, 'M35718D', '', '', '', '', '', ''),
-(12, 'M35589A', 'Granulomatous Lung Disease with Concomitant Sarcoidosis and Tuberculosis: A Case Report', 'Poster', 'Nil', 'CHEST 2018', 'United States ', '01-Oct-2018'),
-(13, 'M35589A', 'Prevalence and Predictors of Positional Obstructive Sleep Apnea in a Southeast Asian Population ', 'Poster', 'Nil', 'CHEST Congress 2019', 'Thailand', '11-Apr-2019'),
-(14, 'M66630D', '', '', '', '', '', ''),
-(15, 'M45528I', 'Clot Waveform Analysis in Acute VTE in Patients with/without cancers', 'Poster', 'Nil', '10th Congress of Asian-Pacific Society on Thrombosis and Hemostasis', 'Japan', '30-Jun-2018'),
+(7, 'M88791Z', 'Malignant Large Bowel Obstruction & Colonic Stenting as safe bridge to surgery – A clinical audit of efficacy and safety in a tertiary centre', 'Oral', ' NIL', 'Digestive Diseases Week 2021 ', 'United States ', '21-May-2022'),
+(8, 'M56829J', 'Granulomatous Lung Disease with Concomitant Sarcoidosis and Tuberculosis: A Case Report', 'Abstract', 'Nil', 'RFG 2022', 'Malaysia', '31-Jan-2022'),
+(9, 'M83162D', 'Dementia Care in UK: Patients Journey.', '', 'Nil', 'Asian Medical Student Conference, Indonesia, 2012 ', 'Indonesia', '24-Feb-2022'),
+(10, 'M56829J', 'Granulomatous Lung Disease with Concomitant Sarcoidosis and Tuberculosis: A Case Report', 'Abstract', 'Nil', 'RFG 2022', 'Malaysia', '31-Jan-2022'),
+(11, 'M83162D', 'Dementia Care in UK: Patients Journey.', '', 'Nil', 'Asian Medical Student Conference, Indonesia, 2012 ', 'Indonesia', '24-Feb-2022'),
+(12, 'M35589A', 'Granulomatous Lung Disease with Concomitant Sarcoidosis and Tuberculosis: A Case Report', 'Poster', 'Nil', 'CHEST 2018', 'United States ', '01-Oct-2022'),
+(13, 'M35589A', 'Prevalence and Predictors of Positional Obstructive Sleep Apnea in a Southeast Asian Population ', '', 'Nil', 'CHEST Congress 2019', 'Thailand', '11-Apr-2022'),
+(14, 'M66630D', 'Prevalence and Predictors of Positional Obstructive Sleep Apnea in a Southeast Asian Population ', '', 'Nil', 'CHEST Congress 2019', 'Thailand', '11-Apr-2022'),
+(15, 'M66630D', 'Clot Waveform Analysis in Acute VTE in Patients with/without cancers', 'Poster', 'Nil', '10th Congress of Asian-Pacific Society on Thrombosis and Hemostasis', 'Japan', '30-Jun-2022'),
 (16, 'M65659J', 'Evaluation Of Concomitant Lung Parenchymal Involvement In Patients With Tuberculous Pleural Effusion In An Endemic Population', 'E-Poster', 'Nil', 'ATS 2020', '', '31-Jul-2020');
 
 -- --------------------------------------------------------
@@ -1215,17 +1227,17 @@ INSERT INTO `publications` (`id`, `MCR_No`, `Publication_Title`, `Journal_Title`
 (3, 'M11367A', 'CHEST Pearls: A 78-Year-Old Man With Recurrent Hemoptysis and Persistent Pulmonary Nodule', 'CHEST', '32145821', '28-Mar-2022'),
 (4, 'M11367A', 'Elevated activated partial thromboplastin time-based clot waveform analysis markers have strong positive association with acute venous thromboembolism', 'Singapore Medical Journal', '31223264', '28-May-2022'),
 (5, 'M54354E', 'A novel heart rate variability based riskprediction model for septic patient presenting to the emergency department', ' ', '29879021', ''),
-(6, 'M88791Z', '', '', '', ''),
-(7, 'M56829J', '', '', '', ''),
-(8, 'M83162D', '', '', '', ''),
-(9, 'M33571G', '', '', '', ''),
-(10, 'M35718D', '', '', '', ''),
+(6, 'M88791Z', 'Non-responsive breast cellulitis after hyaluronic acid filler injection', 'International Journal of Infectious Diseases', '29501834', '23-Mar-2022'),
+(7, 'M56829J', 'Non-responsive breast cellulitis after hyaluronic acid filler injection', 'International Journal of Infectious Diseases', '29501834', '23-Mar-2022'),
+(8, 'M83162D', 'Non-responsive breast cellulitis after hyaluronic acid filler injection', 'International Journal of Infectious Diseases', '29501834', '23-Mar-2022'),
+(9, 'M33571G', 'Non-responsive breast cellulitis after hyaluronic acid filler injection', 'International Journal of Infectious Diseases', '29501834', '23-Mar-2022'),
+(10, 'M35718D', 'Non-responsive breast cellulitis after hyaluronic acid filler injection', 'International Journal of Infectious Diseases', '29501834', '23-Mar-2022'),
 (11, 'M35589A', 'Non-responsive breast cellulitis after hyaluronic acid filler injection', 'International Journal of Infectious Diseases', '29501834', 'Mar-18'),
 (12, 'M35589A', 'Prevalence of Positional OSA among patients with OSA in a tertiary healthcare institution in Singapore', 'Singapore Medical Journal', '33619576', 'Dec-20'),
-(13, 'M66630D', '', '', '', ''),
+(13, 'M66630D', 'Non-responsive breast cellulitis after hyaluronic acid filler injection', 'International Journal of Infectious Diseases', '29501834', '23-Mar-2022'),
 (14, 'M45528I', 'Medical and Surgical Emergencies: The ABCDE Approach – Oncological Emergencies', ' ', '', ''),
 (15, 'M45528I', 'Elevated activated partial thromboplastin time-based clot waveform analysis markers have strong positive association with acute venous thromboembolism', ' ', '31223264', ''),
-(16, 'M45528I', '', '', '', ''),
+(16, 'M45528I', 'Non-responsive breast cellulitis after hyaluronic acid filler injection', 'International Journal of Infectious Diseases', '29501834', '23-Mar-2022'),
 (17, 'M65659J', 'CHEST Pearls: A 78-Year-Old Man With Recurrent Hemoptysis and Persistent Pulmonary Nodule', 'CHEST', '32145821', 'Mar-20');
 
 -- --------------------------------------------------------
