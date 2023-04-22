@@ -276,6 +276,18 @@
         <div class="flex items-center justify-between mt-6">
 
             <div class="flex items-center mx-8" id="buttons-container">
+                <div class="relative mx-2" id="import-button">
+                    <div class="absolute inset-y-0 left-0 right-12 bottom-2 flex items-center pl-3 pointer-events-none">
+                        <iconify-icon icon="mingcute:file-import-line" style="color: white;" width="20" height="20">
+                        </iconify-icon>
+                    </div>
+                    <button data-modal-target="top-left-modal" data-modal-toggle="top-left-modal"
+                        @click="importSuccess = false"
+                        class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2"
+                        type="button">
+                        <label class="ml-2">Evaluations Import</label>
+                    </button>
+                </div>
                 <div class="relative" id="toggle-table">
                     <div class="absolute inset-y-0 left-0 right-12 bottom-2 flex items-center pl-3 pointer-events-none">
                         <iconify-icon icon="mingcute:file-import-line" style="color: white;" width="20" height="20">
@@ -284,23 +296,6 @@
                     <button type="button" @click="toggleMode"
                         class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">
                         <label class="ml-2">Toggle Table</label>
-                    </button>
-                </div>
-                <div class="relative mx-2" id="import-button">
-                    <div class="absolute inset-y-0 left-0 right-12 bottom-2 flex items-center pl-3 pointer-events-none">
-                        <iconify-icon icon="mingcute:file-import-line" style="color: white;" width="20" height="20">
-                        </iconify-icon>
-                    </div>
-                    <!-- <button type="button" data-te-toggle="modal" data-te-target="#exampleModalScrollable"
-                        @click="importSuccess = false"
-                        class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">
-                        <label class="ml-2">Evaluations Import</label>
-                    </button> -->
-                    <button data-modal-target="top-left-modal" data-modal-toggle="top-left-modal"
-                        @click="importSuccess = false"
-                        class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2"
-                        type="button">
-                        <label class="ml-2">Evaluations Import</label>
                     </button>
                 </div>
                 <div class="relative mx-2" id="toggle-quickview" style="display:none">
