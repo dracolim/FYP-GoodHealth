@@ -429,16 +429,16 @@ CREATE TABLE `ihi` (
 --
 
 INSERT INTO `ihi` (`id`, `MCR_No`, `Completion_of_Emodules`, `Date`) VALUES
-(1, 'M11367A', 'Yes', '07/07/2023'),
+(1, 'M11367A', 'Yes', '07/07/2022'),
 (2, 'M16782H', 'No', '-'),
-(3, 'M54354E', 'Yes', '07/08/2023'),
-(4, 'M88791Z', 'Yes', '07/09/2023'),
-(5, 'M56829J', 'Yes', '07/10/2023'),
+(3, 'M54354E', 'Yes', '07/08/2022'),
+(4, 'M88791Z', 'Yes', '07/09/2022'),
+(5, 'M56829J', 'Yes', '07/10/2022'),
 (6, 'M83162D', 'No', '-'),
 (7, 'M33571G', 'No', '-'),
 (8, 'M35718D', 'No', '-'),
-(9, 'M35589A', 'Yes', '07/11/2023'),
-(10, 'M65659J', 'Yes', '07/12/2023');
+(9, 'M35589A', 'Yes', '07/11/2022'),
+(10, 'M65659J', 'Yes', '07/12/2022');
 
 -- --------------------------------------------------------
 
@@ -1124,44 +1124,44 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`id`, `MCR_No`, `Project_Type`, `Project_Title`, `Project_ID`, `Start_Date`, `End_Date`, `Date_of_QI_Certification`, `PMID`) VALUES
-(1, 'M11367A', 'Qi', 'Creating an Intranet Site Showing Each Medical Departments Criteria for Inpatient Reviews', ' ', '24/02/2019', '24/02/2020', '', ''),
+(1, 'M11367A', 'Qi', 'Creating an Intranet Site Showing Each Medical Departments Criteria for Inpatient Reviews', ' ', '24/02/2022', '24/02/2023', '', ''),
 (2, 'M11367A', '', '', '', '', '', '', ''),
-(3, 'M16782H', 'QI', 'Code Blue Documentation ', ' ', '12/05/2018', '12/05/2019', '', ''),
+(3, 'M16782H', 'QI', 'Code Blue Documentation ', ' ', '12/05/2022', 'Ongoing', '', ''),
 (4, 'M16782H', '', '', '', '', '', '', ''),
-(5, 'M65889A', 'QI', 'Reducing the percentage of errors in discharge prescriptions in Ward 73', ' ', '29/07/2018', '29/07/2019', '', ''),
-(6, 'M65889A', 'QI', 'Improving Compliance of Medical Results Acknowledgement in CGH Gastroenterology Department ', '', '18/06/2019', '18/06/2020', '', ''),
-(7, 'M54354E', 'QI', 'Improving Compliance to the NBM protocol in surgical patients', '', '08/11/2020', '08/11/2021', '', ''),
+(5, 'M65889A', 'QI', 'Reducing the percentage of errors in discharge prescriptions in Ward 73', ' ', '29/01/2022', '29/01/20123', '', ''),
+(6, 'M65889A', 'QI', 'Improving Compliance of Medical Results Acknowledgement in CGH Gastroenterology Department ', '', '18/06/2022', 'Ongoing', '', ''),
+(7, 'M54354E', 'QI', 'Improving Compliance to the NBM protocol in surgical patients', '', '08/01/2022', '08/01/2023', '', ''),
 (8, 'M54354E', 'QI', 'Increase virtual NHMS clinic visits from 278 to more than 600 by Dec 2022.', '1220FY2009', '21/08/2018', 'Ongoing', '', ''),
 (9, 'M54354E', 'QI', 'To increase the proportion of gastroenterology and hepatology patients with decompensated liver cirrhosis receiving who are not nil by mouth (NBM), late night snacks on a weekly basis from 18% to 100% by 12 months in ward 46, SGH .', '1357FY2108', '03/12/2019', 'In progress', '', ''),
-(10, 'M88791Z', 'QI', 'Improving Compliance of Medical Results Acknowledgement in CGH Gastroenterology Department ', '', '06/09/2018', '06/09/2019', '', ''),
+(10, 'M88791Z', 'QI', 'Improving Compliance of Medical Results Acknowledgement in CGH Gastroenterology Department ', '', '06/02/2022', '06/02/2023', '', ''),
 (11, 'M56829J', 'QI', 'Improving the SGH Renal Medical Officer Orientation', ' ', '13/04/2019', '13/04/2020', '', ''),
-(12, 'M56829J', 'QI', 'Improving confidence in Renal Medical Officers in Singapore General Hospital', '', '27/10/2020', '27/10/2021', '', ''),
+(12, 'M56829J', 'QI', 'Improving confidence in Renal Medical Officers in Singapore General Hospital', '', '27/02/2022', '27/02/2023', '', ''),
 (13, 'M83162D', 'QI', 'Increasing the rates of influenza vaccination amongst eligible patients admitted to the Internal Medicine Departments within DIM GT wards to 50% within 6 months', ' ', '09/01/2018', '09/01/2019', '', ''),
-(14, 'M83162D', 'QI', 'Improving confidence in Renal Medical Officers in Singapore General Hospital', '', '07/03/2020', '07/03/2021', '', ''),
+(14, 'M83162D', 'QI', 'Improving confidence in Renal Medical Officers in Singapore General Hospital', '', '07/03/2022', '07/03/2023', '', ''),
 (15, 'M33571G', 'QI', 'Improving the SGH Renal Medical Officer Orientation', ' ', '22/05/2018', '22/05/2019', '', ''),
-(16, 'M33571G', 'QI', 'Improving confidence in Renal Medical Officers in Singapore General Hospital', '', '05/07/2019', 'Ongoing', '', ''),
-(17, 'M35718D', 'QI', 'Clinical Handover', '', '16/08/2020', 'Ongoing', '', ''),
+(16, 'M33571G', 'QI', 'Improving confidence in Renal Medical Officers in Singapore General Hospital', '', '05/07/2022', 'Ongoing', '', ''),
+(17, 'M35718D', 'QI', 'Clinical Handover', '', '16/08/2022', 'Ongoing', '', ''),
 (18, 'M35718D', 'QI', 'Improving confidence in Renal Medical Officers in Singapore General Hospital', '', '02/10/2018', '02/10/2019', '', ''),
-(19, 'M35589A', 'QI', 'Implementing an Online Review Roster', ' ', '19/12/2019', '19/12/2020', '', ''),
+(19, 'M35589A', 'QI', 'Implementing an Online Review Roster', ' ', '19/02/2022', '19/02/2022', '', ''),
 (20, 'M35589A', 'QI', 'Shortening Wait Time and Implementing Faster Triage (SWIFT) - evaluating and reducing delay to diagnosis and management of lung cancer', '', '28/01/2018', '28/01/2019', '', ''),
-(21, 'M35589A', 'QI', 'Implementing the Various Medical Departments’ Criteria for Review of Inpatients on Intranet ', '', '26/05/2020', 'Ongoing', '', ''),
-(22, 'M35589A', '', 'Characteristics of Asian patients who would miss out on lung cancer screening', '', '31/07/2020', 'Ongoing', '', ''),
-(23, 'M35589A', '', 'Interstitial Lung Disease Registry (ILD-R)', '', '09/09/2019', 'Ongoing', '', ''),
-(24, 'M45528I', 'Qi', 'redReducing inappropriate blood transfusions', '', '19/11/2018', '19/11/2019', '', ''),
-(25, 'M45528I', '', 'CGH Interstitial Lung Disease (ILD) Registry ', '', '08/02/2020', 'Ongoing', '', ''),
-(26, 'M45528I', '', 'Prospective data collection of clinical, microbiological and bronchoscopic findings in immunocompromised patients with pulmonary infections', '', '20/08/2020', 'Ongoing', '', ''),
+(21, 'M35589A', 'QI', 'Implementing the Various Medical Departments’ Criteria for Review of Inpatients on Intranet ', '', '26/05/2022', 'Ongoing', '', ''),
+(22, 'M35589A', '', 'Characteristics of Asian patients who would miss out on lung cancer screening', '', '31/07/2022', 'Ongoing', '', ''),
+(23, 'M35589A', '', 'Interstitial Lung Disease Registry (ILD-R)', '', '09/09/2022', 'Ongoing', '', ''),
+(24, 'M45528I', 'Qi', 'redReducing inappropriate blood transfusions', '', '19/01/2022', '19/01/2023', '', ''),
+(25, 'M45528I', '', 'CGH Interstitial Lung Disease (ILD) Registry ', '', '08/02/2022', 'Ongoing', '', ''),
+(26, 'M45528I', '', 'Prospective data collection of clinical, microbiological and bronchoscopic findings in immunocompromised patients with pulmonary infections', '', '20/08/2022', 'Ongoing', '', ''),
 (27, 'M66630D', 'QI', 'Improving Compliance to the NBM protocol in surgical patients', '', '04/10/2018', '04/10/2019', '', ''),
 (28, 'M66630D', '', '', '', '', '', '', ''),
-(29, 'M65659J', 'QI', 'Working on ways to identify patients from ACC clinic lists who are potential candidates for switching to novel anticoagulants', ' ', '26/11/2019', '26/11/2020', '', ''),
+(29, 'M65659J', 'QI', 'Working on ways to identify patients from ACC clinic lists who are potential candidates for switching to novel anticoagulants', ' ', '26/01/2022', '26/01/2023', '', ''),
 (30, 'M65659J', '', 'SGH Bronchiectasis Database', '', '07/01/2018', 'Ongoing', '', ''),
 (31, 'M65659J', 'QI', 'Shortening Wait Time and Implementing Faster Triage (SWIFT) - evaluating and reducing delay to diagnosis and management of lung cancer', '', '09/03/2020', '09/03/2021', '', ''),
-(32, 'M65659J', '', 'Evaluation Of Concomitant Lung Parenchymal Involvement In Patients With Tuberculous Pleural Effusion In An Endemic Population', '', '15/05/2018', 'Ongoing', '', ''),
-(33, 'M65659J', '', 'MDI Spacer instead of wet nebulizer during acute inpatient admissions for asthma/ COPD exacerbations', '', '12/08/2020', 'Ongoing', '', ''),
-(34, 'M11367A', 'QI', 'Working on ways to identify patients from ACC clinic lists who are potential candidates for switching to novel anticoagulants', ' ', '08/02/2020', '08/02/2021', '', ''),
-(35, 'M11367A', '', 'SGH Bronchiectasis Database', '', '26/05/2020', 'Ongoing', '', ''),
-(36, 'M11367A', 'QI', 'Shortening Wait Time and Implementing Faster Triage (SWIFT) - evaluating and reducing delay to diagnosis and management of lung cancer', '', '16/08/2020', 'Ongoing', '', ''),
-(37, 'M11367A', '', 'Evaluation Of Concomitant Lung Parenchymal Involvement In Patients With Tuberculous Pleural Effusion In An Endemic Population', '', '27/10/2020', 'Ongoing', '', ''),
-(38, 'M11367A', '', 'MDI Spacer instead of wet nebulizer during acute inpatient admissions for asthma/ COPD exacerbations', '', '08/11/2020', 'Ongoing', '', '');
+(32, 'M65659J', '', 'Evaluation Of Concomitant Lung Parenchymal Involvement In Patients With Tuberculous Pleural Effusion In An Endemic Population', '', '15/05/2022', 'Ongoing', '', ''),
+(33, 'M65659J', '', 'MDI Spacer instead of wet nebulizer during acute inpatient admissions for asthma/ COPD exacerbations', '', '12/08/2022', 'Ongoing', '', ''),
+(34, 'M11367A', 'QI', 'Working on ways to identify patients from ACC clinic lists who are potential candidates for switching to novel anticoagulants', ' ', '08/02/2022', '08/02/2023', '', ''),
+(35, 'M11367A', '', 'SGH Bronchiectasis Database', '', '26/05/2022', 'Ongoing', '', ''),
+(36, 'M11367A', 'QI', 'Shortening Wait Time and Implementing Faster Triage (SWIFT) - evaluating and reducing delay to diagnosis and management of lung cancer', '', '16/08/2022', 'Ongoing', '', ''),
+(37, 'M11367A', '', 'Evaluation Of Concomitant Lung Parenchymal Involvement In Patients With Tuberculous Pleural Effusion In An Endemic Population', '', '27/10/2022', 'Ongoing', '', ''),
+(38, 'M11367A', '', 'MDI Spacer instead of wet nebulizer during acute inpatient admissions for asthma/ COPD exacerbations', '', '08/11/2022', 'Ongoing', '', '');
 
 -- --------------------------------------------------------
 
