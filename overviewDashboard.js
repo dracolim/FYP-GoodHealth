@@ -518,8 +518,8 @@ new Vue({
 
             passedResident = chartData[0]
             totalResident = chartData[1]
-            percentageCompletion = passedResident/totalResident
-            percentageNonCompletion = 1 - percentageCompletion
+            percentageCompletion = (passedResident/totalResident) * 100
+            percentageNonCompletion = 100 - percentageCompletion
             this.caseChartConfig.datasets[0].data.push(percentageCompletion.toFixed(3))
             this.caseChartConfig.datasets[0].data.push(percentageNonCompletion.toFixed(3))
             this.caseLoaded = false
@@ -646,8 +646,8 @@ new Vue({
 
             passedResident = chartData[0]
             totalResident = chartData[1]
-            percentageCompletion = passedResident / totalResident
-            percentageNonCompletion = 1 - percentageCompletion
+            percentageCompletion = (passedResident / totalResident) * 100
+            percentageNonCompletion = 100 - percentageCompletion
             this.scholarlyChartConfig.datasets[0].data.push(percentageCompletion.toFixed(3))
             this.scholarlyChartConfig.datasets[0].data.push(percentageNonCompletion.toFixed(3))
             
