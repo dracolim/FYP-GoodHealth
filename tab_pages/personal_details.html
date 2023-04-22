@@ -227,50 +227,54 @@
 
         <!-- filter rows -->
         <div class="flex items-center justify-between mt-4 mx-8">
-            <div class="relative">
-                <div class="absolute inset-y-0 left-0 right-12 bottom-2 flex items-center pl-3 pointer-events-none">
-                    <iconify-icon icon="mingcute:file-import-line" style="color: white;" width="20" height="20">
-                    </iconify-icon>
+            <!-- <div class="relative"> -->
+                <div class="flex justify-start">
+                    <button data-modal-target="top-left-modal" data-modal-toggle="top-left-modal"
+                        class="flex justify-center items-center text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-6 py-2.5  mb-2"
+                        type="button"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            viewBox="0 0 24 24">
+                            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2">
+                                <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                <path d="M5 13V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2h-5.5M2 19h7m-3-3l3 3l-3 3" />
+                            </g>
+                        </svg>
+                        <label class="ml-1">Bulk Import</label>
+                    </button>
+
+                    <button id="history-undo"
+                        class="ml-4 flex justify-center items-center text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-6 py-2.5  mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24">
+                            <path fill="currentColor"
+                                d="M8 19q-.425 0-.713-.288T7 18q0-.425.288-.713T8 17h6.1q1.575 0 2.738-1T18 13.5q0-1.5-1.163-2.5T14.1 10H7.8l1.9 1.9q.275.275.275.7t-.275.7q-.275.275-.7.275t-.7-.275L4.7 9.7q-.15-.15-.213-.325T4.425 9q0-.2.063-.375T4.7 8.3l3.6-3.6q.275-.275.7-.275t.7.275q.275.275.275.7t-.275.7L7.8 8h6.3q2.425 0 4.163 1.575T20 13.5q0 2.35-1.738 3.925T14.1 19H8Z" />
+                        </svg>
+                        <label class="ml-1">Undo Edit</label>
+                    </button>
                 </div>
 
-                <button data-modal-target="top-left-modal" data-modal-toggle="top-left-modal"
-                    class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2"
-                    type="button">
-                    <label class="ml-2">Bulk Import</label>
-                </button>
-
-                <button id="history-undo"
-                    class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">
-                    <iconify-icon icon="material-symbols:undo-rounded" width="15" height="15"></iconify-icon>Undo
-                    Edit
-                </button>
-
-                <!-- <button id="history-redo"
-                    class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">Redo
-                    Edit</button> -->
-
-
-                <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 
-            text-white transition duration-150 ease-in-out bg-blue-500 rounded-md shadow 
-            hover:bg-blue-400" v-if="mcr_no.length != 0" :href="currpage[1] + '' + mcr_no" target="_blank"
-                    style="margin-right: 5px;">
-                    <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
-                    </svg>
-                    <span></span>
-                    Export PDF
-                </a>
-                <a class="ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 
-            text-white transition duration-150 ease-in-out bg-blue-500 rounded-md shadow 
-            hover:bg-blue-400" v-if="mcr_no.length != 0" :href="currpage[2] + '' + mcr_no" target="_blank"
-                    style="margin-right: 5px;">
-                    <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
-                    </svg>
-                    <span></span>
-                    Export Word
-                </a>
-            </div>
+                <div class="flex justify-end">
+                    <a class="mt-7 float-right ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 
+                            text-white transition duration-150 ease-in-out bg-blue-500 rounded-md shadow 
+                            hover:bg-blue-400" v-if="mcr_no.length != 0" :href="currpage[1] + '' + mcr_no" target="_blank"
+                        style="margin-right: 5px;">
+                        <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
+                        </svg>
+                        <span></span>
+                        Export PDF
+                    </a>
+                    <a class="mt-7 ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 
+                        text-white transition duration-150 ease-in-out bg-blue-500 rounded-md shadow 
+                        hover:bg-blue-400" v-if="mcr_no.length != 0" :href="currpage[2] + '' + mcr_no" target="_blank"
+                        style="margin-right: 5px;">
+                        <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
+                        </svg>
+                        <span></span>
+                        Export Word
+                    </a>
+                </div>
+            <!-- </div> -->
         </div>
 
         <!-- FLOWBITE IMPORT MODAL -->
@@ -331,8 +335,7 @@
 
 
         <!-- SUCCESS ALERT FOR IMPORT -->
-        <div id="alert-3" v-if="success"
-            class="flex mx-8 mt-4 p-4 mb-4 text-green-800 rounded-lg bg-green-50"
+        <div id="alert-3" v-if="success" class="flex mx-8 mt-4 p-4 mb-4 text-green-800 rounded-lg bg-green-50"
             role="alert">
             <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg">
@@ -410,7 +413,7 @@
                     };
                     var DashboardButton = function (cell, formatterParams,
                         onRendered) {
-                        return "<a class=\'text-black-500 hover:text-blue-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2\'><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"30\" height=\"30\" viewBox=\"0 0 32 32\"><path fill=\"currentColor\" d=\"M24 21h2v5h-2zm-4-5h2v10h-2zm-9 10a5.006 5.006 0 0 1-5-5h2a3 3 0 1 0 3-3v-2a5 5 0 0 1 0 10z\"/><path fill=\"currentColor\" d=\"M28 2H4a2.002 2.002 0 0 0-2 2v24a2.002 2.002 0 0 0 2 2h24a2.003 2.003 0 0 0 2-2V4a2.002 2.002 0 0 0-2-2Zm0 9H14V4h14ZM12 4v7H4V4ZM4 28V13h24l.002 15Z\"/></svg></a>"
+                        return "<a class=\'text-black-500 hover:text-orange-600 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2\'><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"30\" height=\"30\" viewBox=\"0 0 32 32\"><path fill=\"currentColor\" d=\"M24 21h2v5h-2zm-4-5h2v10h-2zm-9 10a5.006 5.006 0 0 1-5-5h2a3 3 0 1 0 3-3v-2a5 5 0 0 1 0 10z\"/><path fill=\"currentColor\" d=\"M28 2H4a2.002 2.002 0 0 0-2 2v24a2.002 2.002 0 0 0 2 2h24a2.003 2.003 0 0 0 2-2V4a2.002 2.002 0 0 0-2-2Zm0 9H14V4h14ZM12 4v7H4V4ZM4 28V13h24l.002 15Z\"/></svg></a>"
                     };
 
                     function link(cell, formatterParams) {

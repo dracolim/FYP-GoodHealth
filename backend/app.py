@@ -799,6 +799,13 @@ def view():
     file = request.files['file']
     file.save(file.filename)
 
+    filename = file.filename 
+    # throw error , file not accepted
+    not_allowed = ['evaluation' , 'duty hour' , 'procedure' , 'case' , 'evaluations' , "didactic attendance" , "didactic" ]
+    for each in not_allowed:
+        if each in filename.lower():
+            return redirect("http://localhost/FYP-GoodHealth/tab_pages/bulk_import_name_error.html", code=302)
+
     # READ EXCEL FILE
     df = pd.ExcelFile(file)
     sheetNames_list = list(map(lambda x: x.lower(), df.sheet_names))
@@ -899,13 +906,6 @@ def view():
             file, sheet_name="IHI", dtype=str)
         ihi.columns = [ 'MCR_No', 'Completion_of_Emodules' , 'Date' ]
         list_of_existing_sheetNames["ihi"] = ihi
-
-    #didatic attendance
-    if ("didactic attendance" in sheetNames_list):
-        didatic_attendance = pd.read_excel(
-            file, sheet_name="Didactic Attendance", dtype=str)
-        didatic_attendance.columns = [ 'MCR_No', 'Month' , 'Total_tracked_sessions' , 'Number_of_sessions_attended'  , 'MmYyyy' , 'Posting_Institution' , 'Posting_Department' , 'Scheduled_Teachings' 'Compliance_or_Not' , "Percentage_of_sessions_attended"]
-        list_of_existing_sheetNames["didactic attendance"] = didatic_attendance
 
     ### CHECK FOR ERRORS
     writer_exist = False
@@ -1073,37 +1073,6 @@ def view():
                                                     'criteria': 'not equal to',
                                                     'value': '"o1"',
                                                     'format':   format1})
-        elif each_tab == "didactic attendance":
-            if didatic_attendance.duplicated().any() or didatic_attendance['MCR_No'].isnull().sum() > 0:
-                if writer_exist == False:
-                    writer = pd.ExcelWriter("bulk_import_error.xlsx", engine='xlsxwriter')
-                    workbook = writer.book
-                    format1 = workbook.add_format({'bg_color': '#FF8080'})
-                    writer_exist = True
-
-                didatic_attendance.to_excel(
-                    writer, sheet_name='didatic_attendance_error')
-                workbook = writer.book
-                worksheet = writer.sheets['didatic_attendance_error']
-                format1 = workbook.add_format({'bg_color': '#FF8080'})
-                nullrows = awards[awards[[
-                "MCR_No"]].isnull().any(axis=1)]
-                duplicate_row_bool = didatic_attendance.duplicated()
-                for i in range(len(duplicate_row_bool)):
-                    if (duplicate_row_bool[i] == True):
-                        ran = "A" + str(i+2) + ":BA" + str(i+2)
-                        worksheet.conditional_format(ran,
-                                                {'type':     'cell',
-                                                'criteria': 'not equal to',
-                                                'value': '"o1"',
-                                                'format':   format1})
-                for row in nullrows.index:
-                    ran = "A" + str(row+2) + ":BA" + str(row+2)
-                    worksheet.conditional_format(ran,
-                                                    {'type':     'cell',
-                                                    'criteria': 'not equal to',
-                                                    'value': '"o1"',
-                                                    'format':   format1})
         else:
             df = list_of_existing_sheetNames[each_tab]
             if df.duplicated().any() or df['MCR_No'].isnull().sum() > 0:
@@ -1156,12 +1125,6 @@ def view():
                     db.session.commit()
                 else: #it exist in the database 
                     pd_count += 1
-                # if Personal_Details.query.filter_by(MCR_No=data["MCR_No"]).first() != None:
-                #     Personal_Details.query.filter_by(
-                #         MCR_No=data["MCR_No"]).update(data)
-                # else:
-                #     db.session.add(presentation)
-                #     db.session.commit()
             except Exception as e:
                 print("An error occurred:", e)
                 print("Stack trace:")
@@ -1435,30 +1398,6 @@ def view():
         if ihi_count == total_ihi:
             count += 1
         print("ihi" + str(count))
-
-    ### didatic attendance 
-    if ("didactic attendance" in sheetNames_list):
-        didatic_attendance= didatic_attendance.fillna('')
-        didatic_attendance_count = 0
-        total_didactic_attendance = len(didatic_attendance)
-        for i in range(len(didatic_attendance)):
-            data = dict(didatic_attendance.iloc[i])
-            presentation9 = Didactic_Attendance(**data)
-            try:
-                exist = db.session.query(exists().where(Didactic_Attendance.MCR_No == data['MCR_No'] ,Didactic_Attendance.MmYyyy == data['MmYyyy'], Didactic_Attendance.Percentage_of_sessions_attended == data['Percentage_of_sessions_attended'] , Didactic_Attendance.Number_of_sessions_attended == data['Number_of_sessions_attended'])).scalar()
-                if exist == False:
-                    db.session.add(presentation9)
-                    db.session.commit()
-                else:
-                    didatic_attendance_count += 1
-
-            except Exception as e:
-                print("An error occurred:", e)
-                print("Stack trace:")
-                traceback.print_exc()   
-        if didatic_attendance_count == total_didactic_attendance:
-            count += 1
-        print("didactic" + str(count))
 
     print(len(sheetNames_list))
     print(count)
