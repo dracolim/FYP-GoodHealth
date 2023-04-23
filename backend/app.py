@@ -52,10 +52,15 @@ else:
     batch_export_permin=config['requests_documents_permin'] + " per minute"
 
 if __name__ == '__main__':
-# #     # Mac user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-                                        '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+    print("__main__ print")
+# # #     # Mac user -------------------------------------------------------------------
+#     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+#                                         '@localhost:3306/SingHealth'
+#     engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
+    app.config['TESTING'] = True
 
     # --------------------------------------------------------------------------------
 
