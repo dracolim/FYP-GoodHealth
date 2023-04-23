@@ -52,6 +52,7 @@ else:
     batch_export_permin=config['requests_documents_permin'] + " per minute"
 
 if __name__ == '__main__':
+    print("__main__ print")
 # #     # Mac user -------------------------------------------------------------------
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
                                         '@localhost:3306/SingHealth'
