@@ -253,7 +253,7 @@
                 </div>
 
                 <div class="flex justify-end">
-                    <a class="mt-7 float-right ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 
+                    <a id = "export_pdf" class="mt-7 float-right ml-5 mb-10 inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 
                             text-white transition duration-150 ease-in-out bg-blue-500 rounded-md shadow 
                             hover:bg-blue-400" v-if="mcr_no.length != 0" :href="currpage[1] + '' + mcr_no" target="_blank"
                         style="margin-right: 5px;">
@@ -392,7 +392,6 @@
             ],
             mcr_no: [],
             importSuccess: false,
-
         },
         methods: {
             trigger() {
@@ -515,21 +514,6 @@
                                     console.log(table.getSelectedData());
                                 }
                             },
-
-                            // {
-                            //     title: "Batch Export CVs",
-                            //     field: "MCR_No",
-                            //     sorter: "string",
-                            //     headerFilter: "input",
-                            //     headerFilter: true,
-                            //     headerFilterParams: {
-                            //         valuesLookup: true,
-                            //         clearable: true
-                            //     },
-                            //     editor: true,
-                            //     formatter: link2
-
-                            // },
                             {
                                 title: "MCR No",
                                 field: "MCR_No",
@@ -980,14 +964,7 @@
                             updateRow(component);
                         }
                     });
-
-                    // table.on("historyRedo", function (action, component, data) {
-                    //     if (typeof component.getData === 'function') {
-                    //         updateRow(component);
-                    //     }
-                    // });
-
-                    newdata = []
+                    var newdata = []
                     this.mcr_no = newdata
                     table.on("rowSelectionChanged", function (data, rows) {
                         // newdata = []
@@ -995,9 +972,11 @@
                             newdata.push(i["MCR_No"])
                             // this.mcr_no.push(i["MCR_No"])
                         }
-                        console.log(this.mcr_no)
+                        console.log(newdata)
+
                         document.getElementById("select-stats").innerHTML = JSON.stringify(
                             newdata);
+                        
                     });
 
 
