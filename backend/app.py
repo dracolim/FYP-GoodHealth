@@ -68,6 +68,7 @@ if __name__ == '__main__':
 # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
 #                                         'pool_recycle': 280}
 else:
+    print("herrr")
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
     app.config['TESTING'] = True
