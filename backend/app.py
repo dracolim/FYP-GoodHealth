@@ -53,14 +53,10 @@ else:
 
 if __name__ == '__main__':
     print("__main__ print")
-# # #     # Mac user -------------------------------------------------------------------
-#     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-#                                         '@localhost:3306/SingHealth'
-#     engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
-
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
-    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
-    app.config['TESTING'] = True
+# #     # Mac user -------------------------------------------------------------------
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+                                        '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
     # --------------------------------------------------------------------------------
 
@@ -3366,20 +3362,6 @@ def delete_presentation(id):
 
 
 
-
-# import pdfkit
-# from pdfkit.api import configuration
-
-# wkhtml_path = pdfkit.configuration(wkhtmltopdf = r"C:\Users\feryo\OneDrive\Documents\GitHub\wkhtmltopdf\bin\wkhtmltopdf.exe")  #by using configuration you can add path value.
-
-# @app.errorhandler(429)
-# def ratelimit_handler(e):
-#     return make_response(
-#             jsonify(error=f"ratelimit exceeded {e.description}")
-#             , 429
-#     )
-
-
 # ============================
 # CV TEMPLATE SECTION
 # ============================
@@ -3484,26 +3466,6 @@ class DocumentBuilder(metaclass=ABCMeta):
     def buildPage():
         "Builds pages from details of that person"
         
-    # @staticmethod
-    # @abstractmethod
-    # def getPage():
-    #     "Retrieves complete HTML page for preview"
-
-    # @staticmethod
-    # @abstractmethod
-    # def generatePdf(self):
-    #     "Generates PDF"
-
-    # @staticmethod
-    # @abstractmethod
-    # def generatePdfResponse(self):
-    #     "Generates PDF response for flask app"
-
-    # @staticmethod
-    # @abstractmethod
-    # def generateDoc(self):
-    #     "Generates Word document and corresponding word file response for flask app"
-
     def generatePdf(self):
         self.assembleRows()
         self.buildPage()
