@@ -395,7 +395,15 @@ new Vue({
                 }
             }
 
-            this.nonCompliantResidentCaseArray = nonCompliantResidentsCase
+            // remove duplicates 
+            uniqueNonCompliantCase = []
+            for (i of nonCompliantResidentsCase){
+                if (!uniqueNonCompliantCase.includes(i)){
+                    uniqueNonCompliantCase.push(i)
+                }
+            }
+
+            this.nonCompliantResidentCaseArray = uniqueNonCompliantCase
             console.log("non-compliant resident case array:" + this.nonCompliantResidentCaseArray)
 
             console.log(this.casePassed)
@@ -540,7 +548,16 @@ new Vue({
                     nonCompliantResidentsScholarly.push(each)
                 }
             }
-            this.nonCompliantResidentScholarlyArray = nonCompliantResidentsScholarly
+
+             // remove duplicates 
+            uniqueNonCompliantScholarly = []
+            for (i of nonCompliantResidentsScholarly){
+                if (!uniqueNonCompliantScholarly.includes(i)){
+                    uniqueNonCompliantScholarly.push(i)
+                }
+            }
+
+            this.nonCompliantResidentScholarlyArray = uniqueNonCompliantScholarly
 
 
             // need to wait for the getResidentData to add to the this.scholarlyPassed first before calling the this.getScholarlyChartData
