@@ -190,10 +190,6 @@
                     <iconify-icon icon="mingcute:file-import-line" style="color: white;" width="20" height="20">
                     </iconify-icon>
                 </div>
-                <!-- <button data-modal-target="import-modal" data-modal-toggle="import-modal" type="button"
-                    class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">
-                    <label class="ml-2">Import</label>
-                </button> -->
             </div>
         </div>
 
@@ -273,10 +269,11 @@
                     };
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
-                        columnDefaults: {
-                            maxWidth: 300,
-                            minWidth: 100,
-                        },
+                        // layout:"fitDataTable",
+                        // columnDefaults: {
+                        //     maxWidth: 300,
+                        //     minWidth: 100,
+                        // },
                         layout: "fitColumns",
                         widthGrow:1,
                         placeholder: "No Data Available in " + this.page_name,
@@ -290,6 +287,7 @@
                         columns: [{
                             title: "MCR No",
                             field: "MCR_No",
+                            width: 300,
                             sorter: "string",
                             headerHozAlign: "center",
                             headerFilter: true,
@@ -303,6 +301,7 @@
                         {
                             title: "Date",
                             field: "Date",
+                            // width: 200,
                             headerFilter: true,
                             headerFilterParams: {
                                 valuesLookup: true,
@@ -319,6 +318,7 @@
                         {
                             title: "Completion_of_Emodules",
                             field: "Completion_of_Emodules",
+                            width: 200,
                             sorter: "string",
                             headerFilter: true,
                             headerFilterParams: {
@@ -335,6 +335,7 @@
                         },
                         {
                             title: "Action",
+                            width: 100,
                             formatter: printRemoveButton,
                             hozAlign: "center",
                             cellClick: function (e, cell) {
