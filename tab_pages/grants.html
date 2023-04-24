@@ -335,10 +335,24 @@
                                 allowEmpty: true,
                                 listOnEmpty: true,
                                 valuesLookup: true,
-                                maskAutoFill: true,
                             },
                             formatter: wrapTextFormatter,
                             widthGrow:2,
+                        },
+                        {
+                            title: "Project ID",
+                            field: "Project_ID",
+                            headerFilter: true,
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
+                            },
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                            },
                         },
                         {
                             title: "Grant End Date",
@@ -405,7 +419,7 @@
                             "MCR_No": thisrow.MCR_No,
                             "Name_of_Grant": thisrow.Name_of_Grant,
                             "Project_Title": thisrow.Project_Title,
-                            "Project_ID": thisrow.ID,
+                            "Project_ID": thisrow.Project_ID,
                             "Grant_End_Date": thisrow.Grant_End_Date,
                             "Grant_Start_Date": thisrow.Grant_Start_Date
                         })

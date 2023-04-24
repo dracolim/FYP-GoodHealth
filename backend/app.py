@@ -51,9 +51,9 @@ else:
 if __name__ == '__main__':
     print("__main__ print")
 # # #     # Mac user -------------------------------------------------------------------
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-    #                                     '@localhost:3306/SingHealth'
-    # engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
+                                        '@localhost:3306/SingHealth'
+    engine = create_engine('mysql+pymysql://root:root@localhost/SingHealth?charset=utf8')
 
     # app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
     # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
@@ -62,9 +62,9 @@ if __name__ == '__main__':
     # --------------------------------------------------------------------------------
 
     # # # # Windows user -------------------------------------------------------------------
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
-                                            '@localhost:3306/SingHealth'
-    engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:' + \
+    #                                         '@localhost:3306/SingHealth'
+    # engine = create_engine('mysql+pymysql://root:@localhost/SingHealth?charset=utf8')
 
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -1739,7 +1739,7 @@ def update_history_exam(id):
     data = request.get_json()
     user.MCR_No = data['MCR_No']
     user.Name_of_Exam = data['Name_of_Exam']
-    user.Date_of_Attempty = data['Date_of_Attempt']
+    user.Date_of_Attempt = data['Date_of_Attempt']
     user.Exam_Status = data['Exam_Status']
 
     db.session.commit()
@@ -1884,6 +1884,8 @@ def update_grants(id):
     user.Project_Title = data['Project_Title']
     user.Grant_Start_Date = data['Grant_Start_Date']
     user.Grant_End_Date = data['Grant_End_Date']
+    user.Project_ID = data['Project_ID']
+
 
     db.session.commit()
     return 'Grants updated', 200
@@ -1952,7 +1954,6 @@ def update_awards(id):
         return 'Awards not found', 404
 
     data = request.get_json()
-    user.MCR_No = data['MCR_No']
     user.Award_Category = data['Award_Category']
     user.Name_of_Award = data['Name_of_Award']
     user.FY_of_Award_Received = data['FY_of_Award_Received']
@@ -2170,6 +2171,7 @@ def update_project(id):
     user.Project_Type = data['Project_Type']
     user.Start_Date = data['Start_Date']
     user.id = data['id']
+
 
     db.session.commit()
     return f'Project {id} updated', 200

@@ -429,8 +429,8 @@
                         // connect to database and execute update statement
                         let thisrow = row.getData()
                         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
-                        axios.put(local_host_url + "award/" + thisrow.id, {
-                            "MCR_No": thisrow.MCR_No,
+                        axios.put(local_host_url + "awards/" + thisrow.id, {
+                            // "MCR_No": thisrow.MCR_No,
                             "Award_Category": thisrow.Award_Category,
                             "Name_of_Award": thisrow.Name_of_Award,
                             "FY_of_Award_Received": thisrow.FY_of_Award_Received,

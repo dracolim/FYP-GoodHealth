@@ -342,6 +342,25 @@
                             formatter: wrapTextFormatter,
                         },
                         {
+                            title: "Project ID",
+                            field: "Project_ID",
+                            sorter: "string",
+                            headerHozAlign: "center",
+                            headerFilter: true,
+
+                            headerFilterParams: {
+                                valuesLookup: true,
+                                clearable: true,
+
+                            },
+                            editor: "input",
+                            editorParams: {
+                                allowEmpty: true,
+                                listOnEmpty: true,
+                                valuesLookup: true,
+                            },
+                        },
+                        {
                             title: "Start Date",
                             field: "Start_Date",
                             sorter: "string",
