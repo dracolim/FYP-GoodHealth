@@ -659,7 +659,14 @@ new Vue({
             this.IHIchartConfig.datasets[0].data.push(percentageCompleted * 100)
             this.IHIchartConfig.datasets[0].data.push(percentageNotCompleted * 100)
 
-            this.nonCompliantResidentIHIArray = nonCompliantResidents
+            // remove duplicates 
+            uniqueNonCompliantCase = []
+            for (i of nonCompliantResidents){
+                if (!uniqueNonCompliantCase.includes(i.MCR_No)){
+                    uniqueNonCompliantCase.push(i.MCR_No)
+                }
+            }
+            this.nonCompliantResidentIHIArray = uniqueNonCompliantCase
 
         },
 
@@ -956,7 +963,14 @@ new Vue({
             this.projectChartConfig.datasets[0].data.push((percentageCompleted * 100).toFixed(3))
             this.projectChartConfig.datasets[0].data.push((percentageNotCompleted * 100).toFixed(3))
 
-            this.nonCompliantResidentProjectsArray = nonCompliantResidents
+            // remove duplicates 
+            uniqueNonCompliantCase = []
+            for (i of nonCompliantResidents){
+                if (!uniqueNonCompliantCase.includes(i.MCR_No)){
+                    uniqueNonCompliantCase.push(i.MCR_No)
+                }
+            }
+            this.nonCompliantResidentProjectsArray = uniqueNonCompliantCase
 
         },
 
@@ -1030,7 +1044,14 @@ new Vue({
             this.didacticChartConfig.datasets[0].data.push((percentCompliantJulDec * 100).toFixed(3))
             this.didacticChartConfig.datasets[0].data.push((percentCompliantJanJune * 100).toFixed(3))
 
-            this.nonCompliantResidentDidacticArray = nonCompliantResidents
+            // remove duplicates 
+            uniqueNonCompliantCase = []
+            for (i of nonCompliantResidents){
+                if (!uniqueNonCompliantCase.includes(i.MCR_No)){
+                    uniqueNonCompliantCase.push(i.MCR_No)
+                }
+            }
+            this.nonCompliantResidentDidacticArray = uniqueNonCompliantCase
 
         }, 
 
@@ -1801,7 +1822,14 @@ new Vue({
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 } 
 
-                this.nonCompliantResidentProcedureLogsArray = nonCompliantResidentsGastro
+                // remove duplicates 
+                uniqueNonCompliantCase = []
+                for (i of nonCompliantResidentsGastro){
+                    if (!uniqueNonCompliantCase.includes(i[0].MCR_No)){
+                        uniqueNonCompliantCase.push(i[0].MCR_No)
+                    }
+                }
+                this.nonCompliantResidentProcedureLogsArray = uniqueNonCompliantCase
 
             }
 
@@ -2206,7 +2234,14 @@ new Vue({
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }  
 
-                this.nonCompliantResidentProcedureLogsArray = nonCompliantResidentsRenal
+                // remove duplicates 
+                uniqueNonCompliantCase = []
+                for (i of nonCompliantResidentsRenal){
+                    if (!uniqueNonCompliantCase.includes(i[0].MCR_No)){
+                        uniqueNonCompliantCase.push(i[0].MCR_No)
+                    }
+                }
+                this.nonCompliantResidentProcedureLogsArray = uniqueNonCompliantCase
 
             }
 
@@ -2851,6 +2886,15 @@ new Vue({
                 else { 
                     this.procedureChartConfig.datasets[0].data.push((0).toFixed(3))
                 }
+
+                // remove duplicates 
+                uniqueNonCompliantCase = []
+                for (i of nonCompliantResidentsInternal){
+                    if (!uniqueNonCompliantCase.includes(i[0].MCR_No)){
+                        uniqueNonCompliantCase.push(i[0].MCR_No)
+                    }
+                }
+                this.nonCompliantResidentProcedureLogsArray = uniqueNonCompliantCase
 
             }
 
