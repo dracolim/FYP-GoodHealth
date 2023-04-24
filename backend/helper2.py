@@ -215,6 +215,53 @@ def getPublications(publications):
         return " ".join(rows)
     else:
         return "<i>No Records Found</i>"
+    
+
+# def getCoursesRows(courses):
+#     rows = []
+#     for i in courses:
+#         if i.Involvement_Type=='Course':
+#             i_row = """<tr id="regtable">
+#                     <td id="regtable">
+#                         <p>""" + i.Event + """</p>
+#                     </td>
+#                     <td>
+#                         <p style="text-align: center;">""" \
+#                             + i.Start_Date + \
+#                     """</p>
+#                     </td>
+#                 </tr>"""
+#             rows.append(i_row)
+
+#     return " ".join(rows)
+
+
+def getCoursesSection(coursesRows):
+    
+    return"""    <!-- COURSES SECTION: -->
+<p><br></p>
+    <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>COURSES / WORKSHOPS</span></p>
+<p><br></p>
+<p><br></p>
+<div align="left">
+    <table style="margin-right: calc(6%); width: 94%; border-color: black; width: 100%;border-collapse: collapse;">
+        <tbody id="regtable">
+            <tr id="regtable">
+                <td style="background-color: rgb(209, 213, 216);" id="regtable">
+                    <p style="text-align: center;"><b>Details of Course</b></p>
+                </td>
+                <td style="background-color: rgb(209, 213, 216);" id="regtable">
+                    <p style="text-align: center;"><b>Date Attended</b></p>
+                </td>
+            </tr>
+           
+            """ + coursesRows + """
+            
+        </tbody>
+    </table>
+</div>
+
+"""
 
 def getQIPatientSafetyRows(projects):
     rows=[]
@@ -1156,7 +1203,7 @@ def getPublicationsSection(publicationsRows):
 """
 def getPage3(name, mcrno, img, awardsRows, projectRows, educationalInvolvements, \
         communityInvolvements, leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentationRows,\
-        teachingPresentationRows,publicationsRows,patientSafetyQIRows, 
+        teachingPresentationRows,publicationsRows,patientSafetyQIRows, coursesRows,
         employmentHistoryInclude = False,
         educationQualificationInclude = False,
         procedureLogsInclude = False,
@@ -1167,7 +1214,8 @@ def getPage3(name, mcrno, img, awardsRows, projectRows, educationalInvolvements,
         researchProjectsInclude = False,
         teachingPresentationsInclude = False,
         presentationInclude = False,
-        publicationsInclude = False):
+        publicationsInclude = False,
+        coursesInclude = False):
 
     employmentHistorySection = ""
     educationQualificationSection = ""
@@ -1180,6 +1228,7 @@ def getPage3(name, mcrno, img, awardsRows, projectRows, educationalInvolvements,
     teachingPresentationsSection = ""
     presentationSection = ""
     publicationsSection = ""
+    coursesSection = ""
 
     if presentationInclude == True:
         presentationSection = getPresentationSection(presentationRows)
@@ -1212,6 +1261,10 @@ def getPage3(name, mcrno, img, awardsRows, projectRows, educationalInvolvements,
 
     if publicationsInclude == True:
         publicationsSection = getPublicationsSection(publicationsRows)
+
+    if coursesInclude == True:
+        coursesSection = getCoursesSection(coursesRows)
+    print("coursesSection: ", coursesSection)
 
     page = """<!DOCTYPE html>
     <html lang="en">
@@ -1273,7 +1326,7 @@ def getPage3(name, mcrno, img, awardsRows, projectRows, educationalInvolvements,
 """ + presentationSection + """
 
 """ +  publicationsSection + """
-
+""" + coursesSection + """
 
 
 </div>

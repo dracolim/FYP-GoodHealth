@@ -377,9 +377,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(resident, index) in nonCompliantResidentDutyArray" :key="resident.MCR_No">
+                                <tr v-for="(resident, index) in nonCompliantResidentDutyArray" :key="resident">
                                     <td class="border px-4 py-2 bg-gray-300">{{ index + 1 }}</td>
-                                    <td class="border px-4 py-2 bg-gray-300">{{ resident.MCR_No }}</td>
+                                    <td class="border px-4 py-2 bg-gray-300">{{ resident }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -408,8 +408,6 @@
                         <br>
                     </div>
                     <!-- table to show noncompliance for Case Logs -->
-                    <!-- <h1>table we targetting</h1> -->
-                    <!-- <p>{{nonCompliantResidentCaseArray}}</p> -->
                     <div v-if="nonCompliantResidentCaseArray.length > 0 && showCaseTable">
                         <table class="table-auto">
                             <thead>

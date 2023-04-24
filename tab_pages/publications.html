@@ -109,11 +109,12 @@
                     </li>
                     <li>
                         <a data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500" data-dropdown-trigger="click">
-                            <div class = "md:flex">
+                            <div class="md:flex">
                                 <span
-                                class="lg:text-sm md:text-sm ml-5 mr-1 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
-                                History</span>
-                                <iconify-icon icon="gridicons:dropdown" width = "20px" class = "hidden md:flex mr-1"></iconify-icon>
+                                    class="lg:text-sm md:text-sm ml-5 mr-1 block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-500 md:p-0">
+                                    History</span>
+                                <iconify-icon icon="gridicons:dropdown" width="20px"
+                                    class="hidden md:flex mr-1"></iconify-icon>
                             </div>
                         </a>
                     </li>
@@ -129,7 +130,7 @@
                     </li>
                     <li>
                         <a href="../tab_pages/publications.html"
-                        class="lg:text-sm md:text-sm ml-5 mr-4 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0">
+                            class="lg:text-sm md:text-sm ml-5 mr-4 block py-2 pl-3 pr-2 text-white bg-orange-500 rounded md:bg-transparent md:text-orange-500 md:p-0">
                             Publications</a>
                     </li>
                     <li>
@@ -278,7 +279,12 @@
                     }
 
                     var table = new Tabulator("#example-table", {
-                        layout: "fitDataStretch",
+                        columnDefaults: {
+                            maxWidth: 300,
+                            minWidth: 100,
+                        },
+                        layout: "fitColumns",
+                        widthGrow: 1,
                         placeholder: "No Data Available in " + this.page_name,
                         history: true,
                         pagination: "local",
@@ -317,7 +323,7 @@
                                 listOnEmpty: true,
                                 valuesLookup: true,
                             },
-                            width: 500,
+                            widthGrow: 2,
                             formatter: wrapTextFormatter,
                         },
                         {
@@ -336,7 +342,7 @@
                                 listOnEmpty: true,
                                 valuesLookup: true,
                             },
-                            width: 500,
+                            widthGrow: 2,
                             formatter: wrapTextFormatter,
                         },
                         {

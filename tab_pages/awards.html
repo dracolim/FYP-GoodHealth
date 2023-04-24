@@ -286,8 +286,12 @@
                     }
 
                     var table = new Tabulator("#example-table", {
-                        history: true,
-                        layout: "fitDataStretch",
+                        columnDefaults: {
+                            maxWidth: 300,
+                            minWidth: 100,
+                        },
+                        layout: "fitColumns",
+                        widthGrow:1,
                         placeholder: "No Data Available in " + this.page_name,
                         history: true,
                         pagination: "local",
@@ -310,6 +314,7 @@
                         },
 
                         {
+                            widthGrow:2,
                             title: "Award Category",
                             field: "Award_Category",
                             sorter: "string",
@@ -321,10 +326,10 @@
                                 maskAutoFill: true,
                             },
                             headerFilter: true,
-                            width: 200,
                             formatter: wrapTextFormatter,
                         },
                         {
+                            widthGrow:2,
                             title: "Name of Award",
                             field: "Name_of_Award",
                             headerFilter: true,
@@ -339,7 +344,6 @@
                                 valuesLookup: true,
                                 maskAutoFill: true,
                             },
-                            width: 500,
                             formatter: wrapTextFormatter,
                         },
                         {
