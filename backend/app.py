@@ -3587,6 +3587,7 @@ class Builder2(DocumentBuilder):
         self.presentationRows= ""
         self.publicationRows= ""
         self.patientSafetyQIRows= ""
+        self.coursesRows = ""
         self.page = ""
         
     def assembleRows(self):
@@ -3602,6 +3603,7 @@ class Builder2(DocumentBuilder):
         self.presentationRows=getPresentationRows(self.person.presentations)
         self.publicationRows=getPublications(self.person.publications)
         self.patientSafetyQIRows=getQIPatientSafetyRows(self.person.projects)
+        self.coursesRows=getCoursesRows(self.person.involvements)
 
     def buildPage(self):
         from helper2 import getPage3
@@ -3622,6 +3624,7 @@ class Builder2(DocumentBuilder):
                 self.teachingPresentationRows,
                 self.publicationRows,
                 self.patientSafetyQIRows, 
+                self.coursesRows,
                 
                 employmentHistoryInclude = self.toInclude["employmentHistoryInclude"],
                 educationQualificationInclude = self.toInclude["educationQualificationInclude"],
@@ -3633,7 +3636,8 @@ class Builder2(DocumentBuilder):
                 researchProjectsInclude = self.toInclude["researchProjectsInclude"],
                 teachingPresentationsInclude = self.toInclude["teachingPresentationsInclude"],
                 presentationInclude = self.toInclude["presentationInclude"],
-                publicationsInclude = self.toInclude["publicationsInclude"],)
+                publicationsInclude = self.toInclude["publicationsInclude"],
+                coursesInclude = self.toInclude["coursesInclude"])
         
         return self
     
@@ -3647,6 +3651,7 @@ class Builder2(DocumentBuilder):
 @limiter.limit(requests_documents_permin)
 def pdf_to_doc2(id,sections):
     includedItems = sections[:-1]
+    print("includedItems: ", includedItems)
     toInclude = { 
         "employmentHistoryInclude": "employmentHistory" in includedItems,
         "educationQualificationInclude": "educationQualification" in includedItems,
@@ -3659,6 +3664,7 @@ def pdf_to_doc2(id,sections):
         "teachingPresentationsInclude": "teachingPresentations" in includedItems,
         "presentationInclude": "presentation" in includedItems,
         "publicationsInclude": "publications" in includedItems,
+        "coursesInclude": "courses" in includedItems,
         }
     person = Personal_Details.query.get_or_404(id)
     buildobj = Builder2(person, toInclude)
@@ -3686,6 +3692,7 @@ def generate_cv2(id, sections):
         "teachingPresentationsInclude": "teachingPresentations" in includedItems,
         "presentationInclude": "presentation" in includedItems,
         "publicationsInclude": "publications" in includedItems,
+        "coursesInclude": "courses" in includedItems,
         }
 
 
@@ -3709,6 +3716,7 @@ def preview2(id, sections):
         "teachingPresentationsInclude": "teachingPresentations" in includedItems,
         "presentationInclude": "presentation" in includedItems,
         "publicationsInclude": "publications" in includedItems,
+        "coursesInclude": "courses" in includedItems,
         }
 
     person = Personal_Details.query.get_or_404(id)

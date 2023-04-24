@@ -363,6 +363,16 @@
                             </label>
                         </div>
 
+                        <div class="mr-2">
+                            <label class="inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox" checked
+                            true-value="yes"
+                            false-value="no"
+                            v-model="fieldsSelected.courses">
+                            <span class="ml-2">Courses and Workshops</span>
+                            </label>
+                        </div>
+
 
                     </div>
 
@@ -1150,6 +1160,7 @@
             teachingPresentations: "yes", 
             presentation: "yes",
             publications: "yes",
+            courses: "yes"
 
         }, 
             leadership: "leadership",
