@@ -23,25 +23,6 @@
     <script src="../node_modules/xlsx/dist/xlsx.full.min.js"></script>
     <!-- LOCAL Axios -->
     <script src="../node_modules/axios/dist/axios.min.js"></script>
-    <!-- TAILWIND ELEMENTS CDN (NEED TO CHANGE)-->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
-    <script src="https://cdn.tailwindcss.com/3.2.4"></script>
-    <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                fontFamily: {
-                    sans: ["Roboto", "sans-serif"],
-                    body: ["Roboto", "sans-serif"],
-                    mono: ["ui-monospace", "monospace"],
-                },
-            },
-            corePlugins: {
-                preflight: false,
-            },
-        };
-    </script>
 
 
     <style type="text/tailwindcss">
@@ -268,7 +249,7 @@
                                 class="justify-center flex items-center pt-4 space-x-2 border-t border-gray-200 rounded-b">
                                 <button type="button" value="submit" @click="isDisabled()" id='submit'
                                     data-modal-hide="top-left-modal" disabled
-                                    class="w-8/12 text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Upload</button>
+                                    class="w-9/12 text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Upload</button>
                             </div>
                         </form>
                     </div>
@@ -740,7 +721,6 @@
     });
 </script>
 <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
 
 
 </html>

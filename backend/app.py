@@ -14,10 +14,7 @@ from flask_limiter.util import get_remote_address
 from dotenv import dotenv_values
 
 # from flask_login import login_required, current_user
-
 app = Flask(__name__)
-
-# db = SQLAlchemy(app)
 
 # CORS(app)
 app = Flask(__name__)
@@ -73,7 +70,6 @@ if __name__ == '__main__':
 # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
 #                                         'pool_recycle': 280}
 else:
-    print("herrr")
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
     app.config['TESTING'] = True
@@ -2378,7 +2374,6 @@ def read_procedure_logs():
                 combinedProcedureLogs.append(procedurelog)
                 procedurelogIds.append(procedurelog['id'])
                 
-    print(combinedProcedureLogs)
     return jsonify(
         {
             "data": combinedProcedureLogs
@@ -2387,10 +2382,11 @@ def read_procedure_logs():
 # Add colour to the data 
 @app.route("/colour_procedure_logs")
 def read_colour_procedure_logs():
+    total = db.session.query(Procedure_Log).count()
     userList = Procedure_Log.query\
         .join(Personal_Details, Procedure_Log.MCR_No == Personal_Details.MCR_No)\
         .add_columns(Personal_Details.Programme, Personal_Details.Year_of_Training)\
-        .paginate(1, 50, True)
+        .paginate(1,total, True)
 
     combinedProcedureLogs = []
     for i in userList.iter_pages():
@@ -2398,8 +2394,9 @@ def read_colour_procedure_logs():
             procedurelog = item[0].to_dict()
             procedurelog["Programme"] = item[1]
             procedurelog["Year_of_Training"] = item[2]
-            combinedProcedureLogs.append(procedurelog)
-    
+            if (procedurelog not in combinedProcedureLogs):
+                combinedProcedureLogs.append(procedurelog)
+
     #mcr_no
     dict_of_procedures = {}
     for each in combinedProcedureLogs:
@@ -2447,7 +2444,7 @@ def read_colour_procedure_logs():
         for each in combinedProcedureLogs:
             if each['MCR_No'] == each_mcr:
                 dict_of_procedures[each_mcr]['color'] = []
-    
+
     for each_item in dict_of_procedures: #by mcr_no
         color_list = dict_of_procedures[each_item]['color']
         # RENAL MEDICINE
@@ -2541,7 +2538,7 @@ def read_colour_procedure_logs():
             el_idx = []
             procedure_list_copy = procedure_list.copy()
 
-            for idx, value in enumerate(procedure_list):
+            for idx, value in enumerate(procedure_list_copy):
                 if value.lower() == "Gastroscopy (OGD)".lower() or value.lower() == "Gastroscopy (OGD) with biopsy".lower():
                     performed = dict_of_procedures[each_item]['Performed'][idx]
                     ogd_1 += int(performed)
@@ -2591,12 +2588,14 @@ def read_colour_procedure_logs():
                     performed = dict_of_procedures[each_item]['Performed'][idx]
                     EL += int(performed)
                     color_list.append("#FFFFFF")
-                    el_idx.append(el_idx)
+                    el_idx.append(idx)
                     if  value.lower() == "Esophageal dilation".lower():
                         procedure_list_copy.remove("Esophageal dilation".lower())
                     else:
                         procedure_list_copy.remove("Luminal Stenting".lower())
             
+            print(color_list)
+
             if ogd_1 < 300:
                 for i in ogd_1_idx:
                     color_list[i] = "#ff9999"
@@ -2700,7 +2699,8 @@ def read_colour_procedure_logs():
                     all_idx.append(i)
                 elif procedure_list[i] =="Central Line Placement".lower():
                     verified = dict_of_procedures[each_item]['Verified'][i]
-                    total += int(verified)
+                    if (verified != ""):
+                        total += int(verified)
                     color_list.append("#FFFFFF")
                     all_idx.append(i)
                 elif procedure_list[i] =="Thoracentesis / Chest tube".lower():
@@ -2945,10 +2945,11 @@ def delete_caselog(id):
 # add compliance to case_log
 @app.route("/colour_case_logs")
 def read_colour_case_logs():
+    total = db.session.query(Case_Log).count()
     userList = Case_Log.query\
         .join(Personal_Details, Case_Log.MCR_No == Personal_Details.MCR_No)\
         .add_columns(Personal_Details.Programme, Personal_Details.Year_of_Training)\
-        .paginate(1, 50, True)
+        .paginate(1, total, True)
 
     combinedCaseLogs = []
     for i in userList.iter_pages():
@@ -2956,7 +2957,8 @@ def read_colour_case_logs():
             caselog = item[0].to_dict()
             caselog["Programme"] = item[1]
             caselog["Year_of_Training"] = item[2]
-            combinedCaseLogs.append(caselog)
+            if (caselog not in combinedCaseLogs):
+                combinedCaseLogs.append(caselog)
     
     #mcr_no
     dict_of_cases = {}

@@ -23,25 +23,6 @@
     <script src="../node_modules/xlsx/dist/xlsx.full.min.js"></script>
     <!-- LOCAL Axios -->
     <script src="../node_modules/axios/dist/axios.min.js"></script>
-    <!-- TAILWIND ELEMENTS CDN (NEED TO CHANGE)-->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
-    <script src="https://cdn.tailwindcss.com/3.2.4"></script>
-    <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                fontFamily: {
-                    sans: ["Roboto", "sans-serif"],
-                    body: ["Roboto", "sans-serif"],
-                    mono: ["ui-monospace", "monospace"],
-                },
-            },
-            corePlugins: {
-                preflight: false,
-            },
-        };
-    </script>
 
     <style type="text/tailwindcss">
         @layer utilities {
@@ -266,7 +247,7 @@
                                 class="justify-center flex items-center pt-4 space-x-2 border-t border-gray-200 rounded-b">
                                 <button type="button" value="submit" @click="isDisabled()" id='submit'
                                     data-modal-hide="top-left-modal" disabled
-                                    class="w-8/12 text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Upload</button>
+                                    class="w-9/12 text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Upload</button>
                             </div>
                         </form>
                     </div>
@@ -399,6 +380,7 @@
                 .then(response => {
                     this.tableData = response.data.data
                     console.log(this.procedure_logs)
+                    console.log(response.data.data)
                     var printRemoveButton = function (cell, formatterParams,
                         onRendered) { //plain text value
                         return "<a class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Remove</a>"
@@ -419,7 +401,7 @@
                         placeholder: "No Data Available in " + this.page_name,
                         history: true,
                         pagination: "local",
-                        paginationSize: 10,
+                        paginationSize: 15,
                         paginationCounter: "rows",
                         movableColumns: true,
                         data: this.tableData,
@@ -640,6 +622,7 @@
         },
         methods: {
             importExcel() {
+                try{
                 var fileVal = document.getElementById("UploadFile");
                 this.file = fileVal.files[0]
 
@@ -686,7 +669,9 @@
                                     // MCR_No (for both case log and proceure log)
                                     else if (row.values[1].toString().trim()
                                         .includes("Resident:")) {
+                                        console.log(row.values[1])
                                         var name = row.values[1].substring(10, )
+                                        // console.log(name)
                                         if (name == "") {
                                             name_error = true;
                                         } else if (name in this.MCR_name) {
@@ -825,7 +810,8 @@
                                     }
 
                                     // Procedure Log
-                                    else if (!(row.values[1].toString()
+                                    else if (row.values[1] != undefined && row.values[2] != undefined &&
+                                        !(row.values[1].toString()
                                         .toLowerCase().includes(
                                             "total:")) &&
                                         !(row.values[1].toString().toLowerCase()
@@ -842,7 +828,8 @@
                                             .includes(
                                                 "cpt:"))) {
                                         this.value_row_count += 1
-                                        // console.log(this.MCR_No_import)
+                                        console.log(this.MCR_No_import)
+
                                         data.MCR_No = this.MCR_No_import
                                         data.Procedure_Name = row.values[1] || ""
                                         data.CPT = row.values[2] || ""
@@ -935,6 +922,10 @@
                 this.resident_count = 0;
                 this.error_message = "";
                 document.getElementById('submit').disabled = false;
+                }
+                catch(error){
+                    console.log(`Caught by try/catch ${error}`);
+                }
             },
             successPopUp() {
                 this.importSuccess = true
@@ -971,6 +962,5 @@
     });
 </script>
 <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
 
 </html>
