@@ -23,25 +23,6 @@
     <script src="../node_modules/xlsx/dist/xlsx.full.min.js"></script>
     <!-- LOCAL Axios -->
     <script src="../node_modules/axios/dist/axios.min.js"></script>
-    <!-- TAILWIND ELEMENTS CDN (NEED TO CHANGE)-->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
-    <script src="https://cdn.tailwindcss.com/3.2.4"></script>
-    <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                fontFamily: {
-                    sans: ["Roboto", "sans-serif"],
-                    body: ["Roboto", "sans-serif"],
-                    mono: ["ui-monospace", "monospace"],
-                },
-            },
-            corePlugins: {
-                preflight: false,
-            },
-        };
-    </script>
 
     <style type="text/tailwindcss">
         @layer utilities {
@@ -266,7 +247,7 @@
                                 class="justify-center flex items-center pt-4 space-x-2 border-t border-gray-200 rounded-b">
                                 <button type="button" value="submit" @click="isDisabled()" id='submit'
                                     data-modal-hide="top-left-modal" disabled
-                                    class="w-8/12 text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Upload</button>
+                                    class="w-9/12 text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Upload</button>
                             </div>
                         </form>
                     </div>
@@ -686,7 +667,9 @@
                                     // MCR_No (for both case log and proceure log)
                                     else if (row.values[1].toString().trim()
                                         .includes("Resident:")) {
+                                        console.log(row.values[1])
                                         var name = row.values[1].substring(10, )
+                                        // console.log(name)
                                         if (name == "") {
                                             name_error = true;
                                         } else if (name in this.MCR_name) {
@@ -838,11 +821,12 @@
                                         !(row.values[1].toString().toLowerCase()
                                             .includes(
                                                 "report generated:")) &&
-                                        !(row.values[1].toString().toLowerCase()
+                                        !(row.values[2].toString().toLowerCase()
                                             .includes(
                                                 "cpt:"))) {
                                         this.value_row_count += 1
-                                        // console.log(this.MCR_No_import)
+                                        console.log(this.MCR_No_import)
+
                                         data.MCR_No = this.MCR_No_import
                                         data.Procedure_Name = row.values[1] || ""
                                         data.CPT = row.values[2] || ""
@@ -971,6 +955,5 @@
     });
 </script>
 <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
 
 </html>
