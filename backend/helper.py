@@ -54,8 +54,10 @@ def getCoursesRows(courses):
                     </td>
                 </tr>"""
             rows.append(i_row)
-
-    return " ".join(rows)
+    if rows!=[]:
+        return " ".join(rows)
+    else:
+        return "<i>No Records Found</i>"
 
 def getEducationalInvolvement(involvements):
     rows = []

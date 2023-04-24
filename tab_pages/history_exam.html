@@ -261,7 +261,8 @@
                     };
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
-                        layout:"fitDataStretch",
+                        layout:"fitColumns",
+                        widthGrow:1,
                         placeholder: "No Data Available in " + this.page_name,
                         history: true,
                         pagination: "local",
@@ -271,6 +272,7 @@
                         data: response.data.data,
                         index: "MCR_No",
                         columns: [{
+                                
                                 title: "MCR No",
                                 field: "MCR_No",
                                 sorter: "string",
@@ -284,9 +286,9 @@
                                 
                             },
                             {
+                                
                                 title: "Name of Exam",
                                 field: "Name_of_Exam",
-                                minWidth: 400,
                                 sorter: "string",
                                 editor: "input",
                                 editorParams: {
@@ -305,17 +307,15 @@
                                 
                             },
                             {
+                                
                                 title: "Date of Attempt",
                                 field: "Date_of_Attempt",
-                                minWidth: 400,
                                 sorter: "string",
                                 editor: "input",
                                 editorParams: {
                                     allowEmpty: true,
                                     listOnEmpty: true,
                                     valuesLookup: true,
-                                    maskAutoFill: true,
-                                    mask: "AAA-99"
                                 },
                                 headerFilter: true,
                                 headerFilterParams: {
@@ -325,9 +325,9 @@
                                 
                             },
                             {
+                                
                                 title: "Exam Status",
                                 field: "Exam_Status",
-                                minWidth: 400,
                                 sorter: "string",
                                 editor: "input",
                                 editorParams: {
@@ -343,6 +343,7 @@
                                 },
                             },
                             {
+                                
                                 title: "Action",
                                 formatter: printRemoveButton,
                                 hozAlign: "center",

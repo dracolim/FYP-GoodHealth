@@ -263,7 +263,8 @@
                     };
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
-                        layout: "fitDataStretch",
+                        layout: "fitColumns",
+                        widthGrow:1,
                         placeholder: "No Data Available in " + this.page_name,
                         history: true,
                         pagination: "local",
@@ -278,11 +279,9 @@
                             sorter: "string",
                             headerHozAlign: "center",
                             headerFilter: true,
-
                             headerFilterParams: {
                                 valuesLookup: true,
                                 clearable: true,
-
                             },
                             
                         },
@@ -290,7 +289,6 @@
                         {
                             title: "LOAPIP",
                             field: "LOAPIP",
-                            minWidth: 400,
                             sorter: "string",
                             editor: "input",
                             editorParams: {
@@ -309,7 +307,6 @@
                         {
                             title: "Start Date",
                             field: "StartDate",
-                            minWidth: 400,
                             headerFilter: true,
                             headerFilterParams: {
                                 valuesLookup: true,
@@ -327,7 +324,6 @@
                         {
                             title: "End Date",
                             field: "EndDate",
-                            minWidth: 400,
                             headerFilter: true,
                             headerFilterParams: {
                                 valuesLookup: true,
@@ -343,6 +339,7 @@
 
                         },
                         {
+                            
                             title: "Action",
                             formatter: printRemoveButton,
                             hozAlign: "center",
