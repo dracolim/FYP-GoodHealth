@@ -263,6 +263,10 @@
                     };
                     const local_host_url = this.local_host_url
                     var table = new Tabulator("#example-table", {
+                        columnDefaults: {
+                            maxWidth: 300,
+                            minWidth: 100,
+                        },
                         layout: "fitColumns",
                         widthGrow:1,
                         placeholder: "No Data Available in " + this.page_name,
