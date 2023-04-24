@@ -39,6 +39,26 @@ def getAwardsRows(awards):
 
     return " ".join(rows)
 
+def getCoursesRows(courses):
+    rows = []
+    for i in courses:
+        if i.Involvement_Type=='Course':
+            i_row = """<tr id="regtable">
+                    <td id="regtable">
+                        <p>""" + i.Event + """</p>
+                    </td>
+                    <td>
+                        <p style="text-align: center;">""" \
+                            + i.Start_Date + \
+                    """</p>
+                    </td>
+                </tr>"""
+            rows.append(i_row)
+    if rows!=[]:
+        return " ".join(rows)
+    else:
+        return "<i>No Records Found</i>"
+
 def getEducationalInvolvement(involvements):
     rows = []
     for i in involvements:
@@ -283,7 +303,7 @@ def get_image_file_as_base64_data(profileimg_input):
 
 def getPage(name, mcrno, profileimg, awardsRows, projectRows, educationalInvolvements, communityInvolvements,
         leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentationRows,teachingPresentationRows,
-        publicationRows,patientSafetyQIRows):
+        publicationRows,patientSafetyQIRows,coursesRows):
 
     page = """<!DOCTYPE html>
     <html lang="en">
@@ -560,15 +580,31 @@ def getPage(name, mcrno, profileimg, awardsRows, projectRows, educationalInvolve
                     <p style="text-align: center;"><b>Date Received</b></p>
                 </td>
             </tr>
+           
+            """ + awardsRows + """
+            
+        </tbody>
+    </table>
+</div>
+
+    <!-- COURSES SECTION: -->
+<p><br></p>
+    <p style="text-align: center; background-color: rgb(0, 0, 0); width:100%; font-family: Calibri, sans-serif; line-height: 1.5;"><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); width:100%"><b>COURSES / WORKSHOPS</span></p>
+<p><br></p>
+<p><br></p>
+<div align="left">
+    <table style="margin-right: calc(6%); width: 94%; border-color: black; width: 100%;border-collapse: collapse;">
+        <tbody id="regtable">
             <tr id="regtable">
-                <td id="regtable">
-                    <p>RISE Awards &ndash; Outstanding Performance at 2013 ITE</p>
+                <td style="background-color: rgb(209, 213, 216);" id="regtable">
+                    <p style="text-align: center;"><b>Details of Course</b></p>
                 </td>
-                <td>
-                    <p style="text-align: center;">25 Sep 2013</p>
+                <td style="background-color: rgb(209, 213, 216);" id="regtable">
+                    <p style="text-align: center;"><b>Date Attended</b></p>
                 </td>
             </tr>
-            """ + awardsRows + """
+           
+            """ + coursesRows + """
             
         </tbody>
     </table>
@@ -1038,14 +1074,7 @@ leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentati
                     <p style="text-align: center;"><b>Date Received</b></p>
                 </td>
             </tr>
-            <tr id="regtable">
-                <td id="regtable">
-                    <p>RISE Awards &ndash; Outstanding Performance at 2013 ITE</p>
-                </td>
-                <td>
-                    <p style="text-align: center;">25 Sep 2013</p>
-                </td>
-            </tr>
+           
             """ + awardsRows + """
             
         </tbody>
@@ -1076,20 +1105,7 @@ leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentati
                     <p style="text-align: center;">Status (Completed/On-going)</p>
                 </td>
             </tr>
-            <tr id="regtable">
-                <td id="regtable">
-                    <p>Pemphigus and Pemphigoid comparison</p>
-                </td>
-                <td id="regtable" style="text-align:center">
-                    <p>1 Jan 2015</p>
-                </td>
-                <td id="regtable" style="text-align:center">
-                    <p>31 Apr 2016</p>
-                </td>
-                <td id="regtable" style="text-align:center">
-                    <p>Completed</p>
-                </td>
-            </tr>
+           
             """+ projectRows + """
             
         </tbody>

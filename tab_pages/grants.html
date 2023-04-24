@@ -275,7 +275,8 @@
                     }
 
                     var table = new Tabulator("#example-table", {
-                        layout: "fitDataStretch",
+                        layout: "fitColumns",
+                        widthGrow:1,
                         placeholder: "No Data Available in " + this.page_name,
                         history: true,
                         pagination: "local",
@@ -314,8 +315,8 @@
                                 valuesLookup: true,
                                 clearable: true
                             },
-                            width: 500,
                             formatter: wrapTextFormatter,
+                            widthGrow:2,
                         },
                         {
                             title: "Project Title",
@@ -332,13 +333,12 @@
                                 valuesLookup: true,
                                 maskAutoFill: true,
                             },
-                            width: 500,
                             formatter: wrapTextFormatter,
+                            widthGrow:2,
                         },
                         {
                             title: "Grant End Date",
                             field: "Grant_End_Date",
-                            maxWidth: 300,
                             headerFilter: true,
                             headerFilterParams: {
                                 valuesLookup: true,

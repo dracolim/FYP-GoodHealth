@@ -1655,7 +1655,7 @@ def update_history_posting(id):
     return 'History Posting updated', 200
 
 # remove history posting
-@app.route('/history_posting<int:id>', methods=['DELETE'])
+@app.route('/history_posting/<int:id>', methods=['DELETE'])
 def delete_history_posting(id):
     row = Posting_History.query.get(id)
     if not row:
@@ -1963,15 +1963,15 @@ def update_awards(id):
     return 'Awards updated', 200
 
 # remove awards
-@app.route('/awards/<int:id>', methods=['DELETE'])
+@app.route('/award/<int:id>', methods=['DELETE'])
 def delete_awards(id):
     row = Awards.query.get(id)
     if not row:
-        return 'Awards not found', 404
+        return 'Award not found', 404
 
     db.session.delete(row)
     db.session.commit()
-    return 'Awards deleted', 200
+    return 'Award deleted', 200
 
 
 # ============================
@@ -3383,7 +3383,7 @@ def pdf_to_doc(id):
 from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
     getCommunityInvolvement, getLeadershipInvolvment, getProcedureLogs, getPostingRows,\
     getEducationRows, getPresentationRows,getTeachingPresentationRows,getPublications,getPage,\
-    getQIPatientSafetyRows
+    getQIPatientSafetyRows,getCoursesRows
 
 # Generate CV pdf:
 @app.route("/cv_pdf/<id>")
@@ -3425,6 +3425,7 @@ def getCompletePage(id):
     profileimg = person.Employee_Image
     education_histories = person.education_history
     awardsRows = getAwardsRows(awards)
+    coursesRows=getCoursesRows(involvements)
     projectRows = getProjectRows(projects)
     educationalInvolvements = getEducationalInvolvement(involvements)
     communityInvolvements = getCommunityInvolvement(involvements)
@@ -3513,6 +3514,7 @@ class Builder1(DocumentBuilder):
         import os
         self.person = person
         self.awardsRows = ""
+        self.coursesRows=""
         self.projectRows = ""
         self.educationalInvolvements = ""
         self.communityInvolvements = ""
@@ -3527,6 +3529,7 @@ class Builder1(DocumentBuilder):
         self.page = ""
 
     def assembleRows(self):
+        self.coursesRows=getCoursesRows(self.person.involvements)
         self.awardsRows = getAwardsRows(self.person.awards)
         self.projectRows = getProjectRows(self.person.projects)
         self.educationalInvolvements = getEducationalInvolvement(self.person.involvements)
@@ -3555,7 +3558,8 @@ class Builder1(DocumentBuilder):
                             self.presentationRows,
                             self.teachingPresentationRows,
                             self.publicationRows,
-                            self.patientSafetyQIRows)
+                            self.patientSafetyQIRows,
+                            self.coursesRows)
         return self
     
     def getPage(self):

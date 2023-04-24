@@ -262,8 +262,17 @@
                         return "<a class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Remove</a>"
                     };
                     const local_host_url = this.local_host_url
+                    function wrapTextFormatter(cell) {
+                        let cellValue = cell.getValue();
+                        let cellElement = document.createElement("div");
+                        cellElement.style.whiteSpace = "normal";
+                        cellElement.style.wordWrap = "break-word";
+                        cellElement.innerText = cellValue;
+                        return cellElement;
+                    }
                     var table = new Tabulator("#example-table", {
-                        layout: "fitDataStretch",
+                        layout: "fitColumns",
+                        widthGrow:1,
                         placeholder: "No Data Available in " + this.page_name,
                         history: true,
                         pagination: "local",
@@ -307,6 +316,7 @@
                             
                         },
                         {
+                            widthGrow:2,
                             title: "Event",
                             field: "Event",
                             sorter: "string",
@@ -325,6 +335,7 @@
                                 clearable: true,
 
                             },
+                            formatter: wrapTextFormatter,
                             
                         },
                         {
@@ -348,11 +359,6 @@
                         {
                             title: "Start Date",
                             field: "Start_Date",
-                            // sorter: "date",
-                            // sorterParams:{
-                            //     format:"MM-yy",
-                            //     alignEmptyValues:"top",
-                            // },
                             headerFilter: true,
                             headerFilterParams: {
                                 valuesLookup: true,
