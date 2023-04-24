@@ -1655,7 +1655,7 @@ def update_history_posting(id):
     return 'History Posting updated', 200
 
 # remove history posting
-@app.route('/history_posting<int:id>', methods=['DELETE'])
+@app.route('/history_posting/<int:id>', methods=['DELETE'])
 def delete_history_posting(id):
     row = Posting_History.query.get(id)
     if not row:
@@ -1963,15 +1963,15 @@ def update_awards(id):
     return 'Awards updated', 200
 
 # remove awards
-@app.route('/awards/<int:id>', methods=['DELETE'])
+@app.route('/award/<int:id>', methods=['DELETE'])
 def delete_awards(id):
     row = Awards.query.get(id)
     if not row:
-        return 'Awards not found', 404
+        return 'Award not found', 404
 
     db.session.delete(row)
     db.session.commit()
-    return 'Awards deleted', 200
+    return 'Award deleted', 200
 
 
 # ============================
