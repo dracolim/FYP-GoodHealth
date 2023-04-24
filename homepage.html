@@ -287,9 +287,9 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(resident, index) in nonCompliantResidentDidacticArray"
-                                    :key="resident.MCR_No">
+                                    :key="resident">
                                     <td class="border px-4 py-2 bg-gray-300">{{ index + 1 }}</td>
-                                    <td class="border px-4 py-2 bg-gray-300">{{ resident.MCR_No }}</td>
+                                    <td class="border px-4 py-2 bg-gray-300">{{ resident }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -309,9 +309,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(resident, index) in nonCompliantResidentIHIArray" :key="resident.MCR_No">
+                                <tr v-for="(resident, index) in nonCompliantResidentIHIArray" :key="resident">
                                     <td class="border px-4 py-2 bg-gray-300">{{ index + 1 }}</td>
-                                    <td class="border px-4 py-2 bg-gray-300">{{ resident.MCR_No }}</td>
+                                    <td class="border px-4 py-2 bg-gray-300">{{ resident }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -332,9 +332,9 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(resident, index) in nonCompliantResidentProjectsArray"
-                                    :key="resident.MCR_No">
+                                    :key="resident">
                                     <td class="border px-4 py-2 bg-gray-300">{{ index + 1 }}</td>
-                                    <td class="border px-4 py-2 bg-gray-300">{{ resident.MCR_No }}</td>
+                                    <td class="border px-4 py-2 bg-gray-300">{{ resident }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -354,10 +354,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(resident, index) in nonCompliantResidentProcedureLogsArray[0]"
-                                    :key="resident.MCR_No">
+                                <tr v-for="(resident, index) in nonCompliantResidentProcedureLogsArray"
+                                    :key="resident">
                                     <td class="border px-4 py-2 bg-gray-300">{{ index + 1 }}</td>
-                                    <td class="border px-4 py-2 bg-gray-300">{{ resident.MCR_No }}</td>
+                                    <td class="border px-4 py-2 bg-gray-300">{{ resident }}</td>
                                 </tr>
                             </tbody>
                         </table>
