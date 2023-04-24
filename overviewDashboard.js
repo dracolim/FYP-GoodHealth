@@ -393,14 +393,6 @@ new Vue({
                     nonCompliantResidentsCase.push(each)
                 }
             }
-<<<<<<< HEAD
-
-            this.nonCompliantResidentCaseArray = uniquenonCompliantResidentsCase
-            console.log("non-compliant resident case array:" + this.nonCompliantResidentCaseArray)
-            
-            console.log(this.casePassed)
-
-=======
             // remove duplicates 
             uniqueNonCompliantCase = []
             for (i of nonCompliantResidentsCase){
@@ -409,7 +401,6 @@ new Vue({
                 }
             }
             this.nonCompliantResidentCaseArray = uniqueNonCompliantCase
->>>>>>> 1630b0341565d8c721bf06911011f04737adb85c
             // need to wait for the getResidentData to add to the this.passed first before calling the this.getChartData
             this.caseChartArray = [this.casePassed, this.total, this
             .missing]; //getChartdata will use to show visualisation
