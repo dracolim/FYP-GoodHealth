@@ -21,7 +21,7 @@ class TestApp(flask_testing.TestCase):
         db.drop_all()
 
 
-class TestProcedureLog(TestApp):
+class TestDidacticAttendance(TestApp):
 
     def test_create_personal_details(self):
         personal_details_data = [{

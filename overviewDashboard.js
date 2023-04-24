@@ -384,6 +384,7 @@ new Vue({
 
             nonCompliantResidentsCase = []
             result1 = false
+            console.log("possible duplicates: ", )
             for (each of this.mcr_arr) {
                 // console.log(this.getResidentData(each))
                 result1 = await this.getResidentCaseData(each)
@@ -395,9 +396,9 @@ new Vue({
                 }
             }
 
-            this.nonCompliantResidentCaseArray = nonCompliantResidentsCase
+            this.nonCompliantResidentCaseArray = uniquenonCompliantResidentsCase
             console.log("non-compliant resident case array:" + this.nonCompliantResidentCaseArray)
-
+            
             console.log(this.casePassed)
 
             // need to wait for the getResidentData to add to the this.passed first before calling the this.getChartData

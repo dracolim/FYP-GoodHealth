@@ -21,7 +21,7 @@ class TestApp(flask_testing.TestCase):
         db.drop_all()
 
 # Read Personal_Details:
-class TestReadPresentation(TestApp):
+class TestAwards(TestApp):
 
     def test_create_personal_details(self):
         personal_details_data = [{

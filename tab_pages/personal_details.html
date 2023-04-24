@@ -510,6 +510,7 @@
                                 headerSort: false,
                                 editable: true,
                                 cellClick: function (e, cell) {
+                                    console.log("cell toggleddd", cell.getRow().toggleSelect())
                                     cell.getRow().toggleSelect();
                                     console.log(table.getSelectedData());
                                 }
@@ -967,16 +968,24 @@
                     var newdata = []
                     this.mcr_no = newdata
                     table.on("rowSelectionChanged", function (data, rows) {
-                        // newdata = []
                         for (i of data) {
-                            newdata.push(i["MCR_No"])
-                            // this.mcr_no.push(i["MCR_No"])
+                            if (!newdata.includes(i["MCR_No"])){
+                                newdata.push(i["MCR_No"])
+                            }
                         }
-                        console.log(newdata)
 
                         document.getElementById("select-stats").innerHTML = JSON.stringify(
                             newdata);
                         
+                    });
+
+                    table.on("rowDeselected", function(data,row){
+
+                        const index = newdata.indexOf(data.getData().MCR_No);
+                        if (index > -1) {
+                            newdata.splice(index, 1);
+                        }
+
                     });
 
 
