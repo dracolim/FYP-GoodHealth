@@ -265,7 +265,8 @@
                             </div>
                             <div
                                 class="justify-center flex items-center pt-4 space-x-2 border-t border-gray-200 rounded-b">
-                                <button type="button" value="Submit" @click="isDisabled()" id='submit' disabled
+                                <button type="button" value="submit" @click="isDisabled()" id='submit'
+                                    data-modal-hide="top-left-modal" disabled
                                     class="w-9/12 text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Upload</button>
                             </div>
                         </form>
@@ -333,6 +334,7 @@
             tableData: "",
             didactic_attendance_data: "",
             Existing_MCR_Nos: [],
+            disabled: true,
             importSuccess: false,
         },
         mounted() {

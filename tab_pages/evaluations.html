@@ -274,10 +274,10 @@
                         <iconify-icon icon="mingcute:file-import-line" style="color: white;" width="20" height="20">
                         </iconify-icon>
                     </div>
-                    <button type="button" @click="toggleMode"
+                    <!-- <button type="button" @click="toggleMode"
                         class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5  mb-2">
                         <label class="ml-2">Toggle Table</label>
-                    </button>
+                    </button> -->
                 </div>
                 <div class="relative mx-2" id="toggle-quickview" style="display:none">
                     <div class="absolute inset-y-0 left-0 right-12 bottom-2 flex items-center pl-3 pointer-events-none">
@@ -371,8 +371,7 @@
 
             <!-- SUCCESS ALERT FOR IMPORT -->
             <div id="alert-3" v-if="importSuccess == true"
-                class="flex mx-8 mt-4 p-4 mb-4 text-green-800 rounded-lg bg-green-50"
-                role="alert">
+                class="flex mx-8 mt-4 p-4 mb-4 text-green-800 rounded-lg bg-green-50" role="alert">
                 <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
@@ -1120,22 +1119,22 @@
                                                 .then(response => {
                                                     console.log(response.data);
 
-                                                    axios.post(url2,
-                                                            data_to_post)
-                                                        .then(response => {
-                                                            console.log(
-                                                                response
-                                                                .data,
-                                                                'dataaaaa god morning'
-                                                            )
-                                                        })
-                                                        .catch(error => {
-                                                            this.error =
-                                                                error
-                                                                .response
-                                                                .data
-                                                                .message
-                                                        });
+                                                    //axios.post(url2,
+                                                    //        data_to_post)
+                                                    //    .then(response => {
+                                                    //        console.log(
+                                                    //            response
+                                                    //            .data,
+                                                    //            'dataaaaa god morning'
+                                                    //        )
+                                                    //    })
+                                                    //    .catch(error => {
+                                                    //        this.error =
+                                                    //            error
+                                                    //            .response
+                                                    //            .data
+                                                    //            .message
+                                                    //    });
                                                 })
                                                 .catch(error => {
                                                     this.error = error.response

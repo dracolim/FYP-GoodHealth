@@ -551,9 +551,6 @@ new Vue({
             hasTeachingPresentation = false
             hasAbstractPresentation = false
             hasPublication = false
-            // const d = new Date();
-            // let year = d.getFullYear();
-            // var toAdd = false;
 
             if (this.scholarlyChartData.data.publications.length > 0) {
                 publicationArray = this.scholarlyChartData.data.publications
@@ -896,7 +893,14 @@ new Vue({
                 percentCompliantDec = (countCompliantDec/numLogsDec) * 100}
             this.dutyChartConfig.datasets[0].data.push(percentCompliantDec)
 
-            this.nonCompliantResidentDutyArray = nonCompliantResidents
+            // remove duplicates 
+            uniqueNonCompliantDuty = []
+            for (i of nonCompliantResidents){
+                if (!uniqueNonCompliantDuty.includes(i.MCR_No)){
+                    uniqueNonCompliantDuty.push(i.MCR_No)
+                }
+            }
+            this.nonCompliantResidentDutyArray = uniqueNonCompliantDuty
         },
 
         getProjectsData: async function () {
