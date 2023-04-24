@@ -362,14 +362,10 @@ new Vue({
 
             for(let i = 0; i < chartData.data.case_logs.length; i++){
                 // 1. check programme under personal details
-                // console.log(chartData.data.case_logs[i]['Date_of_Log'].substr(-4,4))
                 if(chartData.data.case_logs[i]['Date_of_Log'].substr(-4,4) == this.year){
-
                     if (chartData.data.personaldetails['Programme'] == 'Renal Medicine'){
                         // 2. if renal, check 10 transplant credit type by SR 2
-                        console.log('renal')
                         if(chartData.data.case_logs[i]['Type_of_Case_Log'] == 'transplant credit'){
-                            console.log('transplant credit')
                             countIntR = parseInt(chartData.data.case_logs[0]['Observed'])
                             if(countIntR > 0 && countIntR < 10){
                                 percentageCompletion = countIntR / 10
@@ -382,42 +378,32 @@ new Vue({
                         }
                     }
                     else if (chartData.data.personaldetails.Programme == 'Internal Medicine'){
-                        // console.log('yes')
                         // 3. if internal medicine, check 3 inpatient and 3 outpatient each year
                         if(chartData.data.case_logs[i]['Type_of_Case_Log'] == 'inpatient'){
-                            console.log('inpatient')
                             countIntI = parseInt(chartData.data.case_logs[0]['Observed'])
                             if(countIntI > 0 && countIntI < 3){
                                 percentageCompletionI = countIntI / 9
-                                // percentageNonCompletion = 1 - percentageCompletion
                             }
                             else if (countIntI >= 3){
                                 percentageCompletionI = 1/3
-                                // percentageNonCompletionInpatient = 0
                             }
                         }
                         if(chartData.data.case_logs[i]['Type_of_Case_Log'] == 'outpatient'){
-                            console.log('outpatient')
                             countIntO = parseInt(chartData.data.case_logs[0]['Observed'])
                             if(countIntO > 0 && countIntO < 3){
                                 percentageCompletionO = countIntO / 9
-                                // percentageNonCompletion = 1 - percentageCompletion
                             }
                             else if (countIntO >= 3){
                                 percentageCompletionO = 1/3
-                                // percentageNonCompletionInpatient = 0
                             }
                         }
                         if(chartData.data.case_logs[i]['Type_of_Case_Log'] == 'blue letter'){
-                            console.log('blue letter')
                             countIntB = parseInt(chartData.data.case_logs[0]['Observed'])
                             if(countIntR > 0 && countIntB < 3){
                                 percentageCompletionB = countIntB / 9
-                                // percentageNonCompletion = 1 - percentageCompletion
                             }
                             else if (countIntB >= 3){
                                 percentageCompletionB = 1/3
-                                // percentageNonCompletionInpatient = 0
                             }
                         }
                     }
@@ -543,8 +529,6 @@ new Vue({
             count = 0
             hasTeachingPresentation = false
             hasAbstractPresentation = false
-            // const d = new Date();
-            // let year = d.getFullYear();
 
             if (chartData.data.publications.length > 0) {
                 publicationArray = chartData.data.publications

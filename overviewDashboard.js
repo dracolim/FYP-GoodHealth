@@ -381,11 +381,9 @@ new Vue({
 
         getCaseLogsData: async function () {
             // get all residents
-
             nonCompliantResidentsCase = []
             result1 = false
             for (each of this.mcr_arr) {
-                // console.log(this.getResidentData(each))
                 result1 = await this.getResidentCaseData(each)
                 if ( result1 == true) {
                     this.casePassed += 1 // if compliant
@@ -394,7 +392,6 @@ new Vue({
                     nonCompliantResidentsCase.push(each)
                 }
             }
-
             // remove duplicates 
             uniqueNonCompliantCase = []
             for (i of nonCompliantResidentsCase){
@@ -402,18 +399,10 @@ new Vue({
                     uniqueNonCompliantCase.push(i)
                 }
             }
-
             this.nonCompliantResidentCaseArray = uniqueNonCompliantCase
-            console.log("non-compliant resident case array:" + this.nonCompliantResidentCaseArray)
-
-            console.log(this.casePassed)
-
             // need to wait for the getResidentData to add to the this.passed first before calling the this.getChartData
             this.caseChartArray = [this.casePassed, this.total, this
             .missing]; //getChartdata will use to show visualisation
-
-            console.log('this is chartArray')
-            console.log(this.caseChartArray)
 
             this.getCaseChartData(this.caseChartArray); // it works
             this.caseLoaded = true
@@ -430,9 +419,6 @@ new Vue({
                     console.log(error);
                     this.caseMissing += 0
                 });
-
-            // console.log('caseChartData' + this.caseChartData)
-
             // check compliance for resident
             percentageCompletion = 0
             // percentageNonCompletion = 1
@@ -446,17 +432,12 @@ new Vue({
             countIntO = 0
             countIntB = 0
 
-            console.log(this.caseChartData.data.case_logs.length)
             for(let i = 0; i < this.caseChartData.data.case_logs.length; i++){
                 // 1. check programme under personal details
-                // console.log(chartData.data.personaldetails['Programme'])
-                // console.log(i)
                 if(this.caseChartData.data.case_logs[i]['Date_of_Log'].substr(-4,4) == this.year){
                     if (this.caseChartData.data.personaldetails['Programme'] == 'Renal Medicine'){
                         // 2. if renal, check 10 transplant credit type by SR 2
-                        console.log('renal')
                         if(this.caseChartData.data.case_logs[i]['Type_of_Case_Log'] == 'transplant credit'){
-                            console.log('transplant credit')
                             countIntR = parseInt(this.caseChartData.data.case_logs[0]['Observed'])
                             if(countIntR > 0 && countIntR < 10){
                                 percentageCompletion = countIntR / 10
@@ -469,10 +450,8 @@ new Vue({
                             }
                         }
                     else if (this.caseChartData.data.personaldetails.Programme == 'Internal Medicine'){
-                        // console.log('yes')
                         // 3. if internal medicine, check 3 inpatient and 3 outpatient each year
                         if(this.caseChartData.data.case_logs[i]['Type_of_Case_Log'] == 'inpatient'){
-                            console.log('inpatient')
                             countIntI = parseInt(this.caseChartData.data.case_logs[0]['Observed'])
                             if(countIntI > 0 && countIntI < 3){
                                 percentageCompletionI = countIntI / 9
@@ -482,7 +461,6 @@ new Vue({
                                 }
                             }
                         if(this.caseChartData.data.case_logs[i]['Type_of_Case_Log'] == 'outpatient'){
-                            console.log('outpatient')
                             countIntO = parseInt(this.caseChartData.data.case_logs[0]['Observed'])
                             if(countIntO > 0 && countIntO < 3){
                                 percentageCompletionO = countIntO / 9
@@ -492,7 +470,6 @@ new Vue({
                                 }
                             }
                         if(this.caseChartData.data.case_logs[i]['Type_of_Case_Log'] == 'blue letter'){
-                            console.log('blue letter')
                             countIntB = parseInt(this.caseChartData.data.case_logs[0]['Observed'])
                             if(countIntR > 0 && countIntB < 3){
                                 percentageCompletionB = countIntB / 9
@@ -502,23 +479,17 @@ new Vue({
                                 }
                             }
                         percentageCompletion = percentageCompletionI + percentageCompletionO + percentageCompletionB
-                    // percentageNonCompletion = 1 - percentageCompletion
                         }
                     }
                 }
 
-            console.log('percentageCompletionResident')
-            console.log(percentageCompletion)
             if (percentageCompletion == 1){
                 toAdd = true
             }
-            console.log("toAdd:" + toAdd)
             return toAdd    
         },
 
         getCaseChartData: function (chartData) {
-            // console.log("This is chartData")
-            // console.log(chartData);
             passedResident = 0
             totalResident = 0
             percentageCompletion = 0.0
@@ -537,9 +508,7 @@ new Vue({
             // get all residents
             nonCompliantResidentsScholarly = []
             result2 = false
-            console.log('mcr_arr length: ' + this.mcr_arr.length)
             for (each of this.mcr_arr) {
-                // console.log(this.getResidentData(each))
                 result2 = await this.getResidentScholarlyData(each)
                 if (result2 == true) {
                     this.scholarlyPassed += 1 // if compliant
@@ -556,23 +525,15 @@ new Vue({
                     uniqueNonCompliantScholarly.push(i)
                 }
             }
-
             this.nonCompliantResidentScholarlyArray = uniqueNonCompliantScholarly
-
-
             // need to wait for the getResidentData to add to the this.scholarlyPassed first before calling the this.getScholarlyChartData
             this.scholarlyChartArray = [this.scholarlyPassed, this.total, this.missing]; //getScholarlyChartData will use to show visualisation
-
-            console.log('this is chartArray')
-            console.log(this.scholarlyChartArray)
-
             this.getScholarlyChartData(this.scholarlyChartArray); // it works
             this.scholarlyLoaded = true
         },
 
         getResidentScholarlyData: async function (mcr) {
             specificURL = "http://localhost:5011/profile/" + mcr
-            console.log(specificURL)
             toAdd = false;
 
             await axios.get(specificURL).then((response) => {
@@ -595,21 +556,17 @@ new Vue({
 
             if (this.scholarlyChartData.data.publications.length > 0) {
                 publicationArray = this.scholarlyChartData.data.publications
-                console.log(publicationArray,'==============')
                 for (let i = 0; i < publicationArray.length; i++) {
                     year1 = parseInt(publicationArray[i]['Publication_Date'].slice(-2))
                     year2 = parseInt(this.year) - 2000
                     if ((year1 == year2 ) && hasPublication == false) {
                         count += 1
                         hasPublication = true
-                        console.log('publication')
                     }
                 }
             }
             if (this.scholarlyChartData.data.presentations.length > 0) {
                 presentationArray = this.scholarlyChartData.data.presentations
-                console.log("presentationArray" + presentationArray.data,'==============')
-                // console.log(presentationArray)
                 if (presentationArray.length == 1) {
                     if (parseInt(presentationArray[0]['Presentation_Date'].slice(-4)) ==
                         year2) {
@@ -623,13 +580,11 @@ new Vue({
                             if (presentationArray[i]['Type'].length == 0 &&
                                 hasTeachingPresentation == false) {
                                 count += 1
-                                console.log('teaching')
                                 hasTeachingPresentation = true
                             }
                             if (presentationArray[i]['Type'].length > 0 &&
                                 hasAbstractPresentation == false) {
                                 count += 1
-                                console.log('abstract')
                                 hasAbstractPresentation = true
                             }
                             if (hasAbstractPresentation == true &&
@@ -642,13 +597,8 @@ new Vue({
             }
             if (count != 0) {
                 percentageCompletion = count / 3
-                // console.log('percentageCompletion1')
-                // console.log(percentageCompletion)
             }
-            console.log('percentageCompletion2')
-            console.log(percentageCompletion)
             if (percentageCompletion == 1) {
-                console.log('true')
                 toAdd = true;
             }
             return toAdd;
@@ -720,7 +670,6 @@ new Vue({
             this.status = "getting data...";
 
             await axios.get("http://localhost:5011/duty_hour_log").then((response) => {
-            // console.log(response.data)
             this.getDutyHourChartData(response.data);
             this.dutyLoaded = true
             })
@@ -730,21 +679,15 @@ new Vue({
         },
         
         getDutyHourChartData: function (chartData) {
-            // this.year = "2022"
-            // console.log(this.year)
-            console.log(chartData.data);
-            // console.log('break1')
             nonCompliantResidents = []
 
             numLogsJan = 0.0
             countCompliantJan = 0.0
             percentCompliantJan = 0.0
-            console.log('1')
 
             numLogsFeb = 0.0
             countCompliantFeb = 0.0
             percentCompliantFeb = 0.0
-            console.log('2')
 
             numLogsMar = 0.0
             countCompliantMar = 0.0
@@ -786,14 +729,9 @@ new Vue({
             countCompliantDec = 0.0
             percentCompliantDec = 0.0
 
-            // console.log('alsdjkf')
-
             for (let i = 0; i < chartData.data.length; i++) {
-                // console.log('ye')
-                // console.log(chartData.data[i])
                 totalCount = 0.0
                 if(this.year == chartData.data[i]['MMYYYY'].substr(3,7) ){
-                    // console.log('yea')
                     if(('01'.includes(chartData.data[i]['MMYYYY'].substr(0,2)))){
                     numLogsJan = numLogsJan + 1.0
                         if(chartData.data[i]['Submitted_Proportion'] == '1'){
@@ -897,7 +835,6 @@ new Vue({
                         numLogsDec = numLogsDec + 1.0
                         if(chartData.data[i]['Submitted_Proportion'] == '1'){
                             countCompliantDec += 1.0
-                            // console.log('yes')
                         }
                         else {                            
                             totalCount += 1.0
@@ -912,68 +849,53 @@ new Vue({
 
             if(countCompliantJan != 0 && numLogsJan != 0){
                 percentCompliantJan = (countCompliantJan/numLogsJan) * 100}
-            // console.log(percentCompliantJan)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantJan)
 
             if(countCompliantFeb != 0 && numLogsFeb != 0){
                 percentCompliantFeb = (countCompliantFeb/numLogsFeb) * 100}
-            // console.log(percentCompliantFeb)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantFeb)
             
             if(countCompliantMar != 0 && numLogsMar != 0){
                 percentCompliantMar = (countCompliantMar/numLogsMar * 100)}
-            // console.log(percentCompliantJan)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantMar)
 
             if(countCompliantApr != 0 && numLogsApr != 0){
                 percentCompliantApr = (countCompliantApr/numLogsApr * 100)}
-            // console.log(percentCompliantApr)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantApr)
 
             if(countCompliantMay != 0 && numLogsMay != 0){
                 percentCompliantMay = (countCompliantMay/numLogsMay) * 100}
-            // console.log(percentCompliantMay)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantMay)
 
             if(countCompliantJun != 0 && numLogsJun != 0){
                 percentCompliantJun = (countCompliantJun/numLogsJun * 100)}
-            // console.log(percentCompliantJun)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantJun)
 
             if(countCompliantJul != 0 && numLogsJul != 0){
                 percentCompliantJul = (countCompliantJul/numLogsJul) * 100}
-            // console.log(percentCompliantJul)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantJul)
 
             if(countCompliantAug != 0 && numLogsAug != 0){
                 percentCompliantAug = (countCompliantAug/numLogsAug) * 100}
-            // console.log(percentCompliantAug)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantAug)
 
             if(countCompliantSep != 0 && numLogsSep != 0){
                 percentCompliantSep = (countCompliantSep/numLogsSep) * 100}
-            // console.log(percentCompliantSep)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantSep)
 
             if(countCompliantOct != 0 && numLogsOct != 0){
                 percentCompliantOct = (countCompliantOct/numLogsOct * 100)}
-            // console.log(percentCompliantOct)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantOct)
 
             if(countCompliantNov != 0 && numLogsNov != 0){
                 percentCompliantNov = (countCompliantNov/numLogsNov) * 100}
-            // console.log(percentCompliantNov)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantNov)
 
             if(countCompliantDec!= 0 && numLogsDec != 0){
                 percentCompliantDec = (countCompliantDec/numLogsDec) * 100}
-            // console.log(percentCompliantDec)
             this.dutyChartConfig.datasets[0].data.push(percentCompliantDec)
 
             this.nonCompliantResidentDutyArray = nonCompliantResidents
-            console.log('noncompliant resident duty:' + this.nonCompliantResidentDutyArray)
-            console.log('this is dutyChartConfig')
-            console.log(this.dutyChartConfig);
         },
 
         getProjectsData: async function () {
