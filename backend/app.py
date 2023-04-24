@@ -3383,7 +3383,7 @@ def pdf_to_doc(id):
 from helper import  getAwardsRows, getProjectRows, getEducationalInvolvement, \
     getCommunityInvolvement, getLeadershipInvolvment, getProcedureLogs, getPostingRows,\
     getEducationRows, getPresentationRows,getTeachingPresentationRows,getPublications,getPage,\
-    getQIPatientSafetyRows
+    getQIPatientSafetyRows,getCoursesRows
 
 # Generate CV pdf:
 @app.route("/cv_pdf/<id>")
@@ -3425,6 +3425,7 @@ def getCompletePage(id):
     profileimg = person.Employee_Image
     education_histories = person.education_history
     awardsRows = getAwardsRows(awards)
+    coursesRows=getCoursesRows(involvements)
     projectRows = getProjectRows(projects)
     educationalInvolvements = getEducationalInvolvement(involvements)
     communityInvolvements = getCommunityInvolvement(involvements)
@@ -3513,6 +3514,7 @@ class Builder1(DocumentBuilder):
         import os
         self.person = person
         self.awardsRows = ""
+        self.coursesRows=""
         self.projectRows = ""
         self.educationalInvolvements = ""
         self.communityInvolvements = ""
@@ -3527,6 +3529,7 @@ class Builder1(DocumentBuilder):
         self.page = ""
 
     def assembleRows(self):
+        self.coursesRows=getCoursesRows(self.person.involvements)
         self.awardsRows = getAwardsRows(self.person.awards)
         self.projectRows = getProjectRows(self.person.projects)
         self.educationalInvolvements = getEducationalInvolvement(self.person.involvements)
@@ -3555,7 +3558,8 @@ class Builder1(DocumentBuilder):
                             self.presentationRows,
                             self.teachingPresentationRows,
                             self.publicationRows,
-                            self.patientSafetyQIRows)
+                            self.patientSafetyQIRows,
+                            self.coursesRows)
         return self
     
     def getPage(self):
