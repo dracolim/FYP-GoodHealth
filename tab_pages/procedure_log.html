@@ -622,6 +622,7 @@
         },
         methods: {
             importExcel() {
+                try{
                 var fileVal = document.getElementById("UploadFile");
                 this.file = fileVal.files[0]
 
@@ -760,9 +761,6 @@
                                             data.Case_Name = row.values[1]
                                         }
                                         data.Date_of_Log = this.temp_DOC
-                                        if (row.value[2] == null){
-                                            data.CPT = row.values[2] = ""
-                                        }
                                         data.CPT = row.values[2] || ""
                                         data.Total = row.values[3] || ""
                                         data.Performed = row.values[4] || ""
@@ -826,7 +824,7 @@
                                         !(row.values[1].toString().toLowerCase()
                                             .includes(
                                                 "report generated:")) &&
-                                        !(row.values[2].toString().toLowerCase()
+                                        !(row.values[1].toString().toLowerCase()
                                             .includes(
                                                 "cpt:"))) {
                                         this.value_row_count += 1
@@ -834,9 +832,6 @@
 
                                         data.MCR_No = this.MCR_No_import
                                         data.Procedure_Name = row.values[1] || ""
-                                        if (row.value[2] == null){
-                                            data.CPT = row.values[2] = ""
-                                        }
                                         data.CPT = row.values[2] || ""
                                         data.Date_of_Completion = this.temp_DOC
                                         data.Total = row.values[3] || ""
@@ -927,6 +922,10 @@
                 this.resident_count = 0;
                 this.error_message = "";
                 document.getElementById('submit').disabled = false;
+                }
+                catch(error){
+                    console.log(`Caught by try/catch ${error}`);
+                }
             },
             successPopUp() {
                 this.importSuccess = true
