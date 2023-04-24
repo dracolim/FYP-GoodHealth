@@ -692,237 +692,236 @@
 
                 });
 
-
-            axios.get(this.local_host_url + this.comment_table)
-                .then(response => {
-                    this.commentTableData = response.data.data
-                    console.log(this.commentTableData, 'THIS COMMENT TABLE DATA')
-                    // 'Remove' button design start
-                    var printRemoveButton = function (cell, formatterParams,
-                        onRendered) { //plain text value
-                        return "<a class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Remove</a>"
-                    };
-                    // 'Remove' button design ends
-                    // 'Popup/Comment' settings starts
-
-                    // 'Popup/Comment' settings ends
-                    const local_host_url = this.local_host_url
-                    this.table2 = new Tabulator("#comment-table", {
-                        layout: "fitDataStretch",
-                        placeholder: "No Data Available in " + this.page_name,
-                        history: true,
-                        pagination: "local",
-                        paginationSize: 15,
-                        paginationCounter: "rows",
-                        movableColumns: true,
-                        data: this.commentTableData,
-                        index: "MCR_No",
-                        columns: [{
-                                title: "MCR No",
-                                field: "MCR_No",
-                                sorter: "string",
-                                headerHozAlign: "center",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    autocomplete: true,
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                // headerPopup: headerPopupFormatter,
-                                headerPopupIcon: "<i class='fas fa-filter' title='Filter column'></i>",
-                                // headerFilter: emptyHeaderFilter, 
-                                // headerFilterFunc: "like"
-                            },
-                            {
-                                title: "Name",
-                                field: "Name",
-                                sorter: "string",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                },
-
-                            },
-                            {
-                                title: "Evaluator",
-                                field: "Evaluator",
-                                sorter: "string",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                },
-                            },
-                            {
-                                title: "Service",
-                                field: "Service",
-                                sorter: "string",
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                },
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true
-                                },
-                                width: 180,
-
-                            },
-                            {
-                                title: "Comments",
-                                field: "Comment",
-                                formatter: 'textarea',
-                                width: 300,
-                                sorter: "string",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                },
-                            },
-                            {
-                                title: "Score",
-                                field: "Score",
-                                sorter: "string",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                },
-                            },
-
-
-
-                            {
-                                title: "Weakness",
-                                field: "Weakness",
-                                sorter: "string",
-                                headerFilter: true,
-                                headerFilterParams: {
-                                    valuesLookup: true,
-                                    clearable: true,
-                                },
-                                editor: "input",
-                                editorParams: {
-                                    allowEmpty: true,
-                                    listOnEmpty: true,
-                                    valuesLookup: true,
-                                },
-
-                                formatter: function (cell, formatterParams) {
-                                    var value = cell.getValue();
-                                    if (value != null && value != '') {
-                                        cell.getElement().style.backgroundColor = "#e56666";
-                                        return value
-                                    } else {
-                                        cell.getElement().style.backgroundColor =
-                                            "transparent";
-                                        return value
-                                    }
-                                }
-                            },
-                            {
-                                title: "Action",
-                                formatter: printRemoveButton,
-                                hozAlign: "center",
-                                cellClick: function (e, cell) {
-                                    axios.delete(local_host_url + "evaluation_comment" +
-                                            "/" + cell
-                                            .getRow().getData().id)
-                                        .then(function (response) {
-                                            console.log(response.data);
-                                            cell.getRow().delete();
-                                        })
-                                        .catch(function (error) {
-                                            console.log(error);
-                                            if (alert("Failed to remove row MCR No: " +
-                                                    row.getData().MCR_No)) {} else
-                                                window.location.reload();
-                                        });
-                                },
-                                width: 100,
-                            },
-                        ],
-                        //define print formatter
-
-                    });
-
-                    for (var i of this.commentTableData) {
-                        if (!this.suggestions.includes(i.MCR_No)) {
-                            this.suggestions.push(i.MCR_No)
-                        }
-                    }
-                    for (var i of this.suggestions) {
-                        var result = this.commentTableData.filter(obj => {
-                            return obj.MCR_No == i
-                        })
-                        obj2 = result[0]
-                        this.suggestionsWithNames.push({
-                            Name: obj2.Name,
-                            MCR_No: obj2.MCR_No
-                        })
-                    }
-                    console.log(this.suggestionsWithNames, 'with name')
-
-                    this.table2.on("cellEdited", function (row) {
-                        // connect to database and execute update statement
-                        let thisrow = row.getData()
-                        // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
-                        axios.put(local_host_url + "evaluation_comment", {
-                                "MCR_No": thisrow.MCR_No,
-                                'Name': thisrow.Name,
-                                "Evaluator": thisrow.Evaluator,
-                                "Name_of_Evaluation_Form": thisrow.Name_of_Evaluation_Form,
-                                "Question": thisrow.Question,
-                                "Rotation_Period": thisrow.Rotation_Period,
-                                "Weakness": thisrow.Score,
-                                "Service": thisrow.Service,
-                            })
-                            .then(response => {
-                                console.log('Project ID {' + row.getData().id +
-                                    '} updated.')
-                            })
-                            .catch(error => {
-                                console.log(error)
-                                if (alert("Failed to update row MCR No: " + row.getData()
-                                        .MCR_No)) {} else window.location.reload();
-                            })
-                    });
-                })
-                .catch(error => {
-                    this.table_error_message = error.message
-                    console.error(error);
-
-                });
-
+                axios.get(this.local_host_url + this.comment_table)
+                // .then(response => {
+                //     this.commentTableData = response.data.data
+                //     console.log(this.commentTableData, 'THIS COMMENT TABLE DATA')
+                //     // 'Remove' button design start
+                //     var printRemoveButton = function (cell, formatterParams,
+                //         onRendered) { //plain text value
+                //         return "<a class='text-red-500 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-sm rounded-full text-sm px-3 py-1 text-center mb-2'>Remove</a>"
+                //     };
+                //     // 'Remove' button design ends
+                //     // 'Popup/Comment' settings starts
+                
+                //     // 'Popup/Comment' settings ends
+                //     const local_host_url = this.local_host_url
+                //     this.table2 = new Tabulator("#comment-table", {
+                //         layout: "fitDataStretch",
+                //         placeholder: "No Data Available in " + this.page_name,
+                //         history: true,
+                //         pagination: "local",
+                //         paginationSize: 15,
+                //         paginationCounter: "rows",
+                //         movableColumns: true,
+                //         data: this.commentTableData,
+                //         index: "MCR_No",
+                //         columns: [{
+                //                 title: "MCR No",
+                //                 field: "MCR_No",
+                //                 sorter: "string",
+                //                 headerHozAlign: "center",
+                //                 headerFilter: true,
+                //                 headerFilterParams: {
+                //                     autocomplete: true,
+                //                     valuesLookup: true,
+                //                     clearable: true,
+                //                 },
+                //                 // headerPopup: headerPopupFormatter,
+                //                 headerPopupIcon: "<i class='fas fa-filter' title='Filter column'></i>",
+                //                 // headerFilter: emptyHeaderFilter, 
+                //                 // headerFilterFunc: "like"
+                //             },
+                //             {
+                //                 title: "Name",
+                //                 field: "Name",
+                //                 sorter: "string",
+                //                 headerFilter: true,
+                //                 headerFilterParams: {
+                //                     valuesLookup: true,
+                //                     clearable: true,
+                //                 },
+                //                 editor: "input",
+                //                 editorParams: {
+                //                     allowEmpty: true,
+                //                     listOnEmpty: true,
+                //                     valuesLookup: true,
+                //                 },
+                
+                //             },
+                //             {
+                //                 title: "Evaluator",
+                //                 field: "Evaluator",
+                //                 sorter: "string",
+                //                 headerFilter: true,
+                //                 headerFilterParams: {
+                //                     valuesLookup: true,
+                //                     clearable: true,
+                //                 },
+                //                 editor: "input",
+                //                 editorParams: {
+                //                     allowEmpty: true,
+                //                     listOnEmpty: true,
+                //                     valuesLookup: true,
+                //                 },
+                //             },
+                //             {
+                //                 title: "Service",
+                //                 field: "Service",
+                //                 sorter: "string",
+                //                 editor: "input",
+                //                 editorParams: {
+                //                     allowEmpty: true,
+                //                     listOnEmpty: true,
+                //                     valuesLookup: true,
+                //                 },
+                //                 headerFilter: true,
+                //                 headerFilterParams: {
+                //                     valuesLookup: true,
+                //                     clearable: true
+                //                 },
+                //                 width: 180,
+                
+                //             },
+                //             {
+                //                 title: "Comments",
+                //                 field: "Comment",
+                //                 formatter: 'textarea',
+                //                 width: 300,
+                //                 sorter: "string",
+                //                 headerFilter: true,
+                //                 headerFilterParams: {
+                //                     valuesLookup: true,
+                //                     clearable: true,
+                //                 },
+                //                 editor: "input",
+                //                 editorParams: {
+                //                     allowEmpty: true,
+                //                     listOnEmpty: true,
+                //                     valuesLookup: true,
+                //                 },
+                //             },
+                //             {
+                //                 title: "Score",
+                //                 field: "Score",
+                //                 sorter: "string",
+                //                 headerFilter: true,
+                //                 headerFilterParams: {
+                //                     valuesLookup: true,
+                //                     clearable: true,
+                //                 },
+                //                 editor: "input",
+                //                 editorParams: {
+                //                     allowEmpty: true,
+                //                     listOnEmpty: true,
+                //                     valuesLookup: true,
+                //                 },
+                //             },
+                
+                
+                
+                //             {
+                //                 title: "Weakness",
+                //                 field: "Weakness",
+                //                 sorter: "string",
+                //                 headerFilter: true,
+                //                 headerFilterParams: {
+                //                     valuesLookup: true,
+                //                     clearable: true,
+                //                 },
+                //                 editor: "input",
+                //                 editorParams: {
+                //                     allowEmpty: true,
+                //                     listOnEmpty: true,
+                //                     valuesLookup: true,
+                //                 },
+                
+                //                 formatter: function (cell, formatterParams) {
+                //                     var value = cell.getValue();
+                //                     if (value != null && value != '') {
+                //                         cell.getElement().style.backgroundColor = "#e56666";
+                //                         return value
+                //                     } else {
+                //                         cell.getElement().style.backgroundColor =
+                //                             "transparent";
+                //                         return value
+                //                     }
+                //                 }
+                //             },
+                //             {
+                //                 title: "Action",
+                //                 formatter: printRemoveButton,
+                //                 hozAlign: "center",
+                //                 cellClick: function (e, cell) {
+                //                     axios.delete(local_host_url + "evaluation_comment" +
+                //                             "/" + cell
+                //                             .getRow().getData().id)
+                //                         .then(function (response) {
+                //                             console.log(response.data);
+                //                             cell.getRow().delete();
+                //                         })
+                //                         .catch(function (error) {
+                //                             console.log(error);
+                //                             if (alert("Failed to remove row MCR No: " +
+                //                                     row.getData().MCR_No)) {} else
+                //                                 window.location.reload();
+                //                         });
+                //                 },
+                //                 width: 100,
+                //             },
+                //         ],
+                //         //define print formatter
+                
+                //     });
+                
+                //     for (var i of this.commentTableData) {
+                //         if (!this.suggestions.includes(i.MCR_No)) {
+                //             this.suggestions.push(i.MCR_No)
+                //         }
+                //     }
+                //     for (var i of this.suggestions) {
+                //         var result = this.commentTableData.filter(obj => {
+                //             return obj.MCR_No == i
+                //         })
+                //         obj2 = result[0]
+                //         this.suggestionsWithNames.push({
+                //             Name: obj2.Name,
+                //             MCR_No: obj2.MCR_No
+                //         })
+                //     }
+                //     console.log(this.suggestionsWithNames, 'with name')
+                
+                //     this.table2.on("cellEdited", function (row) {
+                //         // connect to database and execute update statement
+                //         let thisrow = row.getData()
+                //         // console.log(thisrow.id + " " + thisrow.MCR_No + "is  now " + JSON.stringify(row.getData()))
+                //         axios.put(local_host_url + "evaluation_comment", {
+                //                 "MCR_No": thisrow.MCR_No,
+                //                 'Name': thisrow.Name,
+                //                 "Evaluator": thisrow.Evaluator,
+                //                 "Name_of_Evaluation_Form": thisrow.Name_of_Evaluation_Form,
+                //                 "Question": thisrow.Question,
+                //                 "Rotation_Period": thisrow.Rotation_Period,
+                //                 "Weakness": thisrow.Score,
+                //                 "Service": thisrow.Service,
+                //             })
+                //             .then(response => {
+                //                 console.log('Project ID {' + row.getData().id +
+                //                     '} updated.')
+                //             })
+                //             .catch(error => {
+                //                 console.log(error)
+                //                 if (alert("Failed to update row MCR No: " + row.getData()
+                //                         .MCR_No)) {} else window.location.reload();
+                //             })
+                //     });
+                // })
+                // .catch(error => {
+                //     this.table_error_message = error.message
+                //     console.error(error);
+                
+                // });
+                
         },
         methods: {
             selectSuggestion(suggestion) {
