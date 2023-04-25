@@ -3442,7 +3442,7 @@ def getCompletePage(id):
     
     page = getPage(name, mcrno, profileimg, awardsRows, projectRows, educationalInvolvements, communityInvolvements,
         leadershipInvolvements, procedureLogsRows, postingRows, educationRows,presentationRows,teachingPresentationRows,
-        publicationRows,patientSafetyQIRows)
+        publicationRows,patientSafetyQIRows, coursesRows)
     return page
 
 from abc import ABCMeta, abstractmethod
