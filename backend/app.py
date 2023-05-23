@@ -3369,6 +3369,37 @@ def delete_presentation(id):
     db.session.commit()
     return 'presentation deleted', 200
 
+@app.route("/export_all_excel")
+def export_all_excel():
+    writer = pd.ExcelWriter("pandas_multiple.xlsx", engine="xlsxwriter")
+
+    
+        
+
+
+    pdList = Personal_Details.query.all()
+    df=pd.DataFrame([pd.to_dict()
+                     for pd in pdList])
+    df.to_excel(writer, sheet_name="Sheet1")
+
+    pdList = Presentations.query.all()
+    df1=pd.DataFrame([pd.to_dict()
+                     for pd in pdList])
+    df1.to_excel(writer, sheet_name="Sheet1")
+    df1=df1.drop('id',axis=1)
+        # create a excel writer object
+    with pd.ExcelWriter("path to file\fil2ename2.xlsx") as writer:
+
+        # use to_excel function and specify the sheet_name and index
+        # to store the dataframe in specified sheet
+        df.to_excel(writer, sheet_name="Fruits", index=False)
+        df1.to_excel(writer, sheet_name="Vegetables", index=False)
+    return jsonify(
+        {
+            "data": [pd.to_dict()
+                     for pd in pdList]
+        }
+    ), 200
 
 
 # ============================
