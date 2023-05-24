@@ -3371,33 +3371,104 @@ def delete_presentation(id):
 
 @app.route("/export_all_excel")
 def export_all_excel():
-    writer = pd.ExcelWriter("pandas_multiple.xlsx", engine="xlsxwriter")
 
-    
-        
+    personal_details = Personal_Details.query.all()
+    personal_details_df=pd.DataFrame([pd.to_dict() for pd in personal_details])
+
+    presentations = Presentations.query.all()
+    presentations_df=pd.DataFrame([pd.to_dict() for pd in presentations])
+    presentations_df=presentations_df.drop('id',axis=1)
+
+    awards = Awards.query.all()
+    awards_df=pd.DataFrame([pd.to_dict() for pd in awards])
+    awards_df=awards_df.drop('id',axis=1)
+
+    projects = Projects.query.all()
+    projects_df=pd.DataFrame([pd.to_dict() for pd in projects])
+    projects_df=projects_df.drop('id',axis=1)
+
+    education = Education_History.query.all()
+    education_df=pd.DataFrame([pd.to_dict() for pd in education])
+    education_df=education_df.drop('id',axis=1)
+
+    involvement = Involvement.query.all()
+    involvement_df=pd.DataFrame([pd.to_dict() for pd in involvement])
+    involvement_df=involvement_df.drop('id',axis=1)
+
+    posting = Posting_History.query.all()
+    posting_df=pd.DataFrame([pd.to_dict() for pd in posting])
+    posting_df=posting_df.drop('id',axis=1)
+
+    publications = Publications.query.all()
+    publications_df=pd.DataFrame([pd.to_dict() for pd in publications])
+    publications_df=publications_df.drop('id',axis=1)
+
+    exam = Exam_History.query.all()
+    exam_df=pd.DataFrame([pd.to_dict() for pd in exam])
+    exam_df=exam_df.drop('id',axis=1)
+
+    ihi = IHI.query.all()
+    ihi_df=pd.DataFrame([pd.to_dict() for pd in ihi])
+    ihi_df=ihi_df.drop('id',axis=1)
+
+    grants = Grants.query.all()
+    grants_df=pd.DataFrame([pd.to_dict() for pd in grants])
+    grants_df=grants_df.drop('id',axis=1)
+
+    trg = TrgExtRem_History.query.all()
+    trg_df=pd.DataFrame([pd.to_dict() for pd in trg])
+    trg_df=trg_df.drop('id',axis=1)
+
+    case_log = Case_Log.query.all()
+    case_log_df=pd.DataFrame([pd.to_dict() for pd in case_log])
+    case_log_df=case_log_df.drop('id',axis=1)
+
+    didactic = Didactic_Attendance.query.all()
+    didactic_df=pd.DataFrame([pd.to_dict() for pd in didactic])
+    didactic_df=didactic_df.drop('id',axis=1)
+
+    duty_hour = Duty_Hour_Log.query.all()
+    duty_hour_df=pd.DataFrame([pd.to_dict() for pd in duty_hour])
+    duty_hour_df=duty_hour_df.drop('id',axis=1)
+
+    evaluations = Evaluations.query.all()
+    evaluations_df=pd.DataFrame([pd.to_dict() for pd in evaluations])
+    evaluations_df=evaluations_df.drop('id',axis=1)
+
+    procedures = Procedure_Log.query.all()
+    procedures_df=pd.DataFrame([pd.to_dict() for pd in procedures])
+    procedures_df=procedures_df.drop('id',axis=1)
 
 
-    pdList = Personal_Details.query.all()
-    df=pd.DataFrame([pd.to_dict()
-                     for pd in pdList])
-    df.to_excel(writer, sheet_name="Sheet1")
 
-    pdList = Presentations.query.all()
-    df1=pd.DataFrame([pd.to_dict()
-                     for pd in pdList])
-    df1.to_excel(writer, sheet_name="Sheet1")
-    df1=df1.drop('id',axis=1)
-        # create a excel writer object
+
+
+    # create a excel writer object
     with pd.ExcelWriter("path to file\fil2ename2.xlsx") as writer:
-
         # use to_excel function and specify the sheet_name and index
         # to store the dataframe in specified sheet
-        df.to_excel(writer, sheet_name="Fruits", index=False)
-        df1.to_excel(writer, sheet_name="Vegetables", index=False)
+        personal_details_df.to_excel(writer, sheet_name="Personal Details", index=False)
+        presentations_df.to_excel(writer, sheet_name="Presentations", index=False)
+        awards_df.to_excel(writer, sheet_name="Awards", index=False)
+        projects_df.to_excel(writer, sheet_name="Projects", index=False)
+        education_df.to_excel(writer, sheet_name="Education History", index=False)
+        involvement_df.to_excel(writer, sheet_name="Involvements", index=False)
+        posting_df.to_excel(writer, sheet_name="Posting History", index=False)
+        publications_df.to_excel(writer, sheet_name="Publications", index=False)
+        exam_df.to_excel(writer, sheet_name="Exam History", index=False)
+        ihi_df.to_excel(writer, sheet_name="IHI", index=False)
+        grants_df.to_excel(writer, sheet_name="Grants", index=False)
+        trg_df.to_excel(writer, sheet_name="Trg", index=False)
+        case_log.to_excel(writer, sheet_name="Case Logs", index=False)
+        didactic.to_excel(writer, sheet_name="Didactic Attendance", index=False)
+        duty_hour.to_excel(writer, sheet_name="Duty Hour Logs", index=False)
+        evaluations.to_excel(writer, sheet_name="Evaluations", index=False)
+        procedures_df.to_excel(writer, sheet_name="Procedure Logs", index=False)
+
     return jsonify(
         {
             "data": [pd.to_dict()
-                     for pd in pdList]
+                     for pd in personal_details]
         }
     ), 200
 
