@@ -32,8 +32,6 @@ new Vue({
 
         charts: ['Didactic Attendance', 'Scholarly Activities', 'IHI', 'Projects', 'Duty Hour Logs', 'Case Logs', 'Procedure Logs'],
 
-        // loaded: false,
-
         ihiLoaded:false,
         IHIchartConfig: {
             labels: ["Completed (%)", "Not Completed (%)"],
@@ -320,6 +318,7 @@ new Vue({
             
     }
     },
+    // to show charts as soon as page loads
     mounted: function () {
         this.getIhiData();
         this.getDutyHourLogData()
@@ -336,8 +335,6 @@ new Vue({
                 for (i = 0; i < response.data.data.length; i++) {
                     this.mcr_arr.push(response.data.data[i].MCR_No)
                 }
-                // this.getScholarlyActivitiesData();
-                // this.getAllData()
 
             })
             .catch(function (error) {
@@ -380,6 +377,7 @@ new Vue({
             this.casePassed = 0
         },
 
+
         getCaseLogsData: async function () {
             // get all residents
             nonCompliantResidentsCase = []
@@ -406,9 +404,10 @@ new Vue({
             this.caseChartArray = [this.casePassed, this.total, this
             .missing]; //getChartdata will use to show visualisation
 
-            this.getCaseChartData(this.caseChartArray); // it works
+            this.getCaseChartData(this.caseChartArray); 
             this.caseLoaded = true
         },
+
 
         getResidentCaseData: async function(mcr) {
             specificURL = "http://localhost:5011/profile/"  + mcr
@@ -423,7 +422,6 @@ new Vue({
                 });
             // check compliance for resident
             percentageCompletion = 0
-            // percentageNonCompletion = 1
 
             percentageCompletionI = 0
             percentageCompletionO = 0
@@ -441,11 +439,12 @@ new Vue({
                         // 2. if renal, check 10 transplant credit type by SR 2
                         if(this.caseChartData.data.case_logs[i]['Type_of_Case_Log'] == 'transplant credit'){
                             countIntR = parseInt(this.caseChartData.data.case_logs[0]['Observed'])
-                            if(countIntR > 0 && countIntR < 10){
+                            if(countIntR > 0 && countIntR < 10){ //change number as needed
                                 percentageCompletion = countIntR / 10
                                 percentageNonCompletion = 1 - percentageCompletion
                                 }
-                            else if (countIntR >= 10){
+                            // if more than number, then compliant
+                            else if (countIntR >= 10){ //change number as needed
                                 percentageCompletionInpatient = 1
                                 percentageNonCompletionInpatient = 0
                                 }
@@ -455,28 +454,31 @@ new Vue({
                         // 3. if internal medicine, check 3 inpatient and 3 outpatient each year
                         if(this.caseChartData.data.case_logs[i]['Type_of_Case_Log'] == 'inpatient'){
                             countIntI = parseInt(this.caseChartData.data.case_logs[0]['Observed'])
-                            if(countIntI > 0 && countIntI < 3){
+                            if(countIntI > 0 && countIntI < 3){ //change number as needed
                                 percentageCompletionI = countIntI / 9
                                 }
-                            else if (countIntI >= 3){
+                            // if more than number, then compliant
+                            else if (countIntI >= 3){ //change number as needed
                                 percentageCompletionI = 1/3
                                 }
                             }
                         if(this.caseChartData.data.case_logs[i]['Type_of_Case_Log'] == 'outpatient'){
                             countIntO = parseInt(this.caseChartData.data.case_logs[0]['Observed'])
-                            if(countIntO > 0 && countIntO < 3){
+                            if(countIntO > 0 && countIntO < 3){ //change number as needed
                                 percentageCompletionO = countIntO / 9
                                 }
-                            else if (countIntO >= 3){
+                            // if more than number, then compliant
+                            else if (countIntO >= 3){ //change number as needed
                                 percentageCompletionO = 1/3
                                 }
                             }
                         if(this.caseChartData.data.case_logs[i]['Type_of_Case_Log'] == 'blue letter'){
                             countIntB = parseInt(this.caseChartData.data.case_logs[0]['Observed'])
-                            if(countIntR > 0 && countIntB < 3){
+                            if(countIntR > 0 && countIntB < 3){ //change number as needed
                                 percentageCompletionB = countIntB / 9
                                 }
-                            else if (countIntB >= 3){
+                            // if more than number, then compliant
+                            else if (countIntB >= 3){ //change number as needed
                                 percentageCompletionB = 1/3
                                 }
                             }
@@ -490,6 +492,7 @@ new Vue({
             }
             return toAdd    
         },
+
 
         getCaseChartData: function (chartData) {
             passedResident = 0
@@ -505,6 +508,7 @@ new Vue({
             this.caseChartConfig.datasets[0].data.push(percentageNonCompletion.toFixed(3))
             this.caseLoaded = false
         },
+
 
         getScholarlyActivitiesData: async function () {
             // get all residents
@@ -534,6 +538,7 @@ new Vue({
             this.scholarlyLoaded = true
         },
 
+
         getResidentScholarlyData: async function (mcr) {
             specificURL = "http://localhost:5011/profile/" + mcr
             toAdd = false;
@@ -553,6 +558,7 @@ new Vue({
             hasAbstractPresentation = false
             hasPublication = false
 
+            // check resident compliance for publication 
             if (this.scholarlyChartData.data.publications.length > 0) {
                 publicationArray = this.scholarlyChartData.data.publications
                 for (let i = 0; i < publicationArray.length; i++) {
@@ -564,6 +570,7 @@ new Vue({
                     }
                 }
             }
+            // check resident compliance for presentation 
             if (this.scholarlyChartData.data.presentations.length > 0) {
                 presentationArray = this.scholarlyChartData.data.presentations
                 if (presentationArray.length == 1) {
@@ -602,6 +609,7 @@ new Vue({
             }
             return toAdd;
         },
+
 
         getScholarlyChartData: function (chartData) {
             

@@ -366,11 +366,12 @@ new Vue({
                         // 2. if renal, check 10 transplant credit type by SR 2
                         if(chartData.data.case_logs[i]['Type_of_Case_Log'] == 'transplant credit'){
                             countIntR = parseInt(chartData.data.case_logs[0]['Observed'])
-                            if(countIntR > 0 && countIntR < 10){
+                            if(countIntR > 0 && countIntR < 10){ //change number if needed
                                 percentageCompletion = countIntR / 10
                                 percentageNonCompletion = 1 - percentageCompletion
                             }
-                            else if (countIntR >= 10){
+                            // if more than the number, then compliant
+                            else if (countIntR >= 10){ //change number if needed
                                 percentageCompletionInpatient = 1
                                 percentageNonCompletionInpatient = 0
                             }
@@ -380,28 +381,31 @@ new Vue({
                         // 3. if internal medicine, check 3 inpatient and 3 outpatient each year
                         if(chartData.data.case_logs[i]['Type_of_Case_Log'] == 'inpatient'){
                             countIntI = parseInt(chartData.data.case_logs[0]['Observed'])
-                            if(countIntI > 0 && countIntI < 3){
+                            if(countIntI > 0 && countIntI < 3){ //change number if needed
                                 percentageCompletionI = countIntI / 9
                             }
-                            else if (countIntI >= 3){
+                            // if more than the number, then compliant
+                            else if (countIntI >= 3){ //change number if needed
                                 percentageCompletionI = 1/3
                             }
                         }
                         if(chartData.data.case_logs[i]['Type_of_Case_Log'] == 'outpatient'){
                             countIntO = parseInt(chartData.data.case_logs[0]['Observed'])
-                            if(countIntO > 0 && countIntO < 3){
+                            if(countIntO > 0 && countIntO < 3){ //change number if needed
                                 percentageCompletionO = countIntO / 9
                             }
-                            else if (countIntO >= 3){
+                            // if more than the number, then compliant
+                            else if (countIntO >= 3){ //change number if needed
                                 percentageCompletionO = 1/3
                             }
                         }
                         if(chartData.data.case_logs[i]['Type_of_Case_Log'] == 'blue letter'){
                             countIntB = parseInt(chartData.data.case_logs[0]['Observed'])
-                            if(countIntR > 0 && countIntB < 3){
+                            if(countIntR > 0 && countIntB < 3){ //change number if needed
                                 percentageCompletionB = countIntB / 9
                             }
-                            else if (countIntB >= 3){
+                            // if more than the number, then compliant
+                            else if (countIntB >= 3){ //change number if needed
                                 percentageCompletionB = 1/3
                             }
                         }
@@ -533,6 +537,7 @@ new Vue({
             if (chartData.data.publications.length > 0) {
                 publicationArray = chartData.data.publications
                 for (let i = 0; i < publicationArray.length; i++){
+                    // check resident's compliance for publication
                     year1 = publicationArray[i]['Publication_Date'].slice(-2)
                     if (year1 == this.year - 2000){
                         count += 1
@@ -542,6 +547,7 @@ new Vue({
 
             if (chartData.data.presentations.length > 0){
                 presentationArray = chartData.data.presentations
+                // check resident's compliance for presentation 
                 if (presentationArray.length == 1){
                     if (presentationArray[0]['Presentation_Date'].slice(-4) == this.year){
                         count += 1
