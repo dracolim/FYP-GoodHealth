@@ -4,6 +4,7 @@ new Vue({
     data() {
     return {
         year: 2022,
+        //change programme to select default programme to show
         programme: "Gastroenterology",
         mcr_no: "",
         nonCompliantResident: "",
@@ -644,6 +645,7 @@ new Vue({
             for (var i = 0; i < chartData.data.length; i++) {
                 if (chartData.data[i]['Date'].substr(-4,4) == this.year) {
                     numOfEntries++
+                    // compliance requirements [change if required]
                     if (chartData.data[i]['Completion_of_Emodules'] == 'Yes' ) {
                         counterCompletionEmodules++
                     }
@@ -936,6 +938,7 @@ new Vue({
             for (var i = 0; i < chartData.data.length; i++) {
                 var currentData = chartData.data[i];
                 if (currentData['Start_Date'].substr(-4,4) == this.year) {
+                    // compliance requirements [change if required]
                     if (currentData['End_Date'] === 'Ongoing') {
                         var mcrNo = currentData['MCR_No'];
                         var isMcrNoPresent = false;
@@ -1005,6 +1008,7 @@ new Vue({
 
             for (var i = 0; i < arrayOfDidacticAttendanceObjects.length; i++) {
 
+                // compliance requirements [change if required]
                 if (('JulyAugustSeptemberOctoberNovemberDecember'.includes(arrayOfDidacticAttendanceObjects[i]['Month'])) && ((arrayOfDidacticAttendanceObjects[i]['MmYyyy'].substr(-4)) == this.year)) {
                     numofJulDecEntries++
                     if (arrayOfDidacticAttendanceObjects[i]['Compliance_or_Not'] == 'Yes') {
@@ -1015,6 +1019,7 @@ new Vue({
                     }
                 }
 
+                // compliance requirements [change if required]
                 else if (('JanuaryFebruaryMarchAprilMayJune'.includes(arrayOfDidacticAttendanceObjects[i]['Month'])) && ((arrayOfDidacticAttendanceObjects[i]['MmYyyy'].substr(-4)) == parseInt(this.year) + 1)) {
                     numOfJanJuneEntries++
                     if (arrayOfDidacticAttendanceObjects[i]['Compliance_or_Not'] == 'Yes') {
@@ -1079,6 +1084,7 @@ new Vue({
 
             // go through each and every procedure log
             // split them into 3 arrays (gastro, renal and internal)
+            // [add more if there are more programmes]
             for (let i = 0; i < array_of_logs.length; i++) {
 
                 if (array_of_logs[i]['Programme'] == "Gastroenterology") {
@@ -1098,11 +1104,12 @@ new Vue({
             // if user chose Gastroenterology 
             if (this.programme == "Gastroenterology") {
 
-                console.log("reached here")
+                // gastro programmes [change if required]
                 const Gastro = ["Gastroscopy (OGD)", "Gastroscopy (OGD) with biopsy", "Gastroscopy (OGD) with non-variceal hemostasis; not actively bleeding","Gastroscopy (OGD) with non-variceal hemostasis; actively bleeding", "Colonoscopy with non-variceal hemostasis; not actively bleeding", "Colonoscopy with non-variceal hemostasis; actively bleeding","Colonoscopy", "Colonoscopy with biopsy", "Colonoscopy with polypectomy","Abdominal paracentesis", "Capsule endoscopy", "Percutaneous Endoscopic Gastrostomy (PEG)","Gastroscopy with variceal hemostasis; active bleeding", "Gastroscopy with variceal hemostasis; not actively bleeding", "Gastroscopy with variceal ligation; elective eradication","Liver biopsy", "Esophageal dilatation", "Luminal Stenting","Endoscopic mucosal resection (EMR) / Endoscopic submucosal dissection (ESD)", "Endoscopic Retrograde and Cholangiocpancreatography (ERCP)", "Endoscopic ultrasound", "Esophageal motility / pH studies"]
                 this.procedureChartConfig.labels = Gastro
                 this.procedureOptions.title.text = "Procedure Log (Gastro Programme)"
 
+                // gastro programme counters [change if required]
                 nonCompliantResidentsGastro = []
 
                 GastroOGDPlusGastroOGDWithBiopsy = []
@@ -1179,7 +1186,7 @@ new Vue({
 
                 const groups = []
 
-                // go through each Gastro log
+                // go through each Gastro log [change if required]
                 for (let j = 0; j < gastro_array.length; j++) {
 
                     gastro_array[j] //each gastro log
@@ -1243,7 +1250,7 @@ new Vue({
 
                 }
                 
-                // grouped1 contains GastroOGD plus GastroOGDWithBiopsy records, split into different residents
+                // grouped1 contains GastroOGD plus GastroOGDWithBiopsy records, split into different residents 
                 let grouped1 = {};
                 for (let i=0; i<GastroOGDPlusGastroOGDWithBiopsy.length; i++) {
                     let p = GastroOGDPlusGastroOGDWithBiopsy[i]['MCR_No'];
@@ -1264,7 +1271,7 @@ new Vue({
                         TotalDoneGastroOGDPlusGastroOGDWithBiopsy = TotalDoneGastroOGDPlusGastroOGDWithBiopsy + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDoneGastroOGDPlusGastroOGDWithBiopsy >= 300) { // if comply
+                    if (TotalDoneGastroOGDPlusGastroOGDWithBiopsy >= 300) { // compliance check [change numbers if required]
                             NumComplianceGastroOGDPlusGastroOGDWithBiopsy++
                     }
 
@@ -1297,7 +1304,6 @@ new Vue({
                 // for each resident in grouped2,
                 for (const key in grouped2) {
                     const value = grouped2[key] // the [?]array containing the resident's procedure info
-                    console.log(value)
 
                     TotalDoneGastroOGDPlusColon = 0 //continue from below here
                     GastroOGDPlusColonAdditionalReqNum = 0
@@ -1314,8 +1320,7 @@ new Vue({
                         }
                     }
 
-                    if (TotalDoneGastroOGDPlusColon >= 20 && GastroOGDPlusColonAdditionalReqNum >= 10) { // if comply
-                            console.log("triggered here")
+                    if (TotalDoneGastroOGDPlusColon >= 20 && GastroOGDPlusColonAdditionalReqNum >= 10) { // // compliance check [change numbers if required]
                             NumComplianceGastroOGDPlusColon++
                     }
 
@@ -1360,7 +1365,7 @@ new Vue({
                         TotalDoneColonoscopyPlusColonoscopyWithBiopsy = TotalDoneColonoscopyPlusColonoscopyWithBiopsy + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDoneColonoscopyPlusColonoscopyWithBiopsy >= 180) { // if comply
+                    if (TotalDoneColonoscopyPlusColonoscopyWithBiopsy >= 180) { // // compliance check [change numbers if required]
                         NumComplianceColonoscopyPlusColonoscopyWithBiopsy++
                     }
 
@@ -1401,7 +1406,7 @@ new Vue({
                         TotalDoneColonoscopyWithPolypectomy = TotalDoneColonoscopyWithPolypectomy + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDoneColonoscopyWithPolypectomy >= 20) { // if comply
+                    if (TotalDoneColonoscopyWithPolypectomy >= 20) { // compliance check [change numbers if required]
                         NumComplianceColonoscopyWithPolypectomy++
                     }
 
@@ -1440,7 +1445,7 @@ new Vue({
                         TotalDoneAbdominalParacentesis = TotalDoneAbdominalParacentesis + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDoneAbdominalParacentesis >= 10) { // if comply
+                    if (TotalDoneAbdominalParacentesis >= 10) { // compliance check [change numbers if required]
                         NumComplianceAbdominalParacentesis++
                     }
 
@@ -1479,7 +1484,7 @@ new Vue({
                         TotalDoneCapsuleEndoscopy = TotalDoneCapsuleEndoscopy + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDoneCapsuleEndoscopy >= 10) { // if comply
+                    if (TotalDoneCapsuleEndoscopy >= 10) { // compliance check [change numbers if required]
                         NumComplianceCapsuleEndoscopy++
                     }
 
@@ -1518,7 +1523,7 @@ new Vue({
                         TotalDonePeg = TotalDonePeg + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDonePeg >= 5) { // if comply
+                    if (TotalDonePeg >= 5) { // compliance check [change numbers if required]
                         NumCompliancePeg++
                     }
 
@@ -1565,7 +1570,7 @@ new Vue({
                         }
                     }
 
-                    if (TotalDoneGastroVaricealHemoPlusLigation >= 20 && GastroVaricealHemoPlusLigationAdditionalReqNum >= 5) { // if comply
+                    if (TotalDoneGastroVaricealHemoPlusLigation >= 20 && GastroVaricealHemoPlusLigationAdditionalReqNum >= 5) { // compliance check [change numbers if required]
                         NumComplianceGastroVaricealHemoPlusLigation++
                     }
 
@@ -1608,7 +1613,7 @@ new Vue({
                         TotalDoneLiverBiopsy = TotalDoneLiverBiopsy + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDoneLiverBiopsy >= 5) { // if comply
+                    if (TotalDoneLiverBiopsy >= 5) { // compliance check [change numbers if required]
                         NumComplianceLiverBiopsy++
                     }
 
@@ -1647,7 +1652,7 @@ new Vue({
                         TotalDoneEsophagealDilatationPlusLuminalStenting = TotalDoneEsophagealDilatationPlusLuminalStenting + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDoneEsophagealDilatationPlusLuminalStenting >= 5) { // if comply
+                    if (TotalDoneEsophagealDilatationPlusLuminalStenting >= 5) { // compliance check [change numbers if required]
                         NumComplianceEsophagealDilatationPlusLuminalStenting++
                     }
 
@@ -1688,7 +1693,7 @@ new Vue({
                         TotalDoneEmrPlusEsd = TotalDoneEmrPlusEsd + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDoneEmrPlusEsd >= 5) { // if comply
+                    if (TotalDoneEmrPlusEsd >= 5) { // compliance check [change numbers if required]
                         NumComplianceEmrPlusEsd++
                     }
 
@@ -1727,7 +1732,7 @@ new Vue({
                         TotalDoneErcp = TotalDoneErcp + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDoneErcp >= 5) { // if comply
+                    if (TotalDoneErcp >= 5) { // compliance check [change numbers if required]
                         NumComplianceErcp++
                     }
 
@@ -1766,7 +1771,7 @@ new Vue({
                         TotalDoneEndoscopicUltrasound = TotalDoneEndoscopicUltrasound + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDoneEndoscopicUltrasound >= 5) { // if comply
+                    if (TotalDoneEndoscopicUltrasound >= 5) { // compliance check [change numbers if required]
                         NumComplianceEndoscopicUltrasound++
                     }
 
@@ -1805,7 +1810,7 @@ new Vue({
                         TotalDoneEsophagealMotilityPlusPh = TotalDoneEsophagealMotilityPlusPh + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDoneEsophagealMotilityPlusPh >= 5) { // if comply
+                    if (TotalDoneEsophagealMotilityPlusPh >= 5) { // compliance check [change numbers if required]
                         NumComplianceEsophagealMotilityPlusPh++
                     }
 
@@ -1836,10 +1841,12 @@ new Vue({
             // if user chose Renal Medicine 
             else if (this.programme == "Renal Medicine") {
                 
+                // renal programmes [change if required]
                 const Renal = ["Insertion of non-tunneled haemodialysis catheter - Femoral (C)", "Insertion of non-tunneled haemodialysis catheter - Internal Jugular (C)", "Insertion of non-tunneled haemodialysis catheter - Femoral", "Insertion of non-tunneled haemodialysis catheter - Internal Jugular", "Native Kidney Biopsy (C)", "Transplant Kidney Biopsy (C)", "Native Kidney Biopsy", "Transplant Kidney Biopsy"]
                 this.procedureChartConfig.labels = Renal
                 this.procedureOptions.title.text = "Procedure Log (Renal Programme)"
 
+                // renal programme counters [change if required]
                 nonCompliantResidentsRenal = []
 
                 InsertionFemoralC = []
@@ -1884,7 +1891,7 @@ new Vue({
 
                 const groups = []
 
-                // go through each Renal log
+                // go through each Renal log [change if required]
                 for (let j = 0; j < renal_array.length; j++) {
 
                     renal_array[j] //each renal log
@@ -1945,7 +1952,7 @@ new Vue({
                         TotalDoneInsertionFemoralC = TotalDoneInsertionFemoralC + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDoneInsertionFemoralC >= 5) { // if comply
+                    if (TotalDoneInsertionFemoralC >= 5) { // compliance check [change numbers if required]
                         NumComplianceInsertionFemoralC++
                     }
 
@@ -1984,7 +1991,7 @@ new Vue({
                         TotalDoneInsertionJugularC = TotalDoneInsertionJugularC + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDoneInsertionJugularC >= 5) { // if comply
+                    if (TotalDoneInsertionJugularC >= 5) { // compliance check [change numbers if required]
                         NumComplianceInsertionJugularC++
                     }
 
@@ -2023,7 +2030,7 @@ new Vue({
                         TotalDoneInsertionFemoral = TotalDoneInsertionFemoral + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDoneInsertionFemoral >= 5) { // if comply
+                    if (TotalDoneInsertionFemoral >= 5) { // compliance check [change numbers if required]
                         NumComplianceInsertionFemoral++
                     }
 
@@ -2062,7 +2069,7 @@ new Vue({
                         TotalDoneInsertionJugular = TotalDoneInsertionJugular + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDoneInsertionJugular >= 5) { // if comply
+                    if (TotalDoneInsertionJugular >= 5) { // compliance check [change numbers if required]
                         NumComplianceInsertionJugular++
                     }
 
@@ -2100,7 +2107,7 @@ new Vue({
                         TotalDoneNativeKidneyBiopsyC = TotalDoneNativeKidneyBiopsyC + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDoneNativeKidneyBiopsyC >= 10) { // if comply
+                    if (TotalDoneNativeKidneyBiopsyC >= 10) { // compliance check [change numbers if required]
                         NumComplianceNativeKidneyBiopsyC++
                     }
 
@@ -2139,7 +2146,7 @@ new Vue({
                         TotalDoneTransplantKidneyBiopsyC = TotalDoneTransplantKidneyBiopsyC + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDoneTransplantKidneyBiopsyC >= 3) { // if comply
+                    if (TotalDoneTransplantKidneyBiopsyC >= 3) { // compliance check [change numbers if required]
                         NumComplianceTransplantKidneyBiopsyC++
                     }
 
@@ -2178,7 +2185,7 @@ new Vue({
                         TotalDoneNativeKidneyBiopsy = TotalDoneNativeKidneyBiopsy + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDoneNativeKidneyBiopsy >= 5) { // if comply
+                    if (TotalDoneNativeKidneyBiopsy >= 5) { // compliance check [change numbers if required]
                         NumComplianceNativeKidneyBiopsy++
                     }
 
@@ -2217,7 +2224,7 @@ new Vue({
                         TotalDoneTransplantKidneyBiopsy = TotalDoneTransplantKidneyBiopsy + parseInt(procedure_obj['Performed']) // total done for specific resident
                     }
 
-                    if (TotalDoneTransplantKidneyBiopsy >= 2) { // if comply
+                    if (TotalDoneTransplantKidneyBiopsy >= 2) { // compliance check [change numbers if required]
                         NumComplianceTransplantKidneyBiopsy++
                     }
 
@@ -2248,10 +2255,12 @@ new Vue({
             // if user chose Internal Medicine 
             else if (this.programme == "Internal Medicine") {
 
+                // internal programmes [change if required]
                 const Internal = ["Abdominal Tap", "Arterial Line Placement", "Central Line Placement", "Thoracentesis / Chest tube", "Lumbar Puncture", "Endotracheal Intubation", "Ventilator Management", "Arthrocentesis", "Hemodialysis Catheter Insertion", "ABG", "Vene", "IV Plug", "Ecg"]
                 this.procedureChartConfig.labels = Internal
                 this.procedureOptions.title.text = "Procedure Log (Internal Programme)"
 
+                // internal programme counters [change if required]
                 nonCompliantResidentsInternal = []
 
                 AbdominalTap = []
@@ -2321,7 +2330,7 @@ new Vue({
 
                 const groups = []
 
-                // go through each Internal log
+                // go through each Internal log [change if required]
                 for (let j = 0; j < internal_array.length; j++) {
 
                     internal_array[j] //each internal log
@@ -2402,7 +2411,7 @@ new Vue({
                         TotalDoneAbdominalTap = TotalDoneAbdominalTap + parseInt(procedure_obj['Verified']) // total done for specific resident
                     }
 
-                    if (TotalDoneAbdominalTap >= 3) { // if comply
+                    if (TotalDoneAbdominalTap >= 3) { // compliance check [change numbers if required]
                         NumComplianceAbdominalTap++
                     }
 
@@ -2441,7 +2450,7 @@ new Vue({
                         TotalDoneArterialLinePlacement = TotalDoneArterialLinePlacement + parseInt(procedure_obj['Verified']) // total done for specific resident
                     }
 
-                    if (TotalDoneArterialLinePlacement >= 5) { // if comply
+                    if (TotalDoneArterialLinePlacement >= 5) { // compliance check [change numbers if required]
                         NumComplianceArterialLinePlacement++
                     }
 
@@ -2480,7 +2489,7 @@ new Vue({
                         TotalDoneCentralLinePlacement = TotalDoneCentralLinePlacement + parseInt(procedure_obj['Verified']) // total done for specific resident
                     }
 
-                    if (TotalDoneCentralLinePlacement >= 5) { // if comply
+                    if (TotalDoneCentralLinePlacement >= 5) { // compliance check [change numbers if required]
                         NumComplianceCentralLinePlacement++
                     }
 
@@ -2519,7 +2528,7 @@ new Vue({
                         TotalDoneThoracentesisChestTube = TotalDoneThoracentesisChestTube + parseInt(procedure_obj['Verified']) // total done for specific resident
                     }
 
-                    if (TotalDoneThoracentesisChestTube >= 3) { // if comply
+                    if (TotalDoneThoracentesisChestTube >= 3) { // compliance check [change numbers if required]
                         NumComplianceThoracentesisChestTube++
                     }
 
@@ -2558,7 +2567,7 @@ new Vue({
                         TotalDoneLumbarPuncture = TotalDoneLumbarPuncture + parseInt(procedure_obj['Verified']) // total done for specific resident
                     }
 
-                    if (TotalDoneLumbarPuncture >= 5) { // if comply
+                    if (TotalDoneLumbarPuncture >= 5) { // compliance check [change numbers if required]
                         NumComplianceLumbarPuncture++
                     }
 
@@ -2597,7 +2606,7 @@ new Vue({
                         TotalDoneEndotrachealIntubation = TotalDoneEndotrachealIntubation + parseInt(procedure_obj['Verified']) // total done for specific resident
                     }
 
-                    if (TotalDoneEndotrachealIntubation >= 5) { // if comply
+                    if (TotalDoneEndotrachealIntubation >= 5) { // compliance check [change numbers if required]
                         NumComplianceEndotrachealIntubation++
                     }
 
@@ -2636,7 +2645,7 @@ new Vue({
                         TotalDoneVentilatorManagement = TotalDoneVentilatorManagement + parseInt(procedure_obj['Verified']) // total done for specific resident
                     }
 
-                    if (TotalDoneVentilatorManagement >= 5) { // if comply
+                    if (TotalDoneVentilatorManagement >= 5) { // compliance check [change numbers if required]
                         NumComplianceVentilatorManagement++
                     }
 
@@ -2675,7 +2684,7 @@ new Vue({
                         TotalDoneArthrocentesis = TotalDoneArthrocentesis + parseInt(procedure_obj['Verified']) // total done for specific resident
                     }
 
-                    if (TotalDoneArthrocentesis >= 2) { // if comply
+                    if (TotalDoneArthrocentesis >= 2) { // compliance check [change numbers if required]
                         NumComplianceArthrocentesis++
                     }
 
@@ -2714,7 +2723,7 @@ new Vue({
                         TotalDoneHemodialysisCatheterInsertion = TotalDoneHemodialysisCatheterInsertion + parseInt(procedure_obj['Verified']) // total done for specific resident
                     }
 
-                    if (TotalDoneHemodialysisCatheterInsertion >= 3) { // if comply
+                    if (TotalDoneHemodialysisCatheterInsertion >= 3) { // compliance check [change numbers if required]
                         NumComplianceHemodialysisCatheterInsertion++
                     }
 
@@ -2753,7 +2762,7 @@ new Vue({
                         TotalDoneAbg = TotalDoneAbg + parseInt(procedure_obj['Verified']) // total done for specific resident
                     }
 
-                    if (TotalDoneAbg >= 1) { // if comply
+                    if (TotalDoneAbg >= 1) { // compliance check [change numbers if required]
                         NumComplianceAbg++
                     }
 
@@ -2792,7 +2801,7 @@ new Vue({
                         TotalDoneVene = TotalDoneVene + parseInt(procedure_obj['Verified']) // total done for specific resident
                     }
 
-                    if (TotalDoneVene >= 1) { // if comply
+                    if (TotalDoneVene >= 1) { // compliance check [change numbers if required]
                         NumComplianceVene++
                     }
 
@@ -2831,7 +2840,7 @@ new Vue({
                         TotalDoneIVPlug = TotalDoneIVPlug + parseInt(procedure_obj['Verified']) // total done for specific resident
                     }
 
-                    if (TotalDoneIVPlug >= 1) { // if comply
+                    if (TotalDoneIVPlug >= 1) { // compliance check [change numbers if required]
                         NumComplianceIVPlug++
                     }
 
@@ -2870,7 +2879,7 @@ new Vue({
                         TotalDoneEcg = TotalDoneEcg + parseInt(procedure_obj['Verified']) // total done for specific resident
                     }
 
-                    if (TotalDoneEcg >= 1) { // if comply
+                    if (TotalDoneEcg >= 1) { // compliance check [change numbers if required]
                         NumComplianceEcg++
                     }
 

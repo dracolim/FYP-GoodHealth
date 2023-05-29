@@ -342,7 +342,6 @@ new Vue({
             this.posting_histories = [],
             this.loa_records = [],
             this.history_posting_records = [],
-            //add for procedure logs here
             this.loaded = false
             this.clicked = false
         },
@@ -422,6 +421,7 @@ new Vue({
             didResidentComplete = chartData.data.ihis[0]['Completion_of_Emodules']
             percentageCompletion = 0
 
+            // compliance requirements [change if required]
             if (chartData.data.ihis[0]['Completion_of_Emodules'] == 'Yes') {
                 percentageCompletion = 100
             }
@@ -584,6 +584,7 @@ new Vue({
             didResidentComplete = null;
             percentageCompletion = 0
 
+            // compliance requirements [change if required]
             if (chartData.data.projects[0]['End_Date'] == "Ongoing") {
                 didResidentComplete = "No";
             }
@@ -621,11 +622,13 @@ new Vue({
 
             for (var i = 0; i < specificResidentDidacticInformation.length; i++) {
 
+                // compliance requirements [change if required]
                 if (('JulyAugustSeptemberOctoberNovemberDecember'.includes(specificResidentDidacticInformation[i]['Month'])) && ((specificResidentDidacticInformation[i]['MmYyyy'].substr(-4)) == this.year)) {
                     numofJulDecEntries++
                     totalPercentAttendedJulDec =  totalPercentAttendedJulDec + parseFloat(specificResidentDidacticInformation[i]['Percentage_of_sessions_attended'])
                 }
 
+                // compliance requirements [change if required]
                 else if (('JanuaryFebruaryMarchAprilMayJune'.includes(specificResidentDidacticInformation[i]['Month'])) && ((specificResidentDidacticInformation[i]['MmYyyy'].substr(-4)) == parseInt(this.year) + 1)) {
                     numOfJanJuneEntries++
                     totalPercentAttendedJanJune =  totalPercentAttendedJanJune + parseFloat(specificResidentDidacticInformation[i]['Percentage_of_sessions_attended'])
@@ -642,14 +645,16 @@ new Vue({
 
         getProcedureLogsData: function (chartData) {
 
-            year_of_training = chartData.data['personaldetails']['Year_of_Training'] // somehow need to make use of this to mark resident as compliant or not to reflect on front end if needed
+            year_of_training = chartData.data['personaldetails']['Year_of_Training'] 
 
             if (chartData.data['personaldetails']['Programme'] == "Gastroenterology") {
-                console.log("Reached Gastro")
+
+                // gastro programmes [change if required]
                 const Gastro = ["Gastroscopy (OGD)", "Gastroscopy (OGD) with biopsy", "Gastroscopy (OGD) with non-variceal hemostasis; not actively bleeding","Gastroscopy (OGD) with non-variceal hemostasis; actively bleeding", "Colonoscopy with non-variceal hemostasis; not actively bleeding", "Colonoscopy with non-variceal hemostasis; actively bleeding","Colonoscopy", "Colonoscopy with biopsy", "Colonoscopy with polypectomy","Abdominal paracentesis", "Capsule endoscopy", "Percutaneous Endoscopic Gastrostomy (PEG)","Gastroscopy with variceal hemostasis; active bleeding", "Gastroscopy with variceal hemostasis; not actively bleeding", "Gastroscopy with variceal ligation; elective eradication","Liver biopsy", "Esophageal dilatation", "Luminal Stenting","Endoscopic mucosal resection (EMR) / Endoscopic submucosal dissection (ESD)", "Endoscopic Retrograde and Cholangiocpancreatography (ERCP)", "Endoscopic ultrasound", "Esophageal motility / pH studies"]
                 this.procedureChartConfig.labels = Gastro
                 this.procedureOptions.title.text = "Procedure Log (Gastro Resident)"
 
+                // gastro programme counters [change if required]
                 GastroOGDPlusGastroOGDWithBiopsy = 0
                 GastroOGDPlusColon = 0
                 ColonoscopyPlusColonoscopyWithBiopsy = 0
@@ -669,7 +674,7 @@ new Vue({
 
             // POPULATING VARIABLES USING INFO FROM DATABASE
 
-                // for every procedure log entry
+                // for every procedure log entry [change if required]
                 for (var i = 0; i < chartData.data['procedure_logs'].length; i++) {
                     procedure_name = chartData.data['procedure_logs'][i]['Procedure_Name']
                     if (procedure_name == Gastro[0] || procedure_name == Gastro[1]) {
@@ -716,8 +721,8 @@ new Vue({
                     }
                 }
 
-            // GASTRO COMPLIANCE CHECK
-
+            // GASTRO COMPLIANCE CHECK [change numbers if required]
+            
                 // check GastroOGDPlusGastroOGDWithBiopsy compliance
                 if (GastroOGDPlusGastroOGDWithBiopsy >= 300) { 
                     GastroOGDPlusGastroOGDWithBiopsy = true
@@ -972,12 +977,15 @@ new Vue({
                 }      
 
             }
-
+            
             if (chartData.data['personaldetails']['Programme'] == "Renal Medicine") {
+                
+                // renal programmes [change if required]
                 const Renal = ["Insertion of non-tunneled haemodialysis catheter - Femoral (C)", "Insertion of non-tunneled haemodialysis catheter - Internal Jugular (C)", "Insertion of non-tunneled haemodialysis catheter - Femoral", "Insertion of non-tunneled haemodialysis catheter - Internal Jugular", "Native Kidney Biopsy (C)", "Transplant Kidney Biopsy (C)", "Native Kidney Biopsy", "Transplant Kidney Biopsy"]
                 this.procedureChartConfig.labels = Renal
                 this.procedureOptions.title.text = "Procedure Log (Renal Resident)"
 
+                // renal programme counters [change if required]
                 InsertionFemoralC = 0
                 InsertionJugularC = 0
                 InsertionFemoral = 0
@@ -989,7 +997,7 @@ new Vue({
 
             // POPULATING VARIABLES USING INFO FROM DATABASE
 
-                // for every procedure log entry
+                // for every procedure log entry [change if required]
                 for (var i = 0; i < chartData.data['procedure_logs'].length; i++) {
                     procedure_name = chartData.data['procedure_logs'][i]['Procedure_Name']
                     if (procedure_name == Renal[0]) {
@@ -1018,7 +1026,7 @@ new Vue({
                     }
                 }    
             
-            // CHECK RENAL COMPLIANCE
+            // CHECK RENAL COMPLIANCE [change numbers if required]
 
                 // check InsertionFemoralC compliance
                 if (InsertionFemoralC >= 5) { 
@@ -1130,10 +1138,12 @@ new Vue({
 
             if (chartData.data['personaldetails']['Programme'] == "Internal Medicine") {
 
+                // internal programmes [change if required]
                 const Internal = ["Abdominal Tap", "Arterial Line Placement", "Central Line Placement", "Thoracentesis / Chest tube", "Lumbar Puncture", "Endotracheal Intubation", "Ventilator Management", "Arthrocentesis", "Hemodialysis Catheter Insertion", "ABG", "Vene", "IV Plug", "Ecg"]
                 this.procedureChartConfig.labels = Internal
                 this.procedureOptions.title.text = "Procedure Log (Internal Resident)"
 
+                // internal programme counters [change if required]
                 AbdominalTap = 0
                 ArterialLinePlacement = 0
                 CentralLinePlacement = 0
@@ -1148,7 +1158,6 @@ new Vue({
                 IVPlug = 0
                 Ecg = 0
 
-                // to be used to check requirements regarding R1:30%, R2:50% and R3:100% in the future
                 totalNumOfProceduresRequirements = 40
                 totalNumOfProceduresDoneByResident = 0
 
@@ -1156,7 +1165,7 @@ new Vue({
 
             // POPULATING VARIABLES USING INFO FROM DATABASE
 
-                // for every procedure log entry
+                // for every procedure log entry [change if required]
                 for (var i = 0; i < chartData.data['procedure_logs'].length; i++) {
                     procedure_name = chartData.data['procedure_logs'][i]['Procedure_Name']
                     if (procedure_name == Internal[0]) {
@@ -1202,7 +1211,7 @@ new Vue({
 
                 totalNumOfProceduresDoneByResident = AbdominalTap + ArterialLinePlacement + CentralLinePlacement + ThoracentesisChestTube + LumbarPuncture + EndotrachealIntubation + VentilatorManagement + Arthrocentesis + HemodialysisCatheterInsertion + Abg + Vene + IVPlug + Ecg
 
-            // CHECK INTERNAL COMPLIANCE
+            // CHECK INTERNAL COMPLIANCE [change numbers if required]
 
                 // check AbdominalTap compliance
                 if (AbdominalTap >= 3) { 
@@ -1386,10 +1395,6 @@ new Vue({
 
             specificURL = this.localhost + "profile/" + this.mcr_no
             await axios.get(specificURL).then((response) => {
-
-                // console.log("This is responseData")
-                // console.log(response.data.data['trgExtRem_Histories'])
-
                 this.loa_records = response.data.data['trgExtRem_Histories']
                 this.retrievePostingHistory()
             })
@@ -1402,12 +1407,7 @@ new Vue({
 
             specificURL = this.localhost + "history_posting/" + this.mcr_no
             await axios.get(specificURL).then((response) => {
-
-                // console.log("This is responseData of History Posting")
-
                 this.history_posting_records = response.data.data
-                // console.log(this.history_posting_records)
-
             })
                 .catch(function (error) {
                     console.log(error);
